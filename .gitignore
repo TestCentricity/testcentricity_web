@@ -6,6 +6,7 @@ Thumbs.db
 .idea
 .settings
 .project
+.idea/workspace.xml
 
 doc/*
 .yardoc/*
