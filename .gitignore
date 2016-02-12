@@ -1,0 +1,17 @@
+# OSX folder stuff
+.DS_Store
+Thumbs.db
+
+#IDE project files
+.idea
+.settings
+.project
+
+doc/*
+.yardoc/*
+notes.txt
+Gemfile.lock
+coverage
+.bundle
+.ruby-version
+.ruby-gemset
