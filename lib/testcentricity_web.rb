@@ -1,4 +1,5 @@
-require 'testcentricity_web/version'
+require 'capybara/cucumber'
+require 'rspec/expectations'
 require 'testcentricity_web/browser_helper'
 require 'testcentricity_web/data_objects_helper'
 require 'testcentricity_web/drag_drop_helper'
@@ -10,8 +11,8 @@ require 'testcentricity_web/siebel_open_ui_helper'
 require 'testcentricity_web/ui_elements_helper'
 require 'testcentricity_web/utility_helpers'
 require 'testcentricity_web/environment'
-require 'capybara/cucumber'
-require 'rspec/expectations'
+require 'testcentricity_web/version'
+
 
 module TestCentricity
   class PageManager

@@ -206,6 +206,12 @@ module TestCentricity
       obj.hover
     end
 
+    def drag_by(right_offset, down_offset)
+      obj, _ = find_element
+      object_not_found_exception(obj, nil)
+      obj.drag_by(right_offset, down_offset)
+    end
+
     def attach_file(file_path)
       Capybara.ignore_hidden_elements = false
       page.attach_file(@locator, file_path)

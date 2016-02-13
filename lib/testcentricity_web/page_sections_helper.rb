@@ -1,6 +1,3 @@
-require 'capybara/cucumber'
-require 'rspec/expectations'
-
 module TestCentricity
   class PageSection
     include Capybara::DSL
