@@ -11,6 +11,7 @@ require 'testcentricity_web/siebel_open_ui_helper'
 require 'testcentricity_web/ui_elements_helper'
 require 'testcentricity_web/utility_helpers'
 require 'testcentricity_web/environment'
+require 'testcentricity_web/webdriver_helper'
 require 'testcentricity_web/version'
 
 

@@ -1,5 +1,5 @@
 module TestCentricity
-  module Browsers
+  class Browsers
     include Capybara::DSL
 
     # Resize selenium browser window to avoid Selenium::WebDriver::Error::MoveTargetOutOfBoundsError errors
@@ -10,49 +10,49 @@ module TestCentricity
     #     set_browser_window_size(1250, 800) if Capybara.current_driver == :selenium
     #   end
     #
-    def set_browser_window_size(resolution)
+    def self.set_browser_window_size(resolution)
       window = Capybara.current_session.driver.browser.manage.window
       window.resize_to(resolution[0], resolution[1])
     end
 
-    def maximize_browser
+    def self.maximize_browser
       window = Capybara.current_session.driver.browser.manage.window
       window.maximize
     end
 
-    def refresh_browser
+    def self.refresh_browser
       page.driver.browser.navigate.refresh
     end
 
-    def switch_to_new_browser_instance
+    def self.switch_to_new_browser_instance
       page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
     end
 
-    def close_all_browser_instances
+    def self.close_all_browser_instances
       page.driver.browser.window_handles.each do |handle|
         page.driver.browser.switch_to.window(handle)
         page.driver.browser.close
       end
     end
 
-    def close_current_browser_window
+    def self.close_current_browser_window
       page.driver.browser.close
       page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
     end
 
-    def close_old_browser_instance
+    def self.close_old_browser_instance
       page.driver.browser.switch_to.window(page.driver.browser.window_handles.first)
       page.driver.browser.close
       page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
     end
 
-    def close_named_browser_instance(name)
+    def self.close_named_browser_instance(name)
       page.driver.browser.switch_to.window(page.driver.find_window(name))
       page.driver.browser.close
       page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
     end
 
-    def delete_all_cookies
+    def self.delete_all_cookies
       if Capybara.current_driver == :selenium
         browser = Capybara.current_session.driver.browser
         if browser.respond_to?(:manage) and browser.manage.respond_to?(:delete_all_cookies)
@@ -63,7 +63,7 @@ module TestCentricity
       end
     end
 
-    def mobile_device_agent(device)
+    def self.mobile_device_agent(device)
       devices = { :iphone           => "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1",
                   :iphone4          => "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1",
                   :iphone5          => "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1",
@@ -83,7 +83,7 @@ module TestCentricity
       agent_string
     end
 
-    def browser_size(browser, orientation)
+    def self.browser_size(browser, orientation)
       sizes = { :iphone           => [320,  568,  :portrait],
                 :iphone4          => [320,  480,  :portrait],
                 :iphone5          => [320,  568,  :portrait],

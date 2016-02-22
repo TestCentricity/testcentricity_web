@@ -20,13 +20,14 @@ module TestCentricity
     include Capybara::DSL
     include Test::Unit::Assertions
 
-    attr_reader :parent, :locator, :context
+    attr_reader :parent, :locator, :context, :type
     attr_accessor :alt_locator
 
-    def initialize(parent, locator, context)
-      @parent = parent
+    def initialize(parent, locator, context, type = nil)
+      @parent  = parent
       @locator = locator
       @context = context
+      @type    = type
       @alt_locator = nil
     end
 
