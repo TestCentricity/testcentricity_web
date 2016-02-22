@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = TestCentricityWeb::VERSION
   spec.authors       = ['A.J. Mrozinski']
   spec.email         = ['test_automation@icloud.com']
-  spec.summary       = %q{A Page and Data Object Model Framework for desktop/mobile web browser testing}
-  spec.description   = %q{TestCentricity core generic framework for desktop/mobile web site testing with a Page and Data Object Model DSL, for use with Capybara}
+  spec.summary       = %q{A Page Object and Data Object Model Framework for desktop/mobile web browser testing}
+  spec.description   = %q{TestCentricity core generic framework for desktop/mobile web site testing implements a Page Object and Data Object Model DSL, for use with Capybara}
   spec.homepage      = ''
   spec.license       = 'BSD3'
 
