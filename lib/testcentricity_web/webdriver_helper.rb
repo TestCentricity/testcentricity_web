@@ -46,7 +46,7 @@ module TestCentricity
           when :iphone, :iphone5, :iphone6, :iphone6_plus, :ipad, :ipad_pro, :android_phone, :android_tablet
             Environ.set_platform(:mobile)
             profile = Selenium::WebDriver::Firefox::Profile.new
-            profile['general.useragent.override'] = mobile_device_agent(browser)
+            profile['general.useragent.override'] = Browsers.mobile_device_agent(browser)
             Capybara::Selenium::Driver.new(app, :profile => profile)
           else
             Capybara::Selenium::Driver.new(app, :browser => :firefox)
