@@ -8,14 +8,14 @@ module TestCentricity
     attr_reader   :locator, :context
     attr_accessor :parent
 
-    def self.trait(trait_name, &block)
-      define_method(trait_name.to_s, &block)
-    end
-
     def initialize(parent, locator, context)
       @parent = parent
       @locator = locator
       @context = context
+    end
+
+    def self.trait(trait_name, &block)
+      define_method(trait_name.to_s, &block)
     end
 
     def self.element(element_name, locator)
@@ -44,6 +44,14 @@ module TestCentricity
 
     def self.table(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :section, :table);end))
+    end
+
+    def self.selectlist(element_name, locator)
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :section, :selectlist);end))
+    end
+
+    def self.image(element_name, locator)
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :section, :image);end))
     end
 
     def self.section(section_name, class_name, locator = nil)

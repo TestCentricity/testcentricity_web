@@ -26,6 +26,7 @@ module TestCentricity
           Capybara.app_host = "#{environment.protocol}://#{environment.hostname}/#{environment.base_url}" :
           Capybara.app_host = "#{environment.protocol}://#{environment.base_url}"
 
+      # set browser window size only if testing with a desktop web browser
       if Environ.is_desktop?
         (ENV['BROWSER_SIZE'] == 'max') ?
             Browsers.maximize_browser :

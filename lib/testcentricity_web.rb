@@ -51,6 +51,7 @@ module TestCentricity
     end
   end
 
+
   class DataManager
     @data_objects = {}
 
