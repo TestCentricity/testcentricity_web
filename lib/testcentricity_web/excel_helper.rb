@@ -228,7 +228,7 @@ module TestCentricity
       test_value = value.split('!', 2)
       parameter = test_value[1].split('.', 2)
       case parameter[0]
-      when 'Address', 'Business', 'Code', 'Company', 'PhoneNumber', 'Number', 'Name', 'Internet', 'Lorem', 'Commerce', 'Hacker'
+      when 'Address', 'Business', 'Code', 'Color', 'Commerce', 'Company', 'Hacker', 'Internet', 'Lorem', 'Name', 'Number', 'PhoneNumber'
         result = eval("Faker::#{parameter[0]}.#{parameter[1]}")
       when 'Date'
         result = eval("Chronic.parse('#{parameter[1]}')")

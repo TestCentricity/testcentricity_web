@@ -1,5 +1,5 @@
 module TestCentricity
-  class Browsers
+  module Browsers
     include Capybara::DSL
 
     # Resize selenium browser window to avoid Selenium::WebDriver::Error::MoveTargetOutOfBoundsError errors
@@ -21,35 +21,35 @@ module TestCentricity
     end
 
     def self.refresh_browser
-      page.driver.browser.navigate.refresh
+      Capybara.page.driver.browser.navigate.refresh
     end
 
     def self.switch_to_new_browser_instance
-      page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
+      Capybara.page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
     end
 
     def self.close_all_browser_instances
-      page.driver.browser.window_handles.each do |handle|
+      Capybara.page.driver.browser.window_handles.each do |handle|
         page.driver.browser.switch_to.window(handle)
         page.driver.browser.close
       end
     end
 
     def self.close_current_browser_window
-      page.driver.browser.close
-      page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
+      Capybara.page.driver.browser.close
+      Capybara.page.driver.browser.switch_to.window(Capybara.page.driver.browser.window_handles.last)
     end
 
     def self.close_old_browser_instance
-      page.driver.browser.switch_to.window(page.driver.browser.window_handles.first)
-      page.driver.browser.close
-      page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
+      Capybara.page.driver.browser.switch_to.window(Capybara.page.driver.browser.window_handles.first)
+      Capybara.page.driver.browser.close
+      Capybara.page.driver.browser.switch_to.window(Capybara.page.driver.browser.window_handles.last)
     end
 
     def self.close_named_browser_instance(name)
-      page.driver.browser.switch_to.window(page.driver.find_window(name))
-      page.driver.browser.close
-      page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
+      Capybara.page.driver.browser.switch_to.window(Capybara.page.driver.find_window(name))
+      Capybara.page.driver.browser.close
+      Capybara.page.driver.browser.switch_to.window(Capybara.page.driver.browser.window_handles.last)
     end
 
     def self.delete_all_cookies
