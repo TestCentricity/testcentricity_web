@@ -10,8 +10,12 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.1.1'
   spec.authors       = ['A.J. Mrozinski']
   spec.email         = ['test_automation@icloud.com']
-  spec.summary       = %q{A Page Object and Data Object Model Framework for desktop/mobile web browser testing}
-  spec.description   = %q{TestCentricity™ core generic framework for desktop/mobile web site testing implements a Page Object and Data Object Model DSL, for use with Capybara}
+  spec.summary       = %q{A Page Object and Data Object Model Framework for desktop and responsive mobile web testing}
+  spec.description = %q{
+    TestCentricity™ core generic framework for desktop and responsive mobile web site testing implements a
+    Page Object and Data Object Model DSL, for use with Capybara. Supports testing against locally hosted
+    desktop browsers (Firefox, Chrome, Safari, IE, or Edge), locally hosted emulated mobile browsers (using
+    Firefox), or on cloud hosted browsers on BrowserStack, Sauce Labs, or CrossBrowserTesting.}
   spec.homepage      = ''
   spec.license       = 'BSD3'
 
@@ -23,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 1.5'
   spec.add_development_dependency 'rake'
 
-  spec.add_dependency 'capybara', '>= 2.5'
+  spec.add_dependency 'capybara', ['>= 2.1', '< 3.0']
   spec.add_dependency 'rspec-expectations'
   spec.add_dependency 'rspec'
   spec.add_dependency 'test-unit'

@@ -2,24 +2,32 @@ module TestCentricity
   module Browsers
     include Capybara::DSL
 
-    # Resize selenium browser window to avoid Selenium::WebDriver::Error::MoveTargetOutOfBoundsError errors
+    # Sets the size of the selenium browser window.
     #
-    # Example usage:
-    #
-    #   config.before(:each) do
-    #     set_browser_window_size(1250, 800) if Capybara.current_driver == :selenium
-    #   end
+    # @param resolution [Array] the desired [width, height]
+    # @example
+    #   Browsers.set_browser_window_size(1024, 768)
     #
     def self.set_browser_window_size(resolution)
       window = Capybara.current_session.driver.browser.manage.window
       window.resize_to(resolution[0], resolution[1])
     end
 
+    # Maximizes the selenium browser window.
+    #
+    # @example
+    #   Browsers.maximize_browser
+    #
     def self.maximize_browser
       window = Capybara.current_session.driver.browser.manage.window
       window.maximize
     end
 
+    # Refreshes the selenium browser.
+    #
+    # @example
+    #   Browsers.refresh_browser
+    #
     def self.refresh_browser
       Capybara.page.driver.browser.navigate.refresh
     end
