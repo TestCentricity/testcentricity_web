@@ -1,3 +1,5 @@
+require 'test/unit'
+
 module TestCentricity
   class PageObject
     include Capybara::DSL

@@ -40,6 +40,7 @@ directly call methods in selenium-webdriver, you will also need to require the f
 TODO: Write usage instructions here
 
 
+
 ## Copyright and License
 
 TestCentricity (tm) Framework is Copyright (c) 2014-2016, Tony Mrozinski.

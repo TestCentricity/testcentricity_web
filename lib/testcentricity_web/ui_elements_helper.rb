@@ -1,3 +1,5 @@
+require 'test/unit'
+
 Capybara::Node::Element.class_eval do
   def click_at(x, y)
     right = x - (native.size.width / 2)
