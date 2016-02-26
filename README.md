@@ -1,9 +1,9 @@
 # TestcentricityWeb
 
-The TestCentricity™ core generic framework for desktop and responsive mobile web site testing implements a
-Page Object and Data Object Model DSL, for use with Capybara. It supports testing against locally hosted
-desktop browsers (Firefox, Chrome, Safari, IE, or Edge), locally hosted emulated mobile browsers (using
-Firefox), or on cloud hosted browsers using the BrowserStack, Sauce Labs, or CrossBrowserTesting services.
+The TestCentricity™ core generic framework for desktop and responsive mobile web site testing implements a Page Object 
+and Data Object Model DSL, for use with Capybara and selenium-webdriver. It supports testing against locally hosted
+desktop browsers (Firefox, Chrome, Safari, IE, or Edge), locally hosted emulated mobile browsers (using Firefox), or 
+on cloud hosted browsers using the BrowserStack, Sauce Labs, or CrossBrowserTesting services.
 
 
 ## Installation
@@ -26,8 +26,13 @@ Or install it yourself as:
 If you are using Cucumber, you must require the following in your env.rb file:
 
     require 'capybara/cucumber'
-    require 'test/unit'
     require 'testcentricity_web'
+    
+If you choose to not connect to WebDriver using the ***WebDriverConnect.initialize_web_driver*** method, or if you need to 
+directly call methods in selenium-webdriver, you will also need to require the following in your env.rb file:
+
+    require 'selenium-webdriver'
+
 
 
 ## Usage
@@ -35,7 +40,7 @@ If you are using Cucumber, you must require the following in your env.rb file:
 TODO: Write usage instructions here
 
 
-## Copyright
+## Copyright and License
 
 TestCentricity (tm) Framework is Copyright (c) 2014-2016, Tony Mrozinski.
 All rights reserved.
