@@ -3,12 +3,12 @@
 The TestCentricity™ core generic framework for desktop and responsive mobile web site testing implements a Page Object 
 and Data Object Model DSL, for use with Capybara and selenium-webdriver. It supports testing against locally hosted
 desktop browsers (Firefox, Chrome, Safari, IE, or Edge), locally hosted emulated mobile browsers (using Firefox), or 
-on cloud hosted browsers using the BrowserStack, Sauce Labs, or CrossBrowserTesting services.
+on cloud hosted desktop or mobile web browsers using the BrowserStack, Sauce Labs, or CrossBrowserTesting services.
 
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your automation project's Gemfile:
 
     gem 'testcentricity_web'
 
@@ -22,14 +22,26 @@ Or install it yourself as:
 
 
 ## Setup
+###Using Cucumber
 
-If you are using Cucumber, you must require the following in your env.rb file:
+If you are using Cucumber, you need to require the following in your *env.rb* file:
 
+    require 'capybara'
     require 'capybara/cucumber'
     require 'testcentricity_web'
     
-If you choose to not connect to WebDriver using the ***WebDriverConnect.initialize_web_driver*** method, or if you need to 
-directly call methods in selenium-webdriver, you will also need to require the following in your env.rb file:
+###Using RSpec
+
+If you are using RSpec instead, you need to require the following in your *env.rb* file:
+
+    require 'capybara'
+    require 'capybara/rspec'
+    require 'testcentricity_web'
+    
+###Selenium WebDriver
+
+If you choose to not connect to selenium-webdriver using the ***WebDriverConnect.initialize_web_driver*** method, or if you need to 
+directly call methods in selenium-webdriver, you will also need to require the following in your *env.rb* file:
 
     require 'selenium-webdriver'
 
@@ -37,13 +49,100 @@ directly call methods in selenium-webdriver, you will also need to require the f
 
 ## Usage
 
-TODO: Write usage instructions here
+###Defining a Page Object
+
+You define new **Page Objects** as shown below:
+
+    class LoginPage < TestCentricity::PageObject
+      trait(:page_name)       { 'Login' }
+      trait(:page_url)        { "/sign_in" }
+      trait(:page_locator)    { "//body[@class='login-body']" }
+    end
 
 
+    class HomePage < TestCentricity::PageObject
+      trait(:page_name)       { 'Home' }
+      trait(:page_url)        { "/dashboard" }
+      trait(:page_locator)    { "//body[@class='dashboard']" }
+    end
 
+
+###Adding UI Elements to your Page Object
+
+Your Page Object's **UI Elements** are added as shown below:
+
+    class LoginPage < TestCentricity::PageObject
+      trait(:page_name)       { 'Login' }
+      trait(:page_url)        { "/sign_in" }
+      trait(:page_locator)    { "//body[@class='login-body']" }
+    
+      # Login page UI elements
+      textfield :user_id_field,        "userName"
+      textfield :password_field,       "password"
+      button    :login_button,         "//input[@id='submit_button']"
+      checkbox  :remember_checkbox,    "rememberUser']"
+      label     :error_message_label,  'div#statusBar.login-error'
+    end
+
+
+###Instantiating your Page Objects
+
+There are several ways to instantiate your **Page Objects**. One common implementation is shown below:
+
+    module WorldPages
+      def login_page
+        @login_page ||= LoginPage.new
+      end
+    
+      def home_page
+        @home_page ||= HomePage.new
+      end
+    end
+
+Once instantiated, you can interact with the **UI Elements** in your **Page Objects**. An example is shown below:
+
+    login_page.user_id_field.set('snicklefritz')
+    login_page.password_field.set('Pa55w0rd')
+    login_page.login_button.click
+
+
+###Adding Methods to your Page Object
+
+You can add high level methods for interacting with the UI to hide implementation details, as shown below:
+
+    class LoginPage < TestCentricity::PageObject
+      trait(:page_name)       { 'Login' }
+      trait(:page_url)        { "/sign_in" }
+      trait(:page_locator)    { "//body[@class='login-body']" }
+    
+      # Login page UI elements
+      textfield :user_id_field,        "userName"
+      textfield :password_field,       "password"
+      button    :login_button,         "//input[@id='submit_button']"
+      checkbox  :remember_checkbox,    "rememberUser']"
+      label     :error_message_label,  'div#statusBar.login-error'
+    
+      def login(user_id, password)
+        user_id_field.set(user_id)
+        password_field.set(password)
+        login_button.click
+      end
+
+      def remember_me(state)
+        remember_checkbox.set_checkbox_state(state)
+      end
+    end
+
+
+Once instantiated, you can call your methods as shown below:
+
+    login_page.remember_me(true)
+    login_page.user_id_field.set('snicklefritz', 'Pa55w0rd')
+    
+    
 ## Copyright and License
 
-TestCentricity (tm) Framework is Copyright (c) 2014-2016, Tony Mrozinski.
+TestCentricity(tm) Framework is Copyright (c) 2014-2016, Tony Mrozinski.
 All rights reserved.
 
 
