@@ -91,10 +91,6 @@ module TestCentricity
       PageManager.set_current_page(self)
     end
 
-    def take_screen_shot(page_name, context)
-      save_page_screen_shot(page_name, context)
-    end
-
     def verify_page_contains(content)
       raise "Expected page to have content '#{content}'" unless page.has_content?(:visible, content)
     end

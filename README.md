@@ -30,6 +30,7 @@ If you are using Cucumber, you need to require the following in your *env.rb* fi
     require 'capybara/cucumber'
     require 'testcentricity_web'
     
+    
 ###Using RSpec
 
 If you are using RSpec instead, you need to require the following in your *env.rb* file:
@@ -37,6 +38,7 @@ If you are using RSpec instead, you need to require the following in your *env.r
     require 'capybara'
     require 'capybara/rspec'
     require 'testcentricity_web'
+    
     
 ###Selenium WebDriver
 
@@ -47,7 +49,7 @@ directly call methods in selenium-webdriver, you will also need to require the f
 
 
 
-## Usage
+##Usage
 
 ###Defining a Page Object
 
@@ -134,12 +136,72 @@ You can add high level methods for interacting with the UI to hide implementatio
     end
 
 
-Once instantiated, you can call your methods as shown below:
+Once your **Page Objects** have been instantiated, you can call your methods as shown below:
 
     login_page.remember_me(true)
     login_page.user_id_field.set('snicklefritz', 'Pa55w0rd')
     
+
+
+###Defining a PageSection Object
+
+You define new **PageSection Objects** as shown below:
+
+    class SearchForm < TestCentricity::PageSection
+      trait(:section_locator)    { "//form[@id='gnav-search']" }
+    end
+
+
+###Adding UI Elements to your PageSection Object
+
+Your PageSection Object's **UI Elements** are added as shown below:
+
+    class SearchForm < TestCentricity::PageSection
+      trait(:section_locator)    { "//form[@id='gnav-search']" }
+        
+      # Search Form UI elements
+      textfield :search_field,   "//input[@id='search-query']"
+      button    :search_button,  "//button[@type='submit']"
+    end
+
+
+###Adding Methods to your PageSection Object
+
+You can add high level methods to your PageSection Objects, as shown below:
+
+    class SearchForm < TestCentricity::PageSection
+      trait(:section_locator)    { "//form[@id='gnav-search']" }
+        
+      # Search Form UI elements
+      textfield :search_field,   "//input[@id='search-query']"
+      button    :search_button,  "//button[@type='submit']"
+
+      def search_for(value)
+        search_field.set(value)
+        search_button.click
+      end
+    end
+
+
+###Adding PageSection Objects to your Page Object
+
+Your Page Object's **PageSection Objects** are added as shown below:
+
+    class HomePage < TestCentricity::PageObject
+      trait(:page_name)       { 'Home' }
+      trait(:page_url)        { "/dashboard" }
+      trait(:page_locator)    { "//body[@class='dashboard']" }
+      
+      # Home page Section Objects
+      section :search_form, SearchForm
+    end
+
+Once your **Page Object** has been instantiated, you can call its **PageSection** methods as shown below:
+
+    home_page.search_form.search_for('ocarina')
     
+    
+
 ## Copyright and License
 
 TestCentricity(tm) Framework is Copyright (c) 2014-2016, Tony Mrozinski.

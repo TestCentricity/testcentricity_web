@@ -43,7 +43,7 @@ module TestCentricity
       end
     end
 
-    def self.close_current_browser_window
+    def self.close_current_browser_instance
       Capybara.page.driver.browser.close
       Capybara.page.driver.browser.switch_to.window(Capybara.page.driver.browser.window_handles.last)
     end
