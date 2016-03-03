@@ -39,6 +39,44 @@ module TestCentricity
       popup.wait_until_exists(15)
     end
 
+    def is_table_row_expanded?(row, column)
+      row_count = get_row_count
+      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{@locator}" if row > row_count
+      column_count = get_column_count
+      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{@locator}" if column > column_count
+      set_table_cell_locator(row, column)
+      saved_locator = @alt_locator
+      set_alt_locator("#{@alt_locator}//div[@class='ui-icon ui-icon-triangle-1-s tree-minus treeclick']")
+      if exists?
+        expanded = true
+      else
+        set_alt_locator("#{saved_locator}//div[@class='ui-icon ui-icon-triangle-1-e tree-plus treeclick']")
+        exists? ?
+            expanded = false :
+            raise "Row #{row}/Column #{column} of table #{@locator} does not contain a disclosure triangle"
+      end
+      clear_alt_locator
+      expanded
+    end
+
+    def expand_table_row(row, column)
+      unless is_table_row_expanded?(row, column)
+        set_table_cell_locator(row, column)
+        set_alt_locator("#{saved_locator}//div[@class='ui-icon ui-icon-triangle-1-e tree-plus treeclick']")
+        click if exists?
+        clear_alt_locator
+      end
+    end
+
+    def collapse_table_row(row, column)
+      if is_table_row_expanded?(row, column)
+        set_table_cell_locator(row, column)
+        set_alt_locator("#{saved_locator}//div[@class='ui-icon ui-icon-triangle-1-e tree-minus treeclick']")
+        click if exists?
+        clear_alt_locator
+      end
+    end
+
     def get_siebel_object_type
       obj, _ = find_element
       object_not_found_exception(obj, 'Siebel object')
