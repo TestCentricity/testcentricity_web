@@ -5,14 +5,14 @@ module TestCentricity
     def self.enqueue_assert_equal(expected, actual, error_message)
       unless expected == actual
         @error_queue = "#{@error_queue}#{error_message} to be\n  #{expected}\nbut found\n  #{actual}\n\n"
-        screen_shot_and_save_page
+        save_screenshot
       end
     end
 
     def self.enqueue_assert_not_equal(expected, actual, error_message)
       unless expected != actual
         @error_queue = "#{@error_queue}#{error_message} to not be equal to #{expected}\n\n"
-        screen_shot_and_save_page
+        save_screenshot
       end
     end
 
@@ -30,7 +30,7 @@ module TestCentricity
   private
 
 
-  def self.screen_shot_and_save_page
+  def self.save_screenshot
     timestamp = Time.now.strftime('%Y%m%d%H%M%S')
     filename = "Screenshot-#{timestamp}"
     path = File.join Dir.pwd, "reports/screenshots/", filename
