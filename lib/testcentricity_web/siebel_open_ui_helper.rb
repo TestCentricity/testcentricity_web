@@ -51,9 +51,11 @@ module TestCentricity
         expanded = true
       else
         set_alt_locator("#{saved_locator}//div[@class='ui-icon ui-icon-triangle-1-e tree-plus treeclick']")
-        exists? ?
-            expanded = false :
-            raise "Row #{row}/Column #{column} of table #{@locator} does not contain a disclosure triangle"
+        if exists?
+          expanded = false
+        else
+          raise "Row #{row}/Column #{column} of table #{@locator} does not contain a disclosure triangle"
+        end
       end
       clear_alt_locator
       expanded
