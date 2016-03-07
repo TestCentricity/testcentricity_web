@@ -7,14 +7,14 @@ module TestCentricity
     def self.enqueue_assert_equal(expected, actual, error_message)
       unless expected == actual
         @error_queue = "#{@error_queue}#{error_message} to be\n  #{expected}\nbut found\n  #{actual}\n\n"
-        save_screenshot
+        enqueue_screenshot
       end
     end
 
     def self.enqueue_assert_not_equal(expected, actual, error_message)
       unless expected != actual
         @error_queue = "#{@error_queue}#{error_message} to not be equal to #{expected}\n\n"
-        save_screenshot
+        enqueue_screenshot
       end
     end
 
@@ -27,18 +27,17 @@ module TestCentricity
     ensure
       @error_queue = nil
     end
-  end
 
-  private
+    private
 
-
-  def self.save_screenshot
-    timestamp = Time.now.strftime('%Y%m%d%H%M%S')
-    filename = "Screenshot-#{timestamp}"
-    path = File.join Dir.pwd, "reports/screenshots/", filename
-    save_screenshot "#{path}.png"
-    puts "Screenshot saved at #{path}.png"
-    screen_shot = { :path => path, :filename => filename }
-    Environ.save_screen_shot(screen_shot)
+    def self.enqueue_screenshot
+      timestamp = Time.now.strftime('%Y%m%d%H%M%S')
+      filename = "Screenshot-#{timestamp}"
+      path = File.join Dir.pwd, "reports/screenshots/", filename
+      Capybara.save_screenshot "#{path}.png"
+      puts "Screenshot saved at #{path}.png"
+      screen_shot = { :path => path, :filename => filename }
+      Environ.save_screen_shot(screen_shot)
+    end
   end
 end
