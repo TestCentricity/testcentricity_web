@@ -250,6 +250,12 @@ module TestCentricity
       obj.all('option').collect(&:text)
     end
 
+    def get_selected_option
+      obj, _ = find_element
+      object_not_found_exception(obj, nil)
+      obj.find('option[selected]').text
+    end
+
     def get_row_count
       wait_until_exists(5)
       row_count = page.all(:xpath, "#{@locator}/tbody/tr", :visible => :all).count
