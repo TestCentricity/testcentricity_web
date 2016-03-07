@@ -1,5 +1,7 @@
 module TestCentricity
   class ExceptionQueue
+    include Capybara::DSL
+
     @error_queue
 
     def self.enqueue_assert_equal(expected, actual, error_message)
