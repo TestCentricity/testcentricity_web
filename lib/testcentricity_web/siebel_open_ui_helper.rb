@@ -45,18 +45,9 @@ module TestCentricity
       column_count = get_column_count
       raise "Column #{column} exceeds number of columns (#{column_count}) in table #{@locator}" if column > column_count
       set_table_cell_locator(row, column)
-      saved_locator = @alt_locator
-      set_alt_locator("#{@alt_locator}/div/div[@class='ui-icon ui-icon-triangle-1-s tree-minus treeclick']")
-      if exists?
-        expanded = true
-      else
-        set_alt_locator("#{saved_locator}/div/div[@class='ui-icon ui-icon-triangle-1-e tree-plus treeclick']")
-        if exists?
-          expanded = false
-        else
-          raise "Row #{row}/Column #{column} of table #{@locator} does not contain a disclosure triangle"
-        end
-      end
+      set_alt_locator("#{@alt_locator}/div/div[contains(@class, 'tree-plus treeclick')]")
+      expanded = true
+      expanded = false if exists?
       clear_alt_locator
       expanded
     end
@@ -64,7 +55,7 @@ module TestCentricity
     def expand_table_row(row, column)
       unless is_table_row_expanded?(row, column)
         set_table_cell_locator(row, column)
-        set_alt_locator("#{@alt_locator}/div/div[@class='ui-icon ui-icon-triangle-1-e tree-plus treeclick']")
+        set_alt_locator("#{@alt_locator}/div/div[contains(@class, 'tree-plus treeclick')]")
         click if exists?
         clear_alt_locator
       end
@@ -73,9 +64,18 @@ module TestCentricity
     def collapse_table_row(row, column)
       if is_table_row_expanded?(row, column)
         set_table_cell_locator(row, column)
-        set_alt_locator("#{@alt_locator}/div/div[@class='ui-icon ui-icon-triangle-1-s tree-minus treeclick']")
+        set_alt_locator("#{@alt_locator}/div/div[contains(@class, 'tree-minus treeclick')]")
         click if exists?
         clear_alt_locator
+      end
+    end
+
+    def expand_all_table_rows(column)
+      row_count = get_row_count
+      column_count = get_column_count
+      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{@locator}" if column > column_count
+      (1..row_count).each do |row|
+        expand_table_row(row, column)
       end
     end
 

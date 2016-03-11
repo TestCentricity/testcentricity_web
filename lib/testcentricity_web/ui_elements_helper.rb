@@ -253,7 +253,7 @@ module TestCentricity
     def get_selected_option
       obj, _ = find_element
       object_not_found_exception(obj, nil)
-      obj.find('option[selected]').text
+      obj.first('option[selected]').text
     end
 
     def get_row_count
