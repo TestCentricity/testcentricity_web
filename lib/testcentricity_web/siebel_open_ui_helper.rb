@@ -74,7 +74,7 @@ module TestCentricity
       row_count = get_row_count
       column_count = get_column_count
       raise "Column #{column} exceeds number of columns (#{column_count}) in table #{@locator}" if column > column_count
-      (1..row_count).each do |row|
+      row_count.downto(1) do |row|
         expand_table_row(row, column)
       end
     end
