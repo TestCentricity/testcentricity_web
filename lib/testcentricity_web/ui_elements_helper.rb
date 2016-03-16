@@ -45,6 +45,11 @@ module TestCentricity
       @alt_locator = nil
     end
 
+    # Click on an object
+    #
+    # @example
+    #   basket_link.click
+    #
     def click
       obj, _ = find_element
       object_not_found_exception(obj, nil)
@@ -55,6 +60,11 @@ module TestCentricity
       end
     end
 
+    # Double-click on an object
+    #
+    # @example
+    #   file_image.double_click
+    #
     def double_click
       obj, _ = find_element
       object_not_found_exception(obj, nil)
@@ -73,17 +83,35 @@ module TestCentricity
       obj.set(value)
     end
 
+    # Send keystrokes to this object.
+    #
+    # @param keys [String] keys
+     # @example
+    #   comment_field.send_keys(:enter)
+    #
     def send_keys(*keys)
       obj, _ = find_element
       object_not_found_exception(obj, nil)
       obj.send_keys(*keys)
     end
 
+    # Does UI object exists?
+    #
+    # @return [Boolean]
+    # @example
+    #   basket_link.exists?
+    #
     def exists?
       obj, _ = find_element
       obj != nil
     end
 
+    # Is UI object visible?
+    #
+    # @return [Boolean]
+    # @example
+    #   remember_me_checkbox.visible?
+    #
     def visible?
       obj, type = find_element
       exists = obj
@@ -106,32 +134,68 @@ module TestCentricity
       (exists && !invisible) ? true : false
     end
 
+    # Is UI object hidden (not visible)?
+    #
+    # @return [Boolean]
+    # @example
+    #   remember_me_checkbox.hidden?
+    #
     def hidden?
       not visible?
     end
 
+    # Is UI object enabled?
+    #
+    # @return [Boolean]
+    # @example
+    #   login_button.enabled?
+    #
     def enabled?
       not disabled?
     end
 
+    # Is UI object disabled (not enabled)?
+    #
+    # @return [Boolean]
+    # @example
+    #   login_button.disabled?
+    #
     def disabled?
       obj, _ = find_element
       object_not_found_exception(obj, nil)
       obj.disabled?
     end
 
+    # Is text field set to read-only?
+    #
+    # @return [Boolean]
+    # @example
+    #   comments_field.read_only?
+    #
     def read_only?
       obj, _ = find_element
       object_not_found_exception(obj, nil)
       !!obj.native.attribute('readonly')
     end
 
+    # Return maxlength character count of a text field.
+    #
+    # @return [Integer]
+    # @example
+    #   max_num_chars = comments_field.get_max_length
+    #
     def get_max_length
       obj, _ = find_element
       object_not_found_exception(obj, nil)
       obj.native.attribute('maxlength')
     end
 
+    # Is checkbox checked?
+    #
+    # @return [Boolean]
+    # @example
+    #   remember_me_checkbox.checked?
+    #
     def checked?
       obj, _ = find_element
       object_not_found_exception(obj, 'Checkbox')
@@ -152,6 +216,12 @@ module TestCentricity
           assert_equal(state, actual, "Expected #{@locator} to be #{state} but found #{actual} instead")
     end
 
+    # Wait until the object exists, or until the specified wait time has expired.
+    #
+    # @param seconds [Integer, Float] wait time in seconds
+    # @example
+    #   run_button.wait_until_exists(0.5)
+    #
     def wait_until_exists(seconds)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
@@ -160,6 +230,12 @@ module TestCentricity
       raise "Could not find element #{@locator} after #{timeout} seconds" unless exists?
     end
 
+    # Wait until the object no longer exists, or until the specified wait time has expired.
+    #
+    # @param seconds [Integer, Float] wait time in seconds
+    # @example
+    #   logout_button.wait_until_gone(5)
+    #
     def wait_until_gone(seconds)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
@@ -168,6 +244,12 @@ module TestCentricity
       raise "Element #{@locator} remained visible after #{timeout} seconds" if exists?
     end
 
+    # Wait until the object's value equals the specified value, or until the specified wait time has expired.
+    #
+    # @param seconds [Integer, Float] wait time in seconds
+    # @example
+    #   card_authorized_label.wait_until_value_is(5, 'Card authorized')
+    #
     def wait_until_value_is(value, seconds)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
@@ -176,6 +258,12 @@ module TestCentricity
       raise "Value of UI element #{@locator} failed to equal '#{value}' after #{timeout} seconds" unless exists?
     end
 
+    # Wait until the object's value changes to a different value, or until the specified wait time has expired.
+    #
+    # @param seconds [Integer, Float] wait time in seconds
+    # @example
+    #   basket_grand_total_label.wait_until_value_changes(5)
+    #
     def wait_until_value_changes(seconds)
       value = get_value
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
@@ -203,6 +291,11 @@ module TestCentricity
           assert_equal(expected.strip, actual.strip, "Expected #{@locator} to display '#{expected}' but found '#{actual}'")
     end
 
+    # Hover the cursor over an object
+    #
+    # @example
+    #   basket_link.hover
+    #
     def hover
       obj, _ = find_element
       object_not_found_exception(obj, nil)
@@ -256,12 +349,24 @@ module TestCentricity
       obj.first('option[selected]').text
     end
 
+    # Return number of rows in a table object.
+    #
+    # @return [Integer]
+    # @example
+    #   num_rows = list_table.get_row_count
+    #
     def get_row_count
       wait_until_exists(5)
       row_count = page.all(:xpath, "#{@locator}/tbody/tr", :visible => :all).count
       row_count
     end
 
+    # Return number of columns in a table object.
+    #
+    # @return [Integer]
+    # @example
+    #   num_columns = list_table.get_column_count
+    #
     def get_column_count
       row_count = get_row_count
       if row_count == 0
@@ -273,6 +378,13 @@ module TestCentricity
       end
     end
 
+    # Click in the specified cell in a table object.
+    #
+    # @param row [Integer] row number
+    # @param column [Integer] column number
+    # @example
+    #   list_table.click_table_cell(3, 5)
+    #
     def click_table_cell(row, column)
       row_count = get_row_count
       raise "Row #{row} exceeds number of rows (#{row_count}) in table #{@locator}" if row > row_count
@@ -283,6 +395,13 @@ module TestCentricity
       clear_alt_locator
     end
 
+    # Double-click in the specified cell in a table object.
+    #
+    # @param row [Integer] row number
+    # @param column [Integer] column number
+    # @example
+    #   list_table.double_click_table_cell(3, 5)
+    #
     def double_click_table_cell(row, column)
       row_count = get_row_count
       raise "Row #{row} exceeds number of rows (#{row_count}) in table #{@locator}" if row > row_count
@@ -293,6 +412,13 @@ module TestCentricity
       clear_alt_locator
     end
 
+    # Click the link object embedded within the specified cell in a table object.
+    #
+    # @param row [Integer] row number
+    # @param column [Integer] column number
+    # @example
+    #   list_table.click_table_cell_link(3, 1)
+    #
     def click_table_cell_link(row, column)
       row_count = get_row_count
       raise "Row #{row} exceeds number of rows (#{row_count}) in table #{@locator}" if row > row_count

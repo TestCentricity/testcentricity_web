@@ -7,6 +7,15 @@ module TestCentricity
     include RSpec::Matchers
     include Test::Unit::Assertions
 
+    # Define a trait for this page object.
+    #
+    # @param trait_name [symbol] name of trait
+    # @param block [&block] trait value
+    # @example
+    #   trait(:page_name)     { 'Shopping Basket' }
+    #   trait(:page_url)      { "/shopping_basket" }
+    #   trait(:page_locator)  { "//body[@class='shopping_baskets']" }
+    #
     def self.trait(trait_name, &block)
       define_method(trait_name.to_s, &block)
     end
@@ -15,14 +24,38 @@ module TestCentricity
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, nil);end))
     end
 
+    # Define and instantiate a button UI Element for this page object.
+    #
+    # @param element_name [symbol] name of button object
+    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @example
+    #   button :checkout_button, "button.checkout_button"
+    #   button :login_button,    "//input[@id='submit_button']"
+    #
     def self.button(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, :button);end))
     end
 
+    # Define and instantiate a text field UI Element for this page object.
+    #
+    # @param element_name [symbol] name of text field object
+    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @example
+    #   textfield :user_id_field,  "//input[@id='UserName']"
+    #   textfield :password_field, "consumer_password"
+    #
     def self.textfield(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, :textfield);end))
     end
 
+    # Define and instantiate a checkbox UI Element for this page object.
+    #
+    # @param element_name [symbol] name of checkbox object
+    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @example
+    #   checkbox :remember_checkbox,     "//input[@id='RememberUser']"
+    #   checkbox :accept_terms_checkbox, "accept_terms_conditions"
+    #
     def self.checkbox(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, :checkbox);end))
     end

@@ -2,7 +2,7 @@ module TestCentricity
   module Browsers
     include Capybara::DSL
 
-    # Sets the size of the selenium browser window.
+    # Sets the size of the browser window.
     #
     # @param resolution [Array] the desired [width, height]
     # @example

@@ -16,6 +16,14 @@ module TestCentricity
       @context = context
     end
 
+    # Define a trait for this page section.
+    #
+    # @param trait_name [symbol] name of trait
+    # @param block [&block] trait value
+    # @example
+    #   trait(:section_locator)  { "//div[@class='Messaging_Applet']" }
+    #   trait(:list_table_name)  { 'Messages' }
+    #
     def self.trait(trait_name, &block)
       define_method(trait_name.to_s, &block)
     end
@@ -24,14 +32,38 @@ module TestCentricity
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :section, nil);end))
     end
 
+    # Define and instantiate a button UI Element for this page section.
+    #
+    # @param element_name [symbol] name of button object
+    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @example
+    #   button :checkout_button, "button.checkout_button"
+    #   button :login_button,    "//input[@id='submit_button']"
+    #
     def self.button(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :section, :button);end))
     end
 
+    # Define and instantiate a text field UI Element for this page section.
+    #
+    # @param element_name [symbol] name of text field object
+    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @example
+    #   textfield :user_id_field,  "//input[@id='UserName']"
+    #   textfield :password_field, "consumer_password"
+    #
     def self.textfield(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :section, :textfield);end))
     end
 
+    # Define and instantiate a checkbox UI Element for this page section.
+    #
+    # @param element_name [symbol] name of checkbox object
+    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @example
+    #   checkbox :remember_checkbox,     "//input[@id='RememberUser']"
+    #   checkbox :accept_terms_checkbox, "accept_terms_conditions"
+    #
     def self.checkbox(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :section, :checkbox);end))
     end
@@ -69,11 +101,23 @@ module TestCentricity
       @parent = parent
     end
 
+    # Does Section object exists?
+    #
+    # @return [Boolean]
+    # @example
+    #   navigation_toolbar.exists?
+    #
     def exists?
       section, _ = find_section
       section != nil
     end
 
+    # Is Section object visible?
+    #
+    # @return [Boolean]
+    # @example
+    #   navigation_toolbar.visible?
+    #
     def visible?
       section, type = find_section
       exists = section
@@ -94,10 +138,22 @@ module TestCentricity
       (exists && !invisible) ? true : false
     end
 
+    # Is Section object hidden (not visible)?
+    #
+    # @return [Boolean]
+    # @example
+    #   navigation_toolbar.hidden?
+    #
     def hidden?
       not visible?
     end
 
+    # Wait until the Section object exists, or until the specified wait time has expired.
+    #
+    # @param seconds [Integer, Float] wait time in seconds
+    # @example
+    #   navigation_toolbar.wait_until_exists(0.5)
+    #
     def wait_until_exists(seconds)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
@@ -106,6 +162,12 @@ module TestCentricity
       raise "Could not find section #{get_locator} after #{timeout} seconds" unless exists?
     end
 
+    # Wait until the Section object no longer exists, or until the specified wait time has expired.
+    #
+    # @param seconds [Integer, Float] wait time in seconds
+    # @example
+    #   navigation_toolbar.wait_until_gone(5)
+    #
     def wait_until_gone(seconds)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
