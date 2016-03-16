@@ -9,7 +9,7 @@ module TestCentricity
 
     # Define a trait for this page object.
     #
-    # @param trait_name [symbol] name of trait
+    # @param trait_name [symbol] name of trait (as a symbol)
     # @param block [&block] trait value
     # @example
     #   trait(:page_name)     { 'Shopping Basket' }
@@ -20,13 +20,21 @@ module TestCentricity
       define_method(trait_name.to_s, &block)
     end
 
+    # Define and instantiate a generic UI Element for this page object.
+    #
+    # @param element_name [symbol] name of UI object (as a symbol)
+    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @example
+    #   element :siebel_view,  'div#_sweview'
+    #   element :siebel_busy,  "//html[contains(@class, 'siebui-busy')]"
+    #
     def self.element(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, nil);end))
     end
 
     # Define and instantiate a button UI Element for this page object.
     #
-    # @param element_name [symbol] name of button object
+    # @param element_name [symbol] name of button object (as a symbol)
     # @param locator [String] css selector or xpath expression that uniquely identifies object
     # @example
     #   button :checkout_button, "button.checkout_button"
@@ -38,7 +46,7 @@ module TestCentricity
 
     # Define and instantiate a text field UI Element for this page object.
     #
-    # @param element_name [symbol] name of text field object
+    # @param element_name [symbol] name of text field object (as a symbol)
     # @param locator [String] css selector or xpath expression that uniquely identifies object
     # @example
     #   textfield :user_id_field,  "//input[@id='UserName']"
@@ -50,7 +58,7 @@ module TestCentricity
 
     # Define and instantiate a checkbox UI Element for this page object.
     #
-    # @param element_name [symbol] name of checkbox object
+    # @param element_name [symbol] name of checkbox object (as a symbol)
     # @param locator [String] css selector or xpath expression that uniquely identifies object
     # @example
     #   checkbox :remember_checkbox,     "//input[@id='RememberUser']"
@@ -60,22 +68,61 @@ module TestCentricity
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, :checkbox);end))
     end
 
+    # Define and instantiate a label UI Element for this page object.
+    #
+    # @param element_name [symbol] name of label object (as a symbol)
+    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @example
+    #   label :welcome_label,      'div.Welcome'
+    #   label :rollup_price_label, "//div[contains(@id, 'Rollup Item Price')]"
+    #
     def self.label(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, :label);end))
     end
 
+    # Define and instantiate a link UI Element for this page object.
+    #
+    # @param element_name [symbol] name of link object (as a symbol)
+    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @example
+    #   link :registration_link,    "a.account-nav__link.register"
+    #   link :shopping_basket_link, "//a[@href='shopping_basket']"
+    #
     def self.link(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, :link);end))
     end
 
+    # Define and instantiate a table UI Element for this page object.
+    #
+    # @param element_name [symbol] name of table object (as a symbol)
+    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @example
+    #   table :payments_table, "//table[@class='payments_table']"
+    #
     def self.table(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, :table);end))
     end
 
+    # Define and instantiate a select list UI Element for this page object.
+    #
+    # @param element_name [symbol] name of select list object (as a symbol)
+    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @example
+    #   selectlist :category_selector, "search_form_category_chosen"
+    #   selectlist :gender_select,     "//select[@id='customer_gender']"
+    #
     def self.selectlist(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, :selectlist);end))
     end
 
+    # Define and instantiate an image UI Element for this page object.
+    #
+    # @param element_name [symbol] name of image object (as a symbol)
+    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @example
+    #   image :basket_item_image,    "div.product_image"
+    #   image :corporate_logo_image, "//img[@alt='MyCompany_logo']"
+    #
     def self.image(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, :image);end))
     end
@@ -128,6 +175,12 @@ module TestCentricity
       raise "Expected page to have content '#{content}'" unless page.has_content?(:visible, content)
     end
 
+    # Does Page object exists?
+    #
+    # @return [Boolean]
+    # @example
+    #   home_page.exists?
+    #
     def exists?
       saved_wait_time = Capybara.default_max_wait_time
       Capybara.default_max_wait_time = 0.1
@@ -144,6 +197,12 @@ module TestCentricity
       Capybara.default_max_wait_time = saved_wait_time
     end
 
+    # Is current Page object URL secure?
+    #
+    # @return [Boolean]
+    # @example
+    #   home_page.secure?
+    #
     def secure?
       !current_url.match(/^https/).nil?
     end

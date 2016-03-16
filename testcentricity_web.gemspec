@@ -12,10 +12,10 @@ Gem::Specification.new do |spec|
   spec.email         = ['test_automation@icloud.com']
   spec.summary       = %q{A Page Object and Data Object Model Framework for desktop and responsive mobile web testing}
   spec.description = %q{
-    TestCentricity™ core generic framework for desktop and responsive mobile web site testing implements a
-    Page Object Model DSL, for use with Capybara and selenium-webdriver. Supports testing against locally
-    hosted desktop browsers (Firefox, Chrome, Safari, IE, or Edge), locally hosted emulated mobile browsers
-    (using Firefox), or on cloud hosted browsers on BrowserStack, Sauce Labs, or CrossBrowserTesting.}
+    TestCentricity™ core generic framework for desktop and responsive mobile web site testing implements a Page Object
+    Model DSL, for use with Capybara and selenium-webdriver. Supports testing against locally hosted desktop browsers
+    (Firefox, Chrome, Safari, IE, or Edge), locally hosted emulated mobile browsers (using Firefox), or on cloud hosted
+    browsers using the BrowserStack, Sauce Labs, or CrossBrowserTesting services.}
   spec.homepage      = ''
   spec.license       = 'BSD3'
 

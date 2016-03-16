@@ -71,6 +71,13 @@ module TestCentricity
       page.driver.browser.mouse.double_click(obj.native)
     end
 
+    # Click at a specific location within an an object
+    #
+    # @param x [Integer] X offset
+    # @param y [Integer] Y offset
+    # @example
+    #   basket_item_image.click_at(10, 10)
+    #
     def click_at(x, y)
       obj, _ = find_element
       raise "Object #{@locator} not found" unless obj
