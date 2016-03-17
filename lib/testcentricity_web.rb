@@ -1,6 +1,7 @@
 require 'capybara/cucumber'
 require 'rspec/expectations'
 require 'test/unit'
+require 'capybara/poltergeist'
 require 'testcentricity_web/world_extensions'
 require 'testcentricity_web/browser_helper'
 require 'testcentricity_web/data_objects_helper'

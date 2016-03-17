@@ -14,8 +14,8 @@ Gem::Specification.new do |spec|
   spec.description = %q{
     TestCentricity™ core generic framework for desktop and responsive mobile web site testing implements a Page Object
     Model DSL, for use with Capybara and selenium-webdriver. Supports testing against locally hosted desktop browsers
-    (Firefox, Chrome, Safari, IE, or Edge), locally hosted emulated mobile browsers (using Firefox), or on cloud hosted
-    browsers using the BrowserStack, Sauce Labs, or CrossBrowserTesting services.}
+    (Firefox, Chrome, Safari, IE, or Edge), locally hosted emulated mobile browsers (using Firefox), "headless" (using
+    Poltergeist), or on cloud hosted browsers using the BrowserStack, Sauce Labs, or CrossBrowserTesting services.}
   spec.homepage      = ''
   spec.license       = 'BSD3'
 
@@ -31,6 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rspec-expectations'
   spec.add_dependency 'rspec'
   spec.add_dependency 'test-unit'
+  spec.add_dependency 'poltergeist'
   spec.add_dependency 'selenium-webdriver', '>= 2.50.0'
   spec.add_dependency 'faker', '>= 1.6.1'
   spec.add_dependency 'chronic', '>= 0.10.2'

@@ -18,6 +18,8 @@ module TestCentricity
           initialize_crossbrowser
         when :saucelabs
           initialize_saucelabs
+        when :poltergeist
+          initialize_poltergeist
         else
           initialize_local_browser(browser)
       end
@@ -25,10 +27,12 @@ module TestCentricity
       Capybara.app_host = app_host
 
       # set browser window size only if testing with a desktop web browser
-      if Environ.is_desktop?
-        (ENV['BROWSER_SIZE'] == 'max') ?
-            Browsers.maximize_browser :
-            Browsers.set_browser_window_size(Browsers.browser_size(browser, ENV['ORIENTATION']))
+      unless Capybara.current_driver == :poltergeist
+        if Environ.is_desktop?
+          (ENV['BROWSER_SIZE'] == 'max') ?
+              Browsers.maximize_browser :
+              Browsers.set_browser_window_size(Browsers.browser_size(browser, ENV['ORIENTATION']))
+        end
       end
 
       puts "Using #{Environ.browser.to_s} browser"
@@ -51,6 +55,20 @@ module TestCentricity
             Capybara::Selenium::Driver.new(app, :browser => :firefox)
             Environ.set_browser('firefox')
         end
+      end
+    end
+
+    def self.initialize_poltergeist
+      Capybara.default_driver = :poltergeist
+      Capybara.register_driver :poltergeist do |app|
+        options = {
+            :js_errors => true,
+            :timeout => 120,
+            :debug => false,
+            :phantomjs_options => ['--load-images=no', '--disk-cache=false'],
+            :inspector => true,
+        }
+        Capybara::Poltergeist::Driver.new(app, options)
       end
     end
 

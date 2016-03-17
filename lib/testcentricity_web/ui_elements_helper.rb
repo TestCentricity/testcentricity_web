@@ -56,7 +56,7 @@ module TestCentricity
       begin
         obj.click
       rescue
-        obj.click_at(10, 10)
+        obj.click_at(10, 10) unless Capybara.current_driver == :poltergeist
       end
     end
 
