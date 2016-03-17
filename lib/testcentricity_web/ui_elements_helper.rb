@@ -225,7 +225,7 @@ module TestCentricity
 
     # Wait until the object exists, or until the specified wait time has expired.
     #
-    # @param seconds [Integer, Float] wait time in seconds
+    # @param seconds [Integer or Float] wait time in seconds
     # @example
     #   run_button.wait_until_exists(0.5)
     #
@@ -239,7 +239,7 @@ module TestCentricity
 
     # Wait until the object no longer exists, or until the specified wait time has expired.
     #
-    # @param seconds [Integer, Float] wait time in seconds
+    # @param seconds [Integer or Float] wait time in seconds
     # @example
     #   logout_button.wait_until_gone(5)
     #
@@ -253,7 +253,7 @@ module TestCentricity
 
     # Wait until the object's value equals the specified value, or until the specified wait time has expired.
     #
-    # @param seconds [Integer, Float] wait time in seconds
+    # @param seconds [Integer or Float] wait time in seconds
     # @example
     #   card_authorized_label.wait_until_value_is(5, 'Card authorized')
     #
@@ -267,7 +267,7 @@ module TestCentricity
 
     # Wait until the object's value changes to a different value, or until the specified wait time has expired.
     #
-    # @param seconds [Integer, Float] wait time in seconds
+    # @param seconds [Integer or Float] wait time in seconds
     # @example
     #   basket_grand_total_label.wait_until_value_changes(5)
     #
