@@ -4,7 +4,6 @@ module TestCentricity
   class PageSection
     include Capybara::DSL
     include Capybara::Node::Matchers
-    include RSpec::Matchers
     include Test::Unit::Assertions
 
     attr_reader   :locator, :context

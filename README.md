@@ -1,8 +1,8 @@
 # TestcentricityWeb
 
 The TestCentricity™ core generic framework for desktop and responsive mobile web site testing implements a Page Object
-and Data Object Model DSL, for use with Capybara and selenium-webdriver. It supports testing against locally hosted
-desktop browsers (Firefox, Chrome, Safari, IE, or Edge), locally hosted emulated mobile browsers (using Firefox),
+and Data Object Model DSL, for use with Cucumber, Capybara, and selenium-webdriver. It supports testing against locally
+hosted desktop browsers (Firefox, Chrome, Safari, IE, or Edge), locally hosted emulated mobile browsers (using Firefox),
 "headless" (using Poltergeist), or on cloud hosted desktop or mobile web browsers using the BrowserStack, Sauce Labs,
 or CrossBrowserTesting services.
 
@@ -52,7 +52,8 @@ directly call methods in selenium-webdriver, you will also need to require the f
 
 ##Usage
 
-###Defining a Page Object
+###Page Objects
+####Defining a Page Object
 
 You define new **Page Objects** as shown below:
 
@@ -70,7 +71,7 @@ You define new **Page Objects** as shown below:
     end
 
 
-###Adding UI Elements to your Page Object
+####Adding UI Elements to your Page Object
 
 Your Page Object's **UI Elements** are added as shown below:
 
@@ -86,30 +87,15 @@ Your Page Object's **UI Elements** are added as shown below:
       checkbox  :remember_checkbox,    "rememberUser']"
       label     :error_message_label,  'div#statusBar.login-error'
     end
-
-
-###Instantiating your Page Objects
-
-There are several ways to instantiate your **Page Objects**. One common implementation is shown below:
-
-    module WorldPages
-      def login_page
-        @login_page ||= LoginPage.new
-      end
     
-      def home_page
-        @home_page ||= HomePage.new
-      end
-    end
-
-Once instantiated, you can interact with the **UI Elements** in your **Page Objects**. An example is shown below:
+Once your **Page Objects** have been instantiated, you can interact with the **UI Elements** in your **Page Objects**. An example is shown below:
 
     login_page.user_id_field.set('snicklefritz')
     login_page.password_field.set('Pa55w0rd')
     login_page.login_button.click
 
 
-###Adding Methods to your Page Object
+####Adding Methods to your Page Object
 
 You can add high level methods for interacting with the UI to hide implementation details, as shown below:
 
@@ -144,7 +130,8 @@ Once your **Page Objects** have been instantiated, you can call your methods as 
     
 
 
-###Defining a PageSection Object
+###PageSection Objects
+####Defining a PageSection Object
 
 You define new **PageSection Objects** as shown below:
 
@@ -153,7 +140,7 @@ You define new **PageSection Objects** as shown below:
     end
 
 
-###Adding UI Elements to your PageSection Object
+####Adding UI Elements to your PageSection Object
 
 Your PageSection Object's **UI Elements** are added as shown below:
 
@@ -166,7 +153,7 @@ Your PageSection Object's **UI Elements** are added as shown below:
     end
 
 
-###Adding Methods to your PageSection Object
+####Adding Methods to your PageSection Object
 
 You can add high level methods to your PageSection Objects, as shown below:
 
@@ -184,7 +171,7 @@ You can add high level methods to your PageSection Objects, as shown below:
     end
 
 
-###Adding PageSection Objects to your Page Object
+####Adding PageSection Objects to your Page Object
 
 Your Page Object's **PageSection Objects** are added as shown below:
 
@@ -202,6 +189,53 @@ Once your **Page Object** has been instantiated, you can call its **PageSection*
     home_page.search_form.search_for('ocarina')
     
     
+
+
+###Instantiating your Page Objects
+
+There are several ways to instantiate your **Page Objects**. One common implementation is shown below:
+
+    module WorldPages
+      def login_page
+        @login_page ||= LoginPage.new
+      end
+    
+      def home_page
+        @home_page ||= HomePage.new
+      end
+    end
+
+
+####Using the PageManager
+
+Your world_pages.rb file:
+
+    module WorldPages
+      #
+      # page_objects method returns a hash table of your web app's page objects and associated page classes to be instantiated
+      # by the TestCentricity™ PageManager. Page Object class definitions are contained in the features/support/pages folder.
+      #
+      def page_objects
+        { :login_page            => LoginPage,
+          :home_page             => HomePage,
+          :registration_page     => RegistrationPage,
+          :shopping_basket_page  => ShoppingBasketPage,
+          :payment_method_page   => PaymentMethodPage,
+          :confirm_purchase_page => PurchaseConfirmationPage
+        }
+      end
+    end
+    
+    World(WorldPages)
+
+
+Your *env.rb* file:
+
+    include WorldPages
+    WorldPages.instantiate_page_objects
+
+
+
 
 ## Copyright and License
 

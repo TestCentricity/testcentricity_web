@@ -1,5 +1,4 @@
 require 'capybara/cucumber'
-require 'rspec/expectations'
 require 'test/unit'
 require 'capybara/poltergeist'
 require 'testcentricity_web/world_extensions'
@@ -32,12 +31,14 @@ module TestCentricity
       end
     end
 
+    # Have all PageObjects been registered?
+    #
+    # @return [Boolean] true if all PageObjects have been registered
+    # @example
+    #   TestCentricity::PageManager.loaded?
+    #
     def self.loaded?
       not @page_objects.empty?
-    end
-
-    def self.pages
-      @page_objects
     end
 
     def self.find_page(page_name)
@@ -45,10 +46,22 @@ module TestCentricity
       @page_objects[page_id]
     end
 
+    # Get the currently active PageObject
+    #
+    # @return [PageObject]
+    # @example
+    #   active_page = TestCentricity::PageManager.current_page
+    #
     def self.current_page
       @current_page
     end
 
+    # Sets the currently active PageObject
+    #
+    # @param page [PageObject] Reference to the active PageObject
+    # @example
+    #   TestCentricity::PageManager.set_current_page(product_search_page)
+    #
     def self.set_current_page(page)
       @current_page = page
     end
@@ -62,12 +75,14 @@ module TestCentricity
       @data_objects[data_type] = data_class unless @data_objects.has_key?(data_type)
     end
 
+    # Have all DataObjects been registered?
+    #
+    # @return [Boolean] true if all DataObjects have been registered
+    # @example
+    #   TestCentricity::DataManager.loaded?
+    #
     def self.loaded?
       not @data_objects.empty?
-    end
-
-    def self.data_objects
-      @data_objects
     end
   end
 end

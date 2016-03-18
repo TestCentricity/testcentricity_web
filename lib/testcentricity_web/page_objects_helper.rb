@@ -4,7 +4,6 @@ module TestCentricity
   class PageObject
     include Capybara::DSL
     include Capybara::Node::Matchers
-    include RSpec::Matchers
     include Test::Unit::Assertions
 
     # Define a trait for this page object.
