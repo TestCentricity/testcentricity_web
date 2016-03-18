@@ -17,6 +17,7 @@ coverage
 .bundle
 .ruby-version
 .ruby-gemset
+/my_templates
 
 Gemfile.lock
 
