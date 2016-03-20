@@ -1,8 +1,8 @@
 module TestCentricity
-  class WebDriverConnect
+  module WebDriverConnect
     include Capybara::DSL
 
-    def self.initialize_web_driver(app_host)
+    def self.initialize_web_driver(app_host = nil)
       browser = ENV['WEB_BROWSER']
 
       # assume that we're testing within a local desktop web browser
@@ -24,7 +24,7 @@ module TestCentricity
           initialize_local_browser(browser)
       end
 
-      Capybara.app_host = app_host
+      Capybara.app_host = app_host unless app_host.nil?
 
       # set browser window size only if testing with a desktop web browser
       unless Capybara.current_driver == :poltergeist

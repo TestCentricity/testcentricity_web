@@ -4,8 +4,8 @@ The TestCentricity™ core generic framework for desktop and mobile web site tes
 use with Cucumber, Capybara, and selenium-webdriver. It supports testing against locally hosted desktop browsers (Firefox, Chrome, Safari,
 IE, or Edge), locally hosted emulated iOS and Android mobile browsers (using Firefox), a "headless" browser (using Poltergeist and PhantomJS),
 or on cloud hosted desktop or mobile web browsers using the BrowserStack, Sauce Labs, or CrossBrowserTesting services.
-
-
+ 
+ 
 ## Installation
 
 Add this line to your automation project's Gemfile:
@@ -64,7 +64,7 @@ text field attributes, button captions, etc.), maintenance is performed in the *
 to update the affected feature file, scenarios, or step definitions.
 
 
-####Defining a Page Object
+#### - Defining a Page Object
 
 Your **Page Object** class definitions should be contained within individual *.rb* files in the ***features/support/pages*** folder of your
 test automation project. You define new **Page Objects** as shown below:
@@ -83,7 +83,7 @@ test automation project. You define new **Page Objects** as shown below:
     end
 
 
-####Adding UI Elements to your Page Object
+#### - Adding UI Elements to your Page Object
 
 **UI Elements** are added to your **Page Object** class definition as shown below:
 
@@ -108,7 +108,7 @@ below:
     login_page.login_button.click
 
 
-####Adding Methods to your Page Object
+#### - Adding Methods to your Page Object
 
 It is good practice for your Cucumber step definitions to call high level methods in your your **Page Object** instead of directly accessing
 and interacting with a page object's UI elements. You can add high level methods to your **Page Object** class definition for interacting with
@@ -154,7 +154,7 @@ or a menu. **UI Elements** and functional behavior are confined to the scope of 
 A **PageSection Object** may contain other **PageSection Objects**.
 
 
-####Defining a PageSection Object
+#### - Defining a PageSection Object
 
 Your **PageSection** class definitions should be contained within individual *.rb* files in the ***features/support/sections*** folder of
 your test automation project. You define new **PageSection Objects** as shown below:
@@ -164,7 +164,7 @@ your test automation project. You define new **PageSection Objects** as shown be
     end
 
 
-####Adding UI Elements to your PageSection Object
+#### - Adding UI Elements to your PageSection Object
 
 **UI Elements** are added to your **PageSection** class definition as shown below:
 
@@ -177,7 +177,7 @@ your test automation project. You define new **PageSection Objects** as shown be
     end
 
 
-####Adding Methods to your PageSection Object
+#### - Adding Methods to your PageSection Object
 
 You can add high level methods to your **PageSection** class definition, as shown below:
 
@@ -195,7 +195,7 @@ You can add high level methods to your **PageSection** class definition, as show
     end
 
 
-####Adding PageSection Objects to your Page Object
+#### - Adding PageSection Objects to your Page Object
 
 You add a **PageSection Object** to its associated **Page Object** as shown below:
 
@@ -244,7 +244,7 @@ The **WorldPages** module above can be defined in your *env.rb* file, or you can
 While this approach is effective for small web applications with only a few pages (and hence few **Page Objects**), it quickly becomes
 cumbersome to manage if your web application has dozens of **Page Objects** that need to be instantiated and managed.
 
-####Using the PageManager
+#### - Using the PageManager
 
 The **PageManager** class provides methods for supporting the instantiation and management of **Page Objects**. In the code example below,
 the **page_objects** method contains a hash table of your **Page Object** instance variables and their associated **Page Object** classes
@@ -279,6 +279,287 @@ executed:
     
 
 
+### Connecting to a Web Browser
+
+The ***WebDriverConnect.initialize_web_driver*** method configures the appropriate selenium-webdriver capabilities required to establish a
+connection with a target web browser, and sets the base host URL of the web site you are running your tests against
+
+The ***WebDriverConnect.initialize_web_driver*** method accepts a single optional parameter - the base host URL. Cucumber **Environment
+Variables**are used to specify the target local or remote web browser, and the various webdriver capability parameters required to configure
+the connection.
+
+
+#### - Locally hosted desktop web browser
+
+For locally hosted desktop web browsers, the **WEB_BROWSER** Environment Variable must be set to one of the values from the table below: 
+
+**WEB_BROWSER** | Desktop Platform
+--------------- | ----------------
+firefox | OS X or Windows
+chrome | OS X or Windows
+safari | OS X only
+ie | Windows only
+edge | Windows only
+poltergeist | OS X or Windows
+
+
+#### - Locally hosted emulated mobile web browser
+
+You can also run your tests against emulated mobile device browsers within a locally hosted instance of the Firefox desktop browser. You may
+even specify the emulated device's screen orientation. For locally hosted emulated mobile web browsers, the **WEB_BROWSER** Environment Variable
+must be set to one of the values from the table below: 
+
+**WEB_BROWSER** |
+--------------- |
+ipad |
+ipad_pro |
+iphone |
+iphone4 |
+iphone5 |
+iphone6 |
+iphone6_plus |
+android_phone |
+android_tablet |
+
+To specify the emulated device's screen orientation, you set the **ORIENTATION** Environment Variable to either *portrait* or *landscape*.
+
+
+#### - Remotely hosted desktop web browser
+
+TBD
+
+
+#### - Using Browser specific Profiles in cucumber.yml
+
+While you can set **Environment Variables** in the command line when invoking Cucumber, a preferred method of specifying and managing target
+web browsers is to create browser specific **Profiles** that set the appropriate **Environment Variables** for each target browser in your
+***cucumber.yml*** file. Below is a list of Cucumber **Profiles** for supported locally and remotely hosted desktop and mobile web browsers
+(put these in in your ***cucumber.yml*** file):
+
+    <% desktop          = "--tags ~@wip --tags ~@failing --tags @desktop --require features" %>
+    <% mobile           = "--tags ~@wip --tags ~@failing --tags @mobile  --require features" %>
+    
+    #==============
+    # profiles for locally hosted desktop web browsers
+    #==============
+    
+    firefox:            WEB_BROWSER=firefox     <%= desktop %>
+    safari:             WEB_BROWSER=safari      <%= desktop %>
+    chrome:             WEB_BROWSER=chrome      <%= desktop %>
+    ie:                 WEB_BROWSER=ie          <%= desktop %>
+    edge:               WEB_BROWSER=edge        <%= desktop %>
+    headless:           WEB_BROWSER=poltergeist <%= desktop %>
+    
+    #==============
+    # profiles for locally hosted mobile web browsers (emulated locally in Firefox browser)
+    #==============
+    
+    ipad:               WEB_BROWSER=ipad            <%= mobile %>
+    ipad_pro:           WEB_BROWSER=ipad_pro        <%= mobile %>
+    iphone:             WEB_BROWSER=iphone          <%= mobile %>
+    iphone4:            WEB_BROWSER=iphone4         <%= mobile %>
+    iphone5:            WEB_BROWSER=iphone5         <%= mobile %>
+    iphone6:            WEB_BROWSER=iphone6         <%= mobile %>
+    iphone6_plus:       WEB_BROWSER=iphone6_plus    <%= mobile %>
+    android_phone:      WEB_BROWSER=android_phone   <%= mobile %>
+    android_tablet:     WEB_BROWSER=android_tablet  <%= mobile %>
+    
+    
+    #==============
+    # profiles for mobile device screen orientation
+    #==============
+    portrait:           ORIENTATION=portrait
+    landscape:          ORIENTATION=landscape
+    
+    
+    #==============
+    # profiles for remotely hosted web browsers on the BrowserStack service
+    #==============
+    
+    browserstack:       WEB_BROWSER=browserstack BS_USERNAME=<INSERT USER NAME HERE> BS_AUTHKEY=<INSERT PASSWORD HERE>
+    bs_desktop:         --profile browserstack <%= desktop %> RESOLUTION="1920x1080"
+    bs_mobile:          --profile browserstack <%= mobile %>
+    
+    # BrowserStack OS X profiles
+    bs_osx_el_capitan:  --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="El Capitan"
+    bs_ff_el_cap:       --profile bs_osx_el_capitan BS_BROWSER="Firefox"
+    bs_chrome_el_cap:   --profile bs_osx_el_capitan BS_BROWSER="Chrome"
+    bs_safari_el_cap:   --profile bs_osx_el_capitan BS_BROWSER="Safari" BS_VERSION="9.0"
+    bs_safari9_el_cap:  --profile bs_osx_el_capitan BS_BROWSER="Safari" BS_VERSION="9.0"
+    
+    bs_osx_yosemite:    --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="Yosemite"
+    bs_ff_yos:          --profile bs_osx_yosemite BS_BROWSER="Firefox"
+    bs_chrome_yos:      --profile bs_osx_yosemite BS_BROWSER="Chrome"
+    bs_safari_yos:      --profile bs_osx_yosemite BS_BROWSER="Safari" BS_VERSION="8.0"
+    bs_safari8_osx:     --profile bs_osx_yosemite BS_BROWSER="Safari" BS_VERSION="8.0"
+    
+    bs_osx_mavericks:   --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="Mavericks"
+    bs_ff_mav:          --profile bs_osx_mavericks BS_BROWSER="Firefox"
+    bs_chrome_mav:      --profile bs_osx_mavericks BS_BROWSER="Chrome"
+    bs_safari_mav:      --profile bs_osx_mavericks BS_BROWSER="Safari" BS_VERSION="7.0"
+    bs_safari7_osx:     --profile bs_osx_mavericks BS_BROWSER="Safari" BS_VERSION="7.0"
+    
+    # BrowserStack Windows profiles
+    bs_win7:            --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="7"
+    bs_win8:            --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="8.1"
+    bs_win10:           --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="10"
+    bs_ff_win7:         --profile bs_win7 BS_BROWSER="Firefox"
+    bs_ff_win8:         --profile bs_win8 BS_BROWSER="Firefox"
+    bs_ff_win10:        --profile bs_win10 BS_BROWSER="Firefox"
+    bs_chrome_win7:     --profile bs_win7 BS_BROWSER="Chrome"
+    bs_chrome_win8:     --profile bs_win8 BS_BROWSER="Chrome"
+    bs_chrome_win10:    --profile bs_win10 BS_BROWSER="Chrome"
+    
+    bs_ie_win7:         --profile bs_win7 BS_BROWSER="IE"
+    bs_ie11_win7:       --profile bs_ie_win7 BS_VERSION="11.0"
+    bs_ie10_win7:       --profile bs_ie_win7 BS_VERSION="10.0"
+    bs_ie9_win7:        --profile bs_ie_win7 BS_VERSION="9.0"
+    bs_ie11_win8:       --profile bs_win8 BS_BROWSER="IE" BS_VERSION="11.0"
+    bs_ie10_win8:       --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="8.0" BS_BROWSER="IE" BS_VERSION="10.0"
+    bs_ie11_win10:      --profile bs_win10 BS_BROWSER="IE" BS_VERSION="11.0"
+    bs_edge_win10:      --profile bs_win10 BS_BROWSER="Edge" BS_VERSION="13.0"
+    
+    # BrowserStack iOS profiles
+    bs_iphone:          --profile bs_mobile BS_PLATFORM=MAC BS_BROWSER=iPhone
+    bs_ipad:            --profile bs_mobile BS_PLATFORM=MAC BS_BROWSER=iPad
+    bs_iphone6_plus:    --profile bs_iphone BS_DEVICE="iPhone 6S Plus"
+    bs_iphone6:         --profile bs_iphone BS_DEVICE="iPhone 6S"
+    bs_iphone5s:        --profile bs_iphone BS_DEVICE="iPhone 5S"
+    bs_iphone4s:        --profile bs_iphone BS_DEVICE="iPhone 4S (6.0)"
+    bs_ipad_pro:        --profile bs_ipad BS_DEVICE="iPad Pro"
+    bs_ipad_air:        --profile bs_ipad BS_DEVICE="iPad Air 2"
+    bs_ipad_mini:       --profile bs_ipad BS_DEVICE="iPad Mini 4"
+    
+    # BrowserStack Android profiles
+    bs_android:         --profile bs_mobile BS_PLATFORM=ANDROID BS_BROWSER=android
+    bs_galaxy_s5:       --profile bs_android BS_DEVICE="Samsung Galaxy S5"
+    bs_kindle_fire:     --profile bs_android BS_DEVICE="Amazon Kindle Fire HDX 7"
+    bs_nexus5:          --profile bs_android BS_DEVICE="Google Nexus 5"
+    bs_moto_razr:       --profile bs_android BS_DEVICE="Motorola Razr"
+    bs_sony_xperia:     --profile bs_android BS_DEVICE="Sony Xperia Tipo"
+    
+    
+    #==============
+    # profiles for remotely hosted web browsers on the CrossBrowserTesting service
+    #==============
+    
+    crossbrowser:       WEB_BROWSER=crossbrowser CB_USERNAME=<INSERT USER NAME HERE> CB_AUTHKEY=<INSERT PASSWORD HERE>
+    cb_desktop:         --profile crossbrowser <%= desktop %>
+    cb_mobile:          --profile crossbrowser <%= mobile %>
+    
+    # CrossBrowserTesting OS X profiles
+    cb_osx:             --profile cb_desktop RESOLUTION="1920x1200"
+    cb_osx_el_capitan:  --profile cb_osx CB_OS="Mac10.11"
+    cb_ff_el_cap:       --profile cb_osx_el_capitan CB_BROWSER="FF44"
+    cb_chrome_el_cap:   --profile cb_osx_el_capitan CB_BROWSER="Chrome48x64"
+    cb_safari_el_cap:   --profile cb_osx_el_capitan CB_BROWSER="Safari9"
+    cb_safari9_el_cap:  --profile cb_osx_el_capitan CB_BROWSER="Safari9"
+    
+    cb_osx_yosemite:    --profile cb_osx CB_OS="Mac10.10"
+    cb_ff_yos:          --profile cb_osx_yosemite CB_BROWSER="FF44"
+    cb_chrome_yos:      --profile cb_osx_yosemite CB_BROWSER="Chrome48x64"
+    cb_safari_yos:      --profile cb_osx_yosemite CB_BROWSER="Safari8"
+    cb_safari8_osx:     --profile cb_osx_yosemite CB_BROWSER="Safari8"
+    
+    cb_osx_mavericks:   --profile cb_osx CB_OS="Mac10.9"
+    cb_ff_mav:          --profile cb_osx_mavericks CB_BROWSER="FF43"
+    cb_chrome_mav:      --profile cb_osx_mavericks CB_BROWSER="Chrome48x64"
+    cb_safari_mav:      --profile cb_osx_mavericks CB_BROWSER="Safari7"
+    cb_safari7_osx:     --profile cb_osx_mavericks CB_BROWSER="Safari7"
+    
+    # CrossBrowserTesting Windows profiles
+    cb_win:             --profile cb_desktop RESOLUTION="1920x1080"
+    cb_win7:            --profile cb_win CB_OS="Win7x64-C1"
+    cb_win8:            --profile cb_win CB_OS="Win8"
+    cb_win10:           --profile cb_win CB_OS="Win10"
+    cb_ff_win7:         --profile cb_win7 CB_BROWSER="FF44"
+    cb_ff_win8:         --profile cb_win8 CB_BROWSER="FF44"
+    cb_ff_win10:        --profile cb_win10 CB_BROWSER="FF44"
+    cb_chrome_win7:     --profile cb_win7 CB_BROWSER="Chrome48x64"
+    cb_chrome_win8:     --profile cb_win8 CB_BROWSER="Chrome48x64"
+    cb_chrome_win10:    --profile cb_win10 CB_BROWSER="Chrome48x64"
+    
+    cb_ie11_win7:       --profile cb_win7 CB_BROWSER="IE11"
+    cb_ie10_win7:       --profile cb_win7 CB_BROWSER="IE10"
+    cb_ie9_win7:        --profile cb_win7 CB_BROWSER="IE9"
+    cb_ie11_win8:       --profile cb_win8 CB_BROWSER="IE11"
+    cb_ie10_win8:       --profile cb_win8 CB_BROWSER="IE10"
+    cb_ie11_win10:      --profile cb_win10 CB_BROWSER="IE11"
+    
+    # CrossBrowserTesting iOS profiles
+    cb_iphone6_plus:    --profile cb_mobile CB_PLATFORM="iPhone6Plus-iOS8sim" CB_BROWSER="MblSafari8.0" RESOLUTION="1080x1920"
+    cb_iphone6:         --profile cb_mobile CB_PLATFORM="iPhone6-iOS8sim" CB_BROWSER="MblSafari8.0" RESOLUTION="750x1334"
+    cb_iphone5s:        --profile cb_mobile CB_PLATFORM="iPhone5s-iOS7sim" CB_BROWSER="MblSafari7.0" RESOLUTION="640x1136"
+    cb_ipad_air:        --profile cb_mobile CB_PLATFORM="iPadAir-iOS8Sim" CB_BROWSER="MblSafari8.0" RESOLUTION="1024x768"
+    cb_ipad_mini:       --profile cb_mobile CB_PLATFORM="iPadMiniRetina-iOS7Sim" CB_BROWSER="MblSafari7.0" RESOLUTION="1024x768"
+    
+    # CrossBrowserTesting Android profiles
+    cb_nexus7:          --profile cb_mobile CB_PLATFORM="Nexus7-And42" CB_BROWSER="MblChrome37" RESOLUTION="800x1280"
+    cb_galaxy_tab2:     --profile cb_mobile CB_PLATFORM="GalaxyTab2-And41" CB_BROWSER="MblChrome38" RESOLUTION="1280x800"
+    cb_galaxy_s5:       --profile cb_mobile CB_PLATFORM="GalaxyS5-And44" CB_BROWSER="MblChrome35" RESOLUTION="1080x1920"
+    cb_galaxy_s4:       --profile cb_mobile CB_PLATFORM="GalaxyS4-And42" CB_BROWSER="MblChrome33" RESOLUTION="1080x1920"
+    cb_galaxy_s3:       --profile cb_mobile CB_PLATFORM="GalaxyS3-And41" CB_BROWSER="MblChrome34" RESOLUTION="720x1280"
+    
+    
+    #==============
+    # profiles for remotely hosted web browsers on the SauceLabs service
+    #==============
+    
+    saucelabs:          WEB_BROWSER=saucelabs SL_USERNAME=<INSERT USER NAME HERE> SL_AUTHKEY=<INSERT PASSWORD HERE>
+    sl_desktop:         --profile saucelabs <%= desktop %>
+    sl_mobile:          --profile saucelabs <%= mobile %>
+    
+    # SauceLabs OS X profiles
+    sl_osx_el_capitan:  --profile sl_desktop SL_OS="OS X 10.11"
+    sl_ff_el_cap:       --profile sl_osx_el_capitan SL_BROWSER="firefox"
+    sl_chrome_el_cap:   --profile sl_osx_el_capitan SL_BROWSER="chrome"
+    sl_safari_el_cap:   --profile sl_osx_el_capitan SL_BROWSER="safari"
+    sl_safari9_el_cap:  --profile sl_osx_el_capitan SL_BROWSER="safari"
+    
+    sl_osx_yosemite:    --profile sl_desktop SL_OS="OS X 10.10" RESOLUTION="1920x1200"
+    sl_ff_yos:          --profile sl_osx_yosemite SL_BROWSER="firefox"
+    sl_chrome_yos:      --profile sl_osx_yosemite SL_BROWSER="chrome"
+    sl_safari_yos:      --profile sl_osx_yosemite SL_BROWSER="safari"
+    sl_safari8_osx:     --profile sl_osx_yosemite SL_BROWSER="safari"
+    
+    sl_osx_mavericks:   --profile sl_desktop SL_OS="OS X 10.9" RESOLUTION="1920x1200"
+    sl_ff_mav:          --profile sl_osx_mavericks SL_BROWSER="firefox"
+    sl_chrome_mav:      --profile sl_osx_mavericks SL_BROWSER="chrome"
+    sl_safari_mav:      --profile sl_osx_mavericks SL_BROWSER="safari"
+    sl_safari7_osx:     --profile sl_osx_mavericks SL_BROWSER="safari"
+    
+    # SauceLabs Windows profiles
+    sl_win7:            --profile sl_desktop SL_OS="Windows 7" RESOLUTION="1920x1200"
+    sl_win8:            --profile sl_desktop SL_OS="Windows 8.1" RESOLUTION="1280x1024"
+    sl_win10:           --profile sl_desktop SL_OS="Windows 10" RESOLUTION="1280x1024"
+    sl_ff_win7:         --profile sl_win7 SL_BROWSER="firefox"
+    sl_ff_win8:         --profile sl_win8 SL_BROWSER="firefox"
+    sl_ff_win10:        --profile sl_win10 SL_BROWSER="firefox"
+    sl_chrome_win7:     --profile sl_win7 SL_BROWSER="chrome"
+    sl_chrome_win8:     --profile sl_win8 SL_BROWSER="chrome"
+    sl_chrome_win10:    --profile sl_win10 SL_BROWSER="chrome"
+    
+    sl_ie11_win7:       --profile sl_win7 SL_BROWSER="internet explorer" SL_VERSION="11.0"
+    sl_ie10_win7:       --profile sl_win7 SL_BROWSER="internet explorer" SL_VERSION="10.0"
+    sl_ie9_win7:        --profile sl_win7 SL_BROWSER="internet explorer" SL_VERSION="9.0"
+    sl_ie11_win8:       --profile sl_win8 SL_BROWSER="internet explorer" SL_VERSION="11.0"
+    sl_ie11_win10:      --profile sl_win10 SL_BROWSER="internet explorer"
+    
+    # SauceLabs iOS profiles
+    sl_ios:             --profile sl_mobile SL_PLATFORM=OS X 10.10 SL_BROWSER="iphone" SL_VERSION="9.2"
+    sl_iphone6_plus:    --profile sl_ios SL_DEVICE="iPhone 6 Plus"
+    sl_iphone6:         --profile sl_ios SL_DEVICE="iPhone 6"
+    sl_iphone5s:        --profile sl_ios SL_DEVICE="iPhone 5s"
+    sl_iphone4s:        --profile sl_ios SL_DEVICE="iPhone 4s"
+    sl_ipad_air:        --profile sl_ios SL_DEVICE="iPad Air"
+    
+    # SauceLabs Android profiles
+    sl_android:         --profile sl_mobile SL_PLATFORM=Linux SL_BROWSER="android" SL_VERSION="4.4"
+    sl_android_phone:   --profile sl_android SL_DEVICE="Android Emulator" SL_DEVICE_TYPE="phone"
+    sl_android_tablet:  --profile sl_android SL_DEVICE="Android Emulator" SL_DEVICE_TYPE="tablet"
+    
+
+
 
 
 ## Copyright and License
@@ -287,27 +568,20 @@ TestCentricity™ Framework is Copyright (c) 2014-2016, Tony Mrozinski.
 All rights reserved.
 
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions
+are met:
 
-1. Redistributions of source code must retain the above copyright notice,
-this list of conditions, and the following disclaimer.
+1. Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.
 
-2. Redistributions in binary form must reproduce the above copyright
-notice, this list of conditions, and the following disclaimer in the
-documentation and/or other materials provided with the distribution.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in
+the documentation and/or other materials provided with the distribution.
 
-3. Neither the name of the copyright holder nor the names of its contributors
-may be used to endorse or promote products derived from this software without
-specific prior written permission.
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from
+this software without specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
-OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-POSSIBILITY OF SUCH DAMAGE.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
