@@ -209,6 +209,12 @@ module TestCentricity
       obj.checked?
     end
 
+    # Set the check state of a checkbox object.
+    #
+    # @param state [Boolean] true = checked / false = unchecked
+    # @example
+    #   remember_me_checkbox.set_checkbox_state(true)
+    #
     def set_checkbox_state(state)
       obj, _ = find_element
       object_not_found_exception(obj, 'Checkbox')
@@ -321,6 +327,13 @@ module TestCentricity
       Capybara.ignore_hidden_elements = true
     end
 
+    # Select the specified option in a select box object.
+    # Supports standard HTML select objects and Chosen select objects.
+    #
+    # @param option [String] text of option to select
+    # @example
+    #   province_select.choose_option('Nova Scotia')
+    #
     def choose_option(option)
       obj, _ = find_element
       object_not_found_exception(obj, nil)
@@ -344,16 +357,45 @@ module TestCentricity
       end
     end
 
+    # Return array of strings of all options in a select box object.
+    # Supports standard HTML select objects and Chosen select objects.
+    #
+    # @return [Array]
+    # @example
+    #   all_colors = color_select.get_options
+    #
     def get_options
       obj, _ = find_element
       object_not_found_exception(obj, nil)
-      obj.all('option').collect(&:text)
+      if first(:css, 'li.active-result')
+        obj.all('li.active-result').collect(&:text)
+      else
+        obj.all('option').collect(&:text)
+      end
     end
 
+    def verify_options(expected, enqueue = false)
+      actual = get_options
+      enqueue ?
+          ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list of options in list #{@locator}") :
+          assert_equal(expected, actual, "Expected list of options in list #{@locator} to be #{expected} but found #{actual}")
+    end
+
+    # Return text of first selected option in a select box object.
+    # Supports standard HTML select objects and Chosen select objects.
+    #
+    # @return [String]
+    # @example
+    #   current_color = color_select.get_selected_option
+    #
     def get_selected_option
       obj, _ = find_element
       object_not_found_exception(obj, nil)
-      obj.first('option[selected]').text
+      if first(:css, 'li.active-result')
+        obj.first("//li[contains(@class, 'result-selected')]").text
+      else
+        obj.first('option[selected]').text
+      end
     end
 
     # Return number of rows in a table object.
@@ -483,6 +525,14 @@ module TestCentricity
       value
     end
 
+    # Return text contained in specified cell of a table object.
+    #
+    # @param row [Integer] row number
+    # @param column [Integer] column number
+    # @return [String] value of table cell
+    # @example
+    #   list_table.get_table_cell(4, 5)
+    #
     def get_table_cell(row, column)
       row_count = get_row_count
       raise "Row #{row} exceeds number of rows (#{row_count}) in table #{@locator}" if row > row_count
@@ -509,6 +559,14 @@ module TestCentricity
           assert_equal(expected.strip, actual.strip, "Expected #{@locator} row #{row}/column #{column} to display '#{expected}' but found '#{actual}'")
     end
 
+    # Set the value of the specified cell in a table object.
+    #
+    # @param row [Integer] row number
+    # @param column [Integer] column number
+    # @param value [String] text to set
+    # @example
+    #   list_table.set_table_cell(3, 1, 'Ontario')
+    #
     def set_table_cell(row, column, value)
       row_count = get_row_count
       raise "Row #{row} exceeds number of rows (#{row_count}) in table #{@locator}" if row > row_count

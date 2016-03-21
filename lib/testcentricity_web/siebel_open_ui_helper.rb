@@ -1,5 +1,11 @@
 module TestCentricity
   class UIElement
+    # Set the check state of a Siebel OUI JCheckBox object.
+    #
+    # @param state [Boolean] true = checked / false = unchecked
+    # @example
+    #   remember_me_checkbox.set_checkbox_state(true)
+    #
     def set_siebel_checkbox_state(state)
       obj, _ = find_element
       object_not_found_exception(obj, 'Siebel checkbox')
@@ -8,12 +14,24 @@ module TestCentricity
       obj.click unless expected == obj.checked?
     end
 
+    # Select the specified option in a Siebel OUI select box object.
+    #
+    # @param option [String] text of option to select
+    # @example
+    #   country_select.choose_option('Cayman Islands')
+    #
     def choose_siebel_option(option)
       Capybara.wait_on_first_by_default = true
       invoke_siebel_popup
       first(:xpath, "//li[@class='ui-menu-item']", :exact => true, :match => :prefer_exact,text: option).click
     end
 
+    # Return array of strings of all options in a Siebel OUI select box object.
+    #
+    # @return [Array]
+    # @example
+    #   all_countries = country_select.get_options
+    #
     def get_siebel_options
       invoke_siebel_popup
       sleep(0.5)

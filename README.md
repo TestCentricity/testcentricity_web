@@ -49,9 +49,7 @@ call methods in selenium-webdriver, you will also need to require the following 
 
 
 
-##Usage
-
-### Page Objects
+## Page Objects
 
 The **Page Object Model** is a test automation pattern that aims to create an abstraction of your web app's User Interface that can be used
 in tests. A **Page Object** is an object that represents a single page in your AUT (Application Under Test). **Page Objects** encapsulate the
@@ -64,7 +62,7 @@ text field attributes, button captions, etc.), maintenance is performed in the *
 to update the affected feature file, scenarios, or step definitions.
 
 
-#### Defining a Page Object
+### Defining a Page Object
 
 Your **Page Object** class definitions should be contained within individual *.rb* files in the ***features/support/pages*** folder of your
 test automation project. You define new **Page Objects** as shown below:
@@ -83,7 +81,7 @@ test automation project. You define new **Page Objects** as shown below:
     end
 
 
-#### Adding UI Elements to your Page Object
+### Adding UI Elements to your Page Object
 
 **UI Elements** are added to your **Page Object** class definition as shown below:
 
@@ -108,7 +106,7 @@ below:
     login_page.login_button.click
 
 
-#### Adding Methods to your Page Object
+### Adding Methods to your Page Object
 
 It is good practice for your Cucumber step definitions to call high level methods in your your **Page Object** instead of directly accessing
 and interacting with a page object's UI elements. You can add high level methods to your **Page Object** class definition for interacting with
@@ -145,7 +143,7 @@ Once your **Page Objects** have been instantiated, you can call your methods as 
     
 
 
-### PageSection Objects
+## PageSection Objects
 
 A **PageSection Object** is a collection of **UI Elements** that may appear in multiple locations on a page, or on multiple pages in a web
 app. It is a collection of **UI Elements** that represent a conceptual area of functionality, like a navigation bar, a search capability,
@@ -154,7 +152,7 @@ or a menu. **UI Elements** and functional behavior are confined to the scope of 
 A **PageSection Object** may contain other **PageSection Objects**.
 
 
-#### Defining a PageSection Object
+### Defining a PageSection Object
 
 Your **PageSection** class definitions should be contained within individual *.rb* files in the ***features/support/sections*** folder of
 your test automation project. You define new **PageSection Objects** as shown below:
@@ -164,7 +162,7 @@ your test automation project. You define new **PageSection Objects** as shown be
     end
 
 
-#### Adding UI Elements to your PageSection Object
+### Adding UI Elements to your PageSection Object
 
 **UI Elements** are added to your **PageSection** class definition as shown below:
 
@@ -177,7 +175,7 @@ your test automation project. You define new **PageSection Objects** as shown be
     end
 
 
-#### Adding Methods to your PageSection Object
+### Adding Methods to your PageSection Object
 
 You can add high level methods to your **PageSection** class definition, as shown below:
 
@@ -195,7 +193,7 @@ You can add high level methods to your **PageSection** class definition, as show
     end
 
 
-#### Adding PageSection Objects to your Page Object
+### Adding PageSection Objects to your Page Object
 
 You add a **PageSection Object** to its associated **Page Object** as shown below:
 
@@ -214,7 +212,7 @@ Once your **Page Object** has been instantiated, you can call its **PageSection*
     
     
 
-###Instantiating your Page Objects
+## Instantiating your Page Objects
 
 Before you can call the methods in your **Page Objects** and **PageSection Objects**, you must instantiate the **Page Objects** of your
 web application, as well as create instance variables which can be used when calling a **Page Objects** methods from your step definitions.
@@ -244,7 +242,7 @@ The **WorldPages** module above can be defined in your *env.rb* file, or you can
 While this approach is effective for small web applications with only a few pages (and hence few **Page Objects**), it quickly becomes
 cumbersome to manage if your web application has dozens of **Page Objects** that need to be instantiated and managed.
 
-#### Using the PageManager
+### Using the PageManager
 
 The **PageManager** class provides methods for supporting the instantiation and management of **Page Objects**. In the code example below,
 the **page_objects** method contains a hash table of your **Page Object** instance variables and their associated **Page Object** classes
@@ -279,7 +277,7 @@ executed:
     
 
 
-### Connecting to a Web Browser
+## Connecting to a Web Browser
 
 The ***WebDriverConnect.initialize_web_driver*** method configures the appropriate selenium-webdriver capabilities required to establish a
 connection with a target web browser, and sets the base host URL of the web site you are running your tests against
@@ -289,7 +287,7 @@ Variables**are used to specify the target local or remote web browser, and the v
 the connection.
 
 
-#### Locally hosted desktop web browser
+### Locally hosted desktop web browser
 
 For locally hosted desktop web browsers, the **WEB_BROWSER** Environment Variable must be set to one of the values from the table below: 
 
@@ -303,7 +301,7 @@ edge | Windows 10 only
 poltergeist | OS X or Windows
 
 
-#### Locally hosted emulated mobile web browser
+### Locally hosted emulated mobile web browser
 
 You can also run your tests against emulated mobile device browsers within a locally hosted instance of the Firefox desktop browser. You may
 even specify the emulated device's screen orientation. For locally hosted emulated mobile web browsers, the **WEB_BROWSER** Environment Variable
@@ -324,13 +322,13 @@ android_tablet |
 To specify the emulated device's screen orientation, you set the **ORIENTATION** Environment Variable to either ***portrait*** or ***landscape***.
 
 
-#### Remotely hosted desktop and mobile web browsers
+### Remotely hosted desktop and mobile web browsers
 
 You can run your automated tests against remotely hosted desktop and mobile web browsers using the BrowserStack, CrossBrowserTesting, or
 Sauce Labs services.
 
 
-##### Remote desktop browsers on the BrowserStack service
+#### Remote desktop browsers on the BrowserStack service
 
 For remotely hosted desktop web browsers on the BrowserStack service, the following **Environment Variables** must be set as described in
 the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities#capabilities-browserstack) for information regarding the specific capabilities.
@@ -348,7 +346,7 @@ BS_LOCAL | Must be ***true*** if you are testing against internal/local servers
 RESOLUTION | Refer to supported screen ***resolution*** capability in chart
 
 
-##### Remote mobile browsers on the BrowserStack service
+#### Remote mobile browsers on the BrowserStack service
 
 For remotely hosted mobile web browsers on the BrowserStack service, the following **Environment Variables** must be set as described in
 the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities#capabilities-browserstack) for information regarding the specific capabilities.
@@ -366,7 +364,7 @@ ORIENTATION | set to ***portrait*** or ***landscape***
 
 
 
-##### Remote desktop browsers on the CrossBrowserTesting service
+#### Remote desktop browsers on the CrossBrowserTesting service
 
 For remotely hosted desktop web browsers on the CrossBrowserTesting service, the following **Environment Variables** must be set as described in
 the table below. Use the Configuration Wizard on the [Start a Selenium Test page](https://app.crossbrowsertesting.com/selenium/run) to obtain information regarding the specific capabilities.
@@ -381,7 +379,7 @@ CB_BROWSER | Refer to ***browser_api_name*** capability in the sample script of 
 RESOLUTION | Refer to supported ***screen_resolution*** capability in the sample script of the Wizard
 
 
-##### Remote mobile browsers on the CrossBrowserTesting service
+#### Remote mobile browsers on the CrossBrowserTesting service
 
 For remotely hosted mobile web browsers on the CrossBrowserTesting service, the following **Environment Variables** must be set as described in
 the table below. Use the Configuration Wizard on the [Start a Selenium Test page](https://app.crossbrowsertesting.com/selenium/run) to obtain information regarding the specific capabilities.
@@ -397,7 +395,7 @@ RESOLUTION | Refer to supported ***screen_resolution*** capability in the sample
 
 
 
-##### Remote desktop browsers on the Sauce Labs service
+#### Remote desktop browsers on the Sauce Labs service
 
 For remotely hosted desktop web browsers on the Sauce Labs service, the following **Environment Variables** must be set as described in
 the table below. Use the Selenium API on the [Platform Configurator page](https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/) to obtain information regarding the specific capabilities.
@@ -413,7 +411,7 @@ SL_VERSION | Refer to ***version*** capability in the Copy Code section of the P
 RESOLUTION | Refer to supported ***screenResolution*** capability in the Copy Code section of the Platform Configurator page
 
 
-##### Remote mobile browsers on the Sauce Labs service
+#### Remote mobile browsers on the Sauce Labs service
 
 For remotely hosted mobile web browsers on the Sauce Labs service, the following **Environment Variables** must be set as described in
 the table below. Use the Selenium API on the [Platform Configurator page](https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/) to obtain information regarding the specific capabilities.
@@ -432,12 +430,13 @@ ORIENTATION | Refer to ***deviceOrientation*** capability in the Copy Code secti
 
 
 
-#### Using Browser specific Profiles in cucumber.yml
+### Using Browser specific Profiles in cucumber.yml
 
 While you can set **Environment Variables** in the command line when invoking Cucumber, a preferred method of specifying and managing target
 web browsers is to create browser specific **Profiles** that set the appropriate **Environment Variables** for each target browser in your
 ***cucumber.yml*** file. Below is a list of Cucumber **Profiles** for supported locally and remotely hosted desktop and mobile web browsers
-(put these in in your ***cucumber.yml*** file):
+(put these in in your ***cucumber.yml*** file). Before you can use the BrowserStack, CrossBrowserTesting, or Sauce Labs services, you will
+need to replace the placeholder text with your user account and authorization code for the cloud service(s) that you intend to connect with.
 
     <% desktop          = "--tags ~@wip --tags ~@failing --tags @desktop --require features" %>
     <% mobile           = "--tags ~@wip --tags ~@failing --tags @mobile  --require features" %>
