@@ -432,15 +432,12 @@ ORIENTATION | Refer to ***deviceOrientation*** capability in the Copy Code secti
 
 
 
-
 #### Using Browser specific Profiles in cucumber.yml
 
 While you can set **Environment Variables** in the command line when invoking Cucumber, a preferred method of specifying and managing target
 web browsers is to create browser specific **Profiles** that set the appropriate **Environment Variables** for each target browser in your
 ***cucumber.yml*** file. Below is a list of Cucumber **Profiles** for supported locally and remotely hosted desktop and mobile web browsers
-(put these in in your ***cucumber.yml*** file).
-
-
+(put these in in your ***cucumber.yml*** file):
 
     <% desktop          = "--tags ~@wip --tags ~@failing --tags @desktop --require features" %>
     <% mobile           = "--tags ~@wip --tags ~@failing --tags @mobile  --require features" %>
@@ -663,8 +660,22 @@ web browsers is to create browser specific **Profiles** that set the appropriate
     sl_android:         --profile sl_mobile SL_PLATFORM=Linux SL_BROWSER="android" SL_VERSION="4.4"
     sl_android_phone:   --profile sl_android SL_DEVICE="Android Emulator" SL_DEVICE_TYPE="phone"
     sl_android_tablet:  --profile sl_android SL_DEVICE="Android Emulator" SL_DEVICE_TYPE="tablet"
-    
 
+To specify a locally hosted target browser using a profile at runtime, you use the flag --profile or -p followed by the profile name when
+invoking Cucumber in the command line. For instance, the following command invokes Cucumber and specifies that a local instance of Chrome
+will be used as the target web browser:
+    
+    cucumber -p chrome
+    
+The following command specifies that Cucumber will run tests against a local instance of Firefox, which will be used to emulate an iPad Pro
+in landscape orientation:
+    
+    cucumber -p ipad_pro -p landscape
+ 
+The following command specifies that Cucumber will run tests against a remotely hosted Safari web browser running on an OS X Yosemite
+virtual machine on the BrowserStack service:
+
+    cucumber -p bs_safari_yos
 
 
 
