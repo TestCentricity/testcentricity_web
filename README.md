@@ -451,11 +451,11 @@ RESOLUTION | Possible values: 800x600, 1024x768, 1280x960, 1280x1024, 1600x1200,
 
 While you can set **Environment Variables** in the command line when invoking Cucumber, a preferred method of specifying and managing
 target web browsers is to create browser specific **Profiles** that set the appropriate **Environment Variables** for each target browser
-in your ***cucumber.yml*** file. Below is a list of Cucumber **Profiles** for supported locally and remotely hosted desktop and mobile
-web browsers (put these in in your ***cucumber.yml*** file).
+in your ***cucumber.yml*** file.
 
-Before you can use the BrowserStack, CrossBrowserTesting, Sauce Labs, or TestingBot services, you will need to replace the placeholder
-text with your user account and authorization code for the cloud service(s) that you intend to connect with.
+Below is a list of Cucumber **Profiles** for supported locally and remotely hosted desktop and mobile web browsers (put these in in your
+***cucumber.yml*** file). Before you can use the BrowserStack, CrossBrowserTesting, Sauce Labs, or TestingBot services, you will need to
+replace the placeholder text with your user account and authorization code for the cloud service(s) that you intend to connect with.
 
     <% desktop          = "--tags ~@wip --tags ~@failing --tags @desktop --require features" %>
     <% mobile           = "--tags ~@wip --tags ~@failing --tags @mobile  --require features" %>

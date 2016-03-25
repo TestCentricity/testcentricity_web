@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'capybara', ['>= 2.1', '< 3.0']
   spec.add_dependency 'test-unit'
-  spec.add_dependency 'selenium-webdriver', ['>= 2.50.0', '< 2.53.0']
+  spec.add_dependency 'selenium-webdriver', '>= 2.50.0'
   spec.add_dependency 'poltergeist'
   spec.add_dependency 'faker', '>= 1.6.1'
   spec.add_dependency 'chronic', '>= 0.10.2'

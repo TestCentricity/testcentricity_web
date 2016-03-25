@@ -2,7 +2,7 @@ require 'selenium-webdriver'
 
 
 module TestCentricity
-  class WebDriverConnect
+  module WebDriverConnect
     include Capybara::DSL
 
     def self.initialize_web_driver(app_host = nil)
