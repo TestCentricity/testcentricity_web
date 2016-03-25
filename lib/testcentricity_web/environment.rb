@@ -5,7 +5,7 @@ module TestCentricity
     WKS_ENVIRONS ||= 'Environments'
 
     def find_environ(row_name)
-      @current = Environ.new(Excel_Data.read_row_data(XL_PRIMARY_DATA_FILE, WKS_ENVIRONS, row_name))
+      @current = Environ.new(ExcelData.read_row_data(XL_PRIMARY_DATA_FILE, WKS_ENVIRONS, row_name))
       Environ.set_current(@current)
     end
   end

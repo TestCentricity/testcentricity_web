@@ -3,7 +3,7 @@
 The TestCentricity™ core generic framework for desktop and mobile web site testing implements a Page Object and Data Object Model DSL for
 use with Cucumber, Capybara, and selenium-webdriver. It supports testing against locally hosted desktop browsers (Firefox, Chrome, Safari,
 IE, or Edge), locally hosted emulated iOS and Android mobile browsers (using Firefox), a "headless" browser (using Poltergeist and PhantomJS),
-or on cloud hosted desktop or mobile web browsers using the BrowserStack, Sauce Labs, or CrossBrowserTesting services.
+or on cloud hosted desktop or mobile web browsers using the BrowserStack, Sauce Labs, CrossBrowserTesting, or TestingBot services.
  
  
 ## Installation
@@ -28,6 +28,7 @@ If you are using Cucumber, you need to require the following in your *env.rb* fi
 
     require 'capybara'
     require 'capybara/cucumber'
+    require 'selenium-webdriver'
     require 'testcentricity_web'
     
     
@@ -37,15 +38,16 @@ If you are using RSpec instead, you need to require the following in your *env.r
 
     require 'capybara'
     require 'capybara/rspec'
+    require 'selenium-webdriver'
     require 'testcentricity_web'
     
     
-###Selenium WebDriver
+### Using Poltergeist
 
-If you choose to not connect to selenium-webdriver using the ***WebDriverConnect.initialize_web_driver*** method, or if you need to directly
-call methods in selenium-webdriver, you will also need to require the following in your *env.rb* file:
+If you will be running your tests on a "headless" web browser using Poltergeist and PhantomJS, you must add this line to your automation
+project's Gemfile:
 
-    require 'selenium-webdriver'
+    gem 'poltergeist'
 
 
 
@@ -324,8 +326,8 @@ To specify the emulated device's screen orientation, you set the **ORIENTATION**
 
 ### Remotely hosted desktop and mobile web browsers
 
-You can run your automated tests against remotely hosted desktop and mobile web browsers using the BrowserStack, CrossBrowserTesting, or
-Sauce Labs services.
+You can run your automated tests against remotely hosted desktop and mobile web browsers using the BrowserStack, CrossBrowserTesting,
+Sauce Labs, or TestingBot services.
 
 
 #### Remote desktop browsers on the BrowserStack service
@@ -429,14 +431,31 @@ SL_DEVICE_TYPE | If displayed, refer to ***deviceType*** capability in the Copy 
 ORIENTATION | Refer to ***deviceOrientation*** capability in the Copy Code section of the Platform Configurator page
 
 
+#### Remote desktop browsers on the TestingBot service
+
+For remotely hosted desktop web browsers on the TestingBot service, the following **Environment Variables** must be set as described in
+the table below. Refer to the [TestingBot List of Available Browsers page](https://testingbot.com/support/getting-started/browsers.html) for information regarding the specific capabilities.
+
+**Environment Variable** | Description
+--------------- | ----------------
+WEB_BROWSER | Must be set to ***testingbot***
+TB_USERNAME | Must be set to your TestingBot account user name
+TB_AUTHKEY | Must be set to your TestingBot account access key
+TB_OS | Refer to ***platform*** capability in chart
+TB_BROWSER | Refer to ***browserName*** capability in chart
+TB_VERSION | Refer to ***version*** capability in chart
+RESOLUTION | Possible values: 800x600, 1024x768, 1280x960, 1280x1024, 1600x1200, 1920x1200, 2560x1440
+
 
 ### Using Browser specific Profiles in cucumber.yml
 
-While you can set **Environment Variables** in the command line when invoking Cucumber, a preferred method of specifying and managing target
-web browsers is to create browser specific **Profiles** that set the appropriate **Environment Variables** for each target browser in your
-***cucumber.yml*** file. Below is a list of Cucumber **Profiles** for supported locally and remotely hosted desktop and mobile web browsers
-(put these in in your ***cucumber.yml*** file). Before you can use the BrowserStack, CrossBrowserTesting, or Sauce Labs services, you will
-need to replace the placeholder text with your user account and authorization code for the cloud service(s) that you intend to connect with.
+While you can set **Environment Variables** in the command line when invoking Cucumber, a preferred method of specifying and managing
+target web browsers is to create browser specific **Profiles** that set the appropriate **Environment Variables** for each target browser
+in your ***cucumber.yml*** file. Below is a list of Cucumber **Profiles** for supported locally and remotely hosted desktop and mobile
+web browsers (put these in in your ***cucumber.yml*** file).
+
+Before you can use the BrowserStack, CrossBrowserTesting, Sauce Labs, or TestingBot services, you will need to replace the placeholder
+text with your user account and authorization code for the cloud service(s) that you intend to connect with.
 
     <% desktop          = "--tags ~@wip --tags ~@failing --tags @desktop --require features" %>
     <% mobile           = "--tags ~@wip --tags ~@failing --tags @mobile  --require features" %>
@@ -659,6 +678,52 @@ need to replace the placeholder text with your user account and authorization co
     sl_android:         --profile sl_mobile SL_PLATFORM=Linux SL_BROWSER="android" SL_VERSION="4.4"
     sl_android_phone:   --profile sl_android SL_DEVICE="Android Emulator" SL_DEVICE_TYPE="phone"
     sl_android_tablet:  --profile sl_android SL_DEVICE="Android Emulator" SL_DEVICE_TYPE="tablet"
+    
+    
+    #==============
+    # profiles for remotely hosted web browsers on the TestingBot service
+    #==============
+    
+    testingbot:         WEB_BROWSER=testingbot TB_USERNAME=<INSERT USER NAME HERE> TB_AUTHKEY=<INSERT PASSWORD HERE>
+    tb_desktop:         --profile testingbot <%= desktop %> RESOLUTION="1920x1200"
+    tb_mobile:          --profile testingbot <%= mobile %>
+    
+    # TestingBot OS X profiles
+    tb_osx_el_capitan:  --profile tb_desktop TB_OS="CAPITAN"
+    tb_ff_el_cap:       --profile tb_osx_el_capitan TB_BROWSER="firefox"
+    tb_chrome_el_cap:   --profile tb_osx_el_capitan TB_BROWSER="chrome"
+    tb_safari_el_cap:   --profile tb_osx_el_capitan TB_BROWSER="safari" TB_VERSION="9"
+    tb_safari9_el_cap:  --profile tb_osx_el_capitan TB_BROWSER="safari" TB_VERSION="9"
+    
+    tb_osx_yosemite:    --profile tb_desktop TB_OS="YOSEMITE"
+    tb_ff_yos:          --profile tb_osx_yosemite TB_BROWSER="firefox"
+    tb_chrome_yos:      --profile tb_osx_yosemite TB_BROWSER="chrome"
+    tb_safari_yos:      --profile tb_osx_yosemite TB_BROWSER="safari" TB_VERSION="8"
+    tb_safari8_osx:     --profile tb_osx_yosemite TB_BROWSER="safari" TB_VERSION="8"
+    
+    tb_osx_mavericks:   --profile tb_desktop TB_OS="MAVERICKS"
+    tb_ff_mav:          --profile tb_osx_mavericks TB_BROWSER="firefox"
+    tb_chrome_mav:      --profile tb_osx_mavericks TB_BROWSER="chrome"
+    tb_safari_mav:      --profile tb_osx_mavericks TB_BROWSER="safari" TB_VERSION="7"
+    tb_safari7_osx:     --profile tb_osx_mavericks TB_BROWSER="safari" TB_VERSION="7"
+    
+    # TestingBot Windows profiles
+    tb_win7:            --profile tb_desktop TB_OS="WIN7"
+    tb_win8:            --profile tb_desktop TB_OS="WIN8"
+    tb_win10:           --profile tb_desktop TB_OS="WIN10"
+    tb_ff_win7:         --profile tb_win7 TB_BROWSER="firefox"
+    tb_ff_win8:         --profile tb_win8 TB_BROWSER="firefox"
+    tb_ff_win10:        --profile tb_win10 TB_BROWSER="firefox"
+    tb_chrome_win7:     --profile tb_win7 TB_BROWSER="chrome"
+    tb_chrome_win8:     --profile tb_win8 TB_BROWSER="chrome"
+    tb_chrome_win10:    --profile tb_win10 TB_BROWSER="chrome"
+    
+    tb_ie9_win7:        --profile tb_win7 TB_BROWSER="internet explorer" TB_VERSION="9"
+    tb_ie11_win8:       --profile tb_win8 TB_BROWSER="internet explorer" TB_VERSION="11"
+    tb_ie10_win8:       --profile tb_win8 TB_BROWSER="internet explorer" TB_VERSION="10"
+    tb_ie11_win10:      --profile tb_win10 TB_BROWSER="internet explorer" TB_VERSION="11"
+    tb_edge_win10:      --profile tb_win10 TB_BROWSER="microsoftedge" TB_VERSION="13"
+
 
 To specify a locally hosted target browser using a profile at runtime, you use the flag --profile or -p followed by the profile name when
 invoking Cucumber in the command line. For instance, the following command invokes Cucumber and specifies that a local instance of Chrome
@@ -675,6 +740,11 @@ The following command specifies that Cucumber will run tests against a remotely 
 virtual machine on the BrowserStack service:
 
     cucumber -p bs_safari_yos
+ 
+The following command specifies that Cucumber will run tests against a remotely hosted Mobile Safari web browser on an iPhone 6s Plus in
+landscape orientation running on the BrowserStack service:
+
+    cucumber -p bs_iphone6_plus -p landscape
 
 
 

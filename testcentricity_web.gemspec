@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
     for use with Cucumber, Capybara, and selenium-webdriver. Supports testing against locally hosted desktop browsers
     (Firefox, Chrome, Safari, IE, or Edge), locally hosted emulated iOS and Android mobile browsers (using Firefox), a
     "headless" browser (using Poltergeist and PhantomJS), or on cloud hosted browsers using the BrowserStack, Sauce Labs,
-    or CrossBrowserTesting services.}
+    CrossBrowserTesting, or TestingBot services.}
   spec.homepage      = ''
   spec.license       = 'BSD3'
 
@@ -30,8 +30,8 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'capybara', ['>= 2.1', '< 3.0']
   spec.add_dependency 'test-unit'
+  spec.add_dependency 'selenium-webdriver', ['>= 2.50.0', '< 2.53.0']
   spec.add_dependency 'poltergeist'
-  spec.add_dependency 'selenium-webdriver', '>= 2.50.0'
   spec.add_dependency 'faker', '>= 1.6.1'
   spec.add_dependency 'chronic', '>= 0.10.2'
   spec.add_dependency 'spreadsheet', '>= 1.1.1'

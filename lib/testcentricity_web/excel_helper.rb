@@ -10,7 +10,7 @@ module TestCentricity
   XL_PRIMARY_DATA_FILE  ||= "#{XL_PRIMARY_DATA_PATH}data.xls"
 
 
-  class Excel_Data
+  class ExcelData
     @mru = {}
 
     def self.get_environment_data_file

@@ -1,5 +1,8 @@
+require 'selenium-webdriver'
+
+
 module TestCentricity
-  module WebDriverConnect
+  class WebDriverConnect
     include Capybara::DSL
 
     def self.initialize_web_driver(app_host = nil)
@@ -16,10 +19,12 @@ module TestCentricity
           initialize_browserstack
         when :crossbrowser
           initialize_crossbrowser
-        when :saucelabs
-          initialize_saucelabs
         when :poltergeist
           initialize_poltergeist
+        when :saucelabs
+          initialize_saucelabs
+        when :testingbot
+          initialize_testingbot
         else
           initialize_local_browser(browser)
       end
@@ -55,20 +60,6 @@ module TestCentricity
             Capybara::Selenium::Driver.new(app, :browser => :firefox)
             Environ.set_browser('firefox')
         end
-      end
-    end
-
-    def self.initialize_poltergeist
-      Capybara.default_driver = :poltergeist
-      Capybara.register_driver :poltergeist do |app|
-        options = {
-            :js_errors => true,
-            :timeout => 120,
-            :debug => false,
-            :phantomjs_options => ['--load-images=no', '--disk-cache=false'],
-            :inspector => true,
-        }
-        Capybara::Poltergeist::Driver.new(app, options)
       end
     end
 
@@ -153,6 +144,20 @@ module TestCentricity
       Capybara.run_server = false
     end
 
+    def self.initialize_poltergeist
+      Capybara.default_driver = :poltergeist
+      Capybara.register_driver :poltergeist do |app|
+        options = {
+            :js_errors => true,
+            :timeout => 120,
+            :debug => false,
+            :phantomjs_options => ['--load-images=no', '--disk-cache=false'],
+            :inspector => true,
+        }
+        Capybara::Poltergeist::Driver.new(app, options)
+      end
+    end
+
     def self.initialize_saucelabs
       browser = ENV['SL_BROWSER']
 
@@ -182,6 +187,37 @@ module TestCentricity
 
       Capybara.default_driver = :saucelabs
       Capybara.run_server = false
+    end
+
+    def self.initialize_testingbot
+      browser = ENV['TB_BROWSER']
+
+      endpoint = "http://#{ENV['TB_USERNAME']}:#{ENV['TB_AUTHKEY']}@hub.testingbot.com:4444/wd/hub"
+      Capybara.register_driver :testingbot do |app|
+        capabilities = Selenium::WebDriver::Remote::Capabilities.new
+        capabilities['name'] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
+        capabilities['build'] = ENV['AUTOMATE_BUILD'] if ENV['AUTOMATE_BUILD']
+        capabilities['browserName'] = browser
+        capabilities['version'] = ENV['TB_VERSION'] if ENV['TB_VERSION']
+        capabilities['screen-resolution'] = ENV['RESOLUTION'] if ENV['RESOLUTION']
+        if ENV['TB_OS']
+          capabilities['platform'] = ENV['TB_OS']
+          Environ.set_platform(:desktop)
+        elsif ENV['TB_PLATFORM']
+          capabilities['platform'] = ENV['TB_PLATFORM']
+          capabilities['browserName'] = ENV['TB_DEVICE']
+          capabilities['version'] = ENV['TB_VERSION'] if ENV['TB_VERSION']
+          Environ.set_platform(:mobile)
+        end
+
+        Capybara::Selenium::Driver.new(app, :browser => :remote, :url => endpoint, :desired_capabilities => capabilities)
+      end
+
+      Environ.set_browser(browser)
+
+      Capybara.default_driver = :testingbot
+      Capybara.run_server = false
+
     end
   end
 end

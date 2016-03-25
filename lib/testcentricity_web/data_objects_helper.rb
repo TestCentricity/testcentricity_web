@@ -22,17 +22,17 @@ module TestCentricity
     attr_accessor :current
 
     def pick_excel_data_source(sheet, row_name)
-      data_file = Excel_Data.get_environment_data_file
-      data_file = XL_PRIMARY_DATA_FILE unless Excel_Data.rowspec_exists?(data_file, sheet, row_name)
+      data_file = ExcelData.get_environment_data_file
+      data_file = XL_PRIMARY_DATA_FILE unless ExcelData.rowspec_exists?(data_file, sheet, row_name)
       data_file
     end
 
     def read_excel_row_data(sheet, row_name)
-      Excel_Data.read_row_data(pick_excel_data_source(sheet, row_name), sheet, row_name)
+      ExcelData.read_row_data(pick_excel_data_source(sheet, row_name), sheet, row_name)
     end
 
     def read_excel_pool_data(sheet, row_name)
-      Excel_Data.read_row_from_pool(pick_excel_data_source(sheet, row_name), sheet, row_name)
+      ExcelData.read_row_from_pool(pick_excel_data_source(sheet, row_name), sheet, row_name)
     end
   end
 end
