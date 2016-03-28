@@ -1,11 +1,20 @@
 # TestCentricityWeb
 
 The TestCentricity™ core generic framework for desktop and mobile web site testing implements a Page Object and Data Object Model DSL for
-use with Cucumber, Capybara, and selenium-webdriver. It supports testing against locally hosted desktop browsers (Firefox, Chrome, Safari,
-IE, or Edge), locally hosted emulated iOS and Android mobile browsers (using Firefox), a "headless" browser (using Poltergeist and PhantomJS),
-or on cloud hosted desktop or mobile web browsers using the BrowserStack, Sauce Labs, CrossBrowserTesting, or TestingBot services.
- 
- 
+use with Cucumber, Capybara, and selenium-webdriver.
+
+The TestCentricity™ web gem supports running testing against the following web test targets:
+  * locally hosted desktop browsers (Firefox, Chrome, Safari, IE, or Edge)
+  * locally hosted emulated iOS and Android mobile browsers (using Firefox)
+  * a "headless" browser (using Poltergeist and PhantomJS)
+  * cloud hosted desktop or mobile web browsers using the BrowserStack, Sauce Labs, CrossBrowserTesting, or TestingBot services.
+
+
+## Web Test Automation Framework Implementation
+
+ <img src="http://i.imgur.com/K4XGTQi.jpg" width="1024" alt="Web Framework Overview" title="Web Framework Overview">
+
+
 ## Installation
 
 Add this line to your automation project's Gemfile:
