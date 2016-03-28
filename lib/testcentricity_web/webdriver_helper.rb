@@ -95,7 +95,7 @@ module TestCentricity
             capabilities['name'] = ENV['TEST_ENVIRONMENT']
 
         capabilities['acceptSslCerts'] = 'true'
-        capabilities['browserstack.local'] = 'true' if ENV['BS_LOCAL']
+        capabilities['browserstack.local'] = 'true' if ENV['TUNNELING']
         capabilities['browserstack.localIdentifier'] =  ENV['BS_LOCAL_ID'] if ENV['BS_LOCAL_ID']
 
         case browser.downcase.to_sym
@@ -192,7 +192,12 @@ module TestCentricity
     def self.initialize_testingbot
       browser = ENV['TB_BROWSER']
 
-      endpoint = "http://#{ENV['TB_USERNAME']}:#{ENV['TB_AUTHKEY']}@hub.testingbot.com:4444/wd/hub"
+      if ENV['TUNNELING']
+        endpoint = '@localhost:4445/wd/hub'
+      else
+        endpoint = '@hub.testingbot.com:4444/wd/hub'
+      end
+      endpoint = "http://#{ENV['TB_USERNAME']}:#{ENV['TB_AUTHKEY']}#{endpoint}"
       Capybara.register_driver :testingbot do |app|
         capabilities = Selenium::WebDriver::Remote::Capabilities.new
         capabilities['name'] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
@@ -200,15 +205,8 @@ module TestCentricity
         capabilities['browserName'] = browser
         capabilities['version'] = ENV['TB_VERSION'] if ENV['TB_VERSION']
         capabilities['screen-resolution'] = ENV['RESOLUTION'] if ENV['RESOLUTION']
-        if ENV['TB_OS']
-          capabilities['platform'] = ENV['TB_OS']
-          Environ.set_platform(:desktop)
-        elsif ENV['TB_PLATFORM']
-          capabilities['platform'] = ENV['TB_PLATFORM']
-          capabilities['browserName'] = ENV['TB_DEVICE']
-          capabilities['version'] = ENV['TB_VERSION'] if ENV['TB_VERSION']
-          Environ.set_platform(:mobile)
-        end
+        capabilities['platform'] = ENV['TB_OS']
+        Environ.set_platform(:desktop)
 
         Capybara::Selenium::Driver.new(app, :browser => :remote, :url => endpoint, :desired_capabilities => capabilities)
       end

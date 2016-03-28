@@ -247,7 +247,7 @@ cumbersome to manage if your web application has dozens of **Page Objects** that
 ### Using the PageManager
 
 The **PageManager** class provides methods for supporting the instantiation and management of **Page Objects**. In the code example below,
-the **page_objects** method contains a hash table of your **Page Object** instance variables and their associated **Page Object** classes
+the **page_objects** method contains a hash table of your **Page Object** instances and their associated **Page Object** class names
 to be instantiated by **PageManager**:
     
     module WorldPages
@@ -344,7 +344,7 @@ BS_OS | Must be set to ***OS X*** or ***Windows***
 BS_OS_VERSION | Refer to ***os_version*** capability in chart
 BS_BROWSER | Refer to ***browser*** capability in chart
 BS_VERSION | Refer to ***browser_version*** capability in chart
-BS_LOCAL | Must be ***true*** if you are testing against internal/local servers
+TUNNELING | Must be ***true*** if you are testing against internal/local servers
 RESOLUTION | Refer to supported screen ***resolution*** capability in chart
 
 
@@ -361,7 +361,7 @@ BS_AUTHKEY | Must be set to your BrowserStack account access key
 BS_BROWSER | Must be set to ***iPhone***, ***iPad***, or ***android***
 BS_PLATFORM | Must be set to ***MAC*** (for iOS) or ***ANDROID***
 BS_DEVICE | Refer to ***device*** capability in chart
-BS_LOCAL | Must be ***true*** if you are testing against internal/local servers
+TUNNELING | Must be ***true*** if you are testing against internal/local servers
 ORIENTATION | set to ***portrait*** or ***landscape***
 
 
@@ -444,6 +444,7 @@ TB_AUTHKEY | Must be set to your TestingBot account access key
 TB_OS | Refer to ***platform*** capability in chart
 TB_BROWSER | Refer to ***browserName*** capability in chart
 TB_VERSION | Refer to ***version*** capability in chart
+TUNNELING | Must be ***true*** if you are testing against internal/local servers
 RESOLUTION | Possible values: 800x600, 1024x768, 1280x960, 1280x1024, 1600x1200, 1920x1200, 2560x1440
 
 
@@ -501,7 +502,7 @@ replace the placeholder text with your user account and authorization code for t
     bs_desktop:         --profile browserstack <%= desktop %> RESOLUTION="1920x1080"
     bs_mobile:          --profile browserstack <%= mobile %>
     
-    # BrowserStack OS X profiles
+    # BrowserStack OS X desktop browser profiles
     bs_osx_el_capitan:  --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="El Capitan"
     bs_ff_el_cap:       --profile bs_osx_el_capitan BS_BROWSER="Firefox"
     bs_chrome_el_cap:   --profile bs_osx_el_capitan BS_BROWSER="Chrome"
@@ -520,7 +521,7 @@ replace the placeholder text with your user account and authorization code for t
     bs_safari_mav:      --profile bs_osx_mavericks BS_BROWSER="Safari" BS_VERSION="7.0"
     bs_safari7_osx:     --profile bs_osx_mavericks BS_BROWSER="Safari" BS_VERSION="7.0"
     
-    # BrowserStack Windows profiles
+    # BrowserStack Windows desktop browser profiles
     bs_win7:            --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="7"
     bs_win8:            --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="8.1"
     bs_win10:           --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="10"
@@ -540,7 +541,7 @@ replace the placeholder text with your user account and authorization code for t
     bs_ie11_win10:      --profile bs_win10 BS_BROWSER="IE" BS_VERSION="11.0"
     bs_edge_win10:      --profile bs_win10 BS_BROWSER="Edge" BS_VERSION="13.0"
     
-    # BrowserStack iOS profiles
+    # BrowserStack iOS mobile browser profiles
     bs_iphone:          --profile bs_mobile BS_PLATFORM=MAC BS_BROWSER=iPhone
     bs_ipad:            --profile bs_mobile BS_PLATFORM=MAC BS_BROWSER=iPad
     bs_iphone6_plus:    --profile bs_iphone BS_DEVICE="iPhone 6S Plus"
@@ -551,7 +552,7 @@ replace the placeholder text with your user account and authorization code for t
     bs_ipad_air:        --profile bs_ipad BS_DEVICE="iPad Air 2"
     bs_ipad_mini:       --profile bs_ipad BS_DEVICE="iPad Mini 4"
     
-    # BrowserStack Android profiles
+    # BrowserStack Android mobile browser profiles
     bs_android:         --profile bs_mobile BS_PLATFORM=ANDROID BS_BROWSER=android
     bs_galaxy_s5:       --profile bs_android BS_DEVICE="Samsung Galaxy S5"
     bs_kindle_fire:     --profile bs_android BS_DEVICE="Amazon Kindle Fire HDX 7"
@@ -568,7 +569,7 @@ replace the placeholder text with your user account and authorization code for t
     cb_desktop:         --profile crossbrowser <%= desktop %>
     cb_mobile:          --profile crossbrowser <%= mobile %>
     
-    # CrossBrowserTesting OS X profiles
+    # CrossBrowserTesting OS X desktop browser profiles
     cb_osx:             --profile cb_desktop RESOLUTION="1920x1200"
     cb_osx_el_capitan:  --profile cb_osx CB_OS="Mac10.11"
     cb_ff_el_cap:       --profile cb_osx_el_capitan CB_BROWSER="FF44"
@@ -588,7 +589,7 @@ replace the placeholder text with your user account and authorization code for t
     cb_safari_mav:      --profile cb_osx_mavericks CB_BROWSER="Safari7"
     cb_safari7_osx:     --profile cb_osx_mavericks CB_BROWSER="Safari7"
     
-    # CrossBrowserTesting Windows profiles
+    # CrossBrowserTesting Windows desktop browser profiles
     cb_win:             --profile cb_desktop RESOLUTION="1920x1080"
     cb_win7:            --profile cb_win CB_OS="Win7x64-C1"
     cb_win8:            --profile cb_win CB_OS="Win8"
@@ -607,14 +608,14 @@ replace the placeholder text with your user account and authorization code for t
     cb_ie10_win8:       --profile cb_win8 CB_BROWSER="IE10"
     cb_ie11_win10:      --profile cb_win10 CB_BROWSER="IE11"
     
-    # CrossBrowserTesting iOS profiles
+    # CrossBrowserTesting iOS mobile browser profiles
     cb_iphone6_plus:    --profile cb_mobile CB_PLATFORM="iPhone6Plus-iOS8sim" CB_BROWSER="MblSafari8.0" RESOLUTION="1080x1920"
     cb_iphone6:         --profile cb_mobile CB_PLATFORM="iPhone6-iOS8sim" CB_BROWSER="MblSafari8.0" RESOLUTION="750x1334"
     cb_iphone5s:        --profile cb_mobile CB_PLATFORM="iPhone5s-iOS7sim" CB_BROWSER="MblSafari7.0" RESOLUTION="640x1136"
     cb_ipad_air:        --profile cb_mobile CB_PLATFORM="iPadAir-iOS8Sim" CB_BROWSER="MblSafari8.0" RESOLUTION="1024x768"
     cb_ipad_mini:       --profile cb_mobile CB_PLATFORM="iPadMiniRetina-iOS7Sim" CB_BROWSER="MblSafari7.0" RESOLUTION="1024x768"
     
-    # CrossBrowserTesting Android profiles
+    # CrossBrowserTesting Android mobile browser profiles
     cb_nexus7:          --profile cb_mobile CB_PLATFORM="Nexus7-And42" CB_BROWSER="MblChrome37" RESOLUTION="800x1280"
     cb_galaxy_tab2:     --profile cb_mobile CB_PLATFORM="GalaxyTab2-And41" CB_BROWSER="MblChrome38" RESOLUTION="1280x800"
     cb_galaxy_s5:       --profile cb_mobile CB_PLATFORM="GalaxyS5-And44" CB_BROWSER="MblChrome35" RESOLUTION="1080x1920"
@@ -630,7 +631,7 @@ replace the placeholder text with your user account and authorization code for t
     sl_desktop:         --profile saucelabs <%= desktop %>
     sl_mobile:          --profile saucelabs <%= mobile %>
     
-    # SauceLabs OS X profiles
+    # SauceLabs OS X desktop browser profiles
     sl_osx_el_capitan:  --profile sl_desktop SL_OS="OS X 10.11"
     sl_ff_el_cap:       --profile sl_osx_el_capitan SL_BROWSER="firefox"
     sl_chrome_el_cap:   --profile sl_osx_el_capitan SL_BROWSER="chrome"
@@ -649,7 +650,7 @@ replace the placeholder text with your user account and authorization code for t
     sl_safari_mav:      --profile sl_osx_mavericks SL_BROWSER="safari"
     sl_safari7_osx:     --profile sl_osx_mavericks SL_BROWSER="safari"
     
-    # SauceLabs Windows profiles
+    # SauceLabs Windows desktop browser profiles
     sl_win7:            --profile sl_desktop SL_OS="Windows 7" RESOLUTION="1920x1200"
     sl_win8:            --profile sl_desktop SL_OS="Windows 8.1" RESOLUTION="1280x1024"
     sl_win10:           --profile sl_desktop SL_OS="Windows 10" RESOLUTION="1280x1024"
@@ -666,7 +667,7 @@ replace the placeholder text with your user account and authorization code for t
     sl_ie11_win8:       --profile sl_win8 SL_BROWSER="internet explorer" SL_VERSION="11.0"
     sl_ie11_win10:      --profile sl_win10 SL_BROWSER="internet explorer"
     
-    # SauceLabs iOS profiles
+    # SauceLabs iOS mobile browser profiles
     sl_ios:             --profile sl_mobile SL_PLATFORM=OS X 10.10 SL_BROWSER="iphone" SL_VERSION="9.2"
     sl_iphone6_plus:    --profile sl_ios SL_DEVICE="iPhone 6 Plus"
     sl_iphone6:         --profile sl_ios SL_DEVICE="iPhone 6"
@@ -674,7 +675,7 @@ replace the placeholder text with your user account and authorization code for t
     sl_iphone4s:        --profile sl_ios SL_DEVICE="iPhone 4s"
     sl_ipad_air:        --profile sl_ios SL_DEVICE="iPad Air"
     
-    # SauceLabs Android profiles
+    # SauceLabs Android mobile browser profiles
     sl_android:         --profile sl_mobile SL_PLATFORM=Linux SL_BROWSER="android" SL_VERSION="4.4"
     sl_android_phone:   --profile sl_android SL_DEVICE="Android Emulator" SL_DEVICE_TYPE="phone"
     sl_android_tablet:  --profile sl_android SL_DEVICE="Android Emulator" SL_DEVICE_TYPE="tablet"
@@ -686,9 +687,8 @@ replace the placeholder text with your user account and authorization code for t
     
     testingbot:         WEB_BROWSER=testingbot TB_USERNAME=<INSERT USER NAME HERE> TB_AUTHKEY=<INSERT PASSWORD HERE>
     tb_desktop:         --profile testingbot <%= desktop %> RESOLUTION="1920x1200"
-    tb_mobile:          --profile testingbot <%= mobile %>
     
-    # TestingBot OS X profiles
+    # TestingBot OS X desktop browser profiles
     tb_osx_el_capitan:  --profile tb_desktop TB_OS="CAPITAN"
     tb_ff_el_cap:       --profile tb_osx_el_capitan TB_BROWSER="firefox"
     tb_chrome_el_cap:   --profile tb_osx_el_capitan TB_BROWSER="chrome"
@@ -707,7 +707,7 @@ replace the placeholder text with your user account and authorization code for t
     tb_safari_mav:      --profile tb_osx_mavericks TB_BROWSER="safari" TB_VERSION="7"
     tb_safari7_osx:     --profile tb_osx_mavericks TB_BROWSER="safari" TB_VERSION="7"
     
-    # TestingBot Windows profiles
+    # TestingBot Windows desktop browser profiles
     tb_win7:            --profile tb_desktop TB_OS="WIN7"
     tb_win8:            --profile tb_desktop TB_OS="WIN8"
     tb_win10:           --profile tb_desktop TB_OS="WIN10"
