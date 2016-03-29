@@ -1,18 +1,13 @@
 # TestCentricityWeb
 
 The TestCentricity™ core generic framework for desktop and mobile web site testing implements a Page Object and Data Object Model DSL for
-use with Cucumber, Capybara, and selenium-webdriver.
+use with Cucumber, Capybara, and Selenium-Webdriver.
 
 The TestCentricity™ web gem supports running testing against the following web test targets:
-  * locally hosted desktop browsers (Firefox, Chrome, Safari, IE, or Edge)
-  * locally hosted emulated iOS and Android mobile browsers (using Firefox)
-  * a "headless" browser (using Poltergeist and PhantomJS)
-  * cloud hosted desktop or mobile web browsers using the BrowserStack, Sauce Labs, CrossBrowserTesting, or TestingBot services.
-
-
-## Web Test Automation Framework Implementation
-
- <img src="http://i.imgur.com/K4XGTQi.jpg" width="1024" alt="Web Framework Overview" title="Web Framework Overview">
+- locally hosted desktop browsers (Firefox, Chrome, Safari, IE, or Edge)
+- locally hosted emulated iOS and Android mobile browsers (using Firefox)
+- a "headless" browser (using Poltergeist and PhantomJS)
+- cloud hosted desktop or mobile web browsers using the BrowserStack, Sauce Labs, CrossBrowserTesting, or TestingBot services.
 
 
 ## Installation
@@ -77,6 +72,33 @@ to update the affected feature file, scenarios, or step definitions.
 
 Your **Page Object** class definitions should be contained within individual *.rb* files in the ***features/support/pages*** folder of your
 test automation project. You define new **Page Objects** as shown below:
+
+    class LoginPage < TestCentricity::PageObject
+    end
+
+
+    class HomePage < TestCentricity::PageObject
+    end
+
+
+### Adding Traits to your Page Object
+
+Web pages typically have names and URLs associated with them. Web pages also typically have a unique object or attribute that, when present,
+indicates that the page's contents have fully loaded.
+
+The ***page_name*** trait is registered with the **PageManager** object, which includes a **find_page** method that takes a page name as a
+parameter and returns an instance of the associated **Page Object**.
+
+A ***page_url*** trait should be defined if a page can be directly loaded using a URL. If you set Capybara's *app_host*, or specify a base URL
+when calling the ***WebDriverConnect.initialize_web_driver*** method, then your ***page_url*** trait can be the relative URL slug that will
+be appended to the base URL specified in *app_host*. Specifying a ***page_url*** trait is optional, as not all web pages can be directly loaded
+via a URL.
+
+A ***page_locator*** trait is defined if a page has a unique object or attribute that exists once the page's contents have fully loaded. The
+***page_locator*** trait is a CSS or Xpath expression that uniquely identifies the object or attribute. The **verify_page_exists** method waits
+for the ***page_locator*** trait to exist.
+
+You define your page's **Traits** as shown below:
 
     class LoginPage < TestCentricity::PageObject
       trait(:page_name)       { 'Login' }
@@ -167,6 +189,17 @@ A **PageSection Object** may contain other **PageSection Objects**.
 
 Your **PageSection** class definitions should be contained within individual *.rb* files in the ***features/support/sections*** folder of
 your test automation project. You define new **PageSection Objects** as shown below:
+
+    class SearchForm < TestCentricity::PageSection
+    end
+
+
+### Adding Traits to a PageSection Object
+
+A **PageSection Object** typically has a root node object that encapsulates a collection of **UI Elements**. The ***section_locator*** trait
+specifies the CSS or Xpath expression that uniquely identifies that root node object.
+
+You define your page section's **Traits** as shown below:
 
     class SearchForm < TestCentricity::PageSection
       trait(:section_locator)    { "//form[@id='gnav-search']" }
@@ -336,7 +369,8 @@ To specify the emulated device's screen orientation, you set the **ORIENTATION**
 ### Remotely hosted desktop and mobile web browsers
 
 You can run your automated tests against remotely hosted desktop and mobile web browsers using the BrowserStack, CrossBrowserTesting,
-Sauce Labs, or TestingBot services.
+Sauce Labs, or TestingBot services. If your tests are running against a web site hosted on your local computer (localhost), or on a
+staging server inside your LAN, you must set the **TUNNELING** Environment Variable to true.
 
 
 #### Remote desktop browsers on the BrowserStack service
@@ -754,6 +788,13 @@ The following command specifies that Cucumber will run tests against a remotely 
 landscape orientation running on the BrowserStack service:
 
     cucumber -p bs_iphone6_plus -p landscape
+
+
+
+## Web Test Automation Framework Implementation
+
+ <img src="http://i.imgur.com/K4XGTQi.jpg" width="1024" alt="Web Framework Overview" title="Web Framework Overview">
+
 
 
 
