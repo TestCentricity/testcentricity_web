@@ -66,7 +66,7 @@ to update the affected feature file, scenarios, or step definitions.
 
 ### Defining a Page Object
 
-Your **Page Object** class definitions should be contained within individual **`.rb`** files in the **`features/support/pages`** folder of your
+Your **Page Object** class definitions should be contained within individual `.rb` files in the `features/support/pages` folder of your
 test automation project. You define new **Page Objects** as shown below:
 
     class LoginPage < TestCentricity::PageObject
@@ -82,17 +82,17 @@ test automation project. You define new **Page Objects** as shown below:
 Web pages typically have names and URLs associated with them. Web pages also typically have a unique object or attribute that, when present,
 indicates that the page's contents have fully loaded.
 
-The **`page_name`** trait is registered with the **PageManager** object, which includes a **`find_page`** method that takes a page name as a
+The `page_name` trait is registered with the **PageManager** object, which includes a `find_page` method that takes a page name as a
 parameter and returns an instance of the associated **Page Object**.
 
-A **`page_url`** trait should be defined if a page can be directly loaded using a URL. If you set Capybara's **`app_host`**, or specify a base URL
-when calling the **`WebDriverConnect.initialize_web_driver`** method, then your **`page_url`** trait can be the relative URL slug that will
-be appended to the base URL specified in **`app_host`**. Specifying a **`page_url`** trait is optional, as not all web pages can be directly loaded
+A `page_url` trait should be defined if a page can be directly loaded using a URL. If you set Capybara's `app_host`, or specify a base URL
+when calling the `WebDriverConnect.initialize_web_driver` method, then your `page_url` trait can be the relative URL slug that will
+be appended to the base URL specified in `app_host`. Specifying a `page_url` trait is optional, as not all web pages can be directly loaded
 via a URL.
 
-A **`page_locator`** trait is defined if a page has a unique object or attribute that exists once the page's contents have fully loaded. The
-**`page_locator`** trait is a CSS or Xpath expression that uniquely identifies the object or attribute. The **`verify_page_exists`** method waits
-for the **`page_locator`** trait to exist.
+A `page_locator` trait is defined if a page has a unique object or attribute that exists once the page's contents have fully loaded. The
+`page_locator` trait is a CSS or Xpath expression that uniquely identifies the object or attribute. The `verify_page_exists` method waits
+for the `page_locator` trait to exist.
 
 You define your page's **Traits** as shown below:
 
@@ -183,7 +183,7 @@ A **PageSection Object** may contain other **PageSection Objects**.
 
 ### Defining a PageSection Object
 
-Your **PageSection** class definitions should be contained within individual **`.rb`** files in the **`features/support/sections`** folder of
+Your **PageSection** class definitions should be contained within individual `.rb` files in the `features/support/sections` folder of
 your test automation project. You define new **PageSection Objects** as shown below:
 
     class SearchForm < TestCentricity::PageSection
@@ -192,7 +192,7 @@ your test automation project. You define new **PageSection Objects** as shown be
 
 ### Adding Traits to a PageSection Object
 
-A **PageSection Object** typically has a root node object that encapsulates a collection of **UI Elements**. The **`section_locator`** trait
+A **PageSection Object** typically has a root node object that encapsulates a collection of **UI Elements**. The `section_locator` trait
 specifies the CSS or Xpath expression that uniquely identifies that root node object.
 
 You define your page section's **Traits** as shown below:
@@ -276,8 +276,8 @@ One common implementation is shown below:
         
     World(WorldPages)
 
-The **`WorldPages`** module above can be defined in your **`env.rb`** file, or you can define it in a separate **`world_pages.rb`** file in the
-**`features/support`** folder.
+The `WorldPages` module above can be defined in your `env.rb` file, or you can define it in a separate `world_pages.rb` file in the
+`features/support` folder.
 
 While this approach is effective for small web applications with only a few pages (and hence few **Page Objects**), it quickly becomes
 cumbersome to manage if your web application has dozens of **Page Objects** that need to be instantiated and managed.
@@ -285,7 +285,7 @@ cumbersome to manage if your web application has dozens of **Page Objects** that
 ### Using the PageManager
 
 The **PageManager** class provides methods for supporting the instantiation and management of **Page Objects**. In the code example below,
-the **`page_objects`** method contains a hash table of your **Page Object** instances and their associated **Page Object** class names
+the `page_objects` method contains a hash table of your **Page Object** instances and their associated **Page Object** class names
 to be instantiated by **PageManager**:
     
     module WorldPages
@@ -307,9 +307,9 @@ to be instantiated by **PageManager**:
     
     World(WorldPages)
     
-The **`WorldPages`** module above should be defined in the **`world_pages.rb`** file in the **`features/support`** folder.
+The `WorldPages` module above should be defined in the `world_pages.rb` file in the `features/support` folder.
 
-Include the code below in your **`env.rb`** file to ensure that your **Page Objects** are instantiated before your Cucumber scenarios are
+Include the code below in your `env.rb` file to ensure that your **Page Objects** are instantiated before your Cucumber scenarios are
 executed:
     
     include WorldPages
@@ -319,19 +319,19 @@ executed:
 
 ## Connecting to a Web Browser
 
-The **`WebDriverConnect.initialize_web_driver`** method configures the appropriate selenium-webdriver capabilities required to establish a
+The `WebDriverConnect.initialize_web_driver` method configures the appropriate selenium-webdriver capabilities required to establish a
 connection with a target web browser, and sets the base host URL of the web site you are running your tests against.
 
-The **`WebDriverConnect.initialize_web_driver`** method accepts a single optional parameter - the base host URL. Cucumber **Environment
+The `WebDriverConnect.initialize_web_driver` method accepts a single optional parameter - the base host URL. Cucumber **Environment
 Variables** are used to specify the target local or remote web browser, and the various webdriver capability parameters required to configure
 the connection.
 
 
 ### Locally hosted desktop web browser
 
-For locally hosted desktop web browsers, the **`WEB_BROWSER`** Environment Variable must be set to one of the values from the table below: 
+For locally hosted desktop web browsers, the `WEB_BROWSER` Environment Variable must be set to one of the values from the table below: 
 
-**`WEB_BROWSER`** | Desktop Platform
+`WEB_BROWSER` | Desktop Platform
 --------------- | ----------------
 `firefox` | OS X or Windows
 `chrome` | OS X or Windows
@@ -344,10 +344,10 @@ For locally hosted desktop web browsers, the **`WEB_BROWSER`** Environment Varia
 ### Locally hosted emulated mobile web browser
 
 You can also run your tests against emulated mobile device browsers within a locally hosted instance of the Firefox desktop browser. You may
-even specify the emulated device's screen orientation. For locally hosted emulated mobile web browsers, the **`WEB_BROWSER`** Environment Variable
+even specify the emulated device's screen orientation. For locally hosted emulated mobile web browsers, the `WEB_BROWSER` Environment Variable
 must be set to one of the values from the table below: 
 
-**`WEB_BROWSER`** |
+`WEB_BROWSER` |
 --------------- |
 `ipad` |
 `ipad_pro` |
@@ -359,14 +359,14 @@ must be set to one of the values from the table below:
 `android_phone` |
 `android_tablet` |
 
-To specify the emulated device's screen orientation, you set the **`ORIENTATION`** Environment Variable to either **`portrait`** or **`landscape`**.
+To specify the emulated device's screen orientation, you set the `ORIENTATION` Environment Variable to either `portrait` or `landscape`.
 
 
 ### Remotely hosted desktop and mobile web browsers
 
 You can run your automated tests against remotely hosted desktop and mobile web browsers using the BrowserStack, CrossBrowserTesting,
 Sauce Labs, or TestingBot services. If your tests are running against a web site hosted on your local computer (localhost), or on a
-staging server inside your LAN, you must set the **`TUNNELING`** Environment Variable to **`true`**.
+staging server inside your LAN, you must set the `TUNNELING` Environment Variable to `true`.
 
 
 #### Remote desktop browsers on the BrowserStack service
@@ -376,15 +376,15 @@ the table below. Refer to the [Browserstack-specific capabilities chart page](ht
 
 **Environment Variable** | Description
 --------------- | ----------------
-`WEB_BROWSER` | Must be set to **`browserstack`**
+`WEB_BROWSER` | Must be set to `browserstack`
 `BS_USERNAME` | Must be set to your BrowserStack account user name
 `BS_AUTHKEY` | Must be set to your BrowserStack account access key
-`BS_OS` | Must be set to **`OS X`** or **`Windows`**
-`BS_OS_VERSION` | Refer to **`os_version`** capability in chart
-`BS_BROWSER` | Refer to **`browser`** capability in chart
-`BS_VERSION` | Refer to **`browser_version`** capability in chart
-`TUNNELING` | Must be **`true`** if you are testing against internal/local servers
-`RESOLUTION` | Refer to supported screen **`resolution`** capability in chart
+`BS_OS` | Must be set to `OS X` or `Windows`
+`BS_OS_VERSION` | Refer to `os_version` capability in chart
+`BS_BROWSER` | Refer to `browser` capability in chart
+`BS_VERSION` | Refer to `browser_version` capability in chart
+`TUNNELING` | Must be `true` if you are testing against internal/local servers
+`RESOLUTION` | Refer to supported screen `resolution` capability in chart
 
 
 #### Remote mobile browsers on the BrowserStack service
@@ -394,14 +394,14 @@ the table below. Refer to the [Browserstack-specific capabilities chart page](ht
 
 **Environment Variable** | Description
 --------------- | ----------------
-`WEB_BROWSER` | Must be set to **`browserstack`**
+`WEB_BROWSER` | Must be set to `browserstack`
 `BS_USERNAME` | Must be set to your BrowserStack account user name
 `BS_AUTHKEY` | Must be set to your BrowserStack account access key
-`BS_BROWSER` | Must be set to **`iPhone`**, **`iPad`**, or **`android`**
-`BS_PLATFORM` | Must be set to **`MAC`** (for iOS) or **`ANDROID`**
-`BS_DEVICE` | Refer to **`device`** capability in chart
-`TUNNELING` | Must be **`true`** if you are testing against internal/local servers
-`ORIENTATION` | set to **`portrait`** or **`landscape`**
+`BS_BROWSER` | Must be set to `iPhone`, `iPad`, or `android`
+`BS_PLATFORM` | Must be set to `MAC` (for iOS) or `ANDROID`
+`BS_DEVICE` | Refer to `device` capability in chart
+`TUNNELING` | Must be `true` if you are testing against internal/local servers
+`ORIENTATION` | set to `portrait` or `landscape`
 
 
 
@@ -412,12 +412,12 @@ the table below. Use the Configuration Wizard on the [Start a Selenium Test page
 
 **Environment Variable** | Description
 --------------- | ----------------
-`WEB_BROWSER` | Must be set to **`crossbrowser`**
+`WEB_BROWSER` | Must be set to `crossbrowser`
 `CB_USERNAME` | Must be set to your CrossBrowserTesting account user name or email address
 `CB_AUTHKEY` | Must be set to your CrossBrowserTesting account access key
-`CB_OS` | Refer to **`os_api_name`** capability in the sample script of the Wizard
-`CB_BROWSER` | Refer to **`browser_api_name`** capability in the sample script of the Wizard
-`RESOLUTION` | Refer to supported **`screen_resolution`** capability in the sample script of the Wizard
+`CB_OS` | Refer to `os_api_name` capability in the sample script of the Wizard
+`CB_BROWSER` | Refer to `browser_api_name` capability in the sample script of the Wizard
+`RESOLUTION` | Refer to supported `screen_resolution` capability in the sample script of the Wizard
 
 
 #### Remote mobile browsers on the CrossBrowserTesting service
@@ -427,12 +427,12 @@ the table below. Use the Configuration Wizard on the [Start a Selenium Test page
 
 **Environment Variable** | Description
 --------------- | ----------------
-`WEB_BROWSER` | Must be set to **`crossbrowser`**
+`WEB_BROWSER` | Must be set to `crossbrowser`
 `CB_USERNAME` | Must be set to your CrossBrowserTesting account user name or email address
 `CB_AUTHKEY` | Must be set to your CrossBrowserTesting account access key
-`CB_PLATFORM` | Refer to **`os_api_name`** capability in the sample script of the Wizard
-`CB_BROWSER` | Refer to **`browser_api_name`** capability in the sample script of the Wizard
-`RESOLUTION` | Refer to supported **`screen_resolution`** capability in the sample script of the Wizard
+`CB_PLATFORM` | Refer to `os_api_name` capability in the sample script of the Wizard
+`CB_BROWSER` | Refer to `browser_api_name` capability in the sample script of the Wizard
+`RESOLUTION` | Refer to supported `screen_resolution` capability in the sample script of the Wizard
 
 
 
@@ -443,13 +443,13 @@ the table below. Use the Selenium API on the [Platform Configurator page](https:
 
 **Environment Variable** | Description
 --------------- | ----------------
-`WEB_BROWSER` | Must be set to **`saucelabs`**
+`WEB_BROWSER` | Must be set to `saucelabs`
 `SL_USERNAME` | Must be set to your Sauce Labs account user name or email address
 `SL_AUTHKEY` | Must be set to your Sauce Labs account access key
-`SL_OS` | Refer to **`platform`** capability in the Copy Code section of the Platform Configurator page
-`SL_BROWSER` | Must be set to **`chrome`**, **`firefox`**, **`safari`**, **`internet explorer`**, or **`edge`**
-`SL_VERSION` | Refer to **`version`** capability in the Copy Code section of the Platform Configurator page
-`RESOLUTION` | Refer to supported **`screenResolution`** capability in the Copy Code section of the Platform Configurator page
+`SL_OS` | Refer to `platform` capability in the Copy Code section of the Platform Configurator page
+`SL_BROWSER` | Must be set to `chrome`, `firefox`, `safari`, `internet explorer`, or `edge`
+`SL_VERSION` | Refer to `version` capability in the Copy Code section of the Platform Configurator page
+`RESOLUTION` | Refer to supported `screenResolution` capability in the Copy Code section of the Platform Configurator page
 
 
 #### Remote mobile browsers on the Sauce Labs service
@@ -459,15 +459,15 @@ the table below. Use the Selenium API on the [Platform Configurator page](https:
 
 **Environment Variable** | Description
 --------------- | ----------------
-`WEB_BROWSER` | Must be set to **`saucelabs`**
+`WEB_BROWSER` | Must be set to `saucelabs`
 `SL_USERNAME` | Must be set to your Sauce Labs account user name or email address
 `SL_AUTHKEY` | Must be set to your Sauce Labs account access key
-`SL_PLATFORM` | Refer to **`platform`** capability in the Copy Code section of the Platform Configurator page
-`SL_BROWSER` | Must be set to **`iPhone`** or **`android`**
-`SL_VERSION` | Refer to **`version`** capability in the Copy Code section of the Platform Configurator page
-`SL_DEVICE` | Refer to **`deviceName`** capability in the Copy Code section of the Platform Configurator page
-`SL_DEVICE_TYPE` | If displayed, refer to **`deviceType`** capability in the Copy Code section of the Platform Configurator page
-`ORIENTATION` | Refer to **`deviceOrientation`** capability in the Copy Code section of the Platform Configurator page
+`SL_PLATFORM` | Refer to `platform` capability in the Copy Code section of the Platform Configurator page
+`SL_BROWSER` | Must be set to `iPhone` or `android`
+`SL_VERSION` | Refer to `version` capability in the Copy Code section of the Platform Configurator page
+`SL_DEVICE` | Refer to `deviceName` capability in the Copy Code section of the Platform Configurator page
+`SL_DEVICE_TYPE` | If displayed, refer to `deviceType` capability in the Copy Code section of the Platform Configurator page
+`ORIENTATION` | Refer to `deviceOrientation` capability in the Copy Code section of the Platform Configurator page
 
 
 #### Remote desktop browsers on the TestingBot service
@@ -477,24 +477,24 @@ the table below. Refer to the [TestingBot List of Available Browsers page](https
 
 **Environment Variable** | Description
 --------------- | ----------------
-`WEB_BROWSER` | Must be set to **`testingbot`**
+`WEB_BROWSER` | Must be set to `testingbot`
 `TB_USERNAME` | Must be set to your TestingBot account user name
 `TB_AUTHKEY` | Must be set to your TestingBot account access key
-`TB_OS` | Refer to **`platform`** capability in chart
-`TB_BROWSER` | Refer to **`browserName`** capability in chart
-`TB_VERSION` | Refer to **`version`** capability in chart
-`TUNNELING` | Must be **`true`** if you are testing against internal/local servers
-`RESOLUTION` | Possible values: **`800x600`**, **`1024x768`**, **`1280x960`**, **`1280x1024`**, **`1600x1200`**, **`1920x1200`**, **`2560x1440`**
+`TB_OS` | Refer to `platform` capability in chart
+`TB_BROWSER` | Refer to `browserName` capability in chart
+`TB_VERSION` | Refer to `version` capability in chart
+`TUNNELING` | Must be `true` if you are testing against internal/local servers
+`RESOLUTION` | Possible values: `800x600`, `1024x768`, `1280x960`, `1280x1024`, `1600x1200`, `1920x1200`, `2560x1440`
 
 
 ### Using Browser specific Profiles in cucumber.yml
 
 While you can set **Environment Variables** in the command line when invoking Cucumber, a preferred method of specifying and managing
 target web browsers is to create browser specific **Profiles** that set the appropriate **Environment Variables** for each target browser
-in your **`cucumber.yml`** file.
+in your `cucumber.yml` file.
 
 Below is a list of Cucumber **Profiles** for supported locally and remotely hosted desktop and mobile web browsers (put these in in your
-**`cucumber.yml`** file). Before you can use the BrowserStack, CrossBrowserTesting, Sauce Labs, or TestingBot services, you will need to
+`cucumber.yml` file). Before you can use the BrowserStack, CrossBrowserTesting, Sauce Labs, or TestingBot services, you will need to
 replace the placeholder text with your user account and authorization code for the cloud service(s) that you intend to connect with.
 
     <% desktop          = "--tags ~@wip --tags ~@failing --tags @desktop --require features" %>
@@ -764,7 +764,7 @@ replace the placeholder text with your user account and authorization code for t
     tb_edge_win10:      --profile tb_win10 TB_BROWSER="microsoftedge" TB_VERSION="13"
 
 
-To specify a locally hosted target browser using a profile at runtime, you use the flag **`--profile`** or **`-p`** followed by the profile name when
+To specify a locally hosted target browser using a profile at runtime, you use the flag `--profile` or `-p` followed by the profile name when
 invoking Cucumber in the command line. For instance, the following command invokes Cucumber and specifies that a local instance of Chrome
 will be used as the target web browser:
     
