@@ -33,6 +33,16 @@ module TestCentricity
       @alt_locator = nil
     end
 
+    def get_object_type
+      if @type
+        @type
+      elsif obj.tag_name
+        obj.tag_name
+      elsif obj.native.attribute('type')
+        obj.native.attribute('type')
+      end
+    end
+
     def get_locator
       @locator
     end
@@ -579,6 +589,19 @@ module TestCentricity
       set_alt_locator("#{saved_locator}/textarea") unless exists?
       set(value)
       clear_alt_locator
+    end
+
+    def populate_table_row(row, data)
+      wait_until_exists(2)
+      data.each do | column, data_param |
+        unless data_param.blank?
+          if data_param == '!DELETE'
+            set_table_cell(row, column, '')
+          else
+            set_table_cell(row, column, data_param)
+          end
+        end
+      end
     end
 
     def click_header_column(column)

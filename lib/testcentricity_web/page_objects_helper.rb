@@ -247,5 +247,28 @@ module TestCentricity
       end
       ExceptionQueue.post_exceptions
     end
+
+    def populate_data_fields(data)
+      data.each do | data_field, data_param |
+        unless data_param.blank?
+          if data_param == '!DELETE'
+            data_field.set('')
+          else
+            case data_field.get_object_type
+              when :checkbox
+                (data_field.get_siebel_object_type == 'JCheckBox') ?
+                    data_field.set_siebel_checkbox_state(data_param.to_bool) :
+                    data_field.set_checkbox_state(data_param.to_bool)
+              when :selectlist
+                (data_field.get_siebel_object_type == 'JComboBox') ?
+                    data_field.set("#{data_param}\t") :
+                    data_field.choose_option(data_param)
+              when :textfield
+                data_field.set("#{data_param}\t")
+            end
+          end
+        end
+      end
+    end
   end
 end
