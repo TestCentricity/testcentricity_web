@@ -4,7 +4,7 @@ module TestCentricity
     #
     # @param state [Boolean] true = checked / false = unchecked
     # @example
-    #   remember_me_checkbox.set_checkbox_state(true)
+    #   remember_me_checkbox.set_siebel_checkbox_state(true)
     #
     def set_siebel_checkbox_state(state)
       obj, _ = find_element
@@ -18,7 +18,7 @@ module TestCentricity
     #
     # @param option [String] text of option to select
     # @example
-    #   country_select.choose_option('Cayman Islands')
+    #   country_select.choose_siebel_option('Cayman Islands')
     #
     def choose_siebel_option(option)
       Capybara.wait_on_first_by_default = true
@@ -30,7 +30,7 @@ module TestCentricity
     #
     # @return [Array]
     # @example
-    #   all_countries = country_select.get_options
+    #   all_countries = country_select.get_siebel_options
     #
     def get_siebel_options
       invoke_siebel_popup

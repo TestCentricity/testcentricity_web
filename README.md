@@ -120,11 +120,11 @@ You define your page's **Traits** as shown below:
       trait(:page_locator)    { "//body[@class='login-body']" }
     
       # Login page UI elements
-      textfield :user_id_field,        "userName"
-      textfield :password_field,       "password"
-      button    :login_button,         "//input[@id='submit_button']"
-      checkbox  :remember_checkbox,    "rememberUser']"
-      label     :error_message_label,  'div#statusBar.login-error'
+      textfield :user_id_field,       "userName"
+      textfield :password_field,      "password"
+      button    :login_button,        "//input[@id='submit_button']"
+      checkbox  :remember_checkbox,   "rememberUser']"
+      label     :error_message_label, 'div#statusBar.login-error'
     end
     
 Once your **Page Objects** have been instantiated, you can interact with the **UI Elements** in your **Page Objects**. An example is shown
@@ -147,11 +147,11 @@ the UI to hide implementation details, as shown below:
       trait(:page_locator)    { "//body[@class='login-body']" }
     
       # Login page UI elements
-      textfield :user_id_field,        "userName"
-      textfield :password_field,       "password"
-      button    :login_button,         "//input[@id='submit_button']"
-      checkbox  :remember_checkbox,    "rememberUser']"
-      label     :error_message_label,  'div#statusBar.login-error'
+      textfield :user_id_field,       "userName"
+      textfield :password_field,      "password"
+      button    :login_button,        "//input[@id='submit_button']"
+      checkbox  :remember_checkbox,   "rememberUser']"
+      label     :error_message_label, 'div#statusBar.login-error'
     
       def login(user_id, password)
         user_id_field.set(user_id)
@@ -198,7 +198,7 @@ specifies the CSS or Xpath expression that uniquely identifies that root node ob
 You define your page section's **Traits** as shown below:
 
     class SearchForm < TestCentricity::PageSection
-      trait(:section_locator)    { "//form[@id='gnav-search']" }
+      trait(:section_locator)   { "//form[@id='gnav-search']" }
     end
 
 
@@ -207,11 +207,11 @@ You define your page section's **Traits** as shown below:
 **UI Elements** are added to your **PageSection** class definition as shown below:
 
     class SearchForm < TestCentricity::PageSection
-      trait(:section_locator)    { "//form[@id='gnav-search']" }
+      trait(:section_locator)   { "//form[@id='gnav-search']" }
         
       # Search Form UI elements
-      textfield :search_field,   "//input[@id='search-query']"
-      button    :search_button,  "//button[@type='submit']"
+      textfield :search_field,  "//input[@id='search-query']"
+      button    :search_button, "//button[@type='submit']"
     end
 
 
@@ -220,11 +220,11 @@ You define your page section's **Traits** as shown below:
 You can add high level methods to your **PageSection** class definition, as shown below:
 
     class SearchForm < TestCentricity::PageSection
-      trait(:section_locator)    { "//form[@id='gnav-search']" }
+      trait(:section_locator)   { "//form[@id='gnav-search']" }
         
       # Search Form UI elements
-      textfield :search_field,   "//input[@id='search-query']"
-      button    :search_button,  "//button[@type='submit']"
+      textfield :search_field,  "//input[@id='search-query']"
+      button    :search_button, "//button[@type='submit']"
 
       def search_for(value)
         search_field.set(value)
@@ -290,17 +290,17 @@ to be instantiated by **PageManager**:
     
     module WorldPages
       def page_objects
-        { :login_page                 => LoginPage,
-          :home_page                  => HomePage,
-          :registration_page          => RegistrationPage,
-          :products_grid_page         => ProductsCollectionPage,
-          :product_detail_page        => ProductDetailPage,
-          :shopping_basket_page       => ShoppingBasketPage,
-          :payment_method_page        => PaymentMethodPage,
-          :confirm_purchase_page      => PurchaseConfirmationPage,
-          :my_account_page            => MyAccountPage,
-          :my_order_history_page      => MyOrderHistoryPage,
-          :my_ship_to_addresses_page  => MyShipToAddressesPage
+        { :login_page                => LoginPage,
+          :home_page                 => HomePage,
+          :registration_page         => RegistrationPage,
+          :products_grid_page        => ProductsCollectionPage,
+          :product_detail_page       => ProductDetailPage,
+          :shopping_basket_page      => ShoppingBasketPage,
+          :payment_method_page       => PaymentMethodPage,
+          :confirm_purchase_page     => PurchaseConfirmationPage,
+          :my_account_page           => MyAccountPage,
+          :my_order_history_page     => MyOrderHistoryPage,
+          :my_ship_to_addresses_page => MyShipToAddressesPage
         }
       end
     end

@@ -25,11 +25,11 @@ module TestCentricity
     attr_reader :parent, :locator, :context, :type
     attr_accessor :alt_locator
 
-    def initialize(parent, locator, context, type = nil)
+    def initialize(parent, locator, context)
       @parent  = parent
       @locator = locator
       @context = context
-      @type    = type
+      @type    = nil
       @alt_locator = nil
     end
 
@@ -183,62 +183,6 @@ module TestCentricity
       obj.disabled?
     end
 
-    # Is text field set to read-only?
-    #
-    # @return [Boolean]
-    # @example
-    #   comments_field.read_only?
-    #
-    def read_only?
-      obj, _ = find_element
-      object_not_found_exception(obj, nil)
-      !!obj.native.attribute('readonly')
-    end
-
-    # Return maxlength character count of a text field.
-    #
-    # @return [Integer]
-    # @example
-    #   max_num_chars = comments_field.get_max_length
-    #
-    def get_max_length
-      obj, _ = find_element
-      object_not_found_exception(obj, nil)
-      obj.native.attribute('maxlength')
-    end
-
-    # Is checkbox checked?
-    #
-    # @return [Boolean]
-    # @example
-    #   remember_me_checkbox.checked?
-    #
-    def checked?
-      obj, _ = find_element
-      object_not_found_exception(obj, 'Checkbox')
-      obj.checked?
-    end
-
-    # Set the check state of a checkbox object.
-    #
-    # @param state [Boolean] true = checked / false = unchecked
-    # @example
-    #   remember_me_checkbox.set_checkbox_state(true)
-    #
-    def set_checkbox_state(state)
-      obj, _ = find_element
-      object_not_found_exception(obj, 'Checkbox')
-      invalid_object_type_exception(obj, 'checkbox')
-      obj.set(state)
-    end
-
-    def verify_check_state(state, enqueue = false)
-      actual = checked?
-      enqueue ?
-          ExceptionQueue.enqueue_assert_equal(state, actual, "Expected #{@locator}") :
-          assert_equal(state, actual, "Expected #{@locator} to be #{state} but found #{actual} instead")
-    end
-
     # Wait until the object exists, or until the specified wait time has expired.
     #
     # @param seconds [Integer or Float] wait time in seconds
@@ -331,313 +275,6 @@ module TestCentricity
       obj.drag_by(right_offset, down_offset)
     end
 
-    def attach_file(file_path)
-      Capybara.ignore_hidden_elements = false
-      page.attach_file(@locator, file_path)
-      Capybara.ignore_hidden_elements = true
-    end
-
-    # Select the specified option in a select box object.
-    # Supports standard HTML select objects and Chosen select objects.
-    #
-    # @param option [String] text of option to select
-    # @example
-    #   province_select.choose_option('Nova Scotia')
-    #
-    def choose_option(option)
-      obj, _ = find_element
-      object_not_found_exception(obj, nil)
-      obj.click
-      if first(:css, 'li.active-result')
-        if option.is_a?(Array)
-          option.each do |item|
-            page.find(:css, 'li.active-result', text: item.strip).click
-          end
-        else
-          first(:css, 'li.active-result', text: option).click
-        end
-      else
-        if option.is_a?(Array)
-          option.each do |item|
-            obj.select item
-          end
-        else
-          obj.select option
-        end
-      end
-    end
-
-    # Return array of strings of all options in a select box object.
-    # Supports standard HTML select objects and Chosen select objects.
-    #
-    # @return [Array]
-    # @example
-    #   all_colors = color_select.get_options
-    #
-    def get_options
-      obj, _ = find_element
-      object_not_found_exception(obj, nil)
-      if first(:css, 'li.active-result')
-        obj.all('li.active-result').collect(&:text)
-      else
-        obj.all('option').collect(&:text)
-      end
-    end
-
-    def verify_options(expected, enqueue = false)
-      actual = get_options
-      enqueue ?
-          ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list of options in list #{@locator}") :
-          assert_equal(expected, actual, "Expected list of options in list #{@locator} to be #{expected} but found #{actual}")
-    end
-
-    # Return text of first selected option in a select box object.
-    # Supports standard HTML select objects and Chosen select objects.
-    #
-    # @return [String]
-    # @example
-    #   current_color = color_select.get_selected_option
-    #
-    def get_selected_option
-      obj, _ = find_element
-      object_not_found_exception(obj, nil)
-      if first(:css, 'li.active-result')
-        obj.first("//li[contains(@class, 'result-selected')]").text
-      else
-        obj.first('option[selected]').text
-      end
-    end
-
-    # Return number of rows in a table object.
-    #
-    # @return [Integer]
-    # @example
-    #   num_rows = list_table.get_row_count
-    #
-    def get_row_count
-      wait_until_exists(5)
-      row_count = page.all(:xpath, "#{@locator}/tbody/tr", :visible => :all).count
-      row_count
-    end
-
-    # Return number of columns in a table object.
-    #
-    # @return [Integer]
-    # @example
-    #   num_columns = list_table.get_column_count
-    #
-    def get_column_count
-      row_count = get_row_count
-      if row_count == 0
-        page.all(:xpath, "#{@locator}/thead/tr/th", :visible => :all).count
-      else
-        (row_count == 1) ?
-            page.all(:xpath, "#{@locator}/tbody/tr/td", :visible => :all).count :
-            page.all(:xpath, "#{@locator}/tbody/tr[2]/td", :visible => :all).count
-      end
-    end
-
-    # Click in the specified cell in a table object.
-    #
-    # @param row [Integer] row number
-    # @param column [Integer] column number
-    # @example
-    #   list_table.click_table_cell(3, 5)
-    #
-    def click_table_cell(row, column)
-      row_count = get_row_count
-      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{@locator}" if row > row_count
-      column_count = get_column_count
-      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{@locator}" if column > column_count
-      set_table_cell_locator(row, column)
-      click
-      clear_alt_locator
-    end
-
-    # Double-click in the specified cell in a table object.
-    #
-    # @param row [Integer] row number
-    # @param column [Integer] column number
-    # @example
-    #   list_table.double_click_table_cell(3, 5)
-    #
-    def double_click_table_cell(row, column)
-      row_count = get_row_count
-      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{@locator}" if row > row_count
-      column_count = get_column_count
-      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{@locator}" if column > column_count
-      set_table_cell_locator(row, column)
-      double_click
-      clear_alt_locator
-    end
-
-    # Click the link object embedded within the specified cell in a table object.
-    #
-    # @param row [Integer] row number
-    # @param column [Integer] column number
-    # @example
-    #   list_table.click_table_cell_link(3, 1)
-    #
-    def click_table_cell_link(row, column)
-      row_count = get_row_count
-      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{@locator}" if row > row_count
-      column_count = get_column_count
-      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{@locator}" if column > column_count
-      set_table_cell_locator(row, column)
-      saved_locator = @alt_locator
-      set_alt_locator("#{@alt_locator}/a")
-      set_alt_locator("#{saved_locator}/span/a") unless exists?
-      # if link not present, check for text entry fields and try to dismiss by tabbing out
-      unless exists?
-        set_alt_locator("#{saved_locator}/input")
-        set_alt_locator("#{saved_locator}/textarea") unless exists?
-        send_keys(:tab) if exists?
-        set_alt_locator("#{saved_locator}/a")
-        set_alt_locator("#{saved_locator}/span/a") unless exists?
-        send_keys(:tab) unless exists?
-      end
-      wait_until_exists(1)
-      click
-      clear_alt_locator
-    end
-
-    def get_table_row(row)
-      columns = []
-      row_count = get_row_count
-      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{@locator}" if row > row_count
-      column_count = get_column_count
-      (1..column_count).each do |column|
-        value = ''
-        set_table_cell_locator(row, column)
-        saved_locator = @alt_locator
-        set_alt_locator("#{saved_locator}/input")
-        unless exists?
-          set_alt_locator("#{saved_locator}/textarea")
-          unless exists?
-            set_alt_locator(saved_locator)
-          end
-        end
-        value = get_value if exists?
-        columns.push(value)
-      end
-      clear_alt_locator
-      columns
-    end
-
-    def get_row_data(row)
-      row_count = get_row_count
-      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{@locator}" if row > row_count
-      (row > 1) ?
-          set_alt_locator("#{@locator}/tbody/tr[#{row}]") :
-          set_alt_locator("#{@locator}/tbody/tr")
-      value = get_value if exists?
-      clear_alt_locator
-      value
-    end
-
-    # Return text contained in specified cell of a table object.
-    #
-    # @param row [Integer] row number
-    # @param column [Integer] column number
-    # @return [String] value of table cell
-    # @example
-    #   list_table.get_table_cell(4, 5)
-    #
-    def get_table_cell(row, column)
-      row_count = get_row_count
-      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{@locator}" if row > row_count
-      column_count = get_column_count
-      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{@locator}" if column > column_count
-      set_table_cell_locator(row, column)
-      saved_locator = @alt_locator
-      set_alt_locator("#{saved_locator}/input")
-      unless exists?
-        set_alt_locator("#{saved_locator}/textarea")
-        unless exists?
-          set_alt_locator(saved_locator)
-        end
-      end
-      value = get_value
-      clear_alt_locator
-      value
-    end
-
-    def verify_table_cell(row, column, expected, enqueue = false)
-      actual = get_table_cell(row, column)
-      enqueue ?
-          ExceptionQueue.enqueue_assert_equal(expected.strip, actual.strip, "Expected #{@locator} row #{row}/column #{column}") :
-          assert_equal(expected.strip, actual.strip, "Expected #{@locator} row #{row}/column #{column} to display '#{expected}' but found '#{actual}'")
-    end
-
-    # Set the value of the specified cell in a table object.
-    #
-    # @param row [Integer] row number
-    # @param column [Integer] column number
-    # @param value [String] text to set
-    # @example
-    #   list_table.set_table_cell(3, 1, 'Ontario')
-    #
-    def set_table_cell(row, column, value)
-      row_count = get_row_count
-      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{@locator}" if row > row_count
-      # column_count = get_column_count
-      # raise "Column #{column} exceeds number of columns (#{column_count}) in table #{@locator}" if column > column_count
-      set_table_cell_locator(row, column)
-      click if exists?
-      saved_locator = @alt_locator
-      set_alt_locator("#{saved_locator}/input")
-      set_alt_locator("#{saved_locator}/textarea") unless exists?
-      set(value)
-      clear_alt_locator
-    end
-
-    def populate_table_row(row, data)
-      wait_until_exists(2)
-      data.each do | column, data_param |
-        unless data_param.blank?
-          if data_param == '!DELETE'
-            set_table_cell(row, column, '')
-          else
-            set_table_cell(row, column, data_param)
-          end
-        end
-      end
-    end
-
-    def click_header_column(column)
-      column_count = get_column_count
-      raise "Column #{column} exceeds number of columns (#{column_count}) in table header #{@locator}" if column > column_count
-      (column > 1) ?
-          set_alt_locator("#{@locator}/thead/tr/th[#{column}]") :
-          set_alt_locator("#{@locator}/thead/tr/th")
-      click
-      clear_alt_locator
-    end
-
-    def get_header_column(column)
-      column_count = get_column_count
-      raise "Column #{column} exceeds number of columns (#{column_count}) in table header #{@locator}" if column > column_count
-      (column > 1) ?
-          set_alt_locator("#{@locator}/thead/tr/th[#{column}]") :
-          set_alt_locator("#{@locator}/thead/tr/th")
-      value = get_value
-      clear_alt_locator
-      value
-    end
-
-    def get_header_columns
-      columns = []
-      column_count = get_column_count
-      (1..column_count).each do |column|
-        (column > 1) ?
-            set_alt_locator("#{@locator}/thead/tr/th[#{column}]") :
-            set_alt_locator("#{@locator}/thead/tr/th")
-        columns.push(get_value)
-      end
-      clear_alt_locator
-      columns
-    end
-
     def get_list_items(item_locator)
       obj, _ = find_element
       object_not_found_exception(obj, nil)
@@ -676,12 +313,15 @@ module TestCentricity
         raise "#{locator} is not a #{obj_type} element"
       end
     end
-
-    def set_table_cell_locator(row, column)
-      row_spec = "#{@locator}/tbody/tr"
-      row_spec = "#{row_spec}[#{row}]" if row > 1
-      column_spec = "/td[#{column}]"
-      set_alt_locator("#{row_spec}#{column_spec}")
-    end
   end
 end
+
+require 'testcentricity_web/elements/button'
+require 'testcentricity_web/elements/checkbox'
+require 'testcentricity_web/elements/file_field'
+require 'testcentricity_web/elements/image'
+require 'testcentricity_web/elements/label'
+require 'testcentricity_web/elements/link'
+require 'testcentricity_web/elements/select_list'
+require 'testcentricity_web/elements/table'
+require 'testcentricity_web/elements/textfield'

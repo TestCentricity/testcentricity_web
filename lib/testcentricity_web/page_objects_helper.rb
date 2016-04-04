@@ -28,7 +28,7 @@ module TestCentricity
     #   element :siebel_busy,  "//html[contains(@class, 'siebui-busy')]"
     #
     def self.element(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, nil);end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page);end))
     end
 
     # Declare and instantiate a button UI Element for this page object.
@@ -40,7 +40,7 @@ module TestCentricity
     #   button :login_button,    "//input[@id='submit_button']"
     #
     def self.button(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, :button);end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Button.new(self, "#{locator}", :page);end))
     end
 
     # Declare and instantiate a text field UI Element for this page object.
@@ -52,7 +52,7 @@ module TestCentricity
     #   textfield :password_field, "consumer_password"
     #
     def self.textfield(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, :textfield);end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::TextField.new(self, "#{locator}", :page);end))
     end
 
     # Declare and instantiate a checkbox UI Element for this page object.
@@ -64,7 +64,7 @@ module TestCentricity
     #   checkbox :accept_terms_checkbox, "accept_terms_conditions"
     #
     def self.checkbox(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, :checkbox);end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::CheckBox.new(self, "#{locator}", :page);end))
     end
 
     # Declare and instantiate a label UI Element for this page object.
@@ -76,7 +76,7 @@ module TestCentricity
     #   label :rollup_price_label, "//div[contains(@id, 'Rollup Item Price')]"
     #
     def self.label(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, :label);end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Label.new(self, "#{locator}", :page);end))
     end
 
     # Declare and instantiate a link UI Element for this page object.
@@ -88,7 +88,7 @@ module TestCentricity
     #   link :shopping_basket_link, "//a[@href='shopping_basket']"
     #
     def self.link(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, :link);end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Link.new(self, "#{locator}", :page);end))
     end
 
     # Declare and instantiate a table UI Element for this page object.
@@ -99,7 +99,7 @@ module TestCentricity
     #   table :payments_table, "//table[@class='payments_table']"
     #
     def self.table(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, :table);end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Table.new(self, "#{locator}", :page);end))
     end
 
     # Declare and instantiate a select list UI Element for this page object.
@@ -111,7 +111,7 @@ module TestCentricity
     #   selectlist :gender_select,     "//select[@id='customer_gender']"
     #
     def self.selectlist(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, :selectlist);end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::SelectList.new(self, "#{locator}", :page);end))
     end
 
     # Declare and instantiate an image UI Element for this page object.
@@ -123,7 +123,18 @@ module TestCentricity
     #   image :corporate_logo_image, "//img[@alt='MyCompany_logo']"
     #
     def self.image(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :page, :image);end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Image.new(self, "#{locator}", :page);end))
+    end
+
+    # Declare and instantiate a File Field UI Element for this page object.
+    #
+    # @param element_name [Symbol] name of file field object (as a symbol)
+    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @example
+    #   filefield :attach_file, "s_SweFileName"
+    #
+    def self.filefield(element_name, locator)
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::FileField.new(self, "#{locator}", :page);end))
     end
 
     # Instantiate a PageSection object for this page object.
@@ -248,6 +259,22 @@ module TestCentricity
       ExceptionQueue.post_exceptions
     end
 
+    # Populate the specified UI elements on this page with the associated data from a Hash passed as an argument. Data
+    # values must be in the form of a String for textfield and select list controls. For checkbox and radio buttons,
+    # data must either be a Boolean or a String that evaluates to a Boolean value (Yes, No, 1, 0, true, false)
+    #
+    # @param data [Hash] UI element(s) and associated data to be entered
+    # @example
+    #   data = { prefix_select      => 'Ms',
+    #            first_name_field   => 'Priscilla',
+    #            last_name_field    => 'Pumperknickle',
+    #            gender_select      => 'Female',
+    #            dob_field          => '11/18/1976',
+    #            email_field        => 'p.pumperknickle4876@google.com',
+    #            mailing_list_check => 'Yes'
+    #          }
+    #   registration_page.populate_data_fields(data)
+    #
     def populate_data_fields(data)
       data.each do | data_field, data_param |
         unless data_param.blank?
