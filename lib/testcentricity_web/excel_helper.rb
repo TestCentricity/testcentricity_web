@@ -5,18 +5,8 @@ require 'spreadsheet'
 
 
 module TestCentricity
-
-  XL_PRIMARY_DATA_PATH  ||= 'features/test_data/'
-  XL_PRIMARY_DATA_FILE  ||= "#{XL_PRIMARY_DATA_PATH}data.xls"
-
-
   class ExcelData
     @mru = {}
-
-    def self.get_environment_data_file
-      environment = ENV['TEST_ENVIRONMENT']
-      "#{XL_PRIMARY_DATA_PATH}#{environment}_data.xls"
-    end
 
     def self.worksheet_exists?(file, sheet)
       exists = false

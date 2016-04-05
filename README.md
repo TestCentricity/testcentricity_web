@@ -380,7 +380,7 @@ staging server inside your LAN, you must set the `TUNNELING` Environment Variabl
 For remotely hosted desktop web browsers on the BrowserStack service, the following **Environment Variables** must be set as described in
 the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities#capabilities-browserstack) for information regarding the specific capabilities.
 
-**Environment Variable** | Description
+**Environment Variable** | **Description**
 --------------- | ----------------
 `WEB_BROWSER` | Must be set to `browserstack`
 `BS_USERNAME` | Must be set to your BrowserStack account user name
@@ -398,7 +398,7 @@ the table below. Refer to the [Browserstack-specific capabilities chart page](ht
 For remotely hosted mobile web browsers on the BrowserStack service, the following **Environment Variables** must be set as described in
 the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities#capabilities-browserstack) for information regarding the specific capabilities.
 
-**Environment Variable** | Description
+**Environment Variable** | **Description**
 --------------- | ----------------
 `WEB_BROWSER` | Must be set to `browserstack`
 `BS_USERNAME` | Must be set to your BrowserStack account user name
@@ -416,7 +416,7 @@ the table below. Refer to the [Browserstack-specific capabilities chart page](ht
 For remotely hosted desktop web browsers on the CrossBrowserTesting service, the following **Environment Variables** must be set as described in
 the table below. Use the Configuration Wizard on the [Start a Selenium Test page](https://app.crossbrowsertesting.com/selenium/run) to obtain information regarding the specific capabilities.
 
-**Environment Variable** | Description
+**Environment Variable** | **Description**
 --------------- | ----------------
 `WEB_BROWSER` | Must be set to `crossbrowser`
 `CB_USERNAME` | Must be set to your CrossBrowserTesting account user name or email address
@@ -431,7 +431,7 @@ the table below. Use the Configuration Wizard on the [Start a Selenium Test page
 For remotely hosted mobile web browsers on the CrossBrowserTesting service, the following **Environment Variables** must be set as described in
 the table below. Use the Configuration Wizard on the [Start a Selenium Test page](https://app.crossbrowsertesting.com/selenium/run) to obtain information regarding the specific capabilities.
 
-**Environment Variable** | Description
+**Environment Variable** | **Description**
 --------------- | ----------------
 `WEB_BROWSER` | Must be set to `crossbrowser`
 `CB_USERNAME` | Must be set to your CrossBrowserTesting account user name or email address
@@ -447,7 +447,7 @@ the table below. Use the Configuration Wizard on the [Start a Selenium Test page
 For remotely hosted desktop web browsers on the Sauce Labs service, the following **Environment Variables** must be set as described in
 the table below. Use the Selenium API on the [Platform Configurator page](https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/) to obtain information regarding the specific capabilities.
 
-**Environment Variable** | Description
+**Environment Variable** | **Description**
 --------------- | ----------------
 `WEB_BROWSER` | Must be set to `saucelabs`
 `SL_USERNAME` | Must be set to your Sauce Labs account user name or email address
@@ -463,7 +463,7 @@ the table below. Use the Selenium API on the [Platform Configurator page](https:
 For remotely hosted mobile web browsers on the Sauce Labs service, the following **Environment Variables** must be set as described in
 the table below. Use the Selenium API on the [Platform Configurator page](https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/) to obtain information regarding the specific capabilities.
 
-**Environment Variable** | Description
+**Environment Variable** | **Description**
 --------------- | ----------------
 `WEB_BROWSER` | Must be set to `saucelabs`
 `SL_USERNAME` | Must be set to your Sauce Labs account user name or email address
@@ -481,7 +481,7 @@ the table below. Use the Selenium API on the [Platform Configurator page](https:
 For remotely hosted desktop web browsers on the TestingBot service, the following **Environment Variables** must be set as described in
 the table below. Refer to the [TestingBot List of Available Browsers page](https://testingbot.com/support/getting-started/browsers.html) for information regarding the specific capabilities.
 
-**Environment Variable** | Description
+**Environment Variable** | **Description**
 --------------- | ----------------
 `WEB_BROWSER` | Must be set to `testingbot`
 `TB_USERNAME` | Must be set to your TestingBot account user name
