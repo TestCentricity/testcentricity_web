@@ -67,6 +67,18 @@ module TestCentricity
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::CheckBox.new(self, "#{locator}", :page);end))
     end
 
+    # Declare and instantiate a radio button UI Element for this page object.
+    #
+    # @param element_name [Symbol] name of radio object (as a symbol)
+    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @example
+    #   radio :accept_terms_radio,  "//input[@id='Accept_Terms']"
+    #   radio :decline_terms_radio, "decline_terms_conditions"
+    #
+    def self.radio(element_name, locator)
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Radio.new(self, "#{locator}", :page);end))
+    end
+
     # Declare and instantiate a label UI Element for this page object.
     #
     # @param element_name [Symbol] name of label object (as a symbol)

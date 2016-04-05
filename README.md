@@ -4,8 +4,9 @@ The TestCentricity™ core generic framework for desktop and mobile web site tes
 use with Cucumber, Capybara, and Selenium-Webdriver.
 
 The TestCentricity™ web gem supports running testing against the following web test targets:
+
 * locally hosted desktop browsers (Firefox, Chrome, Safari, IE, or Edge)
-* locally hosted emulated iOS and Android mobile browsers (using Firefox)
+* locally hosted emulated iOS, Android, and Windows Phone mobile browsers (using Firefox)
 * a "headless" browser (using Poltergeist and PhantomJS)
 * cloud hosted desktop or mobile web browsers using the BrowserStack, Sauce Labs, CrossBrowserTesting, or TestingBot services.
 
@@ -345,8 +346,9 @@ For locally hosted desktop web browsers, the `WEB_BROWSER` Environment Variable 
 
 ### Locally hosted emulated mobile web browser
 
-You can also run your tests against emulated mobile device browsers within a locally hosted instance of the Firefox desktop browser. You may
-even specify the emulated device's screen orientation. For locally hosted emulated mobile web browsers, the `WEB_BROWSER` Environment Variable
+You can also run your tests against emulated mobile device browsers within a locally hosted instance of the Firefox desktop browser. The specified
+mobile browser's user agent and default screen resolution and orientation will be automatically be set in the local Firefox browser instance. You
+may even specify the emulated device's screen orientation. For locally hosted emulated mobile web browsers, the `WEB_BROWSER` Environment Variable
 must be set to one of the values from the table below: 
 
 `WEB_BROWSER` |
@@ -360,6 +362,8 @@ must be set to one of the values from the table below:
 `iphone6_plus` |
 `android_phone` |
 `android_tablet` |
+`windows_phone7` |
+`windows_phone8` |
 
 To specify the emulated device's screen orientation, you set the `ORIENTATION` Environment Variable to either `portrait` or `landscape`.
 
@@ -526,6 +530,8 @@ replace the placeholder text with your user account and authorization code for t
     iphone6_plus:       WEB_BROWSER=iphone6_plus    <%= mobile %>
     android_phone:      WEB_BROWSER=android_phone   <%= mobile %>
     android_tablet:     WEB_BROWSER=android_tablet  <%= mobile %>
+    windows_phone7:     WEB_BROWSER=windows_phone7  <%= mobile %>
+    windows_phone8:     WEB_BROWSER=windows_phone8  <%= mobile %>
     
     
     #==============

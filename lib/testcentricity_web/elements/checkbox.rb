@@ -34,6 +34,24 @@ module TestCentricity
       obj.set(state)
     end
 
+    # Set the check state of a checkbox object.
+    #
+    # @example
+    #   remember_me_checkbox.check
+    #
+    def check
+      set_checkbox_state(true)
+    end
+
+    # Uncheck a checkbox object.
+    #
+    # @example
+    #   remember_me_checkbox.uncheck
+    #
+    def uncheck
+      set_checkbox_state(false)
+    end
+
     def verify_check_state(state, enqueue = false)
       actual = checked?
       enqueue ?

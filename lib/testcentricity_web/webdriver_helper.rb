@@ -51,7 +51,7 @@ module TestCentricity
         case browser.downcase.to_sym
           when :firefox, :chrome, :ie, :safari, :edge
             Capybara::Selenium::Driver.new(app, :browser => browser.to_sym)
-          when :iphone, :iphone5, :iphone6, :iphone6_plus, :ipad, :ipad_pro, :android_phone, :android_tablet
+          when :iphone, :iphone5, :iphone6, :iphone6_plus, :ipad, :ipad_pro, :android_phone, :android_tablet, :windows_phone7, :windows_phone8
             Environ.set_platform(:mobile)
             profile = Selenium::WebDriver::Firefox::Profile.new
             profile['general.useragent.override'] = Browsers.mobile_device_agent(browser)
