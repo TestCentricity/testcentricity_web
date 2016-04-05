@@ -313,15 +313,14 @@ module TestCentricity
         raise "#{locator} is not a #{obj_type} element"
       end
     end
+
+    def invoke_siebel_popup
+      obj, _ = find_element
+      object_not_found_exception(obj, 'Siebel object')
+      trigger_name = obj.native.attribute('aria-describedby').strip
+      trigger = "//span[@id='#{trigger_name}']"
+      trigger = "#{@parent.get_locator}#{trigger}" if @context == :section && !@parent.get_locator.nil?
+      first(:xpath, trigger).click
+    end
   end
 end
-
-require 'testcentricity_web/elements/button'
-require 'testcentricity_web/elements/checkbox'
-require 'testcentricity_web/elements/file_field'
-require 'testcentricity_web/elements/image'
-require 'testcentricity_web/elements/label'
-require 'testcentricity_web/elements/link'
-require 'testcentricity_web/elements/select_list'
-require 'testcentricity_web/elements/table'
-require 'testcentricity_web/elements/textfield'

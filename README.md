@@ -1,9 +1,13 @@
 # TestCentricityWeb
 
 The TestCentricity™ core generic framework for desktop and mobile web site testing implements a Page Object and Data Object Model DSL for
-use with Cucumber, Capybara, and Selenium-Webdriver. It supports testing against locally hosted desktop browsers (Firefox, Chrome, Safari,
-IE, or Edge), locally hosted emulated iOS and Android mobile browsers (using Firefox), a "headless" browser (using Poltergeist and PhantomJS),
-or on cloud hosted desktop or mobile web browsers using the BrowserStack, Sauce Labs, CrossBrowserTesting, or TestingBot services.
+use with Cucumber, Capybara, and Selenium-Webdriver.
+
+The TestCentricity™ web gem supports running testing against the following web test targets:
+* locally hosted desktop browsers (Firefox, Chrome, Safari, IE, or Edge)
+* locally hosted emulated iOS and Android mobile browsers (using Firefox)
+* a "headless" browser (using Poltergeist and PhantomJS)
+* cloud hosted desktop or mobile web browsers using the BrowserStack, Sauce Labs, CrossBrowserTesting, or TestingBot services.
 
 
 ## Installation
@@ -28,20 +32,18 @@ If you are using Cucumber, you need to require the following in your *env.rb* fi
 
     require 'capybara'
     require 'capybara/cucumber'
-    require 'selenium-webdriver'
     require 'testcentricity_web'
-    
-    
+
+
 ###Using RSpec
 
 If you are using RSpec instead, you need to require the following in your *env.rb* file:
 
     require 'capybara'
     require 'capybara/rspec'
-    require 'selenium-webdriver'
     require 'testcentricity_web'
-    
-    
+
+
 ### Using Poltergeist
 
 If you will be running your tests on a "headless" web browser using Poltergeist and PhantomJS, you must add this line to your automation

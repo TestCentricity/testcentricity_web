@@ -40,5 +40,19 @@ module TestCentricity
           ExceptionQueue.enqueue_assert_equal(state, actual, "Expected #{@locator}") :
           assert_equal(state, actual, "Expected #{@locator} to be #{state} but found #{actual} instead")
     end
+
+    # Set the check state of a Siebel OUI JCheckBox object.
+    #
+    # @param state [Boolean] true = checked / false = unchecked
+    # @example
+    #   remember_me_checkbox.set_siebel_checkbox_state(true)
+    #
+    def set_siebel_checkbox_state(state)
+      obj, _ = find_element
+      object_not_found_exception(obj, 'Siebel checkbox')
+      raise "#{locator} is not a Siebel CheckBox object" unless get_siebel_object_type == 'JCheckBox'
+      expected = state.to_bool
+      obj.click unless expected == obj.checked?
+    end
   end
 end

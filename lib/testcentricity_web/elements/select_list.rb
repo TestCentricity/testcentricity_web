@@ -78,5 +78,43 @@ module TestCentricity
         obj.first('option[selected]').text
       end
     end
+
+    # Select the specified option in a Siebel OUI select box object.
+    #
+    # @param option [String] text of option to select
+    # @example
+    #   country_select.choose_siebel_option('Cayman Islands')
+    #
+    def choose_siebel_option(option)
+      Capybara.wait_on_first_by_default = true
+      invoke_siebel_popup
+      first(:xpath, "//li[@class='ui-menu-item']", :exact => true, :match => :prefer_exact,text: option).click
+    end
+
+    # Return array of strings of all options in a Siebel OUI select box object.
+    #
+    # @return [Array]
+    # @example
+    #   all_countries = country_select.get_siebel_options
+    #
+    def get_siebel_options
+      invoke_siebel_popup
+      sleep(0.5)
+      options = page.all(:xpath, "//li[@class='ui-menu-item']").collect(&:text)
+      obj, _ = find_element
+      obj.native.send_keys(:escape)
+      options
+    end
+
+    def verify_siebel_options(expected, enqueue = false)
+      invoke_siebel_popup
+      sleep(0.5)
+      actual = page.all(:xpath, "//li[@class='ui-menu-item']").collect(&:text)
+      enqueue ?
+          ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list of options in list #{@locator}") :
+          assert_equal(expected, actual, "Expected list of options in list #{@locator} to be #{expected} but found #{actual}")
+      obj, _ = find_element
+      obj.native.send_keys(:escape)
+    end
   end
 end

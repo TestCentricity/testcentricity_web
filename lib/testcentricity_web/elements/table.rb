@@ -191,6 +191,15 @@ module TestCentricity
       clear_alt_locator
     end
 
+    # Search for the specified text value in the specified row of the table object.
+    # Returns the number of the first column that contains the search value.
+    #
+    # @param row [Integer] row nummber
+    # @param search_value [String] value to be searched for
+    # @return [Integer] column number of table cell that contains search value
+    # @example
+    #   list_table.find_in_table_row(4, 'High speed Framus bolts')
+    #
     def find_in_table_row(row, search_value)
       (1..get_column_count).each do |column|
         return column if get_table_cell(row, column) == search_value
@@ -198,6 +207,15 @@ module TestCentricity
       nil
     end
 
+    # Search for the specified text value in the specified column of the table object.
+    # Returns the number of the first row that contains the search value.
+    #
+    # @param column [Integer] column nummber
+    # @param search_value [String] value to be searched for
+    # @return [Integer] row number of table cell that contains search value
+    # @example
+    #   list_table.find_in_table_column(1, 'Ashes to Ashes')
+    #
     def find_in_table_column(column, search_value)
       (1..get_row_count).each do |row|
         return row if get_table_cell(row, column) == search_value
@@ -205,6 +223,21 @@ module TestCentricity
       nil
     end
 
+    # Populate the specified row of this table object with the associated data from a Hash passed as an
+    # argument. Data values must be in the form of a String for textfield and select list controls. For checkbox
+    # and radio buttons, data must either be a Boolean or a String that evaluates to a Boolean value (Yes, No, 1,
+    # 0, true, false)
+    #
+    # @param data [Hash] column numbers and associated data to be entered
+    # @example
+    #   data = { 1 => 'Dr.',
+    #            2 => 'Evangeline',
+    #            3 => 'Devereaux',
+    #            4 => 'MD',
+    #            5 => 'Family Practice'
+    #          }
+    #   clinician_table.populate_table_row(3, data)
+    #
     def populate_table_row(row, data)
       wait_until_exists(2)
       data.each do | column, data_param |
@@ -218,6 +251,12 @@ module TestCentricity
       end
     end
 
+    # Click in the specified column header in a table object.
+    #
+    # @param column [Integer] column number
+    # @example
+    #   list_table.click_header_column(3)
+    #
     def click_header_column(column)
       column_count = get_column_count
       raise "Column #{column} exceeds number of columns (#{column_count}) in table header #{@locator}" if column > column_count
@@ -250,6 +289,47 @@ module TestCentricity
       end
       clear_alt_locator
       columns
+    end
+
+
+    def is_table_row_expanded?(row, column)
+      row_count = get_row_count
+      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{@locator}" if row > row_count
+      column_count = get_column_count
+      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{@locator}" if column > column_count
+      set_table_cell_locator(row, column)
+      set_alt_locator("#{@alt_locator}/div/div[contains(@class, 'tree-plus treeclick')]")
+      expanded = true
+      expanded = false if exists?
+      clear_alt_locator
+      expanded
+    end
+
+    def expand_table_row(row, column)
+      unless is_table_row_expanded?(row, column)
+        set_table_cell_locator(row, column)
+        set_alt_locator("#{@alt_locator}/div/div[contains(@class, 'tree-plus treeclick')]")
+        click if exists?
+        clear_alt_locator
+      end
+    end
+
+    def collapse_table_row(row, column)
+      if is_table_row_expanded?(row, column)
+        set_table_cell_locator(row, column)
+        set_alt_locator("#{@alt_locator}/div/div[contains(@class, 'tree-minus treeclick')]")
+        click if exists?
+        clear_alt_locator
+      end
+    end
+
+    def expand_all_table_rows(column)
+      row_count = get_row_count
+      column_count = get_column_count
+      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{@locator}" if column > column_count
+      row_count.downto(1) do |row|
+        expand_table_row(row, column)
+      end
     end
 
     private

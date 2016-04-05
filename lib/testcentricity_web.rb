@@ -17,6 +17,16 @@ require 'testcentricity_web/environment'
 require 'testcentricity_web/webdriver_helper'
 require 'testcentricity_web/version'
 
+require 'testcentricity_web/elements/button'
+require 'testcentricity_web/elements/checkbox'
+require 'testcentricity_web/elements/file_field'
+require 'testcentricity_web/elements/image'
+require 'testcentricity_web/elements/label'
+require 'testcentricity_web/elements/link'
+require 'testcentricity_web/elements/select_list'
+require 'testcentricity_web/elements/table'
+require 'testcentricity_web/elements/textfield'
+
 
 module TestCentricity
   class PageManager
