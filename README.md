@@ -1,5 +1,8 @@
 # TestCentricityWeb
 
+[![Gem Version](https://badge.fury.io/rb/testcentricity_web.svg)](https://badge.fury.io/rb/testcentricity_web)  [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause)
+
+
 The TestCentricity™ core generic framework for desktop and mobile web site testing implements a Page Object and Data Object Model DSL for
 use with Cucumber, Capybara, and Selenium-Webdriver.
 

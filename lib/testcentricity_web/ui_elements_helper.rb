@@ -285,12 +285,13 @@ module TestCentricity
 
     def find_element
       @alt_locator.nil? ? locator = @locator : locator = @alt_locator
-      locator = "#{@parent.get_locator}#{locator}" if @context == :section && !@parent.get_locator.nil?
+      locator = "#{@parent.get_locator} #{locator}" if @context == :section && !@parent.get_locator.nil?
       saved_wait_time = Capybara.default_max_wait_time
       Capybara.default_max_wait_time = 0.01
-      tries ||= 4
-      attributes = [:text, :name, :id, :css, :xpath]
+      tries ||= 2
+      attributes = [:id, :xpath, :css]
       type = attributes[tries]
+      locator = locator.gsub(" //", "//") if type == :xpath
       obj = page.find(type, locator)
       [obj, type]
     rescue

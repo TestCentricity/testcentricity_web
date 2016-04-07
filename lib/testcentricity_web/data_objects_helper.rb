@@ -26,13 +26,9 @@ module TestCentricity
   class DataSource
     attr_accessor :current
 
-    def get_environment_data_file
-      environment = ENV['TEST_ENVIRONMENT']
-      "#{XL_PRIMARY_DATA_PATH}#{environment}_data.xls"
-    end
-
     def pick_excel_data_source(sheet, row_name)
-      data_file = get_environment_data_file
+      environment = ENV['TEST_ENVIRONMENT']
+      data_file = "#{XL_PRIMARY_DATA_PATH}#{environment}_data.xls"
       data_file = XL_PRIMARY_DATA_FILE unless ExcelData.rowspec_exists?(data_file, sheet, row_name)
       data_file
     end

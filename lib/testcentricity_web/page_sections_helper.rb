@@ -170,7 +170,7 @@ module TestCentricity
 
     def get_locator
       (@locator.empty? && defined?(section_locator)) ? locator = section_locator : locator = @locator
-      (@context == :section && !@parent.nil? && !@parent.get_locator.nil?) ? "#{@parent.get_locator}#{locator}" : locator
+      (@context == :section && !@parent.nil? && !@parent.get_locator.nil?) ? "#{@parent.get_locator} #{locator}" : locator
     end
 
     def set_parent(parent)
@@ -266,6 +266,8 @@ module TestCentricity
               actual = ui_object.read_only?
             when :checked
               actual = ui_object.checked?
+            when :selected
+              actual = ui_object.selected?
             when :value
               actual = ui_object.get_value
             when :maxlength
@@ -319,6 +321,8 @@ module TestCentricity
                 (data_field.get_siebel_object_type == 'JComboBox') ?
                     data_field.set("#{data_param}\t") :
                     data_field.choose_option(data_param)
+              when :radio
+                data_field.set_selected_state(data_param.to_bool)
               when :textfield
                 data_field.set("#{data_param}\t")
             end
@@ -333,9 +337,10 @@ module TestCentricity
       locator = get_locator
       saved_wait_time = Capybara.default_max_wait_time
       Capybara.default_max_wait_time = 0.1
-      tries ||= 4
-      attributes = [:text, :name, :id, :css, :xpath]
+      tries ||= 2
+      attributes = [:id, :xpath, :css]
       type = attributes[tries]
+      locator = locator.gsub(" //", "//") if type == :xpath
       obj = page.find(type, locator)
       [obj, type]
     rescue

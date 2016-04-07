@@ -250,6 +250,8 @@ module TestCentricity
               actual = ui_object.read_only?
             when :checked
               actual = ui_object.checked?
+            when :selected
+              actual = ui_object.selected?
             when :value
               actual = ui_object.get_value
             when :maxlength
@@ -302,6 +304,8 @@ module TestCentricity
                 (data_field.get_siebel_object_type == 'JComboBox') ?
                     data_field.set("#{data_param}\t") :
                     data_field.choose_option(data_param)
+              when :radio
+                data_field.set_selected_state(data_param.to_bool)
               when :textfield
                 data_field.set("#{data_param}\t")
             end
