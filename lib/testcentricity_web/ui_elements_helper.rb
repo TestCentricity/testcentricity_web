@@ -119,7 +119,7 @@ module TestCentricity
     #   basket_link.exists?
     #
     def exists?
-      obj, _ = find_element
+      obj, _ = find_object
       obj != nil
     end
 
@@ -130,7 +130,7 @@ module TestCentricity
     #   remember_me_checkbox.visible?
     #
     def visible?
-      obj, type = find_element
+      obj, type = find_object
       exists = obj
       invisible = false
       if type == :css
@@ -189,7 +189,7 @@ module TestCentricity
     # @example
     #   run_button.wait_until_exists(0.5)
     #
-    def wait_until_exists(seconds)
+    def wait_until_exists(seconds = nil)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { exists? }
@@ -203,7 +203,7 @@ module TestCentricity
     # @example
     #   logout_button.wait_until_gone(5)
     #
-    def wait_until_gone(seconds)
+    def wait_until_gone(seconds = nil)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { !exists? }
@@ -217,7 +217,7 @@ module TestCentricity
     # @example
     #   card_authorized_label.wait_until_value_is(5, 'Card authorized')
     #
-    def wait_until_value_is(value, seconds)
+    def wait_until_value_is(value, seconds = nil)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { get_value == value }
@@ -231,7 +231,7 @@ module TestCentricity
     # @example
     #   basket_grand_total_label.wait_until_value_changes(5)
     #
-    def wait_until_value_changes(seconds)
+    def wait_until_value_changes(seconds = nil)
       value = get_value
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
@@ -284,6 +284,11 @@ module TestCentricity
     private
 
     def find_element
+      wait = Selenium::WebDriver::Wait.new(timeout: Capybara.default_max_wait_time)
+      wait.until { find_object }
+    end
+
+    def find_object
       @alt_locator.nil? ? locator = @locator : locator = @alt_locator
       locator = "#{@parent.get_locator} #{locator}" if @context == :section && !@parent.get_locator.nil?
       saved_wait_time = Capybara.default_max_wait_time
@@ -292,7 +297,7 @@ module TestCentricity
       attributes = [:id, :xpath, :css]
       type = attributes[tries]
       locator = locator.gsub(" //", "//") if type == :xpath
-      obj = page.find(type, locator)
+      obj = page.find(type, locator, :visible => false)
       [obj, type]
     rescue
       Capybara.default_max_wait_time = saved_wait_time

@@ -230,7 +230,7 @@ module TestCentricity
     # @example
     #   navigation_toolbar.wait_until_exists(0.5)
     #
-    def wait_until_exists(seconds)
+    def wait_until_exists(seconds = nil)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { exists? }
@@ -244,7 +244,7 @@ module TestCentricity
     # @example
     #   navigation_toolbar.wait_until_gone(5)
     #
-    def wait_until_gone(seconds)
+    def wait_until_gone(seconds = nil)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { !exists? }
@@ -260,8 +260,12 @@ module TestCentricity
               actual = ui_object.exists?
             when :enabled
               actual = ui_object.enabled?
+            when :disabled
+              actual = ui_object.disabled?
             when :visible
               actual = ui_object.visible?
+            when :hidden
+              actual = ui_object.hidden?
             when :readonly
               actual = ui_object.read_only?
             when :checked
@@ -334,6 +338,11 @@ module TestCentricity
     private
 
     def find_section
+      wait = Selenium::WebDriver::Wait.new(timeout: Capybara.default_max_wait_time)
+      wait.until { find_object }
+    end
+
+    def find_object
       locator = get_locator
       saved_wait_time = Capybara.default_max_wait_time
       Capybara.default_max_wait_time = 0.1

@@ -31,7 +31,15 @@ module TestCentricity
       obj, _ = find_element
       object_not_found_exception(obj, 'Radio')
       invalid_object_type_exception(obj, 'radio')
-      obj.set(state)
+      begin
+        obj.set(state)
+      rescue
+        unless state == obj.checked?
+          check_id = obj.native.attribute('id')
+          label = first("label[for='#{check_id}']")
+          label.click if label.exists?
+        end
+      end
     end
 
     # Set the selected state of a radio button object.

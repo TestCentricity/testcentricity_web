@@ -104,15 +104,15 @@ You define your page's **Traits** as shown below:
 
     class LoginPage < TestCentricity::PageObject
       trait(:page_name)       { 'Login' }
-      trait(:page_url)        { "/sign_in" }
-      trait(:page_locator)    { "//body[@class='login-body']" }
+      trait(:page_url)        { '/sign_in' }
+      trait(:page_locator)    { 'body.login-body' }
     end
 
 
     class HomePage < TestCentricity::PageObject
       trait(:page_name)       { 'Home' }
-      trait(:page_url)        { "/dashboard" }
-      trait(:page_locator)    { "//body[@class='dashboard']" }
+      trait(:page_url)        { '/dashboard' }
+      trait(:page_locator)    { 'body.dashboard }
     end
 
 
@@ -122,14 +122,14 @@ You define your page's **Traits** as shown below:
 
     class LoginPage < TestCentricity::PageObject
       trait(:page_name)       { 'Login' }
-      trait(:page_url)        { "/sign_in" }
-      trait(:page_locator)    { "//body[@class='login-body']" }
+      trait(:page_url)        { '/sign_in' }
+      trait(:page_locator)    { 'body.login-body' }
     
       # Login page UI elements
-      textfield :user_id_field,       "userName"
-      textfield :password_field,      "password"
-      button    :login_button,        "//input[@id='submit_button']"
-      checkbox  :remember_checkbox,   "rememberUser']"
+      textfield :user_id_field,       '#userName'
+      textfield :password_field,      '#password'
+      button    :login_button,        '#login'
+      checkbox  :remember_checkbox,   '#rememberUser'
       label     :error_message_label, 'div#statusBar.login-error'
     end
     
@@ -149,14 +149,14 @@ the UI to hide implementation details, as shown below:
 
     class LoginPage < TestCentricity::PageObject
       trait(:page_name)       { 'Login' }
-      trait(:page_url)        { "/sign_in" }
-      trait(:page_locator)    { "//body[@class='login-body']" }
+      trait(:page_url)        { '/sign_in' }
+      trait(:page_locator)    { 'body.login-body' }
     
       # Login page UI elements
-      textfield :user_id_field,       "userName"
-      textfield :password_field,      "password"
-      button    :login_button,        "//input[@id='submit_button']"
-      checkbox  :remember_checkbox,   "rememberUser']"
+      textfield :user_id_field,       '#userName'
+      textfield :password_field,      '#password'
+      button    :login_button,        '#login'
+      checkbox  :remember_checkbox,   '#rememberUser'
       label     :error_message_label, 'div#statusBar.login-error'
     
       def login(user_id, password)
@@ -204,7 +204,7 @@ specifies the CSS or Xpath expression that uniquely identifies that root node ob
 You define your page section's **Traits** as shown below:
 
     class SearchForm < TestCentricity::PageSection
-      trait(:section_locator)   { "//form[@id='gnav-search']" }
+      trait(:section_locator)   { 'form#gnav-search' }
     end
 
 
@@ -213,11 +213,11 @@ You define your page section's **Traits** as shown below:
 **UI Elements** are added to your **PageSection** class definition as shown below:
 
     class SearchForm < TestCentricity::PageSection
-      trait(:section_locator)   { "//form[@id='gnav-search']" }
+      trait(:section_locator)   { 'form#gnav-search' }
         
       # Search Form UI elements
-      textfield :search_field,  "//input[@id='search-query']"
-      button    :search_button, "//button[@type='submit']"
+      textfield :search_field,  '#search-query
+      button    :search_button, 'button[type=submit]'
     end
 
 
@@ -226,11 +226,11 @@ You define your page section's **Traits** as shown below:
 You can add high level methods to your **PageSection** class definition, as shown below:
 
     class SearchForm < TestCentricity::PageSection
-      trait(:section_locator)   { "//form[@id='gnav-search']" }
+      trait(:section_locator)   { 'form#gnav-search' }
         
       # Search Form UI elements
-      textfield :search_field,  "//input[@id='search-query']"
-      button    :search_button, "//button[@type='submit']"
+      textfield :search_field,  '#search-query
+      button    :search_button, 'button[type=submit]'
 
       def search_for(value)
         search_field.set(value)
@@ -245,8 +245,8 @@ You add a **PageSection Object** to its associated **Page Object** as shown belo
 
     class HomePage < TestCentricity::PageObject
       trait(:page_name)       { 'Home' }
-      trait(:page_url)        { "/dashboard" }
-      trait(:page_locator)    { "//body[@class='dashboard']" }
+      trait(:page_url)        { '/dashboard' }
+      trait(:page_locator)    { 'body.dashboard }
       
       # Home page Section Objects
       section :search_form, SearchForm

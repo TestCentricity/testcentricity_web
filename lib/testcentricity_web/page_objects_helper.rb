@@ -244,8 +244,12 @@ module TestCentricity
               actual = ui_object.exists?
             when :enabled
               actual = ui_object.enabled?
+            when :disabled
+              actual = ui_object.disabled?
             when :visible
               actual = ui_object.visible?
+            when :hidden
+              actual = ui_object.hidden?
             when :readonly
               actual = ui_object.read_only?
             when :checked
