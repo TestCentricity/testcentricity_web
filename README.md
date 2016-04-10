@@ -112,7 +112,7 @@ You define your page's **Traits** as shown below:
     class HomePage < TestCentricity::PageObject
       trait(:page_name)       { 'Home' }
       trait(:page_url)        { '/dashboard' }
-      trait(:page_locator)    { 'body.dashboard }
+      trait(:page_locator)    { 'body.dashboard' }
     end
 
 
@@ -216,7 +216,7 @@ You define your page section's **Traits** as shown below:
       trait(:section_locator)   { 'form#gnav-search' }
         
       # Search Form UI elements
-      textfield :search_field,  '#search-query
+      textfield :search_field,  '#search-query'
       button    :search_button, 'button[type=submit]'
     end
 
@@ -229,7 +229,7 @@ You can add high level methods to your **PageSection** class definition, as show
       trait(:section_locator)   { 'form#gnav-search' }
         
       # Search Form UI elements
-      textfield :search_field,  '#search-query
+      textfield :search_field,  '#search-query'
       button    :search_button, 'button[type=submit]'
 
       def search_for(value)
@@ -246,7 +246,7 @@ You add a **PageSection Object** to its associated **Page Object** as shown belo
     class HomePage < TestCentricity::PageObject
       trait(:page_name)       { 'Home' }
       trait(:page_url)        { '/dashboard' }
-      trait(:page_locator)    { 'body.dashboard }
+      trait(:page_locator)    { 'body.dashboard' }
       
       # Home page Section Objects
       section :search_form, SearchForm

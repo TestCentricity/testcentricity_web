@@ -23,7 +23,7 @@ module TestCentricity
   end
 
 
-  class DataSource
+  class ExcelDataSource
     attr_accessor :current
 
     def pick_excel_data_source(sheet, row_name)

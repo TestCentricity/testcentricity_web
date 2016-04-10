@@ -1,5 +1,5 @@
 module TestCentricity
-  class EnvironData < TestCentricity::DataSource
+  class EnvironData < TestCentricity::ExcelDataSource
     attr_accessor		:current
 
     WKS_ENVIRONS ||= 'Environments'
