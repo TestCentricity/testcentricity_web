@@ -338,31 +338,21 @@ module TestCentricity
     private
 
     def find_section
-      wait = Selenium::WebDriver::Wait.new(timeout: Capybara.default_max_wait_time)
-      wait.until { find_object }
-    end
-
-    def find_object
       locator = get_locator
-      saved_wait_time = Capybara.default_max_wait_time
-      Capybara.default_max_wait_time = 0.1
       tries ||= 2
       attributes = [:id, :xpath, :css]
       type = attributes[tries]
       case type
       when :css
-        locator = locator.gsub("|", " ")
+        locator = locator.gsub('|', ' ')
       when :xpath
-        locator = locator.gsub("|//", "//")
+        locator = locator.gsub('|', '')
       end
-      obj = page.find(type, locator)
+      obj = page.find(type, locator, :wait => 0.1)
       [obj, type]
     rescue
-      Capybara.default_max_wait_time = saved_wait_time
       retry if (tries -= 1) > 0
       [nil, nil]
-    ensure
-      Capybara.default_max_wait_time = saved_wait_time
     end
   end
 end

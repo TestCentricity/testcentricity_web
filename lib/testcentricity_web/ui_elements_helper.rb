@@ -290,26 +290,30 @@ module TestCentricity
 
     def find_object
       @alt_locator.nil? ? locator = @locator : locator = @alt_locator
-      locator = "#{@parent.get_locator}|#{locator}" if @context == :section && !@parent.get_locator.nil?
-      saved_wait_time = Capybara.default_max_wait_time
-      Capybara.default_max_wait_time = 0.01
-      tries ||= 2
-      attributes = [:id, :xpath, :css]
+      tries ||= 3
+      attributes = [:name, :id, :xpath, :css]
       type = attributes[tries]
-      case type
-      when :css
-        locator = locator.gsub("|", " ")
-      when :xpath
-        locator = locator.gsub("|//", "//")
+      if @context == :section && !@parent.get_locator.nil?
+        parent_locator = @parent.get_locator
+        case type
+        when :css
+          parent_locator = parent_locator.gsub('|', ' ')
+          obj = page.find(:css, parent_locator, :wait => 0.01).find(:css, locator, :wait => 0.01)
+        when :xpath
+          parent_locator = parent_locator.gsub('|', '')
+          obj = page.find(:xpath, "#{parent_locator}#{locator}", :wait => 0.01)
+          when :id
+            parent_locator = parent_locator.gsub('|', ' ')
+            obj = page.find(:css, parent_locator, :wait => 0.01).find(:xpath, locator, :wait => 0.01)
+        end
+      else
+        obj = page.find(type, locator, :wait => 0.01)
       end
-      obj = page.find(type, locator)
       [obj, type]
     rescue
-      Capybara.default_max_wait_time = saved_wait_time
       retry if (tries -= 1) > 0
       [nil, nil]
     ensure
-      Capybara.default_max_wait_time = saved_wait_time
       Capybara.ignore_hidden_elements = true
     end
 
