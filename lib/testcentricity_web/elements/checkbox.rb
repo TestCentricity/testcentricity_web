@@ -16,6 +16,7 @@ module TestCentricity
     #   remember_me_checkbox.checked?
     #
     def checked?
+      Capybara.ignore_hidden_elements = false
       obj, _ = find_element
       object_not_found_exception(obj, 'Checkbox')
       obj.checked?
@@ -28,6 +29,7 @@ module TestCentricity
     #   remember_me_checkbox.set_checkbox_state(true)
     #
     def set_checkbox_state(state)
+      Capybara.ignore_hidden_elements = false
       obj, _ = find_element
       object_not_found_exception(obj, 'Checkbox')
       invalid_object_type_exception(obj, 'checkbox')

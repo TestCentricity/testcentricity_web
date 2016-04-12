@@ -25,6 +25,7 @@ module TestCentricity
     attr_accessor :platform
     attr_accessor :signed_in
     attr_accessor :portal_status
+    attr_accessor :external_page
 
     attr_reader   :protocol
     attr_reader   :hostname
@@ -117,6 +118,14 @@ module TestCentricity
 
     def self.portal_state
       @portal_status
+    end
+
+    def self.set_external_page(state)
+      @external_page = state
+    end
+
+    def self.external_page
+      @external_page
     end
 
     def self.save_screen_shot(screen_shot)

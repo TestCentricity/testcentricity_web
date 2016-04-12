@@ -290,14 +290,19 @@ module TestCentricity
 
     def find_object
       @alt_locator.nil? ? locator = @locator : locator = @alt_locator
-      locator = "#{@parent.get_locator} #{locator}" if @context == :section && !@parent.get_locator.nil?
+      locator = "#{@parent.get_locator}|#{locator}" if @context == :section && !@parent.get_locator.nil?
       saved_wait_time = Capybara.default_max_wait_time
       Capybara.default_max_wait_time = 0.01
       tries ||= 2
       attributes = [:id, :xpath, :css]
       type = attributes[tries]
-      locator = locator.gsub(" //", "//") if type == :xpath
-      obj = page.find(type, locator, :visible => false)
+      case type
+      when :css
+        locator = locator.gsub("|", " ")
+      when :xpath
+        locator = locator.gsub("|//", "//")
+      end
+      obj = page.find(type, locator)
       [obj, type]
     rescue
       Capybara.default_max_wait_time = saved_wait_time
@@ -305,6 +310,7 @@ module TestCentricity
       [nil, nil]
     ensure
       Capybara.default_max_wait_time = saved_wait_time
+      Capybara.ignore_hidden_elements = true
     end
 
     def object_not_found_exception(obj, obj_type)

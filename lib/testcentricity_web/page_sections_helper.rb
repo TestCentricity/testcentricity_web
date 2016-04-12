@@ -170,7 +170,7 @@ module TestCentricity
 
     def get_locator
       (@locator.empty? && defined?(section_locator)) ? locator = section_locator : locator = @locator
-      (@context == :section && !@parent.nil? && !@parent.get_locator.nil?) ? "#{@parent.get_locator} #{locator}" : locator
+      (@context == :section && !@parent.nil? && !@parent.get_locator.nil?) ? "#{@parent.get_locator}|#{locator}" : locator
     end
 
     def set_parent(parent)
@@ -349,7 +349,12 @@ module TestCentricity
       tries ||= 2
       attributes = [:id, :xpath, :css]
       type = attributes[tries]
-      locator = locator.gsub(" //", "//") if type == :xpath
+      case type
+      when :css
+        locator = locator.gsub("|", " ")
+      when :xpath
+        locator = locator.gsub("|//", "//")
+      end
       obj = page.find(type, locator)
       [obj, type]
     rescue

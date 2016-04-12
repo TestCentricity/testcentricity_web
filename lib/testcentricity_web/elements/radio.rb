@@ -16,6 +16,7 @@ module TestCentricity
     #   accept_terms_radio.selected?
     #
     def selected?
+      Capybara.ignore_hidden_elements = false
       obj, _ = find_element
       object_not_found_exception(obj, 'Radio')
       obj.checked?
@@ -28,6 +29,7 @@ module TestCentricity
     #   accept_terms_radio.set_selected_state(true)
     #
     def set_selected_state(state)
+      Capybara.ignore_hidden_elements = false
       obj, _ = find_element
       object_not_found_exception(obj, 'Radio')
       invalid_object_type_exception(obj, 'radio')
