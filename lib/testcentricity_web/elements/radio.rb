@@ -9,6 +9,17 @@ module TestCentricity
       @alt_locator = nil
     end
 
+    # Does radio button object exists?
+    #
+    # @return [Boolean]
+    # @example
+    #   accept_terms_radio.exists?
+    #
+    def exists?
+      obj, _ = find_object(:all)
+      obj != nil
+    end
+
     # Is radio button selected?
     #
     # @return [Boolean]
@@ -16,8 +27,7 @@ module TestCentricity
     #   accept_terms_radio.selected?
     #
     def selected?
-      Capybara.ignore_hidden_elements = false
-      obj, _ = find_element
+      obj, _ = find_element(:all)
       object_not_found_exception(obj, 'Radio')
       obj.checked?
     end
@@ -29,8 +39,7 @@ module TestCentricity
     #   accept_terms_radio.set_selected_state(true)
     #
     def set_selected_state(state)
-      Capybara.ignore_hidden_elements = false
-      obj, _ = find_element
+      obj, _ = find_element(:all)
       object_not_found_exception(obj, 'Radio')
       invalid_object_type_exception(obj, 'radio')
       begin

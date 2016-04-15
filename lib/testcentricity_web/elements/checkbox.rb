@@ -9,6 +9,17 @@ module TestCentricity
       @alt_locator = nil
     end
 
+    # Does checkbox object exists?
+    #
+    # @return [Boolean]
+    # @example
+    #   remember_me_checkbox.exists?
+    #
+    def exists?
+      obj, _ = find_object(:all)
+      obj != nil
+    end
+
     # Is checkbox checked?
     #
     # @return [Boolean]
@@ -16,8 +27,7 @@ module TestCentricity
     #   remember_me_checkbox.checked?
     #
     def checked?
-      Capybara.ignore_hidden_elements = false
-      obj, _ = find_element
+      obj, _ = find_element(:all)
       object_not_found_exception(obj, 'Checkbox')
       obj.checked?
     end
@@ -29,8 +39,7 @@ module TestCentricity
     #   remember_me_checkbox.set_checkbox_state(true)
     #
     def set_checkbox_state(state)
-      Capybara.ignore_hidden_elements = false
-      obj, _ = find_element
+      obj, _ = find_element(:all)
       object_not_found_exception(obj, 'Checkbox')
       invalid_object_type_exception(obj, 'checkbox')
       begin

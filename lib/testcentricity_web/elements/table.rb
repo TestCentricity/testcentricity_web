@@ -260,20 +260,16 @@ module TestCentricity
     def click_header_column(column)
       column_count = get_column_count
       raise "Column #{column} exceeds number of columns (#{column_count}) in table header #{@locator}" if column > column_count
-      (column > 1) ?
-          set_alt_locator("#{@locator}/thead/tr/th[#{column}]") :
-          set_alt_locator("#{@locator}/thead/tr/th")
-      click
+      set_alt_locator("#{@locator}/thead/tr/th[#{column}]")
+      click if exists?
       clear_alt_locator
     end
 
     def get_header_column(column)
       column_count = get_column_count
       raise "Column #{column} exceeds number of columns (#{column_count}) in table header #{@locator}" if column > column_count
-      (column > 1) ?
-          set_alt_locator("#{@locator}/thead/tr/th[#{column}]") :
-          set_alt_locator("#{@locator}/thead/tr/th")
-      value = get_value
+      set_alt_locator("#{@locator}/thead/tr/th[#{column}]")
+      value = get_value(:all) if exists?(:all)
       clear_alt_locator
       value
     end
@@ -282,10 +278,8 @@ module TestCentricity
       columns = []
       column_count = get_column_count
       (1..column_count).each do |column|
-        (column > 1) ?
-            set_alt_locator("#{@locator}/thead/tr/th[#{column}]") :
-            set_alt_locator("#{@locator}/thead/tr/th")
-        columns.push(get_value)
+        set_alt_locator("#{@locator}/thead/tr/th[#{column}]")
+        columns.push(get_value(:all)) if exists?(:all)
       end
       clear_alt_locator
       columns

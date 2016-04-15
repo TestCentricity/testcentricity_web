@@ -27,6 +27,8 @@ module TestCentricity
         else
           first(:css, 'li.active-result', text: option).click
         end
+      elsif first(:xpath, "//ul/li")
+        first(:xpath, "//ul/li", text: option).click
       else
         if option.is_a?(Array)
           option.each do |item|
@@ -88,7 +90,7 @@ module TestCentricity
     def choose_siebel_option(option)
       Capybara.wait_on_first_by_default = true
       invoke_siebel_popup
-      first(:xpath, "//li[@class='ui-menu-item']", :exact => true, :match => :prefer_exact,text: option).click
+      first(:xpath, "//li[@class='ui-menu-item']", :exact => true, :match => :prefer_exact, text: option).click
     end
 
     # Return array of strings of all options in a Siebel OUI select box object.

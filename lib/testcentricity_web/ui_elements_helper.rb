@@ -118,8 +118,8 @@ module TestCentricity
     # @example
     #   basket_link.exists?
     #
-    def exists?
-      obj, _ = find_object
+    def exists?(visible = true)
+      obj, _ = find_object(visible)
       obj != nil
     end
 
@@ -240,8 +240,8 @@ module TestCentricity
       raise "Value of UI element #{@locator} failed to change from '#{value}' after #{timeout} seconds" unless exists?
     end
 
-    def get_value
-      obj, _ = find_element
+    def get_value(visible = true)
+      obj, _ = find_element(visible)
       object_not_found_exception(obj, nil)
       case obj.tag_name.downcase
         when 'input', 'select', 'textarea'
@@ -281,14 +281,26 @@ module TestCentricity
       obj.all(item_locator).collect(&:text)
     end
 
-    private
-
-    def find_element
-      wait = Selenium::WebDriver::Wait.new(timeout: Capybara.default_max_wait_time)
-      wait.until { find_object }
+    def get_attribute(attrib)
+      obj, _ = find_element
+      object_not_found_exception(obj, nil)
+      obj[attrib]
     end
 
-    def find_object
+    def get_native_attribute(attrib)
+      obj, _ = find_element
+      object_not_found_exception(obj, nil)
+      obj.native.attribute(attrib)
+    end
+
+    private
+
+    def find_element(visible = true)
+      wait = Selenium::WebDriver::Wait.new(timeout: Capybara.default_max_wait_time)
+      wait.until { find_object(visible) }
+    end
+
+    def find_object(visible = true)
       @alt_locator.nil? ? locator = @locator : locator = @alt_locator
       tries ||= 3
       attributes = [:name, :id, :xpath, :css]
@@ -298,23 +310,21 @@ module TestCentricity
         case type
         when :css
           parent_locator = parent_locator.gsub('|', ' ')
-          obj = page.find(:css, parent_locator, :wait => 0.01).find(:css, locator, :wait => 0.01)
+          obj = page.find(:css, parent_locator, :wait => 0.01).find(:css, locator, :wait => 0.01, :visible => visible)
         when :xpath
           parent_locator = parent_locator.gsub('|', '')
-          obj = page.find(:xpath, "#{parent_locator}#{locator}", :wait => 0.01)
+          obj = page.find(:xpath, "#{parent_locator}#{locator}", :wait => 0.01, :visible => visible)
           when :id
             parent_locator = parent_locator.gsub('|', ' ')
-            obj = page.find(:css, parent_locator, :wait => 0.01).find(:xpath, locator, :wait => 0.01)
+            obj = page.find(:css, parent_locator, :wait => 0.01).find(:xpath, locator, :wait => 0.01, :visible => visible)
         end
       else
-        obj = page.find(type, locator, :wait => 0.01)
+        obj = page.find(type, locator, :wait => 0.01, :visible => visible)
       end
       [obj, type]
     rescue
       retry if (tries -= 1) > 0
       [nil, nil]
-    ensure
-      Capybara.ignore_hidden_elements = true
     end
 
     def object_not_found_exception(obj, obj_type)

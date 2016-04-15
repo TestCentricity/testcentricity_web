@@ -6,9 +6,10 @@ module TestCentricity
     #
     # @param resolution [Array] the desired [width, height]
     # @example
-    #   Browsers.set_browser_window_size(1024, 768)
+    #   Browsers.set_browser_window_size([1024, 768])
     #
     def self.set_browser_window_size(resolution)
+      resolution = resolution.split(',') if resolution.is_a?(String)
       window = Capybara.current_session.driver.browser.manage.window
       window.resize_to(resolution[0], resolution[1])
     end
@@ -95,7 +96,7 @@ module TestCentricity
           size = [width, height]
         end
       else
-        size = [1900, 1000]
+        size = [1650, 1000]
       end
       size
     end

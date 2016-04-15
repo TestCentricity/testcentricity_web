@@ -278,6 +278,8 @@ module TestCentricity
               actual = ui_object.get_max_length
             when :options
               actual = ui_object.get_options
+            when :column_headers
+              actual = ui_object.get_header_columns
             when :siebel_options
               actual = ui_object.get_siebel_options
             else
@@ -333,6 +335,18 @@ module TestCentricity
           end
         end
       end
+    end
+
+    def get_attribute(attrib)
+      section, _ = find_section
+      raise "Section #{locator} not found" unless section
+      section[attrib]
+    end
+
+    def get_native_attribute(attrib)
+      section, _ = find_section
+      raise "Section #{locator} not found" unless section
+      section.native.attribute(attrib)
     end
 
     private

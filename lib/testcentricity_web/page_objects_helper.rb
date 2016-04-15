@@ -262,6 +262,8 @@ module TestCentricity
               actual = ui_object.get_max_length
             when :options
               actual = ui_object.get_options
+            when :column_headers
+              actual = ui_object.get_header_columns
             when :siebel_options
               actual = ui_object.get_siebel_options
             else

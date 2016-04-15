@@ -346,6 +346,14 @@ For locally hosted desktop web browsers, the `WEB_BROWSER` Environment Variable 
 `edge` | Windows 10 only
 `poltergeist` | OS X or Windows
 
+To set the size of a desktop browser window, you set the `BROWSER_SIZE` Environment Variable to the desired width and height in pixels as shown below:
+                                                                                                                               
+    BROWSER_SIZE=1600,1000
+
+To maximize a desktop browser window, you set the `BROWSER_SIZE` Environment Variable to 'max' as shown below:
+                                                                                                                               
+    BROWSER_SIZE=max
+
 
 ### Locally hosted emulated mobile web browser
 
@@ -391,9 +399,10 @@ the table below. Refer to the [Browserstack-specific capabilities chart page](ht
 `BS_OS` | Must be set to `OS X` or `Windows`
 `BS_OS_VERSION` | Refer to `os_version` capability in chart
 `BS_BROWSER` | Refer to `browser` capability in chart
-`BS_VERSION` | Refer to `browser_version` capability in chart
+`BS_VERSION` | [Optional] Refer to `browser_version` capability in chart. If not specified, latest stable version of browser will be used.
 `TUNNELING` | Must be `true` if you are testing against internal/local servers
-`RESOLUTION` | Refer to supported screen `resolution` capability in chart
+`RESOLUTION` | [Optional] Refer to supported screen `resolution` capability in chart
+`BROWSER_SIZE`| [Optional] Specify width, height of browser window
 
 
 #### Remote mobile browsers on the BrowserStack service
@@ -410,7 +419,7 @@ the table below. Refer to the [Browserstack-specific capabilities chart page](ht
 `BS_PLATFORM` | Must be set to `MAC` (for iOS) or `ANDROID`
 `BS_DEVICE` | Refer to `device` capability in chart
 `TUNNELING` | Must be `true` if you are testing against internal/local servers
-`ORIENTATION` | set to `portrait` or `landscape`
+`ORIENTATION` | [Optional] Set to `portrait` or `landscape`
 
 
 
@@ -426,7 +435,8 @@ the table below. Use the Configuration Wizard on the [Start a Selenium Test page
 `CB_AUTHKEY` | Must be set to your CrossBrowserTesting account access key
 `CB_OS` | Refer to `os_api_name` capability in the sample script of the Wizard
 `CB_BROWSER` | Refer to `browser_api_name` capability in the sample script of the Wizard
-`RESOLUTION` | Refer to supported `screen_resolution` capability in the sample script of the Wizard
+`RESOLUTION` | [Optional] Refer to supported `screen_resolution` capability in the sample script of the Wizard
+`BROWSER_SIZE`| [Optional] Specify width, height of browser window
 
 
 #### Remote mobile browsers on the CrossBrowserTesting service
@@ -458,7 +468,8 @@ the table below. Use the Selenium API on the [Platform Configurator page](https:
 `SL_OS` | Refer to `platform` capability in the Copy Code section of the Platform Configurator page
 `SL_BROWSER` | Must be set to `chrome`, `firefox`, `safari`, `internet explorer`, or `edge`
 `SL_VERSION` | Refer to `version` capability in the Copy Code section of the Platform Configurator page
-`RESOLUTION` | Refer to supported `screenResolution` capability in the Copy Code section of the Platform Configurator page
+`RESOLUTION` | [Optional] Refer to supported `screenResolution` capability in the Copy Code section of the Platform Configurator page
+`BROWSER_SIZE`| [Optional] Specify width, height of browser window
 
 
 #### Remote mobile browsers on the Sauce Labs service
@@ -493,7 +504,8 @@ the table below. Refer to the [TestingBot List of Available Browsers page](https
 `TB_BROWSER` | Refer to `browserName` capability in chart
 `TB_VERSION` | Refer to `version` capability in chart
 `TUNNELING` | Must be `true` if you are testing against internal/local servers
-`RESOLUTION` | Possible values: `800x600`, `1024x768`, `1280x960`, `1280x1024`, `1600x1200`, `1920x1200`, `2560x1440`
+`RESOLUTION` | [Optional] Possible values: `800x600`, `1024x768`, `1280x960`, `1280x1024`, `1600x1200`, `1920x1200`, `2560x1440`
+`BROWSER_SIZE`| [Optional] Specify width, height of browser window
 
 
 ### Using Browser specific Profiles in cucumber.yml
@@ -506,7 +518,7 @@ Below is a list of Cucumber **Profiles** for supported locally and remotely host
 `cucumber.yml` file). Before you can use the BrowserStack, CrossBrowserTesting, Sauce Labs, or TestingBot services, you will need to
 replace the placeholder text with your user account and authorization code for the cloud service(s) that you intend to connect with.
 
-    <% desktop          = "--tags ~@wip --tags ~@failing --tags @desktop --require features" %>
+    <% desktop          = "--tags ~@wip --tags ~@failing --tags @desktop --require features BROWSER_SIZE=1600,1000" %>
     <% mobile           = "--tags ~@wip --tags ~@failing --tags @mobile  --require features" %>
     
     #==============
