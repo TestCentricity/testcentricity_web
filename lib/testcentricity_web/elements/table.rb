@@ -180,13 +180,8 @@ module TestCentricity
     def set_table_cell(row, column, value)
       row_count = get_row_count
       raise "Row #{row} exceeds number of rows (#{row_count}) in table #{@locator}" if row > row_count
-      # column_count = get_column_count
-      # raise "Column #{column} exceeds number of columns (#{column_count}) in table #{@locator}" if column > column_count
-      set_table_cell_locator(row, column)
-      click if exists?
-      saved_locator = @alt_locator
-      set_alt_locator("#{saved_locator}/input")
-      set_alt_locator("#{saved_locator}/textarea") unless exists?
+      find_table_cell(row, column)
+      find_table_cell(row, column) unless exists?
       set(value)
       clear_alt_locator
     end
@@ -333,6 +328,14 @@ module TestCentricity
       row_spec = "#{row_spec}[#{row}]" if row > 1
       column_spec = "/td[#{column}]"
       set_alt_locator("#{row_spec}#{column_spec}")
+    end
+
+    def find_table_cell(row, column)
+      set_table_cell_locator(row, column)
+      click if exists?
+      saved_locator = @alt_locator
+      set_alt_locator("#{saved_locator}/input")
+      set_alt_locator("#{saved_locator}/textarea") unless exists?
     end
   end
 end
