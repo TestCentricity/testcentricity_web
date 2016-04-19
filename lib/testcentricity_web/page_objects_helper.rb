@@ -162,13 +162,13 @@ module TestCentricity
 
     def open_portal
       environment = Environ.current
-      (environment.hostname.length > 0) ?
-          url = "#{environment.hostname}/#{environment.base_url}#{environment.append}" :
-          url = "#{environment.base_url}#{environment.append}"
-      if environment.user_id.length > 0 && environment.password.length > 0
-        visit "#{environment.protocol}://#{environment.user_id}:#{environment.password}@#{url}"
-      else
+      environment.hostname.blank? ?
+          url = "#{environment.base_url}#{environment.append}" :
+          url = "#{environment.hostname}/#{environment.base_url}#{environment.append}"
+      if environment.user_id.blank? || environment.password.blank?
         visit "#{environment.protocol}://#{url}"
+      else
+        visit "#{environment.protocol}://#{environment.user_id}:#{environment.password}@#{url}"
       end
       Environ.set_portal_state(:open)
     end

@@ -4,8 +4,14 @@ module TestCentricity
 
     WKS_ENVIRONS ||= 'Environments'
 
-    def find_environ(row_name)
-      @current = Environ.new(ExcelData.read_row_data(XL_PRIMARY_DATA_FILE, WKS_ENVIRONS, row_name))
+    def find_environ(environ_name, source_type = :excel)
+      case source_type
+      when :excel
+        data = ExcelData.read_row_data(XL_PRIMARY_DATA_FILE, WKS_ENVIRONS, environ_name)
+      when :yaml
+        data = read_yaml_node_data('environments.yml', environ_name)
+      end
+      @current = Environ.new(data)
       Environ.set_current(@current)
     end
   end

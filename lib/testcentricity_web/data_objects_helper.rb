@@ -1,3 +1,5 @@
+require 'yaml'
+
 module TestCentricity
 
   XL_PRIMARY_DATA_PATH  ||= 'features/test_data/'
@@ -23,9 +25,17 @@ module TestCentricity
   end
 
 
-  class ExcelDataSource
+  class DataSource
     attr_accessor :current
 
+    def read_yaml_node_data(file_name, node_name)
+      data = YAML.load_file("#{XL_PRIMARY_DATA_PATH}#{file_name}")
+      data[node_name]
+    end
+  end
+
+
+  class ExcelDataSource < TestCentricity::DataSource
     def pick_excel_data_source(sheet, row_name)
       environment = ENV['TEST_ENVIRONMENT']
       data_file = "#{XL_PRIMARY_DATA_PATH}#{environment}_data.xls"
