@@ -6,7 +6,7 @@
 The TestCentricity™ core generic framework for desktop and mobile web site testing implements a Page Object and Data Object Model DSL for
 use with Cucumber, Capybara, and Selenium-Webdriver.
 
-The TestCentricity™ web gem supports running testing against the following web test targets:
+The TestCentricity™ Web gem supports running testing against the following web test targets:
 
 * locally hosted desktop browsers (Firefox, Chrome, Safari, IE, or Edge)
 * locally hosted emulated iOS, Android, and Windows Phone mobile browsers (using Firefox)
@@ -337,7 +337,7 @@ the connection.
 
 For locally hosted desktop web browsers, the `WEB_BROWSER` Environment Variable must be set to one of the values from the table below: 
 
-`WEB_BROWSER` | Desktop Platform
+`WEB_BROWSER` | **Desktop Platform**
 --------------- | ----------------
 `firefox` | OS X or Windows
 `chrome` | OS X or Windows

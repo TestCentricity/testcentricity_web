@@ -10,6 +10,8 @@ module TestCentricity
         data = ExcelData.read_row_data(XL_PRIMARY_DATA_FILE, WKS_ENVIRONS, environ_name)
       when :yaml
         data = read_yaml_node_data('environments.yml', environ_name)
+      when :json
+        data = read_json_node_data('environments.json', environ_name)
       end
       @current = Environ.new(data)
       Environ.set_current(@current)

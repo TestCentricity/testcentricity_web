@@ -1,4 +1,6 @@
 require 'yaml'
+require 'json'
+
 
 module TestCentricity
 
@@ -30,6 +32,12 @@ module TestCentricity
 
     def read_yaml_node_data(file_name, node_name)
       data = YAML.load_file("#{XL_PRIMARY_DATA_PATH}#{file_name}")
+      data[node_name]
+    end
+
+    def read_json_node_data(file_name, node_name)
+      raw_data = File.read("#{XL_PRIMARY_DATA_PATH}#{file_name}")
+      data = JSON.parse(raw_data)
       data[node_name]
     end
   end

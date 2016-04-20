@@ -15,18 +15,18 @@ module TestCentricity
       Environ.set_device_type('browser')
 
       case browser.downcase.to_sym
-        when :browserstack
-          initialize_browserstack
-        when :crossbrowser
-          initialize_crossbrowser
-        when :poltergeist
-          initialize_poltergeist
-        when :saucelabs
-          initialize_saucelabs
-        when :testingbot
-          initialize_testingbot
-        else
-          initialize_local_browser(browser)
+      when :browserstack
+        initialize_browserstack
+      when :crossbrowser
+        initialize_crossbrowser
+      when :poltergeist
+        initialize_poltergeist
+      when :saucelabs
+        initialize_saucelabs
+      when :testingbot
+        initialize_testingbot
+      else
+        initialize_local_browser(browser)
       end
 
       Capybara.app_host = app_host unless app_host.nil?
@@ -34,13 +34,15 @@ module TestCentricity
       # set browser window size only if testing with a desktop web browser
       unless Capybara.current_driver == :poltergeist
         if Environ.is_desktop?
-          if (ENV['BROWSER_SIZE'] == 'max') then
+          if ENV['BROWSER_SIZE'] == 'max'
             Browsers.maximize_browser
           elsif ENV['BROWSER_SIZE']
             Browsers.set_browser_window_size(ENV['BROWSER_SIZE'])
           else
             Browsers.set_browser_window_size(Browsers.browser_size(browser, ENV['ORIENTATION']))
           end
+        elsif Environ.is_mobile? && !Environ.is_device?
+          Browsers.set_browser_window_size(Browsers.browser_size(browser, ENV['ORIENTATION']))
         end
       end
 
@@ -53,16 +55,16 @@ module TestCentricity
       Capybara.default_driver = :selenium
       Capybara.register_driver :selenium do |app|
         case browser.downcase.to_sym
-          when :firefox, :chrome, :ie, :safari, :edge
-            Capybara::Selenium::Driver.new(app, :browser => browser.to_sym)
-          when :iphone, :iphone5, :iphone6, :iphone6_plus, :ipad, :ipad_pro, :android_phone, :android_tablet, :windows_phone7, :windows_phone8
-            Environ.set_platform(:mobile)
-            profile = Selenium::WebDriver::Firefox::Profile.new
-            profile['general.useragent.override'] = Browsers.mobile_device_agent(browser)
-            Capybara::Selenium::Driver.new(app, :profile => profile)
-          else
-            Capybara::Selenium::Driver.new(app, :browser => :firefox)
-            Environ.set_browser('firefox')
+        when :firefox, :chrome, :ie, :safari, :edge
+          Capybara::Selenium::Driver.new(app, :browser => browser.to_sym)
+        when :iphone, :iphone5, :iphone6, :iphone6_plus, :ipad, :ipad_pro, :android_phone, :android_tablet, :windows_phone7, :windows_phone8
+          Environ.set_platform(:mobile)
+          profile = Selenium::WebDriver::Firefox::Profile.new
+          profile['general.useragent.override'] = Browsers.mobile_device_agent(browser)
+          Capybara::Selenium::Driver.new(app, :profile => profile)
+        else
+          Capybara::Selenium::Driver.new(app, :browser => :firefox)
+          Environ.set_browser('firefox')
         end
       end
     end
@@ -103,15 +105,15 @@ module TestCentricity
         capabilities['browserstack.localIdentifier'] =  ENV['BS_LOCAL_ID'] if ENV['BS_LOCAL_ID']
 
         case browser.downcase.to_sym
-          when :ie
-            capabilities['ie.ensureCleanSession'] = 'true'
-            capabilities['ie.browserCommandLineSwitches'] = 'true'
-            capabilities['nativeEvents'] ='true'
-          when :safari
-            capabilities['cleanSession'] = 'true'
-          when :iphone, :ipad
-            capabilities['javascriptEnabled'] = 'true'
-            capabilities['cleanSession'] = 'true'
+        when :ie
+          capabilities['ie.ensureCleanSession'] = 'true'
+          capabilities['ie.browserCommandLineSwitches'] = 'true'
+          capabilities['nativeEvents'] ='true'
+        when :safari
+          capabilities['cleanSession'] = 'true'
+        when :iphone, :ipad
+          capabilities['javascriptEnabled'] = 'true'
+          capabilities['cleanSession'] = 'true'
         end
         Capybara::Selenium::Driver.new(app, :browser => :remote, :url => endpoint, :desired_capabilities => capabilities)
       end
@@ -137,6 +139,7 @@ module TestCentricity
           Environ.set_platform(:desktop)
         elsif ENV['CB_PLATFORM']
           capabilities['os_api_name'] = ENV['CB_PLATFORM']
+          Environ.set_device_type(ENV['CB_PLATFORM'])
           Environ.set_platform(:mobile)
         end
         Capybara::Selenium::Driver.new(app, :browser => :remote, :url => endpoint, :desired_capabilities => capabilities)
@@ -181,6 +184,7 @@ module TestCentricity
           capabilities['deviceName'] = ENV['SL_DEVICE']
           capabilities['deviceType'] = ENV['SL_DEVICE_TYPE'] if ENV['SL_DEVICE_TYPE']
           capabilities['deviceOrientation'] = ENV['ORIENTATION'] if ENV['ORIENTATION']
+          Environ.set_device_type(ENV['SL_DEVICE'])
           Environ.set_platform(:mobile)
         end
 

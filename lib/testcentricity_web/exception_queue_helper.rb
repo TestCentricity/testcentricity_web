@@ -6,20 +6,20 @@ module TestCentricity
 
     def self.enqueue_assert_equal(expected, actual, error_message)
       unless expected == actual
-        @error_queue = "#{@error_queue}#{error_message} to be\n  #{expected}\nbut found\n  #{actual}\n\n"
+        enqueue("#{error_message} to be\n  #{expected}\nbut found\n  #{actual}")
         enqueue_screenshot
       end
     end
 
     def self.enqueue_assert_not_equal(expected, actual, error_message)
       unless expected != actual
-        @error_queue = "#{@error_queue}#{error_message} to not be equal to #{expected}\n\n"
+        enqueue("#{error_message} to not be equal to #{expected}")
         enqueue_screenshot
       end
     end
 
     def self.enqueue_exception(error_message)
-      @error_queue = "#{@error_queue}#{error_message}\n\n"
+      enqueue(error_message)
     end
 
     def self.post_exceptions
@@ -29,6 +29,10 @@ module TestCentricity
     end
 
     private
+
+    def self.enqueue(message)
+      @error_queue = "#{@error_queue}#{message}\n\n"
+    end
 
     def self.enqueue_screenshot
       timestamp = Time.now.strftime('%Y%m%d%H%M%S')

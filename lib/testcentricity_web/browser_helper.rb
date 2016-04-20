@@ -72,6 +72,14 @@ module TestCentricity
       end
     end
 
+    def self.set_device_orientation(orientation)
+      if Environ.is_mobile? && !Environ.is_device?
+        Browsers.set_browser_window_size(Browsers.browser_size(Environ.browser.to_s, orientation))
+      else
+        puts '***** Cannot change device orientation of desktop web browsers or remote devices *****'
+      end
+    end
+
     def self.mobile_device_agent(device)
       key = device.gsub(/\s+/, "").downcase.to_sym
       devices = device_agents
