@@ -47,8 +47,8 @@ module TestCentricity
       rescue
         unless state == obj.checked?
           check_id = obj.native.attribute('id')
-          label = first("label[for='#{check_id}']")
-          label.click if label.exists?
+          label = first("label[for='#{check_id}']", :wait => 1, :visible => true)
+          label.click unless label.nil?
         end
       end
     end

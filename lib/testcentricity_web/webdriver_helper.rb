@@ -59,9 +59,17 @@ module TestCentricity
           Capybara::Selenium::Driver.new(app, :browser => browser.to_sym)
         when :iphone, :iphone5, :iphone6, :iphone6_plus, :ipad, :ipad_pro, :android_phone, :android_tablet, :windows_phone7, :windows_phone8
           Environ.set_platform(:mobile)
-          profile = Selenium::WebDriver::Firefox::Profile.new
-          profile['general.useragent.override'] = Browsers.mobile_device_agent(browser)
-          Capybara::Selenium::Driver.new(app, :profile => profile)
+          ENV['HOST_BROWSER'] ? host_browser = ENV['HOST_BROWSER'].downcase.to_sym : host_browser = :firefox
+          case host_browser
+          when :firefox
+            profile = Selenium::WebDriver::Firefox::Profile.new
+            profile['general.useragent.override'] = Browsers.mobile_device_agent(browser)
+            Capybara::Selenium::Driver.new(app, :profile => profile)
+          when :chrome
+            args = []
+            args << "--user-agent='#{Browsers.mobile_device_agent(browser)}'"
+            Capybara::Selenium::Driver.new(app, :browser => :chrome, :args => args)
+          end
         else
           Capybara::Selenium::Driver.new(app, :browser => :firefox)
           Environ.set_browser('firefox')

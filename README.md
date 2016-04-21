@@ -1,15 +1,15 @@
-# TestCentricityWeb
+# TestCentricity™ Web
 
 [![Gem Version](https://badge.fury.io/rb/testcentricity_web.svg)](https://badge.fury.io/rb/testcentricity_web)  [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause)
 
 
-The TestCentricity™ core generic framework for desktop and mobile web site testing implements a Page Object and Data Object Model DSL for
+The TestCentricity™ Web core generic framework for desktop and mobile web site testing implements a Page Object and Data Object Model DSL for
 use with Cucumber, Capybara, and Selenium-Webdriver.
 
 The TestCentricity™ Web gem supports running testing against the following web test targets:
 
 * locally hosted desktop browsers (Firefox, Chrome, Safari, IE, or Edge)
-* locally hosted emulated iOS, Android, and Windows Phone mobile browsers (using Firefox)
+* locally hosted emulated iOS, Android, and Windows Phone mobile browsers (using Firefox or Chrome)
 * a "headless" browser (using Poltergeist and PhantomJS)
 * cloud hosted desktop or mobile web browsers using the BrowserStack, Sauce Labs, CrossBrowserTesting, or TestingBot services.
 
@@ -61,9 +61,9 @@ project's Gemfile:
 
 The **Page Object Model** is a test automation pattern that aims to create an abstraction of your web app's User Interface that can be used
 in tests. A **Page Object** is an object that represents a single page in your AUT (Application Under Test). **Page Objects** encapsulate the
-implementation details of a web page and expose an API that supports interaction with, and validation of UI elements on the page.
+implementation details of a web page and expose an API that supports interaction with, and validation of the UI elements on the page.
 
-**Page Objects** makes it easier to maintain automated tests, because changes to page UI elements are only changed in one location - in the
+**Page Objects** makes it easier to maintain automated tests because changes to page UI elements are updated in only one location - in the
 **Page Object** class definition. By adopting a **Page Object Model**, Cucumber Feature files and step definitions are no longer required to
 hold specific information about a page's UI objects, thus minimizing maintenance requirements. If any element on a page changes (URL path,
 text field attributes, button captions, etc.), maintenance is performed in the **Page Object** class definition only, typically with no need
@@ -357,26 +357,29 @@ To maximize a desktop browser window, you set the `BROWSER_SIZE` Environment Var
 
 ### Locally hosted emulated mobile web browser
 
-You can also run your tests against emulated mobile device browsers within a locally hosted instance of the Firefox desktop browser. The specified
-mobile browser's user agent and default screen resolution and orientation will be automatically be set in the local Firefox browser instance. You
-may even specify the emulated device's screen orientation. For locally hosted emulated mobile web browsers, the `WEB_BROWSER` Environment Variable
-must be set to one of the values from the table below: 
+You can also run your tests against emulated mobile device browsers within a locally hosted instance of a Firefox (default) or Chrome desktop browser.
+The specified mobile browser's user agent and default screen resolution and orientation will be automatically set in the local Firefox or Chrome browser
+instance. You may even specify the emulated device's screen orientation. For locally hosted emulated mobile web browsers, the `WEB_BROWSER` Environment
+Variable must be set to one of the values from the table below: 
 
-`WEB_BROWSER` |
---------------- |
-`ipad` |
-`ipad_pro` |
-`iphone` |
-`iphone4` |
-`iphone5` |
-`iphone6` |
-`iphone6_plus` |
-`android_phone` |
-`android_tablet` |
-`windows_phone7` |
-`windows_phone8` |
+`WEB_BROWSER` | `HOST_BROWSER`
+--------------- |------------
+`ipad` |`firefox` (default) or `chrome`
+`ipad_pro` |`firefox` (default) or `chrome`
+`iphone` |`firefox` (default) or `chrome`
+`iphone4` |`firefox` (default) or `chrome`
+`iphone5` |`firefox` (default) or `chrome`
+`iphone6` |`firefox` (default) or `chrome`
+`iphone6_plus` |`firefox` (default) or `chrome`
+`android_phone` |`firefox` (default) or `chrome`
+`android_tablet` |`firefox` (default) or `chrome`
+`windows_phone7` |`firefox` (default) or `chrome`
+`windows_phone8` |`firefox` (default) or `chrome`
 
 To specify the emulated device's screen orientation, you set the `ORIENTATION` Environment Variable to either `portrait` or `landscape`.
+
+To use a local instance of the Chrome desktop browser to host the emulated mobile web browser, you must set the `HOST_BROWSER` Environment Variable
+to `chrome`.
 
 
 ### Remotely hosted desktop and mobile web browsers
@@ -534,19 +537,20 @@ replace the placeholder text with your user account and authorization code for t
     
     #==============
     # profiles for locally hosted mobile web browsers (emulated locally in Firefox browser)
+    # NOTE: to host emulated mobile browsers in Chrome set the HOST_BROWSER=chrome
     #==============
     
-    ipad:               WEB_BROWSER=ipad            <%= mobile %>
-    ipad_pro:           WEB_BROWSER=ipad_pro        <%= mobile %>
-    iphone:             WEB_BROWSER=iphone          <%= mobile %>
-    iphone4:            WEB_BROWSER=iphone4         <%= mobile %>
-    iphone5:            WEB_BROWSER=iphone5         <%= mobile %>
-    iphone6:            WEB_BROWSER=iphone6         <%= mobile %>
-    iphone6_plus:       WEB_BROWSER=iphone6_plus    <%= mobile %>
-    android_phone:      WEB_BROWSER=android_phone   <%= mobile %>
-    android_tablet:     WEB_BROWSER=android_tablet  <%= mobile %>
-    windows_phone7:     WEB_BROWSER=windows_phone7  <%= mobile %>
-    windows_phone8:     WEB_BROWSER=windows_phone8  <%= mobile %>
+    ipad:               WEB_BROWSER=ipad            HOST_BROWSER=firefox <%= mobile %>
+    ipad_pro:           WEB_BROWSER=ipad_pro        HOST_BROWSER=firefox <%= mobile %>
+    iphone:             WEB_BROWSER=iphone          HOST_BROWSER=firefox <%= mobile %>
+    iphone4:            WEB_BROWSER=iphone4         HOST_BROWSER=firefox <%= mobile %>
+    iphone5:            WEB_BROWSER=iphone5         HOST_BROWSER=firefox <%= mobile %>
+    iphone6:            WEB_BROWSER=iphone6         HOST_BROWSER=firefox <%= mobile %>
+    iphone6_plus:       WEB_BROWSER=iphone6_plus    HOST_BROWSER=firefox <%= mobile %>
+    android_phone:      WEB_BROWSER=android_phone   HOST_BROWSER=firefox <%= mobile %>
+    android_tablet:     WEB_BROWSER=android_tablet  HOST_BROWSER=firefox <%= mobile %>
+    windows_phone7:     WEB_BROWSER=windows_phone7  HOST_BROWSER=firefox <%= mobile %>
+    windows_phone8:     WEB_BROWSER=windows_phone8  HOST_BROWSER=firefox <%= mobile %>
     
     
     #==============
@@ -791,12 +795,12 @@ To specify a locally hosted target browser using a profile at runtime, you use t
 invoking Cucumber in the command line. For instance, the following command invokes Cucumber and specifies that a local instance of Chrome
 will be used as the target web browser:
     
-    cucumber -p chrome
+    $ cucumber -p chrome
     
 The following command specifies that Cucumber will run tests against a local instance of Firefox, which will be used to emulate an iPad Pro
 in landscape orientation:
     
-    cucumber -p ipad_pro -p landscape
+    $ cucumber -p ipad_pro -p landscape
  
 The following command specifies that Cucumber will run tests against a remotely hosted Safari web browser running on an OS X Yosemite
 virtual machine on the BrowserStack service:
@@ -806,7 +810,7 @@ virtual machine on the BrowserStack service:
 The following command specifies that Cucumber will run tests against a remotely hosted Mobile Safari web browser on an iPhone 6s Plus in
 landscape orientation running on the BrowserStack service:
 
-    cucumber -p bs_iphone6_plus -p landscape
+    $ cucumber -p bs_iphone6_plus -p landscape
 
 
 
