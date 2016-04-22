@@ -6,6 +6,7 @@ module TestCentricity
     include Capybara::DSL
 
     def self.initialize_web_driver(app_host = nil)
+      Capybara.app_host = app_host unless app_host.nil?
       browser = ENV['WEB_BROWSER']
 
       # assume that we're testing within a local desktop web browser
@@ -29,22 +30,8 @@ module TestCentricity
         initialize_local_browser(browser)
       end
 
-      Capybara.app_host = app_host unless app_host.nil?
-
       # set browser window size only if testing with a desktop web browser
-      unless Capybara.current_driver == :poltergeist
-        if Environ.is_desktop?
-          if ENV['BROWSER_SIZE'] == 'max'
-            Browsers.maximize_browser
-          elsif ENV['BROWSER_SIZE']
-            Browsers.set_browser_window_size(ENV['BROWSER_SIZE'])
-          else
-            Browsers.set_browser_window_size(Browsers.browser_size(browser, ENV['ORIENTATION']))
-          end
-        elsif Environ.is_mobile? && !Environ.is_device?
-          Browsers.set_browser_window_size(Browsers.browser_size(browser, ENV['ORIENTATION']))
-        end
-      end
+      initialize_browser_size(browser) unless Capybara.current_driver == :poltergeist
 
       puts "Using #{Environ.browser.to_s} browser"
     end
@@ -57,7 +44,7 @@ module TestCentricity
         case browser.downcase.to_sym
         when :firefox, :chrome, :ie, :safari, :edge
           Capybara::Selenium::Driver.new(app, :browser => browser.to_sym)
-        when :iphone, :iphone5, :iphone6, :iphone6_plus, :ipad, :ipad_pro, :android_phone, :android_tablet, :windows_phone7, :windows_phone8
+        when :iphone, :iphone5, :iphone6, :iphone6_plus, :ipad, :ipad_pro, :android_phone, :android_tablet, :windows_phone7, :windows_phone8, :kindle_fire, :kindle_firehd7, :kindle_firehd8, :surface, :blackberry_playbook
           Environ.set_platform(:mobile)
           ENV['HOST_BROWSER'] ? host_browser = ENV['HOST_BROWSER'].downcase.to_sym : host_browser = :firefox
           case host_browser
@@ -232,6 +219,20 @@ module TestCentricity
       Capybara.default_driver = :testingbot
       Capybara.run_server = false
 
+    end
+
+    def self.initialize_browser_size(browser)
+      if Environ.is_desktop?
+        if ENV['BROWSER_SIZE'] == 'max'
+          Browsers.maximize_browser
+        elsif ENV['BROWSER_SIZE']
+          Browsers.set_browser_window_size(ENV['BROWSER_SIZE'])
+        else
+          Browsers.set_browser_window_size(Browsers.browser_size(browser, ENV['ORIENTATION']))
+        end
+      elsif Environ.is_mobile? && !Environ.is_device?
+        Browsers.set_browser_window_size(Browsers.browser_size(browser, ENV['ORIENTATION']))
+      end
     end
   end
 end

@@ -222,7 +222,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { get_value == value }
     rescue
-      raise "Value of UI element #{@locator} failed to equal '#{value}' after #{timeout} seconds" unless exists?
+      raise "Value of UI element #{@locator} failed to equal '#{value}' after #{timeout} seconds" unless get_value == value
     end
 
     # Wait until the object's value changes to a different value, or until the specified wait time has expired.
@@ -237,7 +237,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { get_value != value }
     rescue
-      raise "Value of UI element #{@locator} failed to change from '#{value}' after #{timeout} seconds" unless exists?
+      raise "Value of UI element #{@locator} failed to change from '#{value}' after #{timeout} seconds" if get_value == value
     end
 
     def get_value(visible = true)
