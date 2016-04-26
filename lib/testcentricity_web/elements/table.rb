@@ -1,11 +1,46 @@
 module TestCentricity
   class Table < UIElement
+    attr_accessor :table_body
+    attr_accessor :table_row
+    attr_accessor :table_column
+    attr_accessor :table_header
+    attr_accessor :header_row
+    attr_accessor :header_column
+
     def initialize(parent, locator, context)
-      @parent  = parent
-      @locator = locator
-      @context = context
-      @type    = :table
-      @alt_locator = nil
+      @parent        = parent
+      @locator       = locator
+      @context       = context
+      @type          = :table
+      @alt_locator   = nil
+
+      table_spec = { :table_body    => 'tbody',
+                     :table_row     => 'tr',
+                     :table_column  => 'td',
+                     :table_header  => 'thead',
+                     :header_row    => 'tr',
+                     :header_column => 'th'
+      }
+      define_table_elements(table_spec)
+    end
+
+    def define_table_elements(element_spec)
+      element_spec.each do | element, value |
+        case element
+        when :table_body
+          @table_body = value
+        when :table_row
+          @table_row = value
+        when :table_column
+          @table_column = value
+        when :table_header
+          @table_header = value
+        when :header_row
+          @header_row = value
+        when :header_column
+          @header_column = value
+        end
+      end
     end
 
     # Return number of rows in a table object.
@@ -16,7 +51,7 @@ module TestCentricity
     #
     def get_row_count
       wait_until_exists(5)
-      row_count = page.all(:xpath, "#{@locator}/tbody/tr", :visible => :all).count
+      row_count = page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}", :visible => :all).count
       row_count
     end
 
@@ -29,11 +64,11 @@ module TestCentricity
     def get_column_count
       row_count = get_row_count
       if row_count == 0
-        page.all(:xpath, "#{@locator}/thead/tr/th", :visible => :all).count
+        page.all(:xpath, "#{@locator}/#{@table_header}/#{@header_row}/#{@header_column}", :visible => :all).count
       else
         (row_count == 1) ?
-            page.all(:xpath, "#{@locator}/tbody/tr/td", :visible => :all).count :
-            page.all(:xpath, "#{@locator}/tbody/tr[2]/td", :visible => :all).count
+            page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}/#{@table_column}", :visible => :all).count :
+            page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}[2]/#{@table_column}", :visible => :all).count
       end
     end
 
@@ -128,8 +163,8 @@ module TestCentricity
       row_count = get_row_count
       raise "Row #{row} exceeds number of rows (#{row_count}) in table #{@locator}" if row > row_count
       (row > 1) ?
-          set_alt_locator("#{@locator}/tbody/tr[#{row}]") :
-          set_alt_locator("#{@locator}/tbody/tr")
+          set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}[#{row}]") :
+          set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}")
       value = get_value if exists?
       clear_alt_locator
       value
@@ -255,7 +290,7 @@ module TestCentricity
     def click_header_column(column)
       column_count = get_column_count
       raise "Column #{column} exceeds number of columns (#{column_count}) in table header #{@locator}" if column > column_count
-      set_alt_locator("#{@locator}/thead/tr/th[#{column}]")
+      set_alt_locator("#{@locator}//#{@table_header}/#{@header_row}/#{@header_column}[#{column}]")
       click if exists?
       clear_alt_locator
     end
@@ -263,7 +298,7 @@ module TestCentricity
     def get_header_column(column)
       column_count = get_column_count
       raise "Column #{column} exceeds number of columns (#{column_count}) in table header #{@locator}" if column > column_count
-      set_alt_locator("#{@locator}/thead/tr/th[#{column}]")
+      set_alt_locator("#{@locator}//#{@table_header}/#{@header_row}/#{@header_column}[#{column}]")
       value = get_value(:all) if exists?(:all)
       clear_alt_locator
       value
@@ -273,13 +308,12 @@ module TestCentricity
       columns = []
       column_count = get_column_count
       (1..column_count).each do |column|
-        set_alt_locator("#{@locator}/thead/tr/th[#{column}]")
+        set_alt_locator("#{@locator}//#{@table_header}/#{@header_row}/#{@header_column}[#{column}]")
         columns.push(get_value(:all)) if exists?(:all)
       end
       clear_alt_locator
       columns
     end
-
 
     def is_table_row_expanded?(row, column)
       row_count = get_row_count
@@ -324,9 +358,9 @@ module TestCentricity
     private
 
     def set_table_cell_locator(row, column)
-      row_spec = "#{@locator}/tbody/tr"
+      row_spec = "#{@locator}/#{@table_body}/#{@table_row}"
       row_spec = "#{row_spec}[#{row}]" if row > 1
-      column_spec = "/td[#{column}]"
+      column_spec = "/#{@table_column}[#{column}]"
       set_alt_locator("#{row_spec}#{column_spec}")
     end
 

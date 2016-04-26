@@ -197,6 +197,20 @@ module TestCentricity
       raise "Could not find element #{@locator} after #{timeout} seconds" unless exists?
     end
 
+    # Wait until the object is visible, or until the specified wait time has expired.
+    #
+    # @param seconds [Integer or Float] wait time in seconds
+    # @example
+    #   run_button.wait_until_visible(0.5)
+    #
+    def wait_until_visible(seconds = nil)
+      timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
+      wait = Selenium::WebDriver::Wait.new(timeout: timeout)
+      wait.until { visible? }
+    rescue
+      raise "Could not find element #{@locator} after #{timeout} seconds" unless exists?
+    end
+
     # Wait until the object no longer exists, or until the specified wait time has expired.
     #
     # @param seconds [Integer or Float] wait time in seconds

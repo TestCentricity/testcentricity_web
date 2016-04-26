@@ -27,8 +27,6 @@ module TestCentricity
         else
           first(:css, 'li.active-result', text: option).click
         end
-      elsif first(:xpath, "//ul/li")
-        first(:xpath, "//ul/li", text: option).click
       else
         if option.is_a?(Array)
           option.each do |item|
