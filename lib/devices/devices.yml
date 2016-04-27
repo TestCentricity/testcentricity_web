@@ -78,3 +78,13 @@
   :css_height: 600
   :default_orientation: landscape
   :user_agent: "Mozilla/5.0 (PlayBook; U; RIM Tablet OS 2.1.0; en-US) AppleWebKit/536.2+ (KHTML like Gecko) Version/7.2.1.0 Safari/536.2+"
+:samsung_galaxy_tab:
+  :css_width: 1280
+  :css_height: 800
+  :default_orientation: landscape
+  :user_agent: "Mozilla/5.0 (Linux; U; Android 2.2; en-us; SCH-I800 Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1"
+:google_nexus7:
+  :css_width: 960
+  :css_height: 600
+  :default_orientation: landscape
+  :user_agent: "Mozilla/5.0 (Linux; Android 4.3; Nexus 7 Build/JSS15Q) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.72 Safari/537.36",

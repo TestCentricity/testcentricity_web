@@ -6,6 +6,8 @@ module TestCentricity
     attr_accessor :table_header
     attr_accessor :header_row
     attr_accessor :header_column
+    attr_accessor :tree_expand
+    attr_accessor :tree_collapse
 
     def initialize(parent, locator, context)
       @parent        = parent
@@ -19,7 +21,9 @@ module TestCentricity
                      :table_column  => 'td',
                      :table_header  => 'thead',
                      :header_row    => 'tr',
-                     :header_column => 'th'
+                     :header_column => 'th',
+                     :tree_expand   => "div/div[contains(@class, 'tree-plus treeclick')]",
+                     :tree_collapse => "div/div[contains(@class, 'tree-minus treeclick')]"
       }
       define_table_elements(table_spec)
     end
@@ -39,6 +43,10 @@ module TestCentricity
           @header_row = value
         when :header_column
           @header_column = value
+        when :tree_expand
+          @tree_expand = value
+        when :tree_collapse
+          @tree_collapse = value
         end
       end
     end
@@ -321,7 +329,7 @@ module TestCentricity
       column_count = get_column_count
       raise "Column #{column} exceeds number of columns (#{column_count}) in table #{@locator}" if column > column_count
       set_table_cell_locator(row, column)
-      set_alt_locator("#{@alt_locator}/div/div[contains(@class, 'tree-plus treeclick')]")
+      set_alt_locator("#{@alt_locator}/#{@tree_expand}")
       expanded = true
       expanded = false if exists?
       clear_alt_locator
@@ -331,7 +339,7 @@ module TestCentricity
     def expand_table_row(row, column)
       unless is_table_row_expanded?(row, column)
         set_table_cell_locator(row, column)
-        set_alt_locator("#{@alt_locator}/div/div[contains(@class, 'tree-plus treeclick')]")
+        set_alt_locator("#{@alt_locator}/#{@tree_expand}")
         click if exists?
         clear_alt_locator
       end
@@ -340,7 +348,7 @@ module TestCentricity
     def collapse_table_row(row, column)
       if is_table_row_expanded?(row, column)
         set_table_cell_locator(row, column)
-        set_alt_locator("#{@alt_locator}/div/div[contains(@class, 'tree-minus treeclick')]")
+        set_alt_locator("#{@alt_locator}/#{@tree_collapse}")
         click if exists?
         clear_alt_locator
       end

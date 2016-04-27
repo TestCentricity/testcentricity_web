@@ -44,7 +44,7 @@ module TestCentricity
         case browser.downcase.to_sym
         when :firefox, :chrome, :ie, :safari, :edge
           Capybara::Selenium::Driver.new(app, :browser => browser.to_sym)
-        when :iphone, :iphone5, :iphone6, :iphone6_plus, :ipad, :ipad_pro, :android_phone, :android_tablet, :windows_phone7, :windows_phone8, :kindle_fire, :kindle_firehd7, :kindle_firehd8, :surface, :blackberry_playbook
+        when :iphone, :iphone5, :iphone6, :iphone6_plus, :ipad, :ipad_pro, :android_phone, :android_tablet, :windows_phone7, :windows_phone8, :kindle_fire, :kindle_firehd7, :kindle_firehd8, :surface, :blackberry_playbook, :samsung_galaxy_tab, :google_nexus7
           Environ.set_platform(:mobile)
           ENV['HOST_BROWSER'] ? host_browser = ENV['HOST_BROWSER'].downcase.to_sym : host_browser = :firefox
           case host_browser

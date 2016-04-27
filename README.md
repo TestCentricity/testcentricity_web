@@ -358,30 +358,32 @@ To maximize a desktop browser window, you set the `BROWSER_SIZE` Environment Var
 ### Locally hosted emulated mobile web browser
 
 You can also run your tests against emulated mobile device browsers within a locally hosted instance of a Firefox or Chrome desktop browser. The
-specified mobile browser's user agent and default CSS screen dimensions and orientation will be automatically set in the local Firefox or Chrome
+specified mobile browser's user agent, CSS screen dimensions, and default screen orientation will be automatically set in the local Firefox or Chrome
 browser instance. You may even specify the emulated device's screen orientation. For locally hosted emulated mobile web browsers, the `WEB_BROWSER`
 Environment Variable must be set to one of the values from the table below: 
 
-`WEB_BROWSER` | `HOST_BROWSER` | **Default CSS Screen Dimensions** | **Default Orientation** 
+`WEB_BROWSER` | `HOST_BROWSER` | **CSS Screen Dimensions** | **Default Orientation** 
 --------------|----------------|-------------------------------|-------------------
-`ipad` |`firefox` or `chrome` |1024, 768|landscape
-`ipad_pro` |`firefox` or `chrome` |1366, 1024|landscape
-`android_tablet` |`firefox` or `chrome` |1024, 768|landscape
-`kindle_fire` |`firefox` or `chrome` |1024, 600|landscape
-`kindle_firehd7` |`firefox` or `chrome` |800, 480|landscape
-`kindle_firehd8` |`firefox` or `chrome` |1280, 800|landscape
-`surface` |`firefox` or `chrome` |1366, 768|landscape
-`blackberry_playbook` |`firefox` or `chrome` |1024, 600|landscape
-`iphone` |`firefox` or `chrome` |320, 480|portrait
-`iphone4` |`firefox` or `chrome` |320, 480|portrait
-`iphone5` |`firefox` or `chrome` |320, 568|portrait
-`iphone6` |`firefox` or `chrome` |375, 667|portrait
-`iphone6_plus` |`firefox` or `chrome` |414, 736|portrait
-`android_phone` |`firefox` or `chrome` |320, 480|portrait
-`windows_phone7` |`firefox` or `chrome` |320, 480|portrait
-`windows_phone8` |`firefox` or `chrome` |320, 480|portrait
+`ipad`           |`firefox` or `chrome` |1024 x 768|landscape
+`ipad_pro`       |`firefox` or `chrome` |1366 x 1024|landscape
+`android_tablet` |`firefox` or `chrome` |1024 x 768|landscape
+`kindle_fire`    |`firefox` or `chrome` |1024 x 600|landscape
+`kindle_firehd7` |`firefox` or `chrome` |800 x 480|landscape
+`kindle_firehd8` |`firefox` or `chrome` |1280 x 800|landscape
+`surface`        |`firefox` or `chrome` |1366 x 768|landscape
+`blackberry_playbook` |`firefox` or `chrome` |1024 x 600|landscape
+`samsung_galaxy_tab`  |`firefox` or `chrome` |1280 x 800|landscape
+`google_nexus7`       |`firefox` or `chrome` |960 x 600|landscape
+`iphone`  |`firefox` or `chrome` |320 x 480|portrait
+`iphone4` |`firefox` or `chrome` |320 x 480|portrait
+`iphone5` |`firefox` or `chrome` |320 x 568|portrait
+`iphone6` |`firefox` or `chrome` |375 x 667|portrait
+`iphone6_plus`   |`firefox` or `chrome` |414 x 736|portrait
+`android_phone`  |`firefox` or `chrome` |320 x 480|portrait
+`windows_phone7` |`firefox` or `chrome` |320 x 480|portrait
+`windows_phone8` |`firefox` or `chrome` |320 x 480|portrait
 
-To specify the emulated device's screen orientation, you set the `ORIENTATION` Environment Variable to either `portrait` or `landscape`.
+To change the emulated device's screen orientation from the default setting, set the `ORIENTATION` Environment Variable to either `portrait` or `landscape`.
 
 To use a local instance of the Chrome desktop browser to host the emulated mobile web browser, you must set the `HOST_BROWSER` Environment Variable
 to `chrome`.
@@ -559,6 +561,8 @@ replace the placeholder text with your user account and authorization code for t
     kindle_firehd8:      WEB_BROWSER=kindle_firehd8      HOST_BROWSER=firefox <%= mobile %>
     surface:             WEB_BROWSER=surface             HOST_BROWSER=firefox <%= mobile %>
     blackberry_playbook: WEB_BROWSER=blackberry_playbook HOST_BROWSER=firefox <%= mobile %>
+    samsung_galaxy_tab:  WEB_BROWSER=samsung_galaxy_tab  HOST_BROWSER=firefox <%= mobile %>
+    google_nexus7:       WEB_BROWSER=google_nexus7       HOST_BROWSER=firefox <%= mobile %>
     windows_phone7:      WEB_BROWSER=windows_phone7      HOST_BROWSER=firefox <%= mobile %>
     windows_phone8:      WEB_BROWSER=windows_phone8      HOST_BROWSER=firefox <%= mobile %>
     
