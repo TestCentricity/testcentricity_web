@@ -31,7 +31,7 @@ module TestCentricity
       end
 
       # set browser window size only if testing with a desktop web browser
-      initialize_browser_size(browser) unless Capybara.current_driver == :poltergeist
+      initialize_browser_size unless Capybara.current_driver == :poltergeist
 
       puts "Using #{Environ.browser.to_s} browser"
     end
@@ -221,7 +221,8 @@ module TestCentricity
 
     end
 
-    def self.initialize_browser_size(browser)
+    def self.initialize_browser_size
+      browser = Environ.browser.to_s
       if Environ.is_desktop?
         if ENV['BROWSER_SIZE'] == 'max'
           Browsers.maximize_browser

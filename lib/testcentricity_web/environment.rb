@@ -41,14 +41,24 @@ module TestCentricity
     attr_reader   :user_id
     attr_reader   :password
     attr_reader   :append
+    attr_reader   :option1
+    attr_reader   :option2
+    attr_reader   :dns
+    attr_reader   :db_username
+    attr_reader   :db_password
 
     def initialize(data)
-      @protocol	= data['PROTOCOL']
-      @hostname = data['HOST_NAME']
-      @base_url	= data['BASE_URL']
-      @user_id	= data['USER_ID']
-      @password	= data['PASSWORD']
-      @append	  = data['APPEND']
+      @protocol	   = data['PROTOCOL']
+      @hostname    = data['HOST_NAME']
+      @base_url    = data['BASE_URL']
+      @user_id	   = data['USER_ID']
+      @password	   = data['PASSWORD']
+      @append	     = data['APPEND']
+      @option1	   = data['OPTIONAL_1']
+      @option2	   = data['OPTIONAL_2']
+      @dns	       = data['DNS']
+      @db_username = data['DB_USERNAME']
+      @db_password = data['DB_PASSWORD']
       super
     end
 
