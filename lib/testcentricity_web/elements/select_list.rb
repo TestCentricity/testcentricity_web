@@ -8,12 +8,18 @@ module TestCentricity
       @alt_locator = nil
     end
 
-    # Select the specified option in a select box object.
+    # Select the specified option in a select box object. Accepts a String or Hash.
     # Supports standard HTML select objects and Chosen select objects.
     #
     # @param option [String] text of option to select
+    #             OR
+    # @param option [Hash] :value, :index, or :text of option to select
+    #
     # @example
-    #   province_select.choose_option('Nova Scotia')
+    #   province_select.choose_option('Alberta')
+    #   province_select.choose_option(:value => 'AB')
+    #   state_select.choose_option(:index => 24)
+    #   state_select.choose_option(:text => 'Maryland')
     #
     def choose_option(option)
       obj, _ = find_element
@@ -32,6 +38,10 @@ module TestCentricity
           option.each do |item|
             obj.select item
           end
+        elsif option.is_a?(Hash)
+          obj.find("option[value='#{option[:value]}']").click if option.has_key?(:value)
+          obj.find(:xpath, "option[#{option[:index]}]").select_option if option.has_key?(:index)
+          obj.select option[:text] if option.has_key?(:text)
         else
           obj.select option
         end
