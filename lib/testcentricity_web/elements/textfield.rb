@@ -32,4 +32,16 @@ module TestCentricity
     object_not_found_exception(obj, nil)
     obj.native.attribute('maxlength')
   end
+
+  # Return placeholder text of a text field.
+  #
+  # @return [String]
+  # @example
+  #   placeholder_message = username_field.get_placeholder
+  #
+  def get_placeholder
+    obj, _ = find_element
+    object_not_found_exception(obj, nil)
+    obj.native.attribute('placeholder')
+  end
 end

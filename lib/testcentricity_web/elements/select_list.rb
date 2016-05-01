@@ -36,14 +36,10 @@ module TestCentricity
       else
         if option.is_a?(Array)
           option.each do |item|
-            obj.select item
+            select_item(obj, item)
           end
-        elsif option.is_a?(Hash)
-          obj.find("option[value='#{option[:value]}']").click if option.has_key?(:value)
-          obj.find(:xpath, "option[#{option[:index]}]").select_option if option.has_key?(:index)
-          obj.select option[:text] if option.has_key?(:text)
         else
-          obj.select option
+          select_item(obj, option)
         end
       end
     end
@@ -125,6 +121,18 @@ module TestCentricity
           assert_equal(expected, actual, "Expected list of options in list #{@locator} to be #{expected} but found #{actual}")
       obj, _ = find_element
       obj.native.send_keys(:escape)
+    end
+
+    private
+
+    def select_item(obj, option)
+      if option.is_a?(Hash)
+        obj.find("option[value='#{option[:value]}']").click if option.has_key?(:value)
+        obj.find(:xpath, "option[#{option[:index]}]").select_option if option.has_key?(:index)
+        obj.select option[:text] if option.has_key?(:text)
+      else
+        obj.select option
+      end
     end
   end
 end

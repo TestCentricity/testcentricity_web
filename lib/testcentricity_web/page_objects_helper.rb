@@ -260,6 +260,8 @@ module TestCentricity
               actual = ui_object.get_value
             when :maxlength
               actual = ui_object.get_max_length
+            when :placeholder
+              actual = ui_object.get_placeholder
             when :options
               actual = ui_object.get_options
             when :column_headers
