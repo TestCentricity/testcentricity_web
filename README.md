@@ -11,6 +11,7 @@ The TestCentricity™ Web gem supports running testing against the following web
 * locally hosted desktop browsers (Firefox, Chrome, Safari, IE, or Edge)
 * locally hosted emulated iOS, Android, and Windows Phone mobile browsers (using Firefox or Chrome)
 * a "headless" browser (using Poltergeist and PhantomJS)
+* mobile Safari browsers on iOS device simulators (using Appium and XCode on OS X)
 * cloud hosted desktop or mobile web browsers using the BrowserStack, Sauce Labs, CrossBrowserTesting, or TestingBot services.
 
 
@@ -54,6 +55,22 @@ If you will be running your tests on a "headless" web browser using Poltergeist 
 project's Gemfile:
 
     gem 'poltergeist'
+
+
+### Using Appium
+
+If you will be running your tests on mobile Safari browsers on simulated iOS devices using Appium and XCode Simulators, you need to require
+the following in your *env.rb* file:
+
+    require 'appium_capybara'
+
+You also need to add this line to your automation project's Gemfile:
+
+    gem 'appium_capybara'
+
+And then execute:
+
+    $ bundle
 
 
 
@@ -153,11 +170,12 @@ the UI to hide implementation details, as shown below:
       trait(:page_locator)    { 'body.login-body' }
     
       # Login page UI elements
-      textfield :user_id_field,       '#userName'
-      textfield :password_field,      '#password'
-      button    :login_button,        '#login'
-      checkbox  :remember_checkbox,   '#rememberUser'
-      label     :error_message_label, 'div#statusBar.login-error'
+      textfield :user_id_field,        '#userName'
+      textfield :password_field,       '#password'
+      button    :login_button,         '#login'
+      checkbox  :remember_checkbox,    '#rememberUser'
+      label     :error_message_label,  'div#statusBar.login-error'
+      link      :forgot_password_link, 'a.forgotPassword'
     
       def login(user_id, password)
         user_id_field.set(user_id)
@@ -167,6 +185,18 @@ the UI to hide implementation details, as shown below:
 
       def remember_me(state)
         remember_checkbox.set_checkbox_state(state)
+      end
+
+      def verify_page_ui
+        ui = {
+            login_button         => { :visible => true, :value => 'LOGIN' },
+            user_id_field        => { :visible => true, :enabled => true },
+            password_field       => { :visible => true, :enabled => true, :value => '', :placeholder => 'Password' },
+            remember_checkbox    => { :exists  => true, :enabled => true, :checked => false },
+            forgot_password_link => { :visible => true, :value => 'Forgot your password?' },
+            }
+        verify_ui_states(ui)
+        super
       end
     end
 
@@ -389,6 +419,29 @@ To use a local instance of the Chrome desktop browser to host the emulated mobil
 to `chrome`.
 
 
+### Mobile Safari browser on iOS Simulators
+
+You can run your mobile web tests against the mobile Safari browser on simulated iOS devices using Appium and XCode on OS X. You will need to install
+XCode and Appium, and ensure that the `appium_capybara` gem is installed and required as described above.
+
+Once your test environment is properly configured, the following **Environment Variables** must be set as described in the table below.
+
+**Environment Variable** | **Description**
+--------------- | ----------------
+`WEB_BROWSER` | Must be set to `appium`
+`APP_PLATFORM` | Must be set to `MAC`
+`APP_PLATFORM_NAME` | Must be set to `iOS`
+`APP_BROWSER` | Must be set to `Safari`
+`APP_VERSION` | Must be set to `9.3`, `9.2`, or which ever iOS Simulator version are installed in XCode
+`APP_DEVICE`| Set to iOS device name supported by the iOS Simulator (`iPhone 6s Plus`, `iPad Pro`, `iPad Air 2`, etc.)
+`ORIENTATION` | [Optional] Set to `portrait` or `landscape`
+`APP_ALLOW_POPUPS` | [Optional] Allow javascript to open new windows in Safari. Set to `true` or `false`
+`APP_IGNORE_FRAUD_WARNING` | [Optional] Prevent Safari from showing a fraudulent website warning. Set to `true` or `false`
+`APP_NO_RESET` | [Optional] Don't reset app state after each test. Set to `true` or `false`
+`APP_INITIAL_URL` | [Optional] Initial URL, default is a local welcome page.  e.g.  `http://www.apple.com`
+
+
+
 ### Remotely hosted desktop and mobile web browsers
 
 You can run your automated tests against remotely hosted desktop and mobile web browsers using the BrowserStack, CrossBrowserTesting,
@@ -570,8 +623,28 @@ replace the placeholder text with your user account and authorization code for t
     #==============
     # profiles for mobile device screen orientation
     #==============
+    
     portrait:           ORIENTATION=portrait
     landscape:          ORIENTATION=landscape
+    
+    
+    #==============
+    # profiles for mobile Safari web browsers hosted within XCode iOS simulator
+    # NOTE: Requires installation of XCode, iOS version specific target simulators, Appium, and the appium_capybara gem
+    #==============
+    
+    appium_ios:            WEB_BROWSER=appium APP_PLATFORM="MAC" APP_PLATFORM_NAME="iOS" APP_BROWSER="Safari" <%= mobile %>
+    app_ios_93:            --profile appium_ios APP_VERSION="9.3"
+    app_ios_92:            --profile appium_ios APP_VERSION="9.2"
+    ipad_retina_93_sim:    --profile app_ios_93 APP_DEVICE="iPad Retina"
+    ipad_pro_93_sim:       --profile app_ios_93 APP_DEVICE="iPad Pro"
+    ipad_air_93_sim:       --profile app_ios_93 APP_DEVICE="iPad Air"
+    ipad_air2_93_sim:      --profile app_ios_93 APP_DEVICE="iPad Air 2"
+    ipad_2_93_sim:         --profile app_ios_93 APP_DEVICE="iPad 2"
+    iphone_6s_plus_93_sim: --profile app_ios_93 APP_DEVICE="iPhone 6s Plus"
+    iphone_6s_93_sim:      --profile app_ios_93 APP_DEVICE="iPhone 6s"
+    iphone_5s_93_sim:      --profile app_ios_93 APP_DEVICE="iPhone 5s"
+    iphone_4s_93_sim:      --profile app_ios_93 APP_DEVICE="iPhone 4s"
     
     
     #==============
@@ -810,17 +883,28 @@ invoking Cucumber in the command line. For instance, the following command invok
 will be used as the target web browser:
     
     $ cucumber -p chrome
-    
+
+
 The following command specifies that Cucumber will run tests against a local instance of Firefox, which will be used to emulate an iPad Pro
 in landscape orientation:
     
     $ cucumber -p ipad_pro -p landscape
- 
+
+
+The following command specifies that Cucumber will run tests against an iPad Pro with iOS version 9.3 in an XCode Simulator
+in landscape orientation:
+    
+    $ cucumber -p ipad_pro_93_sim -p landscape
+    
+    NOTE:  Appium must me running prior to executing this command
+
+
 The following command specifies that Cucumber will run tests against a remotely hosted Safari web browser running on an OS X Yosemite
 virtual machine on the BrowserStack service:
 
     cucumber -p bs_safari_yos
  
+
 The following command specifies that Cucumber will run tests against a remotely hosted Mobile Safari web browser on an iPhone 6s Plus in
 landscape orientation running on the BrowserStack service:
 

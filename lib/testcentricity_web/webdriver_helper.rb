@@ -16,6 +16,9 @@ module TestCentricity
       Environ.set_device_type('browser')
 
       case browser.downcase.to_sym
+
+      when :appium
+        initialize_appium
       when :browserstack
         initialize_browserstack
       when :crossbrowser
@@ -31,12 +34,44 @@ module TestCentricity
       end
 
       # set browser window size only if testing with a desktop web browser
-      initialize_browser_size unless Capybara.current_driver == :poltergeist
+      initialize_browser_size unless Capybara.current_driver == :poltergeist || Capybara.current_driver == :appium
 
       puts "Using #{Environ.browser.to_s} browser"
     end
 
     private
+
+    def self.initialize_appium
+      Environ.set_device(true)
+      Environ.set_platform(:mobile)
+      Environ.set_device(true)
+      Environ.set_device_type(ENV['APP_DEVICE'])
+      Capybara.default_driver = :appium
+      endpoint = 'http://localhost:4723/wd/hub'
+      desired_capabilities = {
+          platform:        ENV['APP_PLATFORM'],
+          platformName:    ENV['APP_PLATFORM_NAME'],
+          platformVersion: ENV['APP_VERSION'],
+          browserName:     ENV['APP_BROWSER'],
+          deviceName:      ENV['APP_DEVICE']
+      }
+      desired_capabilities['deviceOrientation'] = ENV['ORIENTATION'] if ENV['ORIENTATION']
+      desired_capabilities['udid'] = ENV['APP_UDID'] if ENV['APP_UDID']
+      desired_capabilities['safariInitialUrl'] = ENV['APP_INITIAL_URL'] if ENV['APP_INITIAL_URL']
+      desired_capabilities['safariAllowPopups'] = ENV['APP_ALLOW_POPUPS'] if ENV['APP_ALLOW_POPUPS']
+      desired_capabilities['safariIgnoreFraudWarning'] = ENV['APP_IGNORE_FRAUD_WARNING'] if ENV['APP_IGNORE_FRAUD_WARNING']
+      desired_capabilities['noReset'] = ENV['APP_NO_RESET'] if ENV['APP_NO_RESET']
+
+      Capybara.register_driver :appium do |app|
+        appium_lib_options = { server_url: endpoint }
+        all_options = {
+            browser:     :safari,
+            appium_lib:  appium_lib_options,
+            caps:        desired_capabilities
+        }
+        Appium::Capybara::Driver.new app, all_options
+      end
+    end
 
     def self.initialize_local_browser(browser)
       Capybara.default_driver = :selenium

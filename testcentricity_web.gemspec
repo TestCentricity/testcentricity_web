@@ -15,8 +15,8 @@ Gem::Specification.new do |spec|
     TestCentricity™ core generic framework for desktop and mobile web site testing implements a Page Object Model DSL
     for use with Cucumber, Capybara, and Selenium-Webdriver. Supports testing against locally hosted desktop browsers
     (Firefox, Chrome, Safari, IE, or Edge), locally hosted emulated iOS and Android mobile browsers (using Firefox or
-    Chrome), a "headless" browser (using Poltergeist and PhantomJS), or on cloud hosted browsers using the BrowserStack,
-    Sauce Labs, CrossBrowserTesting, or TestingBot services.}
+    Chrome), a "headless" browser (using Poltergeist and PhantomJS), mobile Safari web browsers on iOS device simulators,
+    or on cloud hosted browsers using the BrowserStack, Sauce Labs, CrossBrowserTesting, or TestingBot services.}
   spec.homepage      = ''
   spec.license       = 'BSD3'
 

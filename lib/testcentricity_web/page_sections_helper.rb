@@ -271,7 +271,11 @@ module TestCentricity
             when :checked
               actual = ui_object.checked?
             when :selected
-              actual = ui_object.selected?
+              if ui_object.get_object_type == :selectlist
+                actual = ui_object.get_selected_option
+              else
+                actual = ui_object.selected?
+              end
             when :value
               actual = ui_object.get_value
             when :maxlength
