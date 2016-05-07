@@ -9,7 +9,7 @@ use with Cucumber, Capybara, and Selenium-Webdriver.
 The TestCentricity™ Web gem supports running testing against the following web test targets:
 
 * locally hosted desktop browsers (Firefox, Chrome, Safari, IE, or Edge)
-* locally hosted emulated iOS, Android, and Windows Phone mobile browsers (using Firefox or Chrome)
+* locally hosted emulated iOS, Android, Windows Phone, or Blackberry mobile browsers (using Firefox or Chrome)
 * a "headless" browser (using Poltergeist and PhantomJS)
 * mobile Safari browsers on iOS device simulators (using Appium and XCode on OS X)
 * cloud hosted desktop or mobile web browsers using the BrowserStack, Sauce Labs, CrossBrowserTesting, or TestingBot services.
@@ -422,7 +422,7 @@ to `chrome`.
 ### Mobile Safari browser on iOS Simulators
 
 You can run your mobile web tests against the mobile Safari browser on simulated iOS devices using Appium and XCode on OS X. You will need to install
-XCode and Appium, and ensure that the `appium_capybara` gem is installed and required as described above.
+XCode and Appium, and ensure that the `appium_capybara` gem is installed and required as described in section 2.4 (Setup - Using Appium) above.
 
 Once your test environment is properly configured, the following **Environment Variables** must be set as described in the table below.
 
@@ -914,7 +914,7 @@ landscape orientation running on the BrowserStack service:
 
 ## Web Test Automation Framework Implementation
 
- <img src="http://i.imgur.com/K4XGTQi.jpg" width="1024" alt="Web Framework Overview" title="Web Framework Overview">
+ <img src="http://i.imgur.com/RvpxjzW.jpg" width="1024" alt="Web Framework Overview" title="Web Framework Overview">
 
 
 
