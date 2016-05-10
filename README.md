@@ -387,10 +387,10 @@ To maximize a desktop browser window, you set the `BROWSER_SIZE` Environment Var
 
 ### Locally hosted emulated mobile web browser
 
-You can also run your tests against emulated mobile device browsers within a locally hosted instance of a Firefox or Chrome desktop browser. The
-specified mobile browser's user agent, CSS screen dimensions, and default screen orientation will be automatically set in the local Firefox or Chrome
-browser instance. You may even specify the emulated device's screen orientation. For locally hosted emulated mobile web browsers, the `WEB_BROWSER`
-Environment Variable must be set to one of the values from the table below: 
+You can run your tests against emulated mobile device browsers within a locally hosted instance of a Firefox or Chrome desktop browser on OS X
+or Windows. The specified mobile browser's user agent, CSS screen dimensions, and default screen orientation will be automatically set in the
+local Firefox or Chrome browser instance. You may even specify the emulated device's screen orientation. For locally hosted emulated mobile web
+browsers, the `WEB_BROWSER` Environment Variable must be set to one of the values from the table below: 
 
 `WEB_BROWSER` | `HOST_BROWSER` | **CSS Screen Dimensions** | **Default Orientation** 
 --------------|----------------|-------------------------------|-------------------
@@ -429,7 +429,6 @@ Once your test environment is properly configured, the following **Environment V
 **Environment Variable** | **Description**
 --------------- | ----------------
 `WEB_BROWSER` | Must be set to `appium`
-`APP_PLATFORM` | Must be set to `MAC`
 `APP_PLATFORM_NAME` | Must be set to `iOS`
 `APP_BROWSER` | Must be set to `Safari`
 `APP_VERSION` | Must be set to `9.3`, `9.2`, or which ever iOS Simulator version are installed in XCode
@@ -439,13 +438,14 @@ Once your test environment is properly configured, the following **Environment V
 `APP_IGNORE_FRAUD_WARNING` | [Optional] Prevent Safari from showing a fraudulent website warning. Set to `true` or `false`
 `APP_NO_RESET` | [Optional] Don't reset app state after each test. Set to `true` or `false`
 `APP_INITIAL_URL` | [Optional] Initial URL, default is a local welcome page.  e.g.  `http://www.apple.com`
+`LOCALE` | [Optional] Locale to set for the simulator.  e.g.  `fr_CA`
 
 
 
 ### Remotely hosted desktop and mobile web browsers
 
 You can run your automated tests against remotely hosted desktop and mobile web browsers using the BrowserStack, CrossBrowserTesting,
-Sauce Labs, or TestingBot services. If your tests are running against a web site hosted on your local computer (localhost), or on a
+Sauce Labs, or TestingBot services. If your tests are running against a web site hosted on your local computer (`localhost`), or on a
 staging server inside your LAN, you must set the `TUNNELING` Environment Variable to `true`.
 
 
@@ -633,7 +633,7 @@ replace the placeholder text with your user account and authorization code for t
     # NOTE: Requires installation of XCode, iOS version specific target simulators, Appium, and the appium_capybara gem
     #==============
     
-    appium_ios:            WEB_BROWSER=appium APP_PLATFORM="MAC" APP_PLATFORM_NAME="iOS" APP_BROWSER="Safari" <%= mobile %>
+    appium_ios:            WEB_BROWSER=appium APP_PLATFORM_NAME="iOS" APP_BROWSER="Safari" <%= mobile %>
     app_ios_93:            --profile appium_ios APP_VERSION="9.3"
     app_ios_92:            --profile appium_ios APP_VERSION="9.2"
     ipad_retina_93_sim:    --profile app_ios_93 APP_DEVICE="iPad Retina"

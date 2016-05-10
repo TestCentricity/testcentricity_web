@@ -44,12 +44,10 @@ module TestCentricity
     def self.initialize_appium
       Environ.set_device(true)
       Environ.set_platform(:mobile)
-      Environ.set_device(true)
       Environ.set_device_type(ENV['APP_DEVICE'])
       Capybara.default_driver = :appium
       endpoint = 'http://localhost:4723/wd/hub'
       desired_capabilities = {
-          platform:        ENV['APP_PLATFORM'],
           platformName:    ENV['APP_PLATFORM_NAME'],
           platformVersion: ENV['APP_VERSION'],
           browserName:     ENV['APP_BROWSER'],
@@ -61,6 +59,7 @@ module TestCentricity
       desired_capabilities['safariAllowPopups'] = ENV['APP_ALLOW_POPUPS'] if ENV['APP_ALLOW_POPUPS']
       desired_capabilities['safariIgnoreFraudWarning'] = ENV['APP_IGNORE_FRAUD_WARNING'] if ENV['APP_IGNORE_FRAUD_WARNING']
       desired_capabilities['noReset'] = ENV['APP_NO_RESET'] if ENV['APP_NO_RESET']
+      desired_capabilities['locale'] = ENV['LOCALE'] if ENV['LOCALE']
 
       Capybara.register_driver :appium do |app|
         appium_lib_options = { server_url: endpoint }

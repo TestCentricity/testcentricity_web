@@ -321,6 +321,8 @@ module TestCentricity
     def populate_data_fields(data)
       data.each do | data_field, data_param |
         unless data_param.blank?
+          # make sure the intended UI target element exists before trying to set its value
+          data_field.wait_until_exists(2)
           if data_param == '!DELETE'
             data_field.set('')
           else
