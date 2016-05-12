@@ -12,7 +12,9 @@ The TestCentricity™ Web gem supports running testing against the following web
 * locally hosted emulated iOS, Android, Windows Phone, or Blackberry mobile browsers (using Firefox or Chrome)
 * a "headless" browser (using Poltergeist and PhantomJS)
 * mobile Safari browsers on iOS device simulators (using Appium and XCode on OS X)
-* cloud hosted desktop or mobile web browsers using the BrowserStack, Sauce Labs, CrossBrowserTesting, or TestingBot services.
+* cloud hosted desktop or mobile web browsers using the [Browserstack](https://www.browserstack.com/list-of-browsers-and-platforms?product=automate),
+[Sauce Labs](https://saucelabs.com/features/#features-cross-browser), [CrossBrowserTesting](https://crossbrowsertesting.com/selenium-testing), or
+[TestingBot](https://testingbot.com/features) services.
 
 
 ## Installation
@@ -412,6 +414,8 @@ browsers, the `WEB_BROWSER` Environment Variable must be set to one of the value
 `android_phone`  |`firefox` or `chrome` |320 x 480|portrait
 `windows_phone7` |`firefox` or `chrome` |320 x 480|portrait
 `windows_phone8` |`firefox` or `chrome` |320 x 480|portrait
+`blackberry_z10` |`firefox` or `chrome` |384 x 640|portrait
+`blackberry_z30` |`firefox` or `chrome` |360 x 640|portrait
 
 To change the emulated device's screen orientation from the default setting, set the `ORIENTATION` Environment Variable to either `portrait` or `landscape`.
 
@@ -618,7 +622,9 @@ replace the placeholder text with your user account and authorization code for t
     google_nexus7:       WEB_BROWSER=google_nexus7       HOST_BROWSER=firefox <%= mobile %>
     windows_phone7:      WEB_BROWSER=windows_phone7      HOST_BROWSER=firefox <%= mobile %>
     windows_phone8:      WEB_BROWSER=windows_phone8      HOST_BROWSER=firefox <%= mobile %>
-    
+    blackberry_z10:      WEB_BROWSER=blackberry_z10      HOST_BROWSER=firefox <%= mobile %>
+    blackberry_z30:      WEB_BROWSER=blackberry_z30      HOST_BROWSER=firefox <%= mobile %>
+
     
     #==============
     # profiles for mobile device screen orientation

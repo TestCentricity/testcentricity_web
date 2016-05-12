@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
     locally hosted desktop browsers (Firefox, Chrome, Safari, IE, or Edge), locally hosted emulated mobile (iOS, Android,
     Windows Phone, Blackberry) browsers using Firefox or Chrome, a "headless" browser (using Poltergeist and PhantomJS),
     mobile Safari browsers on iOS device simulators (using Appium and XCode on OS X), or cloud hosted desktop or mobile
-    web browsers using the BrowserStack, Sauce Labs, CrossBrowserTesting, or TestingBot services.}
+    web browsers (using the BrowserStack, Sauce Labs, CrossBrowserTesting, or TestingBot services).}
   spec.homepage      = ''
   spec.license       = 'BSD3'
 

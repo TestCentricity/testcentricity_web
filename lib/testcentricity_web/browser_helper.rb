@@ -91,6 +91,14 @@ module TestCentricity
       agent_string
     end
 
+    def self.mobile_device_name(device)
+      device_name = device.gsub(/\s+/, "").downcase.to_sym
+      device = get_devices[device_name]
+      name = device[:name]
+      raise "Device '#{device}' is not defined" unless name
+      name
+    end
+
     def self.browser_size(browser, orientation)
       device_name = browser.gsub(/\s+/, "").downcase.to_sym
       device = get_devices[device_name]

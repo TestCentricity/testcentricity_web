@@ -78,22 +78,21 @@ module TestCentricity
         case browser.downcase.to_sym
         when :firefox, :chrome, :ie, :safari, :edge
           Capybara::Selenium::Driver.new(app, :browser => browser.to_sym)
-        when :iphone, :iphone5, :iphone6, :iphone6_plus, :ipad, :ipad_pro, :android_phone, :android_tablet, :windows_phone7, :windows_phone8, :kindle_fire, :kindle_firehd7, :kindle_firehd8, :surface, :blackberry_playbook, :samsung_galaxy_tab, :google_nexus7
+        else
+          user_agent = Browsers.mobile_device_agent(browser)
           Environ.set_platform(:mobile)
+          Environ.set_device_type(Browsers.mobile_device_name(browser))
           ENV['HOST_BROWSER'] ? host_browser = ENV['HOST_BROWSER'].downcase.to_sym : host_browser = :firefox
           case host_browser
-          when :firefox
-            profile = Selenium::WebDriver::Firefox::Profile.new
-            profile['general.useragent.override'] = Browsers.mobile_device_agent(browser)
-            Capybara::Selenium::Driver.new(app, :profile => profile)
-          when :chrome
-            args = []
-            args << "--user-agent='#{Browsers.mobile_device_agent(browser)}'"
-            Capybara::Selenium::Driver.new(app, :browser => :chrome, :args => args)
+            when :firefox
+              profile = Selenium::WebDriver::Firefox::Profile.new
+              profile['general.useragent.override'] = user_agent
+              Capybara::Selenium::Driver.new(app, :profile => profile)
+            when :chrome
+              args = []
+              args << "--user-agent='#{user_agent}'"
+              Capybara::Selenium::Driver.new(app, :browser => :chrome, :args => args)
           end
-        else
-          Capybara::Selenium::Driver.new(app, :browser => :firefox)
-          Environ.set_browser('firefox')
         end
       end
     end
