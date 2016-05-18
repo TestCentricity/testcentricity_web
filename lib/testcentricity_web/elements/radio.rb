@@ -1,11 +1,13 @@
 module TestCentricity
   class Radio < UIElement
+    attr_accessor :proxy
 
-    def initialize(parent, locator, context)
-      @parent  = parent
-      @locator = locator
-      @context = context
-      @type    = :radio
+    def initialize(parent, locator, context, proxy = nil)
+      @parent      = parent
+      @locator     = locator
+      @context     = context
+      @proxy       = proxy
+      @type        = :radio
       @alt_locator = nil
     end
 
@@ -42,14 +44,18 @@ module TestCentricity
       obj, _ = find_element(:all)
       object_not_found_exception(obj, 'Radio')
       invalid_object_type_exception(obj, 'radio')
-      begin
-        obj.set(state)
-      rescue
-        unless state == obj.checked?
-          check_id = obj.native.attribute('id')
-          label = first("label[for='#{check_id}']", :wait => 1, :visible => true)
-          label.click unless label.nil?
+      if @proxy.nil?
+        begin
+          obj.set(state)
+        rescue
+          unless state == obj.checked?
+            check_id = obj.native.attribute('id')
+            label = first("label[for='#{check_id}']", :wait => 1, :visible => true)
+            label.click unless label.nil?
+          end
         end
+      else
+        @proxy.click unless state == obj.checked?
       end
     end
 

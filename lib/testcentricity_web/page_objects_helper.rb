@@ -22,7 +22,7 @@ module TestCentricity
     # Declare and instantiate a generic UI Element for this page object.
     #
     # @param element_name [Symbol] name of UI object (as a symbol)
-    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @param locator [String] CSS selector or XPath expression that uniquely identifies object
     # @example
     #   element :siebel_view,  'div#_sweview'
     #   element :siebel_busy,  "//html[contains(@class, 'siebui-busy')]"
@@ -34,7 +34,7 @@ module TestCentricity
     # Declare and instantiate a button UI Element for this page object.
     #
     # @param element_name [Symbol] name of button object (as a symbol)
-    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @param locator [String] CSS selector or XPath expression that uniquely identifies object
     # @example
     #   button :checkout_button, "button.checkout_button"
     #   button :login_button,    "//input[@id='submit_button']"
@@ -46,7 +46,7 @@ module TestCentricity
     # Declare and instantiate a text field UI Element for this page object.
     #
     # @param element_name [Symbol] name of text field object (as a symbol)
-    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @param locator [String] CSS selector or XPath expression that uniquely identifies object
     # @example
     #   textfield :user_id_field,  "//input[@id='UserName']"
     #   textfield :password_field, "consumer_password"
@@ -58,31 +58,33 @@ module TestCentricity
     # Declare and instantiate a checkbox UI Element for this page object.
     #
     # @param element_name [Symbol] name of checkbox object (as a symbol)
-    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @param locator [String] CSS selector or XPath expression that uniquely identifies object
+    # @param proxy [Symbol] Optional name (as a symbol) of proxy object to receive click actions
     # @example
     #   checkbox :remember_checkbox,     "//input[@id='RememberUser']"
-    #   checkbox :accept_terms_checkbox, "accept_terms_conditions"
+    #   checkbox :accept_terms_checkbox, "#accept_terms_conditions", :accept_terms_label
     #
-    def self.checkbox(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::CheckBox.new(self, "#{locator}", :page);end))
+    def self.checkbox(element_name, locator, proxy = nil)
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::CheckBox.new(self, "#{locator}", :page, #{proxy});end))
     end
 
     # Declare and instantiate a radio button UI Element for this page object.
     #
     # @param element_name [Symbol] name of radio object (as a symbol)
-    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @param locator [String] CSS selector or XPath expression that uniquely identifies object
+    # @param proxy [Symbol] Optional name (as a symbol) of proxy object to receive click actions
     # @example
     #   radio :accept_terms_radio,  "//input[@id='Accept_Terms']"
-    #   radio :decline_terms_radio, "decline_terms_conditions"
+    #   radio :decline_terms_radio, "#decline_terms_conditions", :decline_terms_label
     #
-    def self.radio(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Radio.new(self, "#{locator}", :page);end))
+    def self.radio(element_name, locator, proxy = nil)
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Radio.new(self, "#{locator}", :page, #{proxy});end))
     end
 
     # Declare and instantiate a label UI Element for this page object.
     #
     # @param element_name [Symbol] name of label object (as a symbol)
-    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @param locator [String] CSS selector or XPath expression that uniquely identifies object
     # @example
     #   label :welcome_label,      'div.Welcome'
     #   label :rollup_price_label, "//div[contains(@id, 'Rollup Item Price')]"
@@ -94,7 +96,7 @@ module TestCentricity
     # Declare and instantiate a link UI Element for this page object.
     #
     # @param element_name [Symbol] name of link object (as a symbol)
-    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @param locator [String] CSS selector or XPath expression that uniquely identifies object
     # @example
     #   link :registration_link,    "a.account-nav__link.register"
     #   link :shopping_basket_link, "//a[@href='shopping_basket']"
@@ -106,7 +108,7 @@ module TestCentricity
     # Declare and instantiate a table UI Element for this page object.
     #
     # @param element_name [Symbol] name of table object (as a symbol)
-    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @param locator [String] CSS selector or XPath expression that uniquely identifies object
     # @example
     #   table :payments_table, "//table[@class='payments_table']"
     #
@@ -117,9 +119,9 @@ module TestCentricity
     # Declare and instantiate a select list UI Element for this page object.
     #
     # @param element_name [Symbol] name of select list object (as a symbol)
-    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @param locator [String] CSS selector or XPath expression that uniquely identifies object
     # @example
-    #   selectlist :category_selector, "search_form_category_chosen"
+    #   selectlist :category_selector, "#search_form_category_chosen"
     #   selectlist :gender_select,     "//select[@id='customer_gender']"
     #
     def self.selectlist(element_name, locator)
@@ -129,7 +131,7 @@ module TestCentricity
     # Declare and instantiate an image UI Element for this page object.
     #
     # @param element_name [Symbol] name of image object (as a symbol)
-    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @param locator [String] CSS selector or XPath expression that uniquely identifies object
     # @example
     #   image :basket_item_image,    "div.product_image"
     #   image :corporate_logo_image, "//img[@alt='MyCompany_logo']"
@@ -141,7 +143,7 @@ module TestCentricity
     # Declare and instantiate a File Field UI Element for this page object.
     #
     # @param element_name [Symbol] name of file field object (as a symbol)
-    # @param locator [String] css selector or xpath expression that uniquely identifies object
+    # @param locator [String] CSS selector or XPath expression that uniquely identifies object
     # @example
     #   filefield :attach_file, "s_SweFileName"
     #
