@@ -29,7 +29,8 @@ module TestCentricity
     def get_max_length
       obj, _ = find_element
       object_not_found_exception(obj, nil)
-      obj.native.attribute('maxlength')
+      max_length = obj.native.attribute('maxlength')
+      max_length.to_i unless max_length.blank?
     end
 
     # Return placeholder text of a text field.
