@@ -123,6 +123,18 @@ module TestCentricity
       obj.native.send_keys(:escape)
     end
 
+    # Is Siebel JComboBox set to read-only?
+    #
+    # @return [Boolean]
+    # @example
+    #   country_select.read_only?
+    #
+    def read_only?
+      obj, _ = find_element
+      object_not_found_exception(obj, nil)
+      !!obj.native.attribute('readonly')
+    end
+
     private
 
     def select_item(obj, option)
