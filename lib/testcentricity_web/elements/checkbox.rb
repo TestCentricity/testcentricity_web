@@ -45,15 +45,7 @@ module TestCentricity
       object_not_found_exception(obj, 'Checkbox')
       invalid_object_type_exception(obj, 'checkbox')
       if @proxy.nil?
-        begin
-          obj.set(state)
-        rescue
-          unless state == obj.checked?
-            check_id = obj.native.attribute('id')
-            label = first("label[for='#{check_id}']", :wait => 1, :visible => true)
-            label.click unless label.nil?
-          end
-        end
+        obj.set(state)
       else
         @proxy.click unless state == obj.checked?
       end

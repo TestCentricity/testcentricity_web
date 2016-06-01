@@ -6,7 +6,7 @@
 The TestCentricity™ Web core generic framework for desktop and mobile web site testing implements a Page Object and Data Object Model DSL for
 use with Cucumber, Capybara, and Selenium-Webdriver.
 
-The TestCentricity™ Web gem supports running testing against the following web test targets:
+The TestCentricity™ Web gem supports running automated tests against the following web test targets:
 
 * locally hosted desktop browsers (Firefox, Chrome, Safari, IE, or Edge)
 * locally hosted emulated iOS, Android, Windows Phone, or Blackberry mobile browsers (using Firefox or Chrome)
@@ -702,22 +702,27 @@ replace the placeholder text with your user account and authorization code for t
     
     # BrowserStack iOS mobile browser profiles
     bs_iphone:          --profile bs_mobile BS_PLATFORM=MAC BS_BROWSER=iPhone
-    bs_ipad:            --profile bs_mobile BS_PLATFORM=MAC BS_BROWSER=iPad
-    bs_iphone6_plus:    --profile bs_iphone BS_DEVICE="iPhone 6S Plus"
-    bs_iphone6:         --profile bs_iphone BS_DEVICE="iPhone 6S"
+    bs_iphone6s_plus:   --profile bs_iphone BS_DEVICE="iPhone 6S Plus"
+    bs_iphone6s:        --profile bs_iphone BS_DEVICE="iPhone 6S"
+    bs_iphone6_plus:    --profile bs_iphone BS_DEVICE="iPhone 6 Plus"
+    bs_iphone6:         --profile bs_iphone BS_DEVICE="iPhone 6"
     bs_iphone5s:        --profile bs_iphone BS_DEVICE="iPhone 5S"
     bs_iphone4s:        --profile bs_iphone BS_DEVICE="iPhone 4S (6.0)"
+    bs_ipad:            --profile bs_mobile BS_PLATFORM=MAC BS_BROWSER=iPad
     bs_ipad_pro:        --profile bs_ipad BS_DEVICE="iPad Pro"
-    bs_ipad_air:        --profile bs_ipad BS_DEVICE="iPad Air 2"
+    bs_ipad_air2:       --profile bs_ipad BS_DEVICE="iPad Air 2"
+    bs_ipad_air:        --profile bs_ipad BS_DEVICE="iPad Air"
     bs_ipad_mini:       --profile bs_ipad BS_DEVICE="iPad Mini 4"
     
     # BrowserStack Android mobile browser profiles
-    bs_android:         --profile bs_mobile BS_PLATFORM=ANDROID BS_BROWSER=android
-    bs_galaxy_s5:       --profile bs_android BS_DEVICE="Samsung Galaxy S5"
-    bs_kindle_fire:     --profile bs_android BS_DEVICE="Amazon Kindle Fire HDX 7"
-    bs_nexus5:          --profile bs_android BS_DEVICE="Google Nexus 5"
-    bs_moto_razr:       --profile bs_android BS_DEVICE="Motorola Razr"
-    bs_sony_xperia:     --profile bs_android BS_DEVICE="Sony Xperia Tipo"
+    bs_android:          --profile bs_mobile BS_PLATFORM=ANDROID BS_BROWSER=android
+    bs_galaxy_s5:        --profile bs_android BS_DEVICE="Samsung Galaxy S5"
+    bs_kindle_fire_hd89: --profile bs_android BS_DEVICE="Amazon Kindle Fire HD 8.9"
+    bs_kindle_fire_hdx7: --profile bs_android BS_DEVICE="Amazon Kindle Fire HDX 7"
+    bs_kindle_fire2:     --profile bs_android BS_DEVICE="Amazon Kindle Fire 2"
+    bs_nexus5:           --profile bs_android BS_DEVICE="Google Nexus 5"
+    bs_moto_razr:        --profile bs_android BS_DEVICE="Motorola Razr"
+    bs_sony_xperia:      --profile bs_android BS_DEVICE="Sony Xperia Tipo"
     
     
     #==============
@@ -833,6 +838,7 @@ replace the placeholder text with your user account and authorization code for t
     sl_iphone5s:        --profile sl_ios SL_DEVICE="iPhone 5s"
     sl_iphone4s:        --profile sl_ios SL_DEVICE="iPhone 4s"
     sl_ipad_air:        --profile sl_ios SL_DEVICE="iPad Air"
+    sl_ipad_retina:     --profile sl_ios SL_DEVICE="iPad Retina"
     
     # SauceLabs Android mobile browser profiles
     sl_android:         --profile sl_mobile SL_PLATFORM=Linux SL_BROWSER="android" SL_VERSION="4.4"
