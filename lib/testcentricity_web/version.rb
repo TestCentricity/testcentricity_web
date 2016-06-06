@@ -1,3 +1,3 @@
 module TestCentricityWeb
-  VERSION = '0.9.3.4'
+  VERSION = '0.9.4'
 end

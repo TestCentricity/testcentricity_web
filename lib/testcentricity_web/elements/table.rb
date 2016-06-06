@@ -1,6 +1,7 @@
 module TestCentricity
   class Table < UIElement
     attr_accessor :table_body
+    attr_accessor :table_section
     attr_accessor :table_row
     attr_accessor :table_column
     attr_accessor :table_header
@@ -17,6 +18,7 @@ module TestCentricity
       @alt_locator   = nil
 
       table_spec = { :table_body    => 'tbody',
+                     :table_section => nil,
                      :table_row     => 'tr',
                      :table_column  => 'td',
                      :table_header  => 'thead',
@@ -33,6 +35,8 @@ module TestCentricity
         case element
         when :table_body
           @table_body = value
+        when :table_section
+          @table_section = value
         when :table_row
           @table_row = value
         when :table_column
@@ -59,8 +63,11 @@ module TestCentricity
     #
     def get_row_count
       wait_until_exists(5)
-      row_count = page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}", :visible => :all).count
-      row_count
+      if @table_section.nil?
+        page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}", :visible => :all).count
+      else
+        page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}", :visible => :all).count
+      end
     end
 
     # Return number of columns in a table object.
@@ -74,9 +81,15 @@ module TestCentricity
       if row_count == 0
         page.all(:xpath, "#{@locator}/#{@table_header}/#{@header_row}/#{@header_column}", :visible => :all).count
       else
-        (row_count == 1) ?
-            page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}/#{@table_column}", :visible => :all).count :
-            page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}[2]/#{@table_column}", :visible => :all).count
+        if @table_section.nil?
+          (row_count == 1) ?
+              page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}/#{@table_column}", :visible => :all).count :
+              page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}[2]/#{@table_column}", :visible => :all).count
+        else
+          (row_count == 1) ?
+              page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}/#{@table_row}/#{@table_column}", :visible => :all).count :
+              page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}[2]/#{@table_row}/#{@table_column}", :visible => :all).count
+        end
       end
     end
 
@@ -366,8 +379,13 @@ module TestCentricity
     private
 
     def set_table_cell_locator(row, column)
-      row_spec = "#{@locator}/#{@table_body}/#{@table_row}"
-      row_spec = "#{row_spec}[#{row}]" if row > 1
+      if @table_section.nil?
+        row_spec = "#{@locator}/#{@table_body}/#{@table_row}"
+        row_spec = "#{row_spec}[#{row}]" if row > 1
+      else
+        row_spec = "#{@locator}/#{@table_body}/#{@table_section}"
+        row_spec = "#{row_spec}[#{row}]/#{@table_row}"
+      end
       column_spec = "/#{@table_column}[#{column}]"
       set_alt_locator("#{row_spec}#{column_spec}")
     end

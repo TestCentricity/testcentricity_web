@@ -197,23 +197,12 @@ module TestCentricity
     #   navigation_toolbar.visible?
     #
     def visible?
-      section, type = find_section
+      section, _ = find_section
       exists = section
-      invisible = false
-      if type == :css
-        Capybara.using_wait_time 0.1 do
-          # is section itself hidden with .ui-helper-hidden class?
-          self_hidden = page.has_css?("#{@locator}.ui-helper-hidden")
-          # is parent of section hidden, thus hiding the section?
-          parent_hidden = page.has_css?(".ui-helper-hidden > #{@locator}")
-          # is grandparent of section, or any other ancestor, hidden?
-          other_ancestor_hidden = page.has_css?(".ui-helper-hidden * #{@locator}")
-          # if any of the above conditions are true, then section is invisible
-          invisible = self_hidden || parent_hidden || other_ancestor_hidden
-        end
-      end
+      visible = false
+      visible = section.visible? if exists
       # the section is visible if it exists and it is not invisible
-      (exists && !invisible) ? true : false
+      (exists && visible) ? true : false
     end
 
     # Is Section object hidden (not visible)?
