@@ -39,6 +39,10 @@ module TestCentricity
       puts "Using #{Environ.browser.to_s} browser"
     end
 
+    def self.set_domain(url)
+      Capybara.app_host = url
+    end
+
     private
 
     def self.initialize_appium

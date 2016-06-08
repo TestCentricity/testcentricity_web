@@ -35,17 +35,17 @@ module TestCentricity
     attr_accessor :portal_status
     attr_accessor :external_page
 
-    attr_reader   :protocol
-    attr_reader   :hostname
-    attr_reader   :base_url
-    attr_reader   :user_id
-    attr_reader   :password
-    attr_reader   :append
-    attr_reader   :option1
-    attr_reader   :option2
-    attr_reader   :dns
-    attr_reader   :db_username
-    attr_reader   :db_password
+    attr_accessor :protocol
+    attr_accessor :hostname
+    attr_accessor :base_url
+    attr_accessor :user_id
+    attr_accessor :password
+    attr_accessor :append
+    attr_accessor :option1
+    attr_accessor :option2
+    attr_accessor :dns
+    attr_accessor :db_username
+    attr_accessor :db_password
 
     def initialize(data)
       @protocol	   = data['PROTOCOL']
