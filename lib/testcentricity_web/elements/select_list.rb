@@ -1,11 +1,29 @@
 module TestCentricity
   class SelectList < UIElement
+    attr_accessor :list_item
+    attr_accessor :selected_item
+
     def initialize(parent, locator, context)
       @parent  = parent
       @locator = locator
       @context = context
       @type    = :selectlist
       @alt_locator = nil
+      list_spec = { :list_item     => 'option',
+                    :selected_item => 'option[selected]'
+      }
+      define_list_elements(list_spec)
+    end
+
+    def define_list_elements(element_spec)
+      element_spec.each do | element, value |
+        case element
+          when :list_item
+            @list_item = value
+          when :selected_item
+            @selected_item = value
+        end
+      end
     end
 
     # Select the specified option in a select box object. Accepts a String or Hash.
@@ -57,7 +75,7 @@ module TestCentricity
       if first(:css, 'li.active-result')
         obj.all('li.active-result').collect(&:text)
       else
-        obj.all('option').collect(&:text)
+        obj.all(@list_item).collect(&:text)
       end
     end
 
@@ -81,7 +99,7 @@ module TestCentricity
       if first(:css, 'li.active-result')
         obj.first("//li[contains(@class, 'result-selected')]").text
       else
-        obj.first('option[selected]').text
+        obj.first(@selected_item).text
       end
     end
 
