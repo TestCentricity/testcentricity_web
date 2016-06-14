@@ -25,6 +25,7 @@ require 'testcentricity_web/elements/label'
 require 'testcentricity_web/elements/link'
 require 'testcentricity_web/elements/radio'
 require 'testcentricity_web/elements/select_list'
+require 'testcentricity_web/elements/list'
 require 'testcentricity_web/elements/table'
 require 'testcentricity_web/elements/textfield'
 
