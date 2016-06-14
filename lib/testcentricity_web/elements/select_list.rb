@@ -9,8 +9,9 @@ module TestCentricity
       @context = context
       @type    = :selectlist
       @alt_locator = nil
-      list_spec = { :list_item     => 'option',
-                    :selected_item => 'option[selected]'
+      list_spec = {
+          :list_item     => 'option',
+          :selected_item => 'option[selected]'
       }
       define_list_elements(list_spec)
     end

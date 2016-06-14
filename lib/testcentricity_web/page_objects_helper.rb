@@ -128,6 +128,17 @@ module TestCentricity
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::SelectList.new(self, "#{locator}", :page);end))
     end
 
+    # Declare and instantiate a list UI Element for this page object.
+    #
+    # @param element_name [Symbol] name of list object (as a symbol)
+    # @param locator [String] CSS selector or XPath expression that uniquely identifies object
+    # @example
+    #   list :x_axis_list, "g.x-axis"
+    #
+    def self.list(element_name, locator)
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::List.new(self, "#{locator}", :page);end))
+    end
+
     # Declare and instantiate an image UI Element for this page object.
     #
     # @param element_name [Symbol] name of image object (as a symbol)

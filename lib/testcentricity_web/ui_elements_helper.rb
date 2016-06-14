@@ -289,12 +289,6 @@ module TestCentricity
       obj.drag_by(right_offset, down_offset)
     end
 
-    def get_list_items(item_locator)
-      obj, _ = find_element
-      object_not_found_exception(obj, nil)
-      obj.all(item_locator).collect(&:text)
-    end
-
     def get_attribute(attrib)
       obj, _ = find_element
       object_not_found_exception(obj, nil)
