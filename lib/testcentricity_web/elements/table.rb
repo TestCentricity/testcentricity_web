@@ -93,6 +93,23 @@ module TestCentricity
       end
     end
 
+    # Hover over the specified cell in a table object.
+    #
+    # @param row [Integer] row number
+    # @param column [Integer] column number
+    # @example
+    #   list_table.hover_table_cell(2, 6)
+    #
+    def hover_table_cell(row, column)
+      row_count = get_row_count
+      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{@locator}" if row > row_count
+      column_count = get_column_count
+      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{@locator}" if column > column_count
+      set_table_cell_locator(row, column)
+      hover
+      clear_alt_locator
+    end
+
     # Click in the specified cell in a table object.
     #
     # @param row [Integer] row number
