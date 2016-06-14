@@ -285,6 +285,8 @@ module TestCentricity
               actual = ui_object.get_placeholder
             when :options
               actual = ui_object.get_options
+            when :items, :list_items
+              actual = ui_object.get_list_items
             when :column_headers
               actual = ui_object.get_header_columns
             when :siebel_options
