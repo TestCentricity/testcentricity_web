@@ -16,21 +16,20 @@ module TestCentricity
       Environ.set_device_type('browser')
 
       case browser.downcase.to_sym
-
-      when :appium
-        initialize_appium
-      when :browserstack
-        initialize_browserstack
-      when :crossbrowser
-        initialize_crossbrowser
-      when :poltergeist
-        initialize_poltergeist
-      when :saucelabs
-        initialize_saucelabs
-      when :testingbot
-        initialize_testingbot
-      else
-        initialize_local_browser(browser)
+        when :appium
+          initialize_appium
+        when :browserstack
+          initialize_browserstack
+        when :crossbrowser
+          initialize_crossbrowser
+        when :poltergeist
+          initialize_poltergeist
+        when :saucelabs
+          initialize_saucelabs
+        when :testingbot
+          initialize_testingbot
+        else
+          initialize_local_browser(browser)
       end
 
       # set browser window size only if testing with a desktop web browser
@@ -57,6 +56,7 @@ module TestCentricity
           browserName:     ENV['APP_BROWSER'],
           deviceName:      ENV['APP_DEVICE']
       }
+      desired_capabilities['avd'] = ENV['APP_DEVICE'] if ENV['APP_PLATFORM_NAME'].downcase.to_sym == :android
       desired_capabilities['deviceOrientation'] = ENV['ORIENTATION'] if ENV['ORIENTATION']
       desired_capabilities['udid'] = ENV['APP_UDID'] if ENV['APP_UDID']
       desired_capabilities['safariInitialUrl'] = ENV['APP_INITIAL_URL'] if ENV['APP_INITIAL_URL']
@@ -68,7 +68,6 @@ module TestCentricity
       Capybara.register_driver :appium do |app|
         appium_lib_options = { server_url: endpoint }
         all_options = {
-            browser:     :safari,
             appium_lib:  appium_lib_options,
             caps:        desired_capabilities
         }
@@ -88,14 +87,14 @@ module TestCentricity
           Environ.set_device_type(Browsers.mobile_device_name(browser))
           ENV['HOST_BROWSER'] ? host_browser = ENV['HOST_BROWSER'].downcase.to_sym : host_browser = :firefox
           case host_browser
-            when :firefox
-              profile = Selenium::WebDriver::Firefox::Profile.new
-              profile['general.useragent.override'] = user_agent
-              Capybara::Selenium::Driver.new(app, :profile => profile)
-            when :chrome
-              args = []
-              args << "--user-agent='#{user_agent}'"
-              Capybara::Selenium::Driver.new(app, :browser => :chrome, :args => args)
+          when :firefox
+            profile = Selenium::WebDriver::Firefox::Profile.new
+            profile['general.useragent.override'] = user_agent
+            Capybara::Selenium::Driver.new(app, :profile => profile)
+          when :chrome
+            args = []
+            args << "--user-agent='#{user_agent}'"
+            Capybara::Selenium::Driver.new(app, :browser => :chrome, :args => args)
           end
         end
       end

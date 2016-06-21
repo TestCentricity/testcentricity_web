@@ -298,7 +298,24 @@ module TestCentricity
                 actual = ui_object.get_table_cell(cell[0].to_i, cell[1].to_i)
               end
           end
-          ExceptionQueue.enqueue_assert_equal(state, actual, "Expected #{ui_object.get_locator} #{property.to_s} property")
+
+          if state.is_a?(Hash) && state.length == 1
+            error_msg = "Expected #{ui_object.get_locator} #{property.to_s} property to be"
+            state.each do |key, value|
+              case key
+                when :lt, :less_than
+                  ExceptionQueue.enqueue_exception("#{error_msg} less than #{value} but found #{actual}") unless actual < value
+                when :lt_eq, :less_than_or_equal
+                  ExceptionQueue.enqueue_exception("#{error_msg} less than or equal to #{value} but found #{actual}") unless actual <= value
+                when :gt, :greater_than
+                  ExceptionQueue.enqueue_exception("#{error_msg} greater than #{value} but found #{actual}") unless actual > value
+                when :gt_eq, :greater_than_or_equal
+                  ExceptionQueue.enqueue_exception("#{error_msg} greater than or equal to  #{value} but found #{actual}") unless actual >= value
+              end
+            end
+          else
+            ExceptionQueue.enqueue_assert_equal(state, actual, "Expected #{ui_object.get_locator} #{property.to_s} property")
+          end
         end
       end
       ExceptionQueue.post_exceptions
