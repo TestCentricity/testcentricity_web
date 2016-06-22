@@ -21,7 +21,8 @@ module TestCentricity
       end
     end
 
-    def get_list_items
+    def get_list_items(element_spec = nil)
+      define_list_elements(element_spec) unless element_spec.nil?
       obj, _ = find_element
       object_not_found_exception(obj, nil)
       obj.all(@list_item).collect(&:text)
