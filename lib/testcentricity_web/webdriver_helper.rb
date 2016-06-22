@@ -57,7 +57,7 @@ module TestCentricity
           deviceName:      ENV['APP_DEVICE']
       }
       desired_capabilities['avd'] = ENV['APP_DEVICE'] if ENV['APP_PLATFORM_NAME'].downcase.to_sym == :android
-      desired_capabilities['deviceOrientation'] = ENV['ORIENTATION'] if ENV['ORIENTATION']
+      desired_capabilities['orientation'] = ENV['ORIENTATION'].upcase if ENV['ORIENTATION']
       desired_capabilities['udid'] = ENV['APP_UDID'] if ENV['APP_UDID']
       desired_capabilities['safariInitialUrl'] = ENV['APP_INITIAL_URL'] if ENV['APP_INITIAL_URL']
       desired_capabilities['safariAllowPopups'] = ENV['APP_ALLOW_POPUPS'] if ENV['APP_ALLOW_POPUPS']
