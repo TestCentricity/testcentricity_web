@@ -186,9 +186,7 @@ module TestCentricity
         set_alt_locator("#{saved_locator}/input")
         unless exists?
           set_alt_locator("#{saved_locator}/textarea")
-          unless exists?
-            set_alt_locator(saved_locator)
-          end
+          set_alt_locator(saved_locator) unless exists?
         end
         value = get_value if exists?
         columns.push(value)
@@ -206,6 +204,27 @@ module TestCentricity
       value = get_value if exists?
       clear_alt_locator
       value
+    end
+
+    def get_table_column(column)
+      rows = []
+      column_count = get_column_count
+      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{@locator}" if column > column_count
+      row_count = get_row_count
+      (1..row_count).each do |row|
+        value = ''
+        set_table_cell_locator(row, column)
+        saved_locator = @alt_locator
+        set_alt_locator("#{saved_locator}/input")
+        unless exists?
+          set_alt_locator("#{saved_locator}/textarea")
+          set_alt_locator(saved_locator) unless exists?
+        end
+        value = get_value if exists?
+        rows.push(value)
+      end
+      clear_alt_locator
+      rows
     end
 
     # Return text contained in specified cell of a table object.
@@ -226,9 +245,7 @@ module TestCentricity
       set_alt_locator("#{saved_locator}/input")
       unless exists?
         set_alt_locator("#{saved_locator}/textarea")
-        unless exists?
-          set_alt_locator(saved_locator)
-        end
+        set_alt_locator(saved_locator) unless exists?
       end
       value = get_value if exists?
       clear_alt_locator
@@ -398,12 +415,13 @@ module TestCentricity
     def set_table_cell_locator(row, column)
       if @table_section.nil?
         row_spec = "#{@locator}/#{@table_body}/#{@table_row}"
-        row_spec = "#{row_spec}[#{row}]" if row > 1
+        row_spec = "#{row_spec}[#{row}]"
       else
         row_spec = "#{@locator}/#{@table_body}/#{@table_section}"
         row_spec = "#{row_spec}[#{row}]/#{@table_row}"
       end
-      column_spec = "/#{@table_column}[#{column}]"
+      column_spec = "/#{@table_column}"
+      column_spec = "#{column_spec}[#{column}]" if column > 1
       set_alt_locator("#{row_spec}#{column_spec}")
     end
 

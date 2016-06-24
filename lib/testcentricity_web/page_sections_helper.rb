@@ -301,21 +301,33 @@ module TestCentricity
                 cell = property.to_s.gsub('cell_', '')
                 cell = cell.split('_')
                 actual = ui_object.get_table_cell(cell[0].to_i, cell[1].to_i)
+              elsif property.to_s.start_with? ('row_')
+                row = property.to_s.gsub('row_', '')
+                actual = ui_object.get_table_row(row.to_i)
+              elsif property.to_s.start_with? ('column_')
+                column = property.to_s.gsub('column_', '')
+                actual = ui_object.get_table_column(column.to_i)
               end
           end
 
           if state.is_a?(Hash) && state.length == 1
-            error_msg = "Expected #{ui_object.get_locator} #{property.to_s} property to be"
+            error_msg = "Expected #{ui_object.get_locator} #{property.to_s} property to"
             state.each do |key, value|
               case key
                 when :lt, :less_than
-                  ExceptionQueue.enqueue_exception("#{error_msg} less than #{value} but found #{actual}") unless actual < value
+                  ExceptionQueue.enqueue_exception("#{error_msg} be less than #{value} but found #{actual}") unless actual < value
                 when :lt_eq, :less_than_or_equal
-                  ExceptionQueue.enqueue_exception("#{error_msg} less than or equal to #{value} but found #{actual}") unless actual <= value
+                  ExceptionQueue.enqueue_exception("#{error_msg} be less than or equal to #{value} but found #{actual}") unless actual <= value
                 when :gt, :greater_than
-                  ExceptionQueue.enqueue_exception("#{error_msg} greater than #{value} but found #{actual}") unless actual > value
+                  ExceptionQueue.enqueue_exception("#{error_msg} be greater than #{value} but found #{actual}") unless actual > value
                 when :gt_eq, :greater_than_or_equal
-                  ExceptionQueue.enqueue_exception("#{error_msg} greater than or equal to  #{value} but found #{actual}") unless actual >= value
+                  ExceptionQueue.enqueue_exception("#{error_msg} be greater than or equal to  #{value} but found #{actual}") unless actual >= value
+                when :starts_with
+                  ExceptionQueue.enqueue_exception("#{error_msg} start with '#{value}' but found #{actual}") unless actual.start_with?(value)
+                when :ends_with
+                  ExceptionQueue.enqueue_exception("#{error_msg} end with '#{value}' but found #{actual}") unless actual.end_with?(value)
+                when :contains
+                  ExceptionQueue.enqueue_exception("#{error_msg} contain '#{value}' but found #{actual}") unless actual.include?(value)
               end
             end
           else
