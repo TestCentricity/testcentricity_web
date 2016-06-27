@@ -247,7 +247,12 @@ module TestCentricity
         set_alt_locator("#{saved_locator}/textarea")
         set_alt_locator(saved_locator) unless exists?
       end
-      value = get_value if exists?
+      if exists?
+        value = get_value
+      else
+        puts "Could not find table cell at #{@alt_locator}"
+        value = ''
+      end
       clear_alt_locator
       value
     end
@@ -418,16 +423,19 @@ module TestCentricity
         row_spec = "#{row_spec}[#{row}]"
       else
         row_spec = "#{@locator}/#{@table_body}/#{@table_section}"
-        row_spec = "#{row_spec}[#{row}]/#{@table_row}"
+        row_spec = "#{row_spec}[#{row}]/#{@table_row}[1]"
       end
-      column_spec = "/#{@table_column}"
-      column_spec = "#{column_spec}[#{column}]" if column > 1
+      column_spec = "/#{@table_column}[#{column}]"
       set_alt_locator("#{row_spec}#{column_spec}")
     end
 
     def find_table_cell(row, column)
       set_table_cell_locator(row, column)
-      click if exists?
+      if exists?
+        click
+      else
+        puts "Could not find table cell at #{@alt_locator}"
+      end
       saved_locator = @alt_locator
       set_alt_locator("#{saved_locator}/input")
       set_alt_locator("#{saved_locator}/textarea") unless exists?
