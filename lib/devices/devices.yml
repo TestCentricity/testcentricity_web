@@ -34,6 +34,12 @@
   :css_height: 480
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (Linux; U; Android 4.0.1; en-us; sdk Build/ICS_MR0) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30"
+nexus6:
+  :name: "Nexus 6 or 6P phone"
+  :css_width: 411
+  :css_height: 731
+  :default_orientation: portrait
+  :user_agent: "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 6P Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.83 Mobile Safari/537.36"
 :windows_phone8:
   :name: "Generic Windows 8 phone"
   :css_width: 320
@@ -111,10 +117,22 @@
   :css_width: 1280
   :css_height: 800
   :default_orientation: landscape
-  :user_agent: "Mozilla/5.0 (Linux; U; Android 2.2; en-us; SCH-I800 Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1"
+  :user_agent: "Mozilla/5.0 (Linux; Android 4.0.4; GT-P6800 Build/IMM76D) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.111 Safari/537.36"
 :google_nexus7:
   :name: "Nexus 7 series"
   :css_width: 960
   :css_height: 600
   :default_orientation: landscape
-  :user_agent: "Mozilla/5.0 (Linux; Android 4.3; Nexus 7 Build/JSS15Q) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.72 Safari/537.36"
+  :user_agent: "Mozilla/5.0 (Linux; Android 4.4.4; Nexus 7 Build/KTU84P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.111 Safari/537.36"
+:google_nexus9:
+  :name: "Nexus 9 series"
+  :css_width: 1024
+  :css_height: 768
+  :default_orientation: landscape
+  :user_agent: "Mozilla/5.0 (Linux; Android 5.1.1; Nexus 9 Build/LMY48I) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.84 Safari/537.36"
+:google_nexus10:
+  :name: "Nexus 10 series"
+  :css_width: 1280
+  :css_height: 800
+  :default_orientation: landscape
+  :user_agent: "Mozilla/5.0 (Linux; Android 5.1; Nexus 10 Build/LMY47D) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.109 Safari/537.36"

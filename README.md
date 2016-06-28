@@ -8,7 +8,7 @@ use with Cucumber, Capybara, and Selenium-Webdriver.
 
 The TestCentricity™ Web gem supports running automated tests against the following web test targets:
 
-* locally hosted desktop browsers (Firefox, Chrome, Safari, IE, or Edge)
+* locally hosted desktop browsers (Firefox, Chrome, Safari, or IE)
 * locally hosted emulated iOS, Android, Windows Phone, or Blackberry mobile browsers (using Firefox or Chrome)
 * a "headless" browser (using Poltergeist and PhantomJS)
 * mobile Safari browsers on iOS device simulators (using Appium and XCode on OS X)
@@ -375,7 +375,6 @@ For locally hosted desktop web browsers, the `WEB_BROWSER` Environment Variable 
 `chrome` | OS X or Windows
 `safari` | OS X only
 `ie` | Windows only
-`edge` | Windows 10 only
 `poltergeist` | OS X or Windows
 
 To set the size of a desktop browser window, you set the `BROWSER_SIZE` Environment Variable to the desired width and height in pixels as shown below:
@@ -406,12 +405,15 @@ browsers, the `WEB_BROWSER` Environment Variable must be set to one of the value
 `blackberry_playbook` |`firefox` or `chrome` |1024 x 600|landscape
 `samsung_galaxy_tab`  |`firefox` or `chrome` |1280 x 800|landscape
 `google_nexus7`       |`firefox` or `chrome` |960 x 600|landscape
+`google_nexus9`       |`firefox` or `chrome` |1024 x 768|landscape
+`google_nexus10`      |`firefox` or `chrome` |1280 x 800|landscape
 `iphone`  |`firefox` or `chrome` |320 x 480|portrait
 `iphone4` |`firefox` or `chrome` |320 x 480|portrait
 `iphone5` |`firefox` or `chrome` |320 x 568|portrait
 `iphone6` |`firefox` or `chrome` |375 x 667|portrait
 `iphone6_plus`   |`firefox` or `chrome` |414 x 736|portrait
 `android_phone`  |`firefox` or `chrome` |320 x 480|portrait
+`nexus6`         |`firefox` or `chrome` |411 x 731|portrait
 `windows_phone7` |`firefox` or `chrome` |320 x 480|portrait
 `windows_phone8` |`firefox` or `chrome` |320 x 480|portrait
 `blackberry_z10` |`firefox` or `chrome` |384 x 640|portrait
@@ -612,6 +614,7 @@ replace the placeholder text with your user account and authorization code for t
     iphone6:             WEB_BROWSER=iphone6             HOST_BROWSER=firefox <%= mobile %>
     iphone6_plus:        WEB_BROWSER=iphone6_plus        HOST_BROWSER=firefox <%= mobile %>
     android_phone:       WEB_BROWSER=android_phone       HOST_BROWSER=firefox <%= mobile %>
+    nexus6:              WEB_BROWSER=nexus6              HOST_BROWSER=firefox <%= mobile %>
     android_tablet:      WEB_BROWSER=android_tablet      HOST_BROWSER=firefox <%= mobile %>
     kindle_fire:         WEB_BROWSER=kindle_fire         HOST_BROWSER=firefox <%= mobile %>
     kindle_firehd7:      WEB_BROWSER=kindle_firehd7      HOST_BROWSER=firefox <%= mobile %>
@@ -620,6 +623,8 @@ replace the placeholder text with your user account and authorization code for t
     blackberry_playbook: WEB_BROWSER=blackberry_playbook HOST_BROWSER=firefox <%= mobile %>
     samsung_galaxy_tab:  WEB_BROWSER=samsung_galaxy_tab  HOST_BROWSER=firefox <%= mobile %>
     google_nexus7:       WEB_BROWSER=google_nexus7       HOST_BROWSER=firefox <%= mobile %>
+    google_nexus9:       WEB_BROWSER=google_nexus9       HOST_BROWSER=firefox <%= mobile %>
+    google_nexus10:      WEB_BROWSER=google_nexus10      HOST_BROWSER=firefox <%= mobile %>
     windows_phone7:      WEB_BROWSER=windows_phone7      HOST_BROWSER=firefox <%= mobile %>
     windows_phone8:      WEB_BROWSER=windows_phone8      HOST_BROWSER=firefox <%= mobile %>
     blackberry_z10:      WEB_BROWSER=blackberry_z10      HOST_BROWSER=firefox <%= mobile %>
