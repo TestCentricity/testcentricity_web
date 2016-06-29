@@ -388,10 +388,10 @@ To maximize a desktop browser window, you set the `BROWSER_SIZE` Environment Var
 
 ### Locally hosted emulated mobile web browser
 
-You can run your tests against emulated mobile device browsers within a locally hosted instance of a Firefox or Chrome desktop browser on OS X
-or Windows. The specified mobile browser's user agent, CSS screen dimensions, and default screen orientation will be automatically set in the
-local Firefox or Chrome browser instance. You may even specify the emulated device's screen orientation. For locally hosted emulated mobile web
-browsers, the `WEB_BROWSER` Environment Variable must be set to one of the values from the table below: 
+You can run your tests against mobile device browsers that are emulated within a locally hosted instance of a Firefox or Chrome desktop browser
+on OS X or Windows. The specified mobile browser's user agent, CSS screen dimensions, and default screen orientation will be automatically set
+within the local Firefox or Chrome browser instance. You may even specify the emulated device's screen orientation. For locally hosted emulated
+mobile web browsers, the `WEB_BROWSER` Environment Variable must be set to one of the values from the table below: 
 
 `WEB_BROWSER` | `HOST_BROWSER` | **CSS Screen Dimensions** | **Default Orientation** 
 --------------|----------------|-------------------------------|-------------------
@@ -427,8 +427,10 @@ to `chrome`.
 
 ### Mobile Safari browser on iOS Simulators
 
-You can run your mobile web tests against the mobile Safari browser on simulated iOS devices using Appium and XCode on OS X. You will need to install
-XCode and Appium, and ensure that the `appium_capybara` gem is installed and required as described in section 2.4 (Setup - Using Appium) above.
+You can run your mobile web tests against the mobile Safari browser on simulated iOS devices using Appium and XCode on OS X. You must install XCode
+and Appium, and ensure that the `appium_capybara` gem is installed and required as described in **section 2.4 (Setup - Using Appium)** above.
+
+Appium must be running prior to invoking Cucumber to run your features/scenarios.
 
 Once your test environment is properly configured, the following **Environment Variables** must be set as described in the table below.
 
@@ -437,7 +439,7 @@ Once your test environment is properly configured, the following **Environment V
 `WEB_BROWSER` | Must be set to `appium`
 `APP_PLATFORM_NAME` | Must be set to `iOS`
 `APP_BROWSER` | Must be set to `Safari`
-`APP_VERSION` | Must be set to `9.3`, `9.2`, or which ever iOS Simulator version are installed in XCode
+`APP_VERSION` | Must be set to `9.3`, `9.2`, or which ever iOS version you wish to run within the XCode Simulator
 `APP_DEVICE`| Set to iOS device name supported by the iOS Simulator (`iPhone 6s Plus`, `iPad Pro`, `iPad Air 2`, etc.)
 `ORIENTATION` | [Optional] Set to `portrait` or `landscape`
 `APP_ALLOW_POPUPS` | [Optional] Allow javascript to open new windows in Safari. Set to `true` or `false`
@@ -462,16 +464,16 @@ the table below. Refer to the [Browserstack-specific capabilities chart page](ht
 
 **Environment Variable** | **Description**
 --------------- | ----------------
-`WEB_BROWSER` | Must be set to `browserstack`
-`BS_USERNAME` | Must be set to your BrowserStack account user name
-`BS_AUTHKEY` | Must be set to your BrowserStack account access key
-`BS_OS` | Must be set to `OS X` or `Windows`
+`WEB_BROWSER`   | Must be set to `browserstack`
+`BS_USERNAME`   | Must be set to your BrowserStack account user name
+`BS_AUTHKEY`    | Must be set to your BrowserStack account access key
+`BS_OS`         | Must be set to `OS X` or `Windows`
 `BS_OS_VERSION` | Refer to `os_version` capability in chart
-`BS_BROWSER` | Refer to `browser` capability in chart
-`BS_VERSION` | [Optional] Refer to `browser_version` capability in chart. If not specified, latest stable version of browser will be used.
-`TUNNELING` | Must be `true` if you are testing against internal/local servers
-`RESOLUTION` | [Optional] Refer to supported screen `resolution` capability in chart
-`BROWSER_SIZE`| [Optional] Specify width, height of browser window
+`BS_BROWSER`    | Refer to `browser` capability in chart
+`BS_VERSION`    | [Optional] Refer to `browser_version` capability in chart. If not specified, latest stable version of browser will be used.
+`TUNNELING`     | Must be `true` if you are testing against internal/local servers
+`RESOLUTION`    | [Optional] Refer to supported screen `resolution` capability in chart
+`BROWSER_SIZE`  | [Optional] Specify width, height of browser window
 
 
 #### Remote mobile browsers on the BrowserStack service
@@ -483,11 +485,11 @@ the table below. Refer to the [Browserstack-specific capabilities chart page](ht
 --------------- | ----------------
 `WEB_BROWSER` | Must be set to `browserstack`
 `BS_USERNAME` | Must be set to your BrowserStack account user name
-`BS_AUTHKEY` | Must be set to your BrowserStack account access key
-`BS_BROWSER` | Must be set to `iPhone`, `iPad`, or `android`
+`BS_AUTHKEY`  | Must be set to your BrowserStack account access key
+`BS_BROWSER`  | Must be set to `iPhone`, `iPad`, or `android`
 `BS_PLATFORM` | Must be set to `MAC` (for iOS) or `ANDROID`
-`BS_DEVICE` | Refer to `device` capability in chart
-`TUNNELING` | Must be `true` if you are testing against internal/local servers
+`BS_DEVICE`   | Refer to `device` capability in chart
+`TUNNELING`   | Must be `true` if you are testing against internal/local servers
 `ORIENTATION` | [Optional] Set to `portrait` or `landscape`
 
 
@@ -501,10 +503,10 @@ the table below. Use the Configuration Wizard on the [Start a Selenium Test page
 --------------- | ----------------
 `WEB_BROWSER` | Must be set to `crossbrowser`
 `CB_USERNAME` | Must be set to your CrossBrowserTesting account user name or email address
-`CB_AUTHKEY` | Must be set to your CrossBrowserTesting account access key
-`CB_OS` | Refer to `os_api_name` capability in the sample script of the Wizard
-`CB_BROWSER` | Refer to `browser_api_name` capability in the sample script of the Wizard
-`RESOLUTION` | [Optional] Refer to supported `screen_resolution` capability in the sample script of the Wizard
+`CB_AUTHKEY`  | Must be set to your CrossBrowserTesting account access key
+`CB_OS`       | Refer to `os_api_name` capability in the sample script of the Wizard
+`CB_BROWSER`  | Refer to `browser_api_name` capability in the sample script of the Wizard
+`RESOLUTION`  | [Optional] Refer to supported `screen_resolution` capability in the sample script of the Wizard
 `BROWSER_SIZE`| [Optional] Specify width, height of browser window
 
 
@@ -517,10 +519,10 @@ the table below. Use the Configuration Wizard on the [Start a Selenium Test page
 --------------- | ----------------
 `WEB_BROWSER` | Must be set to `crossbrowser`
 `CB_USERNAME` | Must be set to your CrossBrowserTesting account user name or email address
-`CB_AUTHKEY` | Must be set to your CrossBrowserTesting account access key
+`CB_AUTHKEY`  | Must be set to your CrossBrowserTesting account access key
 `CB_PLATFORM` | Refer to `os_api_name` capability in the sample script of the Wizard
-`CB_BROWSER` | Refer to `browser_api_name` capability in the sample script of the Wizard
-`RESOLUTION` | Refer to supported `screen_resolution` capability in the sample script of the Wizard
+`CB_BROWSER`  | Refer to `browser_api_name` capability in the sample script of the Wizard
+`RESOLUTION`  | Refer to supported `screen_resolution` capability in the sample script of the Wizard
 
 
 
@@ -533,11 +535,11 @@ the table below. Use the Selenium API on the [Platform Configurator page](https:
 --------------- | ----------------
 `WEB_BROWSER` | Must be set to `saucelabs`
 `SL_USERNAME` | Must be set to your Sauce Labs account user name or email address
-`SL_AUTHKEY` | Must be set to your Sauce Labs account access key
-`SL_OS` | Refer to `platform` capability in the Copy Code section of the Platform Configurator page
-`SL_BROWSER` | Must be set to `chrome`, `firefox`, `safari`, `internet explorer`, or `edge`
-`SL_VERSION` | Refer to `version` capability in the Copy Code section of the Platform Configurator page
-`RESOLUTION` | [Optional] Refer to supported `screenResolution` capability in the Copy Code section of the Platform Configurator page
+`SL_AUTHKEY`  | Must be set to your Sauce Labs account access key
+`SL_OS`       | Refer to `platform` capability in the Copy Code section of the Platform Configurator page
+`SL_BROWSER`  | Must be set to `chrome`, `firefox`, `safari`, `internet explorer`, or `edge`
+`SL_VERSION`  | Refer to `version` capability in the Copy Code section of the Platform Configurator page
+`RESOLUTION`  | [Optional] Refer to supported `screenResolution` capability in the Copy Code section of the Platform Configurator page
 `BROWSER_SIZE`| [Optional] Specify width, height of browser window
 
 
