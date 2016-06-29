@@ -436,17 +436,17 @@ Once your test environment is properly configured, the following **Environment V
 
 **Environment Variable** | **Description**
 --------------- | ----------------
-`WEB_BROWSER` | Must be set to `appium`
+`WEB_BROWSER`       | Must be set to `appium`
 `APP_PLATFORM_NAME` | Must be set to `iOS`
-`APP_BROWSER` | Must be set to `Safari`
-`APP_VERSION` | Must be set to `9.3`, `9.2`, or which ever iOS version you wish to run within the XCode Simulator
-`APP_DEVICE`| Set to iOS device name supported by the iOS Simulator (`iPhone 6s Plus`, `iPad Pro`, `iPad Air 2`, etc.)
-`ORIENTATION` | [Optional] Set to `portrait` or `landscape`
-`APP_ALLOW_POPUPS` | [Optional] Allow javascript to open new windows in Safari. Set to `true` or `false`
+`APP_BROWSER`       | Must be set to `Safari`
+`APP_VERSION`       | Must be set to `9.3`, `9.2`, or which ever iOS version you wish to run within the XCode Simulator
+`APP_DEVICE`        | Set to iOS device name supported by the iOS Simulator (`iPhone 6s Plus`, `iPad Pro`, `iPad Air 2`, etc.)
+`ORIENTATION`       | [Optional] Set to `portrait` or `landscape`
+`APP_ALLOW_POPUPS`  | [Optional] Allow javascript to open new windows in Safari. Set to `true` or `false`
 `APP_IGNORE_FRAUD_WARNING` | [Optional] Prevent Safari from showing a fraudulent website warning. Set to `true` or `false`
-`APP_NO_RESET` | [Optional] Don't reset app state after each test. Set to `true` or `false`
-`APP_INITIAL_URL` | [Optional] Initial URL, default is a local welcome page.  e.g.  `http://www.apple.com`
-`LOCALE` | [Optional] Locale to set for the simulator.  e.g.  `fr_CA`
+`APP_NO_RESET`      | [Optional] Don't reset app state after each test. Set to `true` or `false`
+`APP_INITIAL_URL`   | [Optional] Initial URL, default is a local welcome page.  e.g.  `http://www.apple.com`
+`LOCALE`            | [Optional] Locale to set for the simulator.  e.g.  `fr_CA`
 
 
 
@@ -552,11 +552,11 @@ the table below. Use the Selenium API on the [Platform Configurator page](https:
 --------------- | ----------------
 `WEB_BROWSER` | Must be set to `saucelabs`
 `SL_USERNAME` | Must be set to your Sauce Labs account user name or email address
-`SL_AUTHKEY` | Must be set to your Sauce Labs account access key
+`SL_AUTHKEY`  | Must be set to your Sauce Labs account access key
 `SL_PLATFORM` | Refer to `platform` capability in the Copy Code section of the Platform Configurator page
-`SL_BROWSER` | Must be set to `iPhone` or `android`
-`SL_VERSION` | Refer to `version` capability in the Copy Code section of the Platform Configurator page
-`SL_DEVICE` | Refer to `deviceName` capability in the Copy Code section of the Platform Configurator page
+`SL_BROWSER`  | Must be set to `iPhone` or `android`
+`SL_VERSION`  | Refer to `version` capability in the Copy Code section of the Platform Configurator page
+`SL_DEVICE`   | Refer to `deviceName` capability in the Copy Code section of the Platform Configurator page
 `SL_DEVICE_TYPE` | If displayed, refer to `deviceType` capability in the Copy Code section of the Platform Configurator page
 `ORIENTATION` | Refer to `deviceOrientation` capability in the Copy Code section of the Platform Configurator page
 
@@ -570,12 +570,12 @@ the table below. Refer to the [TestingBot List of Available Browsers page](https
 --------------- | ----------------
 `WEB_BROWSER` | Must be set to `testingbot`
 `TB_USERNAME` | Must be set to your TestingBot account user name
-`TB_AUTHKEY` | Must be set to your TestingBot account access key
-`TB_OS` | Refer to `platform` capability in chart
-`TB_BROWSER` | Refer to `browserName` capability in chart
-`TB_VERSION` | Refer to `version` capability in chart
-`TUNNELING` | Must be `true` if you are testing against internal/local servers
-`RESOLUTION` | [Optional] Possible values: `800x600`, `1024x768`, `1280x960`, `1280x1024`, `1600x1200`, `1920x1200`, `2560x1440`
+`TB_AUTHKEY`  | Must be set to your TestingBot account access key
+`TB_OS`       | Refer to `platform` capability in chart
+`TB_BROWSER`  | Refer to `browserName` capability in chart
+`TB_VERSION`  | Refer to `version` capability in chart
+`TUNNELING`   | Must be `true` if you are testing against internal/local servers
+`RESOLUTION`  | [Optional] Possible values: `800x600`, `1024x768`, `1280x960`, `1280x1024`, `1600x1200`, `1920x1200`, `2560x1440`
 `BROWSER_SIZE`| [Optional] Specify width, height of browser window
 
 
