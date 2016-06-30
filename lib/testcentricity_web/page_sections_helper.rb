@@ -288,10 +288,18 @@ module TestCentricity
               actual = ui_object.get_column_count
             when :placeholder
               actual = ui_object.get_placeholder
-            when :options
-              actual = ui_object.get_options
-            when :items, :list_items
-              actual = ui_object.get_list_items
+            when :options, :items, :list_items
+              if ui_object.get_object_type == :selectlist
+                actual = ui_object.get_options
+              else
+                actual = ui_object.get_list_items
+              end
+            when :optioncount, :itemcount
+              if ui_object.get_object_type == :selectlist
+                actual = ui_object.get_option_count
+              else
+                actual = ui_object.get_item_count
+              end
             when :column_headers
               actual = ui_object.get_header_columns
             when :siebel_options

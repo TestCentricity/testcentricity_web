@@ -80,6 +80,16 @@ module TestCentricity
       end
     end
 
+    def get_option_count
+      obj, _ = find_element
+      object_not_found_exception(obj, nil)
+      if first(:css, 'li.active-result')
+        obj.all('li.active-result').count
+      else
+        obj.all(@list_item).count
+      end
+    end
+
     def verify_options(expected, enqueue = false)
       actual = get_options
       enqueue ?

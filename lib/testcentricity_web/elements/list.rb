@@ -27,5 +27,11 @@ module TestCentricity
       object_not_found_exception(obj, nil)
       obj.all(@list_item).collect(&:text)
     end
+
+    def get_item_count
+      obj, _ = find_element
+      object_not_found_exception(obj, nil)
+      obj.all(@list_item).count
+    end
   end
 end
