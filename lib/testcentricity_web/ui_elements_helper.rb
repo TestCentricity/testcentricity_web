@@ -81,7 +81,7 @@ module TestCentricity
       page.driver.browser.mouse.double_click(obj.native)
     end
 
-    # Click at a specific location within an an object
+    # Click at a specific location within an object
     #
     # @param x [Integer] X offset
     # @param y [Integer] Y offset

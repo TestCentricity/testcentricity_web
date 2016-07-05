@@ -201,6 +201,28 @@ module TestCentricity
       section != nil
     end
 
+    # Is Section object enabled?
+    #
+    # @return [Boolean]
+    # @example
+    #   bar_chart_section.enabled?
+    #
+    def enabled?
+      not disabled?
+    end
+
+    # Is Section object disabled (not enabled)?
+    #
+    # @return [Boolean]
+    # @example
+    #   bar_chart_section.disabled?
+    #
+    def disabled?
+      obj, _ = find_element
+      object_not_found_exception(obj, nil)
+      obj.disabled?
+    end
+
     # Is Section object visible?
     #
     # @return [Boolean]
@@ -252,6 +274,19 @@ module TestCentricity
       wait.until { !exists? }
     rescue
       raise "Section #{get_locator} remained visible after #{timeout} seconds" if exists?
+    end
+
+    # Click at a specific location within a Section object
+    #
+    # @param x [Integer] X offset
+    # @param y [Integer] Y offset
+    # @example
+    #   bar_chart_section.click_at(10, 10)
+    #
+    def click_at(x, y)
+      section, _ = find_section
+      raise "Section #{get_locator} not found" unless section
+      section.click_at(x, y)
     end
 
     def verify_ui_states(ui_states)
