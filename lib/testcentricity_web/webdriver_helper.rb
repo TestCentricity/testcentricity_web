@@ -18,28 +18,36 @@ module TestCentricity
       case browser.downcase.to_sym
         when :appium
           initialize_appium
+          context = 'mobile device emulator'
         when :browserstack
           initialize_browserstack
+          context = 'Browserstack cloud service'
         when :crossbrowser
           initialize_crossbrowser
+          context = 'CrossBrowserTesting cloud service'
         when :poltergeist
           initialize_poltergeist
+          context = 'PhantomJS'
         when :saucelabs
           initialize_saucelabs
+          context = 'Sauce Labs cloud service'
         when :testingbot
           initialize_testingbot
+          context = 'TestingBot cloud service'
         else
           if ENV["SELENIUM"] == 'remote'
             initialize_remote
+            context = 'Selenium Grid2'
           else
             initialize_local_browser
+            context = 'local instance'
           end
       end
 
       # set browser window size only if testing with a desktop web browser
       initialize_browser_size unless Capybara.current_driver == :poltergeist || Capybara.current_driver == :appium
 
-      puts "Using #{Environ.browser.to_s} browser"
+      puts "Using #{Environ.browser.to_s} browser via #{context}"
     end
 
     def self.set_domain(url)
