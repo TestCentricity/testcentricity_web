@@ -145,10 +145,10 @@ You define your page's **Traits** as shown below:
       trait(:page_locator)    { 'body.login-body' }
     
       # Login page UI elements
-      textfield :user_id_field,       '#userName'
-      textfield :password_field,      '#password'
-      button    :login_button,        '#login'
-      checkbox  :remember_checkbox,   '#rememberUser'
+      textfield :user_id_field,       'input#userName'
+      textfield :password_field,      'input#password'
+      button    :login_button,        'button#login'
+      checkbox  :remember_checkbox,   'input#rememberUser'
       label     :error_message_label, 'div#statusBar.login-error'
     end
     
@@ -172,10 +172,10 @@ the UI to hide implementation details, as shown below:
       trait(:page_locator)    { 'body.login-body' }
     
       # Login page UI elements
-      textfield :user_id_field,        '#userName'
-      textfield :password_field,       '#password'
-      button    :login_button,         '#login'
-      checkbox  :remember_checkbox,    '#rememberUser'
+      textfield :user_id_field,        'input#userName'
+      textfield :password_field,       'input#password'
+      button    :login_button,         'button#login'
+      checkbox  :remember_checkbox,    'input#rememberUser'
       label     :error_message_label,  'div#statusBar.login-error'
       link      :forgot_password_link, 'a.forgotPassword'
     
@@ -248,7 +248,7 @@ You define your page section's **Traits** as shown below:
       trait(:section_locator)   { 'form#gnav-search' }
         
       # Search Form UI elements
-      textfield :search_field,  '#search-query'
+      textfield :search_field,  'input#search-query'
       button    :search_button, 'button[type=submit]'
     end
 
@@ -261,7 +261,7 @@ You can add high level methods to your **PageSection** class definition, as show
       trait(:section_locator)   { 'form#gnav-search' }
         
       # Search Form UI elements
-      textfield :search_field,  '#search-query'
+      textfield :search_field,  'input#search-query'
       button    :search_button, 'button[type=submit]'
 
       def search_for(value)
@@ -600,7 +600,6 @@ replace the placeholder text with your user account and authorization code for t
     safari:             WEB_BROWSER=safari      <%= desktop %>
     chrome:             WEB_BROWSER=chrome      <%= desktop %>
     ie:                 WEB_BROWSER=ie          <%= desktop %>
-    edge:               WEB_BROWSER=edge        <%= desktop %>
     headless:           WEB_BROWSER=poltergeist <%= desktop %>
     
     #==============

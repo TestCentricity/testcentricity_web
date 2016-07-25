@@ -29,7 +29,11 @@ module TestCentricity
         when :testingbot
           initialize_testingbot
         else
-          initialize_local_browser(browser)
+          if ENV["SELENIUM"] == 'remote'
+            initialize_remote
+          else
+            initialize_local_browser
+          end
       end
 
       # set browser window size only if testing with a desktop web browser
@@ -75,7 +79,8 @@ module TestCentricity
       end
     end
 
-    def self.initialize_local_browser(browser)
+    def self.initialize_local_browser
+      browser = ENV['WEB_BROWSER']
       Capybara.default_driver = :selenium
       Capybara.register_driver :selenium do |app|
         case browser.downcase.to_sym
@@ -132,8 +137,8 @@ module TestCentricity
             capabilities['name'] = ENV['TEST_ENVIRONMENT']
 
         capabilities['acceptSslCerts'] = 'true'
+        capabilities['browserstack.localIdentifier'] = ENV['BS_LOCAL_ID'] if ENV['BS_LOCAL_ID']
         capabilities['browserstack.local'] = 'true' if ENV['TUNNELING']
-        capabilities['browserstack.localIdentifier'] =  ENV['BS_LOCAL_ID'] if ENV['BS_LOCAL_ID']
 
         case browser.downcase.to_sym
         when :ie
@@ -183,6 +188,14 @@ module TestCentricity
     end
 
     def self.initialize_poltergeist
+      if ENV['BROWSER_SIZE']
+        resolution = ENV['BROWSER_SIZE'].split(',')
+        width  = resolution[0]
+        height = resolution[1]
+      else
+        width  = 1650
+        height = 1000
+      end
       Capybara.default_driver = :poltergeist
       Capybara.register_driver :poltergeist do |app|
         options = {
@@ -191,9 +204,20 @@ module TestCentricity
             :debug => false,
             :phantomjs_options => ['--load-images=no', '--disk-cache=false'],
             :inspector => true,
+            :window_size => [width, height]
         }
         Capybara::Poltergeist::Driver.new(app, options)
       end
+    end
+
+    def self.initialize_remote
+      browser = ENV['WEB_BROWSER']
+      endpoint = 'http://127.0.0.1:4444/wd/hub'
+      capabilities = Selenium::WebDriver::Remote::Capabilities.send(browser.downcase.to_sym)
+      Capybara.register_driver :remote_browser do |app|
+        Capybara::Selenium::Driver.new(app, :browser => :remote, :url => endpoint, :desired_capabilities => capabilities)
+      end
+      Capybara.current_driver = :remote_browser
     end
 
     def self.initialize_saucelabs
