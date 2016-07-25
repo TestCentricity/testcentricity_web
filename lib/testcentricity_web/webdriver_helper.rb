@@ -226,6 +226,7 @@ module TestCentricity
         Capybara::Selenium::Driver.new(app, :browser => :remote, :url => endpoint, :desired_capabilities => capabilities)
       end
       Capybara.current_driver = :remote_browser
+      Capybara.default_driver = :remote_browser
     end
 
     def self.initialize_saucelabs
