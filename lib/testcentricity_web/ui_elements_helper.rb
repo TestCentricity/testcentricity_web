@@ -310,21 +310,24 @@ module TestCentricity
 
     def find_object(visible = true)
       @alt_locator.nil? ? locator = @locator : locator = @alt_locator
-      tries ||= 3
-      attributes = [:name, :id, :xpath, :css]
+      tries ||= 4
+      attributes = [:id, :xpath_css, :css_xpath, :xpath, :css]
       type = attributes[tries]
       if @context == :section && !@parent.get_locator.nil?
         parent_locator = @parent.get_locator
         case type
-        when :css
-          parent_locator = parent_locator.gsub('|', ' ')
-          obj = page.find(:css, parent_locator, :wait => 0.01).find(:css, locator, :wait => 0.01, :visible => visible)
-        when :xpath
-          parent_locator = parent_locator.gsub('|', '')
-          obj = page.find(:xpath, "#{parent_locator}#{locator}", :wait => 0.01, :visible => visible)
-          when :id
+          when :css
+            parent_locator = parent_locator.gsub('|', ' ')
+            obj = page.find(:css, parent_locator, :wait => 0.01).find(:css, locator, :wait => 0.01, :visible => visible)
+          when :xpath
+            parent_locator = parent_locator.gsub('|', '')
+            obj = page.find(:xpath, "#{parent_locator}#{locator}", :wait => 0.01, :visible => visible)
+          when :css_xpath
             parent_locator = parent_locator.gsub('|', ' ')
             obj = page.find(:css, parent_locator, :wait => 0.01).find(:xpath, locator, :wait => 0.01, :visible => visible)
+          when :xpath_css
+            parent_locator = parent_locator.gsub('|', ' ')
+            obj = page.find(:xpath, parent_locator, :wait => 0.01).find(:css, locator, :wait => 0.01, :visible => visible)
         end
       else
         obj = page.find(type, locator, :wait => 0.01, :visible => visible)
@@ -352,9 +355,9 @@ module TestCentricity
       obj, _ = find_element
       object_not_found_exception(obj, 'Siebel object')
       trigger_name = obj.native.attribute('aria-describedby').strip
-      trigger = "//span[@id='#{trigger_name}']"
-      trigger = "#{@parent.get_locator}#{trigger}" if @context == :section && !@parent.get_locator.nil?
-      first(:xpath, trigger).click
+      trigger = "span##{trigger_name}"
+      trigger = "#{@parent.get_locator} #{trigger}" if @context == :section && !@parent.get_locator.nil?
+      first(trigger).click
     end
   end
 end
