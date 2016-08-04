@@ -1,8 +1,9 @@
 module TestCentricity
   class UIElement
-    def invoke_siebel_dialog(popup)
+    def invoke_siebel_dialog(popup, seconds = nil)
       invoke_siebel_popup
-      popup.wait_until_exists(15)
+      timeout = seconds.nil? ? 15 : seconds
+      popup.wait_until_exists(timeout)
     end
 
     def get_siebel_object_type

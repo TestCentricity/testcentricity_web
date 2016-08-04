@@ -33,5 +33,12 @@ module TestCentricity
       object_not_found_exception(obj, nil)
       obj.all(@list_item).count
     end
+
+    def verify_list_items(expected, enqueue = false)
+      actual = get_list_items
+      enqueue ?
+          ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list  #{@locator}") :
+          assert_equal(expected, actual, "Expected list #{@locator} to be #{expected} but found #{actual}")
+    end
   end
 end
