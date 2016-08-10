@@ -33,7 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'test-unit'
   spec.add_dependency 'selenium-webdriver', '>= 2.50.0'
   spec.add_dependency 'poltergeist'
-  spec.add_dependency 'faker', '>= 1.6.1'
-  spec.add_dependency 'chronic', '>= 0.10.2'
-  spec.add_dependency 'spreadsheet', '>= 1.1.1'
+  spec.add_dependency 'faker', '1.6.6'
+  spec.add_dependency 'chronic', '0.10.2'
+  spec.add_dependency 'spreadsheet', '1.1.1'
 end

@@ -80,6 +80,13 @@ module TestCentricity
       end
     end
 
+    # Return the number of options in a select box object.
+    # Supports standard HTML select objects and Chosen select objects.
+    #
+    # @return [Integer]
+    # @example
+    #   num_colors = color_select.get_option_count
+    #
     def get_option_count
       obj, _ = find_element
       object_not_found_exception(obj, nil)
