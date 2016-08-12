@@ -44,6 +44,7 @@ module TestCentricity
       end
     end
 
+
     # Have all PageObjects been registered?
     #
     # @return [Boolean] true if all PageObjects have been registered
@@ -86,6 +87,10 @@ module TestCentricity
 
     def self.register_data_object(data_type, data_class)
       @data_objects[data_type] = data_class unless @data_objects.has_key?(data_type)
+    end
+
+    def self.find_data_object(data_object)
+      @data_objects[data_object]
     end
 
     # Have all DataObjects been registered?
