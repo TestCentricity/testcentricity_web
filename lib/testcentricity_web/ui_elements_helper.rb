@@ -78,7 +78,18 @@ module TestCentricity
     def double_click
       obj, _ = find_element
       object_not_found_exception(obj, nil)
-      page.driver.browser.mouse.double_click(obj.native)
+      page.driver.browser.action.double_click(obj.native).perform
+    end
+
+    # Right-click on an object
+    #
+    # @example
+    #   basket_item_image.right_click
+    #
+    def right_click
+      obj, _ = find_element
+      object_not_found_exception(obj, nil)
+      page.driver.browser.action.context_click(obj.native).perform
     end
 
     # Click at a specific location within an object
@@ -287,6 +298,15 @@ module TestCentricity
       obj, _ = find_element
       object_not_found_exception(obj, nil)
       obj.drag_by(right_offset, down_offset)
+    end
+
+    def drag_and_drop(target, right_offset = nil, down_offset = nil)
+      source, _ = find_element
+      object_not_found_exception(source, nil)
+      page.driver.browser.action.click_and_hold(source.native).perform
+      sleep(0.5)
+      target_drop, _ = target.find_element
+      page.driver.browser.action.move_to(target_drop.native, right_offset.to_i, down_offset.to_i).release.perform
     end
 
     def get_attribute(attrib)
