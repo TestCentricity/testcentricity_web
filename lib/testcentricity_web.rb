@@ -36,14 +36,19 @@ module TestCentricity
 
     @page_objects = {}
 
-    def self.register_page_object(page_ref, page_object)
-      @page_objects[page_ref] = page_object unless @page_objects.has_key?(page_ref)
-      page_key = page_object.page_name.gsub(/\s+/, "").downcase.to_sym
-      if page_key != page_ref
-        @page_objects[page_key] = page_object unless @page_objects.has_key?(page_key)
+    def self.register_page_objects(pages)
+      result = ''
+      pages.each do | page_object, page_class |
+        obj = page_class.new
+        @page_objects[page_object] = obj unless @page_objects.has_key?(page_object)
+        page_key = obj.page_name.gsub(/\s+/, "").downcase.to_sym
+        if page_key != page_object
+          @page_objects[page_key] = obj unless @page_objects.has_key?(page_key)
+        end
+        result = "#{result}def #{page_object.to_s};@#{page_object.to_s} ||= TestCentricity::PageManager.find_page(:#{page_object.to_s});end;"
       end
+      result
     end
-
 
     # Have all PageObjects been registered?
     #
@@ -85,8 +90,13 @@ module TestCentricity
   class DataManager
     @data_objects = {}
 
-    def self.register_data_object(data_type, data_class)
-      @data_objects[data_type] = data_class unless @data_objects.has_key?(data_type)
+    def self.register_data_objects(data)
+      result = ''
+      data.each do | data_type, data_class |
+        @data_objects[data_type] = data_class.new unless @data_objects.has_key?(data_type)
+        result = "#{result}def #{data_type.to_s};@#{data_type.to_s} ||= TestCentricity::DataManager.find_data_object(:#{data_type.to_s});end;"
+      end
+      result
     end
 
     def self.find_data_object(data_object)
