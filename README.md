@@ -102,13 +102,18 @@ test automation project. You define new **Page Objects** as shown below:
     end
 
 
+    class RegistrationPage < TestCentricity::PageObject
+    end
+
+
 ### Adding Traits to your Page Object
 
 Web pages typically have names and URLs associated with them. Web pages also typically have a unique object or attribute that, when present,
 indicates that the page's contents have fully loaded.
 
 The `page_name` trait is registered with the **PageManager** object, which includes a `find_page` method that takes a page name as a
-parameter and returns an instance of the associated **Page Object**.
+parameter and returns an instance of the associated **Page Object**. If you intend to use the **PageManager**, you must define a `page_name`
+trait for each of the **Page Objects** to be registered.
 
 A `page_url` trait should be defined if a page can be directly loaded using a URL. If you set Capybara's `app_host`, or specify a base URL
 when calling the `WebDriverConnect.initialize_web_driver` method, then your `page_url` trait can be the relative URL slug that will
@@ -132,6 +137,13 @@ You define your page's **Traits** as shown below:
       trait(:page_name)       { 'Home' }
       trait(:page_url)        { '/dashboard' }
       trait(:page_locator)    { 'body.dashboard' }
+    end
+
+
+    class RegistrationPage < TestCentricity::PageObject
+      trait(:page_name)       { 'Registration' }
+      trait(:page_url)        { '/register' }
+      trait(:page_locator)    { 'body.registration' }
     end
 
 
@@ -196,6 +208,7 @@ the UI to hide implementation details, as shown below:
             password_field       => { :visible => true, :enabled => true, :value => '', :placeholder => 'Password' },
             remember_checkbox    => { :exists  => true, :enabled => true, :checked => false },
             forgot_password_link => { :visible => true, :value => 'Forgot your password?' },
+            error_message_label  => { :visible => false }
             }
         verify_ui_states(ui)
         super
@@ -331,6 +344,7 @@ to be instantiated by **PageManager**:
         { :login_page                => LoginPage,
           :home_page                 => HomePage,
           :registration_page         => RegistrationPage,
+          :search_results_page       => SearchResultsPage,
           :products_grid_page        => ProductsCollectionPage,
           :product_detail_page       => ProductDetailPage,
           :shopping_basket_page      => ShoppingBasketPage,
@@ -353,14 +367,75 @@ executed:
     include WorldPages
     WorldPages.instantiate_page_objects
     
+**NOTE:** If you intend to use the **PageManager**, you must define a `page_name` trait for each of the **Page Objects** to be registered.
+
+
+### Leveraging the PageManager from Cucumber
+
+
+
+    Scenario Outline:  Verify Home page navigation links
+      Given I am on the Home page
+      When I click the <page> navigation link
+      Then I expect the <page> page to be correctly displayed
+    
+      Examples:
+        |page                    |
+        |Registration            |
+        |My Account              |
+        |Terms & Conditions      |
+        |Privacy Policy          |
+        |FAQs                    |
+        |Refunds & Cancellations |
+        |Contact US              |
+
+
+Include the step definitions and code below in a `page_steps.rb` or `generic_steps.rb` file in the `features/step_definitions` folder:
+
+    include TestCentricity
+    
+    Given(/^I am (?:on|viewing) the ([^\"]*) page$/) do |page_name|
+      target_page = page_dispatcher(page_name)
+      target_page.load_page if target_page
+      PageManager.set_current_page(target_page)
+    end
+    
+    When(/^I click the ([^\"]*) navigation link$/) do |link_name|
+      target_page = page_dispatcher(link_name)
+      target_page.navigate_to if target_page
+    end
+    
+    Then(/^I expect to see the ([^\"]*) page$/) do |page_name|
+      target_page = page_dispatcher(page_name)
+      target_page.verify_page_exists if target_page
+      PageManager.set_current_page(target_page)
+    end
+    
+    Then(/^I expect the ([^\"]*) page to be correctly displayed$/) do |page_name|
+      target_page = page_dispatcher(page_name)
+      if target_page
+        target_page.verify_page_exists
+        target_page.verify_page_ui
+        PageManager.set_current_page(target_page)
+      end
+    end
+    
+    
+    # this method that takes a page name as a parameter and returns an instance of the associated Page Object
+    def page_dispatcher(page_name)
+      page = PageManager.find_page(page_name)
+      raise "No page object defined for page named '#{page_name}'" unless page
+      page
+    end
+
 
 
 ## Connecting to a Web Browser
 
-The `WebDriverConnect.initialize_web_driver` method configures the appropriate selenium-webdriver capabilities required to establish a
+The `TestCentricity::WebDriverConnect.initialize_web_driver` method configures the appropriate selenium-webdriver capabilities required to establish a
 connection with a target web browser, and sets the base host URL of the web site you are running your tests against.
 
-The `WebDriverConnect.initialize_web_driver` method accepts a single optional parameter - the base host URL. Cucumber **Environment
+The `TestCentricity::WebDriverConnect.initialize_web_driver` method accepts a single optional parameter - the base host URL. Cucumber **Environment
 Variables** are used to specify the target local or remote web browser, and the various webdriver capability parameters required to configure
 the connection.
 
@@ -427,8 +502,9 @@ to `chrome`.
 
 ### Mobile Safari browser on iOS Simulators
 
-You can run your mobile web tests against the mobile Safari browser on simulated iOS devices using Appium and XCode on OS X. You must install XCode
-and Appium, and ensure that the `appium_capybara` gem is installed and required as described in **section 2.4 (Setup - Using Appium)** above.
+You can run your mobile web tests against the mobile Safari browser on simulated iOS devices using Appium and XCode on OS X. You must install XCode, the
+iOS version-specific device simulators for XCode, and Appium. You must ensure that the `appium_capybara` gem is installed and required as described in
+**section 2.4 (Setup - Using Appium)** above.
 
 Appium must be running prior to invoking Cucumber to run your features/scenarios.
 
@@ -460,7 +536,8 @@ staging server inside your LAN, you must set the `TUNNELING` Environment Variabl
 #### Remote desktop browsers on the BrowserStack service
 
 For remotely hosted desktop web browsers on the BrowserStack service, the following **Environment Variables** must be set as described in
-the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities#capabilities-browserstack) for information regarding the specific capabilities.
+the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities#capabilities-browserstack)
+for information regarding the specific capabilities.
 
 **Environment Variable** | **Description**
 --------------- | ----------------
@@ -479,7 +556,8 @@ the table below. Refer to the [Browserstack-specific capabilities chart page](ht
 #### Remote mobile browsers on the BrowserStack service
 
 For remotely hosted mobile web browsers on the BrowserStack service, the following **Environment Variables** must be set as described in
-the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities#capabilities-browserstack) for information regarding the specific capabilities.
+the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities#capabilities-browserstack)
+for information regarding the specific capabilities.
 
 **Environment Variable** | **Description**
 --------------- | ----------------
@@ -497,7 +575,8 @@ the table below. Refer to the [Browserstack-specific capabilities chart page](ht
 #### Remote desktop browsers on the CrossBrowserTesting service
 
 For remotely hosted desktop web browsers on the CrossBrowserTesting service, the following **Environment Variables** must be set as described in
-the table below. Use the Configuration Wizard on the [Start a Selenium Test page](https://app.crossbrowsertesting.com/selenium/run) to obtain information regarding the specific capabilities.
+the table below. Use the Configuration Wizard on the [Start a Selenium Test page](https://app.crossbrowsertesting.com/selenium/run) to obtain
+information regarding the specific capabilities.
 
 **Environment Variable** | **Description**
 --------------- | ----------------
@@ -513,7 +592,8 @@ the table below. Use the Configuration Wizard on the [Start a Selenium Test page
 #### Remote mobile browsers on the CrossBrowserTesting service
 
 For remotely hosted mobile web browsers on the CrossBrowserTesting service, the following **Environment Variables** must be set as described in
-the table below. Use the Configuration Wizard on the [Start a Selenium Test page](https://app.crossbrowsertesting.com/selenium/run) to obtain information regarding the specific capabilities.
+the table below. Use the Configuration Wizard on the [Start a Selenium Test page](https://app.crossbrowsertesting.com/selenium/run) to obtain
+information regarding the specific capabilities.
 
 **Environment Variable** | **Description**
 --------------- | ----------------
@@ -529,7 +609,8 @@ the table below. Use the Configuration Wizard on the [Start a Selenium Test page
 #### Remote desktop browsers on the Sauce Labs service
 
 For remotely hosted desktop web browsers on the Sauce Labs service, the following **Environment Variables** must be set as described in
-the table below. Use the Selenium API on the [Platform Configurator page](https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/) to obtain information regarding the specific capabilities.
+the table below. Use the Selenium API on the [Platform Configurator page](https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/) to obtain
+information regarding the specific capabilities.
 
 **Environment Variable** | **Description**
 --------------- | ----------------
@@ -546,7 +627,8 @@ the table below. Use the Selenium API on the [Platform Configurator page](https:
 #### Remote mobile browsers on the Sauce Labs service
 
 For remotely hosted mobile web browsers on the Sauce Labs service, the following **Environment Variables** must be set as described in
-the table below. Use the Selenium API on the [Platform Configurator page](https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/) to obtain information regarding the specific capabilities.
+the table below. Use the Selenium API on the [Platform Configurator page](https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/) to obtain
+information regarding the specific capabilities.
 
 **Environment Variable** | **Description**
 --------------- | ----------------
@@ -564,7 +646,8 @@ the table below. Use the Selenium API on the [Platform Configurator page](https:
 #### Remote desktop browsers on the TestingBot service
 
 For remotely hosted desktop web browsers on the TestingBot service, the following **Environment Variables** must be set as described in
-the table below. Refer to the [TestingBot List of Available Browsers page](https://testingbot.com/support/getting-started/browsers.html) for information regarding the specific capabilities.
+the table below. Refer to the [TestingBot List of Available Browsers page](https://testingbot.com/support/getting-started/browsers.html) for information
+regarding the specific capabilities.
 
 **Environment Variable** | **Description**
 --------------- | ----------------

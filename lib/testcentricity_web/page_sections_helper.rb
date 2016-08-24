@@ -33,10 +33,16 @@ module TestCentricity
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
     # @example
     #   element :undo_record_item,  "//li[@rn='Undo Record']/a"
-    #   element :basket_header,     "div.basket_header"
+    #   element :basket_header,     'div.basket_header'
     #
     def self.element(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :section);end))
+    end
+
+    def self.elements(element_hash)
+      element_hash.each do |element_name, locator|
+        element(element_name, locator)
+      end
     end
 
     # Declare and instantiate a button UI Element for this page section.
@@ -44,11 +50,17 @@ module TestCentricity
     # @param element_name [Symbol] name of button object (as a symbol)
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
     # @example
-    #   button :checkout_button, "button.checkout_button"
+    #   button :checkout_button, 'button.checkout_button'
     #   button :login_button,    "//input[@id='submit_button']"
     #
     def self.button(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Button.new(self, "#{locator}", :section);end))
+    end
+
+    def self.buttons(element_hash)
+      element_hash.each do |element_name, locator|
+        button(element_name, locator)
+      end
     end
 
     # Declare and instantiate a text field UI Element for this page section.
@@ -57,10 +69,16 @@ module TestCentricity
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
     # @example
     #   textfield :user_id_field,  "//input[@id='UserName']"
-    #   textfield :password_field, "#consumer_password"
+    #   textfield :password_field, 'input#consumer_password'
     #
     def self.textfield(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::TextField.new(self, "#{locator}", :section);end))
+    end
+
+    def self.textfields(element_hash)
+      element_hash.each do |element_name, locator|
+        textfield(element_name, locator)
+      end
     end
 
     # Declare and instantiate a checkbox UI Element for this page section.
@@ -70,10 +88,16 @@ module TestCentricity
     # @param proxy [Symbol] Optional name (as a symbol) of proxy object to receive click actions
     # @example
     #   checkbox :remember_checkbox,     "//input[@id='RememberUser']"
-    #   checkbox :accept_terms_checkbox, "#accept_terms_conditions", :accept_terms_label
+    #   checkbox :accept_terms_checkbox, 'input#accept_terms_conditions', :accept_terms_label
     #
     def self.checkbox(element_name, locator, proxy = nil)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::CheckBox.new(self, "#{locator}", :section, #{proxy});end))
+    end
+
+    def self.checkboxes(element_hash)
+      element_hash.each do |element_name, locator|
+        checkbox(element_name, locator)
+      end
     end
 
     # Declare and instantiate a radio button UI Element for this page section.
@@ -83,10 +107,16 @@ module TestCentricity
     # @param proxy [Symbol] Optional name (as a symbol) of proxy object to receive click actions
     # @example
     #   radio :accept_terms_radio,  "//input[@id='Accept_Terms']"
-    #   radio :decline_terms_radio, "#decline_terms_conditions", :decline_terms_label
+    #   radio :decline_terms_radio, 'input#decline_terms_conditions', :decline_terms_label
     #
     def self.radio(element_name, locator, proxy = nil)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Radio.new(self, "#{locator}", :section, #{proxy});end))
+    end
+
+    def self.radios(element_hash)
+      element_hash.each do |element_name, locator|
+        radio(element_name, locator)
+      end
     end
 
     # Declare and instantiate a label UI Element for this page section.
@@ -101,16 +131,28 @@ module TestCentricity
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Label.new(self, "#{locator}", :section);end))
     end
 
+    def self.labels(element_hash)
+      element_hash.each do |element_name, locator|
+        label(element_name, locator)
+      end
+    end
+
     # Declare and instantiate a link UI Element for this page section.
     #
     # @param element_name [Symbol] name of link object (as a symbol)
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
     # @example
-    #   link :registration_link,    "a.account-nav__link.register"
+    #   link :registration_link,    'a.account-nav__link.register'
     #   link :shopping_basket_link, "//a[@href='shopping_basket']"
     #
     def self.link(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Link.new(self, "#{locator}", :section);end))
+    end
+
+    def self.links(element_hash)
+      element_hash.each do |element_name, locator|
+        link(element_name, locator)
+      end
     end
 
     # Declare and instantiate a table UI Element for this page section.
@@ -124,16 +166,28 @@ module TestCentricity
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Table.new(self, "#{locator}", :section);end))
     end
 
+    def self.tables(element_hash)
+      element_hash.each do |element_name, locator|
+        table(element_name, locator)
+      end
+    end
+
     # Declare and instantiate a select list UI Element for this page section.
     #
     # @param element_name [Symbol] name of select list object (as a symbol)
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
     # @example
-    #   selectlist :category_selector, "#search_form_category_chosen"
+    #   selectlist :category_selector, 'select#search_form_category_chosen'
     #   selectlist :gender_select,     "//select[@id='customer_gender']"
     #
     def self.selectlist(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::SelectList.new(self, "#{locator}", :section);end))
+    end
+
+    def self.selectlists(element_hash)
+      element_hash.each do |element_name, locator|
+        selectlist(element_name, locator)
+      end
     end
 
     # Declare and instantiate a list UI Element for this page section.
@@ -147,16 +201,28 @@ module TestCentricity
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::List.new(self, "#{locator}", :section);end))
     end
 
+    def self.lists(element_hash)
+      element_hash.each do |element_name, locator|
+        list(element_name, locator)
+      end
+    end
+
     # Declare and instantiate an image UI Element for this page section.
     #
     # @param element_name [Symbol] name of image object (as a symbol)
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
     # @example
-    #   image :basket_item_image,    "div.product_image"
+    #   image :basket_item_image,    'div.product_image'
     #   image :corporate_logo_image, "//img[@alt='MyCompany_logo']"
     #
     def self.image(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Image.new(self, "#{locator}", :section);end))
+    end
+
+    def self.images(element_hash)
+      element_hash.each do |element_name, locator|
+        image(element_name, locator)
+      end
     end
 
     # Declare and instantiate a File Field UI Element for this page section.
@@ -164,7 +230,7 @@ module TestCentricity
     # @param element_name [Symbol] name of file field object (as a symbol)
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
     # @example
-    #   filefield :attach_file, "s_SweFileName"
+    #   filefield :attach_file, 's_SweFileName'
     #
     def self.filefield(element_name, locator)
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::FileField.new(self, "#{locator}", :section);end))
@@ -179,6 +245,12 @@ module TestCentricity
     #
     def self.section(section_name, class_name, locator = nil)
       class_eval(%Q(def #{section_name.to_s};@#{section_name.to_s} ||= #{class_name.to_s}.new(self, "#{locator}", :section);end))
+    end
+
+    def self.sections(section_hash)
+      section_hash.each do |section_name, class_name|
+        section(section_name, class_name)
+      end
     end
 
     def get_locator
@@ -308,12 +380,8 @@ module TestCentricity
             when :checked
               actual = ui_object.checked?
             when :selected
-              if ui_object.get_object_type == :selectlist
-                actual = ui_object.get_selected_option
-              else
-                actual = ui_object.selected?
-              end
-            when :value
+              actual = ui_object.selected?
+            when :value, :caption
               actual = ui_object.get_value
             when :maxlength
               actual = ui_object.get_max_length
@@ -324,17 +392,9 @@ module TestCentricity
             when :placeholder
               actual = ui_object.get_placeholder
             when :options, :items, :list_items
-              if ui_object.get_object_type == :selectlist
-                actual = ui_object.get_options
-              else
-                actual = ui_object.get_list_items
-              end
+              actual = ui_object.get_list_items
             when :optioncount, :itemcount
-              if ui_object.get_object_type == :selectlist
-                actual = ui_object.get_option_count
-              else
-                actual = ui_object.get_item_count
-              end
+              actual = ui_object.get_item_count
             when :column_headers
               actual = ui_object.get_header_columns
             when :siebel_options
@@ -396,7 +456,7 @@ module TestCentricity
     #            organ_donor_check  => 'Yes',
     #            dnr_on_file_check  => 'Yes'
     #          }
-    #   patient_record_page.personal_info_widget.populate_data_fields(data)
+    #   populate_data_fields(data)
     #
     def populate_data_fields(data)
       data.each do | data_field, data_param |

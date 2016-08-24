@@ -80,6 +80,8 @@ module TestCentricity
       end
     end
 
+    alias :get_list_items :get_options
+
     # Return the number of options in a select box object.
     # Supports standard HTML select objects and Chosen select objects.
     #
@@ -96,6 +98,8 @@ module TestCentricity
         obj.all(@list_item).count
       end
     end
+
+    alias :get_item_count :get_option_count
 
     def verify_options(expected, enqueue = false)
       actual = get_options
@@ -120,6 +124,8 @@ module TestCentricity
         obj.first(@selected_item).text
       end
     end
+
+    alias :selected? :get_selected_option
 
     # Select the specified option in a Siebel OUI select box object.
     #

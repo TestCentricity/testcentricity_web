@@ -276,12 +276,16 @@ module TestCentricity
       end
     end
 
+    alias :get_caption :get_value
+
     def verify_value(expected, enqueue = false)
       actual = get_value
       enqueue ?
           ExceptionQueue.enqueue_assert_equal(expected.strip, actual.strip, "Expected #{@locator}") :
           assert_equal(expected.strip, actual.strip, "Expected #{@locator} to display '#{expected}' but found '#{actual}'")
     end
+
+    alias :verify_caption :verify_value
 
     # Hover the cursor over an object
     #

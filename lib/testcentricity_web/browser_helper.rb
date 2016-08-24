@@ -64,6 +64,14 @@ module TestCentricity
       Capybara.page.driver.browser.switch_to.window(Capybara.page.driver.browser.window_handles.last)
     end
 
+    def self.suppress_js_alerts
+      page.execute_script("window.alert = function() {}")
+    end
+
+    def self.suppress_js_leave_page_modal
+      page.execute_script('window.onbeforeunload = null')
+    end
+
     def self.delete_all_cookies
       if Capybara.current_driver == :selenium
         browser = Capybara.current_session.driver.browser
