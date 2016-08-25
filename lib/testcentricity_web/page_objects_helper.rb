@@ -61,9 +61,9 @@ module TestCentricity
     #
     # @param element_hash [Hash] names of buttons (as a symbol) and CSS selectors or XPath expressions that uniquely identifies buttons
     # @example
-    #     buttons      new_account_button:  'button#new-account',
-    #                  save_button:         'button#save',
-    #                  cancel_button:       'button#cancel'
+    #     buttons new_account_button:  'button#new-account',
+    #             save_button:         'button#save',
+    #             cancel_button:       'button#cancel'
     #
     def self.buttons(element_hash)
       element_hash.each do |element_name, locator|
