@@ -164,6 +164,30 @@ You define your page's **Traits** as shown below:
       label     :error_message_label, 'div#statusBar.login-error'
     end
     
+
+    class RegistrationPage < TestCentricity::PageObject
+      trait(:page_name)       { 'Registration' }
+      trait(:page_url)        { '/register' }
+      trait(:page_locator)    { 'body.registration' }
+     
+      # Registration page UI elements
+      textfields  first_name_field:    'input#firstName',
+                  last_name_field:     'input#lastName',
+                  email_field:         'input#email',
+                  phone_number_field:  'input#phone',
+                  address_field:       'input#streetAddress',
+                  city_field:          'input#city',
+                  post_code_field:     'input#postalCode',
+                  password_field:      'input#password',
+                  pword_confirm_field: 'input#passwordConfirmation'
+      selectlists title_select:        'select#title',
+                  gender_select:       'select#gender',
+                  state_select:        'select#stateProvince'
+      checkbox    :email_opt_in_check, 'input#marketingEmailsOptIn'
+      button      :sign_up_button,     'button#registrationSignUp'
+    end
+
+    
 Once your **Page Objects** have been instantiated, you can interact with the **UI Elements** in your **Page Objects**. An example is shown
 below:
 
@@ -214,6 +238,48 @@ the UI to hide implementation details, as shown below:
         super
       end
     end
+        
+
+    class RegistrationPage < TestCentricity::PageObject
+      trait(:page_name)       { 'Registration' }
+      trait(:page_url)        { '/register' }
+      trait(:page_locator)    { 'body.registration' }
+     
+      # Registration page UI elements
+      textfields  first_name_field:    'input#firstName',
+                  last_name_field:     'input#lastName',
+                  email_field:         'input#email',
+                  phone_number_field:  'input#phone',
+                  address_field:       'input#streetAddress',
+                  city_field:          'input#city',
+                  post_code_field:     'input#postalCode',
+                  password_field:      'input#password',
+                  pword_confirm_field: 'input#passwordConfirmation'
+      selectlists title_select:        'select#title',
+                  gender_select:       'select#gender',
+                  state_select:        'select#stateProvince'
+      checkbox    :email_opt_in_check, 'input#marketingEmailsOptIn'
+      button      :sign_up_button,     'button#registrationSignUp'
+      
+      def enter_profile_data(profile)
+        fields = { title_select        => profile.title,
+                   first_name_field    => profile.first_name,
+                   last_name_field     => profile.last_name,
+                   gender_select       => profile.gender,
+                   phone_number_field  => profile.phone,
+                   email_field         => profile.email,
+                   address_field       => profile.address,
+                   city_field          => profile.city,
+                   state_select        => profile.state,
+                   post_code_field     => profile.postal_code,
+                   password_field      => profile.password,
+                   pword_confirm_field => profile.confirm_password
+          }
+        populate_data_fields(fields)
+        sign_up_button.click
+      end
+    end
+
 
 
 Once your **Page Objects** have been instantiated, you can call your methods as shown below:
@@ -394,7 +460,7 @@ Include the step definitions and code below in a `page_steps.rb` or `generic_ste
 
     include TestCentricity
     
-    Given(/^I am (?:on|viewing) the ([^\"]*) page$/) do |page_name|
+    Given(/^I am on the ([^\"]*) page$/) do |page_name|
       target_page = page_dispatcher(page_name)
       target_page.load_page if target_page
       PageManager.set_current_page(target_page)
@@ -421,7 +487,7 @@ Include the step definitions and code below in a `page_steps.rb` or `generic_ste
     end
     
     
-    # this method that takes a page name as a parameter and returns an instance of the associated Page Object
+    # this method takes a page name as a parameter and returns an instance of the associated Page Object
     def page_dispatcher(page_name)
       page = PageManager.find_page(page_name)
       raise "No page object defined for page named '#{page_name}'" unless page

@@ -39,6 +39,14 @@ module TestCentricity
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :section);end))
     end
 
+    # Declare and instantiate a collection of generic UI Elements for this page section.
+    #
+    # @param element_hash [Hash] names of UI objects (as a symbol) and CSS selectors or XPath expressions that uniquely identifies objects
+    # @example
+    #   elements  profile_item:  'a#profile',
+    #             settings_item: 'a#userPreferencesTrigger',
+    #             log_out_item:  'a#logout'
+    #
     def self.elements(element_hash)
       element_hash.each do |element_name, locator|
         element(element_name, locator)
@@ -57,6 +65,14 @@ module TestCentricity
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Button.new(self, "#{locator}", :section);end))
     end
 
+    # Declare and instantiate a collection of buttons for this page section.
+    #
+    # @param element_hash [Hash] names of buttons (as a symbol) and CSS selectors or XPath expressions that uniquely identifies buttons
+    # @example
+    #     buttons new_account_button:  'button#new-account',
+    #             save_button:         'button#save',
+    #             cancel_button:       'button#cancel'
+    #
     def self.buttons(element_hash)
       element_hash.each do |element_name, locator|
         button(element_name, locator)
@@ -75,6 +91,16 @@ module TestCentricity
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::TextField.new(self, "#{locator}", :section);end))
     end
 
+    # Declare and instantiate a collection of text fields for this page section.
+    #
+    # @param element_hash [Hash] names of text fields (as a symbol) and CSS selectors or XPath expressions that uniquely identifies text fields
+    # @example
+    #       textfields  name_field:    'input#Name',
+    #                   title_field:   'input#Title',
+    #                   phone_field:   'input#PhoneNumber',
+    #                   fax_field:     'input#FaxNumber',
+    #                   email_field:   'input#Email'
+    #
     def self.textfields(element_hash)
       element_hash.each do |element_name, locator|
         textfield(element_name, locator)
@@ -94,6 +120,15 @@ module TestCentricity
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::CheckBox.new(self, "#{locator}", :section, #{proxy});end))
     end
 
+    # Declare and instantiate a collection of checkboxes for this page section.
+    #
+    # @param element_hash [Hash] names of checkboxes (as a symbol) and CSS selectors or XPath expressions that uniquely identifies checkboxes
+    # @example
+    #       checkboxes  hazmat_certified_check:  'input#hazmatCertified',
+    #                   epa_certified_check:     'input#epaCertified',
+    #                   dhs_certified_check:     'input#homelandSecurityCertified',
+    #                   carb_compliant_check:    'input#carbCompliant'
+    #
     def self.checkboxes(element_hash)
       element_hash.each do |element_name, locator|
         checkbox(element_name, locator)
@@ -113,6 +148,15 @@ module TestCentricity
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Radio.new(self, "#{locator}", :section, #{proxy});end))
     end
 
+    # Declare and instantiate a collection of radio buttons for this page section.
+    #
+    # @param element_hash [Hash] names of radio buttons (as a symbol) and CSS selectors or XPath expressions that uniquely identifies radio buttons
+    # @example
+    #       radios  visa_radio:       'input#payWithVisa',
+    #               mastercard_radio: 'input#payWithMastercard',
+    #               discover_radio:   'input#payWithDiscover',
+    #               amex_radio:       'input#payWithAmEx'
+    #
     def self.radios(element_hash)
       element_hash.each do |element_name, locator|
         radio(element_name, locator)
@@ -346,6 +390,34 @@ module TestCentricity
       wait.until { !exists? }
     rescue
       raise "Section #{get_locator} remained visible after #{timeout} seconds" if exists?
+    end
+
+    # Wait until the Section object is visible, or until the specified wait time has expired.
+    #
+    # @param seconds [Integer or Float] wait time in seconds
+    # @example
+    #   bar_chart_section.wait_until_visible(0.5)
+    #
+    def wait_until_visible(seconds = nil)
+      timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
+      wait = Selenium::WebDriver::Wait.new(timeout: timeout)
+      wait.until { visible? }
+    rescue
+      raise "Could not find section #{get_locator} after #{timeout} seconds" unless visible?
+    end
+
+    # Wait until the Section object is hidden, or until the specified wait time has expired.
+    #
+    # @param seconds [Integer or Float] wait time in seconds
+    # @example
+    #   bar_chart_section.wait_until_hidden(10)
+    #
+    def wait_until_hidden(seconds = nil)
+      timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
+      wait = Selenium::WebDriver::Wait.new(timeout: timeout)
+      wait.until { hidden? }
+    rescue
+      raise "section #{get_locator} remained visible after #{timeout} seconds" if visible?
     end
 
     # Click at a specific location within a Section object

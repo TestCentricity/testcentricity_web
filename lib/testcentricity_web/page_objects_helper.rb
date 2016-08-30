@@ -112,6 +112,15 @@ module TestCentricity
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::CheckBox.new(self, "#{locator}", :page, #{proxy});end))
     end
 
+    # Declare and instantiate a collection of checkboxes for this page object.
+    #
+    # @param element_hash [Hash] names of checkboxes (as a symbol) and CSS selectors or XPath expressions that uniquely identifies checkboxes
+    # @example
+    #       checkboxes  hazmat_certified_check:  'input#hazmatCertified',
+    #                   epa_certified_check:     'input#epaCertified',
+    #                   dhs_certified_check:     'input#homelandSecurityCertified',
+    #                   carb_compliant_check:    'input#carbCompliant'
+    #
     def self.checkboxes(element_hash)
       element_hash.each do |element_name, locator|
         checkbox(element_name, locator)
@@ -131,6 +140,15 @@ module TestCentricity
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Radio.new(self, "#{locator}", :page, #{proxy});end))
     end
 
+    # Declare and instantiate a collection of radio buttons for this page object.
+    #
+    # @param element_hash [Hash] names of radio buttons (as a symbol) and CSS selectors or XPath expressions that uniquely identifies radio buttons
+    # @example
+    #       radios  visa_radio:       'input#payWithVisa',
+    #               mastercard_radio: 'input#payWithMastercard',
+    #               discover_radio:   'input#payWithDiscover',
+    #               amex_radio:       'input#payWithAmEx'
+    #
     def self.radios(element_hash)
       element_hash.each do |element_name, locator|
         radio(element_name, locator)
