@@ -215,6 +215,7 @@ the UI to hide implementation details, as shown below:
       label     :error_message_label,  'div#statusBar.login-error'
       link      :forgot_password_link, 'a.forgotPassword'
     
+      # log in to web app
       def login(user_id, password)
         user_id_field.set(user_id)
         password_field.set(password)
@@ -225,6 +226,7 @@ the UI to hide implementation details, as shown below:
         remember_checkbox.set_checkbox_state(state)
       end
 
+      # verify Login page default UI state
       def verify_page_ui
         ui = {
             login_button         => { :visible => true, :value => 'LOGIN' },
@@ -261,6 +263,7 @@ the UI to hide implementation details, as shown below:
       checkbox    :email_opt_in_check, 'input#marketingEmailsOptIn'
       button      :sign_up_button,     'button#registrationSignUp'
       
+      # populate Registration page fields with profile data
       def enter_profile_data(profile)
         fields = { title_select        => profile.title,
                    first_name_field    => profile.first_name,
@@ -316,6 +319,7 @@ You define your page section's **Traits** as shown below:
 
     class SearchForm < TestCentricity::PageSection
       trait(:section_locator)   { 'form#gnav-search' }
+      trait(:section_name)      { 'Search widget' }
     end
 
 
@@ -325,6 +329,7 @@ You define your page section's **Traits** as shown below:
 
     class SearchForm < TestCentricity::PageSection
       trait(:section_locator)   { 'form#gnav-search' }
+      trait(:section_name)      { 'Search widget' }
         
       # Search Form UI elements
       textfield :search_field,  'input#search-query'
@@ -338,6 +343,7 @@ You can add high level methods to your **PageSection** class definition, as show
 
     class SearchForm < TestCentricity::PageSection
       trait(:section_locator)   { 'form#gnav-search' }
+      trait(:section_name)      { 'Search widget' }
         
       # Search Form UI elements
       textfield :search_field,  'input#search-query'
@@ -479,11 +485,9 @@ Include the step definitions and code below in a `page_steps.rb` or `generic_ste
     
     Then(/^I expect the ([^\"]*) page to be correctly displayed$/) do |page_name|
       target_page = page_dispatcher(page_name)
-      if target_page
-        target_page.verify_page_exists
-        target_page.verify_page_ui
-        PageManager.set_current_page(target_page)
-      end
+      target_page.verify_page_exists
+      target_page.verify_page_ui
+      PageManager.set_current_page(target_page)
     end
     
     

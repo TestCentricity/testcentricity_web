@@ -65,11 +65,11 @@ module TestCentricity
     end
 
     def self.suppress_js_alerts
-      page.execute_script("window.alert = function() {}")
+      Capybara.page.execute_script("window.alert = function() {}")
     end
 
     def self.suppress_js_leave_page_modal
-      page.execute_script('window.onbeforeunload = null')
+      Capybara.page.execute_script('window.onbeforeunload = null')
     end
 
     def self.delete_all_cookies
