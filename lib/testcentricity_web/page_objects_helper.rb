@@ -420,23 +420,35 @@ module TestCentricity
           end
 
           if state.is_a?(Hash) && state.length == 1
-            error_msg = "Expected #{ui_object.get_locator} #{property.to_s} property to be"
+            error_msg = "Expected #{ui_object.get_locator} #{property.to_s} property to"
             state.each do |key, value|
               case key
                 when :lt, :less_than
-                  ExceptionQueue.enqueue_exception("#{error_msg} less than #{value} but found #{actual}") unless actual < value
+                  ExceptionQueue.enqueue_exception("#{error_msg} be less than #{value} but found #{actual}") unless actual < value
                 when :lt_eq, :less_than_or_equal
-                  ExceptionQueue.enqueue_exception("#{error_msg} less than or equal to #{value} but found #{actual}") unless actual <= value
+                  ExceptionQueue.enqueue_exception("#{error_msg} be less than or equal to #{value} but found #{actual}") unless actual <= value
                 when :gt, :greater_than
-                  ExceptionQueue.enqueue_exception("#{error_msg} greater than #{value} but found #{actual}") unless actual > value
+                  ExceptionQueue.enqueue_exception("#{error_msg} be greater than #{value} but found #{actual}") unless actual > value
                 when :gt_eq, :greater_than_or_equal
-                  ExceptionQueue.enqueue_exception("#{error_msg} greater than or equal to  #{value} but found #{actual}") unless actual >= value
+                  ExceptionQueue.enqueue_exception("#{error_msg} be greater than or equal to  #{value} but found #{actual}") unless actual >= value
                 when :starts_with
                   ExceptionQueue.enqueue_exception("#{error_msg} start with '#{value}' but found #{actual}") unless actual.start_with?(value)
                 when :ends_with
                   ExceptionQueue.enqueue_exception("#{error_msg} end with '#{value}' but found #{actual}") unless actual.end_with?(value)
                 when :contains
                   ExceptionQueue.enqueue_exception("#{error_msg} contain '#{value}' but found #{actual}") unless actual.include?(value)
+                when :like, :is_like
+                  actual_like = actual.gsub("\n", '')
+                  actual_like = actual_like.gsub("\r", '')
+                  actual_like = actual_like.gsub("\t", '')
+                  actual_like = actual_like.gsub(' ', '')
+                  actual_like = actual_like.downcase
+                  expected    = value.gsub("\n", '')
+                  expected    = expected.gsub("\r", '')
+                  expected    = expected.gsub("\t", '')
+                  expected    = expected.gsub(' ', '')
+                  expected    = expected.downcase
+                 ExceptionQueue.enqueue_exception("#{error_msg} be like '#{value}' but found #{actual}") unless actual_like.include?(expected)
               end
             end
           else
@@ -458,7 +470,7 @@ module TestCentricity
     #            last_name_field    => 'Pumperknickle',
     #            gender_select      => 'Female',
     #            dob_field          => '11/18/1976',
-    #            email_field        => 'p.pumperknickle4876@google.com',
+    #            email_field        => 'p.pumperknickle4876@gmail.com',
     #            mailing_list_check => 'Yes'
     #          }
     #   populate_data_fields(data)

@@ -13,7 +13,7 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 * a "headless" browser (using Poltergeist and PhantomJS)
 * mobile Safari browsers on iOS device simulators (using Appium and XCode on OS X)
 * cloud hosted desktop or mobile web browsers using the [Browserstack](https://www.browserstack.com/list-of-browsers-and-platforms?product=automate),
-[Sauce Labs](https://saucelabs.com/features/#features-cross-browser), [CrossBrowserTesting](https://crossbrowsertesting.com/selenium-testing), or
+[Sauce Labs](https://saucelabs.com/open-source#automated-testing-platform), [CrossBrowserTesting](https://crossbrowsertesting.com/selenium-testing), or
 [TestingBot](https://testingbot.com/features) services.
 
 
@@ -538,31 +538,33 @@ on OS X or Windows. The specified mobile browser's user agent, CSS screen dimens
 within the local Firefox or Chrome browser instance. You may even specify the emulated device's screen orientation. For locally hosted emulated
 mobile web browsers, the `WEB_BROWSER` Environment Variable must be set to one of the values from the table below: 
 
-`WEB_BROWSER` | `HOST_BROWSER` | **CSS Screen Dimensions** | **Default Orientation** 
---------------|----------------|-------------------------------|-------------------
-`ipad`           |`firefox` or `chrome` |1024 x 768|landscape
-`ipad_pro`       |`firefox` or `chrome` |1366 x 1024|landscape
-`android_tablet` |`firefox` or `chrome` |1024 x 768|landscape
-`kindle_fire`    |`firefox` or `chrome` |1024 x 600|landscape
-`kindle_firehd7` |`firefox` or `chrome` |800 x 480|landscape
-`kindle_firehd8` |`firefox` or `chrome` |1280 x 800|landscape
-`surface`        |`firefox` or `chrome` |1366 x 768|landscape
-`blackberry_playbook` |`firefox` or `chrome` |1024 x 600|landscape
-`samsung_galaxy_tab`  |`firefox` or `chrome` |1280 x 800|landscape
-`google_nexus7`       |`firefox` or `chrome` |960 x 600|landscape
-`google_nexus9`       |`firefox` or `chrome` |1024 x 768|landscape
-`google_nexus10`      |`firefox` or `chrome` |1280 x 800|landscape
-`iphone`  |`firefox` or `chrome` |320 x 480|portrait
-`iphone4` |`firefox` or `chrome` |320 x 480|portrait
-`iphone5` |`firefox` or `chrome` |320 x 568|portrait
-`iphone6` |`firefox` or `chrome` |375 x 667|portrait
-`iphone6_plus`   |`firefox` or `chrome` |414 x 736|portrait
-`android_phone`  |`firefox` or `chrome` |320 x 480|portrait
-`nexus6`         |`firefox` or `chrome` |411 x 731|portrait
-`windows_phone7` |`firefox` or `chrome` |320 x 480|portrait
-`windows_phone8` |`firefox` or `chrome` |320 x 480|portrait
-`blackberry_z10` |`firefox` or `chrome` |384 x 640|portrait
-`blackberry_z30` |`firefox` or `chrome` |360 x 640|portrait
+`WEB_BROWSER`         | `HOST_BROWSER`       | **CSS Screen Dimensions** | **Default Orientation**  | **OS Version**
+----------------------|----------------------|-----------|----------|---------
+`ipad`                |`firefox` or `chrome` |1024 x 768 |landscape |iOS 9.1
+`ipad_pro`            |`firefox` or `chrome` |1366 x 1024|landscape |iOS 9.1
+`android_tablet`      |`firefox` or `chrome` |1024 x 768 |landscape |Android 3.0
+`kindle_fire`         |`firefox` or `chrome` |1024 x 600 |landscape |
+`kindle_firehd7`      |`firefox` or `chrome` |800 x 480  |landscape |Fire OS 3
+`kindle_firehd8`      |`firefox` or `chrome` |1280 x 800 |landscape |Fire OS 5
+`surface`             |`firefox` or `chrome` |1366 x 768 |landscape |
+`blackberry_playbook` |`firefox` or `chrome` |1024 x 600 |landscape |BlackBerry Tablet OS
+`samsung_galaxy_tab`  |`firefox` or `chrome` |1280 x 800 |landscape |Android 4.0.4
+`google_nexus7`       |`firefox` or `chrome` |960 x 600  |landscape |Android 4.4.4
+`google_nexus9`       |`firefox` or `chrome` |1024 x 768 |landscape |Android 5.1
+`google_nexus10`      |`firefox` or `chrome` |1280 x 800 |landscape |Android 5.1
+`iphone`              |`firefox` or `chrome` |320 x 480  |portrait  |iOS 9.1
+`iphone4`             |`firefox` or `chrome` |320 x 480  |portrait  |iOS 9.1
+`iphone5`             |`firefox` or `chrome` |320 x 568  |portrait  |iOS 9.1
+`iphone6`             |`firefox` or `chrome` |375 x 667  |portrait  |iOS 9.1
+`iphone6_plus`        |`firefox` or `chrome` |414 x 736  |portrait  |iOS 9.1
+`iphone7`             |`firefox` or `chrome` |375 x 667  |portrait  |iOS 10
+`iphone7_plus`        |`firefox` or `chrome` |414 x 736  |portrait  |iOS 10
+`android_phone`       |`firefox` or `chrome` |320 x 480  |portrait  |Android 4.0.1
+`nexus6`              |`firefox` or `chrome` |411 x 731  |portrait  |Android 6.0.1
+`windows_phone7`      |`firefox` or `chrome` |320 x 480  |portrait  |Windows Phone OS 7.5
+`windows_phone8`      |`firefox` or `chrome` |320 x 480  |portrait  |Windows Phone OS 8.0
+`blackberry_z10`      |`firefox` or `chrome` |384 x 640  |portrait  |BlackBerry 10 OS
+`blackberry_z30`      |`firefox` or `chrome` |360 x 640  |portrait  |BlackBerry 10 OS
 
 To change the emulated device's screen orientation from the default setting, set the `ORIENTATION` Environment Variable to either `portrait` or `landscape`.
 
@@ -767,6 +769,8 @@ replace the placeholder text with your user account and authorization code for t
     iphone5:             WEB_BROWSER=iphone5             HOST_BROWSER=firefox <%= mobile %>
     iphone6:             WEB_BROWSER=iphone6             HOST_BROWSER=firefox <%= mobile %>
     iphone6_plus:        WEB_BROWSER=iphone6_plus        HOST_BROWSER=firefox <%= mobile %>
+    iphone7:             WEB_BROWSER=iphone7             HOST_BROWSER=firefox <%= mobile %>
+    iphone7_plus:        WEB_BROWSER=iphone7_plus        HOST_BROWSER=firefox <%= mobile %>
     android_phone:       WEB_BROWSER=android_phone       HOST_BROWSER=firefox <%= mobile %>
     nexus6:              WEB_BROWSER=nexus6              HOST_BROWSER=firefox <%= mobile %>
     android_tablet:      WEB_BROWSER=android_tablet      HOST_BROWSER=firefox <%= mobile %>

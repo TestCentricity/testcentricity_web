@@ -281,6 +281,35 @@ module TestCentricity
       clear_alt_locator
     end
 
+    def get_cell_attribute(row, column, attrib)
+      row_count = get_row_count
+      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{@locator}" if row > row_count
+      column_count = get_column_count
+      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{@locator}" if column > column_count
+      set_table_cell_locator(row, column)
+      result = get_native_attribute(attrib)
+      clear_alt_locator
+      result
+    end
+
+    def get_row_attribute(row, attrib)
+      row_count = get_row_count
+      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{@locator}" if row > row_count
+      (row > 1) ?
+          set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}[#{row}]") :
+          set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}")
+      result = get_native_attribute(attrib)
+      clear_alt_locator
+      result
+    end
+
+    def find_row_attribute(attrib, search_value)
+      (1..get_row_count).each do |row|
+        return row if get_row_attribute(row, attrib) == search_value
+      end
+      nil
+    end
+
     # Search for the specified text value in the specified row of the table object.
     # Returns the number of the first column that contains the search value.
     #
@@ -288,7 +317,7 @@ module TestCentricity
     # @param search_value [String] value to be searched for
     # @return [Integer] column number of table cell that contains search value
     # @example
-    #   list_table.find_in_table_row(4, 'High speed Framus bolts')
+    #   bom_table.find_in_table_row(4, 'High-speed Framus bolts')
     #
     def find_in_table_row(row, search_value)
       (1..get_column_count).each do |column|
@@ -304,7 +333,7 @@ module TestCentricity
     # @param search_value [String] value to be searched for
     # @return [Integer] row number of table cell that contains search value
     # @example
-    #   list_table.find_in_table_column(1, 'Ashes to Ashes')
+    #   playlist_table.find_in_table_column(1, 'Ashes to Ashes')
     #
     def find_in_table_column(column, search_value)
       (1..get_row_count).each do |row|
@@ -326,7 +355,7 @@ module TestCentricity
     #            4 => 'MD',
     #            5 => 'Family Practice'
     #          }
-    #   clinician_table.populate_table_row(3, data)
+    #   clinicians_table.populate_table_row(3, data)
     #
     def populate_table_row(row, data)
       wait_until_exists(2)

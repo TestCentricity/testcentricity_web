@@ -503,6 +503,18 @@ module TestCentricity
                   ExceptionQueue.enqueue_exception("#{error_msg} end with '#{value}' but found #{actual}") unless actual.end_with?(value)
                 when :contains
                   ExceptionQueue.enqueue_exception("#{error_msg} contain '#{value}' but found #{actual}") unless actual.include?(value)
+                when :like, :is_like
+                  actual_like = actual.gsub("\n", '')
+                  actual_like = actual_like.gsub("\r", '')
+                  actual_like = actual_like.gsub("\t", '')
+                  actual_like = actual_like.gsub(' ', '')
+                  actual_like = actual_like.downcase
+                  expected    = value.gsub("\n", '')
+                  expected    = expected.gsub("\r", '')
+                  expected    = expected.gsub("\t", '')
+                  expected    = expected.gsub(' ', '')
+                  expected    = expected.downcase
+                  ExceptionQueue.enqueue_exception("#{error_msg} be like '#{value}' but found #{actual}") unless actual_like.include?(expected)
               end
             end
           else
