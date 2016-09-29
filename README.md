@@ -587,7 +587,7 @@ Once your test environment is properly configured, the following **Environment V
 `WEB_BROWSER`       | Must be set to `appium`
 `APP_PLATFORM_NAME` | Must be set to `iOS`
 `APP_BROWSER`       | Must be set to `Safari`
-`APP_VERSION`       | Must be set to `9.3`, `9.2`, or which ever iOS version you wish to run within the XCode Simulator
+`APP_VERSION`       | Must be set to `10.0`, `9.3`, `9.2`, or which ever iOS version you wish to run within the XCode Simulator
 `APP_DEVICE`        | Set to iOS device name supported by the iOS Simulator (`iPhone 6s Plus`, `iPad Pro`, `iPad Air 2`, etc.)
 `ORIENTATION`       | [Optional] Set to `portrait` or `landscape`
 `APP_ALLOW_POPUPS`  | [Optional] Allow javascript to open new windows in Safari. Set to `true` or `false`

@@ -33,6 +33,7 @@ module TestCentricity
     attr_accessor :platform
     attr_accessor :signed_in
     attr_accessor :portal_status
+    attr_accessor :portal_context
     attr_accessor :external_page
 
     attr_accessor :protocol
@@ -136,6 +137,14 @@ module TestCentricity
 
     def self.portal_state
       @portal_status
+    end
+
+    def self.set_portal_context(portal_context)
+      @portal_context = portal_context
+    end
+
+    def self.portal_context
+      @portal_context
     end
 
     def self.set_external_page(state)

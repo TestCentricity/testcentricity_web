@@ -19,7 +19,7 @@ module TestCentricity
       define_method(trait_name.to_s, &block)
     end
 
-    # Declare and instantiate a generic UI Element for this page object.
+    # Declare and instantiate a single generic UI Element for this page object.
     #
     # @param element_name [Symbol] name of UI object (as a symbol)
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
@@ -45,7 +45,7 @@ module TestCentricity
       end
     end
 
-    # Declare and instantiate a button UI Element for this page object.
+    # Declare and instantiate a single button UI Element for this page object.
     #
     # @param element_name [Symbol] name of button object (as a symbol)
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
@@ -71,7 +71,7 @@ module TestCentricity
       end
     end
 
-    # Declare and instantiate a text field UI Element for this page object.
+    # Declare and instantiate a single text field UI Element for this page object.
     #
     # @param element_name [Symbol] name of text field object (as a symbol)
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
@@ -99,7 +99,7 @@ module TestCentricity
       end
     end
 
-    # Declare and instantiate a checkbox UI Element for this page object.
+    # Declare and instantiate a single checkbox UI Element for this page object.
     #
     # @param element_name [Symbol] name of checkbox object (as a symbol)
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
@@ -127,7 +127,7 @@ module TestCentricity
       end
     end
 
-    # Declare and instantiate a radio button UI Element for this page object.
+    # Declare and instantiate a single radio button UI Element for this page object.
     #
     # @param element_name [Symbol] name of radio object (as a symbol)
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
@@ -155,7 +155,7 @@ module TestCentricity
       end
     end
 
-    # Declare and instantiate a label UI Element for this page object.
+    # Declare and instantiate a single label UI Element for this page object.
     #
     # @param element_name [Symbol] name of label object (as a symbol)
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
@@ -173,7 +173,7 @@ module TestCentricity
       end
     end
 
-    # Declare and instantiate a link UI Element for this page object.
+    # Declare and instantiate a single link UI Element for this page object.
     #
     # @param element_name [Symbol] name of link object (as a symbol)
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
@@ -191,7 +191,7 @@ module TestCentricity
       end
     end
 
-    # Declare and instantiate a table UI Element for this page object.
+    # Declare and instantiate a single table UI Element for this page object.
     #
     # @param element_name [Symbol] name of table object (as a symbol)
     # @param locator [String] XPath expression that uniquely identifies object
@@ -208,7 +208,7 @@ module TestCentricity
       end
     end
 
-    # Declare and instantiate a select list UI Element for this page object.
+    # Declare and instantiate a single select list UI Element for this page object.
     #
     # @param element_name [Symbol] name of select list object (as a symbol)
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
@@ -226,7 +226,7 @@ module TestCentricity
       end
     end
 
-    # Declare and instantiate a list UI Element for this page object.
+    # Declare and instantiate a single list UI Element for this page object.
     #
     # @param element_name [Symbol] name of list object (as a symbol)
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
@@ -243,7 +243,7 @@ module TestCentricity
       end
     end
 
-    # Declare and instantiate an image UI Element for this page object.
+    # Declare and instantiate an single image UI Element for this page object.
     #
     # @param element_name [Symbol] name of image object (as a symbol)
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
@@ -261,7 +261,7 @@ module TestCentricity
       end
     end
 
-    # Declare and instantiate a File Field UI Element for this page object.
+    # Declare and instantiate a single File Field UI Element for this page object.
     #
     # @param element_name [Symbol] name of file field object (as a symbol)
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
@@ -272,7 +272,7 @@ module TestCentricity
       class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::FileField.new(self, "#{locator}", :page);end))
     end
 
-    # Instantiate a PageSection object for this page object.
+    # Instantiate a single PageSection object for this page object.
     #
     # @param section_name [Symbol] name of PageSection object (as a symbol)
     # @param class_name [String] Class name of PageSection object
@@ -381,6 +381,10 @@ module TestCentricity
               actual = ui_object.visible?
             when :hidden
               actual = ui_object.hidden?
+            when :width
+              actual = ui_object.get_width
+            when :height
+              actual = ui_object.get_height
             when :readonly
               actual = ui_object.read_only?
             when :checked
@@ -485,9 +489,7 @@ module TestCentricity
           else
             case data_field.get_object_type
               when :checkbox
-                (data_field.get_siebel_object_type == 'JCheckBox') ?
-                    data_field.set_siebel_checkbox_state(data_param.to_bool) :
-                    data_field.set_checkbox_state(data_param.to_bool)
+                data_field.set_checkbox_state(data_param.to_bool)
               when :selectlist
                 (data_field.get_siebel_object_type == 'JComboBox') ?
                     data_field.set("#{data_param}\t") :
