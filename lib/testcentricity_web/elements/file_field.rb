@@ -8,7 +8,7 @@ module TestCentricity
       @alt_locator = nil
     end
 
-    def attach_file(file_path)
+    def file_attach(file_path)
       Capybara.ignore_hidden_elements = false
       page.attach_file(@locator, file_path)
       Capybara.ignore_hidden_elements = true
@@ -25,7 +25,7 @@ module TestCentricity
         js_script = "#{js_script} fileList.push(seleniumUpload#{i}.get(0).files[0]);"
       end
       # trigger the fake drop event
-      page.execute_script("#{js_script} e = $.Event('drop'); e.originalEvent = {dataTransfer : { files : fileList } }; $('##{@locator}').trigger(e);")
+      page.execute_script("#{js_script} e = $.Event('drop'); e.originalEvent = {dataTransfer : { files : fileList } }; $('#{@locator}').trigger(e);")
     end
   end
 end

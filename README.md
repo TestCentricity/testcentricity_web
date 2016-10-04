@@ -8,13 +8,17 @@ use with Cucumber, Capybara, and Selenium-Webdriver.
 
 The TestCentricity™ Web gem supports running automated tests against the following web test targets:
 
-* locally hosted desktop browsers (Firefox, Chrome, Safari, or IE)
-* locally hosted emulated iOS, Android, Windows Phone, or Blackberry mobile browsers (using Firefox or Chrome)
+* locally hosted desktop browsers (Firefox*, Chrome, Safari, or IE)
+* locally hosted emulated iOS Mobile Safari, Android, Windows Phone, or Blackberry mobile browsers (using Firefox or Chrome)
 * a "headless" browser (using Poltergeist and PhantomJS)
 * mobile Safari browsers on iOS device simulators (using Appium and XCode on OS X)
-* cloud hosted desktop or mobile web browsers using the [Browserstack](https://www.browserstack.com/list-of-browsers-and-platforms?product=automate),
+* cloud hosted desktop (Firefox, Chrome, Safari, IE, or Edge) or mobile (iOS Mobile Safari or Android) web browsers using the [Browserstack](https://www.browserstack.com/list-of-browsers-and-platforms?product=automate),
 [Sauce Labs](https://saucelabs.com/open-source#automated-testing-platform), [CrossBrowserTesting](https://crossbrowsertesting.com/selenium-testing), or
 [TestingBot](https://testingbot.com/features) services.
+
+
+**Note:** Test execution against local instances of Firefox version 48 or greater is currently not supported by the TestCentricity™ Web gem. Testing with
+Firefox 48 or greater requires Marionette (aka geckodriver) and selenium-webdriver version 3.x, both of which are currently in Beta and not feature complete.
 
 
 ## Installation
@@ -512,15 +516,16 @@ the connection.
 
 ### Locally hosted desktop web browser
 
-For locally hosted desktop web browsers, the `WEB_BROWSER` Environment Variable must be set to one of the values from the table below: 
+For locally hosted desktop web browsers running on macOS (OS X) or Windows platforms, the `WEB_BROWSER` Environment Variable must be set to one of the
+values from the table below: 
 
 `WEB_BROWSER` | **Desktop Platform**
---------------- | ----------------
-`firefox` | OS X or Windows
-`chrome` | OS X or Windows
-`safari` | OS X only
-`ie` | Windows only
-`poltergeist` | OS X or Windows
+--------------|----------------
+`firefox`     | macOS (OS X) or Windows
+`chrome`      | macOS (OS X) or Windows
+`safari`      | macOS (OS X) only
+`ie`          | Windows only
+`poltergeist` | macOS (OS X) or Windows
 
 To set the size of a desktop browser window, you set the `BROWSER_SIZE` Environment Variable to the desired width and height in pixels as shown below:
                                                                                                                                
@@ -620,9 +625,10 @@ for information regarding the specific capabilities.
 `BS_OS_VERSION` | Refer to `os_version` capability in chart
 `BS_BROWSER`    | Refer to `browser` capability in chart
 `BS_VERSION`    | [Optional] Refer to `browser_version` capability in chart. If not specified, latest stable version of browser will be used.
-`TUNNELING`     | Must be `true` if you are testing against internal/local servers
+`TUNNELING`     | Must be `true` if you are testing against internal/local servers (`true` or `false`)
 `RESOLUTION`    | [Optional] Refer to supported screen `resolution` capability in chart
 `BROWSER_SIZE`  | [Optional] Specify width, height of browser window
+`RECORD_VIDEO`  | [Optional] Enable screen video recording during test execution (`true` or `false`)
 
 
 #### Remote mobile browsers on the BrowserStack service
@@ -633,14 +639,15 @@ for information regarding the specific capabilities.
 
 **Environment Variable** | **Description**
 --------------- | ----------------
-`WEB_BROWSER` | Must be set to `browserstack`
-`BS_USERNAME` | Must be set to your BrowserStack account user name
-`BS_AUTHKEY`  | Must be set to your BrowserStack account access key
-`BS_BROWSER`  | Must be set to `iPhone`, `iPad`, or `android`
-`BS_PLATFORM` | Must be set to `MAC` (for iOS) or `ANDROID`
-`BS_DEVICE`   | Refer to `device` capability in chart
-`TUNNELING`   | Must be `true` if you are testing against internal/local servers
-`ORIENTATION` | [Optional] Set to `portrait` or `landscape`
+`WEB_BROWSER`  | Must be set to `browserstack`
+`BS_USERNAME`  | Must be set to your BrowserStack account user name
+`BS_AUTHKEY`   | Must be set to your BrowserStack account access key
+`BS_BROWSER`   | Must be set to `iPhone`, `iPad`, or `android`
+`BS_PLATFORM`  | Must be set to `MAC` (for iOS) or `ANDROID`
+`BS_DEVICE`    | Refer to `device` capability in chart
+`TUNNELING`    | Must be `true` if you are testing against internal/local servers (`true` or `false`)
+`ORIENTATION`  | [Optional] Set to `portrait` or `landscape`
+`RECORD_VIDEO` | [Optional] Enable screen video recording during test execution (`true` or `false`)
 
 
 
@@ -652,13 +659,14 @@ information regarding the specific capabilities.
 
 **Environment Variable** | **Description**
 --------------- | ----------------
-`WEB_BROWSER` | Must be set to `crossbrowser`
-`CB_USERNAME` | Must be set to your CrossBrowserTesting account user name or email address
-`CB_AUTHKEY`  | Must be set to your CrossBrowserTesting account access key
-`CB_OS`       | Refer to `os_api_name` capability in the sample script of the Wizard
-`CB_BROWSER`  | Refer to `browser_api_name` capability in the sample script of the Wizard
-`RESOLUTION`  | [Optional] Refer to supported `screen_resolution` capability in the sample script of the Wizard
-`BROWSER_SIZE`| [Optional] Specify width, height of browser window
+`WEB_BROWSER`  | Must be set to `crossbrowser`
+`CB_USERNAME`  | Must be set to your CrossBrowserTesting account user name or email address
+`CB_AUTHKEY`   | Must be set to your CrossBrowserTesting account access key
+`CB_OS`        | Refer to `os_api_name` capability in the sample script of the Wizard
+`CB_BROWSER`   | Refer to `browser_api_name` capability in the sample script of the Wizard
+`RESOLUTION`   | [Optional] Refer to supported `screen_resolution` capability in the sample script of the Wizard
+`BROWSER_SIZE` | [Optional] Specify width, height of browser window
+`RECORD_VIDEO` | [Optional] Enable screen video recording during test execution (`true` or `false`)
 
 
 #### Remote mobile browsers on the CrossBrowserTesting service
@@ -669,12 +677,13 @@ information regarding the specific capabilities.
 
 **Environment Variable** | **Description**
 --------------- | ----------------
-`WEB_BROWSER` | Must be set to `crossbrowser`
-`CB_USERNAME` | Must be set to your CrossBrowserTesting account user name or email address
-`CB_AUTHKEY`  | Must be set to your CrossBrowserTesting account access key
-`CB_PLATFORM` | Refer to `os_api_name` capability in the sample script of the Wizard
-`CB_BROWSER`  | Refer to `browser_api_name` capability in the sample script of the Wizard
-`RESOLUTION`  | Refer to supported `screen_resolution` capability in the sample script of the Wizard
+`WEB_BROWSER`  | Must be set to `crossbrowser`
+`CB_USERNAME`  | Must be set to your CrossBrowserTesting account user name or email address
+`CB_AUTHKEY`   | Must be set to your CrossBrowserTesting account access key
+`CB_PLATFORM`  | Refer to `os_api_name` capability in the sample script of the Wizard
+`CB_BROWSER`   | Refer to `browser_api_name` capability in the sample script of the Wizard
+`RESOLUTION`   | Refer to supported `screen_resolution` capability in the sample script of the Wizard
+`RECORD_VIDEO` | [Optional] Enable screen video recording during test execution (`true` or `false`)
 
 
 
@@ -686,33 +695,15 @@ information regarding the specific capabilities.
 
 **Environment Variable** | **Description**
 --------------- | ----------------
-`WEB_BROWSER` | Must be set to `saucelabs`
-`SL_USERNAME` | Must be set to your Sauce Labs account user name or email address
-`SL_AUTHKEY`  | Must be set to your Sauce Labs account access key
-`SL_OS`       | Refer to `platform` capability in the Copy Code section of the Platform Configurator page
-`SL_BROWSER`  | Must be set to `chrome`, `firefox`, `safari`, `internet explorer`, or `edge`
-`SL_VERSION`  | Refer to `version` capability in the Copy Code section of the Platform Configurator page
-`RESOLUTION`  | [Optional] Refer to supported `screenResolution` capability in the Copy Code section of the Platform Configurator page
-`BROWSER_SIZE`| [Optional] Specify width, height of browser window
-
-
-#### Remote mobile browsers on the Sauce Labs service
-
-For remotely hosted mobile web browsers on the Sauce Labs service, the following **Environment Variables** must be set as described in
-the table below. Use the Selenium API on the [Platform Configurator page](https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/) to obtain
-information regarding the specific capabilities.
-
-**Environment Variable** | **Description**
---------------- | ----------------
-`WEB_BROWSER` | Must be set to `saucelabs`
-`SL_USERNAME` | Must be set to your Sauce Labs account user name or email address
-`SL_AUTHKEY`  | Must be set to your Sauce Labs account access key
-`SL_PLATFORM` | Refer to `platform` capability in the Copy Code section of the Platform Configurator page
-`SL_BROWSER`  | Must be set to `iPhone` or `android`
-`SL_VERSION`  | Refer to `version` capability in the Copy Code section of the Platform Configurator page
-`SL_DEVICE`   | Refer to `deviceName` capability in the Copy Code section of the Platform Configurator page
-`SL_DEVICE_TYPE` | If displayed, refer to `deviceType` capability in the Copy Code section of the Platform Configurator page
-`ORIENTATION` | Refer to `deviceOrientation` capability in the Copy Code section of the Platform Configurator page
+`WEB_BROWSER`  | Must be set to `saucelabs`
+`SL_USERNAME`  | Must be set to your Sauce Labs account user name or email address
+`SL_AUTHKEY`   | Must be set to your Sauce Labs account access key
+`SL_OS`        | Refer to `platform` capability in the Copy Code section of the Platform Configurator page
+`SL_BROWSER`   | Must be set to `chrome`, `firefox`, `safari`, `internet explorer`, or `edge`
+`SL_VERSION`   | Refer to `version` capability in the Copy Code section of the Platform Configurator page
+`RESOLUTION`   | [Optional] Refer to supported `screenResolution` capability in the Copy Code section of the Platform Configurator page
+`BROWSER_SIZE `| [Optional] Specify width, height of browser window
+`RECORD_VIDEO` | [Optional] Enable screen video recording during test execution (`true` or `false`)
 
 
 #### Remote desktop browsers on the TestingBot service
@@ -729,9 +720,29 @@ regarding the specific capabilities.
 `TB_OS`       | Refer to `platform` capability in chart
 `TB_BROWSER`  | Refer to `browserName` capability in chart
 `TB_VERSION`  | Refer to `version` capability in chart
-`TUNNELING`   | Must be `true` if you are testing against internal/local servers
+`TUNNELING`   | Must be `true` if you are testing against internal/local servers (`true` or `false`)
 `RESOLUTION`  | [Optional] Possible values: `800x600`, `1024x768`, `1280x960`, `1280x1024`, `1600x1200`, `1920x1200`, `2560x1440`
 `BROWSER_SIZE`| [Optional] Specify width, height of browser window
+
+
+#### Remote mobile browsers on the TestingBot service
+
+For remotely hosted mobile web browsers on the TestingBot service, the following **Environment Variables** must be set as described in
+the table below. Refer to the [TestingBot List of Available Browsers page](https://testingbot.com/support/getting-started/browsers.html) for information
+regarding the specific capabilities.
+
+**Environment Variable** | **Description**
+--------------- | ----------------
+`WEB_BROWSER` | Must be set to `testingbot`
+`TB_USERNAME` | Must be set to your TestingBot account user name
+`TB_AUTHKEY`  | Must be set to your TestingBot account access key
+`TB_OS`       | Must be set to `MAC` (for iOS) or `ANDROID`
+`TB_BROWSER`  | Must be set to `safari` (for iOS) or `browser` (for Android)
+`TB_VERSION`  | Refer to `version` capability in chart
+`TB_PLATFORM` | Must be set to `iOS` or `ANDROID`
+`TB_DEVICE`   | Refer to `deviceName` capability in chart
+`TUNNELING`   | Must be `true` if you are testing against internal/local servers (`true` or `false`)
+`ORIENTATION` | [Optional] Set to `portrait` or `landscape`
 
 
 ### Using Browser specific Profiles in cucumber.yml
@@ -828,20 +839,17 @@ replace the placeholder text with your user account and authorization code for t
     bs_osx_el_capitan:  --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="El Capitan"
     bs_ff_el_cap:       --profile bs_osx_el_capitan BS_BROWSER="Firefox"
     bs_chrome_el_cap:   --profile bs_osx_el_capitan BS_BROWSER="Chrome"
-    bs_safari_el_cap:   --profile bs_osx_el_capitan BS_BROWSER="Safari" BS_VERSION="9.0"
-    bs_safari9_el_cap:  --profile bs_osx_el_capitan BS_BROWSER="Safari" BS_VERSION="9.0"
+    bs_safari_el_cap:   --profile bs_osx_el_capitan BS_BROWSER="Safari"
     
     bs_osx_yosemite:    --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="Yosemite"
     bs_ff_yos:          --profile bs_osx_yosemite BS_BROWSER="Firefox"
     bs_chrome_yos:      --profile bs_osx_yosemite BS_BROWSER="Chrome"
-    bs_safari_yos:      --profile bs_osx_yosemite BS_BROWSER="Safari" BS_VERSION="8.0"
-    bs_safari8_osx:     --profile bs_osx_yosemite BS_BROWSER="Safari" BS_VERSION="8.0"
+    bs_safari_yos:      --profile bs_osx_yosemite BS_BROWSER="Safari"
     
     bs_osx_mavericks:   --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="Mavericks"
     bs_ff_mav:          --profile bs_osx_mavericks BS_BROWSER="Firefox"
     bs_chrome_mav:      --profile bs_osx_mavericks BS_BROWSER="Chrome"
-    bs_safari_mav:      --profile bs_osx_mavericks BS_BROWSER="Safari" BS_VERSION="7.0"
-    bs_safari7_osx:     --profile bs_osx_mavericks BS_BROWSER="Safari" BS_VERSION="7.0"
+    bs_safari_mav:      --profile bs_osx_mavericks BS_BROWSER="Safari"
     
     # BrowserStack Windows desktop browser profiles
     bs_win7:            --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="7"
@@ -902,19 +910,16 @@ replace the placeholder text with your user account and authorization code for t
     cb_ff_el_cap:       --profile cb_osx_el_capitan CB_BROWSER="FF44"
     cb_chrome_el_cap:   --profile cb_osx_el_capitan CB_BROWSER="Chrome48x64"
     cb_safari_el_cap:   --profile cb_osx_el_capitan CB_BROWSER="Safari9"
-    cb_safari9_el_cap:  --profile cb_osx_el_capitan CB_BROWSER="Safari9"
     
     cb_osx_yosemite:    --profile cb_osx CB_OS="Mac10.10"
     cb_ff_yos:          --profile cb_osx_yosemite CB_BROWSER="FF44"
     cb_chrome_yos:      --profile cb_osx_yosemite CB_BROWSER="Chrome48x64"
     cb_safari_yos:      --profile cb_osx_yosemite CB_BROWSER="Safari8"
-    cb_safari8_osx:     --profile cb_osx_yosemite CB_BROWSER="Safari8"
     
     cb_osx_mavericks:   --profile cb_osx CB_OS="Mac10.9"
     cb_ff_mav:          --profile cb_osx_mavericks CB_BROWSER="FF43"
     cb_chrome_mav:      --profile cb_osx_mavericks CB_BROWSER="Chrome48x64"
     cb_safari_mav:      --profile cb_osx_mavericks CB_BROWSER="Safari7"
-    cb_safari7_osx:     --profile cb_osx_mavericks CB_BROWSER="Safari7"
     
     # CrossBrowserTesting Windows desktop browser profiles
     cb_win:             --profile cb_desktop RESOLUTION="1920x1080"
@@ -927,6 +932,7 @@ replace the placeholder text with your user account and authorization code for t
     cb_chrome_win7:     --profile cb_win7 CB_BROWSER="Chrome48x64"
     cb_chrome_win8:     --profile cb_win8 CB_BROWSER="Chrome48x64"
     cb_chrome_win10:    --profile cb_win10 CB_BROWSER="Chrome48x64"
+    cb_edge_win10:      --profile cb_win10 CB_BROWSER="Edge20"
     
     cb_ie11_win7:       --profile cb_win7 CB_BROWSER="IE11"
     cb_ie10_win7:       --profile cb_win7 CB_BROWSER="IE10"
@@ -936,18 +942,21 @@ replace the placeholder text with your user account and authorization code for t
     cb_ie11_win10:      --profile cb_win10 CB_BROWSER="IE11"
     
     # CrossBrowserTesting iOS mobile browser profiles
-    cb_iphone6_plus:    --profile cb_mobile CB_PLATFORM="iPhone6Plus-iOS8sim" CB_BROWSER="MblSafari8.0" RESOLUTION="1080x1920"
+    cb_iphone6s_plus:   --profile cb_mobile CB_PLATFORM="iPhone6sPlus-iOS9sim" CB_BROWSER="MblSafari9.0" RESOLUTION="1242x2208"
+    cb_iphone6s:        --profile cb_mobile CB_PLATFORM="iPhone6s-iOS9sim" CB_BROWSER="MblSafari9.0" RESOLUTION="750x1334"
+    cb_iphone6_plus:    --profile cb_mobile CB_PLATFORM="iPhone6Plus-iOS8sim" CB_BROWSER="MblSafari8.0" RESOLUTION="1242x2208"
     cb_iphone6:         --profile cb_mobile CB_PLATFORM="iPhone6-iOS8sim" CB_BROWSER="MblSafari8.0" RESOLUTION="750x1334"
     cb_iphone5s:        --profile cb_mobile CB_PLATFORM="iPhone5s-iOS7sim" CB_BROWSER="MblSafari7.0" RESOLUTION="640x1136"
-    cb_ipad_air:        --profile cb_mobile CB_PLATFORM="iPadAir-iOS8Sim" CB_BROWSER="MblSafari8.0" RESOLUTION="1024x768"
-    cb_ipad_mini:       --profile cb_mobile CB_PLATFORM="iPadMiniRetina-iOS7Sim" CB_BROWSER="MblSafari7.0" RESOLUTION="1024x768"
+    cb_ipad_pro:        --profile cb_mobile CB_PLATFORM="iPadPro-iOS9Sim" CB_BROWSER="MblSafari9.0" RESOLUTION="2732x2048"
+    cb_ipad_air2:       --profile cb_mobile CB_PLATFORM="iPadAir2-iOS9Sim" CB_BROWSER="MblSafari9.0" RESOLUTION="2048x1536"
+    cb_ipad_air:        --profile cb_mobile CB_PLATFORM="iPadAir-iOS8Sim" CB_BROWSER="MblSafari8.0" RESOLUTION="2048x1536"
+    cb_ipad_mini:       --profile cb_mobile CB_PLATFORM="iPadMiniRetina-iOS7Sim" CB_BROWSER="MblSafari7.0" RESOLUTION="2048x1536"
     
     # CrossBrowserTesting Android mobile browser profiles
     cb_nexus7:          --profile cb_mobile CB_PLATFORM="Nexus7-And42" CB_BROWSER="MblChrome37" RESOLUTION="800x1280"
     cb_galaxy_tab2:     --profile cb_mobile CB_PLATFORM="GalaxyTab2-And41" CB_BROWSER="MblChrome38" RESOLUTION="1280x800"
     cb_galaxy_s5:       --profile cb_mobile CB_PLATFORM="GalaxyS5-And44" CB_BROWSER="MblChrome35" RESOLUTION="1080x1920"
     cb_galaxy_s4:       --profile cb_mobile CB_PLATFORM="GalaxyS4-And42" CB_BROWSER="MblChrome33" RESOLUTION="1080x1920"
-    cb_galaxy_s3:       --profile cb_mobile CB_PLATFORM="GalaxyS3-And41" CB_BROWSER="MblChrome34" RESOLUTION="720x1280"
     
     
     #==============
@@ -956,26 +965,22 @@ replace the placeholder text with your user account and authorization code for t
     
     saucelabs:          WEB_BROWSER=saucelabs SL_USERNAME=<INSERT USER NAME HERE> SL_AUTHKEY=<INSERT PASSWORD HERE>
     sl_desktop:         --profile saucelabs <%= desktop %>
-    sl_mobile:          --profile saucelabs <%= mobile %>
     
     # SauceLabs OS X desktop browser profiles
     sl_osx_el_capitan:  --profile sl_desktop SL_OS="OS X 10.11"
     sl_ff_el_cap:       --profile sl_osx_el_capitan SL_BROWSER="firefox"
     sl_chrome_el_cap:   --profile sl_osx_el_capitan SL_BROWSER="chrome"
     sl_safari_el_cap:   --profile sl_osx_el_capitan SL_BROWSER="safari"
-    sl_safari9_el_cap:  --profile sl_osx_el_capitan SL_BROWSER="safari"
     
     sl_osx_yosemite:    --profile sl_desktop SL_OS="OS X 10.10" RESOLUTION="1920x1200"
     sl_ff_yos:          --profile sl_osx_yosemite SL_BROWSER="firefox"
     sl_chrome_yos:      --profile sl_osx_yosemite SL_BROWSER="chrome"
     sl_safari_yos:      --profile sl_osx_yosemite SL_BROWSER="safari"
-    sl_safari8_osx:     --profile sl_osx_yosemite SL_BROWSER="safari"
     
     sl_osx_mavericks:   --profile sl_desktop SL_OS="OS X 10.9" RESOLUTION="1920x1200"
     sl_ff_mav:          --profile sl_osx_mavericks SL_BROWSER="firefox"
     sl_chrome_mav:      --profile sl_osx_mavericks SL_BROWSER="chrome"
     sl_safari_mav:      --profile sl_osx_mavericks SL_BROWSER="safari"
-    sl_safari7_osx:     --profile sl_osx_mavericks SL_BROWSER="safari"
     
     # SauceLabs Windows desktop browser profiles
     sl_win7:            --profile sl_desktop SL_OS="Windows 7" RESOLUTION="1920x1200"
@@ -994,20 +999,6 @@ replace the placeholder text with your user account and authorization code for t
     sl_ie11_win8:       --profile sl_win8 SL_BROWSER="internet explorer" SL_VERSION="11.0"
     sl_ie11_win10:      --profile sl_win10 SL_BROWSER="internet explorer"
     
-    # SauceLabs iOS mobile browser profiles
-    sl_ios:             --profile sl_mobile SL_PLATFORM=OS X 10.10 SL_BROWSER="iphone" SL_VERSION="9.2"
-    sl_iphone6_plus:    --profile sl_ios SL_DEVICE="iPhone 6 Plus"
-    sl_iphone6:         --profile sl_ios SL_DEVICE="iPhone 6"
-    sl_iphone5s:        --profile sl_ios SL_DEVICE="iPhone 5s"
-    sl_iphone4s:        --profile sl_ios SL_DEVICE="iPhone 4s"
-    sl_ipad_air:        --profile sl_ios SL_DEVICE="iPad Air"
-    sl_ipad_retina:     --profile sl_ios SL_DEVICE="iPad Retina"
-    
-    # SauceLabs Android mobile browser profiles
-    sl_android:         --profile sl_mobile SL_PLATFORM=Linux SL_BROWSER="android" SL_VERSION="4.4"
-    sl_android_phone:   --profile sl_android SL_DEVICE="Android Emulator" SL_DEVICE_TYPE="phone"
-    sl_android_tablet:  --profile sl_android SL_DEVICE="Android Emulator" SL_DEVICE_TYPE="tablet"
-    
     
     #==============
     # profiles for remotely hosted web browsers on the TestingBot service
@@ -1015,25 +1006,28 @@ replace the placeholder text with your user account and authorization code for t
     
     testingbot:         WEB_BROWSER=testingbot TB_USERNAME=<INSERT USER NAME HERE> TB_AUTHKEY=<INSERT PASSWORD HERE>
     tb_desktop:         --profile testingbot <%= desktop %> RESOLUTION="1920x1200"
+    tb_mobile:          --profile testingbot <%= mobile %>
     
     # TestingBot OS X desktop browser profiles
+    tb_macos_sierra:    --profile tb_desktop TB_OS="SIERRA"
+    tb_ff_sierra:       --profile tb_macos_sierra TB_BROWSER="firefox"
+    tb_chrome_sierra:   --profile tb_macos_sierra TB_BROWSER="chrome"
+    tb_safari_sierra:   --profile tb_macos_sierra TB_BROWSER="safari" TB_VERSION="10"
+    
     tb_osx_el_capitan:  --profile tb_desktop TB_OS="CAPITAN"
     tb_ff_el_cap:       --profile tb_osx_el_capitan TB_BROWSER="firefox"
     tb_chrome_el_cap:   --profile tb_osx_el_capitan TB_BROWSER="chrome"
     tb_safari_el_cap:   --profile tb_osx_el_capitan TB_BROWSER="safari" TB_VERSION="9"
-    tb_safari9_el_cap:  --profile tb_osx_el_capitan TB_BROWSER="safari" TB_VERSION="9"
     
     tb_osx_yosemite:    --profile tb_desktop TB_OS="YOSEMITE"
     tb_ff_yos:          --profile tb_osx_yosemite TB_BROWSER="firefox"
     tb_chrome_yos:      --profile tb_osx_yosemite TB_BROWSER="chrome"
     tb_safari_yos:      --profile tb_osx_yosemite TB_BROWSER="safari" TB_VERSION="8"
-    tb_safari8_osx:     --profile tb_osx_yosemite TB_BROWSER="safari" TB_VERSION="8"
     
     tb_osx_mavericks:   --profile tb_desktop TB_OS="MAVERICKS"
     tb_ff_mav:          --profile tb_osx_mavericks TB_BROWSER="firefox"
     tb_chrome_mav:      --profile tb_osx_mavericks TB_BROWSER="chrome"
     tb_safari_mav:      --profile tb_osx_mavericks TB_BROWSER="safari" TB_VERSION="7"
-    tb_safari7_osx:     --profile tb_osx_mavericks TB_BROWSER="safari" TB_VERSION="7"
     
     # TestingBot Windows desktop browser profiles
     tb_win7:            --profile tb_desktop TB_OS="WIN7"
@@ -1050,7 +1044,33 @@ replace the placeholder text with your user account and authorization code for t
     tb_ie11_win8:       --profile tb_win8 TB_BROWSER="internet explorer" TB_VERSION="11"
     tb_ie10_win8:       --profile tb_win8 TB_BROWSER="internet explorer" TB_VERSION="10"
     tb_ie11_win10:      --profile tb_win10 TB_BROWSER="internet explorer" TB_VERSION="11"
-    tb_edge_win10:      --profile tb_win10 TB_BROWSER="microsoftedge" TB_VERSION="13"
+    tb_edge_win10:      --profile tb_win10 TB_BROWSER="microsoftedge" TB_VERSION="14"
+    
+    # TestingBot iOS mobile browser profiles
+    tb_ios:              --profile tb_mobile TB_OS="MAC" TB_BROWSER="safari" TB_PLATFORM="iOS"
+    tb_iphone6s_plus_10: --profile tb_ios TB_VERSION="10.0" TB_DEVICE="iPhone 6s Plus"
+    tb_iphone6s_plus_93: --profile tb_ios TB_VERSION="9.3"  TB_DEVICE="iPhone 6s Plus"
+    tb_iphone6_plus_10:  --profile tb_ios TB_VERSION="10.0" TB_DEVICE="iPhone 6 Plus"
+    tb_iphone6_plus_93:  --profile tb_ios TB_VERSION="9.3"  TB_DEVICE="iPhone 6 Plus"
+    tb_iphone6s_10:      --profile tb_ios TB_VERSION="10.0" TB_DEVICE="iPhone 6s"
+    tb_iphone6s_93:      --profile tb_ios TB_VERSION="9.3"  TB_DEVICE="iPhone 6s"
+    tb_iphone5s_10:      --profile tb_ios TB_VERSION="10.0" TB_DEVICE="iPhone 5s"
+    tb_iphone5s_93:      --profile tb_ios TB_VERSION="9.3"  TB_DEVICE="iPhone 5s"
+    tb_ipad_pro_10:      --profile tb_ios TB_VERSION="10.0" TB_DEVICE="iPad Pro"
+    tb_ipad_pro_93:      --profile tb_ios TB_VERSION="9.3"  TB_DEVICE="iPad Pro"
+    tb_ipad_air2_10:     --profile tb_ios TB_VERSION="10.0" TB_DEVICE="iPad Air 2"
+    tb_ipad_air2_93:     --profile tb_ios TB_VERSION="9.3"  TB_DEVICE="iPad Air 2"
+    
+    
+    # TestingBot Android mobile browser profiles
+    tb_android:          --profile tb_mobile TB_OS="ANDROID" TB_BROWSER="browser" TB_PLATFORM="Android"
+    tb_nexus_s:          --profile tb_android TB_VERSION="6.0" TB_DEVICE="Nexus S"
+    tb_nexus_1:          --profile tb_android TB_VERSION="5.0" TB_DEVICE="Nexus 1"
+    tb_nexus_4:          --profile tb_android TB_VERSION="6.0" TB_DEVICE="Nexus 4"
+    tb_galaxy_nexus:     --profile tb_android TB_VERSION="4.4" TB_DEVICE="Galaxy Nexus"
+    tb_galaxy_s4:        --profile tb_android TB_VERSION="4.4" TB_DEVICE="Galaxy S4"
+    tb_galaxy_s5:        --profile tb_android TB_VERSION="5.0" TB_DEVICE="Galaxy S5"
+    tb_galaxy_s6:        --profile tb_android TB_VERSION="6.0" TB_DEVICE="Galaxy S6"
 
 
 To specify a locally hosted target browser using a profile at runtime, you use the flag `--profile` or `-p` followed by the profile name when
