@@ -1,11 +1,8 @@
 module TestCentricity
   class TextField < UIElement
-    def initialize(parent, locator, context)
-      @parent  = parent
-      @locator = locator
-      @context = context
-      @type    = :textfield
-      @alt_locator = nil
+    def initialize(name, parent, locator, context)
+      super
+      @type  = :textfield
     end
 
     # Is text field set to read-only?

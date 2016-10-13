@@ -1,11 +1,8 @@
 module TestCentricity
   class Link < UIElement
-    def initialize(parent, locator, context)
-      @parent  = parent
-      @locator = locator
-      @context = context
-      @type    = :link
-      @alt_locator = nil
+    def initialize(name, parent, locator, context)
+      super
+      @type = :link
     end
   end
 end

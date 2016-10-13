@@ -6,11 +6,12 @@ module TestCentricity
     include Capybara::Node::Matchers
     include Test::Unit::Assertions
 
-    attr_reader   :locator, :context
+    attr_reader   :locator, :context, :name
     attr_accessor :parent
 
-    def initialize(parent, locator, context)
-      @parent = parent
+    def initialize(name, parent, locator, context)
+      @name    = name
+      @parent  = parent
       @locator = locator
       @context = context
     end
@@ -36,7 +37,7 @@ module TestCentricity
     #   element :basket_header,     'div.basket_header'
     #
     def self.element(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new(self, "#{locator}", :section);end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     # Declare and instantiate a collection of generic UI Elements for this page section.
@@ -62,7 +63,7 @@ module TestCentricity
     #   button :login_button,    "//input[@id='submit_button']"
     #
     def self.button(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Button.new(self, "#{locator}", :section);end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Button.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     # Declare and instantiate a collection of buttons for this page section.
@@ -88,7 +89,7 @@ module TestCentricity
     #   textfield :password_field, 'input#consumer_password'
     #
     def self.textfield(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::TextField.new(self, "#{locator}", :section);end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::TextField.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     # Declare and instantiate a collection of text fields for this page section.
@@ -117,7 +118,7 @@ module TestCentricity
     #   checkbox :accept_terms_checkbox, 'input#accept_terms_conditions', :accept_terms_label
     #
     def self.checkbox(element_name, locator, proxy = nil)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::CheckBox.new(self, "#{locator}", :section, #{proxy});end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::CheckBox.new("#{element_name}", self, "#{locator}", :section, #{proxy});end))
     end
 
     # Declare and instantiate a collection of checkboxes for this page section.
@@ -145,7 +146,7 @@ module TestCentricity
     #   radio :decline_terms_radio, 'input#decline_terms_conditions', :decline_terms_label
     #
     def self.radio(element_name, locator, proxy = nil)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Radio.new(self, "#{locator}", :section, #{proxy});end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Radio.new("#{element_name}", self, "#{locator}", :section, #{proxy});end))
     end
 
     # Declare and instantiate a collection of radio buttons for this page section.
@@ -172,7 +173,7 @@ module TestCentricity
     #   label :rollup_price_label, "//div[contains(@id, 'Rollup Item Price')]"
     #
     def self.label(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Label.new(self, "#{locator}", :section);end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Label.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     def self.labels(element_hash)
@@ -190,7 +191,7 @@ module TestCentricity
     #   link :shopping_basket_link, "//a[@href='shopping_basket']"
     #
     def self.link(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Link.new(self, "#{locator}", :section);end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Link.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     def self.links(element_hash)
@@ -207,7 +208,7 @@ module TestCentricity
     #   table :payments_table, "//table[@class='payments_table']"
     #
     def self.table(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Table.new(self, "#{locator}", :section);end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Table.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     def self.tables(element_hash)
@@ -225,7 +226,7 @@ module TestCentricity
     #   selectlist :gender_select,     "//select[@id='customer_gender']"
     #
     def self.selectlist(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::SelectList.new(self, "#{locator}", :section);end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::SelectList.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     def self.selectlists(element_hash)
@@ -242,7 +243,7 @@ module TestCentricity
     #   list :y_axis_list, 'g.y_axis'
     #
     def self.list(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::List.new(self, "#{locator}", :section);end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::List.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     def self.lists(element_hash)
@@ -260,7 +261,7 @@ module TestCentricity
     #   image :corporate_logo_image, "//img[@alt='MyCompany_logo']"
     #
     def self.image(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Image.new(self, "#{locator}", :section);end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Image.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     def self.images(element_hash)
@@ -277,7 +278,7 @@ module TestCentricity
     #   filefield :attach_file, 's_SweFileName'
     #
     def self.filefield(element_name, locator)
-      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::FileField.new(self, "#{locator}", :section);end))
+      class_eval(%Q(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::FileField.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     # Instantiate a single PageSection object within this PageSection object.
@@ -288,7 +289,7 @@ module TestCentricity
     #   section :search_form, SearchForm
     #
     def self.section(section_name, class_name, locator = nil)
-      class_eval(%Q(def #{section_name.to_s};@#{section_name.to_s} ||= #{class_name.to_s}.new(self, "#{locator}", :section);end))
+      class_eval(%Q(def #{section_name.to_s};@#{section_name.to_s} ||= #{class_name.to_s}.new("#{section_name}", self, "#{locator}", :section);end))
     end
 
     def self.sections(section_hash)
@@ -300,6 +301,10 @@ module TestCentricity
     def get_locator
       (@locator.empty? && defined?(section_locator)) ? locator = section_locator : locator = @locator
       (@context == :section && !@parent.nil? && !@parent.get_locator.nil?) ? "#{@parent.get_locator}|#{locator}" : locator
+    end
+
+    def get_name
+      @name
     end
 
     def set_parent(parent)
@@ -375,7 +380,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { exists? }
     rescue
-      raise "Could not find section #{get_locator} after #{timeout} seconds" unless exists?
+      raise "Could not find Section object '#{get_name}' (#{get_locator}) after #{timeout} seconds" unless exists?
     end
 
     # Wait until the Section object no longer exists, or until the specified wait time has expired.
@@ -389,7 +394,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { !exists? }
     rescue
-      raise "Section #{get_locator} remained visible after #{timeout} seconds" if exists?
+      raise "Section object '#{get_name}' (#{get_locator}) remained visible after #{timeout} seconds" if exists?
     end
 
     # Wait until the Section object is visible, or until the specified wait time has expired.
@@ -403,7 +408,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { visible? }
     rescue
-      raise "Could not find section #{get_locator} after #{timeout} seconds" unless visible?
+      raise "Could not find Section object '#{get_name}' (#{get_locator}) after #{timeout} seconds" unless visible?
     end
 
     # Wait until the Section object is hidden, or until the specified wait time has expired.
@@ -417,7 +422,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { hidden? }
     rescue
-      raise "section #{get_locator} remained visible after #{timeout} seconds" if visible?
+      raise "Section object '#{get_name}' (#{get_locator}) remained visible after #{timeout} seconds" if visible?
     end
 
     # Click at a specific location within a Section object
@@ -429,7 +434,7 @@ module TestCentricity
     #
     def click_at(x, y)
       section, _ = find_section
-      raise "Section #{get_locator} not found" unless section
+      raise "Section object '#{get_name}' (#{get_locator}) not found" unless section
       section.click_at(x, y)
     end
 
@@ -490,7 +495,7 @@ module TestCentricity
           end
 
           if state.is_a?(Hash) && state.length == 1
-            error_msg = "Expected #{ui_object.get_locator} #{property.to_s} property to"
+            error_msg = "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) #{property.to_s} property to"
             state.each do |key, value|
               case key
                 when :lt, :less_than
@@ -522,7 +527,7 @@ module TestCentricity
               end
             end
           else
-            ExceptionQueue.enqueue_assert_equal(state, actual, "Expected #{ui_object.get_locator} #{property.to_s} property")
+            ExceptionQueue.enqueue_assert_equal(state, actual, "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) #{property.to_s} property")
           end
         end
       end
@@ -573,13 +578,13 @@ module TestCentricity
 
     def get_attribute(attrib)
       section, _ = find_section
-      raise "Section #{locator} not found" unless section
+      raise "Section object '#{get_name}' (#{get_locator}) not found" unless section
       section[attrib]
     end
 
     def get_native_attribute(attrib)
       section, _ = find_section
-      raise "Section #{locator} not found" unless section
+      raise "Section object '#{get_name}' (#{get_locator}) not found" unless section
       section.native.attribute(attrib)
     end
 

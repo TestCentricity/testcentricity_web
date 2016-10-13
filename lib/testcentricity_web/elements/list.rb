@@ -2,14 +2,10 @@ module TestCentricity
   class List < UIElement
     attr_accessor :list_item
 
-    def initialize(parent, locator, context)
-      @parent  = parent
-      @locator = locator
-      @context = context
-      @type    = :list
-      @alt_locator = nil
-      list_spec = { :list_item => 'li' }
-      define_list_elements(list_spec)
+    def initialize(name, parent, locator, context)
+      super
+      @type = :list
+      define_list_elements({ :list_item => 'li' })
     end
 
     def define_list_elements(element_spec)
@@ -37,8 +33,8 @@ module TestCentricity
     def verify_list_items(expected, enqueue = false)
       actual = get_list_items
       enqueue ?
-          ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list  #{@locator}") :
-          assert_equal(expected, actual, "Expected list #{@locator} to be #{expected} but found #{actual}")
+          ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list object '#{get_name}' (#{get_locator})") :
+          assert_equal(expected, actual, "Expected list object '#{get_name}' (#{get_locator}) to be #{expected} but found #{actual}")
     end
   end
 end

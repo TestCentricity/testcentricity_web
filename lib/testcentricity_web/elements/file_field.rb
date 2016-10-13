@@ -1,11 +1,8 @@
 module TestCentricity
   class FileField < UIElement
-    def initialize(parent, locator, context)
-      @parent  = parent
-      @locator = locator
-      @context = context
-      @type    = :filefield
-      @alt_locator = nil
+    def initialize(name, parent, locator, context)
+      super
+      @type = :filefield
     end
 
     def file_attach(file_path)
@@ -26,6 +23,18 @@ module TestCentricity
       end
       # trigger the fake drop event
       page.execute_script("#{js_script} e = $.Event('drop'); e.originalEvent = {dataTransfer : { files : fileList } }; $('#{@locator}').trigger(e);")
+    end
+
+    def ng_drop_file(file_path)
+      # generate a fake input selector
+      page.execute_script("fakeFileInput = window.$('<input/>').attr({ id: 'fileFileInput', type: 'file' }).appendTo('body');")
+      # attach file to the fake input selector through Capybara
+      page.attach_file('fakeFileInput', file_path)
+      # create the fake js event
+      js_script = "var scope = angular.element('#{@locator}').scope();"
+      js_script = "#{js_script} scope.files = [fakeFileInput.get(0).files[0]];"
+      # trigger the fake drop event
+      page.execute_script(js_script)
     end
   end
 end

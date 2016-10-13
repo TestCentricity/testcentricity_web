@@ -45,7 +45,9 @@ module TestCentricity
       end
 
       # set browser window size only if testing with a desktop web browser
-      initialize_browser_size unless Capybara.current_driver == :poltergeist || Capybara.current_driver == :appium
+      unless Environ.is_device? || Capybara.current_driver == :poltergeist
+        initialize_browser_size
+      end
 
       puts "Using #{Environ.browser.to_s} browser via #{context}"
     end
@@ -185,6 +187,7 @@ module TestCentricity
         elsif ENV['CB_PLATFORM']
           capabilities['os_api_name'] = ENV['CB_PLATFORM']
           Environ.set_device_type(ENV['CB_PLATFORM'])
+          Environ.set_device(true)
           Environ.set_platform(:mobile)
         end
         Capybara::Selenium::Driver.new(app, :browser => :remote, :url => endpoint, :desired_capabilities => capabilities)
@@ -284,6 +287,7 @@ module TestCentricity
           capabilities['platformName'] = ENV['TB_PLATFORM']
           capabilities['deviceName'] = ENV['TB_DEVICE']
           Environ.set_device_type(ENV['TB_DEVICE'])
+          Environ.set_device(true)
           Environ.set_platform(:mobile)
         else
           Environ.set_platform(:desktop)

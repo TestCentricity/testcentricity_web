@@ -22,14 +22,15 @@ module TestCentricity
     include Capybara::DSL
     include Test::Unit::Assertions
 
-    attr_reader :parent, :locator, :context, :type
+    attr_reader   :parent, :locator, :context, :type, :name
     attr_accessor :alt_locator
 
-    def initialize(parent, locator, context)
-      @parent  = parent
-      @locator = locator
-      @context = context
-      @type    = nil
+    def initialize(name, parent, locator, context)
+      @name        = name
+      @parent      = parent
+      @locator     = locator
+      @context     = context
+      @type        = nil
       @alt_locator = nil
     end
 
@@ -45,6 +46,10 @@ module TestCentricity
 
     def get_locator
       @locator
+    end
+
+    def get_name
+      @name
     end
 
     def set_alt_locator(temp_locator)
@@ -101,7 +106,7 @@ module TestCentricity
     #
     def click_at(x, y)
       obj, _ = find_element
-      raise "Object #{@locator} not found" unless obj
+      raise "UI object '#{get_name}' (#{get_locator}) not found" unless obj
       obj.click_at(x, y)
     end
 
@@ -205,7 +210,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { exists? }
     rescue
-      raise "Could not find element #{@locator} after #{timeout} seconds" unless exists?
+      raise "Could not find UI object '#{get_name}' (#{get_locator}) after #{timeout} seconds" unless exists?
     end
 
     # Wait until the object no longer exists, or until the specified wait time has expired.
@@ -219,7 +224,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { !exists? }
     rescue
-      raise "Element #{@locator} remained visible after #{timeout} seconds" if exists?
+      raise "UI object '#{get_name}' (#{get_locator}) remained visible after #{timeout} seconds" if exists?
     end
 
     # Wait until the object is visible, or until the specified wait time has expired.
@@ -233,7 +238,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { visible? }
     rescue
-      raise "Could not find element #{@locator} after #{timeout} seconds" unless visible?
+      raise "Could not find UI object '#{get_name}' (#{get_locator}) after #{timeout} seconds" unless visible?
     end
 
     # Wait until the object is hidden, or until the specified wait time has expired.
@@ -247,7 +252,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { hidden? }
     rescue
-      raise "Element #{@locator} remained visible after #{timeout} seconds" if visible?
+      raise "UI object '#{get_name}' (#{get_locator}) remained visible after #{timeout} seconds" if visible?
     end
 
     # Wait until the object's value equals the specified value, or until the specified wait time has expired.
@@ -261,7 +266,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { get_value == value }
     rescue
-      raise "Value of UI element #{@locator} failed to equal '#{value}' after #{timeout} seconds" unless get_value == value
+      raise "Value of UI object '#{get_name}' (#{get_locator}) failed to equal '#{value}' after #{timeout} seconds" unless get_value == value
     end
 
     # Wait until the object's value changes to a different value, or until the specified wait time has expired.
@@ -276,7 +281,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { get_value != value }
     rescue
-      raise "Value of UI element #{@locator} failed to change from '#{value}' after #{timeout} seconds" if get_value == value
+      raise "Value of UI object '#{get_name}' (#{get_locator}) failed to change from '#{value}' after #{timeout} seconds" if get_value == value
     end
 
     def get_value(visible = true)
@@ -295,8 +300,8 @@ module TestCentricity
     def verify_value(expected, enqueue = false)
       actual = get_value
       enqueue ?
-          ExceptionQueue.enqueue_assert_equal(expected.strip, actual.strip, "Expected #{@locator}") :
-          assert_equal(expected.strip, actual.strip, "Expected #{@locator} to display '#{expected}' but found '#{actual}'")
+          ExceptionQueue.enqueue_assert_equal(expected.strip, actual.strip, "Expected UI object '#{get_name}' (#{get_locator})") :
+          assert_equal(expected.strip, actual.strip, "Expected UI object '#{get_name}' (#{get_locator}) to display '#{expected}' but found '#{actual}'")
     end
 
     alias :verify_caption :verify_value
@@ -387,7 +392,7 @@ module TestCentricity
     def object_not_found_exception(obj, obj_type)
       @alt_locator.nil? ? locator = @locator : locator = @alt_locator
       obj_type.nil? ? object_type = "Object" : object_type = obj_type
-      raise "#{object_type} #{locator} not found" unless obj
+      raise "#{object_type} named '#{@name}' (#{locator}) not found" unless obj
     end
 
     def invalid_object_type_exception(obj, obj_type)

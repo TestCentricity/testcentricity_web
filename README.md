@@ -1091,7 +1091,7 @@ in landscape orientation:
     
     $ cucumber -p ipad_pro_93_sim -p landscape
     
-    NOTE:  Appium must me running prior to executing this command
+    NOTE:  Appium must be running prior to executing this command
 
 
 The following command specifies that Cucumber will run tests against a remotely hosted Safari web browser running on an OS X Yosemite

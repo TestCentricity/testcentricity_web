@@ -1,11 +1,8 @@
 module TestCentricity
   class Image < UIElement
-    def initialize(parent, locator, context)
-      @parent  = parent
-      @locator = locator
-      @context = context
-      @type    = :image
-      @alt_locator = nil
+    def initialize(name, parent, locator, context)
+      super
+      @type = :image
     end
 
     # Is image loaded?
@@ -31,7 +28,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { is_loaded? }
     rescue
-      raise "Image #{@locator} failed to load within #{timeout} seconds" unless is_loaded?
+      raise "Image object '#{get_name}' (#{get_locator}) failed to load within #{timeout} seconds" unless is_loaded?
     end
   end
 end

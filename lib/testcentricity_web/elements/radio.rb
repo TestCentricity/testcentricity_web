@@ -2,13 +2,14 @@ module TestCentricity
   class Radio < UIElement
     attr_accessor :proxy
 
-    def initialize(parent, locator, context, proxy = nil)
+    def initialize(name, parent, locator, context, proxy = nil)
+      @name        = name
       @parent      = parent
       @locator     = locator
       @context     = context
+      @alt_locator = nil
       @proxy       = proxy
       @type        = :radio
-      @alt_locator = nil
     end
 
     # Does radio button object exists?

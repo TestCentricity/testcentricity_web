@@ -3,12 +3,9 @@ module TestCentricity
     attr_accessor :list_item
     attr_accessor :selected_item
 
-    def initialize(parent, locator, context)
-      @parent  = parent
-      @locator = locator
-      @context = context
-      @type    = :selectlist
-      @alt_locator = nil
+    def initialize(name, parent, locator, context)
+      super
+      @type = :selectlist
       list_spec = {
           :list_item     => 'option',
           :selected_item => 'option[selected]'
@@ -104,8 +101,8 @@ module TestCentricity
     def verify_options(expected, enqueue = false)
       actual = get_options
       enqueue ?
-          ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list of options in list #{@locator}") :
-          assert_equal(expected, actual, "Expected list of options in list #{@locator} to be #{expected} but found #{actual}")
+          ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list of options in list object '#{get_name}' (#{get_locator})") :
+          assert_equal(expected, actual, "Expected list of options in list object '#{get_name}' (#{get_locator}) to be #{expected} but found #{actual}")
     end
 
     # Return text of first selected option in a select box object.
