@@ -78,8 +78,8 @@ module TestCentricity
     def verify_check_state(state, enqueue = false)
       actual = checked?
       enqueue ?
-          ExceptionQueue.enqueue_assert_equal(state, actual, "Expected checkbox object '#{get_name}' (#{get_locator})") :
-          assert_equal(state, actual, "Expected checkbox object '#{get_name}' (#{get_locator}) to be #{state} but found #{actual} instead")
+          ExceptionQueue.enqueue_assert_equal(state, actual, "Expected checkbox #{object_ref_message}") :
+          assert_equal(state, actual, "Expected checkbox #{object_ref_message} to be #{state} but found #{actual} instead")
     end
 
     # Set the check state of a Siebel OUI JCheckBox object.
@@ -91,7 +91,7 @@ module TestCentricity
     def set_siebel_checkbox_state(state)
       obj, _ = find_element
       object_not_found_exception(obj, 'Siebel checkbox')
-      raise "UI object '#{get_name}' (#{get_locator}) is not a Siebel CheckBox object" unless get_siebel_object_type == 'JCheckBox'
+      raise "UI #{object_ref_message} is not a Siebel CheckBox object" unless get_siebel_object_type == 'JCheckBox'
       expected = state.to_bool
       obj.click unless expected == obj.checked?
     end

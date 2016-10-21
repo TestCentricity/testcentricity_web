@@ -101,8 +101,8 @@ module TestCentricity
     def verify_options(expected, enqueue = false)
       actual = get_options
       enqueue ?
-          ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list of options in list object '#{get_name}' (#{get_locator})") :
-          assert_equal(expected, actual, "Expected list of options in list object '#{get_name}' (#{get_locator}) to be #{expected} but found #{actual}")
+          ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list of options in list #{object_ref_message}") :
+          assert_equal(expected, actual, "Expected list of options in list #{object_ref_message} to be #{expected} but found #{actual}")
     end
 
     # Return text of first selected option in a select box object.
@@ -156,8 +156,8 @@ module TestCentricity
       sleep(0.5)
       actual = page.all(:xpath, "//li[@class='ui-menu-item']").collect(&:text)
       enqueue ?
-          ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list of options in list #{@locator}") :
-          assert_equal(expected, actual, "Expected list of options in list #{@locator} to be #{expected} but found #{actual}")
+          ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list of options in list #{object_ref_message}") :
+          assert_equal(expected, actual, "Expected list of options in list #{object_ref_message} to be #{expected} but found #{actual}")
       obj, _ = find_element
       obj.native.send_keys(:escape)
     end

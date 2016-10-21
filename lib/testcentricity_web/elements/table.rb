@@ -99,9 +99,9 @@ module TestCentricity
     #
     def hover_table_cell(row, column)
       row_count = get_row_count
-      raise "Row #{row} exceeds number of rows (#{row_count}) in table object '#{get_name}' (#{get_locator})" if row > row_count
+      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{object_ref_message}" if row > row_count
       column_count = get_column_count
-      raise "Column #{column} exceeds number of columns (#{column_count}) in table object '#{get_name}' (#{get_locator})" if column > column_count
+      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{object_ref_message}" if column > column_count
       set_table_cell_locator(row, column)
       hover
       clear_alt_locator
@@ -116,9 +116,9 @@ module TestCentricity
     #
     def click_table_cell(row, column)
       row_count = get_row_count
-      raise "Row #{row} exceeds number of rows (#{row_count}) in table object '#{get_name}' (#{get_locator})" if row > row_count
+      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{object_ref_message}" if row > row_count
       column_count = get_column_count
-      raise "Column #{column} exceeds number of columns (#{column_count}) in table object '#{get_name}' (#{get_locator})" if column > column_count
+      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{object_ref_message}" if column > column_count
       set_table_cell_locator(row, column)
       click
       clear_alt_locator
@@ -133,9 +133,9 @@ module TestCentricity
     #
     def double_click_table_cell(row, column)
       row_count = get_row_count
-      raise "Row #{row} exceeds number of rows (#{row_count}) in table object '#{get_name}' (#{get_locator})" if row > row_count
+      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{object_ref_message}" if row > row_count
       column_count = get_column_count
-      raise "Column #{column} exceeds number of columns (#{column_count}) in table object '#{get_name}' (#{get_locator})" if column > column_count
+      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{object_ref_message}" if column > column_count
       set_table_cell_locator(row, column)
       double_click
       clear_alt_locator
@@ -150,9 +150,9 @@ module TestCentricity
     #
     def click_table_cell_link(row, column)
       row_count = get_row_count
-      raise "Row #{row} exceeds number of rows (#{row_count}) in table object '#{get_name}' (#{get_locator})" if row > row_count
+      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{object_ref_message}" if row > row_count
       column_count = get_column_count
-      raise "Column #{column} exceeds number of columns (#{column_count}) in table object '#{get_name}' (#{get_locator})" if column > column_count
+      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{object_ref_message}" if column > column_count
       set_table_cell_locator(row, column)
       saved_locator = @alt_locator
       set_alt_locator("#{@alt_locator}/a")
@@ -174,7 +174,7 @@ module TestCentricity
     def get_table_row(row)
       columns = []
       row_count = get_row_count
-      raise "Row #{row} exceeds number of rows (#{row_count}) in table object '#{get_name}' (#{get_locator})" if row > row_count
+      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{object_ref_message}" if row > row_count
       column_count = get_column_count
       (1..column_count).each do |column|
         value = ''
@@ -194,7 +194,7 @@ module TestCentricity
 
     def get_row_data(row)
       row_count = get_row_count
-      raise "Row #{row} exceeds number of rows (#{row_count}) in table object '#{get_name}' (#{get_locator})" if row > row_count
+      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{object_ref_message}" if row > row_count
       (row > 1) ?
           set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}[#{row}]") :
           set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}")
@@ -206,7 +206,7 @@ module TestCentricity
     def get_table_column(column)
       rows = []
       column_count = get_column_count
-      raise "Column #{column} exceeds number of columns (#{column_count}) in table object '#{get_name}' (#{get_locator})" if column > column_count
+      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{object_ref_message}" if column > column_count
       row_count = get_row_count
       (1..row_count).each do |row|
         value = ''
@@ -234,9 +234,9 @@ module TestCentricity
     #
     def get_table_cell(row, column)
       row_count = get_row_count
-      raise "Row #{row} exceeds number of rows (#{row_count}) in table object '#{get_name}' (#{get_locator})" if row > row_count
+      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{object_ref_message}" if row > row_count
       column_count = get_column_count
-      raise "Column #{column} exceeds number of columns (#{column_count}) in table object '#{get_name}' (#{get_locator})" if column > column_count
+      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{object_ref_message}" if column > column_count
       set_table_cell_locator(row, column)
       saved_locator = @alt_locator
       set_alt_locator("#{saved_locator}/input")
@@ -257,8 +257,8 @@ module TestCentricity
     def verify_table_cell(row, column, expected, enqueue = false)
       actual = get_table_cell(row, column)
       enqueue ?
-          ExceptionQueue.enqueue_assert_equal(expected.strip, actual.strip, "Expected table object '#{get_name}' (#{get_locator}) row #{row}/column #{column}") :
-          assert_equal(expected.strip, actual.strip, "Expected table object '#{get_name}' (#{get_locator}) row #{row}/column #{column} to display '#{expected}' but found '#{actual}'")
+          ExceptionQueue.enqueue_assert_equal(expected.strip, actual.strip, "Expected table #{object_ref_message} row #{row}/column #{column}") :
+          assert_equal(expected.strip, actual.strip, "Expected table #{object_ref_message} row #{row}/column #{column} to display '#{expected}' but found '#{actual}'")
     end
 
     # Set the value of the specified cell in a table object.
@@ -271,7 +271,7 @@ module TestCentricity
     #
     def set_table_cell(row, column, value)
       row_count = get_row_count
-      raise "Row #{row} exceeds number of rows (#{row_count}) in table object '#{get_name}' (#{get_locator})" if row > row_count
+      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{object_ref_message}" if row > row_count
       find_table_cell(row, column)
       find_table_cell(row, column) unless exists?
       set(value)
@@ -280,9 +280,9 @@ module TestCentricity
 
     def get_cell_attribute(row, column, attrib)
       row_count = get_row_count
-      raise "Row #{row} exceeds number of rows (#{row_count}) in table object '#{get_name}' (#{get_locator})" if row > row_count
+      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{object_ref_message}" if row > row_count
       column_count = get_column_count
-      raise "Column #{column} exceeds number of columns (#{column_count}) in table object '#{get_name}' (#{get_locator})" if column > column_count
+      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{object_ref_message}" if column > column_count
       set_table_cell_locator(row, column)
       result = get_native_attribute(attrib)
       clear_alt_locator
@@ -291,7 +291,7 @@ module TestCentricity
 
     def get_row_attribute(row, attrib)
       row_count = get_row_count
-      raise "Row #{row} exceeds number of rows (#{row_count}) in table object '#{get_name}' (#{get_locator})" if row > row_count
+      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{object_ref_message}" if row > row_count
       (row > 1) ?
           set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}[#{row}]") :
           set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}")
@@ -375,7 +375,7 @@ module TestCentricity
     #
     def click_header_column(column)
       column_count = get_column_count
-      raise "Column #{column} exceeds number of columns (#{column_count}) in table header object '#{get_name}' (#{get_locator})" if column > column_count
+      raise "Column #{column} exceeds number of columns (#{column_count}) in table header #{object_ref_message}" if column > column_count
       set_alt_locator("#{@locator}//#{@table_header}/#{@header_row}/#{@header_column}[#{column}]")
       click if exists?
       clear_alt_locator
@@ -383,7 +383,7 @@ module TestCentricity
 
     def get_header_column(column)
       column_count = get_column_count
-      raise "Column #{column} exceeds number of columns (#{column_count}) in table header object '#{get_name}' (#{get_locator})" if column > column_count
+      raise "Column #{column} exceeds number of columns (#{column_count}) in table header #{object_ref_message}" if column > column_count
       set_alt_locator("#{@locator}//#{@table_header}/#{@header_row}/#{@header_column}[#{column}]")
       value = get_value(:all) if exists?(:all)
       clear_alt_locator
@@ -403,9 +403,9 @@ module TestCentricity
 
     def is_table_row_expanded?(row, column)
       row_count = get_row_count
-      raise "Row #{row} exceeds number of rows (#{row_count}) in table object '#{get_name}' (#{get_locator})" if row > row_count
+      raise "Row #{row} exceeds number of rows (#{row_count}) in table #{object_ref_message}" if row > row_count
       column_count = get_column_count
-      raise "Column #{column} exceeds number of columns (#{column_count}) in table object '#{get_name}' (#{get_locator})" if column > column_count
+      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{object_ref_message}" if column > column_count
       set_table_cell_locator(row, column)
       set_alt_locator("#{@alt_locator}/#{@tree_expand}")
       expanded = true
@@ -435,7 +435,7 @@ module TestCentricity
     def expand_all_table_rows(column)
       row_count = get_row_count
       column_count = get_column_count
-      raise "Column #{column} exceeds number of columns (#{column_count}) in table object '#{get_name}' (#{get_locator})" if column > column_count
+      raise "Column #{column} exceeds number of columns (#{column_count}) in table #{object_ref_message}" if column > column_count
       row_count.downto(1) do |row|
         expand_table_row(row, column)
       end

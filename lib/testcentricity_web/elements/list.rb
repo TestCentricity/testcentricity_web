@@ -33,8 +33,8 @@ module TestCentricity
     def verify_list_items(expected, enqueue = false)
       actual = get_list_items
       enqueue ?
-          ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list object '#{get_name}' (#{get_locator})") :
-          assert_equal(expected, actual, "Expected list object '#{get_name}' (#{get_locator}) to be #{expected} but found #{actual}")
+          ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list #{object_ref_message}") :
+          assert_equal(expected, actual, "Expected list #{object_ref_message} to be #{expected} but found #{actual}")
     end
   end
 end

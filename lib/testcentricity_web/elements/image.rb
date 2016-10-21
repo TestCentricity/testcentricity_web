@@ -28,7 +28,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { is_loaded? }
     rescue
-      raise "Image object '#{get_name}' (#{get_locator}) failed to load within #{timeout} seconds" unless is_loaded?
+      raise "Image #{object_ref_message} failed to load within #{timeout} seconds" unless is_loaded?
     end
   end
 end

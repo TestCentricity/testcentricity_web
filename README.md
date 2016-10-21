@@ -463,7 +463,7 @@ executed:
         |Privacy Policy          |
         |FAQs                    |
         |Refunds & Cancellations |
-        |Contact US              |
+        |Contact Us              |
 
 
 Include the step definitions and code below in a `page_steps.rb` or `generic_steps.rb` file in the `features/step_definitions` folder:
@@ -906,18 +906,22 @@ replace the placeholder text with your user account and authorization code for t
     
     # CrossBrowserTesting OS X desktop browser profiles
     cb_osx:             --profile cb_desktop RESOLUTION="1920x1200"
+    cb_macos_sierra:    --profile cb_osx CB_OS="Mac10.12"
+    cb_chrome_sierra:   --profile cb_macos_sierra CB_BROWSER="Chrome53x64"
+    cb_safari_sierra:   --profile cb_macos_sierra CB_BROWSER="Safari10"
+    
     cb_osx_el_capitan:  --profile cb_osx CB_OS="Mac10.11"
-    cb_ff_el_cap:       --profile cb_osx_el_capitan CB_BROWSER="FF44"
+    cb_ff_el_cap:       --profile cb_osx_el_capitan CB_BROWSER="FF46"
     cb_chrome_el_cap:   --profile cb_osx_el_capitan CB_BROWSER="Chrome48x64"
     cb_safari_el_cap:   --profile cb_osx_el_capitan CB_BROWSER="Safari9"
     
     cb_osx_yosemite:    --profile cb_osx CB_OS="Mac10.10"
-    cb_ff_yos:          --profile cb_osx_yosemite CB_BROWSER="FF44"
+    cb_ff_yos:          --profile cb_osx_yosemite CB_BROWSER="FF46"
     cb_chrome_yos:      --profile cb_osx_yosemite CB_BROWSER="Chrome48x64"
     cb_safari_yos:      --profile cb_osx_yosemite CB_BROWSER="Safari8"
     
     cb_osx_mavericks:   --profile cb_osx CB_OS="Mac10.9"
-    cb_ff_mav:          --profile cb_osx_mavericks CB_BROWSER="FF43"
+    cb_ff_mav:          --profile cb_osx_mavericks CB_BROWSER="FF46"
     cb_chrome_mav:      --profile cb_osx_mavericks CB_BROWSER="Chrome48x64"
     cb_safari_mav:      --profile cb_osx_mavericks CB_BROWSER="Safari7"
     
@@ -926,9 +930,9 @@ replace the placeholder text with your user account and authorization code for t
     cb_win7:            --profile cb_win CB_OS="Win7x64-C1"
     cb_win8:            --profile cb_win CB_OS="Win8"
     cb_win10:           --profile cb_win CB_OS="Win10"
-    cb_ff_win7:         --profile cb_win7 CB_BROWSER="FF44"
-    cb_ff_win8:         --profile cb_win8 CB_BROWSER="FF44"
-    cb_ff_win10:        --profile cb_win10 CB_BROWSER="FF44"
+    cb_ff_win7:         --profile cb_win7 CB_BROWSER="FF46"
+    cb_ff_win8:         --profile cb_win8 CB_BROWSER="FF46"
+    cb_ff_win10:        --profile cb_win10 CB_BROWSER="FF46"
     cb_chrome_win7:     --profile cb_win7 CB_BROWSER="Chrome48x64"
     cb_chrome_win8:     --profile cb_win8 CB_BROWSER="Chrome48x64"
     cb_chrome_win10:    --profile cb_win10 CB_BROWSER="Chrome48x64"

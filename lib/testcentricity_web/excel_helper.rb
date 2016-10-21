@@ -10,12 +10,14 @@ module TestCentricity
 
     def self.worksheet_exists?(file, sheet)
       exists = false
-      work_book  = Spreadsheet.open file
-      worksheets = work_book.worksheets
-      worksheets.each do |worksheet|
-        if worksheet.name == sheet
-          exists = true
-          break
+      if File.exist?(file)
+        work_book  = Spreadsheet.open file
+        worksheets = work_book.worksheets
+        worksheets.each do |worksheet|
+          if worksheet.name == sheet
+            exists = true
+            break
+          end
         end
       end
       exists
@@ -56,6 +58,7 @@ module TestCentricity
     end
 
     def self.read_row_from_pool(file, sheet, rowspec, columns = nil)
+      raise "File #{file} does not exists" unless File.exist?(file)
       work_book  = Spreadsheet.open file
       work_sheet = work_book.worksheet sheet
 
@@ -121,8 +124,9 @@ module TestCentricity
     end
 
     def self.read_row_data(file, sheet, rowspec, columns = nil)
+      raise "File #{file} does not exists" unless File.exist?(file)
       work_book  = Spreadsheet.open file
-      work_sheet  = work_book.worksheet sheet
+      work_sheet = work_book.worksheet sheet
       # get column headings from row 0 of worksheet
       headings = work_sheet.row(0)
       # if rowspec is a string then we have to find a matching row name
@@ -178,6 +182,7 @@ module TestCentricity
     end
 
     def self.read_range_data(file, sheet, rangespec)
+      raise "File #{file} does not exists" unless File.exist?(file)
       work_book  = Spreadsheet.open file
       work_sheet = work_book.worksheet sheet
       # get column headings from row 0 of worksheet

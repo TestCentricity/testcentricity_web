@@ -106,7 +106,7 @@ module TestCentricity
     #
     def click_at(x, y)
       obj, _ = find_element
-      raise "UI object '#{get_name}' (#{get_locator}) not found" unless obj
+      raise "UI #{object_ref_message} not found" unless obj
       obj.click_at(x, y)
     end
 
@@ -210,7 +210,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { exists? }
     rescue
-      raise "Could not find UI object '#{get_name}' (#{get_locator}) after #{timeout} seconds" unless exists?
+      raise "Could not find UI #{object_ref_message} after #{timeout} seconds" unless exists?
     end
 
     # Wait until the object no longer exists, or until the specified wait time has expired.
@@ -224,7 +224,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { !exists? }
     rescue
-      raise "UI object '#{get_name}' (#{get_locator}) remained visible after #{timeout} seconds" if exists?
+      raise "UI #{object_ref_message} remained visible after #{timeout} seconds" if exists?
     end
 
     # Wait until the object is visible, or until the specified wait time has expired.
@@ -238,7 +238,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { visible? }
     rescue
-      raise "Could not find UI object '#{get_name}' (#{get_locator}) after #{timeout} seconds" unless visible?
+      raise "Could not find UI #{object_ref_message} after #{timeout} seconds" unless visible?
     end
 
     # Wait until the object is hidden, or until the specified wait time has expired.
@@ -252,7 +252,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { hidden? }
     rescue
-      raise "UI object '#{get_name}' (#{get_locator}) remained visible after #{timeout} seconds" if visible?
+      raise "UI #{object_ref_message} remained visible after #{timeout} seconds" if visible?
     end
 
     # Wait until the object's value equals the specified value, or until the specified wait time has expired.
@@ -266,7 +266,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { get_value == value }
     rescue
-      raise "Value of UI object '#{get_name}' (#{get_locator}) failed to equal '#{value}' after #{timeout} seconds" unless get_value == value
+      raise "Value of UI #{object_ref_message} failed to equal '#{value}' after #{timeout} seconds" unless get_value == value
     end
 
     # Wait until the object's value changes to a different value, or until the specified wait time has expired.
@@ -281,7 +281,7 @@ module TestCentricity
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { get_value != value }
     rescue
-      raise "Value of UI object '#{get_name}' (#{get_locator}) failed to change from '#{value}' after #{timeout} seconds" if get_value == value
+      raise "Value of UI #{object_ref_message} failed to change from '#{value}' after #{timeout} seconds" if get_value == value
     end
 
     def get_value(visible = true)
@@ -300,8 +300,8 @@ module TestCentricity
     def verify_value(expected, enqueue = false)
       actual = get_value
       enqueue ?
-          ExceptionQueue.enqueue_assert_equal(expected.strip, actual.strip, "Expected UI object '#{get_name}' (#{get_locator})") :
-          assert_equal(expected.strip, actual.strip, "Expected UI object '#{get_name}' (#{get_locator}) to display '#{expected}' but found '#{actual}'")
+          ExceptionQueue.enqueue_assert_equal(expected.strip, actual.strip, "Expected UI #{object_ref_message}") :
+          assert_equal(expected.strip, actual.strip, "Expected UI #{object_ref_message} to display '#{expected}' but found '#{actual}'")
     end
 
     alias :verify_caption :verify_value
@@ -354,7 +354,7 @@ module TestCentricity
     def find_object(visible = true)
       @alt_locator.nil? ? locator = @locator : locator = @alt_locator
       tries ||= 6
-      attributes = [:id, :xpath_ignore_parent, :css_ignore_parent, :xpath_css, :css_xpath, :xpath, :css]
+      attributes = [:id, :ignore_parent_xpath, :ignore_parent_css, :type_xpath_css, :type_css_xpath, :xpath, :css]
       type = attributes[tries]
       if @context == :section && !@parent.get_locator.nil?
         parent_locator = @parent.get_locator
@@ -365,18 +365,18 @@ module TestCentricity
           when :xpath
             parent_locator = parent_locator.gsub('|', '')
             obj = page.find(:xpath, "#{parent_locator}#{locator}", :wait => 0.01, :visible => visible)
-          when :css_xpath
+          when :type_css_xpath
             type = :xpath
             parent_locator = parent_locator.gsub('|', ' ')
             obj = page.find(:css, parent_locator, :wait => 0.01).find(:xpath, locator, :wait => 0.01, :visible => visible)
-          when :xpath_css
+          when :type_xpath_css
             type = :css
             parent_locator = parent_locator.gsub('|', ' ')
             obj = page.find(:xpath, parent_locator, :wait => 0.01).find(:css, locator, :wait => 0.01, :visible => visible)
-          when :css_ignore_parent
+          when :ignore_parent_css
             type = :css
             obj = page.find(:css, locator, :wait => 0.01, :visible => visible)
-          when :xpath_ignore_parent
+          when :ignore_parent_xpath
             type = :xpath
             obj = page.find(:xpath, locator, :wait => 0.01, :visible => visible)
         end
@@ -409,6 +409,10 @@ module TestCentricity
       trigger = "span##{trigger_name}"
       trigger = "#{@parent.get_locator} #{trigger}" if @context == :section && !@parent.get_locator.nil?
       first(trigger).click
+    end
+
+    def object_ref_message
+      "object '#{get_name}' (#{get_locator})"
     end
   end
 end
