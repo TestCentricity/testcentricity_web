@@ -753,7 +753,9 @@ in your `cucumber.yml` file.
 
 Below is a list of Cucumber **Profiles** for supported locally and remotely hosted desktop and mobile web browsers (put these in in your
 `cucumber.yml` file). Before you can use the BrowserStack, CrossBrowserTesting, Sauce Labs, or TestingBot services, you will need to
-replace the placeholder text with your user account and authorization code for the cloud service(s) that you intend to connect with.
+replace the *INSERT USER NAME HERE* and *INSERT PASSWORD HERE* placeholder text with your user account and authorization code for the cloud
+service(s) that you intend to connect with.
+
 
     <% desktop          = "--tags ~@wip --tags ~@failing --tags @desktop --require features BROWSER_SIZE=1600,1000" %>
     <% mobile           = "--tags ~@wip --tags ~@failing --tags @mobile  --require features" %>

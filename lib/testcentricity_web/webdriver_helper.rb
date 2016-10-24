@@ -1,4 +1,5 @@
 require 'selenium-webdriver'
+require 'os'
 
 
 module TestCentricity
@@ -35,7 +36,7 @@ module TestCentricity
           initialize_testingbot
           context = 'TestingBot cloud service'
         else
-          if ENV["SELENIUM"] == 'remote'
+          if ENV['SELENIUM'] == 'remote'
             initialize_remote
             context = 'Selenium Grid2'
           else
@@ -54,6 +55,27 @@ module TestCentricity
 
     def self.set_domain(url)
       Capybara.app_host = url
+    end
+
+    # Set the WebDriver path for Chrome, IE, or Edge browsers
+    def self.set_webdriver_path(project_path)
+      path_to_driver = nil
+      case ENV['WEB_BROWSER'].downcase.to_sym
+        when :chrome
+          if OS.osx?
+            path_to_driver = 'features/support/drivers/mac/chromedriver'
+          elsif OS.windows?
+            path_to_driver = 'features/support/drivers/windows/chromedriver.exe'
+          end
+          Selenium::WebDriver::Chrome.driver_path = File.join(project_path, path_to_driver)
+        when :ie
+          path_to_driver = 'features/support/drivers/windows/IEDriverServer.exe'
+          Selenium::WebDriver::IE.driver_path = File.join(project_path, path_to_driver)
+        when :edge
+          path_to_driver = 'features/support/drivers/windows/MicrosoftWebDriver.exe'
+          Selenium::WebDriver::Edge.driver_path = File.join(project_path, path_to_driver)
+      end
+      puts "The webdriver path is: #{path_to_driver}" unless path_to_driver.nil?
     end
 
     private
