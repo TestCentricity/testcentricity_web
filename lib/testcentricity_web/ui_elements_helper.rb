@@ -353,10 +353,17 @@ module TestCentricity
 
     def find_object(visible = true)
       @alt_locator.nil? ? obj_locator = @locator : obj_locator = @alt_locator
-      tries ||= 6
-      attributes = [:id, 'ignore_parent_xpath', 'ignore_parent_css', 'xpath_css', 'css_xpath', :xpath, :css]
+      parent_section = @context == :section && !@parent.get_locator.nil?
+      if parent_section
+        attributes = [:id, :ignore_parent_xpath, :ignore_parent_css, :xpath_css, :css_xpath, :xpath, :css]
+        tries ||= 6
+      else
+        attributes = [:id, :xpath, :css]
+        tries ||= 2
+      end
+
       type = attributes[tries]
-      if @context == :section && !@parent.get_locator.nil?
+      if parent_section
         parent_locator = @parent.get_locator
         case type
           when :css
@@ -365,18 +372,18 @@ module TestCentricity
           when :xpath
             parent_locator = parent_locator.gsub('|', '')
             obj = page.find(:xpath, "#{parent_locator}#{obj_locator}", :wait => 0.01, :visible => visible)
-          when 'css_xpath'
+          when :css_xpath
             type = :xpath
             parent_locator = parent_locator.gsub('|', ' ')
             obj = page.find(:css, parent_locator, :wait => 0.01).find(:xpath, obj_locator, :wait => 0.01, :visible => visible)
-          when 'xpath_css'
+          when :xpath_css
             type = :css
             parent_locator = parent_locator.gsub('|', ' ')
             obj = page.find(:xpath, parent_locator, :wait => 0.01).find(:css, obj_locator, :wait => 0.01, :visible => visible)
-          when 'ignore_parent_css'
+          when :ignore_parent_css
             type = :css
             obj = page.find(:css, obj_locator, :wait => 0.01, :visible => visible)
-          when 'ignore_parent_xpath'
+          when :ignore_parent_xpath
             type = :xpath
             obj = page.find(:xpath, obj_locator, :wait => 0.01, :visible => visible)
         end
