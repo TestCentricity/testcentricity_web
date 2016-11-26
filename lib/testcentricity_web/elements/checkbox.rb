@@ -19,7 +19,7 @@ module TestCentricity
     #   remember_me_checkbox.exists?
     #
     def exists?
-      obj, _ = find_object(:all)
+      obj, = find_object(:all)
       obj != nil
     end
 
@@ -30,7 +30,7 @@ module TestCentricity
     #   remember_me_checkbox.checked?
     #
     def checked?
-      obj, _ = find_element(:all)
+      obj, = find_element(:all)
       object_not_found_exception(obj, 'Checkbox')
       obj.checked?
     end
@@ -42,7 +42,7 @@ module TestCentricity
     #   remember_me_checkbox.set_checkbox_state(true)
     #
     def set_checkbox_state(state)
-      obj, _ = find_element(:all)
+      obj, = find_element(:all)
       object_not_found_exception(obj, 'Checkbox')
       invalid_object_type_exception(obj, 'checkbox')
       if @proxy.nil?
@@ -89,7 +89,7 @@ module TestCentricity
     #   remember_me_checkbox.set_siebel_checkbox_state(true)
     #
     def set_siebel_checkbox_state(state)
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, 'Siebel checkbox')
       raise "UI #{object_ref_message} is not a Siebel CheckBox object" unless get_siebel_object_type == 'JCheckBox'
       expected = state.to_bool

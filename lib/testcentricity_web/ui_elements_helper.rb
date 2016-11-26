@@ -66,7 +66,7 @@ module TestCentricity
     #   basket_link.click
     #
     def click
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       begin
         obj.click
@@ -81,7 +81,7 @@ module TestCentricity
     #   file_image.double_click
     #
     def double_click
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       page.driver.browser.action.double_click(obj.native).perform
     end
@@ -92,7 +92,7 @@ module TestCentricity
     #   basket_item_image.right_click
     #
     def right_click
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       page.driver.browser.action.context_click(obj.native).perform
     end
@@ -105,13 +105,13 @@ module TestCentricity
     #   basket_item_image.click_at(10, 10)
     #
     def click_at(x, y)
-      obj, _ = find_element
+      obj, = find_element
       raise "UI #{object_ref_message} not found" unless obj
       obj.click_at(x, y)
     end
 
     def set(value)
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       obj.set(value)
     end
@@ -123,7 +123,7 @@ module TestCentricity
     #   comment_field.send_keys(:enter)
     #
     def send_keys(*keys)
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       obj.send_keys(*keys)
     end
@@ -135,7 +135,7 @@ module TestCentricity
     #   basket_link.exists?
     #
     def exists?(visible = true)
-      obj, _ = find_object(visible)
+      obj, = find_object(visible)
       obj != nil
     end
 
@@ -174,7 +174,7 @@ module TestCentricity
     #   remember_me_checkbox.hidden?
     #
     def hidden?
-      not visible?
+      !visible?
     end
 
     # Is UI object enabled?
@@ -184,7 +184,7 @@ module TestCentricity
     #   login_button.enabled?
     #
     def enabled?
-      not disabled?
+      !disabled?
     end
 
     # Is UI object disabled (not enabled)?
@@ -194,7 +194,7 @@ module TestCentricity
     #   login_button.disabled?
     #
     def disabled?
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       obj.disabled?
     end
@@ -285,17 +285,17 @@ module TestCentricity
     end
 
     def get_value(visible = true)
-      obj, _ = find_element(visible)
+      obj, = find_element(visible)
       object_not_found_exception(obj, nil)
       case obj.tag_name.downcase
-        when 'input', 'select', 'textarea'
-          obj.value
-        else
-          obj.text
+      when 'input', 'select', 'textarea'
+        obj.value
+      else
+        obj.text
       end
     end
 
-    alias :get_caption :get_value
+    alias get_caption get_value
 
     def verify_value(expected, enqueue = false)
       actual = get_value
@@ -304,7 +304,7 @@ module TestCentricity
           assert_equal(expected.strip, actual.strip, "Expected UI #{object_ref_message} to display '#{expected}' but found '#{actual}'")
     end
 
-    alias :verify_caption :verify_value
+    alias verify_caption verify_value
 
     # Hover the cursor over an object
     #
@@ -312,34 +312,34 @@ module TestCentricity
     #   basket_link.hover
     #
     def hover
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       obj.hover
     end
 
     def drag_by(right_offset, down_offset)
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       obj.drag_by(right_offset, down_offset)
     end
 
     def drag_and_drop(target, right_offset = nil, down_offset = nil)
-      source, _ = find_element
+      source, = find_element
       object_not_found_exception(source, nil)
       page.driver.browser.action.click_and_hold(source.native).perform
       sleep(0.5)
-      target_drop, _ = target.find_element
+      target_drop, = target.find_element
       page.driver.browser.action.move_to(target_drop.native, right_offset.to_i, down_offset.to_i).release.perform
     end
 
     def get_attribute(attrib)
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       obj[attrib]
     end
 
     def get_native_attribute(attrib)
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       obj.native.attribute(attrib)
     end
@@ -366,26 +366,26 @@ module TestCentricity
       if parent_section
         parent_locator = @parent.get_locator
         case type
-          when :css
-            parent_locator = parent_locator.gsub('|', ' ')
-            obj = page.find(:css, parent_locator, :wait => 0.01).find(:css, obj_locator, :wait => 0.01, :visible => visible)
-          when :xpath
-            parent_locator = parent_locator.gsub('|', '')
-            obj = page.find(:xpath, "#{parent_locator}#{obj_locator}", :wait => 0.01, :visible => visible)
-          when :css_xpath
-            type = :xpath
-            parent_locator = parent_locator.gsub('|', ' ')
-            obj = page.find(:css, parent_locator, :wait => 0.01).find(:xpath, obj_locator, :wait => 0.01, :visible => visible)
-          when :xpath_css
-            type = :css
-            parent_locator = parent_locator.gsub('|', ' ')
-            obj = page.find(:xpath, parent_locator, :wait => 0.01).find(:css, obj_locator, :wait => 0.01, :visible => visible)
-          when :ignore_parent_css
-            type = :css
-            obj = page.find(:css, obj_locator, :wait => 0.01, :visible => visible)
-          when :ignore_parent_xpath
-            type = :xpath
-            obj = page.find(:xpath, obj_locator, :wait => 0.01, :visible => visible)
+        when :css
+          parent_locator = parent_locator.gsub('|', ' ')
+          obj = page.find(:css, parent_locator, :wait => 0.01).find(:css, obj_locator, :wait => 0.01, :visible => visible)
+        when :xpath
+          parent_locator = parent_locator.delete('|')
+          obj = page.find(:xpath, "#{parent_locator}#{obj_locator}", :wait => 0.01, :visible => visible)
+        when :css_xpath
+          type = :xpath
+          parent_locator = parent_locator.gsub('|', ' ')
+          obj = page.find(:css, parent_locator, :wait => 0.01).find(:xpath, obj_locator, :wait => 0.01, :visible => visible)
+        when :xpath_css
+          type = :css
+          parent_locator = parent_locator.gsub('|', ' ')
+          obj = page.find(:xpath, parent_locator, :wait => 0.01).find(:css, obj_locator, :wait => 0.01, :visible => visible)
+        when :ignore_parent_css
+          type = :css
+          obj = page.find(:css, obj_locator, :wait => 0.01, :visible => visible)
+        when :ignore_parent_xpath
+          type = :xpath
+          obj = page.find(:xpath, obj_locator, :wait => 0.01, :visible => visible)
         end
       else
         obj = page.find(type, obj_locator, :wait => 0.01, :visible => visible)
@@ -398,7 +398,7 @@ module TestCentricity
 
     def object_not_found_exception(obj, obj_type)
       @alt_locator.nil? ? locator = @locator : locator = @alt_locator
-      obj_type.nil? ? object_type = "Object" : object_type = obj_type
+      obj_type.nil? ? object_type = 'Object' : object_type = obj_type
       raise "#{object_type} named '#{@name}' (#{locator}) not found" unless obj
     end
 
@@ -410,7 +410,7 @@ module TestCentricity
     end
 
     def invoke_siebel_popup
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, 'Siebel object')
       trigger_name = obj.native.attribute('aria-describedby').strip
       trigger = "span##{trigger_name}"

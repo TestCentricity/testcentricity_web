@@ -27,7 +27,7 @@ module TestCentricity
       exists = false
       if worksheet_exists?(file, sheet)
         work_book  = Spreadsheet.open file
-        work_sheet  = work_book.worksheet sheet
+        work_sheet = work_book.worksheet sheet
         # get column headings from row 0 of worksheet
         headings = work_sheet.row(0)
         # if rowspec is a string then we have to find a matching row name
@@ -160,7 +160,7 @@ module TestCentricity
       end
 
       # if no columns have been specified, return all columns
-      columns = headings if columns == nil
+      columns = headings if columns.nil?
       # create results hash table
       result = Hash.new
       columns.each do |column|
@@ -223,16 +223,16 @@ module TestCentricity
       test_value = value.split('!', 2)
       parameter = test_value[1].split('.', 2)
       case parameter[0]
-        when 'Address', 'Bitcoin', 'Business', 'Code', 'Color', 'Commerce', 'Company', 'Crypto', 'File', 'Hacker', 'Hipster', 'Internet', 'Lorem', 'Name', 'Number', 'PhoneNumber'
-          result = eval("Faker::#{parameter[0]}.#{parameter[1]}")
-        when 'Date'
-          result = eval("Chronic.parse('#{parameter[1]}')")
-        when 'FormattedDate', 'FormatDate'
-          date_time_params = parameter[1].split(" format! ", 2)
-          date_time = eval("Chronic.parse('#{date_time_params[0].strip}')")
-          result = date_time.to_s.format_date_time("#{date_time_params[1].strip}")
-        else
-          result = eval(test_value[1])
+      when 'Address', 'Bitcoin', 'Business', 'Code', 'Color', 'Commerce', 'Company', 'Crypto', 'File', 'Hacker', 'Hipster', 'Internet', 'Lorem', 'Name', 'Number', 'PhoneNumber'
+        result = eval("Faker::#{parameter[0]}.#{parameter[1]}")
+      when 'Date'
+        result = eval("Chronic.parse('#{parameter[1]}')")
+      when 'FormattedDate', 'FormatDate'
+        date_time_params = parameter[1].split(' format! ', 2)
+        date_time = eval("Chronic.parse('#{date_time_params[0].strip}')")
+        result = date_time.to_s.format_date_time("#{date_time_params[1].strip}")
+      else
+        result = eval(test_value[1])
       end
       result.to_s
     end

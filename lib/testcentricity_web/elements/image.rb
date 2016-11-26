@@ -12,7 +12,7 @@ module TestCentricity
     #   company_logo_image.is_loaded??
     #
     def is_loaded?
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       obj.native.attribute('complete')
     end

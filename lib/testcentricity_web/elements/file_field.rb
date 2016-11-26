@@ -12,7 +12,7 @@ module TestCentricity
     end
 
     def drop_files(files)
-      js_script = "fileList = Array();"
+      js_script = 'fileList = Array();'
       files.count.times do |i|
         # generate a fake input selector
         page.execute_script("if ($('#seleniumUpload#{i}').length == 0) { seleniumUpload#{i} = window.$('<input/>').attr({id: 'seleniumUpload#{i}', type:'file'}).appendTo('body'); }")

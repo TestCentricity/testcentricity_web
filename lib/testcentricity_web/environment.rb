@@ -64,9 +64,9 @@ module TestCentricity
     end
 
     def self.session_code
-      if @session_code == nil
+      if @session_code.nil?
         characters = ('a'..'z').to_a
-        @session_code = (0..12).map{characters.sample}.join
+        @session_code = (0..12).map { characters.sample }.join
       end
       @session_code
     end
@@ -83,11 +83,19 @@ module TestCentricity
       @browser = browser.downcase.to_sym
     end
 
+    def self.browser=(browser)
+      @browser = browser.downcase.to_sym
+    end
+
     def self.browser
       @browser
     end
 
     def self.set_os(os)
+      @os = os
+    end
+
+    def self.os=(os)
       @os = os
     end
 
@@ -99,6 +107,10 @@ module TestCentricity
       @device = device
     end
 
+    def self.device=(device)
+      @device = device
+    end
+
     def self.is_device?
       @device
     end
@@ -107,11 +119,19 @@ module TestCentricity
       @device_type = type.downcase
     end
 
+    def self.device_type=(type)
+      @device_type = type.downcase
+    end
+
     def self.device_type
       @device_type
     end
 
     def self.set_platform(platform)
+      @platform = platform
+    end
+
+    def self.platform=(platform)
       @platform = platform
     end
 
@@ -135,11 +155,19 @@ module TestCentricity
       @portal_status = portal_state
     end
 
+    def self.portal_state=(portal_state)
+      @portal_status = portal_state
+    end
+
     def self.portal_state
       @portal_status
     end
 
     def self.set_portal_context(portal_context)
+      @portal_context = portal_context
+    end
+
+    def self.portal_context=(portal_context)
       @portal_context = portal_context
     end
 

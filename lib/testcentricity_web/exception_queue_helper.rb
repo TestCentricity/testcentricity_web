@@ -37,7 +37,7 @@ module TestCentricity
     def self.enqueue_screenshot
       timestamp = Time.now.strftime('%Y%m%d%H%M%S')
       filename = "Screenshot-#{timestamp}"
-      path = File.join Dir.pwd, "reports/screenshots/", filename
+      path = File.join Dir.pwd, 'reports/screenshots/', filename
       Capybara.save_screenshot "#{path}.png"
       puts "Screenshot saved at #{path}.png"
       screen_shot = { :path => path, :filename => filename }

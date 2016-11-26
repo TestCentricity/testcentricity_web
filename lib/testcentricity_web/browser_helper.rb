@@ -65,7 +65,7 @@ module TestCentricity
     end
 
     def self.suppress_js_alerts
-      Capybara.page.execute_script("window.alert = function() {}")
+      Capybara.page.execute_script('window.alert = function() {}')
     end
 
     def self.suppress_js_leave_page_modal
@@ -75,7 +75,7 @@ module TestCentricity
     def self.delete_all_cookies
       if Capybara.current_driver == :selenium
         browser = Capybara.current_session.driver.browser
-        if browser.respond_to?(:manage) and browser.manage.respond_to?(:delete_all_cookies)
+        if browser.respond_to?(:manage) && browser.manage.respond_to?(:delete_all_cookies)
           browser.manage.delete_all_cookies
         else
           raise 'Could not clear cookies.'
@@ -92,7 +92,7 @@ module TestCentricity
     end
 
     def self.mobile_device_agent(device)
-      device_name = device.gsub(/\s+/, "").downcase.to_sym
+      device_name = device.gsub(/\s+/, '').downcase.to_sym
       device = get_devices[device_name]
       agent_string = device[:user_agent]
       raise "Device '#{device}' is not defined" unless agent_string
@@ -100,7 +100,7 @@ module TestCentricity
     end
 
     def self.mobile_device_name(device)
-      device_name = device.gsub(/\s+/, "").downcase.to_sym
+      device_name = device.gsub(/\s+/, '').downcase.to_sym
       device = get_devices[device_name]
       name = device[:name]
       raise "Device '#{device}' is not defined" unless name
@@ -108,7 +108,7 @@ module TestCentricity
     end
 
     def self.browser_size(browser, orientation)
-      device_name = browser.gsub(/\s+/, "").downcase.to_sym
+      device_name = browser.gsub(/\s+/, '').downcase.to_sym
       device = get_devices[device_name]
       if device
         width = device[:css_width]
@@ -130,7 +130,7 @@ module TestCentricity
     private
 
     def self.get_devices
-      YAML.load_file File.expand_path("../../devices/devices.yml", __FILE__)
+      YAML.load_file File.expand_path('../../devices/devices.yml', __FILE__)
     end
   end
 end

@@ -19,7 +19,7 @@ module TestCentricity
     #   accept_terms_radio.exists?
     #
     def exists?
-      obj, _ = find_object(:all)
+      obj, = find_object(:all)
       obj != nil
     end
 
@@ -30,7 +30,7 @@ module TestCentricity
     #   accept_terms_radio.selected?
     #
     def selected?
-      obj, _ = find_element(:all)
+      obj, = find_element(:all)
       object_not_found_exception(obj, 'Radio')
       obj.checked?
     end
@@ -42,7 +42,7 @@ module TestCentricity
     #   accept_terms_radio.set_selected_state(true)
     #
     def set_selected_state(state)
-      obj, _ = find_element(:all)
+      obj, = find_element(:all)
       object_not_found_exception(obj, 'Radio')
       invalid_object_type_exception(obj, 'radio')
       if @proxy.nil?

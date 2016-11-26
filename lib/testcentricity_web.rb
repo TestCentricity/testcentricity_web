@@ -38,10 +38,10 @@ module TestCentricity
 
     def self.register_page_objects(pages)
       result = ''
-      pages.each do | page_object, page_class |
+      pages.each do |page_object, page_class|
         obj = page_class.new
         @page_objects[page_object] = obj unless @page_objects.has_key?(page_object)
-        page_key = obj.page_name.gsub(/\s+/, "").downcase.to_sym
+        page_key = obj.page_name.gsub(/\s+/, '').downcase.to_sym
         if page_key != page_object
           @page_objects[page_key] = obj unless @page_objects.has_key?(page_key)
         end
@@ -57,11 +57,11 @@ module TestCentricity
     #   TestCentricity::PageManager.loaded?
     #
     def self.loaded?
-      not @page_objects.empty?
+      !@page_objects.empty?
     end
 
     def self.find_page(page_name)
-      (page_name.is_a? String) ? page_id = page_name.gsub(/\s+/, "").downcase.to_sym : page_id = page_name
+      (page_name.is_a? String) ? page_id = page_name.gsub(/\s+/, '').downcase.to_sym : page_id = page_name
       @page_objects[page_id]
     end
 
@@ -73,6 +73,16 @@ module TestCentricity
     #
     def self.current_page
       @current_page
+    end
+
+    # Sets the currently active PageObject
+    #
+    # @param page [PageObject] Reference to the active PageObject
+    # @example
+    #   TestCentricity::PageManager.current_page = product_search_page
+    #
+    def self.current_page=(page)
+      @current_page = page
     end
 
     # Sets the currently active PageObject
@@ -92,7 +102,7 @@ module TestCentricity
 
     def self.register_data_objects(data)
       result = ''
-      data.each do | data_type, data_class |
+      data.each do |data_type, data_class|
         @data_objects[data_type] = data_class.new unless @data_objects.has_key?(data_type)
         result = "#{result}def #{data_type.to_s};@#{data_type.to_s} ||= TestCentricity::DataManager.find_data_object(:#{data_type.to_s});end;"
       end
@@ -110,7 +120,7 @@ module TestCentricity
     #   TestCentricity::DataManager.loaded?
     #
     def self.loaded?
-      not @data_objects.empty?
+      !@data_objects.empty?
     end
   end
 end

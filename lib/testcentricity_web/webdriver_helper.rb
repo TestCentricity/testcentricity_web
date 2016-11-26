@@ -11,38 +11,38 @@ module TestCentricity
       browser = ENV['WEB_BROWSER']
 
       # assume that we're testing within a local desktop web browser
-      Environ.set_platform(:desktop)
-      Environ.set_browser(browser)
-      Environ.set_device(false)
-      Environ.set_device_type('browser')
+      Environ.platform    = :desktop
+      Environ.browser     = browser
+      Environ.device      = false
+      Environ.device_type = 'browser'
 
       case browser.downcase.to_sym
-        when :appium
-          initialize_appium
-          context = 'mobile device emulator'
-        when :browserstack
-          initialize_browserstack
-          context = 'Browserstack cloud service'
-        when :crossbrowser
-          initialize_crossbrowser
-          context = 'CrossBrowserTesting cloud service'
-        when :poltergeist
-          initialize_poltergeist
-          context = 'PhantomJS'
-        when :saucelabs
-          initialize_saucelabs
-          context = 'Sauce Labs cloud service'
-        when :testingbot
-          initialize_testingbot
-          context = 'TestingBot cloud service'
+      when :appium
+        initialize_appium
+        context = 'mobile device emulator'
+      when :browserstack
+        initialize_browserstack
+        context = 'Browserstack cloud service'
+      when :crossbrowser
+        initialize_crossbrowser
+        context = 'CrossBrowserTesting cloud service'
+      when :poltergeist
+        initialize_poltergeist
+        context = 'PhantomJS'
+      when :saucelabs
+        initialize_saucelabs
+        context = 'Sauce Labs cloud service'
+      when :testingbot
+        initialize_testingbot
+        context = 'TestingBot cloud service'
+      else
+        if ENV['SELENIUM'] == 'remote'
+          initialize_remote
+          context = 'Selenium Grid2'
         else
-          if ENV['SELENIUM'] == 'remote'
-            initialize_remote
-            context = 'Selenium Grid2'
-          else
-            initialize_local_browser
-            context = 'local instance'
-          end
+          initialize_local_browser
+          context = 'local instance'
+        end
       end
 
       # set browser window size only if testing with a desktop web browser
@@ -50,7 +50,7 @@ module TestCentricity
         initialize_browser_size
       end
 
-      puts "Using #{Environ.browser.to_s} browser via #{context}"
+      puts "Using #{Environ.browser} browser via #{context}"
     end
 
     def self.set_domain(url)
@@ -60,30 +60,39 @@ module TestCentricity
     # Set the WebDriver path for Chrome, IE, or Edge browsers
     def self.set_webdriver_path(project_path)
       path_to_driver = nil
-      case ENV['WEB_BROWSER'].downcase.to_sym
-        when :chrome
-          if OS.osx?
-            path_to_driver = 'features/support/drivers/mac/chromedriver'
-          elsif OS.windows?
-            path_to_driver = 'features/support/drivers/windows/chromedriver.exe'
-          end
-          Selenium::WebDriver::Chrome.driver_path = File.join(project_path, path_to_driver)
-        when :ie
-          path_to_driver = 'features/support/drivers/windows/IEDriverServer.exe'
-          Selenium::WebDriver::IE.driver_path = File.join(project_path, path_to_driver)
-        when :edge
-          path_to_driver = 'features/support/drivers/windows/MicrosoftWebDriver.exe'
-          Selenium::WebDriver::Edge.driver_path = File.join(project_path, path_to_driver)
+      # check for existence of /webdrivers or /features/support/drivers folders
+      base_path = 'features/support/drivers'
+      unless File.directory?(File.join(project_path, base_path))
+        base_path = 'webdrivers'
+        unless File.directory?(File.join(project_path, base_path))
+          raise 'Could not find WebDriver files in /webdrivers or /features/support/drivers folders'
+        end
       end
-      puts "The webdriver path is: #{path_to_driver}" unless path_to_driver.nil?
+      # set WebDriver path based on browser and operating system
+      case ENV['WEB_BROWSER'].downcase.to_sym
+      when :chrome
+        if OS.osx?
+          path_to_driver = 'mac/chromedriver'
+        elsif OS.windows?
+          path_to_driver = 'windows/chromedriver.exe'
+        end
+        Selenium::WebDriver::Chrome.driver_path = File.join(project_path, base_path, path_to_driver)
+      when :ie
+        path_to_driver = 'windows/IEDriverServer.exe'
+        Selenium::WebDriver::IE.driver_path = File.join(project_path, base_path, path_to_driver)
+      when :edge
+        path_to_driver = 'windows/MicrosoftWebDriver.exe'
+        Selenium::WebDriver::Edge.driver_path = File.join(project_path, base_path, path_to_driver)
+      end
+      puts "The webdriver path is: #{File.join(project_path, base_path, path_to_driver)}" unless path_to_driver.nil?
     end
 
     private
 
     def self.initialize_appium
-      Environ.set_device(true)
-      Environ.set_platform(:mobile)
-      Environ.set_device_type(ENV['APP_DEVICE'])
+      Environ.device      = true
+      Environ.platform    = :mobile
+      Environ.device_type = ENV['APP_DEVICE']
       Capybara.default_driver = :appium
       endpoint = 'http://localhost:4723/wd/hub'
       desired_capabilities = {
@@ -120,8 +129,8 @@ module TestCentricity
           Capybara::Selenium::Driver.new(app, :browser => browser.to_sym)
         else
           user_agent = Browsers.mobile_device_agent(browser)
-          Environ.set_platform(:mobile)
-          Environ.set_device_type(Browsers.mobile_device_name(browser))
+          Environ.platform    = :mobile
+          Environ.device_type = Browsers.mobile_device_name(browser)
           ENV['HOST_BROWSER'] ? host_browser = ENV['HOST_BROWSER'].downcase.to_sym : host_browser = :firefox
           case host_browser
           when :firefox
@@ -140,14 +149,14 @@ module TestCentricity
     def self.initialize_browserstack
       browser = ENV['BS_BROWSER']
 
-      endpoint = "http://#{ENV['BS_USERNAME']}:#{ENV['BS_AUTHKEY']}@hub.browserstack.com/wd/hub"
+      endpoint = "http://#{ENV['BS_USERNAME']}:#{ENV['BS_AUTHKEY']}@hub-cloud.browserstack.com/wd/hub"
       Capybara.register_driver :browserstack do |app|
         capabilities = Selenium::WebDriver::Remote::Capabilities.new
 
         if ENV['BS_OS']
           capabilities['os'] = ENV['BS_OS']
           capabilities['os_version'] = ENV['BS_OS_VERSION']
-          Environ.set_os("#{ENV['BS_OS']} #{ENV['BS_OS_VERSION']}")
+          Environ.os = "#{ENV['BS_OS']} #{ENV['BS_OS_VERSION']}"
           capabilities['browser'] = browser || 'chrome'
           capabilities['browser_version'] = ENV['BS_VERSION'] if ENV['BS_VERSION']
           capabilities['resolution'] = ENV['RESOLUTION'] if ENV['RESOLUTION']
@@ -155,9 +164,9 @@ module TestCentricity
           capabilities[:platform] = ENV['BS_PLATFORM']
           capabilities[:browserName] = browser
           capabilities['device'] = ENV['BS_DEVICE'] if ENV['BS_DEVICE']
-          Environ.set_platform(:mobile)
-          Environ.set_device(true)
-          Environ.set_device_type(ENV['BS_DEVICE'])
+          Environ.platform    = :mobile
+          Environ.device      = true
+          Environ.device_type = ENV['BS_DEVICE']
           capabilities['deviceOrientation'] = ENV['ORIENTATION'] if ENV['ORIENTATION']
         end
 
@@ -177,7 +186,7 @@ module TestCentricity
         when :ie
           capabilities['ie.ensureCleanSession'] = 'true'
           capabilities['ie.browserCommandLineSwitches'] = 'true'
-          capabilities['nativeEvents'] ='true'
+          capabilities['nativeEvents'] = 'true'
         when :safari
           capabilities['cleanSession'] = 'true'
         when :iphone, :ipad
@@ -187,7 +196,7 @@ module TestCentricity
         Capybara::Selenium::Driver.new(app, :browser => :remote, :url => endpoint, :desired_capabilities => capabilities)
       end
 
-      Environ.set_browser(browser)
+      Environ.browser = browser
 
       Capybara.default_driver = :browserstack
       Capybara.run_server = false
@@ -205,17 +214,17 @@ module TestCentricity
         capabilities['screen_resolution'] = ENV['RESOLUTION'] if ENV['RESOLUTION']
         if ENV['CB_OS']
           capabilities['os_api_name'] = ENV['CB_OS']
-          Environ.set_platform(:desktop)
+          Environ.platform = :desktop
         elsif ENV['CB_PLATFORM']
           capabilities['os_api_name'] = ENV['CB_PLATFORM']
-          Environ.set_device_type(ENV['CB_PLATFORM'])
-          Environ.set_device(true)
-          Environ.set_platform(:mobile)
+          Environ.device_type = ENV['CB_PLATFORM']
+          Environ.device      = true
+          Environ.platform    = :mobile
         end
         Capybara::Selenium::Driver.new(app, :browser => :remote, :url => endpoint, :desired_capabilities => capabilities)
       end
 
-      Environ.set_browser(browser)
+      Environ.browser = browser
 
       Capybara.default_driver = :crossbrowser
       Capybara.run_server = false
@@ -269,20 +278,20 @@ module TestCentricity
         capabilities['recordVideo'] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
         if ENV['SL_OS']
           capabilities['platform'] = ENV['SL_OS']
-          Environ.set_platform(:desktop)
+          Environ.platform = :desktop
         elsif ENV['SL_PLATFORM']
           capabilities['platform'] = ENV['SL_PLATFORM']
           capabilities['deviceName'] = ENV['SL_DEVICE']
           capabilities['deviceType'] = ENV['SL_DEVICE_TYPE'] if ENV['SL_DEVICE_TYPE']
           capabilities['deviceOrientation'] = ENV['ORIENTATION'] if ENV['ORIENTATION']
-          Environ.set_device_type(ENV['SL_DEVICE'])
-          Environ.set_platform(:mobile)
+          Environ.device_type = ENV['SL_DEVICE']
+          Environ.platform    = :mobile
         end
 
         Capybara::Selenium::Driver.new(app, :browser => :remote, :url => endpoint, :desired_capabilities => capabilities)
       end
 
-      Environ.set_browser(browser)
+      Environ.browser = browser
 
       Capybara.default_driver = :saucelabs
       Capybara.run_server = false
@@ -308,17 +317,17 @@ module TestCentricity
           capabilities['orientation'] = ENV['ORIENTATION'] if ENV['ORIENTATION']
           capabilities['platformName'] = ENV['TB_PLATFORM']
           capabilities['deviceName'] = ENV['TB_DEVICE']
-          Environ.set_device_type(ENV['TB_DEVICE'])
-          Environ.set_device(true)
-          Environ.set_platform(:mobile)
+          Environ.device_type = ENV['TB_DEVICE']
+          Environ.device      = true
+          Environ.platform    = :mobile
         else
-          Environ.set_platform(:desktop)
+          Environ.platform    = :desktop
         end
 
         Capybara::Selenium::Driver.new(app, :browser => :remote, :url => endpoint, :desired_capabilities => capabilities)
       end
 
-      Environ.set_browser(browser)
+      Environ.browser = browser
 
       Capybara.default_driver = :testingbot
       Capybara.run_server = false

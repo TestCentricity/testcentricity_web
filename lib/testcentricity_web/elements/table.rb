@@ -22,13 +22,12 @@ module TestCentricity
                      :header_row    => 'tr',
                      :header_column => 'th',
                      :tree_expand   => "div/div[contains(@class, 'tree-plus treeclick')]",
-                     :tree_collapse => "div/div[contains(@class, 'tree-minus treeclick')]"
-      }
+                     :tree_collapse => "div/div[contains(@class, 'tree-minus treeclick')]" }
       define_table_elements(table_spec)
     end
 
     def define_table_elements(element_spec)
-      element_spec.each do | element, value |
+      element_spec.each do |element, value|
         case element
         when :table_body
           @table_body = value
@@ -356,7 +355,7 @@ module TestCentricity
     #
     def populate_table_row(row, data)
       wait_until_exists(2)
-      data.each do | column, data_param |
+      data.each do |column, data_param|
         unless data_param.blank?
           if data_param == '!DELETE'
             set_table_cell(row, column, '')

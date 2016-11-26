@@ -7,7 +7,7 @@ module TestCentricity
     end
 
     def get_siebel_object_type
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, 'Siebel object')
       obj.native.attribute('ot')
     end

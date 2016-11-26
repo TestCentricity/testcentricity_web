@@ -18,7 +18,8 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 
 
 **Note:** Test execution against local instances of Firefox version 48 or greater is currently not supported by the TestCentricity™ Web gem. Testing with
-Firefox 48 or greater requires Marionette (aka geckodriver) and selenium-webdriver version 3.x, both of which are currently in Beta and not feature complete.
+locally hosted instances of Firefox 48 or greater requires Marionette (aka geckodriver) and selenium-webdriver version 3.x, both of which are currently
+feature incomplete and potentially unstable. More information can be found [here](https://github.com/teamcapybara/capybara/issues/1710).
 
 
 ## Installation
@@ -233,11 +234,11 @@ the UI to hide implementation details, as shown below:
       # verify Login page default UI state
       def verify_page_ui
         ui = {
-            login_button         => { :visible => true, :value => 'LOGIN' },
+            login_button         => { :visible => true, :caption => 'LOGIN' },
             user_id_field        => { :visible => true, :enabled => true },
             password_field       => { :visible => true, :enabled => true, :value => '', :placeholder => 'Password' },
             remember_checkbox    => { :exists  => true, :enabled => true, :checked => false },
-            forgot_password_link => { :visible => true, :value => 'Forgot your password?' },
+            forgot_password_link => { :visible => true, :caption => 'Forgot your password?' },
             error_message_label  => { :visible => false }
             }
         verify_ui_states(ui)
@@ -838,6 +839,11 @@ service(s) that you intend to connect with.
     bs_mobile:          --profile browserstack <%= mobile %>
     
     # BrowserStack OS X desktop browser profiles
+    bs_macos_sierra:    --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="Sierra"
+    bs_ff_sierra:       --profile bs_macos_sierra BS_BROWSER="Firefox"
+    bs_chrome_sierra:   --profile bs_macos_sierra BS_BROWSER="Chrome"
+    bs_safari_sierra:   --profile bs_macos_sierra BS_BROWSER="Safari"
+
     bs_osx_el_capitan:  --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="El Capitan"
     bs_ff_el_cap:       --profile bs_osx_el_capitan BS_BROWSER="Firefox"
     bs_chrome_el_cap:   --profile bs_osx_el_capitan BS_BROWSER="Chrome"

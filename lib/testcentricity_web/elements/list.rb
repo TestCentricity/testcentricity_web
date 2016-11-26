@@ -9,23 +9,23 @@ module TestCentricity
     end
 
     def define_list_elements(element_spec)
-      element_spec.each do | element, value |
+      element_spec.each do |element, value|
         case element
-          when :list_item
-            @list_item = value
+        when :list_item
+          @list_item = value
         end
       end
     end
 
     def get_list_items(element_spec = nil)
       define_list_elements(element_spec) unless element_spec.nil?
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       obj.all(@list_item).collect(&:text)
     end
 
     def get_item_count
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       obj.all(@list_item).count
     end

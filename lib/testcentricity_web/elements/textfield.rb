@@ -2,7 +2,7 @@ module TestCentricity
   class TextField < UIElement
     def initialize(name, parent, locator, context)
       super
-      @type  = :textfield
+      @type = :textfield
     end
 
     # Is text field set to read-only?
@@ -12,7 +12,7 @@ module TestCentricity
     #   comments_field.read_only?
     #
     def read_only?
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       !!obj.native.attribute('readonly')
     end
@@ -24,7 +24,7 @@ module TestCentricity
     #   max_num_chars = comments_field.get_max_length
     #
     def get_max_length
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       max_length = obj.native.attribute('maxlength')
       max_length.to_i unless max_length.blank?
@@ -37,7 +37,7 @@ module TestCentricity
     #   placeholder_message = username_field.get_placeholder
     #
     def get_placeholder
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       obj.native.attribute('placeholder')
     end

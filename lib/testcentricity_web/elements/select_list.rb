@@ -14,12 +14,12 @@ module TestCentricity
     end
 
     def define_list_elements(element_spec)
-      element_spec.each do | element, value |
+      element_spec.each do |element, value|
         case element
-          when :list_item
-            @list_item = value
-          when :selected_item
-            @selected_item = value
+        when :list_item
+          @list_item = value
+        when :selected_item
+          @selected_item = value
         end
       end
     end
@@ -38,7 +38,7 @@ module TestCentricity
     #   state_select.choose_option(:text => 'Maryland')
     #
     def choose_option(option)
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       obj.click
       if first(:css, 'li.active-result')
@@ -68,7 +68,7 @@ module TestCentricity
     #   all_colors = color_select.get_options
     #
     def get_options
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       if first(:css, 'li.active-result')
         obj.all('li.active-result').collect(&:text)
@@ -77,7 +77,7 @@ module TestCentricity
       end
     end
 
-    alias :get_list_items :get_options
+    alias get_list_items get_options
 
     # Return the number of options in a select box object.
     # Supports standard HTML select objects and Chosen select objects.
@@ -87,7 +87,7 @@ module TestCentricity
     #   num_colors = color_select.get_option_count
     #
     def get_option_count
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       if first(:css, 'li.active-result')
         obj.all('li.active-result').count
@@ -96,7 +96,7 @@ module TestCentricity
       end
     end
 
-    alias :get_item_count :get_option_count
+    alias get_item_count get_option_count
 
     def verify_options(expected, enqueue = false)
       actual = get_options
@@ -113,7 +113,7 @@ module TestCentricity
     #   current_color = color_select.get_selected_option
     #
     def get_selected_option
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
       if first(:css, 'li.active-result')
         obj.first("//li[contains(@class, 'result-selected')]").text
@@ -122,7 +122,7 @@ module TestCentricity
       end
     end
 
-    alias :selected? :get_selected_option
+    alias selected? get_selected_option
 
     # Select the specified option in a Siebel OUI select box object.
     #
@@ -146,7 +146,7 @@ module TestCentricity
       invoke_siebel_popup
       sleep(0.5)
       options = page.all(:xpath, "//li[@class='ui-menu-item']").collect(&:text)
-      obj, _ = find_element
+      obj, = find_element
       obj.native.send_keys(:escape)
       options
     end
@@ -158,7 +158,7 @@ module TestCentricity
       enqueue ?
           ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list of options in list #{object_ref_message}") :
           assert_equal(expected, actual, "Expected list of options in list #{object_ref_message} to be #{expected} but found #{actual}")
-      obj, _ = find_element
+      obj, = find_element
       obj.native.send_keys(:escape)
     end
 
@@ -169,9 +169,9 @@ module TestCentricity
     #   country_select.read_only?
     #
     def read_only?
-      obj, _ = find_element
+      obj, = find_element
       object_not_found_exception(obj, nil)
-      !!obj.native.attribute('readonly')
+      !obj.native.attribute('readonly')
     end
 
     private
