@@ -45,7 +45,7 @@ module TestCentricity
         if page_key != page_object
           @page_objects[page_key] = obj unless @page_objects.has_key?(page_key)
         end
-        result = "#{result}def #{page_object.to_s};@#{page_object.to_s} ||= TestCentricity::PageManager.find_page(:#{page_object.to_s});end;"
+        result = "#{result}def #{page_object};@#{page_object} ||= TestCentricity::PageManager.find_page(:#{page_object});end;"
       end
       result
     end
@@ -91,7 +91,9 @@ module TestCentricity
     # @example
     #   TestCentricity::PageManager.set_current_page(product_search_page)
     #
+    # @deprecated Please use {#current_page=} instead
     def self.set_current_page(page)
+      warn "[DEPRECATION] 'TestCentricity::PageManager.set_current_page' is deprecated.  Please use 'current_page=' instead."
       @current_page = page
     end
   end
@@ -104,7 +106,7 @@ module TestCentricity
       result = ''
       data.each do |data_type, data_class|
         @data_objects[data_type] = data_class.new unless @data_objects.has_key?(data_type)
-        result = "#{result}def #{data_type.to_s};@#{data_type.to_s} ||= TestCentricity::DataManager.find_data_object(:#{data_type.to_s});end;"
+        result = "#{result}def #{data_type};@#{data_type} ||= TestCentricity::DataManager.find_data_object(:#{data_type});end;"
       end
       result
     end

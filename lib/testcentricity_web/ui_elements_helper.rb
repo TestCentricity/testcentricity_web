@@ -164,7 +164,7 @@ module TestCentricity
         invisible = !obj.visible? if exists
       end
       # the object is visible if it exists and it is not invisible
-      (exists && !invisible) ? true : false
+      exists && !invisible ? true : false
     end
 
     # Is UI object hidden (not visible)?

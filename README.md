@@ -400,6 +400,10 @@ One common implementation is shown below:
       def registration_page
         @registration_page ||= RegistrationPage.new
       end
+    
+      def search_results_page
+        @search_results_page ||= SearchResultsPage.new
+      end
     end
         
     World(WorldPages)
@@ -474,7 +478,7 @@ Include the step definitions and code below in a `page_steps.rb` or `generic_ste
     Given(/^I am on the ([^\"]*) page$/) do |page_name|
       target_page = page_dispatcher(page_name)
       target_page.load_page if target_page
-      PageManager.set_current_page(target_page)
+      PageManager.current_page = target_page
     end
     
     When(/^I click the ([^\"]*) navigation link$/) do |link_name|
@@ -485,14 +489,14 @@ Include the step definitions and code below in a `page_steps.rb` or `generic_ste
     Then(/^I expect to see the ([^\"]*) page$/) do |page_name|
       target_page = page_dispatcher(page_name)
       target_page.verify_page_exists if target_page
-      PageManager.set_current_page(target_page)
+      PageManager.current_page = target_page
     end
     
     Then(/^I expect the ([^\"]*) page to be correctly displayed$/) do |page_name|
       target_page = page_dispatcher(page_name)
       target_page.verify_page_exists
       target_page.verify_page_ui
-      PageManager.set_current_page(target_page)
+      PageManager.current_page = target_page
     end
     
     
@@ -567,6 +571,8 @@ mobile web browsers, the `WEB_BROWSER` Environment Variable must be set to one o
 `iphone7_plus`        |`firefox` or `chrome` |414 x 736  |portrait  |iOS 10
 `android_phone`       |`firefox` or `chrome` |320 x 480  |portrait  |Android 4.0.1
 `nexus6`              |`firefox` or `chrome` |411 x 731  |portrait  |Android 6.0.1
+`pixel`               |`firefox` or `chrome` |411 x 731  |portrait  |Android 7.1
+`pixel_xl`            |`firefox` or `chrome` |411 x 731  |portrait  |Android 7.1
 `windows_phone7`      |`firefox` or `chrome` |320 x 480  |portrait  |Windows Phone OS 7.5
 `windows_phone8`      |`firefox` or `chrome` |320 x 480  |portrait  |Windows Phone OS 8.0
 `blackberry_z10`      |`firefox` or `chrome` |384 x 640  |portrait  |BlackBerry 10 OS
@@ -797,6 +803,8 @@ service(s) that you intend to connect with.
     google_nexus7:       WEB_BROWSER=google_nexus7       HOST_BROWSER=firefox <%= mobile %>
     google_nexus9:       WEB_BROWSER=google_nexus9       HOST_BROWSER=firefox <%= mobile %>
     google_nexus10:      WEB_BROWSER=google_nexus10      HOST_BROWSER=firefox <%= mobile %>
+    pixel:               WEB_BROWSER=pixel               HOST_BROWSER=firefox <%= mobile %>
+    pixel_xl:            WEB_BROWSER=pixel_xl            HOST_BROWSER=firefox <%= mobile %>
     windows_phone7:      WEB_BROWSER=windows_phone7      HOST_BROWSER=firefox <%= mobile %>
     windows_phone8:      WEB_BROWSER=windows_phone8      HOST_BROWSER=firefox <%= mobile %>
     blackberry_z10:      WEB_BROWSER=blackberry_z10      HOST_BROWSER=firefox <%= mobile %>

@@ -52,6 +52,18 @@ nexus6:
   :css_height: 731
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 6P Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.83 Mobile Safari/537.36"
+:pixel:
+  :name: "Google Pixel phone"
+  :css_width: 411
+  :css_height: 731
+  :default_orientation: portrait
+  :user_agent: "Mozilla/5.0 (Linux; Android 7.1; Pixel Build/NAE63H; xx-xx) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.134 Mobile Safari/537.36"
+:pixel_xl:
+  :name: "Google Pixel XL phone"
+  :css_width: 411
+  :css_height: 731
+  :default_orientation: portrait
+  :user_agent: "Mozilla/5.0 (Linux; Android 7.1; Pixel XL Build/NDE63N; xx-xx) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/54.0.2840.34 Mobile Safari/537.36"
 :windows_phone8:
   :name: "Generic Windows 8 phone"
   :css_width: 320

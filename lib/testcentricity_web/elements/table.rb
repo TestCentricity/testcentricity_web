@@ -78,11 +78,11 @@ module TestCentricity
         page.all(:xpath, "#{@locator}/#{@table_header}/#{@header_row}/#{@header_column}", :visible => :all).count
       else
         if @table_section.nil?
-          (row_count == 1) ?
+          row_count == 1 ?
               page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}/#{@table_column}", :visible => :all).count :
               page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}[2]/#{@table_column}", :visible => :all).count
         else
-          (row_count == 1) ?
+          row_count == 1 ?
               page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}/#{@table_row}/#{@table_column}", :visible => :all).count :
               page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}[2]/#{@table_row}/#{@table_column}", :visible => :all).count
         end
@@ -194,7 +194,7 @@ module TestCentricity
     def get_row_data(row)
       row_count = get_row_count
       raise "Row #{row} exceeds number of rows (#{row_count}) in table #{object_ref_message}" if row > row_count
-      (row > 1) ?
+      row > 1 ?
           set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}[#{row}]") :
           set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}")
       value = get_value if exists?
@@ -291,7 +291,7 @@ module TestCentricity
     def get_row_attribute(row, attrib)
       row_count = get_row_count
       raise "Row #{row} exceeds number of rows (#{row_count}) in table #{object_ref_message}" if row > row_count
-      (row > 1) ?
+      row > 1 ?
           set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}[#{row}]") :
           set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}")
       result = get_native_attribute(attrib)

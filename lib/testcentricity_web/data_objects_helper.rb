@@ -4,8 +4,8 @@ require 'json'
 
 module TestCentricity
 
-  XL_PRIMARY_DATA_PATH  ||= 'features/test_data/'
-  XL_PRIMARY_DATA_FILE  ||= "#{XL_PRIMARY_DATA_PATH}data.xls"
+  XL_PRIMARY_DATA_PATH ||= 'features/test_data/'
+  XL_PRIMARY_DATA_FILE ||= "#{XL_PRIMARY_DATA_PATH}data.xls"
 
 
   class DataObject
@@ -17,12 +17,18 @@ module TestCentricity
       @hash_table = data
     end
 
+    # @deprecated Please use {#current=} instead
     def self.set_current(current)
+      warn "[DEPRECATION] 'TestCentricity::DataObject.set_current' is deprecated.  Please use 'current=' instead."
       @current = current
     end
 
     def self.current
       @current
+    end
+
+    def self.current=(current)
+      @current = current
     end
   end
 
@@ -56,12 +62,12 @@ module TestCentricity
     end
 
     def read_excel_row_data(sheet, row_name, parallel = false)
-      (parallel == :parallel && ENV['PARALLEL']) ? row_spec = "#{row_name}#{ENV['TEST_ENV_NUMBER']}" : row_spec = row_name
+      parallel == :parallel && ENV['PARALLEL'] ? row_spec = "#{row_name}#{ENV['TEST_ENV_NUMBER']}" : row_spec = row_name
       ExcelData.read_row_data(pick_excel_data_source(sheet, row_spec), sheet, row_spec)
     end
 
     def read_excel_pool_data(sheet, row_name, parallel = false)
-      (parallel == :parallel && ENV['PARALLEL']) ? row_spec = "#{row_name}#{ENV['TEST_ENV_NUMBER']}" : row_spec = row_name
+      parallel == :parallel && ENV['PARALLEL'] ? row_spec = "#{row_name}#{ENV['TEST_ENV_NUMBER']}" : row_spec = row_name
       ExcelData.read_row_from_pool(pick_excel_data_source(sheet, row_name), sheet, row_spec)
     end
 

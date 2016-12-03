@@ -115,7 +115,7 @@ module TestCentricity
         height = device[:css_height]
         default_orientation = device[:default_orientation].to_sym
         if orientation
-          (orientation.downcase.to_sym == default_orientation) ?
+          orientation.downcase.to_sym == default_orientation ?
               size = [width, height] :
               size = [height, width]
         else

@@ -37,7 +37,7 @@ module TestCentricity
     #   element :basket_header,     'div.basket_header'
     #
     def self.element(element_name, locator)
-      class_eval(%(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::UIElement.new("#{element_name}", self, "#{locator}", :section);end))
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::UIElement.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     # Declare and instantiate a collection of generic UI Elements for this page section.
@@ -63,7 +63,7 @@ module TestCentricity
     #   button :login_button,    "//input[@id='submit_button']"
     #
     def self.button(element_name, locator)
-      class_eval(%(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Button.new("#{element_name}", self, "#{locator}", :section);end))
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::Button.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     # Declare and instantiate a collection of buttons for this page section.
@@ -89,7 +89,7 @@ module TestCentricity
     #   textfield :password_field, 'input#consumer_password'
     #
     def self.textfield(element_name, locator)
-      class_eval(%(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::TextField.new("#{element_name}", self, "#{locator}", :section);end))
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::TextField.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     # Declare and instantiate a collection of text fields for this page section.
@@ -118,7 +118,7 @@ module TestCentricity
     #   checkbox :accept_terms_checkbox, 'input#accept_terms_conditions', :accept_terms_label
     #
     def self.checkbox(element_name, locator, proxy = nil)
-      class_eval(%(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::CheckBox.new("#{element_name}", self, "#{locator}", :section, #{proxy});end))
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::CheckBox.new("#{element_name}", self, "#{locator}", :section, #{proxy});end))
     end
 
     # Declare and instantiate a collection of checkboxes for this page section.
@@ -146,7 +146,7 @@ module TestCentricity
     #   radio :decline_terms_radio, 'input#decline_terms_conditions', :decline_terms_label
     #
     def self.radio(element_name, locator, proxy = nil)
-      class_eval(%(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Radio.new("#{element_name}", self, "#{locator}", :section, #{proxy});end))
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::Radio.new("#{element_name}", self, "#{locator}", :section, #{proxy});end))
     end
 
     # Declare and instantiate a collection of radio buttons for this page section.
@@ -173,7 +173,7 @@ module TestCentricity
     #   label :rollup_price_label, "//div[contains(@id, 'Rollup Item Price')]"
     #
     def self.label(element_name, locator)
-      class_eval(%(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Label.new("#{element_name}", self, "#{locator}", :section);end))
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::Label.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     def self.labels(element_hash)
@@ -191,7 +191,7 @@ module TestCentricity
     #   link :shopping_basket_link, "//a[@href='shopping_basket']"
     #
     def self.link(element_name, locator)
-      class_eval(%(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Link.new("#{element_name}", self, "#{locator}", :section);end))
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::Link.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     def self.links(element_hash)
@@ -208,7 +208,7 @@ module TestCentricity
     #   table :payments_table, "//table[@class='payments_table']"
     #
     def self.table(element_name, locator)
-      class_eval(%(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Table.new("#{element_name}", self, "#{locator}", :section);end))
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::Table.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     def self.tables(element_hash)
@@ -226,7 +226,7 @@ module TestCentricity
     #   selectlist :gender_select,     "//select[@id='customer_gender']"
     #
     def self.selectlist(element_name, locator)
-      class_eval(%(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::SelectList.new("#{element_name}", self, "#{locator}", :section);end))
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::SelectList.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     def self.selectlists(element_hash)
@@ -243,7 +243,7 @@ module TestCentricity
     #   list :y_axis_list, 'g.y_axis'
     #
     def self.list(element_name, locator)
-      class_eval(%(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::List.new("#{element_name}", self, "#{locator}", :section);end))
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::List.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     def self.lists(element_hash)
@@ -261,7 +261,7 @@ module TestCentricity
     #   image :corporate_logo_image, "//img[@alt='MyCompany_logo']"
     #
     def self.image(element_name, locator)
-      class_eval(%(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::Image.new("#{element_name}", self, "#{locator}", :section);end))
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::Image.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     def self.images(element_hash)
@@ -278,7 +278,7 @@ module TestCentricity
     #   filefield :attach_file, 's_SweFileName'
     #
     def self.filefield(element_name, locator)
-      class_eval(%(def #{element_name.to_s};@#{element_name.to_s} ||= TestCentricity::FileField.new("#{element_name}", self, "#{locator}", :section);end))
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::FileField.new("#{element_name}", self, "#{locator}", :section);end))
     end
 
     # Instantiate a single PageSection object within this PageSection object.
@@ -289,7 +289,7 @@ module TestCentricity
     #   section :search_form, SearchForm
     #
     def self.section(section_name, class_name, locator = nil)
-      class_eval(%(def #{section_name.to_s};@#{section_name.to_s} ||= #{class_name.to_s}.new("#{section_name}", self, "#{locator}", :section);end))
+      class_eval(%(def #{section_name};@#{section_name} ||= #{class_name}.new("#{section_name}", self, "#{locator}", :section);end))
     end
 
     def self.sections(section_hash)
@@ -299,7 +299,7 @@ module TestCentricity
     end
 
     def get_locator
-      (@locator.empty? && defined?(section_locator)) ? locator = section_locator : locator = @locator
+      @locator.empty? && defined?(section_locator) ? locator = section_locator : locator = @locator
       (@context == :section && !@parent.nil? && !@parent.get_locator.nil?) ? "#{@parent.get_locator}|#{locator}" : locator
     end
 
@@ -356,7 +356,7 @@ module TestCentricity
       visible = false
       visible = section.visible? if exists
       # the section is visible if it exists and it is not invisible
-      (exists && visible) ? true : false
+      exists && visible ? true : false
     end
 
     # Is Section object hidden (not visible)?
@@ -495,7 +495,7 @@ module TestCentricity
           end
 
           if state.is_a?(Hash) && state.length == 1
-            error_msg = "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) #{property.to_s} property to"
+            error_msg = "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) #{property} property to"
             state.each do |key, value|
               case key
               when :lt, :less_than
@@ -527,7 +527,7 @@ module TestCentricity
               end
             end
           else
-            ExceptionQueue.enqueue_assert_equal(state, actual, "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) #{property.to_s} property")
+            ExceptionQueue.enqueue_assert_equal(state, actual, "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) #{property} property")
           end
         end
       end
@@ -563,7 +563,7 @@ module TestCentricity
             when :checkbox
               data_field.set_checkbox_state(data_param.to_bool)
             when :selectlist
-              (data_field.get_siebel_object_type == 'JComboBox') ?
+              data_field.get_siebel_object_type == 'JComboBox' ?
                   data_field.set("#{data_param}\t") :
                   data_field.choose_option(data_param)
             when :radio
