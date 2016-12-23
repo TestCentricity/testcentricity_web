@@ -371,6 +371,8 @@ module TestCentricity
       ui_states.each do |ui_object, object_states|
         object_states.each do |property, state|
           case property
+          when :class
+            actual = ui_object.get_attribute(:class)
           when :exists
             actual = ui_object.exists?
           when :enabled
@@ -441,6 +443,10 @@ module TestCentricity
                 ExceptionQueue.enqueue_exception("#{error_msg} end with '#{value}' but found #{actual}") unless actual.end_with?(value)
               when :contains
                 ExceptionQueue.enqueue_exception("#{error_msg} contain '#{value}' but found #{actual}") unless actual.include?(value)
+              when :not_contains, :does_not_contain
+                ExceptionQueue.enqueue_exception("#{error_msg} not contain '#{value}' but found #{actual}") if actual.include?(value)
+              when :not_equal
+                ExceptionQueue.enqueue_exception("#{error_msg} not equal '#{value}' but found #{actual}") if actual == value
               when :like, :is_like
                 actual_like = actual.delete("\n")
                 actual_like = actual_like.delete("\r")
