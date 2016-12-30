@@ -41,11 +41,15 @@ module TestCentricity
       pages.each do |page_object, page_class|
         obj = page_class.new
         @page_objects[page_object] = obj unless @page_objects.has_key?(page_object)
-        page_key = obj.page_name.gsub(/\s+/, '').downcase.to_sym
-        if page_key != page_object
-          @page_objects[page_key] = obj unless @page_objects.has_key?(page_key)
+        page_names = obj.page_name
+        page_names = Array(page_names) if page_names.is_a? String
+        page_names.each do |name|
+          page_key = name.gsub(/\s+/, '').downcase.to_sym
+          if page_key != page_object
+            @page_objects[page_key] = obj unless @page_objects.has_key?(page_key)
+          end
+          result = "#{result}def #{page_object};@#{page_object} ||= TestCentricity::PageManager.find_page(:#{page_object});end;"
         end
-        result = "#{result}def #{page_object};@#{page_object} ||= TestCentricity::PageManager.find_page(:#{page_object});end;"
       end
       result
     end

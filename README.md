@@ -120,6 +120,10 @@ The `page_name` trait is registered with the **PageManager** object, which inclu
 parameter and returns an instance of the associated **Page Object**. If you intend to use the **PageManager**, you must define a `page_name`
 trait for each of the **Page Objects** to be registered.
 
+The `page_name` trait is usually a `String` value that represents the name of the page that will be matched by the `PageManager.findpage` method.
+`page_name` traits are case and white-space sensitive. For pages that may be referenced with multiple names, the `page_name` trait may also be
+an `Array` of `String` values representing those page names.
+
 A `page_url` trait should be defined if a page can be directly loaded using a URL. If you set Capybara's `app_host`, or specify a base URL
 when calling the `WebDriverConnect.initialize_web_driver` method, then your `page_url` trait can be the relative URL slug that will
 be appended to the base URL specified in `app_host`. Specifying a `page_url` trait is optional, as not all web pages can be directly loaded
@@ -139,7 +143,7 @@ You define your page's **Traits** as shown below:
 
 
     class HomePage < TestCentricity::PageObject
-      trait(:page_name)       { 'Home' }
+      trait(:page_name)       { ['Home', 'Dashboard'] }
       trait(:page_url)        { '/dashboard' }
       trait(:page_locator)    { 'body.dashboard' }
     end
