@@ -24,6 +24,11 @@ module TestCentricity
       obj.all(@list_item).collect(&:text)
     end
 
+    def get_list_item(index)
+      items = get_list_items
+      items[index - 1]
+    end
+
     def get_item_count
       obj, = find_element
       object_not_found_exception(obj, nil)

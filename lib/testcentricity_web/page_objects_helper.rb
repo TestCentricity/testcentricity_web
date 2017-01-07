@@ -412,16 +412,21 @@ module TestCentricity
           when :siebel_options
             actual = ui_object.get_siebel_options
           else
-            if property.to_s.start_with?('cell_')
+            props = property.to_s.split('_')
+            case props[0].to_sym
+            when :cell
               cell = property.to_s.delete('cell_')
               cell = cell.split('_')
               actual = ui_object.get_table_cell(cell[0].to_i, cell[1].to_i)
-            elsif property.to_s.start_with?('row_')
+            when :row
               row = property.to_s.delete('row_')
               actual = ui_object.get_table_row(row.to_i)
-            elsif property.to_s.start_with?('column_')
+            when :column
               column = property.to_s.delete('column_')
               actual = ui_object.get_table_column(column.to_i)
+            when :item
+              item = property.to_s.delete('item_')
+              actual = ui_object.get_list_item(item.to_i)
             end
           end
 

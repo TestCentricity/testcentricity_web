@@ -174,9 +174,16 @@ module TestCentricity
         capabilities['browserstack.debug'] = 'true'
         capabilities['project'] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
         capabilities['build'] = ENV['AUTOMATE_BUILD'] if ENV['AUTOMATE_BUILD']
+
         ENV['TEST_CONTEXT'] ?
-            capabilities['name'] = "#{ENV['TEST_ENVIRONMENT']} - #{ENV['TEST_CONTEXT']}" :
-            capabilities['name'] = ENV['TEST_ENVIRONMENT']
+            context_message = "#{ENV['TEST_ENVIRONMENT']} - #{ENV['TEST_CONTEXT']}" :
+            context_message = ENV['TEST_ENVIRONMENT']
+        if ENV['PARALLEL']
+          thread_num = ENV['TEST_ENV_NUMBER']
+          thread_num = 1 if thread_num.blank?
+          context_message = "#{context_message} - Thread ##{thread_num}"
+        end
+        capabilities['name'] = context_message
 
         capabilities['acceptSslCerts'] = 'true'
         capabilities['browserstack.localIdentifier'] = ENV['BS_LOCAL_ID'] if ENV['BS_LOCAL_ID']
@@ -255,7 +262,7 @@ module TestCentricity
 
     def self.initialize_remote
       browser = ENV['WEB_BROWSER']
-      endpoint = 'http://127.0.0.1:4444/wd/hub'
+      endpoint = ENV['REMOTE_ENDPOINT'] || 'http://127.0.0.1:4444/wd/hub'
       capabilities = Selenium::WebDriver::Remote::Capabilities.send(browser.downcase.to_sym)
       Capybara.register_driver :remote_browser do |app|
         Capybara::Selenium::Driver.new(app, :browser => :remote, :url => endpoint, :desired_capabilities => capabilities)
