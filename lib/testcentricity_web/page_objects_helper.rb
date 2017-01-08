@@ -272,6 +272,46 @@ module TestCentricity
       class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::FileField.new("#{element_name}", self, "#{locator}", :page);end))
     end
 
+    # Declare and instantiate a cell button in a table column on this page object.
+    #
+    # @param element_name [Symbol] name of cell button object (as a symbol)
+    # @param locator [String] XPath expression that uniquely identifies cell button within row and column of parent table object
+    # @param table [Symbol] Name (as a symbol) of parent table object
+    # @param column [Integer] 1-based index of table column that contains the cell button object
+    # @example
+    #   cell_button  :show_button, "a[@class='show']", :data_table, 5
+    #   cell_button  :edit_button, "a[@class='edit']", :data_table, 5
+    #
+    def self.cell_button(element_name, locator, table, column)
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::CellButton.new("#{element_name}", self, "#{locator}", :page, #{table}, #{column});end))
+    end
+
+    # Declare and instantiate a cell checkbox in a table column on this page object.
+    #
+    # @param element_name [Symbol] name of cell checkbox object (as a symbol)
+    # @param locator [String] XPath expression that uniquely identifies cell checkbox within row and column of parent table object
+    # @param table [Symbol] Name (as a symbol) of parent table object
+    # @param column [Integer] 1-based index of table column that contains the cell checkbox object
+    # @example
+    #   cell_checkbox  :is_registered_check, "a[@class='registered']", :data_table, 4
+    #
+    def self.cell_checkbox(element_name, locator, table, column)
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::CellCheckBox.new("#{element_name}", self, "#{locator}", :page, #{table}, #{column});end))
+    end
+
+    # Declare and instantiate a cell radio in a table column on this page object.
+    #
+    # @param element_name [Symbol] name of cell radio object (as a symbol)
+    # @param locator [String] XPath expression that uniquely identifies cell radio within row and column of parent table object
+    # @param table [Symbol] Name (as a symbol) of parent table object
+    # @param column [Integer] 1-based index of table column that contains the cell radio object
+    # @example
+    #   cell_radio  :track_a_radio, "a[@class='track_a']", :data_table, 8
+    #
+    def self.cell_radio(element_name, locator, table, column)
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::CellRadio.new("#{element_name}", self, "#{locator}", :page, #{table}, #{column});end))
+    end
+
     # Instantiate a single PageSection object for this page object.
     #
     # @param section_name [Symbol] name of PageSection object (as a symbol)

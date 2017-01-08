@@ -28,7 +28,10 @@ require 'testcentricity_web/elements/select_list'
 require 'testcentricity_web/elements/list'
 require 'testcentricity_web/elements/table'
 require 'testcentricity_web/elements/textfield'
-
+require 'testcentricity_web/elements/cell_element'
+require 'testcentricity_web/elements/cell_button'
+require 'testcentricity_web/elements/cell_checkbox'
+require 'testcentricity_web/elements/cell_radio'
 
 module TestCentricity
   class PageManager

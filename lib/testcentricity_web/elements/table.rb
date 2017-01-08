@@ -440,9 +440,7 @@ module TestCentricity
       end
     end
 
-    private
-
-    def set_table_cell_locator(row, column)
+    def get_table_cell_locator(row, column)
       if @table_section.nil?
         row_spec = "#{@locator}/#{@table_body}/#{@table_row}"
         row_spec = "#{row_spec}[#{row}]"
@@ -451,7 +449,13 @@ module TestCentricity
         row_spec = "#{row_spec}[#{row}]/#{@table_row}[1]"
       end
       column_spec = "/#{@table_column}[#{column}]"
-      set_alt_locator("#{row_spec}#{column_spec}")
+      "#{row_spec}#{column_spec}"
+    end
+
+    private
+
+    def set_table_cell_locator(row, column)
+      set_alt_locator(get_table_cell_locator(row, column))
     end
 
     def find_table_cell(row, column)
