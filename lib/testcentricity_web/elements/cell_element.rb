@@ -25,7 +25,7 @@ module TestCentricity
     end
 
     def find_cell_element(row)
-      set_alt_locator("#{@locator.gsub('ROW_SPEC', row)}")
+      set_alt_locator("#{@locator.gsub('ROW_SPEC', row.to_s)}")
       find_element
     end
 
