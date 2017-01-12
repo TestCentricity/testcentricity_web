@@ -1140,7 +1140,7 @@ landscape orientation running on the BrowserStack service:
 
 ## Copyright and License
 
-TestCentricity™ Framework is Copyright (c) 2014-2016, Tony Mrozinski.
+TestCentricity™ Framework is Copyright (c) 2014-2017, Tony Mrozinski.
 All rights reserved.
 
 
