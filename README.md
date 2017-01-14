@@ -158,6 +158,7 @@ You define your page's **Traits** as shown below:
 
 ### Adding UI Elements to your Page Object
 
+Web pages are made up of UI elements like text fields, check boxes, combo boxes, radio buttons, tables, lists, buttons, etc.
 **UI Elements** are added to your **Page Object** class definition as shown below:
 
     class LoginPage < TestCentricity::PageObject
@@ -334,6 +335,7 @@ You define your page section's **Traits** as shown below:
 
 ### Adding UI Elements to your PageSection Object
 
+Page sections are typically made up of UI elements like text fields, check boxes, combo boxes, radio buttons, tables, lists, buttons, etc.
 **UI Elements** are added to your **PageSection** class definition as shown below:
 
     class SearchForm < TestCentricity::PageSection
@@ -383,6 +385,121 @@ Once your **Page Object** has been instantiated, you can call its **PageSection*
     home_page.search_form.search_for('ocarina')
     
     
+
+## UI Elements
+
+**Page Objects** and **PageSection Objects** are typically made up of **UI Element** like text fields, check boxes, combo boxes, radio buttons,
+tables, lists, buttons, etc. **UI Elements** are declared and instantiated within the class definition of the **Page Object** or **PageSection
+Object** in which they are contained. With TestCentricity Web, all UI elements are based on the **UIElement** class.
+
+
+### Declaring and instantiating UI Element
+
+Single **UIElement** declarations have the following format:
+                                     
+    elementType :element Name, locator
+
+* The `element name` is the unique name that you will use to refer to the UI element and is specified as a symbol.
+* The `locator` is the CSS or XPath attribute that uniquely and unambiguously identifies the UI element.
+
+Multiple **UIElement** declarations for a collection of elements of the same type can be performed by passing a hash table containing the
+names and locators of each individual element.
+
+Supported **UI Element** elementTypes and their declarations have the following format:
+
+*Single element declarations:*
+
+    button      :button_name, locator
+    textfield   :field_name, locator
+    checkbox    :checkbox_name, locator
+    radio       :radio_button_name, locator
+    label       :label_name, locator
+    link        :link_name, locator
+    selectlist  :select_name, locator
+    list        :list_name, locator
+    table       :table_name, locator
+    image       :image_name, locator
+    filefield   :filefield_name, locator
+ 
+*Multiple element declarations:*
+
+    buttons      button_1_name: locator,
+                 button_2_name: locator,
+                      ...
+                 button_X_name: locator
+    textfields   field_1_name: locator,
+                 field_2_name: locator,
+                      ...
+                 field_X_name: locator
+    checkboxes   check_1_name: locator,
+                 check_2_name: locator,
+                      ...
+                 check_X_name: locator
+    radios       radio_1_name: locator,
+                      ...
+                 radio_X_name: locator
+    labels       label_1_name: locator,
+                      ...
+                 label_X_name: locator
+    links        link_1_name: locator,
+                      ...
+                 link_X_name: locator
+    selectlists  selectlist_1_name: locator,
+                      ...
+                 selectlist_X_name: locator
+    lists        list_1_name: locator,
+                      ...
+                 list_X_name: locator
+    tables       table_1_name: locator,
+                      ...
+                 table_X_name: locator
+    images       image_1_name: locator,
+                      ...
+                 image_X_name: locator
+    filefields   filefield_1_name: locator,
+                      ...
+                 filefield_X_name: locator
+
+
+Refer to the Class List documentation for the **PageObject** and **PageSection** classes for details on the class methods used for declaring
+and instantiating **UI Elements**. Examples of UI element declarations can be found in the ***Adding UI Elements to your Page Object*** and
+***Adding UI Elements to your PageSection Object*** sections above.
+
+
+### UIElement inherited methods
+
+With TestCentricity, all UI elements are based on the **UIElement** class, and inherit the following methods:
+
+**Action methods:**
+
+    element.click
+    
+    element.double_click
+    element.right_click
+    element.click_at(x, y)
+    element.hover
+    element.drag_by(right_offset, down_offset)
+    element.drag_and_drop(target, right_offset, down_offset)
+
+**Object state methods:**
+
+    element.exists?
+    element.visible?
+    element.hidden?
+    element.enabled?
+    element.disabled?
+    element.get_value
+    element.get_attribute(attrib)
+    
+**Waiting methods:**
+
+    element.wait_until_exists(seconds)
+    element.wait_until_gone(seconds)
+    element.wait_until_visible(seconds)
+    element.wait_until_hidden(seconds)
+    element.wait_until_value_is(value, seconds)
+    element.wait_until_value_changes(seconds)
+
 
 ## Instantiating your Page Objects
 
@@ -437,7 +554,11 @@ to be instantiated by **PageManager**:
           :confirm_purchase_page     => PurchaseConfirmationPage,
           :my_account_page           => MyAccountPage,
           :my_order_history_page     => MyOrderHistoryPage,
-          :my_ship_to_addresses_page => MyShipToAddressesPage
+          :my_ship_to_addresses_page => MyShipToAddressesPage,
+          :terms_conditions_page     => TermsConditionsPage,
+          :privacy_policy_page       => PrivacyPolicyPage,
+          :faqs_page                 => FAQsPage,
+          :contact_us_page           => ContactUsPage
         }
       end
     end
@@ -455,9 +576,10 @@ executed:
 **NOTE:** If you intend to use the **PageManager**, you must define a `page_name` trait for each of the **Page Objects** to be registered.
 
 
-### Leveraging the PageManager from Cucumber
+### Leveraging the PageManager in your Cucumber tests
 
-
+Many Cucumber based automated tests suites include scenarios that verify that web pages are correctly loaded, displayed, or can be
+navigated to by clicking associated links. One such Cucumber navigation scenario is displayed below:
 
     Scenario Outline:  Verify Home page navigation links
       Given I am on the Home page
@@ -471,17 +593,63 @@ executed:
         |Terms & Conditions      |
         |Privacy Policy          |
         |FAQs                    |
-        |Refunds & Cancellations |
         |Contact Us              |
 
+In the above example, the step definitions associated with the 3 steps might be implemented using a page_dispatcher method using a
+`case` statement to parse the `page` parameter as in the example below:
 
-Include the step definitions and code below in a `page_steps.rb` or `generic_steps.rb` file in the `features/step_definitions` folder:
+    Given(/^I am on the ([^\"]*) page$/) do |page_name|
+      target_page = page_dispatcher(page_name)
+      target_page.load_page
+    end
+    
+    When(/^I click the ([^\"]*) navigation link$/) do |link_name|
+      target_page = page_dispatcher(link_name)
+      target_page.navigate_to
+    end
+    
+    Then(/^I expect the ([^\"]*) page to be correctly displayed$/) do |page_name|
+      target_page = page_dispatcher(page_name)
+      target_page.verify_page_exists
+      target_page.verify_page_ui
+    end
+    
+    # this method takes a page name as a parameter and returns an instance of the associated Page Object
+    def page_dispatcher(page_name)
+      case page_name
+      when 'Registration'
+        page = registration_page
+      when 'My Account'
+        page = my_account_page
+      when 'Terms & Conditions'
+        page = terms_conditions_page
+      when 'Privacy Policy'
+        page = privacy_policy_page
+      when 'Contact Us'
+        page = contact_us_page
+      when 'FAQs'
+        page = faqs_page
+      end
+      raise "No page object defined for page named '#{page_name}'" unless page
+      page
+    end
+
+
+While this approach may be effective for small web applications with only a few pages (and hence few **Page Objects**), it quickly becomes
+cumbersome to manage if your web application has dozens of **Page Objects** that need to be managed.
+
+The **PageManager** class provides a `find_page` method that replaces the cumbersome and difficult to maintain `case` statement used in the
+above example. The **PageManager** `current_page` method allows you to set or get an instance of the currently active Page Object.
+
+To use these **PageManager** methods, include the step definitions and code below in a `page_steps.rb` or `generic_steps.rb` file in the
+`features/step_definitions` folder:
 
     include TestCentricity
     
     Given(/^I am on the ([^\"]*) page$/) do |page_name|
       target_page = page_dispatcher(page_name)
       target_page.load_page if target_page
+      # let PageManager store instance of current page object
       PageManager.current_page = target_page
     end
     
@@ -493,6 +661,7 @@ Include the step definitions and code below in a `page_steps.rb` or `generic_ste
     Then(/^I expect to see the ([^\"]*) page$/) do |page_name|
       target_page = page_dispatcher(page_name)
       target_page.verify_page_exists if target_page
+      # let PageManager store instance of current page object
       PageManager.current_page = target_page
     end
     
@@ -500,9 +669,9 @@ Include the step definitions and code below in a `page_steps.rb` or `generic_ste
       target_page = page_dispatcher(page_name)
       target_page.verify_page_exists
       target_page.verify_page_ui
+      # let PageManager store instance of current page object
       PageManager.current_page = target_page
     end
-    
     
     # this method takes a page name as a parameter and returns an instance of the associated Page Object
     def page_dispatcher(page_name)
@@ -510,7 +679,6 @@ Include the step definitions and code below in a `page_steps.rb` or `generic_ste
       raise "No page object defined for page named '#{page_name}'" unless page
       page
     end
-
 
 
 ## Connecting to a Web Browser

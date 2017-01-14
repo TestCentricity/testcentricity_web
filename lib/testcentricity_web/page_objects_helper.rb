@@ -272,6 +272,12 @@ module TestCentricity
       class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::FileField.new("#{element_name}", self, "#{locator}", :page);end))
     end
 
+    def self.filefields(element_hash)
+      element_hash.each do |element_name, locator|
+        filefield(element_name, locator)
+      end
+    end
+
     # Declare and instantiate a cell button in a table column on this page object.
     #
     # @param element_name [Symbol] name of cell button object (as a symbol)
