@@ -143,6 +143,7 @@ You define your page's **Traits** as shown below:
 
 
     class HomePage < TestCentricity::PageObject
+      # this page may be referred to as 'Home' or 'Dashboard' page so page_name trait is an Array of Strings
       trait(:page_name)       { ['Home', 'Dashboard'] }
       trait(:page_url)        { '/dashboard' }
       trait(:page_locator)    { 'body.dashboard' }
@@ -393,7 +394,7 @@ tables, lists, buttons, etc. **UI Elements** are declared and instantiated withi
 Object** in which they are contained. With TestCentricity Web, all UI elements are based on the **UIElement** class.
 
 
-### Declaring and instantiating UI Element
+### Declaring and Instantiating UI Element
 
 Single **UIElement** declarations have the following format:
                                      
@@ -405,60 +406,59 @@ Single **UIElement** declarations have the following format:
 Multiple **UIElement** declarations for a collection of elements of the same type can be performed by passing a hash table containing the
 names and locators of each individual element.
 
+### Example UI Element Declarations
+
 Supported **UI Element** elementTypes and their declarations have the following format:
 
 *Single element declarations:*
 
-    button      :button_name, locator
-    textfield   :field_name, locator
-    checkbox    :checkbox_name, locator
-    radio       :radio_button_name, locator
-    label       :label_name, locator
-    link        :link_name, locator
-    selectlist  :select_name, locator
-    list        :list_name, locator
-    table       :table_name, locator
-    image       :image_name, locator
-    filefield   :filefield_name, locator
+    class SamplePage < TestCentricity::PageObject
+
+      button      :button_name, 'locator'
+      textfield   :field_name, locator
+      checkbox    :checkbox_name, locator
+      radio       :radio_button_name, locator
+      label       :label_name, locator
+      link        :link_name, locator
+      selectlist  :select_name, locator
+      list        :list_name, locator
+      table       :table_name, locator
+      image       :image_name, locator
+      filefield   :filefield_name, locator
+      
+    end
  
 *Multiple element declarations:*
 
-    buttons      button_1_name: locator,
-                 button_2_name: locator,
-                      ...
-                 button_X_name: locator
-    textfields   field_1_name: locator,
-                 field_2_name: locator,
-                      ...
-                 field_X_name: locator
-    checkboxes   check_1_name: locator,
-                 check_2_name: locator,
-                      ...
-                 check_X_name: locator
-    radios       radio_1_name: locator,
-                      ...
-                 radio_X_name: locator
-    labels       label_1_name: locator,
-                      ...
-                 label_X_name: locator
-    links        link_1_name: locator,
-                      ...
-                 link_X_name: locator
-    selectlists  selectlist_1_name: locator,
-                      ...
-                 selectlist_X_name: locator
-    lists        list_1_name: locator,
-                      ...
-                 list_X_name: locator
-    tables       table_1_name: locator,
-                      ...
-                 table_X_name: locator
-    images       image_1_name: locator,
-                      ...
-                 image_X_name: locator
-    filefields   filefield_1_name: locator,
-                      ...
-                 filefield_X_name: locator
+    class SamplePage < TestCentricity::PageObject
+  
+      buttons      button_1_name: locator,
+                   button_2_name: locator,
+                   button_X_name: locator
+      textfields   field_1_name: locator,
+                   field_2_name: locator,
+                   field_X_name: locator
+      checkboxes   check_1_name: locator,
+                   check_2_name: locator,
+                   check_X_name: locator
+      radios       radio_1_name: locator,
+                   radio_X_name: locator
+      labels       label_1_name: locator,
+                   label_X_name: locator
+      links        link_1_name: locator,
+                   link_X_name: locator
+      selectlists  selectlist_1_name: locator,
+                   selectlist_X_name: locator
+      lists        list_1_name: locator,
+                   list_X_name: locator
+      tables       table_1_name: locator,
+                   table_X_name: locator
+      images       image_1_name: locator,
+                   image_X_name: locator
+      filefields   filefield_1_name: locator,
+                   filefield_X_name: locator
+                   
+    end
 
 
 Refer to the Class List documentation for the **PageObject** and **PageSection** classes for details on the class methods used for declaring
@@ -466,14 +466,13 @@ and instantiating **UI Elements**. Examples of UI element declarations can be fo
 ***Adding UI Elements to your PageSection Object*** sections above.
 
 
-### UIElement inherited methods
+### UIElement Inherited Methods
 
 With TestCentricity, all UI elements are based on the **UIElement** class, and inherit the following methods:
 
 **Action methods:**
 
     element.click
-    
     element.double_click
     element.right_click
     element.click_at(x, y)
