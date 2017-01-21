@@ -414,7 +414,7 @@ Supported **UI Element** elementTypes and their declarations have the following 
 
     class SamplePage < TestCentricity::PageObject
 
-      button      :button_name, 'locator'
+      button      :button_name, locator
       textfield   :field_name, locator
       checkbox    :checkbox_name, locator
       radio       :radio_button_name, locator
@@ -744,6 +744,9 @@ mobile web browsers, the `WEB_BROWSER` Environment Variable must be set to one o
 `nexus6`              |`firefox` or `chrome` |411 x 731  |portrait  |Android 6.0.1
 `pixel`               |`firefox` or `chrome` |411 x 731  |portrait  |Android 7.1
 `pixel_xl`            |`firefox` or `chrome` |411 x 731  |portrait  |Android 7.1
+`samsung_galaxy_s4`   |`firefox` or `chrome` |360 x 640  |portrait  |Android 5.0.1
+`samsung_galaxy_s5`   |`firefox` or `chrome` |360 x 640  |portrait  |Android 6.0.1
+`samsung_galaxy_s6`   |`firefox` or `chrome` |360 x 640  |portrait  |Android 6.0.1
 `windows_phone7`      |`firefox` or `chrome` |320 x 480  |portrait  |Windows Phone OS 7.5
 `windows_phone8`      |`firefox` or `chrome` |320 x 480  |portrait  |Windows Phone OS 8.0
 `blackberry_z10`      |`firefox` or `chrome` |384 x 640  |portrait  |BlackBerry 10 OS
@@ -974,6 +977,9 @@ service(s) that you intend to connect with.
     google_nexus7:       WEB_BROWSER=google_nexus7       HOST_BROWSER=firefox <%= mobile %>
     google_nexus9:       WEB_BROWSER=google_nexus9       HOST_BROWSER=firefox <%= mobile %>
     google_nexus10:      WEB_BROWSER=google_nexus10      HOST_BROWSER=firefox <%= mobile %>
+    samsung_galaxy_s4:   WEB_BROWSER=samsung_galaxy_s4   HOST_BROWSER=firefox <%= mobile %>
+    samsung_galaxy_s5:   WEB_BROWSER=samsung_galaxy_s5   HOST_BROWSER=firefox <%= mobile %>
+    samsung_galaxy_s6:   WEB_BROWSER=samsung_galaxy_s6   HOST_BROWSER=firefox <%= mobile %>
     pixel:               WEB_BROWSER=pixel               HOST_BROWSER=firefox <%= mobile %>
     pixel_xl:            WEB_BROWSER=pixel_xl            HOST_BROWSER=firefox <%= mobile %>
     windows_phone7:      WEB_BROWSER=windows_phone7      HOST_BROWSER=firefox <%= mobile %>

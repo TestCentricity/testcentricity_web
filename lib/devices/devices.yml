@@ -52,6 +52,24 @@ nexus6:
   :css_height: 731
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 6P Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.83 Mobile Safari/537.36"
+:samsung_galaxy_s4:
+  :name: "Samsung Galaxy S4"
+  :css_width: 360
+  :css_height: 640
+  :default_orientation: portrait
+  :user_agent: "Mozilla/5.0 (Linux; Android 5.0.1; SAMSUNG SCH-I545 4G Build/LRX22C) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/2.1 Chrome/34.0.1847.76 Mobile Safari/537.36"
+:samsung_galaxy_s5:
+  :name: "Samsung Galaxy S5"
+  :css_width: 360
+  :css_height: 640
+  :default_orientation: portrait
+  :user_agent: "Mozilla/5.0 (Linux; Android 6.0.1; SM-G900V Build/MMB29M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.98 Mobile Safari/537.36"
+:samsung_galaxy_s6:
+  :name: "Samsung Galaxy S6 Edge"
+  :css_width: 360
+  :css_height: 640
+  :default_orientation: portrait
+  :user_agent: "Mozilla/5.0 (Linux; Android 6.0.1; SAMSUNG SM-G925F Build/MMB29K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/4.0 Chrome/44.0.2403.133 Mobile Safari/537.36"
 :pixel:
   :name: "Google Pixel phone"
   :css_width: 411
