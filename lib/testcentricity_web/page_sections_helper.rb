@@ -510,7 +510,7 @@ module TestCentricity
             actual = ui_object.checked?
           when :selected
             actual = ui_object.selected?
-          when :value, :caption
+          when :value, :caption, :translate
             actual = ui_object.get_value
           when :maxlength
             actual = ui_object.get_max_length
@@ -584,7 +584,12 @@ module TestCentricity
               end
             end
           else
-            ExceptionQueue.enqueue_assert_equal(state, actual, "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) #{property} property")
+            if property == :translate
+              expected = I18n.t(state)
+              ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) value property")
+            else
+              ExceptionQueue.enqueue_assert_equal(state, actual, "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) #{property} property")
+            end
           end
         end
       end
