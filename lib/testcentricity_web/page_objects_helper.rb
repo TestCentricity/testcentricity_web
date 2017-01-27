@@ -439,7 +439,7 @@ module TestCentricity
             actual = ui_object.checked?
           when :selected
             actual = ui_object.selected?
-          when :value, :caption, :translate
+          when :value, :caption
             actual = ui_object.get_value
           when :maxlength
             actual = ui_object.get_max_length
@@ -510,15 +510,13 @@ module TestCentricity
                 expected    = expected.delete(' ')
                 expected    = expected.downcase
                 ExceptionQueue.enqueue_exception("#{error_msg} be like '#{value}' but found #{actual}") unless actual_like.include?(expected)
+              when :translate
+                expected = I18n.t(value)
+                ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) translated #{property} property")
               end
             end
           else
-            if property == :translate
-              expected = I18n.t(state)
-              ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) value property")
-            else
-              ExceptionQueue.enqueue_assert_equal(state, actual, "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) #{property} property")
-            end
+            ExceptionQueue.enqueue_assert_equal(state, actual, "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) #{property} property")
           end
         end
       end
