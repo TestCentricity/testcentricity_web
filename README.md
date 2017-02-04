@@ -810,6 +810,7 @@ for information regarding the specific capabilities.
 `RESOLUTION`    | [Optional] Refer to supported screen `resolution` capability in chart
 `BROWSER_SIZE`  | [Optional] Specify width, height of browser window
 `RECORD_VIDEO`  | [Optional] Enable screen video recording during test execution (`true` or `false`)
+`TIME_ZONE`     | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart
 
 
 #### Remote mobile browsers on the BrowserStack service
@@ -829,6 +830,7 @@ for information regarding the specific capabilities.
 `TUNNELING`    | Must be `true` if you are testing against internal/local servers (`true` or `false`)
 `ORIENTATION`  | [Optional] Set to `portrait` or `landscape`
 `RECORD_VIDEO` | [Optional] Enable screen video recording during test execution (`true` or `false`)
+`TIME_ZONE`    | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart
 
 
 
@@ -1164,6 +1166,11 @@ service(s) that you intend to connect with.
     sl_desktop:         --profile saucelabs <%= desktop %>
     
     # SauceLabs OS X desktop browser profiles
+    sl_osx_sierra:      --profile sl_desktop SL_OS="macOS 10.12"
+    sl_ff_sierra:       --profile sl_osx_sierra SL_BROWSER="firefox"
+    sl_chrome_sierra:   --profile sl_osx_sierra SL_BROWSER="chrome"
+    sl_safari_sierra:   --profile sl_osx_sierra SL_BROWSER="safari"
+
     sl_osx_el_capitan:  --profile sl_desktop SL_OS="OS X 10.11"
     sl_ff_el_cap:       --profile sl_osx_el_capitan SL_BROWSER="firefox"
     sl_chrome_el_cap:   --profile sl_osx_el_capitan SL_BROWSER="chrome"

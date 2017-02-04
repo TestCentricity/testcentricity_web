@@ -36,6 +36,24 @@ module TestCentricity
       Capybara.page.driver.browser.navigate.refresh
     end
 
+    # Emulates clicking the web browser's Back button. Navigates back by one page on the browser’s history.
+    #
+    # @example
+    #   Browsers.navigate_back
+    #
+    def self.navigate_back
+      Capybara.page.driver.browser.navigate.back
+    end
+
+    # Emulates clicking the web browser's Forward button. Navigates forward by one page on the browser’s history.
+    #
+    # @example
+    #   Browsers.navigate_forward
+    #
+    def self.navigate_forward
+      Capybara.page.driver.browser.navigate.forward
+    end
+
     def self.switch_to_new_browser_instance
       Capybara.page.driver.browser.switch_to.window(Capybara.page.driver.browser.window_handles.last)
     end

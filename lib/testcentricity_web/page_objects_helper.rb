@@ -458,21 +458,36 @@ module TestCentricity
           when :siebel_options
             actual = ui_object.get_siebel_options
           else
-            props = property.to_s.split('_')
-            case props[0].to_sym
-            when :cell
-              cell = property.to_s.delete('cell_')
-              cell = cell.split('_')
-              actual = ui_object.get_table_cell(cell[0].to_i, cell[1].to_i)
-            when :row
-              row = property.to_s.delete('row_')
-              actual = ui_object.get_table_row(row.to_i)
-            when :column
-              column = property.to_s.delete('column_')
-              actual = ui_object.get_table_column(column.to_i)
-            when :item
-              item = property.to_s.delete('item_')
-              actual = ui_object.get_list_item(item.to_i)
+            if property.is_a?(Hash)
+              property.each do |key, value|
+                case key
+                when :cell
+                  actual = ui_object.get_table_cell(value[0].to_i, value[1].to_i)
+                when :row
+                  actual = ui_object.get_table_row(value.to_i)
+                when :column
+                  actual = ui_object.get_table_column(value.to_i)
+                when :item
+                  actual = ui_object.get_list_item(value.to_i)
+                end
+              end
+            else
+              props = property.to_s.split('_')
+              case props[0].to_sym
+              when :cell
+                cell = property.to_s.delete('cell_')
+                cell = cell.split('_')
+                actual = ui_object.get_table_cell(cell[0].to_i, cell[1].to_i)
+              when :row
+                row = property.to_s.delete('row_')
+                actual = ui_object.get_table_row(row.to_i)
+              when :column
+                column = property.to_s.delete('column_')
+                actual = ui_object.get_table_column(column.to_i)
+              when :item
+                item = property.to_s.delete('item_')
+                actual = ui_object.get_list_item(item.to_i)
+              end
             end
           end
 
@@ -481,23 +496,23 @@ module TestCentricity
             state.each do |key, value|
               case key
               when :lt, :less_than
-                ExceptionQueue.enqueue_exception("#{error_msg} be less than #{value} but found #{actual}") unless actual < value
+                ExceptionQueue.enqueue_exception("#{error_msg} be less than #{value} but found '#{actual}'") unless actual < value
               when :lt_eq, :less_than_or_equal
-                ExceptionQueue.enqueue_exception("#{error_msg} be less than or equal to #{value} but found #{actual}") unless actual <= value
+                ExceptionQueue.enqueue_exception("#{error_msg} be less than or equal to #{value} but found '#{actual}'") unless actual <= value
               when :gt, :greater_than
-                ExceptionQueue.enqueue_exception("#{error_msg} be greater than #{value} but found #{actual}") unless actual > value
+                ExceptionQueue.enqueue_exception("#{error_msg} be greater than #{value} but found '#{actual}'") unless actual > value
               when :gt_eq, :greater_than_or_equal
-                ExceptionQueue.enqueue_exception("#{error_msg} be greater than or equal to  #{value} but found #{actual}") unless actual >= value
+                ExceptionQueue.enqueue_exception("#{error_msg} be greater than or equal to  #{value} but found '#{actual}'") unless actual >= value
               when :starts_with
-                ExceptionQueue.enqueue_exception("#{error_msg} start with '#{value}' but found #{actual}") unless actual.start_with?(value)
+                ExceptionQueue.enqueue_exception("#{error_msg} start with '#{value}' but found '#{actual}'") unless actual.start_with?(value)
               when :ends_with
-                ExceptionQueue.enqueue_exception("#{error_msg} end with '#{value}' but found #{actual}") unless actual.end_with?(value)
+                ExceptionQueue.enqueue_exception("#{error_msg} end with '#{value}' but found '#{actual}'") unless actual.end_with?(value)
               when :contains
-                ExceptionQueue.enqueue_exception("#{error_msg} contain '#{value}' but found #{actual}") unless actual.include?(value)
+                ExceptionQueue.enqueue_exception("#{error_msg} contain '#{value}' but found '#{actual}'") unless actual.include?(value)
               when :not_contains, :does_not_contain
-                ExceptionQueue.enqueue_exception("#{error_msg} not contain '#{value}' but found #{actual}") if actual.include?(value)
+                ExceptionQueue.enqueue_exception("#{error_msg} not contain '#{value}' but found '#{actual}'") if actual.include?(value)
               when :not_equal
-                ExceptionQueue.enqueue_exception("#{error_msg} not equal '#{value}' but found #{actual}") if actual == value
+                ExceptionQueue.enqueue_exception("#{error_msg} not equal '#{value}' but found '#{actual}'") if actual == value
               when :like, :is_like
                 actual_like = actual.delete("\n")
                 actual_like = actual_like.delete("\r")
@@ -509,7 +524,7 @@ module TestCentricity
                 expected    = expected.delete("\t")
                 expected    = expected.delete(' ')
                 expected    = expected.downcase
-                ExceptionQueue.enqueue_exception("#{error_msg} be like '#{value}' but found #{actual}") unless actual_like.include?(expected)
+                ExceptionQueue.enqueue_exception("#{error_msg} be like '#{value}' but found '#{actual}'") unless actual_like.include?(expected)
               when :translate
                 expected = I18n.t(value)
                 ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) translated #{property} property")

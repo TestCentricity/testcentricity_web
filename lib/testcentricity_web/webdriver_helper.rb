@@ -170,6 +170,7 @@ module TestCentricity
           capabilities['deviceOrientation'] = ENV['ORIENTATION'] if ENV['ORIENTATION']
         end
 
+        capabilities['browserstack.timezone'] = ENV['TIME_ZONE'] if ENV['TIME_ZONE']
         capabilities['browserstack.video'] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
         capabilities['browserstack.debug'] = 'true'
         capabilities['project'] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']

@@ -6,14 +6,14 @@ module TestCentricity
 
     def self.enqueue_assert_equal(expected, actual, error_message)
       unless expected == actual
-        enqueue("#{error_message} to be\n  #{expected}\nbut found\n  #{actual}")
+        enqueue("#{error_message} to be\n  '#{expected}'\nbut found\n  '#{actual}'")
         enqueue_screenshot
       end
     end
 
     def self.enqueue_assert_not_equal(expected, actual, error_message)
       unless expected != actual
-        enqueue("#{error_message} to not be equal to #{expected}")
+        enqueue("#{error_message} to not be equal to '#{expected}'")
         enqueue_screenshot
       end
     end
