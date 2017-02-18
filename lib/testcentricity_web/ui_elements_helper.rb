@@ -333,13 +333,13 @@ module TestCentricity
     end
 
     def get_attribute(attrib)
-      obj, = find_element
+      obj, = find_element(false)
       object_not_found_exception(obj, nil)
       obj[attrib]
     end
 
     def get_native_attribute(attrib)
-      obj, = find_element
+      obj, = find_element(false)
       object_not_found_exception(obj, nil)
       obj.native.attribute(attrib)
     end

@@ -469,6 +469,10 @@ module TestCentricity
                   actual = ui_object.get_table_column(value.to_i)
                 when :item
                   actual = ui_object.get_list_item(value.to_i)
+                when :attribute
+                  actual = ui_object.get_attribute(value)
+                when :native_attribute
+                  actual = ui_object.get_native_attribute(value)
                 end
               end
             else

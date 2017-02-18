@@ -13,6 +13,10 @@ module TestCentricity
       @locator     = "#{@table.get_table_cell_locator('ROW_SPEC', column)}/#{locator}"
     end
 
+    def set_column(column)
+      @column = column
+    end
+
     def exists?(row)
       obj, = find_cell_element(row)
       obj != nil
