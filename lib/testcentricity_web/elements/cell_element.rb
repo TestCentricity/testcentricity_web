@@ -2,20 +2,22 @@ module TestCentricity
   class CellElement < UIElement
     attr_accessor :table
     attr_accessor :column
+    attr_accessor :element_locator
 
     def initialize(name, parent, locator, context, table, column)
-      @name        = name
-      @parent      = parent
-      @context     = context
-      @alt_locator = nil
-      @table       = table
-      @column      = column
-      @locator     = "#{@table.get_table_cell_locator('ROW_SPEC', column)}/#{locator}"
+      @name            = name
+      @parent          = parent
+      @context         = context
+      @alt_locator     = nil
+      @table           = table
+      @column          = column
+      @element_locator = locator
+      @locator         = "#{@table.get_table_cell_locator('ROW_SPEC', @column)}/#{@element_locator}"
     end
 
     def set_column(column)
       @column  = column
-      @locator = "#{@table.get_table_cell_locator('ROW_SPEC', column)}/#{locator}"
+      @locator = "#{@table.get_table_cell_locator('ROW_SPEC', @column)}/#{@element_locator}"
     end
 
     def exists?(row)
