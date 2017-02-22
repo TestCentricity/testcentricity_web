@@ -14,7 +14,8 @@ module TestCentricity
     end
 
     def set_column(column)
-      @column = column
+      @column  = column
+      @locator = "#{@table.get_table_cell_locator('ROW_SPEC', column)}/#{locator}"
     end
 
     def exists?(row)

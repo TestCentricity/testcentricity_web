@@ -489,6 +489,7 @@ With TestCentricity, all UI elements are based on the **UIElement** class, and i
     element.disabled?
     element.get_value
     element.get_attribute(attrib)
+    element.get_native_attribute(attrib)
     
 **Waiting methods:**
 
@@ -648,7 +649,7 @@ To use these **PageManager** methods, include the step definitions and code belo
     Given(/^I am on the ([^\"]*) page$/) do |page_name|
       target_page = page_dispatcher(page_name)
       target_page.load_page if target_page
-      # let PageManager store instance of current page object
+      # let PageManager store an instance of the current page object
       PageManager.current_page = target_page
     end
     
@@ -660,7 +661,7 @@ To use these **PageManager** methods, include the step definitions and code belo
     Then(/^I expect to see the ([^\"]*) page$/) do |page_name|
       target_page = page_dispatcher(page_name)
       target_page.verify_page_exists if target_page
-      # let PageManager store instance of current page object
+      # let PageManager store an instance of the current page object
       PageManager.current_page = target_page
     end
     
@@ -668,7 +669,7 @@ To use these **PageManager** methods, include the step definitions and code belo
       target_page = page_dispatcher(page_name)
       target_page.verify_page_exists
       target_page.verify_page_ui
-      # let PageManager store instance of current page object
+      # let PageManager store an instance of the current page object
       PageManager.current_page = target_page
     end
     
