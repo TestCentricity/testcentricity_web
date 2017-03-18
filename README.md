@@ -9,7 +9,7 @@ use with Cucumber, Capybara, and Selenium-Webdriver.
 The TestCentricity™ Web gem supports running automated tests against the following web test targets:
 
 * locally hosted desktop browsers (Firefox*, Chrome, Safari, or IE)
-* locally hosted emulated iOS Mobile Safari, Android, Windows Phone, or Blackberry mobile browsers (using Firefox or Chrome)
+* locally hosted emulated iOS Mobile Safari, Android, Windows Phone, or Blackberry mobile browsers (running within Firefox or Chrome)
 * a "headless" browser (using Poltergeist and PhantomJS)
 * mobile Safari browsers on iOS device simulators (using Appium and XCode on OS X)
 * cloud hosted desktop (Firefox, Chrome, Safari, IE, or Edge) or mobile (iOS Mobile Safari or Android) web browsers using the [Browserstack](https://www.browserstack.com/list-of-browsers-and-platforms?product=automate),

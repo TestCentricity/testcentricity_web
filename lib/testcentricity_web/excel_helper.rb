@@ -223,8 +223,6 @@ module TestCentricity
       test_value = value.split('!', 2)
       parameter = test_value[1].split('.', 2)
       case parameter[0]
-      when 'Address', 'Bitcoin', 'Business', 'Code', 'Color', 'Commerce', 'Company', 'Crypto', 'File', 'Hacker', 'Hipster', 'Internet', 'Lorem', 'Name', 'Number', 'PhoneNumber'
-        result = eval("Faker::#{parameter[0]}.#{parameter[1]}")
       when 'Date'
         result = eval("Chronic.parse('#{parameter[1]}')")
       when 'FormattedDate', 'FormatDate'
@@ -232,7 +230,11 @@ module TestCentricity
         date_time = eval("Chronic.parse('#{date_time_params[0].strip}')")
         result = date_time.to_s.format_date_time("#{date_time_params[1].strip}")
       else
-        result = eval(test_value[1])
+        if Faker.constants.include?(parameter[0].to_sym)
+          result = eval("Faker::#{parameter[0]}.#{parameter[1]}")
+        else
+          result = eval(test_value[1])
+        end
       end
       result.to_s
     end

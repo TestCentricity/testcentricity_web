@@ -11,6 +11,11 @@ module TestCentricity
       Capybara.ignore_hidden_elements = true
     end
 
+    def file_upload(file_path)
+      obj, = find_element(false)
+      obj.send_keys(file_path)
+    end
+
     def drop_files(files)
       js_script = 'fileList = Array();'
       files.count.times do |i|
