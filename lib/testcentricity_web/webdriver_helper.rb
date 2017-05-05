@@ -177,8 +177,8 @@ module TestCentricity
         capabilities['build'] = ENV['AUTOMATE_BUILD'] if ENV['AUTOMATE_BUILD']
 
         ENV['TEST_CONTEXT'] ?
-            context_message = "#{ENV['TEST_ENVIRONMENT']} - #{ENV['TEST_CONTEXT']}" :
-            context_message = ENV['TEST_ENVIRONMENT']
+            context_message = "#{Environ.test_environment} - #{ENV['TEST_CONTEXT']}" :
+            context_message = Environ.test_environment
         if ENV['PARALLEL']
           thread_num = ENV['TEST_ENV_NUMBER']
           thread_num = 1 if thread_num.blank?

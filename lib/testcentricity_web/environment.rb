@@ -1,6 +1,6 @@
 module TestCentricity
   class EnvironData < TestCentricity::ExcelDataSource
-    attr_accessor		:current
+    attr_accessor	:current
 
     WKS_ENVIRONS ||= 'Environments'
 
@@ -23,9 +23,10 @@ module TestCentricity
     @session_id = Time.now.strftime('%d%H%M%S%L')
     @session_time_stamp = Time.now.strftime('%Y%m%d%H%M%S')
     @session_code
-
+    @test_environment = ENV['TEST_ENVIRONMENT']
     @screen_shots = []
 
+    attr_accessor :test_environment
     attr_accessor :browser
     attr_accessor :os
     attr_accessor :device
@@ -77,6 +78,14 @@ module TestCentricity
 
     def self.session_time_stamp
       @session_time_stamp
+    end
+
+    def self.test_environment
+      if @test_environment.blank?
+        nil
+      else
+        @test_environment.downcase.to_sym
+      end
     end
 
     # @deprecated Please use {#browser=} instead

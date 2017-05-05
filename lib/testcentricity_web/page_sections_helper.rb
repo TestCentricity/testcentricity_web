@@ -6,14 +6,67 @@ module TestCentricity
     include Capybara::Node::Matchers
     include Test::Unit::Assertions
 
-    attr_reader   :locator, :context, :name
+    attr_reader   :context, :name
+    attr_accessor :locator
     attr_accessor :parent
+    attr_accessor :parent_list
+    attr_accessor :list_index
+
 
     def initialize(name, parent, locator, context)
-      @name    = name
-      @parent  = parent
-      @locator = locator
-      @context = context
+      @name         = name
+      @parent       = parent
+      @locator      = locator
+      @context      = context
+      @parent_list  = nil
+      @list_index   = nil
+    end
+
+    def get_locator
+      if @locator.empty? && defined?(section_locator)
+        locator = section_locator
+      else
+        locator = @locator
+      end
+
+      unless @parent_list.nil?
+        locator = "#{@parent_list.get_locator}|#{locator}"
+        unless @list_index.nil?
+          if locator.include?('/')
+            locator = "(#{locator})[#{@list_index}]"
+          else
+            locator = "#{locator}:nth-of-type(#{@list_index})"
+          end
+        end
+      end
+
+      if @context == :section && !@parent.nil? && !@parent.get_locator.nil?
+        "#{@parent.get_locator}|#{locator}"
+      else
+        locator
+      end
+    end
+
+    def set_list_index(list, index = 1)
+      @parent_list = list unless list.nil?
+      @list_index  = index
+    end
+
+    def get_item_count
+      raise 'No parent list defined' if @parent_list.nil?
+      @parent_list.get_item_count
+    end
+
+    def get_object_type
+      :section
+    end
+
+    def get_name
+      @name
+    end
+
+    def set_parent(parent)
+      @parent = parent
     end
 
     # Define a trait for this page section.
@@ -327,6 +380,43 @@ module TestCentricity
       class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::CellRadio.new("#{element_name}", self, "#{locator}", :section, #{table}, #{column});end))
     end
 
+    # Declare and instantiate a list button in a row of a list object on this section object.
+    #
+    # @param element_name [Symbol] name of list button object (as a symbol)
+    # @param locator [String] XPath expression that uniquely identifies list button within row of parent list object
+    # @param list [Symbol] Name (as a symbol) of parent list object
+    # @example
+    #   list_button  :delete_button, "a[@class='delete']", :icon_list
+    #   list_button  :edit_button, "a[@class='edit']", :icon_list
+    #
+    def self.list_button(element_name, locator, list)
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::ListButton.new("#{element_name}", self, "#{locator}", :section, #{list});end))
+    end
+
+    # Declare and instantiate a list checkbox in a row of a list object on this section object.
+    #
+    # @param element_name [Symbol] name of list checkbox object (as a symbol)
+    # @param locator [String] XPath expression that uniquely identifies list checkbox within row of parent list object
+    # @param list [Symbol] Name (as a symbol) of parent list object
+    # @example
+    #   list_checkbox  :is_registered_check, "a[@class='registered']", :data_list
+    #
+    def self.list_checkbox(element_name, locator, list)
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::ListCheckBox.new("#{element_name}", self, "#{locator}", :section, #{list});end))
+    end
+
+    # Declare and instantiate a list radio in a row of a list object on this section object.
+    #
+    # @param element_name [Symbol] name of list radio object (as a symbol)
+    # @param locator [String] XPath expression that uniquely identifies list radio within row of parent list object
+    # @param list [Symbol] Name (as a symbol) of parent list object
+    # @example
+    #   list_radio  :sharing_radio, "a[@class='sharing']", :data_list
+    #
+    def self.list_radio(element_name, locator, list)
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::CellRadio.new("#{element_name}", self, "#{locator}", :section, #{list});end))
+    end
+
     # Instantiate a single PageSection object within this PageSection object.
     #
     # @param section_name [Symbol] name of PageSection object (as a symbol)
@@ -342,19 +432,6 @@ module TestCentricity
       section_hash.each do |section_name, class_name|
         section(section_name, class_name)
       end
-    end
-
-    def get_locator
-      @locator.empty? && defined?(section_locator) ? locator = section_locator : locator = @locator
-      (@context == :section && !@parent.nil? && !@parent.get_locator.nil?) ? "#{@parent.get_locator}|#{locator}" : locator
-    end
-
-    def get_name
-      @name
-    end
-
-    def set_parent(parent)
-      @parent = parent
     end
 
     # Does Section object exists?
@@ -649,6 +726,8 @@ module TestCentricity
               data_field.set_selected_state(data_param.to_bool)
             when :textfield
               data_field.set("#{data_param}\t")
+            when :section
+              data_field.set(data_param)
             end
           end
         end

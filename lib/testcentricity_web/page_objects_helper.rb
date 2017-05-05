@@ -318,6 +318,43 @@ module TestCentricity
       class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::CellRadio.new("#{element_name}", self, "#{locator}", :page, #{table}, #{column});end))
     end
 
+    # Declare and instantiate a list button in a row of a list object on this page object.
+    #
+    # @param element_name [Symbol] name of list button object (as a symbol)
+    # @param locator [String] XPath expression that uniquely identifies list button within row of parent list object
+    # @param list [Symbol] Name (as a symbol) of parent list object
+    # @example
+    #   list_button  :delete_button, "a[@class='delete']", :icon_list
+    #   list_button  :edit_button, "a[@class='edit']", :icon_list
+    #
+    def self.list_button(element_name, locator, list)
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::ListButton.new("#{element_name}", self, "#{locator}", :page, #{list});end))
+    end
+
+    # Declare and instantiate a list checkbox in a row of a list object on this page object.
+    #
+    # @param element_name [Symbol] name of list checkbox object (as a symbol)
+    # @param locator [String] XPath expression that uniquely identifies list checkbox within row of parent list object
+    # @param list [Symbol] Name (as a symbol) of parent list object
+    # @example
+    #   list_checkbox  :is_registered_check, "a[@class='registered']", :data_list
+    #
+    def self.list_checkbox(element_name, locator, list)
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::ListCheckBox.new("#{element_name}", self, "#{locator}", :page, #{list});end))
+    end
+
+    # Declare and instantiate a list radio in a row of a list object on this page object.
+    #
+    # @param element_name [Symbol] name of list radio object (as a symbol)
+    # @param locator [String] XPath expression that uniquely identifies list radio within row of parent list object
+    # @param list [Symbol] Name (as a symbol) of parent list object
+    # @example
+    #   list_radio  :sharing_radio, "a[@class='sharing']", :data_list
+    #
+    def self.list_radio(element_name, locator, list)
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::ListRadio.new("#{element_name}", self, "#{locator}", :page, #{list});end))
+    end
+
     # Instantiate a single PageSection object for this page object.
     #
     # @param section_name [Symbol] name of PageSection object (as a symbol)
@@ -352,7 +389,11 @@ module TestCentricity
       raise "Page object #{self.class.name} does not have a page_locator trait defined" unless defined?(page_locator)
       unless page.has_selector?(page_locator)
         body_class = find(:xpath, '//body')[:class]
-        error_message = "Expected page to have selector '#{page_locator}' but found '#{body_class}' instead.\nURL of page loaded = #{URI.parse(current_url)}"
+        error_message = %(
+          Expected page to have selector '#{page_locator}' but found '#{body_class}' instead.
+          Actual URL of page loaded = #{URI.parse(current_url)}.
+          )
+        error_message = "#{error_message}\nExpected URL of page was #{page_url}." if defined?(page_url)
         raise error_message
       end
     end
@@ -577,6 +618,8 @@ module TestCentricity
               data_field.set_selected_state(data_param.to_bool)
             when :textfield
               data_field.set("#{data_param}\t")
+            when :section
+              data_field.set(data_param)
             end
           end
         end

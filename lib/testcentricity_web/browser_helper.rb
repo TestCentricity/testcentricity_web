@@ -65,6 +65,10 @@ module TestCentricity
       end
     end
 
+    def self.num_browser_instances
+      Capybara.page.driver.browser.window_handles.count
+    end
+
     def self.close_current_browser_instance
       Capybara.page.driver.browser.close
       Capybara.page.driver.browser.switch_to.window(Capybara.page.driver.browser.window_handles.last)

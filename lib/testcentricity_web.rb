@@ -32,6 +32,10 @@ require 'testcentricity_web/elements/cell_element'
 require 'testcentricity_web/elements/cell_button'
 require 'testcentricity_web/elements/cell_checkbox'
 require 'testcentricity_web/elements/cell_radio'
+require 'testcentricity_web/elements/list_element'
+require 'testcentricity_web/elements/list_button'
+require 'testcentricity_web/elements/list_checkbox'
+require 'testcentricity_web/elements/list_radio'
 
 module TestCentricity
   class PageManager

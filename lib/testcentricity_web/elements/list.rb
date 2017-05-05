@@ -41,5 +41,9 @@ module TestCentricity
           ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list #{object_ref_message}") :
           assert_equal(expected, actual, "Expected list #{object_ref_message} to be #{expected} but found #{actual}")
     end
+
+    def get_list_row_locator(row)
+      "#{@locator}/#{@list_item}[#{row}]"
+    end
   end
 end
