@@ -57,6 +57,15 @@ module TestCentricity
       @parent_list.get_item_count
     end
 
+    def get_list_items
+      items = []
+      (1..get_item_count).each do |item|
+        set_list_index(nil, item)
+        items.push(get_value)
+      end
+      items
+    end
+
     def get_object_type
       :section
     end
