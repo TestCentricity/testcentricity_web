@@ -4,7 +4,7 @@ module TestCentricity
     attr_accessor :column
     attr_accessor :element_locator
 
-    def initialize(name, parent, locator, context, table, column)
+    def initialize(name, parent, locator, context, table, column, proxy = nil)
       @name            = name
       @parent          = parent
       @context         = context

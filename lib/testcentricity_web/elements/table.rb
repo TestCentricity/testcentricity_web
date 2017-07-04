@@ -154,15 +154,15 @@ module TestCentricity
       raise "Column #{column} exceeds number of columns (#{column_count}) in table #{object_ref_message}" if column > column_count
       set_table_cell_locator(row, column)
       saved_locator = @alt_locator
-      set_alt_locator("#{@alt_locator}/a")
-      set_alt_locator("#{saved_locator}/span/a") unless exists?
+      set_alt_locator("#{@alt_locator}//a")
+      set_alt_locator("#{saved_locator}//span/a") unless exists?
       # if link not present, check for text entry fields and try to dismiss by tabbing out
       unless exists?
-        set_alt_locator("#{saved_locator}/input")
-        set_alt_locator("#{saved_locator}/textarea") unless exists?
+        set_alt_locator("#{saved_locator}//input")
+        set_alt_locator("#{saved_locator}//textarea") unless exists?
         send_keys(:tab) if exists?
-        set_alt_locator("#{saved_locator}/a")
-        set_alt_locator("#{saved_locator}/span/a") unless exists?
+        set_alt_locator("#{saved_locator}//a")
+        set_alt_locator("#{saved_locator}//span/a") unless exists?
         send_keys(:tab) unless exists?
       end
       wait_until_exists(1)
@@ -179,9 +179,9 @@ module TestCentricity
         value = ''
         set_table_cell_locator(row, column)
         saved_locator = @alt_locator
-        set_alt_locator("#{saved_locator}/input")
+        set_alt_locator("#{saved_locator}//input")
         unless exists?
-          set_alt_locator("#{saved_locator}/textarea")
+          set_alt_locator("#{saved_locator}//textarea")
           set_alt_locator(saved_locator) unless exists?
         end
         value = get_value if exists?
@@ -211,9 +211,9 @@ module TestCentricity
         value = ''
         set_table_cell_locator(row, column)
         saved_locator = @alt_locator
-        set_alt_locator("#{saved_locator}/input")
+        set_alt_locator("#{saved_locator}//input")
         unless exists?
-          set_alt_locator("#{saved_locator}/textarea")
+          set_alt_locator("#{saved_locator}//textarea")
           set_alt_locator(saved_locator) unless exists?
         end
         value = get_value if exists?
@@ -238,9 +238,9 @@ module TestCentricity
       raise "Column #{column} exceeds number of columns (#{column_count}) in table #{object_ref_message}" if column > column_count
       set_table_cell_locator(row, column)
       saved_locator = @alt_locator
-      set_alt_locator("#{saved_locator}/input")
+      set_alt_locator("#{saved_locator}//input")
       unless exists?
-        set_alt_locator("#{saved_locator}/textarea")
+        set_alt_locator("#{saved_locator}//textarea")
         set_alt_locator(saved_locator) unless exists?
       end
       if exists?
@@ -466,8 +466,8 @@ module TestCentricity
         puts "Could not find table cell at #{@alt_locator}"
       end
       saved_locator = @alt_locator
-      set_alt_locator("#{saved_locator}/input")
-      set_alt_locator("#{saved_locator}/textarea") unless exists?
+      set_alt_locator("#{saved_locator}//input")
+      set_alt_locator("#{saved_locator}//textarea") unless exists?
     end
   end
 end

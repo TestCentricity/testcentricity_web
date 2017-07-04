@@ -3,7 +3,7 @@ module TestCentricity
     attr_accessor :list
     attr_accessor :element_locator
 
-    def initialize(name, parent, locator, context, list)
+    def initialize(name, parent, locator, context, list, proxy = nil)
       @name            = name
       @parent          = parent
       @context         = context
