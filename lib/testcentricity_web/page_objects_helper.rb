@@ -301,8 +301,8 @@ module TestCentricity
     # @example
     #   cell_checkbox  :is_registered_check, "a[@class='registered']", :data_table, 4
     #
-    def self.cell_checkbox(element_name, locator, table, column)
-      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::CellCheckBox.new("#{element_name}", self, "#{locator}", :page, #{table}, #{column});end))
+    def self.cell_checkbox(element_name, locator, table, column, proxy = nil)
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::CellCheckBox.new("#{element_name}", self, "#{locator}", :page, #{table}, #{column}, #{proxy});end))
     end
 
     # Declare and instantiate a cell radio in a table column on this page object.
@@ -314,8 +314,8 @@ module TestCentricity
     # @example
     #   cell_radio  :track_a_radio, "a[@class='track_a']", :data_table, 8
     #
-    def self.cell_radio(element_name, locator, table, column)
-      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::CellRadio.new("#{element_name}", self, "#{locator}", :page, #{table}, #{column});end))
+    def self.cell_radio(element_name, locator, table, column, proxy = nil)
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::CellRadio.new("#{element_name}", self, "#{locator}", :page, #{table}, #{column}, #{proxy});end))
     end
 
     # Declare and instantiate a list button in a row of a list object on this page object.
@@ -339,8 +339,8 @@ module TestCentricity
     # @example
     #   list_checkbox  :is_registered_check, "a[@class='registered']", :data_list
     #
-    def self.list_checkbox(element_name, locator, list)
-      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::ListCheckBox.new("#{element_name}", self, "#{locator}", :page, #{list});end))
+    def self.list_checkbox(element_name, locator, list, proxy = nil)
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::ListCheckBox.new("#{element_name}", self, "#{locator}", :page, #{list}, #{proxy});end))
     end
 
     # Declare and instantiate a list radio in a row of a list object on this page object.
@@ -351,8 +351,8 @@ module TestCentricity
     # @example
     #   list_radio  :sharing_radio, "a[@class='sharing']", :data_list
     #
-    def self.list_radio(element_name, locator, list)
-      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::ListRadio.new("#{element_name}", self, "#{locator}", :page, #{list});end))
+    def self.list_radio(element_name, locator, list, proxy = nil)
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::ListRadio.new("#{element_name}", self, "#{locator}", :page, #{list}, #{proxy});end))
     end
 
     # Instantiate a single PageSection object for this page object.

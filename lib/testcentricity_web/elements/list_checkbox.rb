@@ -2,7 +2,7 @@ module TestCentricity
   class ListCheckBox < ListElement
     attr_accessor :proxy
 
-    def initialize(name, parent, locator, context, list, proxy)
+    def initialize(name, parent, locator, context, list, proxy = nil)
       super
       @type  = :list_checkbox
       @proxy = proxy

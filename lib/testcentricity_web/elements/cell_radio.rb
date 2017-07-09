@@ -2,7 +2,7 @@ module TestCentricity
   class CellRadio < CellElement
     attr_accessor :proxy
 
-    def initialize(name, parent, locator, context, table, column, proxy)
+    def initialize(name, parent, locator, context, table, column, proxy = nil)
       super
       @type  = :cell_radio
       @proxy = proxy

@@ -2,7 +2,7 @@ module TestCentricity
   class CellCheckBox < CellElement
     attr_accessor :proxy
 
-    def initialize(name, parent, locator, context, table, column, proxy)
+    def initialize(name, parent, locator, context, table, column, proxy = nil)
       super
       @type  = :cell_checkbox
       @proxy = proxy
