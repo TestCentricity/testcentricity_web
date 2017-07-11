@@ -821,17 +821,18 @@ the table below. Refer to the [Browserstack-specific capabilities chart page](ht
 for information regarding the specific capabilities.
 
 **Environment Variable** | **Description**
---------------- | ----------------
-`WEB_BROWSER`  | Must be set to `browserstack`
-`BS_USERNAME`  | Must be set to your BrowserStack account user name
-`BS_AUTHKEY`   | Must be set to your BrowserStack account access key
-`BS_BROWSER`   | Must be set to `iPhone`, `iPad`, or `android`
-`BS_PLATFORM`  | Must be set to `MAC` (for iOS) or `ANDROID`
-`BS_DEVICE`    | Refer to `device` capability in chart
-`TUNNELING`    | Must be `true` if you are testing against internal/local servers (`true` or `false`)
-`ORIENTATION`  | [Optional] Set to `portrait` or `landscape`
-`RECORD_VIDEO` | [Optional] Enable screen video recording during test execution (`true` or `false`)
-`TIME_ZONE`    | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart
+---------------  | ----------------
+`WEB_BROWSER`    | Must be set to `browserstack`
+`BS_USERNAME`    | Must be set to your BrowserStack account user name
+`BS_AUTHKEY`     | Must be set to your BrowserStack account access key
+`BS_BROWSER`     | Must be set to `iPhone`, `iPad`, or `android`
+`BS_PLATFORM`    | Must be set to `MAC` (for iOS) or `ANDROID`
+`BS_DEVICE`      | Refer to `device` capability in chart
+`BS_REAL_MOBILE` | Set to `true` if running against a real device
+`TUNNELING`      | Must be `true` if you are testing against internal/local servers (`true` or `false`)
+`ORIENTATION`    | [Optional] Set to `portrait` or `landscape`
+`RECORD_VIDEO`   | [Optional] Enable screen video recording during test execution (`true` or `false`)
+`TIME_ZONE`      | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart
 
 
 
@@ -1069,6 +1070,8 @@ service(s) that you intend to connect with.
     
     # BrowserStack iOS mobile browser profiles
     bs_iphone:          --profile bs_mobile BS_PLATFORM=MAC BS_BROWSER=iPhone
+    bs_iphone7_plus:    --profile bs_mobile BS_REAL_MOBILE="true" BS_DEVICE="iPhone 7 Plus"
+    bs_iphone7:         --profile bs_mobile BS_REAL_MOBILE="true" BS_DEVICE="iPhone 7"
     bs_iphone6s_plus:   --profile bs_iphone BS_DEVICE="iPhone 6S Plus"
     bs_iphone6s:        --profile bs_iphone BS_DEVICE="iPhone 6S"
     bs_iphone6_plus:    --profile bs_iphone BS_DEVICE="iPhone 6 Plus"
@@ -1083,6 +1086,12 @@ service(s) that you intend to connect with.
     
     # BrowserStack Android mobile browser profiles
     bs_android:          --profile bs_mobile BS_PLATFORM=ANDROID BS_BROWSER=android
+    bs_google_pixel:     --profile bs_mobile BS_REAL_MOBILE="true" BS_DEVICE="Google Pixel"
+    bs_nexus9:           --profile bs_mobile BS_REAL_MOBILE="true" BS_DEVICE="Google Nexus 9"
+    bs_nexus6:           --profile bs_mobile BS_REAL_MOBILE="true" BS_DEVICE="Google Nexus 6"
+    bs_galaxy_s7:        --profile bs_mobile BS_REAL_MOBILE="true" BS_DEVICE="Samsung Galaxy S7"
+    bs_galaxy_s6:        --profile bs_mobile BS_REAL_MOBILE="true" BS_DEVICE="Samsung Galaxy S6"
+    bs_galaxy_note4:     --profile bs_mobile BS_REAL_MOBILE="true" BS_DEVICE="Samsung Galaxy Note 4"
     bs_galaxy_s5:        --profile bs_android BS_DEVICE="Samsung Galaxy S5"
     bs_kindle_fire_hd89: --profile bs_android BS_DEVICE="Amazon Kindle Fire HD 8.9"
     bs_kindle_fire_hdx7: --profile bs_android BS_DEVICE="Amazon Kindle Fire HDX 7"
