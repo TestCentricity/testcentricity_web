@@ -168,6 +168,12 @@ module TestCentricity
           Environ.device      = true
           Environ.device_type = ENV['BS_DEVICE']
           capabilities['deviceOrientation'] = ENV['ORIENTATION'] if ENV['ORIENTATION']
+        elsif ENV['BS_REAL_MOBILE']
+          capabilities['device'] = ENV['BS_DEVICE']
+          capabilities['realMobile'] = true
+          Environ.platform    = :mobile
+          Environ.device      = true
+          Environ.device_type = ENV['BS_DEVICE']
         end
 
         capabilities['browserstack.timezone'] = ENV['TIME_ZONE'] if ENV['TIME_ZONE']
