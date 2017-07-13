@@ -16,6 +16,10 @@ class String
     raise ArgumentError.new("invalid value for Boolean: \"#{self}\"")
   end
 
+  def string_between(marker1, marker2)
+    self[/#{Regexp.escape(marker1)}(.*?)#{Regexp.escape(marker2)}/m, 1]
+  end
+
   def format_date_time(date_time_format)
     return if self.blank?
     new_date = DateTime.parse(self)

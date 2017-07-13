@@ -389,6 +389,20 @@ module TestCentricity
       class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::CellRadio.new("#{element_name}", self, "#{locator}", :section, #{table}, #{column}, #{proxy});end))
     end
 
+    # Declare and instantiate a cell image in a table column on this page object.
+    #
+    # @param element_name [Symbol] name of cell image object (as a symbol)
+    # @param locator [String] XPath expression that uniquely identifies cell image within row and column of parent table object
+    # @param table [Symbol] Name (as a symbol) of parent table object
+    # @param column [Integer] 1-based index of table column that contains the cell image object
+    # @example
+    #   cell_image  :ready_icon, "img[@class='ready']", :data_table, 3
+    #   cell_image  :send_icon, "img[@class='send']", :data_table, 3
+    #
+    def self.cell_image(element_name, locator, table, column)
+      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::CellImage.new("#{element_name}", self, "#{locator}", :section, #{table}, #{column});end))
+    end
+
     # Declare and instantiate a list button in a row of a list object on this section object.
     #
     # @param element_name [Symbol] name of list button object (as a symbol)

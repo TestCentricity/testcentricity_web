@@ -1070,8 +1070,6 @@ service(s) that you intend to connect with.
     
     # BrowserStack iOS mobile browser profiles
     bs_iphone:          --profile bs_mobile BS_PLATFORM=MAC BS_BROWSER=iPhone
-    bs_iphone7_plus:    --profile bs_mobile BS_REAL_MOBILE="true" BS_DEVICE="iPhone 7 Plus"
-    bs_iphone7:         --profile bs_mobile BS_REAL_MOBILE="true" BS_DEVICE="iPhone 7"
     bs_iphone6s_plus:   --profile bs_iphone BS_DEVICE="iPhone 6S Plus"
     bs_iphone6s:        --profile bs_iphone BS_DEVICE="iPhone 6S"
     bs_iphone6_plus:    --profile bs_iphone BS_DEVICE="iPhone 6 Plus"
@@ -1084,21 +1082,30 @@ service(s) that you intend to connect with.
     bs_ipad_air:        --profile bs_ipad BS_DEVICE="iPad Air"
     bs_ipad_mini:       --profile bs_ipad BS_DEVICE="iPad Mini 4"
     
+    # BrowserStack iOS real device mobile browser profiles
+    bs_iphone_device:   --profile bs_mobile BS_BROWSER=iPhone BS_REAL_MOBILE="true"
+    bs_iphone7_plus:    --profile bs_iphone_device BS_DEVICE="iPhone 7 Plus"
+    bs_iphone7:         --profile bs_iphone_device BS_DEVICE="iPhone 7"
+    
     # BrowserStack Android mobile browser profiles
     bs_android:          --profile bs_mobile BS_PLATFORM=ANDROID BS_BROWSER=android
-    bs_google_pixel:     --profile bs_mobile BS_REAL_MOBILE="true" BS_DEVICE="Google Pixel"
-    bs_nexus9:           --profile bs_mobile BS_REAL_MOBILE="true" BS_DEVICE="Google Nexus 9"
-    bs_nexus6:           --profile bs_mobile BS_REAL_MOBILE="true" BS_DEVICE="Google Nexus 6"
-    bs_galaxy_s7:        --profile bs_mobile BS_REAL_MOBILE="true" BS_DEVICE="Samsung Galaxy S7"
-    bs_galaxy_s6:        --profile bs_mobile BS_REAL_MOBILE="true" BS_DEVICE="Samsung Galaxy S6"
-    bs_galaxy_note4:     --profile bs_mobile BS_REAL_MOBILE="true" BS_DEVICE="Samsung Galaxy Note 4"
     bs_galaxy_s5:        --profile bs_android BS_DEVICE="Samsung Galaxy S5"
     bs_kindle_fire_hd89: --profile bs_android BS_DEVICE="Amazon Kindle Fire HD 8.9"
     bs_kindle_fire_hdx7: --profile bs_android BS_DEVICE="Amazon Kindle Fire HDX 7"
     bs_kindle_fire2:     --profile bs_android BS_DEVICE="Amazon Kindle Fire 2"
+    bs_nexus7:           --profile bs_android BS_DEVICE="Google Nexus 7"
     bs_nexus5:           --profile bs_android BS_DEVICE="Google Nexus 5"
     bs_moto_razr:        --profile bs_android BS_DEVICE="Motorola Razr"
     bs_sony_xperia:      --profile bs_android BS_DEVICE="Sony Xperia Tipo"
+    
+    # BrowserStack Android real device mobile browser profiles
+    bs_android_device:   --profile bs_mobile BS_BROWSER=android BS_REAL_MOBILE="true"
+    bs_google_pixel:     --profile bs_android_device BS_DEVICE="Google Pixel"
+    bs_nexus9:           --profile bs_android_device BS_DEVICE="Google Nexus 9"
+    bs_nexus6:           --profile bs_android_device BS_DEVICE="Google Nexus 6"
+    bs_galaxy_s7:        --profile bs_android_device BS_DEVICE="Samsung Galaxy S7"
+    bs_galaxy_s6:        --profile bs_android_device BS_DEVICE="Samsung Galaxy S6"
+    bs_galaxy_note4:     --profile bs_android_device BS_DEVICE="Samsung Galaxy Note 4"
     
     
     #==============

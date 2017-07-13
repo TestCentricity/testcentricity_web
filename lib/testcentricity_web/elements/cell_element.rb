@@ -31,14 +31,20 @@ module TestCentricity
       obj.click
     end
 
+    def get_native_attribute(row, attrib)
+      obj, = find_cell_element(row)
+      cell_object_not_found_exception(obj, @type, row)
+      obj.get_native_attribute(attrib)
+    end
+
     def get_value(row, visible = true)
       obj, = find_cell_element(row, visible)
       cell_object_not_found_exception(obj, @type, row)
       case obj.tag_name.downcase
-        when 'input', 'select', 'textarea'
-          obj.value
-        else
-          obj.text
+      when 'input', 'select', 'textarea'
+        obj.value
+      else
+        obj.text
       end
     end
 
