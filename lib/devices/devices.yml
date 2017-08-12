@@ -1,179 +1,209 @@
 :iphone:
   :name: "iPhone"
+  :os: "ios"
   :css_width: 320
   :css_height: 480
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1"
 :iphone4:
   :name: "iPhone 4"
+  :os: "ios"
   :css_width: 320
   :css_height: 480
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1"
 :iphone5:
   :name: "iPhone 5"
+  :os: "ios"
   :css_width: 320
   :css_height: 568
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1"
 :iphone6:
   :name: "iPhone 6"
+  :os: "ios"
   :css_width: 375
   :css_height: 667
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1"
 :iphone6_plus:
   :name: "iPhone 6 Plus"
+  :os: "ios"
   :css_width: 414
   :css_height: 736
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1"
 :iphone7:
   :name: "iPhone 7"
+  :os: "ios"
   :css_width: 375
   :css_height: 667
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A345 Safari/602.1"
 :iphone7_plus:
   :name: "iPhone 7 Plus"
+  :os: "ios"
   :css_width: 414
   :css_height: 736
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A345 Safari/602.1"
 :android_phone:
   :name: "Generic Android phone"
+  :os: "android"
   :css_width: 320
   :css_height: 480
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (Linux; U; Android 4.0.1; en-us; sdk Build/ICS_MR0) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30"
 nexus6:
   :name: "Nexus 6 or 6P phone"
+  :os: "android"
   :css_width: 411
   :css_height: 731
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 6P Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.83 Mobile Safari/537.36"
 :samsung_galaxy_s4:
   :name: "Samsung Galaxy S4"
+  :os: "android"
   :css_width: 360
   :css_height: 640
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (Linux; Android 5.0.1; SAMSUNG SCH-I545 4G Build/LRX22C) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/2.1 Chrome/34.0.1847.76 Mobile Safari/537.36"
 :samsung_galaxy_s5:
   :name: "Samsung Galaxy S5"
+  :os: "android"
   :css_width: 360
   :css_height: 640
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (Linux; Android 6.0.1; SM-G900V Build/MMB29M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.98 Mobile Safari/537.36"
 :samsung_galaxy_s6:
   :name: "Samsung Galaxy S6 Edge"
+  :os: "android"
   :css_width: 360
   :css_height: 640
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (Linux; Android 6.0.1; SAMSUNG SM-G925F Build/MMB29K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/4.0 Chrome/44.0.2403.133 Mobile Safari/537.36"
 :pixel:
   :name: "Google Pixel phone"
+  :os: "android"
   :css_width: 411
   :css_height: 731
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (Linux; Android 7.1; Pixel Build/NAE63H; xx-xx) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.134 Mobile Safari/537.36"
 :pixel_xl:
   :name: "Google Pixel XL phone"
+  :os: "android"
   :css_width: 411
   :css_height: 731
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (Linux; Android 7.1; Pixel XL Build/NDE63N; xx-xx) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/54.0.2840.34 Mobile Safari/537.36"
 :windows_phone8:
   :name: "Generic Windows 8 phone"
+  :os: "windows"
   :css_width: 320
   :css_height: 480
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (compatible; MSIE 10.0; Windows Phone 8.0; Trident/6.0; IEMobile/10.0; ARM; Touch; NOKIA; Lumia 920)"
 :windows_phone7:
   :name: "Generic Windows 7 phone"
+  :os: "windows"
   :css_width: 320
   :css_height: 480
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0; NOKIA; Lumia 710)"
 :blackberry_z10:
   :name: "Blackberry Z10"
+  :os: "blackberry"
   :css_width: 384
   :css_height: 640
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (BB10; Touch) AppleWebKit/537.10+ (KHTML, like Gecko) Version/10.0.9.2372 Mobile Safari/537.10+"
 :blackberry_z30:
   :name: "Blackberry Z30"
+  :os: "blackberry"
   :css_width: 360
   :css_height: 640
   :default_orientation: portrait
   :user_agent: "Mozilla/5.0 (BB10; Touch) AppleWebKit/537.10+ (KHTML, like Gecko) Version/10.0.9.2372 Mobile Safari/537.10+"
 :ipad:
   :name: "iPad"
+  :os: "ios"
   :css_width: 1024
   :css_height: 768
   :default_orientation: landscape
   :user_agent: "Mozilla/5.0 (iPad; CPU OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/3B143 Safari/601.1"
 :ipad_pro:
   :name: "iPad Pro"
+  :os: "ios"
   :css_width: 1366
   :css_height: 1024
   :default_orientation: landscape
   :user_agent: "Mozilla/5.0 (iPad; CPU OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B137 Safari/601.1"
 :android_tablet:
   :name: "Generic Android tablet"
+  :os: "android"
   :css_width: 1024
   :css_height: 768
   :default_orientation: landscape
   :user_agent: "Mozilla/5.0 (Linux; U; Android 3.0; en-us; GT-P7100 Build/HRI83) AppleWebkit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13"
 :kindle_fire:
   :name: "Kindle Fire"
+  :os: "kindle"
   :css_width: 1024
   :css_height: 600
   :default_orientation: landscape
   :user_agent: "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_3; en-us; Silk/1.0.141.16-Gen4_11004310) AppleWebkit/533.16 (KHTML, like Gecko) Version/5.0 Safari/533.16 Silk-Accelerated=true"
 :kindle_firehd7:
   :name: "Kindle Fire HD 7"
+  :os: "kindle"
   :css_width: 800
   :css_height: 480
   :default_orientation: landscape
   :user_agent: "Mozilla/5.0 (Linux; U; en-us; KFTHWI Build/JDQ39) AppleWebKit/535.19 (KHTML, like Gecko) Silk/3.13 Safari/535.19 Silk-Accelerated=true"
 :kindle_firehd8:
   :name: "Kindle Fire HD 8 or 9"
+  :os: "kindle"
   :css_width: 1280
   :css_height: 800
   :default_orientation: landscape
   :user_agent: "Mozilla/5.0 (Linux; U; en-us; KFAPWI Build/JDQ39) AppleWebKit/535.19 (KHTML, like Gecko) Silk/3.13 Safari/535.19 Silk-Accelerated=true"
 :surface:
   :name: "Microsoft Surface"
+  :os: "windows"
   :css_width: 1366
   :css_height: 768
   :default_orientation: landscape
   :user_agent: "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; ARM; Trident/6.0; Touch)"
 :blackberry_playbook:
   :name: "Blackberry Playbook"
+  :os: "blackberry"
   :css_width: 1024
   :css_height: 600
   :default_orientation: landscape
   :user_agent: "Mozilla/5.0 (PlayBook; U; RIM Tablet OS 2.1.0; en-US) AppleWebKit/536.2+ (KHTML like Gecko) Version/7.2.1.0 Safari/536.2+"
 :samsung_galaxy_tab:
   :name: "Samsung Galaxy Tab series"
+  :os: "android"
   :css_width: 1280
   :css_height: 800
   :default_orientation: landscape
   :user_agent: "Mozilla/5.0 (Linux; Android 4.0.4; GT-P6800 Build/IMM76D) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.111 Safari/537.36"
 :google_nexus7:
   :name: "Nexus 7 series"
+  :os: "android"
   :css_width: 960
   :css_height: 600
   :default_orientation: landscape
   :user_agent: "Mozilla/5.0 (Linux; Android 4.4.4; Nexus 7 Build/KTU84P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.111 Safari/537.36"
 :google_nexus9:
   :name: "Nexus 9 series"
+  :os: "android"
   :css_width: 1024
   :css_height: 768
   :default_orientation: landscape
   :user_agent: "Mozilla/5.0 (Linux; Android 5.1.1; Nexus 9 Build/LMY48I) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.84 Safari/537.36"
 :google_nexus10:
   :name: "Nexus 10 series"
+  :os: "android"
   :css_width: 1280
   :css_height: 800
   :default_orientation: landscape

@@ -15,6 +15,7 @@ module TestCentricity
       resolution = resolution.split(',') if resolution.is_a?(String)
       window = Capybara.current_session.driver.browser.manage.window
       window.resize_to(resolution[0], resolution[1])
+      Environ.browser_size = [resolution[0].to_i, resolution[1].to_i]
     end
 
     # Maximizes the selenium browser window.
@@ -126,6 +127,7 @@ module TestCentricity
       device = get_devices[device_name]
       name = device[:name]
       raise "Device '#{device}' is not defined" unless name
+      Environ.device_os = device[:os]
       name
     end
 
@@ -137,10 +139,12 @@ module TestCentricity
         height = device[:css_height]
         default_orientation = device[:default_orientation].to_sym
         if orientation
+          Environ.device_orientation = orientation
           orientation.downcase.to_sym == default_orientation ?
               size = [width, height] :
               size = [height, width]
         else
+          Environ.device_orientation = device[:default_orientation]
           size = [width, height]
         end
       else

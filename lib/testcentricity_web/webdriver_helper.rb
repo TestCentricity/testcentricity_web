@@ -93,6 +93,8 @@ module TestCentricity
       Environ.device      = true
       Environ.platform    = :mobile
       Environ.device_type = ENV['APP_DEVICE']
+      Environ.device_os   = ENV['APP_PLATFORM_NAME']
+      Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
       Capybara.default_driver = :appium
       endpoint = 'http://localhost:4723/wd/hub'
       desired_capabilities = {
@@ -167,6 +169,7 @@ module TestCentricity
           Environ.platform    = :mobile
           Environ.device      = true
           Environ.device_type = ENV['BS_DEVICE']
+          Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
           capabilities['deviceOrientation'] = ENV['ORIENTATION'] if ENV['ORIENTATION']
         elsif ENV['BS_REAL_MOBILE']
           capabilities['device'] = ENV['BS_DEVICE']
@@ -328,6 +331,7 @@ module TestCentricity
         capabilities['platform'] = ENV['TB_OS']
         capabilities['record_video'] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
         if ENV['TB_PLATFORM']
+          Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
           capabilities['orientation'] = ENV['ORIENTATION'] if ENV['ORIENTATION']
           capabilities['platformName'] = ENV['TB_PLATFORM']
           capabilities['deviceName'] = ENV['TB_DEVICE']
