@@ -681,6 +681,7 @@ To use these **PageManager** methods, include the step definitions and code belo
     end
 
 
+
 ## Connecting to a Web Browser
 
 The `TestCentricity::WebDriverConnect.initialize_web_driver` method configures the appropriate selenium-webdriver capabilities required to establish a
