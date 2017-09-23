@@ -22,6 +22,25 @@ locally hosted instances of Firefox 48 or greater requires Marionette (aka gecko
 feature incomplete and potentially unstable. More information can be found [here](https://github.com/teamcapybara/capybara/issues/1710).
 
 
+## What's New
+
+* Added device profiles for iPhone 8, iPhone 8 Plus, iPhone X devices running iOS 11
+* Added device profile for iPad Pro 10.5" with iOS 11
+* Updated iPhone 7 and iPhone 7 Plus profiles to iOS 10
+* Updated Google Pixel and Google Pixel XL profiles to Android 8
+* Added device profiles for iPhone 7 (iOS 10) with Mobile Chrome browser and iPad (iOS 10) with Mobile Chrome browser
+
+
+## What's Fixed
+
+* The `TestCentricity::WebDriverConnect.initialize_web_driver` method now sets the `Environ` object to the correct device connection states for local and
+cloud hosted browsers.
+* The `TestCentricity::WebDriverConnect.initialize_web_driver` method no longer calls `initialize_browser_size` when running tests against cloud hosted
+mobile web browser, which was resulting in Appium throwing exceptions for unsupported method calls.
+* The `TestCentricity::WebDriverConnect.set_webdriver_path` method now correctly sets the path for Chrome webDrivers when the `HOST_BROWSER` Environment
+Variable is set to `chrome`. Tests against locally hosted emulated mobile web browser running on a local instance of Chrome will now work correctly.
+
+
 ## Installation
 
 Add this line to your automation project's Gemfile:
@@ -197,14 +216,6 @@ Web pages are made up of UI elements like text fields, check boxes, combo boxes,
       checkbox    :email_opt_in_check, 'input#marketingEmailsOptIn'
       button      :sign_up_button,     'button#registrationSignUp'
     end
-
-    
-Once your **Page Objects** have been instantiated, you can interact with the **UI Elements** in your **Page Objects**. An example is shown
-below:
-
-    login_page.user_id_field.set('snicklefritz')
-    login_page.password_field.set('Pa55w0rd')
-    login_page.login_button.click
 
 
 ### Adding Methods to your Page Object
@@ -723,8 +734,10 @@ mobile web browsers, the `WEB_BROWSER` Environment Variable must be set to one o
 
 `WEB_BROWSER`         | `HOST_BROWSER`       | **CSS Screen Dimensions** | **Default Orientation**  | **OS Version**
 ----------------------|----------------------|-----------|----------|---------
-`ipad`                |`firefox` or `chrome` |1024 x 768 |landscape |iOS 9.1
-`ipad_pro`            |`firefox` or `chrome` |1366 x 1024|landscape |iOS 9.1
+`ipad`                |`firefox` or `chrome` |1024 x 768 |landscape |iOS 10
+`ipad_pro`            |`firefox` or `chrome` |1366 x 1024|landscape |iOS 11
+`ipad_pro_10_5`       |`firefox` or `chrome` |1112 x 834 |landscape |iOS 11
+`ipad_chrome`         |`firefox` or `chrome` |1024 x 768 |landscape |iOS 10 - Mobile Chrome browser for iOS
 `android_tablet`      |`firefox` or `chrome` |1024 x 768 |landscape |Android 3.0
 `kindle_fire`         |`firefox` or `chrome` |1024 x 600 |landscape |
 `kindle_firehd7`      |`firefox` or `chrome` |800 x 480  |landscape |Fire OS 3
@@ -742,10 +755,14 @@ mobile web browsers, the `WEB_BROWSER` Environment Variable must be set to one o
 `iphone6_plus`        |`firefox` or `chrome` |414 x 736  |portrait  |iOS 9.1
 `iphone7`             |`firefox` or `chrome` |375 x 667  |portrait  |iOS 10
 `iphone7_plus`        |`firefox` or `chrome` |414 x 736  |portrait  |iOS 10
-`android_phone`       |`firefox` or `chrome` |320 x 480  |portrait  |Android 4.0.1
-`nexus6`              |`firefox` or `chrome` |411 x 731  |portrait  |Android 6.0.1
-`pixel`               |`firefox` or `chrome` |411 x 731  |portrait  |Android 7.1
-`pixel_xl`            |`firefox` or `chrome` |411 x 731  |portrait  |Android 7.1
+`iphone7_chrome`      |`firefox` or `chrome` |375 x 667  |portrait  |iOS 10 - Mobile Chrome browser for iOS
+`iphone8`             |`firefox` or `chrome` |375 x 667  |portrait  |iOS 11
+`iphone9_plus`        |`firefox` or `chrome` |414 x 736  |portrait  |iOS 11
+`iphonex`             |`firefox` or `chrome` |375 x 812  |portrait  |iOS 11
+`android_phone`       |`firefox` or `chrome` |320 x 480  |portrait  |Android 4
+`nexus6`              |`firefox` or `chrome` |411 x 731  |portrait  |Android 6
+`pixel`               |`firefox` or `chrome` |411 x 731  |portrait  |Android 8
+`pixel_xl`            |`firefox` or `chrome` |411 x 731  |portrait  |Android 8
 `samsung_galaxy_s4`   |`firefox` or `chrome` |360 x 640  |portrait  |Android 5.0.1
 `samsung_galaxy_s5`   |`firefox` or `chrome` |360 x 640  |portrait  |Android 6.0.1
 `samsung_galaxy_s6`   |`firefox` or `chrome` |360 x 640  |portrait  |Android 6.0.1
@@ -826,6 +843,7 @@ for information regarding the specific capabilities.
 `WEB_BROWSER`    | Must be set to `browserstack`
 `BS_USERNAME`    | Must be set to your BrowserStack account user name
 `BS_AUTHKEY`     | Must be set to your BrowserStack account access key
+`BS_OS`          | Must be set to `ios` or `android`
 `BS_BROWSER`     | Must be set to `iPhone`, `iPad`, or `android`
 `BS_PLATFORM`    | Must be set to `MAC` (for iOS) or `ANDROID`
 `BS_DEVICE`      | Refer to `device` capability in chart
@@ -963,6 +981,8 @@ service(s) that you intend to connect with.
     
     ipad:                WEB_BROWSER=ipad                HOST_BROWSER=firefox <%= mobile %>
     ipad_pro:            WEB_BROWSER=ipad_pro            HOST_BROWSER=firefox <%= mobile %>
+    ipad_pro_10_5:       WEB_BROWSER=ipad_pro_10_5       HOST_BROWSER=firefox <%= mobile %>
+    ipad_chrome:         WEB_BROWSER=ipad_chrome         HOST_BROWSER=firefox <%= mobile %>
     iphone:              WEB_BROWSER=iphone              HOST_BROWSER=firefox <%= mobile %>
     iphone4:             WEB_BROWSER=iphone4             HOST_BROWSER=firefox <%= mobile %>
     iphone5:             WEB_BROWSER=iphone5             HOST_BROWSER=firefox <%= mobile %>
@@ -970,6 +990,10 @@ service(s) that you intend to connect with.
     iphone6_plus:        WEB_BROWSER=iphone6_plus        HOST_BROWSER=firefox <%= mobile %>
     iphone7:             WEB_BROWSER=iphone7             HOST_BROWSER=firefox <%= mobile %>
     iphone7_plus:        WEB_BROWSER=iphone7_plus        HOST_BROWSER=firefox <%= mobile %>
+    iphone7_chrome:      WEB_BROWSER=iphone7_chrome      HOST_BROWSER=firefox <%= mobile %>
+    iphone8:             WEB_BROWSER=iphone8             HOST_BROWSER=firefox <%= mobile %>
+    iphone8_plus:        WEB_BROWSER=iphone8_plus        HOST_BROWSER=firefox <%= mobile %>
+    iphoneX:             WEB_BROWSER=iphonex             HOST_BROWSER=firefox <%= mobile %>
     android_phone:       WEB_BROWSER=android_phone       HOST_BROWSER=firefox <%= mobile %>
     nexus6:              WEB_BROWSER=nexus6              HOST_BROWSER=firefox <%= mobile %>
     android_tablet:      WEB_BROWSER=android_tablet      HOST_BROWSER=firefox <%= mobile %>
@@ -1070,7 +1094,7 @@ service(s) that you intend to connect with.
     bs_edge_win10:      --profile bs_win10 BS_BROWSER="Edge" BS_VERSION="13.0"
     
     # BrowserStack iOS mobile browser profiles
-    bs_iphone:          --profile bs_mobile BS_PLATFORM=MAC BS_BROWSER=iPhone
+    bs_iphone:          --profile bs_mobile BS_PLATFORM=MAC BS_OS=ios BS_BROWSER=iPhone
     bs_iphone6s_plus:   --profile bs_iphone BS_DEVICE="iPhone 6S Plus"
     bs_iphone6s:        --profile bs_iphone BS_DEVICE="iPhone 6S"
     bs_iphone6_plus:    --profile bs_iphone BS_DEVICE="iPhone 6 Plus"
@@ -1084,12 +1108,12 @@ service(s) that you intend to connect with.
     bs_ipad_mini:       --profile bs_ipad BS_DEVICE="iPad Mini 4"
     
     # BrowserStack iOS real device mobile browser profiles
-    bs_iphone_device:   --profile bs_mobile BS_BROWSER=iPhone BS_REAL_MOBILE="true"
+    bs_iphone_device:   --profile bs_mobile BS_BROWSER=iPhone BS_OS=ios BS_REAL_MOBILE="true"
     bs_iphone7_plus:    --profile bs_iphone_device BS_DEVICE="iPhone 7 Plus"
     bs_iphone7:         --profile bs_iphone_device BS_DEVICE="iPhone 7"
     
     # BrowserStack Android mobile browser profiles
-    bs_android:          --profile bs_mobile BS_PLATFORM=ANDROID BS_BROWSER=android
+    bs_android:          --profile bs_mobile BS_PLATFORM=ANDROID BS_BROWSER=android BS_OS=android
     bs_galaxy_s5:        --profile bs_android BS_DEVICE="Samsung Galaxy S5"
     bs_kindle_fire_hd89: --profile bs_android BS_DEVICE="Amazon Kindle Fire HD 8.9"
     bs_kindle_fire_hdx7: --profile bs_android BS_DEVICE="Amazon Kindle Fire HDX 7"
@@ -1100,8 +1124,9 @@ service(s) that you intend to connect with.
     bs_sony_xperia:      --profile bs_android BS_DEVICE="Sony Xperia Tipo"
     
     # BrowserStack Android real device mobile browser profiles
-    bs_android_device:   --profile bs_mobile BS_BROWSER=android BS_REAL_MOBILE="true"
-    bs_google_pixel:     --profile bs_android_device BS_DEVICE="Google Pixel"
+    bs_android_device:   --profile bs_mobile BS_BROWSER=android BS_OS=android BS_REAL_MOBILE="true"
+    bs_google_pixel8:    --profile bs_android_device BS_DEVICE="Google Pixel" BS_OS_VERSION="8.0"
+    bs_google_pixel71:   --profile bs_android_device BS_DEVICE="Google Pixel" BS_OS_VERSION="7.1"
     bs_nexus9:           --profile bs_android_device BS_DEVICE="Google Nexus 9"
     bs_nexus6:           --profile bs_android_device BS_DEVICE="Google Nexus 6"
     bs_galaxy_s7:        --profile bs_android_device BS_DEVICE="Samsung Galaxy S7"

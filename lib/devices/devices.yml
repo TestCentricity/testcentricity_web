@@ -39,14 +39,42 @@
   :css_width: 375
   :css_height: 667
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A345 Safari/602.1"
+  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/603.1.23 (KHTML, like Gecko) Version/10.0 Mobile/14E5239e Safari/602.1"
 :iphone7_plus:
   :name: "iPhone 7 Plus"
   :os: "ios"
   :css_width: 414
   :css_height: 736
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A345 Safari/602.1"
+  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/603.1.23 (KHTML, like Gecko) Version/10.0 Mobile/14E5239e Safari/602.1"
+:iphone7_chrome:
+  :name: "iPhone 7 - Chrome"
+  :os: "ios"
+  :css_width: 375
+  :css_height: 667
+  :default_orientation: portrait
+  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1"
+:iphone8:
+  :name: "iPhone 8"
+  :os: "ios"
+  :css_width: 375
+  :css_height: 667
+  :default_orientation: portrait
+  :user_agent: "Mozilla/5.0 (iPhone; CPU OS 11_0 like Mac OS X) AppleWebKit/604.1.25 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1"
+:iphone8_plus:
+  :name: "iPhone 8 Plus"
+  :os: "ios"
+  :css_width: 414
+  :css_height: 736
+  :default_orientation: portrait
+  :user_agent: "Mozilla/5.0 (iPhone; CPU OS 11_0 like Mac OS X) AppleWebKit/604.1.25 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1"
+:iphonex:
+  :name: "iPhone X"
+  :os: "ios"
+  :css_width: 375
+  :css_height: 812
+  :default_orientation: portrait
+  :user_agent: "Mozilla/5.0 (iPhone; CPU OS 11_0 like Mac OS X) AppleWebKit/604.1.25 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1"
 :android_phone:
   :name: "Generic Android phone"
   :os: "android"
@@ -88,14 +116,14 @@ nexus6:
   :css_width: 411
   :css_height: 731
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (Linux; Android 7.1; Pixel Build/NAE63H; xx-xx) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.134 Mobile Safari/537.36"
+  :user_agent: "Mozilla/5.0 (Linux; Android 8.0.0; Pixel Build/OPP3.170518.006) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.66 Mobile Safari/537.36"
 :pixel_xl:
   :name: "Google Pixel XL phone"
   :os: "android"
   :css_width: 411
   :css_height: 731
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (Linux; Android 7.1; Pixel XL Build/NDE63N; xx-xx) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/54.0.2840.34 Mobile Safari/537.36"
+  :user_agent: "Mozilla/5.0 (Linux; Android 8.0.0; Pixel XL Build/OPR6.170623.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.116 Mobile Safari/537.36"
 :windows_phone8:
   :name: "Generic Windows 8 phone"
   :os: "windows"
@@ -130,14 +158,28 @@ nexus6:
   :css_width: 1024
   :css_height: 768
   :default_orientation: landscape
-  :user_agent: "Mozilla/5.0 (iPad; CPU OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/3B143 Safari/601.1"
+  :user_agent: "Mozilla/5.0 (iPad; CPU OS 10_3 like Mac OS X) AppleWebKit/603.1.23 (KHTML, like Gecko) Version/10.0 Mobile/14E5239e Safari/602.1"
 :ipad_pro:
   :name: "iPad Pro"
   :os: "ios"
   :css_width: 1366
   :css_height: 1024
   :default_orientation: landscape
-  :user_agent: "Mozilla/5.0 (iPad; CPU OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B137 Safari/601.1"
+  :user_agent: "Mozilla/5.0 (iPad; CPU OS 11_0 like Mac OS X) AppleWebKit/604.1.25 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1"
+:ipad_pro_10_5:
+  :name: "iPad Pro 10.5 in."
+  :os: "ios"
+  :css_width: 1112
+  :css_height: 834
+  :default_orientation: landscape
+  :user_agent: "Mozilla/5.0 (iPad; CPU OS 11_0 like Mac OS X) AppleWebKit/604.1.25 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1"
+:ipad_chrome:
+  :name: "iPad - Chrome"
+  :os: "ios"
+  :css_width: 1024
+  :css_height: 768
+  :default_orientation: landscape
+  :user_agent: "Mozilla/5.0 (iPad; CPU OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1"
 :android_tablet:
   :name: "Generic Android tablet"
   :os: "android"
