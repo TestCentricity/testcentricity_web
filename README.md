@@ -23,6 +23,12 @@ feature incomplete and potentially unstable. More information can be found [here
 
 
 ## What's New
+###Version 2.1.2
+
+* Added device profiles for Microsoft Lumia 950, Blackberry Leap, Blackberry Passport, and Kindle Fire HD 10
+* Added ability to set browser language support via the `LOCALE` Environment Variable for local instances of Chrome or Firefox browsers
+
+###Version 2.1.0
 
 * Added device profiles for iPhone 8, iPhone 8 Plus, iPhone X devices running iOS 11
 * Added device profile for iPad Pro 10.5" with iOS 11
@@ -32,6 +38,7 @@ feature incomplete and potentially unstable. More information can be found [here
 
 
 ## What's Fixed
+###Version 2.1.0
 
 * The `TestCentricity::WebDriverConnect.initialize_web_driver` method now sets the `Environ` object to the correct device connection states for local and
 cloud hosted browsers.
@@ -742,6 +749,7 @@ mobile web browsers, the `WEB_BROWSER` Environment Variable must be set to one o
 `kindle_fire`         |`firefox` or `chrome` |1024 x 600 |landscape |
 `kindle_firehd7`      |`firefox` or `chrome` |800 x 480  |landscape |Fire OS 3
 `kindle_firehd8`      |`firefox` or `chrome` |1280 x 800 |landscape |Fire OS 5
+`kindle_firehd10`     |`firefox` or `chrome` |1920 x 1200 |landscape |Fire OS 5
 `surface`             |`firefox` or `chrome` |1366 x 768 |landscape |
 `blackberry_playbook` |`firefox` or `chrome` |1024 x 600 |landscape |BlackBerry Tablet OS
 `samsung_galaxy_tab`  |`firefox` or `chrome` |1280 x 800 |landscape |Android 4.0.4
@@ -757,7 +765,7 @@ mobile web browsers, the `WEB_BROWSER` Environment Variable must be set to one o
 `iphone7_plus`        |`firefox` or `chrome` |414 x 736  |portrait  |iOS 10
 `iphone7_chrome`      |`firefox` or `chrome` |375 x 667  |portrait  |iOS 10 - Mobile Chrome browser for iOS
 `iphone8`             |`firefox` or `chrome` |375 x 667  |portrait  |iOS 11
-`iphone9_plus`        |`firefox` or `chrome` |414 x 736  |portrait  |iOS 11
+`iphone8_plus`        |`firefox` or `chrome` |414 x 736  |portrait  |iOS 11
 `iphonex`             |`firefox` or `chrome` |375 x 812  |portrait  |iOS 11
 `android_phone`       |`firefox` or `chrome` |320 x 480  |portrait  |Android 4
 `nexus6`              |`firefox` or `chrome` |411 x 731  |portrait  |Android 6
@@ -768,8 +776,11 @@ mobile web browsers, the `WEB_BROWSER` Environment Variable must be set to one o
 `samsung_galaxy_s6`   |`firefox` or `chrome` |360 x 640  |portrait  |Android 6.0.1
 `windows_phone7`      |`firefox` or `chrome` |320 x 480  |portrait  |Windows Phone OS 7.5
 `windows_phone8`      |`firefox` or `chrome` |320 x 480  |portrait  |Windows Phone OS 8.0
+`lumia_950_xl`        |`firefox` or `chrome` |360 x 640  |portrait  |Windows Phone OS 10
 `blackberry_z10`      |`firefox` or `chrome` |384 x 640  |portrait  |BlackBerry 10 OS
 `blackberry_z30`      |`firefox` or `chrome` |360 x 640  |portrait  |BlackBerry 10 OS
+`blackberry_leap`     |`firefox` or `chrome` |360 x 640  |portrait  |BlackBerry 10 OS
+`blackberry_passport` |`firefox` or `chrome` |504 x 504  |square    |BlackBerry 10 OS
 
 To change the emulated device's screen orientation from the default setting, set the `ORIENTATION` Environment Variable to either `portrait` or `landscape`.
 
@@ -1000,6 +1011,7 @@ service(s) that you intend to connect with.
     kindle_fire:         WEB_BROWSER=kindle_fire         HOST_BROWSER=firefox <%= mobile %>
     kindle_firehd7:      WEB_BROWSER=kindle_firehd7      HOST_BROWSER=firefox <%= mobile %>
     kindle_firehd8:      WEB_BROWSER=kindle_firehd8      HOST_BROWSER=firefox <%= mobile %>
+    kindle_firehd10:     WEB_BROWSER=kindle_firehd10     HOST_BROWSER=firefox <%= tablet %>
     surface:             WEB_BROWSER=surface             HOST_BROWSER=firefox <%= mobile %>
     blackberry_playbook: WEB_BROWSER=blackberry_playbook HOST_BROWSER=firefox <%= mobile %>
     samsung_galaxy_tab:  WEB_BROWSER=samsung_galaxy_tab  HOST_BROWSER=firefox <%= mobile %>
@@ -1013,8 +1025,11 @@ service(s) that you intend to connect with.
     pixel_xl:            WEB_BROWSER=pixel_xl            HOST_BROWSER=firefox <%= mobile %>
     windows_phone7:      WEB_BROWSER=windows_phone7      HOST_BROWSER=firefox <%= mobile %>
     windows_phone8:      WEB_BROWSER=windows_phone8      HOST_BROWSER=firefox <%= mobile %>
+    lumia_950_xl:        WEB_BROWSER=lumia_950_xl        HOST_BROWSER=firefox <%= mobile %>
     blackberry_z10:      WEB_BROWSER=blackberry_z10      HOST_BROWSER=firefox <%= mobile %>
     blackberry_z30:      WEB_BROWSER=blackberry_z30      HOST_BROWSER=firefox <%= mobile %>
+    blackberry_leap:     WEB_BROWSER=blackberry_leap     HOST_BROWSER=firefox <%= mobile %>
+    blackberry_passport: WEB_BROWSER=blackberry_passport HOST_BROWSER=firefox <%= mobile %>
 
     
     #==============

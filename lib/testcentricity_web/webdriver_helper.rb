@@ -160,11 +160,18 @@ module TestCentricity
           when :firefox
             profile = Selenium::WebDriver::Firefox::Profile.new
             profile['general.useragent.override'] = user_agent
+            profile['intl.accept_languages'] = ENV['LOCALE'] if ENV['LOCALE']
             Capybara::Selenium::Driver.new(app, :profile => profile)
           when :chrome
             args = []
             args << "--user-agent='#{user_agent}'"
-            Capybara::Selenium::Driver.new(app, :browser => :chrome, :args => args)
+            if ENV['LOCALE']
+              profile = Selenium::WebDriver::Chrome::Profile.new
+              profile['intl.accept_languages'] = ENV['LOCALE']
+              Capybara::Selenium::Driver.new(app, :browser => :chrome, :args => args, :profile => profile)
+            else
+              Capybara::Selenium::Driver.new(app, :browser => :chrome, :args => args)
+            end
           end
         end
       end
