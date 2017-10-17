@@ -23,6 +23,12 @@ feature incomplete and potentially unstable. More information can be found [here
 
 
 ## What's New
+###Version 2.1.3
+
+* Added support for "tiling" or cascading multiple browser windows when the `BROWSER_TILE` and `PARALLEL` Environment Variables are set to true. For each
+concurrent parallel thread being executed, the position of each browser will be offset by 100 pixels right and 100 pixels down. For parallel test execution,
+use the [parallel_tests gem](https://github.com/grosser/parallel_tests) to decrease overall test execution time.
+
 ###Version 2.1.2
 
 * Added device profiles for Microsoft Lumia 950, Blackberry Leap, Blackberry Passport, and Kindle Fire HD 10

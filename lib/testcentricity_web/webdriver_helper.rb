@@ -420,6 +420,13 @@ module TestCentricity
       elsif Environ.is_mobile? && !Environ.is_device?
         Browsers.set_browser_window_size(Browsers.browser_size(browser, ENV['ORIENTATION']))
       end
+      # tile browser windows if running in multiple parallel threads and BROWSER_TILE environment variable is true
+      if ENV['PARALLEL'] && ENV['BROWSER_TILE']
+        thread = ENV['TEST_ENV_NUMBER'].to_i
+        if thread > 1
+          Browsers.set_browser_window_position(100 * thread - 1, 100 * thread - 1)
+        end
+      end
     end
   end
 end

@@ -27,6 +27,17 @@ module TestCentricity
       window = Capybara.current_session.driver.browser.manage.window
       window.maximize
     end
+    # Sets the position of the browser window.
+    #
+    # @param x [Integer] the desired x coordinate
+    # @param y [Integer] the desired y coordinate
+    # @example
+    #   Browsers.set_browser_window_position([100, 300])
+    #
+    def self.set_browser_window_position(x, y)
+      window = Capybara.current_session.driver.browser.manage.window
+      window.move_to(x, y)
+    end
 
     # Refreshes the selenium browser.
     #
