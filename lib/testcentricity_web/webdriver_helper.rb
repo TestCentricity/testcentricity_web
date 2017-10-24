@@ -163,8 +163,7 @@ module TestCentricity
             profile['intl.accept_languages'] = ENV['LOCALE'] if ENV['LOCALE']
             Capybara::Selenium::Driver.new(app, :profile => profile)
           when :chrome
-            args = []
-            args << "--user-agent='#{user_agent}'"
+            args = ["--user-agent='#{user_agent}'", '--disable-infobars']
             if ENV['LOCALE']
               profile = Selenium::WebDriver::Chrome::Profile.new
               profile['intl.accept_languages'] = ENV['LOCALE']
@@ -408,6 +407,15 @@ module TestCentricity
     end
 
     def self.initialize_browser_size
+      # tile browser windows if running in multiple parallel threads and BROWSER_TILE environment variable is true
+      if ENV['PARALLEL'] && ENV['BROWSER_TILE']
+        thread = ENV['TEST_ENV_NUMBER'].to_i
+        if thread > 1
+          Browsers.set_browser_window_position(100 * thread - 1, 100 * thread - 1)
+          sleep(1)
+        end
+      end
+
       browser = Environ.browser.to_s
       if Environ.is_desktop?
         if ENV['BROWSER_SIZE'] == 'max'
@@ -419,13 +427,6 @@ module TestCentricity
         end
       elsif Environ.is_mobile? && !Environ.is_device?
         Browsers.set_browser_window_size(Browsers.browser_size(browser, ENV['ORIENTATION']))
-      end
-      # tile browser windows if running in multiple parallel threads and BROWSER_TILE environment variable is true
-      if ENV['PARALLEL'] && ENV['BROWSER_TILE']
-        thread = ENV['TEST_ENV_NUMBER'].to_i
-        if thread > 1
-          Browsers.set_browser_window_position(100 * thread - 1, 100 * thread - 1)
-        end
       end
     end
   end

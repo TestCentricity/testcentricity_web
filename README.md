@@ -23,6 +23,11 @@ feature incomplete and potentially unstable. More information can be found [here
 
 
 ## What's New
+###Version 2.1.4
+
+* Added suppression of the Info Bar on locally hosted instances of the Chrome browser.
+
+
 ###Version 2.1.3
 
 * Added support for "tiling" or cascading multiple browser windows when the `BROWSER_TILE` and `PARALLEL` Environment Variables are set to true. For each
