@@ -23,9 +23,19 @@ feature incomplete and potentially unstable. More information can be found [here
 
 
 ## What's New
+###Version 2.1.5
+
+* Fixed Chrome and Firefox support for setting browser language via the `LOCALE` Environment Variable. This capability now works for emulated mobile
+browsers hosted in a local instance of Chrome or Firefox.
+
+* Added `get_min`, `get_max`, and `get_step` methods to `TextField` class.
+
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `min`, `max`, and `step` attributes
+for textfields.
+
 ###Version 2.1.4
 
-* Added suppression of the Info Bar on locally hosted instances of the Chrome browser.
+* Added suppression of the Info Bar that displays "Chrome is being controlled by automated test software" on locally hosted instances of the Chrome browser.
 
 
 ###Version 2.1.3

@@ -41,5 +41,44 @@ module TestCentricity
       object_not_found_exception(obj, nil)
       obj.native.attribute('placeholder')
     end
+
+    # Return min attribute of a number type text field.
+    #
+    # @return [Integer]
+    # @example
+    #   min_points_value = points_field.get_min
+    #
+    def get_min
+      obj, = find_element
+      object_not_found_exception(obj, nil)
+      min = obj.native.attribute('min')
+      min.to_i unless min.blank?
+    end
+
+    # Return max attribute of a number type text field.
+    #
+    # @return [Integer]
+    # @example
+    #   max_points_value = points_field.get_max
+    #
+    def get_max
+      obj, = find_element
+      object_not_found_exception(obj, nil)
+      max = obj.native.attribute('max')
+      max.to_i unless max.blank?
+    end
+
+    # Return step attribute of a number type text field.
+    #
+    # @return [Integer]
+    # @example
+    #   points_step = points_field.get_step
+    #
+    def get_step
+      obj, = find_element
+      object_not_found_exception(obj, nil)
+      step = obj.native.attribute('step')
+      step.to_i unless step.blank?
+    end
   end
 end

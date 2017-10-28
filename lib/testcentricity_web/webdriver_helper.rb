@@ -70,13 +70,13 @@ module TestCentricity
       end
       # set WebDriver path based on browser and operating system
       case ENV['WEB_BROWSER'].downcase.to_sym
-      when :chrome
-        if OS.osx?
-          path_to_driver = 'mac/chromedriver'
-        elsif OS.windows?
-          path_to_driver = 'windows/chromedriver.exe'
-        end
-        Selenium::WebDriver::Chrome.driver_path = File.join(project_path, base_path, path_to_driver)
+      # when :firefox
+      #   if OS.osx?
+      #     path_to_driver = 'mac/geckodriver'
+      #   elsif OS.windows?
+      #     path_to_driver = 'windows/geckodriver.exe'
+      #   end
+      #   Selenium::WebDriver::Firefox.driver_path = File.join(project_path, base_path, path_to_driver)
       when :ie
         path_to_driver = 'windows/IEDriverServer.exe'
         Selenium::WebDriver::IE.driver_path = File.join(project_path, base_path, path_to_driver)
@@ -151,8 +151,22 @@ module TestCentricity
       Capybara.default_driver = :selenium
       Capybara.register_driver :selenium do |app|
         case browser.downcase.to_sym
-        when :firefox, :chrome, :ie, :safari, :edge
+        when :ie, :safari, :edge
           Capybara::Selenium::Driver.new(app, :browser => browser.to_sym)
+
+        when :firefox
+          if ENV['LOCALE']
+            profile = Selenium::WebDriver::Firefox::Profile.new
+            profile['intl.accept_languages'] = ENV['LOCALE']
+            Capybara::Selenium::Driver.new(app, :profile => profile)
+          else
+            Capybara::Selenium::Driver.new(app, :browser => :firefox)
+          end
+
+        when :chrome
+          ENV['LOCALE'] ? args = ['--disable-infobars', "--lang=#{ENV['LOCALE']}"] : args = ['--disable-infobars']
+          Capybara::Selenium::Driver.new(app, :browser => :chrome, :args => args)
+
         else
           user_agent = Browsers.mobile_device_agent(browser)
           ENV['HOST_BROWSER'] ? host_browser = ENV['HOST_BROWSER'].downcase.to_sym : host_browser = :firefox
@@ -162,15 +176,12 @@ module TestCentricity
             profile['general.useragent.override'] = user_agent
             profile['intl.accept_languages'] = ENV['LOCALE'] if ENV['LOCALE']
             Capybara::Selenium::Driver.new(app, :profile => profile)
+
           when :chrome
-            args = ["--user-agent='#{user_agent}'", '--disable-infobars']
-            if ENV['LOCALE']
-              profile = Selenium::WebDriver::Chrome::Profile.new
-              profile['intl.accept_languages'] = ENV['LOCALE']
-              Capybara::Selenium::Driver.new(app, :browser => :chrome, :args => args, :profile => profile)
-            else
-              Capybara::Selenium::Driver.new(app, :browser => :chrome, :args => args)
-            end
+            ENV['LOCALE'] ?
+                args = ["--user-agent='#{user_agent}'", "--lang=#{ENV['LOCALE']}", '--disable-infobars'] :
+                args = ["--user-agent='#{user_agent}'", '--disable-infobars']
+            Capybara::Selenium::Driver.new(app, :browser => :chrome, :args => args)
           end
         end
       end

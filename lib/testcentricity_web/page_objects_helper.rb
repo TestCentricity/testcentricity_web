@@ -504,6 +504,12 @@ module TestCentricity
             actual = ui_object.get_column_count
           when :placeholder
             actual = ui_object.get_placeholder
+          when :min
+            actual = ui_object.get_min
+          when :max
+            actual = ui_object.get_max
+          when :step
+            actual = ui_object.get_step
           when :options, :items, :list_items
             actual = ui_object.get_list_items
           when :optioncount, :itemcount
