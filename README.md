@@ -56,7 +56,7 @@ use the [parallel_tests gem](https://github.com/grosser/parallel_tests) to decre
 
 
 ## What's Fixed
-###Version 2.1.5.1
+###Version 2.1.6
 
 * Fixed bug in `TestCentricity::WebDriverConnect.set_webdriver_path` method that was failing to set the path to the appropriate chromedriver file for OS X
 and Windows.
