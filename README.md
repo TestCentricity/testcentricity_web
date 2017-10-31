@@ -25,9 +25,6 @@ feature incomplete and potentially unstable. More information can be found [here
 ## What's New
 ###Version 2.1.5
 
-* Fixed Chrome and Firefox support for setting browser language via the `LOCALE` Environment Variable. This capability now works for emulated mobile
-browsers hosted in a local instance of Chrome or Firefox.
-
 * Added `get_min`, `get_max`, and `get_step` methods to `TextField` class.
 
 * Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `min`, `max`, and `step` attributes
@@ -59,6 +56,16 @@ use the [parallel_tests gem](https://github.com/grosser/parallel_tests) to decre
 
 
 ## What's Fixed
+###Version 2.1.5.1
+
+* Fixed bug in `TestCentricity::WebDriverConnect.set_webdriver_path` method that was failing to set the path to the appropriate chromedriver file for OS X
+and Windows.
+
+###Version 2.1.5
+
+* Fixed Chrome and Firefox support for setting browser language via the `LOCALE` Environment Variable. This capability now works for emulated mobile
+browsers hosted in a local instance of Chrome or Firefox.
+
 ###Version 2.1.0
 
 * The `TestCentricity::WebDriverConnect.initialize_web_driver` method now sets the `Environ` object to the correct device connection states for local and

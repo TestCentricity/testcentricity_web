@@ -70,6 +70,13 @@ module TestCentricity
       end
       # set WebDriver path based on browser and operating system
       case ENV['WEB_BROWSER'].downcase.to_sym
+      when :chrome
+        if OS.osx?
+          path_to_driver = 'mac/chromedriver'
+        elsif OS.windows?
+          path_to_driver = 'windows/chromedriver.exe'
+        end
+        Selenium::WebDriver::Chrome.driver_path = File.join(project_path, base_path, path_to_driver)
       # when :firefox
       #   if OS.osx?
       #     path_to_driver = 'mac/geckodriver'
