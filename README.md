@@ -23,6 +23,11 @@ feature incomplete and potentially unstable. More information can be found [here
 
 
 ## What's New
+###Version 2.1.7
+
+* Updated `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods to use backspace characters to delete contents of a textfield
+instead of using `clear`, which was preventing `onchange` JavaScript events from being triggered in some browsers.
+
 ###Version 2.1.5
 
 * Added `get_min`, `get_max`, and `get_step` methods to `TextField` class.

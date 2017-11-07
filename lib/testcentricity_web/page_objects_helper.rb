@@ -605,19 +605,21 @@ module TestCentricity
 
     # Populate the specified UI elements on this page with the associated data from a Hash passed as an argument. Data
     # values must be in the form of a String for textfield and select list controls. For checkbox and radio buttons,
-    # data must either be a Boolean or a String that evaluates to a Boolean value (Yes, No, 1, 0, true, false)
+    # data must either be a Boolean or a String that evaluates to a Boolean value (Yes, No, 1, 0, true, false).
+    #
+    # To delete all text content in a text field, pass !DELETE as the data to be entered.
     #
     # @param data [Hash] UI element(s) and associated data to be entered
     # @example
-    #   data = { prefix_select      => 'Ms',
-    #            first_name_field   => 'Priscilla',
-    #            last_name_field    => 'Pumperknickle',
-    #            gender_select      => 'Female',
-    #            dob_field          => '11/18/1976',
-    #            email_field        => 'p.pumperknickle4876@gmail.com',
-    #            mailing_list_check => 'Yes'
+    #   field_data = { prefix_select      => 'Ms',
+    #                  first_name_field   => 'Priscilla',
+    #                  last_name_field    => 'Pumperknickle',
+    #                  gender_select      => 'Female',
+    #                  dob_field          => '11/18/1976',
+    #                  email_field        => 'p.pumperknickle4876@gmail.com',
+    #                  mailing_list_check => 'Yes'
     #          }
-    #   populate_data_fields(data)
+    #   populate_data_fields(field_data)
     #
     def populate_data_fields(data)
       data.each do |data_field, data_param|
@@ -625,7 +627,12 @@ module TestCentricity
           # make sure the intended UI target element exists before trying to set its value
           data_field.wait_until_exists(2)
           if data_param == '!DELETE'
-            data_field.set('')
+            length = data_field.get_value.length
+            length.times do
+              data_field.send_keys(:backspace)
+            end
+            sleep(0.5)
+            data_field.send_keys(:tab)
           else
             case data_field.get_object_type
             when :checkbox
