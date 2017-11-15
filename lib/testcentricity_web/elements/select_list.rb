@@ -41,13 +41,13 @@ module TestCentricity
       obj, = find_element
       object_not_found_exception(obj, nil)
       obj.click
-      if first(:css, 'li.active-result')
+      if first(:css, "li[class*='active-result']")
         if option.is_a?(Array)
           option.each do |item|
-            page.find(:css, 'li.active-result', text: item.strip).click
+            page.find(:css, "li[class*='active-result']", text: item.strip).click
           end
         else
-          first(:css, 'li.active-result', text: option).click
+          first(:css, "li[class*='active-result']", text: option).click
         end
       else
         if option.is_a?(Array)
@@ -70,8 +70,8 @@ module TestCentricity
     def get_options
       obj, = find_element
       object_not_found_exception(obj, nil)
-      if first(:css, 'li.active-result')
-        obj.all('li.active-result').collect(&:text)
+      if first(:css, "li[class*='active-result']")
+        obj.all("li[class*='active-result']").collect(&:text)
       else
         obj.all(@list_item).collect(&:text)
       end
@@ -89,8 +89,8 @@ module TestCentricity
     def get_option_count
       obj, = find_element
       object_not_found_exception(obj, nil)
-      if first(:css, 'li.active-result')
-        obj.all('li.active-result').count
+      if first(:css, "li[class*='active-result']")
+        obj.all("li[class*='active-result']").count
       else
         obj.all(@list_item).count
       end
@@ -115,8 +115,8 @@ module TestCentricity
     def get_selected_option
       obj, = find_element
       object_not_found_exception(obj, nil)
-      if first(:css, 'li.active-result')
-        obj.first("//li[contains(@class, 'result-selected')]").text
+      if first(:css, "li[class*='active-result']")
+        obj.first(:css, "li[class*='result-selected']").text
       else
         obj.first(@selected_item).text
       end

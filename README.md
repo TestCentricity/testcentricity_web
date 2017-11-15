@@ -23,6 +23,15 @@ feature incomplete and potentially unstable. More information can be found [here
 
 
 ## What's New
+
+###Version 2.1.10
+
+* Added device profiles for iPhone 7 (iOS 10) with Mobile Firefox browser and iPad (iOS 10) with Mobile Firefox browser
+
+###Version 2.1.8
+
+* Added `PageSection.verify_list_items` method for **Indexed PageSection Objects**.
+
 ###Version 2.1.7
 
 * Updated `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods to use backspace characters to delete contents of a textfield
@@ -61,6 +70,11 @@ use the [parallel_tests gem](https://github.com/grosser/parallel_tests) to decre
 
 
 ## What's Fixed
+###Version 2.1.9
+
+* Fixed bug in `SelectList.choose_option`, `SelectList.get_options`, `SelectList.get_option_count`, and `SelectList.get_selected_option` methods which
+did not recognize grouped option in Chosen list objects.
+
 ###Version 2.1.6
 
 * Fixed bug in `TestCentricity::WebDriverConnect.set_webdriver_path` method that was failing to set the path to the appropriate chromedriver file for OS X
@@ -778,6 +792,7 @@ mobile web browsers, the `WEB_BROWSER` Environment Variable must be set to one o
 `ipad_pro`            |`firefox` or `chrome` |1366 x 1024|landscape |iOS 11
 `ipad_pro_10_5`       |`firefox` or `chrome` |1112 x 834 |landscape |iOS 11
 `ipad_chrome`         |`firefox` or `chrome` |1024 x 768 |landscape |iOS 10 - Mobile Chrome browser for iOS
+`ipad_firefox`        |`firefox` or `chrome` |1024 x 768 |landscape |iOS 10 - Mobile Firefox browser for iOS
 `android_tablet`      |`firefox` or `chrome` |1024 x 768 |landscape |Android 3.0
 `kindle_fire`         |`firefox` or `chrome` |1024 x 600 |landscape |
 `kindle_firehd7`      |`firefox` or `chrome` |800 x 480  |landscape |Fire OS 3
@@ -797,6 +812,7 @@ mobile web browsers, the `WEB_BROWSER` Environment Variable must be set to one o
 `iphone7`             |`firefox` or `chrome` |375 x 667  |portrait  |iOS 10
 `iphone7_plus`        |`firefox` or `chrome` |414 x 736  |portrait  |iOS 10
 `iphone7_chrome`      |`firefox` or `chrome` |375 x 667  |portrait  |iOS 10 - Mobile Chrome browser for iOS
+`iphone7_firefox`     |`firefox` or `chrome` |375 x 667  |portrait  |iOS 10 - Mobile Firefox browser for iOS
 `iphone8`             |`firefox` or `chrome` |375 x 667  |portrait  |iOS 11
 `iphone8_plus`        |`firefox` or `chrome` |414 x 736  |portrait  |iOS 11
 `iphonex`             |`firefox` or `chrome` |375 x 812  |portrait  |iOS 11

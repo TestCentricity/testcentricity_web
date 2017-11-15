@@ -12,7 +12,6 @@ module TestCentricity
     attr_accessor :parent_list
     attr_accessor :list_index
 
-
     def initialize(name, parent, locator, context)
       @name         = name
       @parent       = parent
@@ -64,6 +63,13 @@ module TestCentricity
         items.push(get_value)
       end
       items
+    end
+
+    def verify_list_items(expected, enqueue = false)
+      actual = get_list_items
+      enqueue ?
+          ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list '#{get_name}' (#{get_locator})") :
+          assert_equal(expected, actual, "Expected list object '#{get_name}' (#{get_locator}) to be #{expected} but found #{actual}")
     end
 
     def get_object_type
