@@ -7,14 +7,14 @@ The TestCentricity™ Web core generic framework for desktop and mobile web site
 use with Cucumber, Capybara, and Selenium-Webdriver.
 
 The TestCentricity™ Web gem supports running automated tests against the following web test targets:
-
 * locally hosted desktop browsers (Firefox*, Chrome, Safari, or IE)
-* locally hosted emulated iOS Mobile Safari, Android, Windows Phone, or Blackberry mobile browsers (running within Firefox or Chrome)
+* locally hosted emulated iOS Mobile Safari, Android, Windows Phone, or Blackberry mobile browsers (running within a local instance of Chrome)
 * a "headless" browser (using Poltergeist and PhantomJS)
 * mobile Safari browsers on iOS device simulators (using Appium and XCode on OS X)
 * cloud hosted desktop (Firefox, Chrome, Safari, IE, or Edge) or mobile (iOS Mobile Safari or Android) web browsers using the [Browserstack](https://www.browserstack.com/list-of-browsers-and-platforms?product=automate),
 [Sauce Labs](https://saucelabs.com/open-source#automated-testing-platform), [CrossBrowserTesting](https://crossbrowsertesting.com/selenium-testing), or
 [TestingBot](https://testingbot.com/features) services.
+* web portals utilizing JavaScript front end application frameworks like Ember, React, Angular, and GWT
 
 
 **Note:** Test execution against local instances of Firefox version 48 or greater is currently not supported by the TestCentricity™ Web gem. Testing with
@@ -23,6 +23,10 @@ feature incomplete and potentially unstable. More information can be found [here
 
 
 ## What's New
+
+###Version 2.2.0
+
+* CSS selectors or XPath expressions may be used as locators for all types of **UI Elements**, including tables.
 
 ###Version 2.1.10
 
@@ -58,7 +62,7 @@ use the [parallel_tests gem](https://github.com/grosser/parallel_tests) to decre
 ###Version 2.1.2
 
 * Added device profiles for Microsoft Lumia 950, Blackberry Leap, Blackberry Passport, and Kindle Fire HD 10
-* Added ability to set browser language support via the `LOCALE` Environment Variable for local instances of Chrome or Firefox browsers
+* Added ability to set browser language support via the `LOCALE` Environment Variable for local instances of Chrome browsers
 
 ###Version 2.1.0
 
@@ -70,6 +74,10 @@ use the [parallel_tests gem](https://github.com/grosser/parallel_tests) to decre
 
 
 ## What's Fixed
+###Version 2.2.1
+
+* `SelectList.choose_option` method now accepts index values for Chosen list objects.
+
 ###Version 2.1.9
 
 * Fixed bug in `SelectList.choose_option`, `SelectList.get_options`, `SelectList.get_option_count`, and `SelectList.get_selected_option` methods which
@@ -781,55 +789,55 @@ To maximize a desktop browser window, you set the `BROWSER_SIZE` Environment Var
 
 ### Locally hosted emulated mobile web browser
 
-You can run your tests against mobile device browsers that are emulated within a locally hosted instance of a Firefox or Chrome desktop browser
-on OS X or Windows. The specified mobile browser's user agent, CSS screen dimensions, and default screen orientation will be automatically set
-within the local Firefox or Chrome browser instance. You may even specify the emulated device's screen orientation. For locally hosted emulated
-mobile web browsers, the `WEB_BROWSER` Environment Variable must be set to one of the values from the table below: 
+You can run your tests against mobile device browsers that are emulated within a locally hosted instance of a Chrome desktop browser on OS X or
+Windows. The specified mobile browser's user agent, CSS screen dimensions, and default screen orientation will be automatically set within the
+local Chrome browser instance. You may even specify the emulated device's screen orientation. For locally hosted emulated mobile web browsers,
+the `WEB_BROWSER` Environment Variable must be set to one of the values from the table below: 
 
-`WEB_BROWSER`         | `HOST_BROWSER`       | **CSS Screen Dimensions** | **Default Orientation**  | **OS Version**
+`WEB_BROWSER`         | `HOST_BROWSER` | **CSS Screen Dimensions** | **Default Orientation**  | **OS Version**
 ----------------------|----------------------|-----------|----------|---------
-`ipad`                |`firefox` or `chrome` |1024 x 768 |landscape |iOS 10
-`ipad_pro`            |`firefox` or `chrome` |1366 x 1024|landscape |iOS 11
-`ipad_pro_10_5`       |`firefox` or `chrome` |1112 x 834 |landscape |iOS 11
-`ipad_chrome`         |`firefox` or `chrome` |1024 x 768 |landscape |iOS 10 - Mobile Chrome browser for iOS
-`ipad_firefox`        |`firefox` or `chrome` |1024 x 768 |landscape |iOS 10 - Mobile Firefox browser for iOS
-`android_tablet`      |`firefox` or `chrome` |1024 x 768 |landscape |Android 3.0
-`kindle_fire`         |`firefox` or `chrome` |1024 x 600 |landscape |
-`kindle_firehd7`      |`firefox` or `chrome` |800 x 480  |landscape |Fire OS 3
-`kindle_firehd8`      |`firefox` or `chrome` |1280 x 800 |landscape |Fire OS 5
-`kindle_firehd10`     |`firefox` or `chrome` |1920 x 1200 |landscape |Fire OS 5
-`surface`             |`firefox` or `chrome` |1366 x 768 |landscape |
-`blackberry_playbook` |`firefox` or `chrome` |1024 x 600 |landscape |BlackBerry Tablet OS
-`samsung_galaxy_tab`  |`firefox` or `chrome` |1280 x 800 |landscape |Android 4.0.4
-`google_nexus7`       |`firefox` or `chrome` |960 x 600  |landscape |Android 4.4.4
-`google_nexus9`       |`firefox` or `chrome` |1024 x 768 |landscape |Android 5.1
-`google_nexus10`      |`firefox` or `chrome` |1280 x 800 |landscape |Android 5.1
-`iphone`              |`firefox` or `chrome` |320 x 480  |portrait  |iOS 9.1
-`iphone4`             |`firefox` or `chrome` |320 x 480  |portrait  |iOS 9.1
-`iphone5`             |`firefox` or `chrome` |320 x 568  |portrait  |iOS 9.1
-`iphone6`             |`firefox` or `chrome` |375 x 667  |portrait  |iOS 9.1
-`iphone6_plus`        |`firefox` or `chrome` |414 x 736  |portrait  |iOS 9.1
-`iphone7`             |`firefox` or `chrome` |375 x 667  |portrait  |iOS 10
-`iphone7_plus`        |`firefox` or `chrome` |414 x 736  |portrait  |iOS 10
-`iphone7_chrome`      |`firefox` or `chrome` |375 x 667  |portrait  |iOS 10 - Mobile Chrome browser for iOS
-`iphone7_firefox`     |`firefox` or `chrome` |375 x 667  |portrait  |iOS 10 - Mobile Firefox browser for iOS
-`iphone8`             |`firefox` or `chrome` |375 x 667  |portrait  |iOS 11
-`iphone8_plus`        |`firefox` or `chrome` |414 x 736  |portrait  |iOS 11
-`iphonex`             |`firefox` or `chrome` |375 x 812  |portrait  |iOS 11
-`android_phone`       |`firefox` or `chrome` |320 x 480  |portrait  |Android 4
-`nexus6`              |`firefox` or `chrome` |411 x 731  |portrait  |Android 6
-`pixel`               |`firefox` or `chrome` |411 x 731  |portrait  |Android 8
-`pixel_xl`            |`firefox` or `chrome` |411 x 731  |portrait  |Android 8
-`samsung_galaxy_s4`   |`firefox` or `chrome` |360 x 640  |portrait  |Android 5.0.1
-`samsung_galaxy_s5`   |`firefox` or `chrome` |360 x 640  |portrait  |Android 6.0.1
-`samsung_galaxy_s6`   |`firefox` or `chrome` |360 x 640  |portrait  |Android 6.0.1
-`windows_phone7`      |`firefox` or `chrome` |320 x 480  |portrait  |Windows Phone OS 7.5
-`windows_phone8`      |`firefox` or `chrome` |320 x 480  |portrait  |Windows Phone OS 8.0
-`lumia_950_xl`        |`firefox` or `chrome` |360 x 640  |portrait  |Windows Phone OS 10
-`blackberry_z10`      |`firefox` or `chrome` |384 x 640  |portrait  |BlackBerry 10 OS
-`blackberry_z30`      |`firefox` or `chrome` |360 x 640  |portrait  |BlackBerry 10 OS
-`blackberry_leap`     |`firefox` or `chrome` |360 x 640  |portrait  |BlackBerry 10 OS
-`blackberry_passport` |`firefox` or `chrome` |504 x 504  |square    |BlackBerry 10 OS
+`ipad`                |`chrome`        |1024 x 768 |landscape |iOS 10
+`ipad_pro`            |`chrome`        |1366 x 1024|landscape |iOS 11
+`ipad_pro_10_5`       |`chrome`        |1112 x 834 |landscape |iOS 11
+`ipad_chrome`         |`chrome`        |1024 x 768 |landscape |iOS 10 - Mobile Chrome browser for iOS
+`ipad_firefox`        |`chrome`        |1024 x 768 |landscape |iOS 10 - Mobile Firefox browser for iOS
+`android_tablet`      |`chrome`        |1024 x 768 |landscape |Android 3.0
+`kindle_fire`         |`chrome`        |1024 x 600 |landscape |
+`kindle_firehd7`      |`chrome`        |800 x 480  |landscape |Fire OS 3
+`kindle_firehd8`      |`chrome`        |1280 x 800 |landscape |Fire OS 5
+`kindle_firehd10`     |`chrome`        |1920 x 1200 |landscape |Fire OS 5
+`surface`             |`chrome`        |1366 x 768 |landscape |
+`blackberry_playbook` |`chrome`        |1024 x 600 |landscape |BlackBerry Tablet OS
+`samsung_galaxy_tab`  |`chrome`        |1280 x 800 |landscape |Android 4.0.4
+`google_nexus7`       |`chrome`        |960 x 600  |landscape |Android 4.4.4
+`google_nexus9`       |`chrome`        |1024 x 768 |landscape |Android 5.1
+`google_nexus10`      |`chrome`        |1280 x 800 |landscape |Android 5.1
+`iphone`              |`chrome`        |320 x 480  |portrait  |iOS 9.1
+`iphone4`             |`chrome`        |320 x 480  |portrait  |iOS 9.1
+`iphone5`             |`chrome`        |320 x 568  |portrait  |iOS 9.1
+`iphone6`             |`chrome`        |375 x 667  |portrait  |iOS 9.1
+`iphone6_plus`        |`chrome`        |414 x 736  |portrait  |iOS 9.1
+`iphone7`             |`chrome`        |375 x 667  |portrait  |iOS 10
+`iphone7_plus`        |`chrome`        |414 x 736  |portrait  |iOS 10
+`iphone7_chrome`      |`chrome`        |375 x 667  |portrait  |iOS 10 - Mobile Chrome browser for iOS
+`iphone7_firefox`     |`chrome`        |375 x 667  |portrait  |iOS 10 - Mobile Firefox browser for iOS
+`iphone8`             |`chrome`        |375 x 667  |portrait  |iOS 11
+`iphone8_plus`        |`chrome`        |414 x 736  |portrait  |iOS 11
+`iphonex`             |`chrome`        |375 x 812  |portrait  |iOS 11
+`android_phone`       |`chrome`        |320 x 480  |portrait  |Android 4
+`nexus6`              |`chrome`        |411 x 731  |portrait  |Android 6
+`pixel`               |`chrome`        |411 x 731  |portrait  |Android 8
+`pixel_xl`            |`chrome`        |411 x 731  |portrait  |Android 8
+`samsung_galaxy_s4`   |`chrome`        |360 x 640  |portrait  |Android 5.0.1
+`samsung_galaxy_s5`   |`chrome`        |360 x 640  |portrait  |Android 6.0.1
+`samsung_galaxy_s6`   |`chrome`        |360 x 640  |portrait  |Android 6.0.1
+`windows_phone7`      |`chrome`        |320 x 480  |portrait  |Windows Phone OS 7.5
+`windows_phone8`      |`chrome`        |320 x 480  |portrait  |Windows Phone OS 8.0
+`lumia_950_xl`        |`chrome`        |360 x 640  |portrait  |Windows Phone OS 10
+`blackberry_z10`      |`chrome`        |384 x 640  |portrait  |BlackBerry 10 OS
+`blackberry_z30`      |`chrome`        |360 x 640  |portrait  |BlackBerry 10 OS
+`blackberry_leap`     |`chrome`        |360 x 640  |portrait  |BlackBerry 10 OS
+`blackberry_passport` |`chrome`        |504 x 504  |square    |BlackBerry 10 OS
 
 To change the emulated device's screen orientation from the default setting, set the `ORIENTATION` Environment Variable to either `portrait` or `landscape`.
 
@@ -1039,46 +1047,48 @@ service(s) that you intend to connect with.
     # NOTE: to host emulated mobile browsers in Chrome set the HOST_BROWSER=chrome
     #==============
     
-    ipad:                WEB_BROWSER=ipad                HOST_BROWSER=firefox <%= mobile %>
-    ipad_pro:            WEB_BROWSER=ipad_pro            HOST_BROWSER=firefox <%= mobile %>
-    ipad_pro_10_5:       WEB_BROWSER=ipad_pro_10_5       HOST_BROWSER=firefox <%= mobile %>
-    ipad_chrome:         WEB_BROWSER=ipad_chrome         HOST_BROWSER=firefox <%= mobile %>
-    iphone:              WEB_BROWSER=iphone              HOST_BROWSER=firefox <%= mobile %>
-    iphone4:             WEB_BROWSER=iphone4             HOST_BROWSER=firefox <%= mobile %>
-    iphone5:             WEB_BROWSER=iphone5             HOST_BROWSER=firefox <%= mobile %>
-    iphone6:             WEB_BROWSER=iphone6             HOST_BROWSER=firefox <%= mobile %>
-    iphone6_plus:        WEB_BROWSER=iphone6_plus        HOST_BROWSER=firefox <%= mobile %>
-    iphone7:             WEB_BROWSER=iphone7             HOST_BROWSER=firefox <%= mobile %>
-    iphone7_plus:        WEB_BROWSER=iphone7_plus        HOST_BROWSER=firefox <%= mobile %>
-    iphone7_chrome:      WEB_BROWSER=iphone7_chrome      HOST_BROWSER=firefox <%= mobile %>
-    iphone8:             WEB_BROWSER=iphone8             HOST_BROWSER=firefox <%= mobile %>
-    iphone8_plus:        WEB_BROWSER=iphone8_plus        HOST_BROWSER=firefox <%= mobile %>
-    iphoneX:             WEB_BROWSER=iphonex             HOST_BROWSER=firefox <%= mobile %>
-    android_phone:       WEB_BROWSER=android_phone       HOST_BROWSER=firefox <%= mobile %>
-    nexus6:              WEB_BROWSER=nexus6              HOST_BROWSER=firefox <%= mobile %>
-    android_tablet:      WEB_BROWSER=android_tablet      HOST_BROWSER=firefox <%= mobile %>
-    kindle_fire:         WEB_BROWSER=kindle_fire         HOST_BROWSER=firefox <%= mobile %>
-    kindle_firehd7:      WEB_BROWSER=kindle_firehd7      HOST_BROWSER=firefox <%= mobile %>
-    kindle_firehd8:      WEB_BROWSER=kindle_firehd8      HOST_BROWSER=firefox <%= mobile %>
-    kindle_firehd10:     WEB_BROWSER=kindle_firehd10     HOST_BROWSER=firefox <%= tablet %>
-    surface:             WEB_BROWSER=surface             HOST_BROWSER=firefox <%= mobile %>
-    blackberry_playbook: WEB_BROWSER=blackberry_playbook HOST_BROWSER=firefox <%= mobile %>
-    samsung_galaxy_tab:  WEB_BROWSER=samsung_galaxy_tab  HOST_BROWSER=firefox <%= mobile %>
-    google_nexus7:       WEB_BROWSER=google_nexus7       HOST_BROWSER=firefox <%= mobile %>
-    google_nexus9:       WEB_BROWSER=google_nexus9       HOST_BROWSER=firefox <%= mobile %>
-    google_nexus10:      WEB_BROWSER=google_nexus10      HOST_BROWSER=firefox <%= mobile %>
-    samsung_galaxy_s4:   WEB_BROWSER=samsung_galaxy_s4   HOST_BROWSER=firefox <%= mobile %>
-    samsung_galaxy_s5:   WEB_BROWSER=samsung_galaxy_s5   HOST_BROWSER=firefox <%= mobile %>
-    samsung_galaxy_s6:   WEB_BROWSER=samsung_galaxy_s6   HOST_BROWSER=firefox <%= mobile %>
-    pixel:               WEB_BROWSER=pixel               HOST_BROWSER=firefox <%= mobile %>
-    pixel_xl:            WEB_BROWSER=pixel_xl            HOST_BROWSER=firefox <%= mobile %>
-    windows_phone7:      WEB_BROWSER=windows_phone7      HOST_BROWSER=firefox <%= mobile %>
-    windows_phone8:      WEB_BROWSER=windows_phone8      HOST_BROWSER=firefox <%= mobile %>
-    lumia_950_xl:        WEB_BROWSER=lumia_950_xl        HOST_BROWSER=firefox <%= mobile %>
-    blackberry_z10:      WEB_BROWSER=blackberry_z10      HOST_BROWSER=firefox <%= mobile %>
-    blackberry_z30:      WEB_BROWSER=blackberry_z30      HOST_BROWSER=firefox <%= mobile %>
-    blackberry_leap:     WEB_BROWSER=blackberry_leap     HOST_BROWSER=firefox <%= mobile %>
-    blackberry_passport: WEB_BROWSER=blackberry_passport HOST_BROWSER=firefox <%= mobile %>
+    ipad:                WEB_BROWSER=ipad                HOST_BROWSER=chrome <%= mobile %>
+    ipad_pro:            WEB_BROWSER=ipad_pro            HOST_BROWSER=chrome <%= mobile %>
+    ipad_pro_10_5:       WEB_BROWSER=ipad_pro_10_5       HOST_BROWSER=chrome <%= mobile %>
+    ipad_chrome:         WEB_BROWSER=ipad_chrome         HOST_BROWSER=chrome <%= mobile %>
+    ipad_firefox:        WEB_BROWSER=ipad_firefox        HOST_BROWSER=chrome <%= mobile %>
+    iphone:              WEB_BROWSER=iphone              HOST_BROWSER=chrome <%= mobile %>
+    iphone4:             WEB_BROWSER=iphone4             HOST_BROWSER=chrome <%= mobile %>
+    iphone5:             WEB_BROWSER=iphone5             HOST_BROWSER=chrome <%= mobile %>
+    iphone6:             WEB_BROWSER=iphone6             HOST_BROWSER=chrome <%= mobile %>
+    iphone6_plus:        WEB_BROWSER=iphone6_plus        HOST_BROWSER=chrome <%= mobile %>
+    iphone7:             WEB_BROWSER=iphone7             HOST_BROWSER=chrome <%= mobile %>
+    iphone7_plus:        WEB_BROWSER=iphone7_plus        HOST_BROWSER=chrome <%= mobile %>
+    iphone7_chrome:      WEB_BROWSER=iphone7_chrome      HOST_BROWSER=chrome <%= mobile %>
+    iphone7_firefox:     WEB_BROWSER=iphone7_firefox     HOST_BROWSER=chrome <%= mobile %>
+    iphone8:             WEB_BROWSER=iphone8             HOST_BROWSER=chrome <%= mobile %>
+    iphone8_plus:        WEB_BROWSER=iphone8_plus        HOST_BROWSER=chrome <%= mobile %>
+    iphoneX:             WEB_BROWSER=iphonex             HOST_BROWSER=chrome <%= mobile %>
+    android_phone:       WEB_BROWSER=android_phone       HOST_BROWSER=chrome <%= mobile %>
+    nexus6:              WEB_BROWSER=nexus6              HOST_BROWSER=chrome <%= mobile %>
+    android_tablet:      WEB_BROWSER=android_tablet      HOST_BROWSER=chrome <%= mobile %>
+    kindle_fire:         WEB_BROWSER=kindle_fire         HOST_BROWSER=chrome <%= mobile %>
+    kindle_firehd7:      WEB_BROWSER=kindle_firehd7      HOST_BROWSER=chrome <%= mobile %>
+    kindle_firehd8:      WEB_BROWSER=kindle_firehd8      HOST_BROWSER=chrome <%= mobile %>
+    kindle_firehd10:     WEB_BROWSER=kindle_firehd10     HOST_BROWSER=chrome <%= tablet %>
+    surface:             WEB_BROWSER=surface             HOST_BROWSER=chrome <%= mobile %>
+    blackberry_playbook: WEB_BROWSER=blackberry_playbook HOST_BROWSER=chrome <%= mobile %>
+    samsung_galaxy_tab:  WEB_BROWSER=samsung_galaxy_tab  HOST_BROWSER=chrome <%= mobile %>
+    google_nexus7:       WEB_BROWSER=google_nexus7       HOST_BROWSER=chrome <%= mobile %>
+    google_nexus9:       WEB_BROWSER=google_nexus9       HOST_BROWSER=chrome <%= mobile %>
+    google_nexus10:      WEB_BROWSER=google_nexus10      HOST_BROWSER=chrome <%= mobile %>
+    samsung_galaxy_s4:   WEB_BROWSER=samsung_galaxy_s4   HOST_BROWSER=chrome <%= mobile %>
+    samsung_galaxy_s5:   WEB_BROWSER=samsung_galaxy_s5   HOST_BROWSER=chrome <%= mobile %>
+    samsung_galaxy_s6:   WEB_BROWSER=samsung_galaxy_s6   HOST_BROWSER=chrome <%= mobile %>
+    pixel:               WEB_BROWSER=pixel               HOST_BROWSER=chrome <%= mobile %>
+    pixel_xl:            WEB_BROWSER=pixel_xl            HOST_BROWSER=chrome <%= mobile %>
+    windows_phone7:      WEB_BROWSER=windows_phone7      HOST_BROWSER=chrome <%= mobile %>
+    windows_phone8:      WEB_BROWSER=windows_phone8      HOST_BROWSER=chrome <%= mobile %>
+    lumia_950_xl:        WEB_BROWSER=lumia_950_xl        HOST_BROWSER=chrome <%= mobile %>
+    blackberry_z10:      WEB_BROWSER=blackberry_z10      HOST_BROWSER=chrome <%= mobile %>
+    blackberry_z30:      WEB_BROWSER=blackberry_z30      HOST_BROWSER=chrome <%= mobile %>
+    blackberry_leap:     WEB_BROWSER=blackberry_leap     HOST_BROWSER=chrome <%= mobile %>
+    blackberry_passport: WEB_BROWSER=blackberry_passport HOST_BROWSER=chrome <%= mobile %>
 
     
     #==============
@@ -1117,11 +1127,16 @@ service(s) that you intend to connect with.
     bs_mobile:          --profile browserstack <%= mobile %>
     
     # BrowserStack OS X desktop browser profiles
+    bs_macos_high_sierra:  --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="High Sierra"
+    bs_ff_high_sierra:     --profile bs_macos_high_sierra BS_BROWSER="Firefox"
+    bs_chrome_high_sierra: --profile bs_macos_high_sierra BS_BROWSER="Chrome"
+    bs_safari_high_sierra: --profile bs_macos_high_sierra BS_BROWSER="Safari"
+    
     bs_macos_sierra:    --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="Sierra"
     bs_ff_sierra:       --profile bs_macos_sierra BS_BROWSER="Firefox"
     bs_chrome_sierra:   --profile bs_macos_sierra BS_BROWSER="Chrome"
     bs_safari_sierra:   --profile bs_macos_sierra BS_BROWSER="Safari"
-
+    
     bs_osx_el_capitan:  --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="El Capitan"
     bs_ff_el_cap:       --profile bs_osx_el_capitan BS_BROWSER="Firefox"
     bs_chrome_el_cap:   --profile bs_osx_el_capitan BS_BROWSER="Chrome"
@@ -1139,7 +1154,7 @@ service(s) that you intend to connect with.
     
     # BrowserStack Windows desktop browser profiles
     bs_win7:            --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="7"
-    bs_win8:            --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="8.1"
+    bs_win8:            --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="8"
     bs_win10:           --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="10"
     bs_ff_win7:         --profile bs_win7 BS_BROWSER="Firefox"
     bs_ff_win8:         --profile bs_win8 BS_BROWSER="Firefox"
@@ -1152,51 +1167,62 @@ service(s) that you intend to connect with.
     bs_ie11_win7:       --profile bs_ie_win7 BS_VERSION="11.0"
     bs_ie10_win7:       --profile bs_ie_win7 BS_VERSION="10.0"
     bs_ie9_win7:        --profile bs_ie_win7 BS_VERSION="9.0"
-    bs_ie11_win8:       --profile bs_win8 BS_BROWSER="IE" BS_VERSION="11.0"
-    bs_ie10_win8:       --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="8.0" BS_BROWSER="IE" BS_VERSION="10.0"
+    bs_ie10_win8:       --profile bs_win8 BS_BROWSER="IE" BS_VERSION="10.0"
+    bs_ie11_win8:       --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="8.1" BS_BROWSER="IE" BS_VERSION="11.0"
     bs_ie11_win10:      --profile bs_win10 BS_BROWSER="IE" BS_VERSION="11.0"
-    bs_edge_win10:      --profile bs_win10 BS_BROWSER="Edge" BS_VERSION="13.0"
+    bs_edge_win10:      --profile bs_win10 BS_BROWSER="Edge" BS_VERSION="15.0"
     
     # BrowserStack iOS mobile browser profiles
-    bs_iphone:          --profile bs_mobile BS_PLATFORM=MAC BS_OS=ios BS_BROWSER=iPhone
+    bs_iphone:          --profile bs_mobile BS_PLATFORM=MAC BS_OS=ios BS_BROWSER=iPhone DEVICE_TYPE=phone
     bs_iphone6s_plus:   --profile bs_iphone BS_DEVICE="iPhone 6S Plus"
     bs_iphone6s:        --profile bs_iphone BS_DEVICE="iPhone 6S"
     bs_iphone6_plus:    --profile bs_iphone BS_DEVICE="iPhone 6 Plus"
     bs_iphone6:         --profile bs_iphone BS_DEVICE="iPhone 6"
     bs_iphone5s:        --profile bs_iphone BS_DEVICE="iPhone 5S"
     bs_iphone4s:        --profile bs_iphone BS_DEVICE="iPhone 4S (6.0)"
-    bs_ipad:            --profile bs_mobile BS_PLATFORM=MAC BS_BROWSER=iPad
+    
+    bs_ipad:            --profile bs_mobile BS_PLATFORM=MAC BS_BROWSER=iPad DEVICE_TYPE=tablet
     bs_ipad_pro:        --profile bs_ipad BS_DEVICE="iPad Pro"
     bs_ipad_air2:       --profile bs_ipad BS_DEVICE="iPad Air 2"
     bs_ipad_air:        --profile bs_ipad BS_DEVICE="iPad Air"
     bs_ipad_mini:       --profile bs_ipad BS_DEVICE="iPad Mini 4"
     
     # BrowserStack iOS real device mobile browser profiles
-    bs_iphone_device:   --profile bs_mobile BS_BROWSER=iPhone BS_OS=ios BS_REAL_MOBILE="true"
-    bs_iphone7_plus:    --profile bs_iphone_device BS_DEVICE="iPhone 7 Plus"
-    bs_iphone7:         --profile bs_iphone_device BS_DEVICE="iPhone 7"
+    bs_iphone_device:   --profile bs_iphone BS_REAL_MOBILE="true"
+    bs_iphone8_plus:    --profile bs_iphone_device BS_OS_VERSION="11.0" BS_DEVICE="iPhone 8 Plus"
+    bs_iphone8:         --profile bs_iphone_device BS_OS_VERSION="11.0" BS_DEVICE="iPhone 8"
+    bs_iphone7_plus:    --profile bs_iphone_device BS_OS_VERSION="10.0" BS_DEVICE="iPhone 7 Plus"
+    bs_iphone7:         --profile bs_iphone_device BS_OS_VERSION="10.0" BS_DEVICE="iPhone 7"
+    
+    bs_ipad_device:     --profile bs_ipad BS_REAL_MOBILE="true"
+    bs_ipad5:           --profile bs_ipad_device BS_OS_VERSION="11.0" BS_DEVICE="iPad 5th"
     
     # BrowserStack Android mobile browser profiles
     bs_android:          --profile bs_mobile BS_PLATFORM=ANDROID BS_BROWSER=android BS_OS=android
-    bs_galaxy_s5:        --profile bs_android BS_DEVICE="Samsung Galaxy S5"
-    bs_kindle_fire_hd89: --profile bs_android BS_DEVICE="Amazon Kindle Fire HD 8.9"
-    bs_kindle_fire_hdx7: --profile bs_android BS_DEVICE="Amazon Kindle Fire HDX 7"
-    bs_kindle_fire2:     --profile bs_android BS_DEVICE="Amazon Kindle Fire 2"
-    bs_nexus7:           --profile bs_android BS_DEVICE="Google Nexus 7"
-    bs_nexus5:           --profile bs_android BS_DEVICE="Google Nexus 5"
-    bs_moto_razr:        --profile bs_android BS_DEVICE="Motorola Razr"
-    bs_sony_xperia:      --profile bs_android BS_DEVICE="Sony Xperia Tipo"
+    bs_android_phone:    --profile bs_android DEVICE_TYPE=phone
+    bs_galaxy_s5:        --profile bs_android_phone BS_DEVICE="Samsung Galaxy S5"
+    bs_nexus5:           --profile bs_android_phone BS_DEVICE="Google Nexus 5"
+    bs_moto_razr:        --profile bs_android_phone BS_DEVICE="Motorola Razr"
+    bs_sony_xperia:      --profile bs_android_phone BS_DEVICE="Sony Xperia Tipo"
+    
+    bs_android_tablet:   --profile bs_android DEVICE_TYPE=tablet
+    bs_kindle_fire_hd89: --profile bs_android_tablet BS_DEVICE="Amazon Kindle Fire HD 8.9"
+    bs_kindle_fire_hdx7: --profile bs_android_tablet BS_DEVICE="Amazon Kindle Fire HDX 7"
+    bs_kindle_fire2:     --profile bs_android_tablet BS_DEVICE="Amazon Kindle Fire 2"
+    bs_nexus7:           --profile bs_android_tablet BS_DEVICE="Google Nexus 7"
     
     # BrowserStack Android real device mobile browser profiles
     bs_android_device:   --profile bs_mobile BS_BROWSER=android BS_OS=android BS_REAL_MOBILE="true"
-    bs_google_pixel8:    --profile bs_android_device BS_DEVICE="Google Pixel" BS_OS_VERSION="8.0"
-    bs_google_pixel71:   --profile bs_android_device BS_DEVICE="Google Pixel" BS_OS_VERSION="7.1"
-    bs_nexus9:           --profile bs_android_device BS_DEVICE="Google Nexus 9"
-    bs_nexus6:           --profile bs_android_device BS_DEVICE="Google Nexus 6"
-    bs_galaxy_s7:        --profile bs_android_device BS_DEVICE="Samsung Galaxy S7"
-    bs_galaxy_s6:        --profile bs_android_device BS_DEVICE="Samsung Galaxy S6"
-    bs_galaxy_note4:     --profile bs_android_device BS_DEVICE="Samsung Galaxy Note 4"
-    
+    bs_google_pixel8:    --profile bs_android_device BS_DEVICE="Google Pixel" BS_OS_VERSION="8.0" DEVICE_TYPE=phone
+    bs_google_pixel71:   --profile bs_android_device BS_DEVICE="Google Pixel" BS_OS_VERSION="7.1" DEVICE_TYPE=phone
+    bs_nexus6:           --profile bs_android_device BS_DEVICE="Google Nexus 6" DEVICE_TYPE=phone
+    bs_galaxy_s8_plus:   --profile bs_android_device BS_DEVICE="Samsung Galaxy S8 Plus" DEVICE_TYPE=phone
+    bs_galaxy_s8:        --profile bs_android_device BS_DEVICE="Samsung Galaxy S8" DEVICE_TYPE=phone
+    bs_galaxy_s7:        --profile bs_android_device BS_DEVICE="Samsung Galaxy S7" DEVICE_TYPE=phone
+    bs_galaxy_s6:        --profile bs_android_device BS_DEVICE="Samsung Galaxy S6" DEVICE_TYPE=phone
+    bs_galaxy_note4:     --profile bs_android_device BS_DEVICE="Samsung Galaxy Note 4" DEVICE_TYPE=tablet
+    bs_nexus9:           --profile bs_android_device BS_DEVICE="Google Nexus 9" DEVICE_TYPE=tablet
+
     
     #==============
     # profiles for remotely hosted web browsers on the CrossBrowserTesting service

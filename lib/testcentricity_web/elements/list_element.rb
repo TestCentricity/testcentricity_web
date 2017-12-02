@@ -10,9 +10,19 @@ module TestCentricity
       @alt_locator     = nil
       @list            = list
       @element_locator = locator
-      locator.nil? ?
-          @locator = list.get_list_row_locator('ROW_SPEC') :
+
+      set_locator_type
+
+      if locator.nil?
+        @locator = list.get_list_row_locator('ROW_SPEC')
+      else
+        case @locator_type
+        when :xpath
           @locator = "#{list.get_list_row_locator('ROW_SPEC')}/#{@element_locator}"
+        when :css
+          @locator = "#{list.get_list_row_locator('ROW_SPEC')} > #{@element_locator}"
+        end
+      end
     end
 
     def exists?(row)

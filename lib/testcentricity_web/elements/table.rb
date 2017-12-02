@@ -20,9 +20,16 @@ module TestCentricity
                      :table_column  => 'td',
                      :table_header  => 'thead',
                      :header_row    => 'tr',
-                     :header_column => 'th',
-                     :tree_expand   => "div/div[contains(@class, 'tree-plus treeclick')]",
-                     :tree_collapse => "div/div[contains(@class, 'tree-minus treeclick')]" }
+                     :header_column => 'th' }
+
+      case @locator_type
+      when :xpath
+        table_spec[:tree_expand]   = "div/div[contains(@class, 'tree-plus treeclick')]"
+        table_spec[:tree_collapse] = "div/div[contains(@class, 'tree-minus treeclick')]"
+      when :css
+        table_spec[:tree_expand]   = "div/div[class*='tree-plus treeclick']"
+        table_spec[:tree_collapse] = "div/div[class*='tree-minus treeclick']"
+      end
       define_table_elements(table_spec)
     end
 
@@ -47,6 +54,8 @@ module TestCentricity
           @tree_expand = value
         when :tree_collapse
           @tree_collapse = value
+        else
+          raise "#{element} is not a recognized table element"
         end
       end
     end
@@ -59,10 +68,19 @@ module TestCentricity
     #
     def get_row_count
       wait_until_exists(5)
-      if @table_section.nil?
-        page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}", :visible => :all).count
-      else
-        page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}", :visible => :all).count
+      case @locator_type
+      when :xpath
+        if @table_section.nil?
+          page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}", :visible => :all).count
+        else
+          page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}", :visible => :all).count
+        end
+      when :css
+        if @table_section.nil?
+          page.all(:css, "#{@locator} > #{@table_body} > #{@table_row}", :visible => :all).count
+        else
+          page.all(:css, "#{@locator} > #{@table_body} > #{@table_section}", :visible => :all).count
+        end
       end
     end
 
@@ -74,17 +92,34 @@ module TestCentricity
     #
     def get_column_count
       row_count = get_row_count
-      if row_count == 0
-        page.all(:xpath, "#{@locator}/#{@table_header}/#{@header_row}/#{@header_column}", :visible => :all).count
-      else
-        if @table_section.nil?
-          row_count == 1 ?
-              page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}/#{@table_column}", :visible => :all).count :
-              page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}[2]/#{@table_column}", :visible => :all).count
+      case @locator_type
+      when :xpath
+        if row_count == 0
+          page.all(:xpath, "#{@locator}/#{@table_header}/#{@header_row}/#{@header_column}", :visible => :all).count
         else
-          row_count == 1 ?
-              page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}/#{@table_row}/#{@table_column}", :visible => :all).count :
-              page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}[2]/#{@table_row}/#{@table_column}", :visible => :all).count
+          if @table_section.nil?
+            row_count == 1 ?
+                page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}/#{@table_column}", :visible => :all).count :
+                page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}[2]/#{@table_column}", :visible => :all).count
+          else
+            row_count == 1 ?
+                page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}/#{@table_row}/#{@table_column}", :visible => :all).count :
+                page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}[2]/#{@table_row}/#{@table_column}", :visible => :all).count
+          end
+        end
+      when :css
+        if row_count == 0
+          page.all(:css, "#{@locator} > #{@table_header} > #{@header_row} > #{@header_column}", :visible => :all).count
+        else
+          if @table_section.nil?
+            row_count == 1 ?
+                page.all(:css, "#{@locator} > #{@table_body} > #{@table_row} > #{@table_column}", :visible => :all).count :
+                page.all(:css, "#{@locator} > #{@table_body} > #{@table_row}:nth-of-type(2) > #{@table_column}", :visible => :all).count
+          else
+            row_count == 1 ?
+                page.all(:css, "#{@locator} > #{@table_body} > #{@table_section} > #{@table_row} > #{@table_column}", :visible => :all).count :
+                page.all(:css, "#{@locator} > #{@table_body} > #{@table_section}:nth-of-type(2) > #{@table_row} > #{@table_column}", :visible => :all).count
+          end
         end
       end
     end
@@ -154,16 +189,31 @@ module TestCentricity
       raise "Column #{column} exceeds number of columns (#{column_count}) in table #{object_ref_message}" if column > column_count
       set_table_cell_locator(row, column)
       saved_locator = @alt_locator
-      set_alt_locator("#{@alt_locator}//a")
-      set_alt_locator("#{saved_locator}//span/a") unless exists?
-      # if link not present, check for text entry fields and try to dismiss by tabbing out
-      unless exists?
-        set_alt_locator("#{saved_locator}//input")
-        set_alt_locator("#{saved_locator}//textarea") unless exists?
-        send_keys(:tab) if exists?
-        set_alt_locator("#{saved_locator}//a")
+      case @locator_type
+      when :xpath
+        set_alt_locator("#{@alt_locator}//a")
         set_alt_locator("#{saved_locator}//span/a") unless exists?
-        send_keys(:tab) unless exists?
+        # if link not present, check for text entry fields and try to dismiss by tabbing out
+        unless exists?
+          set_alt_locator("#{saved_locator}//input")
+          set_alt_locator("#{saved_locator}//textarea") unless exists?
+          send_keys(:tab) if exists?
+          set_alt_locator("#{saved_locator}//a")
+          set_alt_locator("#{saved_locator}//span/a") unless exists?
+          send_keys(:tab) unless exists?
+        end
+      when :css
+        set_alt_locator("#{@alt_locator} a")
+        set_alt_locator("#{saved_locator} span > a") unless exists?
+        # if link not present, check for text entry fields and try to dismiss by tabbing out
+        unless exists?
+          set_alt_locator("#{saved_locator} input")
+          set_alt_locator("#{saved_locator} textarea") unless exists?
+          send_keys(:tab) if exists?
+          set_alt_locator("#{saved_locator} a")
+          set_alt_locator("#{saved_locator} span > a") unless exists?
+          send_keys(:tab) unless exists?
+        end
       end
       wait_until_exists(1)
       click
@@ -179,10 +229,19 @@ module TestCentricity
         value = ''
         set_table_cell_locator(row, column)
         saved_locator = @alt_locator
-        set_alt_locator("#{saved_locator}//input")
-        unless exists?
-          set_alt_locator("#{saved_locator}//textarea")
-          set_alt_locator(saved_locator) unless exists?
+        case @locator_type
+        when :xpath
+          set_alt_locator("#{saved_locator}//input")
+          unless exists?
+            set_alt_locator("#{saved_locator}//textarea")
+            set_alt_locator(saved_locator) unless exists?
+          end
+        when :css
+          set_alt_locator("#{saved_locator} input")
+          unless exists?
+            set_alt_locator("#{saved_locator} textarea")
+            set_alt_locator(saved_locator) unless exists?
+          end
         end
         value = get_value if exists?
         columns.push(value)
@@ -194,9 +253,16 @@ module TestCentricity
     def get_row_data(row)
       row_count = get_row_count
       raise "Row #{row} exceeds number of rows (#{row_count}) in table #{object_ref_message}" if row > row_count
-      row > 1 ?
-          set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}[#{row}]") :
-          set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}")
+      case @locator_type
+      when :xpath
+        row > 1 ?
+            set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}[#{row}]") :
+            set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}")
+      when :css
+        row > 1 ?
+            set_alt_locator("#{@locator} > #{@table_body} > #{@table_row}:nth-of-type(#{row})") :
+            set_alt_locator("#{@locator} > #{@table_body} > #{@table_row}")
+      end
       value = get_value if exists?
       clear_alt_locator
       value
@@ -211,10 +277,19 @@ module TestCentricity
         value = ''
         set_table_cell_locator(row, column)
         saved_locator = @alt_locator
-        set_alt_locator("#{saved_locator}//input")
-        unless exists?
-          set_alt_locator("#{saved_locator}//textarea")
-          set_alt_locator(saved_locator) unless exists?
+        case @locator_type
+        when :xpath
+          set_alt_locator("#{saved_locator}//input")
+          unless exists?
+            set_alt_locator("#{saved_locator}//textarea")
+            set_alt_locator(saved_locator) unless exists?
+          end
+        when :css
+          set_alt_locator("#{saved_locator} input")
+          unless exists?
+            set_alt_locator("#{saved_locator} textarea")
+            set_alt_locator(saved_locator) unless exists?
+          end
         end
         value = get_value if exists?
         rows.push(value)
@@ -238,10 +313,19 @@ module TestCentricity
       raise "Column #{column} exceeds number of columns (#{column_count}) in table #{object_ref_message}" if column > column_count
       set_table_cell_locator(row, column)
       saved_locator = @alt_locator
-      set_alt_locator("#{saved_locator}//input")
-      unless exists?
-        set_alt_locator("#{saved_locator}//textarea")
-        set_alt_locator(saved_locator) unless exists?
+      case @locator_type
+      when :xpath
+        set_alt_locator("#{saved_locator}//input")
+        unless exists?
+          set_alt_locator("#{saved_locator}//textarea")
+          set_alt_locator(saved_locator) unless exists?
+        end
+      when :css
+        set_alt_locator("#{saved_locator} input")
+        unless exists?
+          set_alt_locator("#{saved_locator} textarea")
+          set_alt_locator(saved_locator) unless exists?
+        end
       end
       if exists?
         value = get_value
@@ -291,9 +375,16 @@ module TestCentricity
     def get_row_attribute(row, attrib)
       row_count = get_row_count
       raise "Row #{row} exceeds number of rows (#{row_count}) in table #{object_ref_message}" if row > row_count
-      row > 1 ?
-          set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}[#{row}]") :
-          set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}")
+      case @locator_type
+      when :xpath
+        row > 1 ?
+            set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}[#{row}]") :
+            set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}")
+      when :css
+        row > 1 ?
+            set_alt_locator("#{@locator} > #{@table_body} > #{@table_row}:nth-of-type(#{row})") :
+            set_alt_locator("#{@locator} > #{@table_body} > #{@table_row}")
+      end
       result = get_native_attribute(attrib)
       clear_alt_locator
       result
@@ -375,7 +466,12 @@ module TestCentricity
     def click_header_column(column)
       column_count = get_column_count
       raise "Column #{column} exceeds number of columns (#{column_count}) in table header #{object_ref_message}" if column > column_count
-      set_alt_locator("#{@locator}//#{@table_header}/#{@header_row}/#{@header_column}[#{column}]")
+      case @locator_type
+      when :xpath
+        set_alt_locator("#{@locator}//#{@table_header}/#{@header_row}/#{@header_column}[#{column}]")
+      when :css
+        set_alt_locator("#{@locator} #{@table_header} > #{@header_row} > #{@header_column}:nth-of-type(#{column})")
+      end
       click if exists?
       clear_alt_locator
     end
@@ -383,7 +479,12 @@ module TestCentricity
     def get_header_column(column)
       column_count = get_column_count
       raise "Column #{column} exceeds number of columns (#{column_count}) in table header #{object_ref_message}" if column > column_count
-      set_alt_locator("#{@locator}//#{@table_header}/#{@header_row}/#{@header_column}[#{column}]")
+      case @locator_type
+      when :xpath
+        set_alt_locator("#{@locator}//#{@table_header}/#{@header_row}/#{@header_column}[#{column}]")
+      when :css
+        set_alt_locator("#{@locator} #{@table_header} > #{@header_row} > #{@header_column}:nth-of-type(#{column})")
+      end
       value = get_value(:all) if exists?(:all)
       clear_alt_locator
       value
@@ -393,7 +494,12 @@ module TestCentricity
       columns = []
       column_count = get_column_count
       (1..column_count).each do |column|
-        set_alt_locator("#{@locator}//#{@table_header}/#{@header_row}/#{@header_column}[#{column}]")
+        case @locator_type
+        when :xpath
+          set_alt_locator("#{@locator}//#{@table_header}/#{@header_row}/#{@header_column}[#{column}]")
+        when :css
+          set_alt_locator("#{@locator} #{@table_header} > #{@header_row} > #{@header_column}:nth-of-type(#{column})")
+        end
         columns.push(get_value(:all)) if exists?(:all)
       end
       clear_alt_locator
@@ -406,7 +512,12 @@ module TestCentricity
       column_count = get_column_count
       raise "Column #{column} exceeds number of columns (#{column_count}) in table #{object_ref_message}" if column > column_count
       set_table_cell_locator(row, column)
-      set_alt_locator("#{@alt_locator}/#{@tree_expand}")
+      case @locator_type
+      when :xpath
+        set_alt_locator("#{@alt_locator}/#{@tree_expand}")
+      when :css
+        set_alt_locator("#{@alt_locator} > #{@tree_expand}")
+      end
       expanded = true
       expanded = false if exists?
       clear_alt_locator
@@ -416,7 +527,12 @@ module TestCentricity
     def expand_table_row(row, column)
       unless is_table_row_expanded?(row, column)
         set_table_cell_locator(row, column)
-        set_alt_locator("#{@alt_locator}/#{@tree_expand}")
+        case @locator_type
+        when :xpath
+          set_alt_locator("#{@alt_locator}/#{@tree_expand}")
+        when :css
+          set_alt_locator("#{@alt_locator} > #{@tree_expand}")
+        end
         click if exists?
         clear_alt_locator
       end
@@ -425,7 +541,12 @@ module TestCentricity
     def collapse_table_row(row, column)
       if is_table_row_expanded?(row, column)
         set_table_cell_locator(row, column)
-        set_alt_locator("#{@alt_locator}/#{@tree_collapse}")
+        case @locator_type
+        when :xpath
+          set_alt_locator("#{@alt_locator}/#{@tree_collapse}")
+        when :css
+          set_alt_locator("#{@alt_locator} > #{@tree_collapse}")
+        end
         click if exists?
         clear_alt_locator
       end
@@ -441,14 +562,26 @@ module TestCentricity
     end
 
     def get_table_cell_locator(row, column)
-      if @table_section.nil?
-        row_spec = "#{@locator}/#{@table_body}/#{@table_row}"
-        row_spec = "#{row_spec}[#{row}]"
-      else
-        row_spec = "#{@locator}/#{@table_body}/#{@table_section}"
-        row_spec = "#{row_spec}[#{row}]/#{@table_row}[1]"
+      case @locator_type
+      when :xpath
+        if @table_section.nil?
+          row_spec = "#{@locator}/#{@table_body}/#{@table_row}"
+          row_spec = "#{row_spec}[#{row}]"
+        else
+          row_spec = "#{@locator}/#{@table_body}/#{@table_section}"
+          row_spec = "#{row_spec}[#{row}]/#{@table_row}[1]"
+        end
+        column_spec = "/#{@table_column}[#{column}]"
+      when :css
+        if @table_section.nil?
+          row_spec = "#{@locator} > #{@table_body} > #{@table_row}"
+          row_spec = "#{row_spec}:nth-of-type(#{row})"
+        else
+          row_spec = "#{@locator} > #{@table_body} > #{@table_section}"
+          row_spec = "#{row_spec}:nth-of-type(#{row}) > #{@table_row}:nth-of-type(1)"
+        end
+        column_spec = " > #{@table_column}:nth-of-type(#{column})"
       end
-      column_spec = "/#{@table_column}[#{column}]"
       "#{row_spec}#{column_spec}"
     end
 
@@ -466,8 +599,14 @@ module TestCentricity
         puts "Could not find table cell at #{@alt_locator}"
       end
       saved_locator = @alt_locator
-      set_alt_locator("#{saved_locator}//input")
-      set_alt_locator("#{saved_locator}//textarea") unless exists?
+      case @locator_type
+      when :xpath
+        set_alt_locator("#{saved_locator}//input")
+        set_alt_locator("#{saved_locator}//textarea") unless exists?
+      when :css
+        set_alt_locator("#{saved_locator} input")
+        set_alt_locator("#{saved_locator} textarea") unless exists?
+      end
     end
   end
 end

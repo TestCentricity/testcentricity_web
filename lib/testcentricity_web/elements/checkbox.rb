@@ -10,6 +10,7 @@ module TestCentricity
       @alt_locator = nil
       @proxy       = proxy
       @type        = :checkbox
+      set_locator_type
     end
 
     # Does checkbox object exists?

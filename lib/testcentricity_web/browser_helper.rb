@@ -139,6 +139,7 @@ module TestCentricity
       name = device[:name]
       raise "Device '#{device}' is not defined" unless name
       Environ.device_os = device[:os]
+      Environ.device_type = device[:type]
       name
     end
 

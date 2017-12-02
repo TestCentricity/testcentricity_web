@@ -29,8 +29,10 @@ module TestCentricity
     attr_accessor :test_environment
     attr_accessor :browser
     attr_accessor :browser_size
+    attr_accessor :session_state
     attr_accessor :os
     attr_accessor :device
+    attr_accessor :device_name
     attr_accessor :device_type
     attr_accessor :device_os
     attr_accessor :device_orientation
@@ -114,6 +116,14 @@ module TestCentricity
       @browser_size
     end
 
+    def self.session_state=(session_state)
+      @session_state = session_state
+    end
+
+    def self.session_state
+      @session_state
+    end
+
     # @deprecated Please use {#os=} instead
     def self.set_os(os)
       warn "[DEPRECATION] 'TestCentricity::Environ.set_os' is deprecated.  Please use 'Environ.os =' instead."
@@ -149,11 +159,19 @@ module TestCentricity
     end
 
     def self.device_type=(type)
-      @device_type = type.downcase
+      @device_type = type.downcase.to_sym
     end
 
     def self.device_type
       @device_type
+    end
+
+    def self.device_name=(name)
+      @device_name = name
+    end
+
+    def self.device_name
+      @device_name
     end
 
     def self.device_os=(os)

@@ -10,6 +10,7 @@ module TestCentricity
       @alt_locator = nil
       @proxy       = proxy
       @type        = :radio
+      set_locator_type
     end
 
     # Does radio button object exists?

@@ -23,7 +23,10 @@ module TestCentricity
     include Test::Unit::Assertions
 
     attr_reader   :parent, :locator, :context, :type, :name
-    attr_accessor :alt_locator
+    attr_accessor :alt_locator, :locator_type
+
+    XPATH_SELECTORS = ['//', '[@', '[contains(@']
+    CSS_SELECTORS   = ['#', ':nth-child(', ':nth-of-type(', '^=', '$=', '*=']
 
     def initialize(name, parent, locator, context)
       @name        = name
@@ -32,6 +35,22 @@ module TestCentricity
       @context     = context
       @type        = nil
       @alt_locator = nil
+      set_locator_type
+    end
+
+    def set_locator_type(locator = nil)
+      locator = @locator if locator.nil?
+      is_xpath = XPATH_SELECTORS.any? { |selector| locator.include?(selector) }
+      is_css = CSS_SELECTORS.any? { |selector| locator.include?(selector) }
+      if is_xpath && !is_css
+        @locator_type = :xpath
+      elsif is_css && !is_xpath
+        @locator_type = :css
+      elsif !is_css && !is_xpath
+        @locator_type = :css
+      else
+        raise "Cannot determine type of locator for UIElement '#{@name}' - locator = #{locator}"
+      end
     end
 
     def get_object_type
@@ -66,8 +85,8 @@ module TestCentricity
     #   basket_link.click
     #
     def click
-      obj, = find_element
-      object_not_found_exception(obj, nil)
+      obj, type = find_element
+      object_not_found_exception(obj, type)
       begin
         obj.click
       rescue
@@ -81,8 +100,8 @@ module TestCentricity
     #   file_image.double_click
     #
     def double_click
-      obj, = find_element
-      object_not_found_exception(obj, nil)
+      obj, type = find_element
+      object_not_found_exception(obj, type)
       page.driver.browser.action.double_click(obj.native).perform
     end
 
@@ -92,8 +111,8 @@ module TestCentricity
     #   basket_item_image.right_click
     #
     def right_click
-      obj, = find_element
-      object_not_found_exception(obj, nil)
+      obj, type = find_element
+      object_not_found_exception(obj, type)
       page.driver.browser.action.context_click(obj.native).perform
     end
 
@@ -111,8 +130,8 @@ module TestCentricity
     end
 
     def set(value)
-      obj, = find_element
-      object_not_found_exception(obj, nil)
+      obj, type = find_element
+      object_not_found_exception(obj, type)
       obj.set(value)
     end
 
@@ -123,8 +142,8 @@ module TestCentricity
     #   comment_field.send_keys(:enter)
     #
     def send_keys(*keys)
-      obj, = find_element
-      object_not_found_exception(obj, nil)
+      obj, type = find_element
+      object_not_found_exception(obj, type)
       obj.send_keys(*keys)
     end
 
@@ -164,7 +183,11 @@ module TestCentricity
         invisible = !obj.visible? if exists
       end
       # the object is visible if it exists and it is not invisible
-      exists && !invisible ? true : false
+      if exists && !invisible
+        true
+      else
+        false
+      end
     end
 
     # Is UI object hidden (not visible)?
@@ -194,8 +217,8 @@ module TestCentricity
     #   login_button.disabled?
     #
     def disabled?
-      obj, = find_element
-      object_not_found_exception(obj, nil)
+      obj, type = find_element
+      object_not_found_exception(obj, type)
       obj.disabled?
     end
 
@@ -285,8 +308,8 @@ module TestCentricity
     end
 
     def get_value(visible = true)
-      obj, = find_element(visible)
-      object_not_found_exception(obj, nil)
+      obj, type = find_element(visible)
+      object_not_found_exception(obj, type)
       case obj.tag_name.downcase
       when 'input', 'select', 'textarea'
         obj.value
@@ -312,35 +335,37 @@ module TestCentricity
     #   basket_link.hover
     #
     def hover
-      obj, = find_element
-      object_not_found_exception(obj, nil)
+      obj, type = find_element
+      object_not_found_exception(obj, type)
       obj.hover
     end
 
     def drag_by(right_offset, down_offset)
-      obj, = find_element
-      object_not_found_exception(obj, nil)
+      obj, type = find_element
+      object_not_found_exception(obj, type)
+      page.driver.browser.action.click_and_hold(obj.native).perform
+      sleep(1)
       obj.drag_by(right_offset, down_offset)
     end
 
     def drag_and_drop(target, right_offset = nil, down_offset = nil)
-      source, = find_element
-      object_not_found_exception(source, nil)
+      source, type = find_element
+      object_not_found_exception(source, type)
       page.driver.browser.action.click_and_hold(source.native).perform
-      sleep(0.5)
+      sleep(1)
       target_drop, = target.find_element
       page.driver.browser.action.move_to(target_drop.native, right_offset.to_i, down_offset.to_i).release.perform
     end
 
     def get_attribute(attrib)
-      obj, = find_element(false)
-      object_not_found_exception(obj, nil)
+      obj, type = find_element(false)
+      object_not_found_exception(obj, type)
       obj[attrib]
     end
 
     def get_native_attribute(attrib)
-      obj, = find_element(false)
-      object_not_found_exception(obj, nil)
+      obj, type = find_element(false)
+      object_not_found_exception(obj, type)
       obj.native.attribute(attrib)
     end
 
@@ -354,43 +379,17 @@ module TestCentricity
     def find_object(visible = true)
       @alt_locator.nil? ? obj_locator = @locator : obj_locator = @alt_locator
       parent_section = @context == :section && !@parent.get_locator.nil?
-      if parent_section
-        attributes = [:id, :ignore_parent_xpath, :ignore_parent_css, :xpath_css, :css_xpath, :xpath, :css]
-        tries ||= 6
-      else
-        attributes = [:id, :xpath, :css]
-        tries ||= 2
-      end
+      parent_section ? tries ||= 2 : tries ||= 1
 
-      type = attributes[tries]
-      if parent_section
+      if parent_section && tries > 1
         parent_locator = @parent.get_locator
-        case type
-        when :css
-          parent_locator = parent_locator.gsub('|', ' ')
-          obj = page.find(:css, parent_locator, :wait => 0.01).find(:css, obj_locator, :wait => 0.01, :visible => visible)
-        when :xpath
-          parent_locator = parent_locator.delete('|')
-          obj = page.find(:xpath, "#{parent_locator}#{obj_locator}", :wait => 0.01, :visible => visible)
-        when :css_xpath
-          type = :xpath
-          parent_locator = parent_locator.gsub('|', ' ')
-          obj = page.find(:css, parent_locator, :wait => 0.01).find(:xpath, obj_locator, :wait => 0.01, :visible => visible)
-        when :xpath_css
-          type = :css
-          parent_locator = parent_locator.gsub('|', ' ')
-          obj = page.find(:xpath, parent_locator, :wait => 0.01).find(:css, obj_locator, :wait => 0.01, :visible => visible)
-        when :ignore_parent_css
-          type = :css
-          obj = page.find(:css, obj_locator, :wait => 0.01, :visible => visible)
-        when :ignore_parent_xpath
-          type = :xpath
-          obj = page.find(:xpath, obj_locator, :wait => 0.01, :visible => visible)
-        end
+        parent_locator = parent_locator.gsub('|', ' ')
+        parent_locator_type = @parent.get_locator_type
+        obj = page.find(parent_locator_type, parent_locator, :wait => 0.01).find(@locator_type, obj_locator, :wait => 0.01, :visible => visible)
       else
-        obj = page.find(type, obj_locator, :wait => 0.01, :visible => visible)
+        obj = page.find(@locator_type, obj_locator, :wait => 0.01, :visible => visible)
       end
-      [obj, type]
+      [obj, @locator_type]
     rescue
       retry if (tries -= 1) > 0
       [nil, nil]

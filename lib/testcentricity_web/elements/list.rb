@@ -13,6 +13,8 @@ module TestCentricity
         case element
         when :list_item
           @list_item = value
+        else
+          raise "#{element} is not a recognized list element"
         end
       end
     end
@@ -43,7 +45,12 @@ module TestCentricity
     end
 
     def get_list_row_locator(row)
-      "#{@locator}/#{@list_item}[#{row}]"
+      case @locator_type
+      when :xpath
+        "#{@locator}/#{@list_item}[#{row}]"
+      when :css
+        "#{@locator} > #{@list_item}:nth-of-type(#{row})"
+      end
     end
   end
 end

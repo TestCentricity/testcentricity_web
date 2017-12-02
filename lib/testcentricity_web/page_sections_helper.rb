@@ -11,6 +11,10 @@ module TestCentricity
     attr_accessor :parent
     attr_accessor :parent_list
     attr_accessor :list_index
+    attr_accessor :locator_type
+
+    XPATH_SELECTORS = ['//', '[@', '[contains(@']
+    CSS_SELECTORS   = ['#', ':nth-child(', ':nth-of-type(', '^=', '$=', '*=']
 
     def initialize(name, parent, locator, context)
       @name         = name
@@ -19,6 +23,18 @@ module TestCentricity
       @context      = context
       @parent_list  = nil
       @list_index   = nil
+
+      is_xpath = XPATH_SELECTORS.any? { |selector| @locator.include?(selector) }
+      is_css = CSS_SELECTORS.any? { |selector| @locator.include?(selector) }
+      if is_xpath && !is_css
+        @locator_type = :xpath
+      elsif is_css && !is_xpath
+        @locator_type = :css
+      elsif !is_css && !is_xpath
+        @locator_type = :css
+      else
+        raise "Cannot determine type of locator for PageSection '#{@name}' - locator = #{@locator}"
+      end
     end
 
     def get_locator
@@ -31,9 +47,10 @@ module TestCentricity
       unless @parent_list.nil?
         locator = "#{@parent_list.get_locator}|#{locator}"
         unless @list_index.nil?
-          if locator.include?('/')
+          case @locator_type
+          when :xpath
             locator = "(#{locator})[#{@list_index}]"
-          else
+          when :css
             locator = "#{locator}:nth-of-type(#{@list_index})"
           end
         end
@@ -44,6 +61,10 @@ module TestCentricity
       else
         locator
       end
+    end
+
+    def get_locator_type
+      @locator_type
     end
 
     def set_list_index(list, index = 1)
@@ -792,19 +813,10 @@ module TestCentricity
 
     def find_section
       locator = get_locator
-      tries ||= 2
-      attributes = [:id, :xpath, :css]
-      type = attributes[tries]
-      case type
-      when :css
-        locator = locator.delete('|')
-      when :xpath
-        locator = locator.delete('|')
-      end
-      obj = page.find(type, locator, :wait => 0.1)
-      [obj, type]
+      locator = locator.delete('|')
+      obj = page.find(@locator_type, locator, :wait => 0.1)
+      [obj, @locator_type]
     rescue
-      retry if (tries -= 1) > 0
       [nil, nil]
     end
   end

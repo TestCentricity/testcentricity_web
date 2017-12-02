@@ -20,6 +20,8 @@ module TestCentricity
           @list_item = value
         when :selected_item
           @selected_item = value
+        else
+          raise "#{element} is not a recognized selectlist element"
         end
       end
     end
@@ -47,7 +49,11 @@ module TestCentricity
             page.find(:css, "li[class*='active-result']", text: item.strip).click
           end
         else
-          first(:css, "li[class*='active-result']", text: option).click
+          if option.is_a?(Hash)
+            page.find(:css, "li[class*='active-result']:nth-of-type(#{option[:index]})").click if option.has_key?(:index)
+          else
+            first(:css, "li[class*='active-result']", text: option).click
+          end
         end
       else
         if option.is_a?(Array)
