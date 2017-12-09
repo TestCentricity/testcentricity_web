@@ -37,6 +37,7 @@ module TestCentricity
     attr_accessor :device_os
     attr_accessor :device_orientation
     attr_accessor :platform
+    attr_accessor :tunneling
 
     attr_accessor :signed_in
     attr_accessor :portal_status
@@ -188,6 +189,14 @@ module TestCentricity
 
     def self.device_orientation
       @device_orientation
+    end
+
+    def self.tunneling=(state)
+      @tunneling = state
+    end
+
+    def self.tunneling
+      @tunneling
     end
 
     # @deprecated Please use {#platform=} instead

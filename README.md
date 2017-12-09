@@ -21,8 +21,21 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 locally hosted instances of Firefox 48 or greater requires Marionette (aka geckodriver) and selenium-webdriver version 3.x, both of which are currently
 feature incomplete and potentially unstable. More information can be found [here](https://github.com/teamcapybara/capybara/issues/1710).
 
+TestCentricity™ will be updated to support testing with Selenium-WebDriver version 3.x as soon as a stable version is available that **fully** supports locally
+hosted instances of Chrome, Firefox, Safari, and IE web browsers.
+
 
 ## What's New
+###Version 2.3.3
+
+* Added device profile for iPhone 7 (iOS 10) with MS Edge browser.
+
+###Version 2.3.1
+
+* When testing using the remotely hosted browsers on the BrowserStack service, the BrowserStack Local instance is automatically started if the `TUNNELING`
+Environment Variable is set to `true`. `Environ.tunneling` will be set to true if the BrowserStack Local instance is succesfully started.
+* Added `TestCentricity::WebDriverConnect.close_tunnel` method to close BrowserStack Local instance when Local testing is enabled. Refer to the
+**Remotely hosted desktop and mobile web browsers** section for information on usage.
 
 ###Version 2.2.0
 
@@ -30,7 +43,7 @@ feature incomplete and potentially unstable. More information can be found [here
 
 ###Version 2.1.10
 
-* Added device profiles for iPhone 7 (iOS 10) with Mobile Firefox browser and iPad (iOS 10) with Mobile Firefox browser
+* Added device profiles for iPhone 7 (iOS 10) with Mobile Firefox browser and iPad (iOS 10) with Mobile Firefox browser.
 
 ###Version 2.1.8
 
@@ -57,7 +70,7 @@ for textfields.
 
 * Added support for "tiling" or cascading multiple browser windows when the `BROWSER_TILE` and `PARALLEL` Environment Variables are set to true. For each
 concurrent parallel thread being executed, the position of each browser will be offset by 100 pixels right and 100 pixels down. For parallel test execution,
-use the [parallel_tests gem](https://github.com/grosser/parallel_tests) to decrease overall test execution time.
+use the [parallel_tests gem](https://rubygems.org/gems/parallel_tests) to decrease overall test execution time.
 
 ###Version 2.1.2
 
@@ -74,6 +87,10 @@ use the [parallel_tests gem](https://github.com/grosser/parallel_tests) to decre
 
 
 ## What's Fixed
+###Version 2.3.3
+
+* Corrected device profiles for iPad (iOS 10) with Mobile Chrome browser and iPad (iOS 10) with Mobile Firefox browser.
+
 ###Version 2.2.1
 
 * `SelectList.choose_option` method now accepts index values for Chosen list objects.
@@ -821,6 +838,7 @@ the `WEB_BROWSER` Environment Variable must be set to one of the values from the
 `iphone7_plus`        |`chrome`        |414 x 736  |portrait  |iOS 10
 `iphone7_chrome`      |`chrome`        |375 x 667  |portrait  |iOS 10 - Mobile Chrome browser for iOS
 `iphone7_firefox`     |`chrome`        |375 x 667  |portrait  |iOS 10 - Mobile Firefox browser for iOS
+`iphone7_edge`        |`chrome`        |375 x 667  |portrait  |iOS 10 - Microsoft Edge browser for iOS
 `iphone8`             |`chrome`        |375 x 667  |portrait  |iOS 11
 `iphone8_plus`        |`chrome`        |414 x 736  |portrait  |iOS 11
 `iphonex`             |`chrome`        |375 x 812  |portrait  |iOS 11
@@ -893,11 +911,19 @@ for information regarding the specific capabilities.
 `BS_OS_VERSION` | Refer to `os_version` capability in chart
 `BS_BROWSER`    | Refer to `browser` capability in chart
 `BS_VERSION`    | [Optional] Refer to `browser_version` capability in chart. If not specified, latest stable version of browser will be used.
-`TUNNELING`     | Must be `true` if you are testing against internal/local servers (`true` or `false`)
+`TUNNELING`     | Must be `true` if you are testing against internal/local servers (`true` or `false`). If `true`, the BrowserStack Local instance will be automatically started.
 `RESOLUTION`    | [Optional] Refer to supported screen `resolution` capability in chart
 `BROWSER_SIZE`  | [Optional] Specify width, height of browser window
 `RECORD_VIDEO`  | [Optional] Enable screen video recording during test execution (`true` or `false`)
 `TIME_ZONE`     | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart
+
+If the BrowserStack Local instance is running (`TUNNELING` Environment Variable is `true`), call the`TestCentricity::WebDriverConnect.close_tunnel` method
+upon completion of your test suite to stop the Local instance. Place the code shown below in your `env.rb` file.
+
+    # Code to stop BrowserStack Local instance after end of test (if tunneling is enabled)
+    at_exit do
+      TestCentricity::WebDriverConnect.close_tunnel if Environ.tunneling
+    end
 
 
 #### Remote mobile browsers on the BrowserStack service
@@ -916,7 +942,7 @@ for information regarding the specific capabilities.
 `BS_PLATFORM`    | Must be set to `MAC` (for iOS) or `ANDROID`
 `BS_DEVICE`      | Refer to `device` capability in chart
 `BS_REAL_MOBILE` | Set to `true` if running against a real device
-`TUNNELING`      | Must be `true` if you are testing against internal/local servers (`true` or `false`)
+`TUNNELING`      | Must be `true` if you are testing against internal/local servers (`true` or `false`). If `true`, the BrowserStack Local instance will be automatically started.
 `ORIENTATION`    | [Optional] Set to `portrait` or `landscape`
 `RECORD_VIDEO`   | [Optional] Enable screen video recording during test execution (`true` or `false`)
 `TIME_ZONE`      | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart
@@ -1061,6 +1087,7 @@ service(s) that you intend to connect with.
     iphone7_plus:        WEB_BROWSER=iphone7_plus        HOST_BROWSER=chrome <%= mobile %>
     iphone7_chrome:      WEB_BROWSER=iphone7_chrome      HOST_BROWSER=chrome <%= mobile %>
     iphone7_firefox:     WEB_BROWSER=iphone7_firefox     HOST_BROWSER=chrome <%= mobile %>
+    iphone7_edge:        WEB_BROWSER=iphone7_edge        HOST_BROWSER=chrome <%= mobile %>
     iphone8:             WEB_BROWSER=iphone8             HOST_BROWSER=chrome <%= mobile %>
     iphone8_plus:        WEB_BROWSER=iphone8_plus        HOST_BROWSER=chrome <%= mobile %>
     iphoneX:             WEB_BROWSER=iphonex             HOST_BROWSER=chrome <%= mobile %>

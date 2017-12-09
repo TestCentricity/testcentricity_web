@@ -39,4 +39,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'spreadsheet', '1.1.1'
   spec.add_dependency 'os'
   spec.add_dependency 'i18n'
+  spec.add_dependency 'browserstack-local'
 end

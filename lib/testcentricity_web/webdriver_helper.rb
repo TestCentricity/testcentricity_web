@@ -1,5 +1,6 @@
 require 'selenium-webdriver'
 require 'os'
+require 'browserstack/local'
 
 
 module TestCentricity
@@ -7,6 +8,7 @@ module TestCentricity
     include Capybara::DSL
 
     attr_accessor :webdriver_path
+    attr_accessor :bs_local
 
     def self.initialize_web_driver(app_host = nil)
       Capybara.app_host = app_host unless app_host.nil?
@@ -131,7 +133,7 @@ module TestCentricity
           sleep(1)
         end
       else
-        Browsers.set_browser_window_position(50, 50)
+        Browsers.set_browser_window_position(10, 10)
         sleep(1)
       end
 
@@ -148,6 +150,17 @@ module TestCentricity
         Browsers.set_browser_window_size(Browsers.browser_size(browser, ENV['ORIENTATION']))
       end
       Environ.session_state = :running
+    end
+
+    def self.close_tunnel
+      unless @bs_local.nil?
+        @bs_local.stop
+        if @bs_local.isRunning
+          raise 'BrowserStack Local instance could not be stopped'
+        else
+          puts 'BrowserStack Local instance has been stopped'
+        end
+      end
     end
 
     private
@@ -375,10 +388,23 @@ module TestCentricity
           capabilities['javascriptEnabled'] = 'true'
           capabilities['cleanSession'] = 'true'
         end
+
+        if ENV['TUNNELING']
+          @bs_local = BrowserStack::Local.new
+          bs_local_args = {'key' => "#{ENV['BS_AUTHKEY']}"}
+          @bs_local.start(bs_local_args)
+          if @bs_local.isRunning
+            puts 'BrowserStack Local instance has been started'
+          else
+            puts 'BrowserStack Local instance failed to start'
+          end
+        end
+
         Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, desired_capabilities: capabilities)
       end
 
       Environ.browser = browser
+      Environ.tunneling = ENV['TUNNELING'] if ENV['TUNNELING']
 
       Capybara.default_driver = :browserstack
       Capybara.run_server = false

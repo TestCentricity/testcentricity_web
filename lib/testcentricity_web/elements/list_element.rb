@@ -11,7 +11,7 @@ module TestCentricity
       @list            = list
       @element_locator = locator
 
-      set_locator_type
+      set_locator_type(@list.get_locator)
 
       if locator.nil?
         @locator = list.get_list_row_locator('ROW_SPEC')
