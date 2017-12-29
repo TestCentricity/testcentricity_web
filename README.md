@@ -15,6 +15,7 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 [Sauce Labs](https://saucelabs.com/open-source#automated-testing-platform), [CrossBrowserTesting](https://crossbrowsertesting.com/selenium-testing), or
 [TestingBot](https://testingbot.com/features) services.
 * web portals utilizing JavaScript front end application frameworks like Ember, React, Angular, and GWT
+* enterprise web portals build using Siebel Open UI
 
 
 **Note:** Test execution against local instances of Firefox version 48 or greater is currently not supported by the TestCentricity™ Web gem. Testing with
@@ -26,13 +27,22 @@ hosted instances of Chrome, Firefox, Safari, and IE web browsers.
 
 
 ## What's New
+###Version 2.3.6
+
+* Added `TextField.clear` method for deleting the contents of text fields. This method should trigger the `onchange` event for the associated text field.
+
+###Version 2.3.5
+
+* Updated `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods to be compatible with Redactor editor fields.
+* Updated device profiles for iPhone 7 (iOS 10) with MS Edge browser, iPhone 7 (iOS 10) with Chrome browser, and iPhone 7 (iOS 10) with Firefox browser.
+
 ###Version 2.3.3
 
 * Added device profile for iPhone 7 (iOS 10) with MS Edge browser.
 
 ###Version 2.3.1
 
-* When testing using the remotely hosted browsers on the BrowserStack service, the BrowserStack Local instance is automatically started if the `TUNNELING`
+* When testing using remotely hosted browsers on the BrowserStack service, the BrowserStack Local instance is automatically started if the `TUNNELING`
 Environment Variable is set to `true`. `Environ.tunneling` will be set to true if the BrowserStack Local instance is succesfully started.
 * Added `TestCentricity::WebDriverConnect.close_tunnel` method to close BrowserStack Local instance when Local testing is enabled. Refer to the
 **Remotely hosted desktop and mobile web browsers** section for information on usage.
@@ -87,6 +97,15 @@ use the [parallel_tests gem](https://rubygems.org/gems/parallel_tests) to decrea
 
 
 ## What's Fixed
+###Version 2.3.6.1
+
+* `TextField.clear` method now works with most `number` type fields.
+
+###Version 2.3.4
+
+* Fixed bug in `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods that prevented deletion of data in number type textfields
+and textarea controls.
+
 ###Version 2.3.3
 
 * Corrected device profiles for iPad (iOS 10) with Mobile Chrome browser and iPad (iOS 10) with Mobile Firefox browser.
@@ -1480,7 +1499,7 @@ landscape orientation running on the BrowserStack service:
 
 ## Copyright and License
 
-TestCentricity™ Framework is Copyright (c) 2014-2017, Tony Mrozinski.
+TestCentricity™ Framework is Copyright (c) 2014-2018, Tony Mrozinski.
 All rights reserved.
 
 

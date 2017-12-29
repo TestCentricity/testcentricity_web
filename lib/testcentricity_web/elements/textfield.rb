@@ -80,5 +80,35 @@ module TestCentricity
       step = obj.native.attribute('step')
       step.to_i unless step.blank?
     end
+
+    # Clear the contents of a text field
+    #
+    # @example
+    #   first_name_field.clear
+    #
+    def clear
+      case get_native_attribute('tagName').downcase.to_sym
+      when :textarea
+        set('')
+        sleep(0.5)
+        send_keys(:tab)
+      when :div
+        set('')
+      else
+        length = get_value.length
+        length.times do
+          send_keys(:backspace)
+        end
+        sleep(0.5)
+        send_keys(:tab)
+        sleep(0.5)
+        length = get_value.length
+        if length > 0
+          set('')
+          sleep(0.5)
+          send_keys(:tab)
+        end
+      end
+    end
   end
 end

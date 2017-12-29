@@ -69,7 +69,7 @@
   :css_width: 375
   :css_height: 667
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) FxiOS/10.3b7934 Mobile/14G60 Safari/603.3.8"
+  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) FxiOS/10.4b8288 Mobile/14G60 Safari/603.3.8"
 :iphone7_edge:
   :name: "iPhone 7 - MS Edge"
   :os: ios
@@ -77,7 +77,7 @@
   :css_width: 375
   :css_height: 667
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Version/10.0 EdgiOS/41.41.4.0 Mobile/14G60 Safari/603.3.8"
+  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Version/10.0 EdgiOS/41.6.0.0 Mobile/14G60 Safari/603.3.8"
 :iphone8:
   :name: "iPhone 8"
   :os: ios
@@ -245,7 +245,7 @@ nexus6:
   :css_width: 1024
   :css_height: 768
   :default_orientation: landscape
-  :user_agent: "Mozilla/5.0 (iPad; CPU OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) FxiOS/10.3b7934 Mobile/14G60 Safari/603.3.8"
+  :user_agent: "Mozilla/5.0 (iPad; CPU OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) FxiOS/10.4b8288 Mobile/14G60 Safari/603.3.8"
 :android_tablet:
   :name: "Generic Android tablet"
   :os: android

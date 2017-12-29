@@ -627,12 +627,7 @@ module TestCentricity
           # make sure the intended UI target element exists before trying to set its value
           data_field.wait_until_exists(2)
           if data_param == '!DELETE'
-            length = data_field.get_value.length
-            length.times do
-              data_field.send_keys(:backspace)
-            end
-            sleep(0.5)
-            data_field.send_keys(:tab)
+            data_field.clear
           else
             case data_field.get_object_type
             when :checkbox
