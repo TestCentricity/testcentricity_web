@@ -512,9 +512,9 @@ module TestCentricity
     #   bar_chart_section.disabled?
     #
     def disabled?
-      obj, = find_element
-      object_not_found_exception(obj, nil)
-      obj.disabled?
+      section, = find_section
+      raise "Section object '#{get_name}' (#{get_locator}) not found" unless section
+      section.disabled?
     end
 
     # Is Section object visible?
@@ -542,7 +542,8 @@ module TestCentricity
       !visible?
     end
 
-    # Wait until the Section object exists, or until the specified wait time has expired.
+    # Wait until the Section object exists, or until the specified wait time has expired. If the wait time is nil, then
+    # the wait time will be Capybara.default_max_wait_time.
     #
     # @param seconds [Integer or Float] wait time in seconds
     # @example
@@ -556,7 +557,8 @@ module TestCentricity
       raise "Could not find Section object '#{get_name}' (#{get_locator}) after #{timeout} seconds" unless exists?
     end
 
-    # Wait until the Section object no longer exists, or until the specified wait time has expired.
+    # Wait until the Section object no longer exists, or until the specified wait time has expired. If the wait time is
+    # nil, then the wait time will be Capybara.default_max_wait_time.
     #
     # @param seconds [Integer or Float] wait time in seconds
     # @example
@@ -570,7 +572,8 @@ module TestCentricity
       raise "Section object '#{get_name}' (#{get_locator}) remained visible after #{timeout} seconds" if exists?
     end
 
-    # Wait until the Section object is visible, or until the specified wait time has expired.
+    # Wait until the Section object is visible, or until the specified wait time has expired. If the wait time is nil,
+    # then the wait time will be Capybara.default_max_wait_time.
     #
     # @param seconds [Integer or Float] wait time in seconds
     # @example
@@ -584,7 +587,8 @@ module TestCentricity
       raise "Could not find Section object '#{get_name}' (#{get_locator}) after #{timeout} seconds" unless visible?
     end
 
-    # Wait until the Section object is hidden, or until the specified wait time has expired.
+    # Wait until the Section object is hidden, or until the specified wait time has expired. If the wait time is nil,
+    # then the wait time will be Capybara.default_max_wait_time.
     #
     # @param seconds [Integer or Float] wait time in seconds
     # @example
@@ -627,10 +631,16 @@ module TestCentricity
             actual = ui_object.visible?
           when :hidden
             actual = ui_object.hidden?
+          when :displayed
+            actual = ui_object.displayed?
           when :width
-            actual = ui_object.get_width
+            actual = ui_object.width
           when :height
-            actual = ui_object.get_height
+            actual = ui_object.height
+          when :x
+            actual = ui_object.x
+          when :y
+            actual = ui_object.y
           when :readonly
             actual = ui_object.read_only?
           when :checked
@@ -751,9 +761,16 @@ module TestCentricity
     # and radio buttons, data must either be a Boolean or a String that evaluates to a Boolean value (Yes, No, 1,
     # 0, true, false).
     #
+    # The optional wait_time parameter is used to specify the time (in seconds) to wait for each UI element to become
+    # visible before entering the associated data value. This option is useful in situations where entering data, or
+    # setting the state of a UI element might cause other UI elements to become visible or active. Specifying a wait_time
+    # value ensures that the subsequent UI elements will be ready to be interacted with as states are changed. If the wait
+    # time is nil, then the wait time will be 5 seconds.
+    #
     # To delete all text content in a text field, pass !DELETE as the data to be entered.
     #
     # @param data [Hash] UI element(s) and associated data to be entered
+    # @param wait_time [Integer] wait time in seconds
     # @example
     #   data = { prefix_select      => 'Mr.',
     #            first_name_field   => 'Ignatious',
@@ -765,11 +782,12 @@ module TestCentricity
     #          }
     #   populate_data_fields(data)
     #
-    def populate_data_fields(data)
+    def populate_data_fields(data, wait_time = nil)
+      timeout = wait_time.nil? ? 5 : wait_time
       data.each do |data_field, data_param|
         unless data_param.blank?
-          # make sure the intended UI target element exists before trying to set its value
-          data_field.wait_until_exists(2)
+          # make sure the intended UI target element is visible before trying to set its value
+          data_field.wait_until_visible(timeout)
           if data_param == '!DELETE'
             data_field.clear
           else
@@ -808,7 +826,7 @@ module TestCentricity
 
     def find_section
       locator = get_locator
-      locator = locator.delete('|')
+      locator = locator.gsub('|', ' ')
       obj = page.find(@locator_type, locator, :wait => 0.1)
       [obj, @locator_type]
     rescue

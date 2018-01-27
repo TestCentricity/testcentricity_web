@@ -27,6 +27,16 @@ hosted instances of Chrome, Firefox, Safari, and IE web browsers.
 
 
 ## What's New
+###Version 2.3.9
+
+* Updated `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods to accept optional `wait_time` parameter.
+* Updated device profiles for iPhone 7 (iOS 10) with MS Edge browser, iPhone 7 (iOS 10) with Chrome browser, and iPhone 7 (iOS 10) with Firefox browser.
+* Updated device profiles for iPad (iOS 10) with Chrome browser and iPad (iOS 10) with Firefox browser.
+
+###Version 2.3.7
+
+* Added `width`, `height`, `x`, `y`, and `displayed?` methods to `UIElement` class.
+
 ###Version 2.3.6
 
 * Added `TextField.clear` method for deleting the contents of text fields. This method should trigger the `onchange` event for the associated text field.
@@ -97,6 +107,10 @@ use the [parallel_tests gem](https://rubygems.org/gems/parallel_tests) to decrea
 
 
 ## What's Fixed
+###Version 2.3.8
+
+* Fixed locator resolution for **Indexed PageSection Objects**.
+
 ###Version 2.3.6.1
 
 * `TextField.clear` method now works with most `number` type fields.
@@ -596,7 +610,12 @@ With TestCentricity, all UI elements are based on the **UIElement** class, and i
     element.hidden?
     element.enabled?
     element.disabled?
+    element.displayed?
     element.get_value
+    element.width
+    element.height
+    element.x
+    element.y
     element.get_attribute(attrib)
     element.get_native_attribute(attrib)
     
@@ -1235,10 +1254,11 @@ service(s) that you intend to connect with.
     
     # BrowserStack iOS real device mobile browser profiles
     bs_iphone_device:   --profile bs_iphone BS_REAL_MOBILE="true"
+    bs_iphoneX:         --profile bs_iphone_device BS_OS_VERSION="11.0" BS_DEVICE="iPhone X"
     bs_iphone8_plus:    --profile bs_iphone_device BS_OS_VERSION="11.0" BS_DEVICE="iPhone 8 Plus"
     bs_iphone8:         --profile bs_iphone_device BS_OS_VERSION="11.0" BS_DEVICE="iPhone 8"
-    bs_iphone7_plus:    --profile bs_iphone_device BS_OS_VERSION="10.0" BS_DEVICE="iPhone 7 Plus"
-    bs_iphone7:         --profile bs_iphone_device BS_OS_VERSION="10.0" BS_DEVICE="iPhone 7"
+    bs_iphone7_plus:    --profile bs_iphone_device BS_OS_VERSION="10.3" BS_DEVICE="iPhone 7 Plus"
+    bs_iphone7:         --profile bs_iphone_device BS_OS_VERSION="10.3" BS_DEVICE="iPhone 7"
     
     bs_ipad_device:     --profile bs_ipad BS_REAL_MOBILE="true"
     bs_ipad5:           --profile bs_ipad_device BS_OS_VERSION="11.0" BS_DEVICE="iPad 5th"

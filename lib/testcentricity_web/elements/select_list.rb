@@ -52,6 +52,8 @@ module TestCentricity
           if option.is_a?(Hash)
             page.find(:css, "li[class*='active-result']:nth-of-type(#{option[:index]})").click if option.has_key?(:index)
           else
+            options = obj.all("li[class*='active-result']").collect(&:text)
+            sleep(2) unless options.include?(option)
             first(:css, "li[class*='active-result']", text: option).click
           end
         end

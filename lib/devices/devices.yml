@@ -61,7 +61,7 @@
   :css_width: 375
   :css_height: 667
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) CriOS/63.0.3239.73 Mobile/14G60 Safari/602.1"
+  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) CriOS/64.0.3282.112 Mobile/14G60 Safari/602.1"
 :iphone7_firefox:
   :name: "iPhone 7 - Firefox"
   :os: ios
@@ -69,7 +69,7 @@
   :css_width: 375
   :css_height: 667
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) FxiOS/10.4b8288 Mobile/14G60 Safari/603.3.8"
+  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) FxiOS/10.5b8741 Mobile/14G60 Safari/603.3.8"
 :iphone7_edge:
   :name: "iPhone 7 - MS Edge"
   :os: ios
@@ -77,7 +77,7 @@
   :css_width: 375
   :css_height: 667
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Version/10.0 EdgiOS/41.6.0.0 Mobile/14G60 Safari/603.3.8"
+  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Version/10.0 EdgiOS/41.9.0.0 Mobile/14G60 Safari/603.3.8"
 :iphone8:
   :name: "iPhone 8"
   :os: ios
@@ -237,7 +237,7 @@ nexus6:
   :css_width: 1024
   :css_height: 768
   :default_orientation: landscape
-  :user_agent: "Mozilla/5.0 (iPad; CPU OS 10_3_3 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) CriOS/63.0.3239.73 Mobile/14G60 Safari/602.1"
+  :user_agent: "Mozilla/5.0 (iPad; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) CriOS/64.0.3282.112 Mobile/14G60 Safari/602.1"
 :ipad_firefox:
   :name: "iPad - Firefox"
   :os: ios
@@ -245,7 +245,7 @@ nexus6:
   :css_width: 1024
   :css_height: 768
   :default_orientation: landscape
-  :user_agent: "Mozilla/5.0 (iPad; CPU OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) FxiOS/10.4b8288 Mobile/14G60 Safari/603.3.8"
+  :user_agent: "Mozilla/5.0 (iPad; CPU OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) FxiOS/10.5b8741 Mobile/14G60 Safari/603.3.8"
 :android_tablet:
   :name: "Generic Android tablet"
   :os: android

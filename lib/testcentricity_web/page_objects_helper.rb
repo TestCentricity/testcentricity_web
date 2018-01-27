@@ -484,10 +484,16 @@ module TestCentricity
             actual = ui_object.visible?
           when :hidden
             actual = ui_object.hidden?
+          when :displayed
+            actual = ui_object.displayed?
           when :width
-            actual = ui_object.get_width
+            actual = ui_object.width
           when :height
-            actual = ui_object.get_height
+            actual = ui_object.height
+          when :x
+            actual = ui_object.x
+          when :y
+            actual = ui_object.y
           when :readonly
             actual = ui_object.read_only?
           when :checked
@@ -607,9 +613,16 @@ module TestCentricity
     # values must be in the form of a String for textfield and select list controls. For checkbox and radio buttons,
     # data must either be a Boolean or a String that evaluates to a Boolean value (Yes, No, 1, 0, true, false).
     #
+    # The optional wait_time parameter is used to specify the time (in seconds) to wait for each UI element to become
+    # visible before entering the associated data value. This option is useful in situations where entering data, or
+    # setting the state of a UI element might cause other UI elements to become visible or active. Specifying a wait_time
+    # value ensures that the subsequent UI elements will be ready to be interacted with as states are changed. If the wait
+    # time is nil, then the wait time will be 5 seconds.
+    #
     # To delete all text content in a text field, pass !DELETE as the data to be entered.
     #
     # @param data [Hash] UI element(s) and associated data to be entered
+    # @param wait_time [Integer] wait time in seconds
     # @example
     #   field_data = { prefix_select      => 'Ms',
     #                  first_name_field   => 'Priscilla',
@@ -621,11 +634,12 @@ module TestCentricity
     #          }
     #   populate_data_fields(field_data)
     #
-    def populate_data_fields(data)
+    def populate_data_fields(data, wait_time = nil)
+      timeout = wait_time.nil? ? 5 : wait_time
       data.each do |data_field, data_param|
         unless data_param.blank?
-          # make sure the intended UI target element exists before trying to set its value
-          data_field.wait_until_exists(2)
+          # make sure the intended UI target element is visible before trying to set its value
+          data_field.wait_until_visible(timeout)
           if data_param == '!DELETE'
             data_field.clear
           else

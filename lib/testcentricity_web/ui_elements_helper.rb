@@ -14,6 +14,18 @@ Capybara::Node::Element.class_eval do
   def get_height
     native.size.height
   end
+
+  def get_x
+    native.location.x
+  end
+
+  def get_y
+    native.location.y
+  end
+
+  def displayed?
+    native.displayed?
+  end
 end
 
 
@@ -222,7 +234,8 @@ module TestCentricity
       obj.disabled?
     end
 
-    # Wait until the object exists, or until the specified wait time has expired.
+    # Wait until the object exists, or until the specified wait time has expired. If the wait time is nil, then the wait
+    # time will be Capybara.default_max_wait_time.
     #
     # @param seconds [Integer or Float] wait time in seconds
     # @example
@@ -236,7 +249,8 @@ module TestCentricity
       raise "Could not find UI #{object_ref_message} after #{timeout} seconds" unless exists?
     end
 
-    # Wait until the object no longer exists, or until the specified wait time has expired.
+    # Wait until the object no longer exists, or until the specified wait time has expired. If the wait time is nil, then
+    # the wait time will be Capybara.default_max_wait_time.
     #
     # @param seconds [Integer or Float] wait time in seconds
     # @example
@@ -250,7 +264,8 @@ module TestCentricity
       raise "UI #{object_ref_message} remained visible after #{timeout} seconds" if exists?
     end
 
-    # Wait until the object is visible, or until the specified wait time has expired.
+    # Wait until the object is visible, or until the specified wait time has expired. If the wait time is nil, then the
+    # wait time will be Capybara.default_max_wait_time.
     #
     # @param seconds [Integer or Float] wait time in seconds
     # @example
@@ -264,7 +279,8 @@ module TestCentricity
       raise "Could not find UI #{object_ref_message} after #{timeout} seconds" unless visible?
     end
 
-    # Wait until the object is hidden, or until the specified wait time has expired.
+    # Wait until the object is hidden, or until the specified wait time has expired. If the wait time is nil, then the
+    # wait time will be Capybara.default_max_wait_time.
     #
     # @param seconds [Integer or Float] wait time in seconds
     # @example
@@ -278,7 +294,8 @@ module TestCentricity
       raise "UI #{object_ref_message} remained visible after #{timeout} seconds" if visible?
     end
 
-    # Wait until the object's value equals the specified value, or until the specified wait time has expired.
+    # Wait until the object's value equals the specified value, or until the specified wait time has expired. If the wait
+    # time is nil, then the wait time will be Capybara.default_max_wait_time.
     #
     # @param seconds [Integer or Float] wait time in seconds
     # @example
@@ -292,7 +309,8 @@ module TestCentricity
       raise "Value of UI #{object_ref_message} failed to equal '#{value}' after #{timeout} seconds" unless get_value == value
     end
 
-    # Wait until the object's value changes to a different value, or until the specified wait time has expired.
+    # Wait until the object's value changes to a different value, or until the specified wait time has expired. If the
+    # wait time is nil, then the wait time will be Capybara.default_max_wait_time.
     #
     # @param seconds [Integer or Float] wait time in seconds
     # @example
@@ -305,6 +323,66 @@ module TestCentricity
       wait.until { get_value != value }
     rescue
       raise "Value of UI #{object_ref_message} failed to change from '#{value}' after #{timeout} seconds" if get_value == value
+    end
+
+    # Return width of object.
+    #
+    # @return [Integer]
+    # @example
+    #   button_width = my_button.width
+    #
+    def width
+      obj, type = find_element(false)
+      object_not_found_exception(obj, type)
+      obj.get_width
+    end
+
+    # Return height of object.
+    #
+    # @return [Integer]
+    # @example
+    #   button_height = my_button.height
+    #
+    def height
+      obj, type = find_element(false)
+      object_not_found_exception(obj, type)
+      obj.get_height
+    end
+
+    # Return x coordinate of object's location.
+    #
+    # @return [Integer]
+    # @example
+    #   button_x = my_button.x
+    #
+    def x
+      obj, type = find_element(false)
+      object_not_found_exception(obj, type)
+      obj.get_x
+    end
+
+    # Return y coordinate of object's location.
+    #
+    # @return [Integer]
+    # @example
+    #   button_y = my_button.y
+    #
+    def y
+      obj, type = find_element(false)
+      object_not_found_exception(obj, type)
+      obj.get_y
+    end
+
+    # Is UI object displayed in browser window?
+    #
+    # @return [Boolean]
+    # @example
+    #   basket_link.displayed??
+    #
+    def displayed?
+      obj, type = find_element(false)
+      object_not_found_exception(obj, type)
+      obj.displayed?
     end
 
     def get_value(visible = true)
