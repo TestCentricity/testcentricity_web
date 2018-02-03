@@ -26,8 +26,12 @@ module TestCentricity
       obj.all(@list_item).collect(&:text)
     end
 
-    def get_list_item(index)
-      items = get_list_items
+    def get_list_item(index, visible = true)
+      if visible
+        items = get_list_items
+      else
+        items = get_all_list_items
+      end
       items[index - 1]
     end
 
@@ -35,6 +39,19 @@ module TestCentricity
       obj, = find_element
       object_not_found_exception(obj, nil)
       obj.all(@list_item).count
+    end
+
+    def get_all_list_items(element_spec = nil)
+      define_list_elements(element_spec) unless element_spec.nil?
+      obj, = find_element
+      object_not_found_exception(obj, nil)
+      obj.all(@list_item, :visible => :all).collect(&:text)
+    end
+
+    def get_all_items_count
+      obj, = find_element
+      object_not_found_exception(obj, nil)
+      obj.all(@list_item, :visible => :all).count
     end
 
     def verify_list_items(expected, enqueue = false)

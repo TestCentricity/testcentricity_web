@@ -170,6 +170,7 @@ module TestCentricity
       Environ.platform    = :mobile
       Environ.device_name = ENV['APP_DEVICE']
       Environ.device_os   = ENV['APP_PLATFORM_NAME']
+      Environ.device_type = ENV['DEVICE_TYPE'] if ENV['DEVICE_TYPE']
       Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
       Capybara.default_driver = :appium
       endpoint = 'http://localhost:4723/wd/hub'
@@ -180,13 +181,20 @@ module TestCentricity
           deviceName:      ENV['APP_DEVICE']
       }
       desired_capabilities['avd'] = ENV['APP_DEVICE'] if ENV['APP_PLATFORM_NAME'].downcase.to_sym == :android
+      desired_capabilities['automationName'] = ENV['AUTOMATION_ENGINE'] if ENV['AUTOMATION_ENGINE']
       desired_capabilities['orientation'] = ENV['ORIENTATION'].upcase if ENV['ORIENTATION']
-      desired_capabilities['udid'] = ENV['APP_UDID'] if ENV['APP_UDID']
+      if ENV['APP_UDID']
+        desired_capabilities['udid'] = ENV['APP_UDID']
+        desired_capabilities['startIWDP'] = true
+        desired_capabilities['xcodeOrgId'] = ENV['TEAM_ID']
+        desired_capabilities['xcodeSigningId'] = ENV['TEAM_NAME']
+      end
       desired_capabilities['safariInitialUrl'] = ENV['APP_INITIAL_URL'] if ENV['APP_INITIAL_URL']
       desired_capabilities['safariAllowPopups'] = ENV['APP_ALLOW_POPUPS'] if ENV['APP_ALLOW_POPUPS']
       desired_capabilities['safariIgnoreFraudWarning'] = ENV['APP_IGNORE_FRAUD_WARNING'] if ENV['APP_IGNORE_FRAUD_WARNING']
       desired_capabilities['noReset'] = ENV['APP_NO_RESET'] if ENV['APP_NO_RESET']
-      desired_capabilities['locale'] = ENV['LOCALE'] if ENV['LOCALE']
+      desired_capabilities['language'] = ENV['LANGUAGE'] if ENV['LANGUAGE']
+      desired_capabilities['locale'] = ENV['LOCALE'].gsub('-', '_') if ENV['LOCALE']
 
       Capybara.register_driver :appium do |app|
         appium_lib_options = { server_url: endpoint }
@@ -208,48 +216,48 @@ module TestCentricity
       browser = ENV['WEB_BROWSER']
 
       case browser.downcase.to_sym
-        when :firefox, :chrome, :ie, :safari, :edge
-          Environ.platform = :desktop
-        else
-          Environ.platform    = :mobile
-          Environ.device_name = Browsers.mobile_device_name(browser)
+      when :firefox, :chrome, :ie, :safari, :edge
+        Environ.platform = :desktop
+      else
+        Environ.platform    = :mobile
+        Environ.device_name = Browsers.mobile_device_name(browser)
       end
 
       Capybara.default_driver = :selenium
       Capybara.register_driver :selenium do |app|
         case browser.downcase.to_sym
-          when :ie, :safari, :edge
-            Capybara::Selenium::Driver.new(app, :browser => browser.to_sym)
+        when :ie, :safari, :edge
+          Capybara::Selenium::Driver.new(app, :browser => browser.to_sym)
 
+        when :firefox
+          if ENV['LOCALE']
+            profile = Selenium::WebDriver::Firefox::Profile.new
+            profile['intl.accept_languages'] = ENV['LOCALE']
+            Capybara::Selenium::Driver.new(app, :profile => profile)
+          else
+            Capybara::Selenium::Driver.new(app, :browser => :firefox)
+          end
+
+        when :chrome
+          ENV['LOCALE'] ? args = ['--disable-infobars', "--lang=#{ENV['LOCALE']}"] : args = ['--disable-infobars']
+          Capybara::Selenium::Driver.new(app, :browser => :chrome, :args => args)
+
+        else
+          user_agent = Browsers.mobile_device_agent(browser)
+          ENV['HOST_BROWSER'] ? host_browser = ENV['HOST_BROWSER'].downcase.to_sym : host_browser = :chrome
+          case host_browser
           when :firefox
-            if ENV['LOCALE']
-              profile = Selenium::WebDriver::Firefox::Profile.new
-              profile['intl.accept_languages'] = ENV['LOCALE']
-              Capybara::Selenium::Driver.new(app, :profile => profile)
-            else
-              Capybara::Selenium::Driver.new(app, :browser => :firefox)
-            end
+            profile = Selenium::WebDriver::Firefox::Profile.new
+            profile['general.useragent.override'] = user_agent
+            profile['intl.accept_languages'] = ENV['LOCALE'] if ENV['LOCALE']
+            Capybara::Selenium::Driver.new(app, :profile => profile)
 
           when :chrome
-            ENV['LOCALE'] ? args = ['--disable-infobars', "--lang=#{ENV['LOCALE']}"] : args = ['--disable-infobars']
+            ENV['LOCALE'] ?
+                args = ["--user-agent='#{user_agent}'", "--lang=#{ENV['LOCALE']}", '--disable-infobars'] :
+                args = ["--user-agent='#{user_agent}'", '--disable-infobars']
             Capybara::Selenium::Driver.new(app, :browser => :chrome, :args => args)
-
-          else
-            user_agent = Browsers.mobile_device_agent(browser)
-            ENV['HOST_BROWSER'] ? host_browser = ENV['HOST_BROWSER'].downcase.to_sym : host_browser = :firefox
-            case host_browser
-              when :firefox
-                profile = Selenium::WebDriver::Firefox::Profile.new
-                profile['general.useragent.override'] = user_agent
-                profile['intl.accept_languages'] = ENV['LOCALE'] if ENV['LOCALE']
-                Capybara::Selenium::Driver.new(app, :profile => profile)
-
-              when :chrome
-                ENV['LOCALE'] ?
-                    args = ["--user-agent='#{user_agent}'", "--lang=#{ENV['LOCALE']}", '--disable-infobars'] :
-                    args = ["--user-agent='#{user_agent}'", '--disable-infobars']
-                Capybara::Selenium::Driver.new(app, :browser => :chrome, :args => args)
-            end
+          end
         end
       end
     end
@@ -328,8 +336,6 @@ module TestCentricity
         Environ.device_name = ENV['BS_DEVICE']
         Environ.device_os   = ENV['BS_OS']
         Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
-        Environ.device_type = ENV['DEVICE_TYPE'] if ENV['DEVICE_TYPE']
-
       elsif ENV['BS_OS']
         Environ.os = "#{ENV['BS_OS']} #{ENV['BS_OS_VERSION']}"
       end
@@ -405,6 +411,7 @@ module TestCentricity
 
       Environ.browser = browser
       Environ.tunneling = ENV['TUNNELING'] if ENV['TUNNELING']
+      Environ.device_type = ENV['DEVICE_TYPE'] if ENV['DEVICE_TYPE']
 
       Capybara.default_driver = :browserstack
       Capybara.run_server = false

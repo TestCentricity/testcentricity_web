@@ -86,6 +86,20 @@ module TestCentricity
       items
     end
 
+    def get_all_items_count
+      raise 'No parent list defined' if @parent_list.nil?
+      @parent_list.get_all_items_count
+    end
+
+    def get_all_list_items
+      items = []
+      (1..get_all_items_count).each do |item|
+        set_list_index(nil, item)
+        items.push(get_value(:all))
+      end
+      items
+    end
+
     def verify_list_items(expected, enqueue = false)
       actual = get_list_items
       enqueue ?
@@ -542,6 +556,18 @@ module TestCentricity
       !visible?
     end
 
+    # Is section object displayed in browser window?
+    #
+    # @return [Boolean]
+    # @example
+    #   navigation_toolbar.displayed??
+    #
+    def displayed?
+      section, = find_section
+      raise "Section object '#{get_name}' (#{get_locator}) not found" unless section
+      section.displayed?
+    end
+
     # Wait until the Section object exists, or until the specified wait time has expired. If the wait time is nil, then
     # the wait time will be Capybara.default_max_wait_time.
     #
@@ -667,6 +693,10 @@ module TestCentricity
             actual = ui_object.get_list_items
           when :optioncount, :itemcount
             actual = ui_object.get_item_count
+          when :all_items, :all_list_items
+            actual = ui_object.get_all_list_items
+          when :all_items_count
+            actual = ui_object.get_all_items_count
           when :column_headers
             actual = ui_object.get_header_columns
           when :siebel_options

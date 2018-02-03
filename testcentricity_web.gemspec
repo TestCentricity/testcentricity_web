@@ -16,8 +16,9 @@ Gem::Specification.new do |spec|
     for use with Cucumber, Capybara, and Selenium-Webdriver. The TestCentricity™ Web gem supports running automated tests
     against locally hosted desktop browsers (Firefox, Chrome, Safari, or IE), locally hosted emulated mobile browsers (iOS,
     Android, Windows Phone, Blackberry, Kindle Fire) running within a locally hosted instance of Chrome, a "headless" browser (using
-    Poltergeist and PhantomJS), mobile Safari browsers on iOS device simulators (using Appium and XCode on OS X), or cloud hosted
-    desktop or mobile web browsers (using the BrowserStack, Sauce Labs, CrossBrowserTesting, or TestingBot services).}
+    Poltergeist and PhantomJS), mobile Safari browsers on iOS device simulators or physical iOS devices  (using Appium and XCode on
+    OS X), mobile Chrome or Android browsers on Android Studio virtual device emulators (using Appium and Android Studio on OS X),
+    or cloud hosted desktop or mobile web browsers (using the BrowserStack, Sauce Labs, CrossBrowserTesting, or TestingBot services).}
   spec.homepage      = ''
   spec.license       = 'BSD3'
 

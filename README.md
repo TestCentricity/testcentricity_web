@@ -10,7 +10,8 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 * locally hosted desktop browsers (Firefox*, Chrome, Safari, or IE)
 * locally hosted emulated iOS Mobile Safari, Android, Windows Phone, or Blackberry mobile browsers (running within a local instance of Chrome)
 * a "headless" browser (using Poltergeist and PhantomJS)
-* mobile Safari browsers on iOS device simulators (using Appium and XCode on OS X)
+* mobile Safari browsers on iOS device simulators or physical iOS devices (using Appium and XCode on OS X)
+* mobile Chrome or Android browsers on Android Studio virtual device emulators (using Appium and Android Studio on OS X)
 * cloud hosted desktop (Firefox, Chrome, Safari, IE, or Edge) or mobile (iOS Mobile Safari or Android) web browsers using the [Browserstack](https://www.browserstack.com/list-of-browsers-and-platforms?product=automate),
 [Sauce Labs](https://saucelabs.com/open-source#automated-testing-platform), [CrossBrowserTesting](https://crossbrowsertesting.com/selenium-testing), or
 [TestingBot](https://testingbot.com/features) services.
@@ -27,6 +28,17 @@ hosted instances of Chrome, Firefox, Safari, and IE web browsers.
 
 
 ## What's New
+###Version 2.3.11
+
+* Added support for running tests in Mobile Safari browser on physical iOS devices.
+* Updated device profiles for iPhone 7 (iOS 10) with Mobile Firefox browser and iPad (iOS 10) with Mobile Firefox browser
+
+###Version 2.3.10
+
+* Added support for running tests in mobile Chrome or Android browsers on Android Studio virtual device emulators.
+* Added `displayed?`, `get_all_items_count`, and `get_all_list_items` methods to `PageSection` class.
+* Added `get_all_items_count`, and `get_all_list_items` methods to `List` class.
+
 ###Version 2.3.9
 
 * Updated `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods to accept optional `wait_time` parameter.
@@ -901,13 +913,14 @@ To use a local instance of the Chrome desktop browser to host the emulated mobil
 to `chrome`.
 
 
-### Mobile Safari browser on iOS Simulators
+### Mobile Safari browser on iOS Simulators or iOS Physical Devices
 
-You can run your mobile web tests against the mobile Safari browser on simulated iOS devices using Appium and XCode on OS X. You must install XCode, the
-iOS version-specific device simulators for XCode, and Appium. You must ensure that the `appium_capybara` gem is installed and required as described in
-**section 2.4 (Setup - Using Appium)** above.
+You can run your mobile web tests against the mobile Safari browser on simulated iOS devices or physically connected iOS devices using Appium and XCode on
+OS X. You must install Appium, XCode, and the iOS version-specific device simulators for XCode. You must also ensure that the `appium_capybara` gem is
+installed and required as described in **section 2.4 (Setup - Using Appium)** above.
 
-Appium must be running prior to invoking Cucumber to run your features/scenarios.
+Information about Appium setup and configuration requirements for testing on physically connected iOS devices can be found on [this page](https://github.com/appium/appium/blob/master/docs/en/drivers/ios-xcuitest-real-devices.md).
+The Appium server must be running prior to invoking Cucumber to run your features/scenarios.
 
 Once your test environment is properly configured, the following **Environment Variables** must be set as described in the table below.
 
@@ -916,15 +929,45 @@ Once your test environment is properly configured, the following **Environment V
 `WEB_BROWSER`       | Must be set to `appium`
 `APP_PLATFORM_NAME` | Must be set to `iOS`
 `APP_BROWSER`       | Must be set to `Safari`
-`APP_VERSION`       | Must be set to `10.0`, `9.3`, `9.2`, or which ever iOS version you wish to run within the XCode Simulator
-`APP_DEVICE`        | Set to iOS device name supported by the iOS Simulator (`iPhone 6s Plus`, `iPad Pro`, `iPad Air 2`, etc.)
-`ORIENTATION`       | [Optional] Set to `portrait` or `landscape`
+`APP_VERSION`       | Must be set to `11.2`, `10.3`, `9.3`, or which ever iOS version you wish to run within the XCode Simulator
+`APP_DEVICE`        | Set to iOS device name supported by the iOS Simulator (`iPhone 6s Plus`, `iPad Pro (10.5-inch)`, `iPad Air 2`, etc.) or name of physically connected iOS device
+`DEVICE_TYPE`       | Must be set to `phone` or `tablet`
+`APP_UDID`          | UDID of physically connected iOS device (not used for simulators)
+`TEAM_ID`           | unique 10-character Apple developer team identifier string (not used for simulators)
+`TEAM_NAME`         | String representing a signing certificate (not used for simulators)
 `APP_ALLOW_POPUPS`  | [Optional] Allow javascript to open new windows in Safari. Set to `true` or `false`
 `APP_IGNORE_FRAUD_WARNING` | [Optional] Prevent Safari from showing a fraudulent website warning. Set to `true` or `false`
 `APP_NO_RESET`      | [Optional] Don't reset app state after each test. Set to `true` or `false`
 `APP_INITIAL_URL`   | [Optional] Initial URL, default is a local welcome page.  e.g.  `http://www.apple.com`
 `LOCALE`            | [Optional] Locale to set for the simulator.  e.g.  `fr_CA`
+`LANGUAGE`          | [Optional] Language to set for the simulator.  e.g.  `fr`
+`ORIENTATION`       | [Optional] Set to `portrait` or `landscape` (only for iOS simulators)
 
+
+### Mobile Chrome or Android browsers on Android Studio Virtual Device emulators
+
+You can run your mobile web tests against the mobile Chrome or Android browser on emulated Android devices using Appium and Android Studio on OS X. You
+must install Android Studio, the desired Android version-specific virtual device emulators, and Appium. Refer to [this page](https://github.com/appium/ruby_console/blob/master/osx.md)
+for information on configuring Appium to work with the Android SDK. You must also ensure that the `appium_capybara` gem is installed and required as
+described in **section 2.4 (Setup - Using Appium)** above.
+
+The Appium server must be running prior to invoking Cucumber to run your features/scenarios. Refer to [this page](https://appium.io/docs/en/writing-running-appium/web/chromedriver/index.html)
+for information on configuring Appium to use the correct version of Chromedriver required to work with the web browser supported by each Android OS version.
+
+Once your test environment is properly configured, the following **Environment Variables** must be set as described in the table below.
+
+**Environment Variable** | **Description**
+--------------- | ----------------
+`WEB_BROWSER`       | Must be set to `appium`
+`APP_PLATFORM_NAME` | Must be set to `Android`
+`APP_BROWSER`       | Must be set to `Chrome` or `Browser`
+`APP_VERSION`       | Must be set to `8.0`, `7.0`, or which ever Android OS version you wish to run with the Android Virtual Device
+`APP_DEVICE`        | Set to Android Virtual Device ID (`Pixel_2_XL_API_26`, `Nexus_6_API_23`, etc.) found in Advanced Settings of AVD Configuration
+`DEVICE_TYPE`       | Must be set to `phone` or `tablet`
+`ORIENTATION`       | [Optional] Set to `portrait` or `landscape`
+`APP_INITIAL_URL`   | [Optional] Initial URL, default is a local welcome page.  e.g.  `http://www.apple.com`
+`LOCALE`            | [Optional] Locale to set for the simulator.  e.g.  `fr_CA`
+`LANGUAGE`          | [Optional] Language to set for the simulator.  e.g.  `fr`
 
 
 ### Remotely hosted desktop and mobile web browsers
@@ -980,6 +1023,7 @@ for information regarding the specific capabilities.
 `BS_PLATFORM`    | Must be set to `MAC` (for iOS) or `ANDROID`
 `BS_DEVICE`      | Refer to `device` capability in chart
 `BS_REAL_MOBILE` | Set to `true` if running against a real device
+`DEVICE_TYPE`    | Must be set to `phone` or `tablet`
 `TUNNELING`      | Must be `true` if you are testing against internal/local servers (`true` or `false`). If `true`, the BrowserStack Local instance will be automatically started.
 `ORIENTATION`    | [Optional] Set to `portrait` or `landscape`
 `RECORD_VIDEO`   | [Optional] Enable screen video recording during test execution (`true` or `false`)
@@ -1019,6 +1063,7 @@ information regarding the specific capabilities.
 `CB_PLATFORM`  | Refer to `os_api_name` capability in the sample script of the Wizard
 `CB_BROWSER`   | Refer to `browser_api_name` capability in the sample script of the Wizard
 `RESOLUTION`   | Refer to supported `screen_resolution` capability in the sample script of the Wizard
+`DEVICE_TYPE`  | Must be set to `phone` or `tablet`
 `RECORD_VIDEO` | [Optional] Enable screen video recording during test execution (`true` or `false`)
 
 
@@ -1077,6 +1122,7 @@ regarding the specific capabilities.
 `TB_VERSION`  | Refer to `version` capability in chart
 `TB_PLATFORM` | Must be set to `iOS` or `ANDROID`
 `TB_DEVICE`   | Refer to `deviceName` capability in chart
+`DEVICE_TYPE` | Must be set to `phone` or `tablet`
 `TUNNELING`   | Must be `true` if you are testing against internal/local servers (`true` or `false`)
 `ORIENTATION` | [Optional] Set to `portrait` or `landscape`
 
@@ -1170,18 +1216,55 @@ service(s) that you intend to connect with.
     #==============
     
     appium_ios:            WEB_BROWSER=appium APP_PLATFORM_NAME="iOS" APP_BROWSER="Safari" <%= mobile %>
-    app_ios_93:            --profile appium_ios APP_VERSION="9.3"
-    app_ios_92:            --profile appium_ios APP_VERSION="9.2"
-    ipad_retina_93_sim:    --profile app_ios_93 APP_DEVICE="iPad Retina"
-    ipad_pro_93_sim:       --profile app_ios_93 APP_DEVICE="iPad Pro"
-    ipad_air_93_sim:       --profile app_ios_93 APP_DEVICE="iPad Air"
-    ipad_air2_93_sim:      --profile app_ios_93 APP_DEVICE="iPad Air 2"
-    ipad_2_93_sim:         --profile app_ios_93 APP_DEVICE="iPad 2"
-    iphone_6s_plus_93_sim: --profile app_ios_93 APP_DEVICE="iPhone 6s Plus"
-    iphone_6s_93_sim:      --profile app_ios_93 APP_DEVICE="iPhone 6s"
-    iphone_5s_93_sim:      --profile app_ios_93 APP_DEVICE="iPhone 5s"
-    iphone_4s_93_sim:      --profile app_ios_93 APP_DEVICE="iPhone 4s"
+    app_ios_10:            --profile appium_ios APP_VERSION="10.3"
+    app_ios_11:            --profile appium_ios APP_VERSION="11.2"
     
+    iphone_7_plus_10_sim:  --profile app_ios_10 DEVICE_TYPE=phone APP_DEVICE="iPhone 7 Plus"
+    iphone_7_10_sim:       --profile app_ios_10 DEVICE_TYPE=phone APP_DEVICE="iPhone 7"
+    iphone_7se_10_sim:     --profile app_ios_10 DEVICE_TYPE=phone APP_DEVICE="iPhone SE"
+    iphone_6s_plus_10_sim: --profile app_ios_10 DEVICE_TYPE=phone APP_DEVICE="iPhone 6s Plus"
+    iphone_6s_10_sim:      --profile app_ios_10 DEVICE_TYPE=phone APP_DEVICE="iPhone 6s"
+    iphone_SE_10_sim:      --profile app_ios_10 DEVICE_TYPE=phone APP_DEVICE="iPhone SE"
+    iphone_X_11_sim:       --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="iPhone X"
+    iphone_8_11_sim:       --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="iPhone 8"
+    iphone_8_plus_11_sim:  --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="iPhone 8 Plus"
+    iphone_7_plus_11_sim:  --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="iPhone 7 Plus"
+    iphone_7_11_sim:       --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="iPhone 7"
+    iphone_7se_11_sim:     --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="iPhone SE"
+    iphone_6s_plus_11_sim: --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="iPhone 6s Plus"
+    iphone_6s_11_sim:      --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="iPhone 6s"
+    iphone_SE_11_sim:      --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="iPhone SE"
+    
+    ipad_pro_12_9_11_sim:  --profile app_ios_11 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (12.9-inch)"
+    ipad_pro_12_9_10_sim:  --profile app_ios_10 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (12.9-inch)"
+    ipad_pro_10_5_11_sim:  --profile app_ios_11 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (10.5-inch)"
+    ipad_pro_10_5_10_sim:  --profile app_ios_10 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (10.5-inch)"
+    ipad_pro_9_7_11_sim:   --profile app_ios_11 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (9.7-inch)"
+    ipad_pro_9_7_10_sim:   --profile app_ios_10 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (9.7-inch)"
+    ipad_air_2_11_sim:     --profile app_ios_11 DEVICE_TYPE=tablet APP_DEVICE="iPad Air 2"
+    ipad_air_2_10_sim:     --profile app_ios_10 DEVICE_TYPE=tablet APP_DEVICE="iPad Air 2"
+
+
+    #==============
+    # profiles for mobile Safari web browsers running on physically connected iOS devices
+    # NOTE: Requires installation of XCode, Appium, and the appium_capybara gem
+    #==============
+
+    my_ios_10_3_iphone:    --profile app_ios_10 DEVICE_TYPE=phone APP_DEVICE="My Test iPhone6" APP_UDID="INSERT YOUR DEVICE UDID"
+    my_ios_10_3_ipad:      --profile app_ios_10 DEVICE_TYPE=tablet APP_DEVICE="My Test iPad Pro" APP_UDID="INSERT YOUR DEVICE UDID"
+
+
+    #==============
+    # profiles for Android mobile web browsers hosted within Android Studio Android Virtual Device emulators
+    # NOTE: Requires installation of Android Studio, Android version specific virtual device simulators, Appium, and the appium_capybara gem
+    #==============
+    
+    appium_android:        WEB_BROWSER=appium APP_PLATFORM_NAME="Android" <%= mobile %>
+    android_api_26:        --profile appium_android APP_BROWSER="Chrome" APP_VERSION="8.0"
+    android_api_23:        --profile appium_android APP_BROWSER="Browser" APP_VERSION="6.0"
+    pixel_xl_api26_sim:    --profile android_api_26 DEVICE_TYPE=phone APP_DEVICE="Pixel_XL_API_26"
+    pixel_2_xl_api26_sim:  --profile android_api_26 DEVICE_TYPE=phone APP_DEVICE="Pixel_2_XL_API_26"
+    nexus_6_api23_sim:     --profile android_api_23 DEVICE_TYPE=phone APP_DEVICE="Nexus_6_API_23"
     
     #==============
     # profiles for remotely hosted web browsers on the BrowserStack service
@@ -1340,15 +1423,15 @@ service(s) that you intend to connect with.
     cb_ie11_win10:      --profile cb_win10 CB_BROWSER="IE11"
     
     # CrossBrowserTesting iOS mobile browser profiles
-    cb_iphone6s_plus:   --profile cb_mobile CB_PLATFORM="iPhone6sPlus-iOS9sim" CB_BROWSER="MblSafari9.0" RESOLUTION="1242x2208"
-    cb_iphone6s:        --profile cb_mobile CB_PLATFORM="iPhone6s-iOS9sim" CB_BROWSER="MblSafari9.0" RESOLUTION="750x1334"
-    cb_iphone6_plus:    --profile cb_mobile CB_PLATFORM="iPhone6Plus-iOS8sim" CB_BROWSER="MblSafari8.0" RESOLUTION="1242x2208"
-    cb_iphone6:         --profile cb_mobile CB_PLATFORM="iPhone6-iOS8sim" CB_BROWSER="MblSafari8.0" RESOLUTION="750x1334"
-    cb_iphone5s:        --profile cb_mobile CB_PLATFORM="iPhone5s-iOS7sim" CB_BROWSER="MblSafari7.0" RESOLUTION="640x1136"
-    cb_ipad_pro:        --profile cb_mobile CB_PLATFORM="iPadPro-iOS9Sim" CB_BROWSER="MblSafari9.0" RESOLUTION="2732x2048"
-    cb_ipad_air2:       --profile cb_mobile CB_PLATFORM="iPadAir2-iOS9Sim" CB_BROWSER="MblSafari9.0" RESOLUTION="2048x1536"
-    cb_ipad_air:        --profile cb_mobile CB_PLATFORM="iPadAir-iOS8Sim" CB_BROWSER="MblSafari8.0" RESOLUTION="2048x1536"
-    cb_ipad_mini:       --profile cb_mobile CB_PLATFORM="iPadMiniRetina-iOS7Sim" CB_BROWSER="MblSafari7.0" RESOLUTION="2048x1536"
+    cb_iphone6s_plus:   --profile cb_mobile DEVICE_TYPE=phone CB_PLATFORM="iPhone6sPlus-iOS9sim" CB_BROWSER="MblSafari9.0" RESOLUTION="1242x2208"
+    cb_iphone6s:        --profile cb_mobile DEVICE_TYPE=phone CB_PLATFORM="iPhone6s-iOS9sim" CB_BROWSER="MblSafari9.0" RESOLUTION="750x1334"
+    cb_iphone6_plus:    --profile cb_mobile DEVICE_TYPE=phone CB_PLATFORM="iPhone6Plus-iOS8sim" CB_BROWSER="MblSafari8.0" RESOLUTION="1242x2208"
+    cb_iphone6:         --profile cb_mobile DEVICE_TYPE=phone CB_PLATFORM="iPhone6-iOS8sim" CB_BROWSER="MblSafari8.0" RESOLUTION="750x1334"
+    cb_iphone5s:        --profile cb_mobile DEVICE_TYPE=phone CB_PLATFORM="iPhone5s-iOS7sim" CB_BROWSER="MblSafari7.0" RESOLUTION="640x1136"
+    cb_ipad_pro:        --profile cb_mobile DEVICE_TYPE=tablet CB_PLATFORM="iPadPro-iOS9Sim" CB_BROWSER="MblSafari9.0" RESOLUTION="2732x2048"
+    cb_ipad_air2:       --profile cb_mobile DEVICE_TYPE=tablet CB_PLATFORM="iPadAir2-iOS9Sim" CB_BROWSER="MblSafari9.0" RESOLUTION="2048x1536"
+    cb_ipad_air:        --profile cb_mobile DEVICE_TYPE=tablet CB_PLATFORM="iPadAir-iOS8Sim" CB_BROWSER="MblSafari8.0" RESOLUTION="2048x1536"
+    cb_ipad_mini:       --profile cb_mobile DEVICE_TYPE=tablet CB_PLATFORM="iPadMiniRetina-iOS7Sim" CB_BROWSER="MblSafari7.0" RESOLUTION="2048x1536"
     
     # CrossBrowserTesting Android mobile browser profiles
     cb_nexus7:          --profile cb_mobile CB_PLATFORM="Nexus7-And42" CB_BROWSER="MblChrome37" RESOLUTION="800x1280"
@@ -1451,18 +1534,18 @@ service(s) that you intend to connect with.
     
     # TestingBot iOS mobile browser profiles
     tb_ios:              --profile tb_mobile TB_OS="MAC" TB_BROWSER="safari" TB_PLATFORM="iOS"
-    tb_iphone6s_plus_10: --profile tb_ios TB_VERSION="10.0" TB_DEVICE="iPhone 6s Plus"
-    tb_iphone6s_plus_93: --profile tb_ios TB_VERSION="9.3"  TB_DEVICE="iPhone 6s Plus"
-    tb_iphone6_plus_10:  --profile tb_ios TB_VERSION="10.0" TB_DEVICE="iPhone 6 Plus"
-    tb_iphone6_plus_93:  --profile tb_ios TB_VERSION="9.3"  TB_DEVICE="iPhone 6 Plus"
-    tb_iphone6s_10:      --profile tb_ios TB_VERSION="10.0" TB_DEVICE="iPhone 6s"
-    tb_iphone6s_93:      --profile tb_ios TB_VERSION="9.3"  TB_DEVICE="iPhone 6s"
-    tb_iphone5s_10:      --profile tb_ios TB_VERSION="10.0" TB_DEVICE="iPhone 5s"
-    tb_iphone5s_93:      --profile tb_ios TB_VERSION="9.3"  TB_DEVICE="iPhone 5s"
-    tb_ipad_pro_10:      --profile tb_ios TB_VERSION="10.0" TB_DEVICE="iPad Pro"
-    tb_ipad_pro_93:      --profile tb_ios TB_VERSION="9.3"  TB_DEVICE="iPad Pro"
-    tb_ipad_air2_10:     --profile tb_ios TB_VERSION="10.0" TB_DEVICE="iPad Air 2"
-    tb_ipad_air2_93:     --profile tb_ios TB_VERSION="9.3"  TB_DEVICE="iPad Air 2"
+    tb_iphone6s_plus_10: --profile tb_ios DEVICE_TYPE=phone TB_VERSION="10.0" TB_DEVICE="iPhone 6s Plus"
+    tb_iphone6s_plus_93: --profile tb_ios DEVICE_TYPE=phone TB_VERSION="9.3"  TB_DEVICE="iPhone 6s Plus"
+    tb_iphone6_plus_10:  --profile tb_ios DEVICE_TYPE=phone TB_VERSION="10.0" TB_DEVICE="iPhone 6 Plus"
+    tb_iphone6_plus_93:  --profile tb_ios DEVICE_TYPE=phone TB_VERSION="9.3"  TB_DEVICE="iPhone 6 Plus"
+    tb_iphone6s_10:      --profile tb_ios DEVICE_TYPE=phone TB_VERSION="10.0" TB_DEVICE="iPhone 6s"
+    tb_iphone6s_93:      --profile tb_ios DEVICE_TYPE=phone TB_VERSION="9.3"  TB_DEVICE="iPhone 6s"
+    tb_iphone5s_10:      --profile tb_ios DEVICE_TYPE=phone TB_VERSION="10.0" TB_DEVICE="iPhone 5s"
+    tb_iphone5s_93:      --profile tb_ios DEVICE_TYPE=phone TB_VERSION="9.3"  TB_DEVICE="iPhone 5s"
+    tb_ipad_pro_10:      --profile tb_ios DEVICE_TYPE=tablet TB_VERSION="10.0" TB_DEVICE="iPad Pro"
+    tb_ipad_pro_93:      --profile tb_ios DEVICE_TYPE=tablet TB_VERSION="9.3"  TB_DEVICE="iPad Pro"
+    tb_ipad_air2_10:     --profile tb_ios DEVICE_TYPE=tablet TB_VERSION="10.0" TB_DEVICE="iPad Air 2"
+    tb_ipad_air2_93:     --profile tb_ios DEVICE_TYPE=tablet TB_VERSION="9.3"  TB_DEVICE="iPad Air 2"
     
     
     # TestingBot Android mobile browser profiles
