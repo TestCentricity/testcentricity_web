@@ -31,7 +31,7 @@ hosted instances of Chrome, Firefox, Safari, and IE web browsers.
 ###Version 2.3.11
 
 * Added support for running tests in Mobile Safari browser on physical iOS devices.
-* Updated device profiles for iPhone 7 (iOS 10) with Mobile Firefox browser and iPad (iOS 10) with Mobile Firefox browser
+* Updated device profiles for iPhone 7 (iOS 10) with Mobile Firefox browser and iPad (iOS 10) with Mobile Firefox browser.
 
 ###Version 2.3.10
 
