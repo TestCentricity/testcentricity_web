@@ -15,9 +15,10 @@ module TestCentricity
       browser = ENV['WEB_BROWSER']
 
       # assume that we're testing within a local desktop web browser
+      Environ.driver      = :webdriver
       Environ.platform    = :desktop
       Environ.browser     = browser
-      Environ.device      = false
+      Environ.device      = :web
       Environ.device_name = 'browser'
 
       case browser.downcase.to_sym
@@ -166,7 +167,6 @@ module TestCentricity
     private
 
     def self.initialize_appium
-      Environ.device      = true
       Environ.platform    = :mobile
       Environ.device_name = ENV['APP_DEVICE']
       Environ.device_os   = ENV['APP_PLATFORM_NAME']
@@ -180,21 +180,24 @@ module TestCentricity
           browserName:     ENV['APP_BROWSER'],
           deviceName:      ENV['APP_DEVICE']
       }
-      desired_capabilities['avd'] = ENV['APP_DEVICE'] if ENV['APP_PLATFORM_NAME'].downcase.to_sym == :android
-      desired_capabilities['automationName'] = ENV['AUTOMATION_ENGINE'] if ENV['AUTOMATION_ENGINE']
-      desired_capabilities['orientation'] = ENV['ORIENTATION'].upcase if ENV['ORIENTATION']
-      if ENV['APP_UDID']
-        desired_capabilities['udid'] = ENV['APP_UDID']
-        desired_capabilities['startIWDP'] = true
-        desired_capabilities['xcodeOrgId'] = ENV['TEAM_ID']
-        desired_capabilities['xcodeSigningId'] = ENV['TEAM_NAME']
+      desired_capabilities[:avd] = ENV['APP_DEVICE'] if ENV['APP_PLATFORM_NAME'].downcase.to_sym == :android
+      desired_capabilities[:automationName] = ENV['AUTOMATION_ENGINE'] if ENV['AUTOMATION_ENGINE']
+      desired_capabilities[:orientation] = ENV['ORIENTATION'].upcase if ENV['ORIENTATION']
+      if ENV['UDID']
+        Environ.device = :device
+        desired_capabilities[:udid] = ENV['UDID']
+        desired_capabilities[:startIWDP] = true
+        desired_capabilities[:xcodeOrgId] = ENV['TEAM_ID'] if ENV['TEAM_ID']
+        desired_capabilities[:xcodeSigningId] = ENV['TEAM_NAME'] if ENV['TEAM_NAME']
+      else
+        Environ.device = :simulator
       end
-      desired_capabilities['safariInitialUrl'] = ENV['APP_INITIAL_URL'] if ENV['APP_INITIAL_URL']
-      desired_capabilities['safariAllowPopups'] = ENV['APP_ALLOW_POPUPS'] if ENV['APP_ALLOW_POPUPS']
-      desired_capabilities['safariIgnoreFraudWarning'] = ENV['APP_IGNORE_FRAUD_WARNING'] if ENV['APP_IGNORE_FRAUD_WARNING']
-      desired_capabilities['noReset'] = ENV['APP_NO_RESET'] if ENV['APP_NO_RESET']
-      desired_capabilities['language'] = ENV['LANGUAGE'] if ENV['LANGUAGE']
-      desired_capabilities['locale'] = ENV['LOCALE'].gsub('-', '_') if ENV['LOCALE']
+      desired_capabilities[:safariInitialUrl] = ENV['APP_INITIAL_URL'] if ENV['APP_INITIAL_URL']
+      desired_capabilities[:safariAllowPopups] = ENV['APP_ALLOW_POPUPS'] if ENV['APP_ALLOW_POPUPS']
+      desired_capabilities[:safariIgnoreFraudWarning] = ENV['APP_IGNORE_FRAUD_WARNING'] if ENV['APP_IGNORE_FRAUD_WARNING']
+      desired_capabilities[:noReset] = ENV['APP_NO_RESET'] if ENV['APP_NO_RESET']
+      desired_capabilities[:language] = ENV['LANGUAGE'] if ENV['LANGUAGE']
+      desired_capabilities[:locale] = ENV['LOCALE'].gsub('-', '_') if ENV['LOCALE']
 
       Capybara.register_driver :appium do |app|
         appium_lib_options = { server_url: endpoint }
@@ -332,7 +335,6 @@ module TestCentricity
 
       if ENV['BS_REAL_MOBILE'] || ENV['BS_PLATFORM']
         Environ.platform    = :mobile
-        Environ.device      = true
         Environ.device_name = ENV['BS_DEVICE']
         Environ.device_os   = ENV['BS_OS']
         Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
@@ -345,11 +347,13 @@ module TestCentricity
         capabilities = Selenium::WebDriver::Remote::Capabilities.new
 
         if ENV['BS_REAL_MOBILE']
+          Environ.device = :device
           capabilities['device'] = ENV['BS_DEVICE']
           capabilities['realMobile'] = true
           capabilities['os_version'] = ENV['BS_OS_VERSION']
 
         elsif ENV['BS_PLATFORM']
+          Environ.device = :simulator
           capabilities[:platform] = ENV['BS_PLATFORM']
           capabilities[:browserName] = browser
           capabilities['device'] = ENV['BS_DEVICE'] if ENV['BS_DEVICE']
@@ -425,7 +429,7 @@ module TestCentricity
         Environ.platform = :desktop
       elsif ENV['CB_PLATFORM']
         Environ.device_name = ENV['CB_PLATFORM']
-        Environ.device      = true
+        Environ.device      = :device
         Environ.platform    = :mobile
         Environ.device_type = ENV['DEVICE_TYPE'] if ENV['DEVICE_TYPE']
       end
@@ -534,7 +538,7 @@ module TestCentricity
         end
         Environ.device_os   = ENV['TB_PLATFORM']
         Environ.device_name = ENV['TB_DEVICE']
-        Environ.device      = true
+        Environ.device      = :device
         Environ.platform    = :mobile
         Environ.device_type = ENV['DEVICE_TYPE'] if ENV['DEVICE_TYPE']
       else

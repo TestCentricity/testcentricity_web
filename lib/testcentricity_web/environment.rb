@@ -37,6 +37,7 @@ module TestCentricity
     attr_accessor :device_os
     attr_accessor :device_orientation
     attr_accessor :platform
+    attr_accessor :driver
     attr_accessor :tunneling
 
     attr_accessor :signed_in
@@ -55,19 +56,25 @@ module TestCentricity
     attr_accessor :dns
     attr_accessor :db_username
     attr_accessor :db_password
+    attr_accessor :ios_app_path
+    attr_accessor :ios_ipa_path
+    attr_accessor :android_apk_path
 
     def initialize(data)
-      @protocol	   = data['PROTOCOL']
-      @hostname    = data['HOST_NAME']
-      @base_url    = data['BASE_URL']
-      @user_id	   = data['USER_ID']
-      @password	   = data['PASSWORD']
-      @append	     = data['APPEND']
-      @option1	   = data['OPTIONAL_1']
-      @option2	   = data['OPTIONAL_2']
-      @dns	       = data['DNS']
-      @db_username = data['DB_USERNAME']
-      @db_password = data['DB_PASSWORD']
+      @protocol     	  = data['PROTOCOL']
+      @hostname         = data['HOST_NAME']
+      @base_url         = data['BASE_URL']
+      @user_id	        = data['USER_ID']
+      @password	        = data['PASSWORD']
+      @append	          = data['APPEND']
+      @option1	        = data['OPTIONAL_1']
+      @option2	        = data['OPTIONAL_2']
+      @dns	            = data['DNS']
+      @db_username      = data['DB_USERNAME']
+      @db_password      = data['DB_PASSWORD']
+      @ios_app_path     = data['IOS_APP_PATH']
+      @ios_ipa_path     = data['IOS_IPA_PATH']
+      @android_apk_path = data['ANDROID_APK_PATH']
       super
     end
 
@@ -149,8 +156,20 @@ module TestCentricity
       @device = device
     end
 
-    def self.is_device?
+    def self.device
       @device
+    end
+
+    def self.is_device?
+      @device == :device
+    end
+
+    def self.is_simulator?
+      @device == :simulator
+    end
+
+    def self.is_web?
+      @device == :web
     end
 
     # @deprecated Please use {#device_type=} instead
@@ -183,12 +202,28 @@ module TestCentricity
       @device_os
     end
 
+    def self.is_ios?
+      @device_os == :ios
+    end
+
+    def self.is_android?
+      @device_os == :android
+    end
+
     def self.device_orientation=(orientation)
       @device_orientation = orientation.downcase.to_sym
     end
 
     def self.device_orientation
       @device_orientation
+    end
+
+    def self.driver=(type)
+      @driver = type
+    end
+
+    def self.driver
+      @driver
     end
 
     def self.tunneling=(state)

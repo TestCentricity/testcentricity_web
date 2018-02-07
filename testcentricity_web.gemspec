@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
     OS X), mobile Chrome or Android browsers on Android Studio virtual device emulators (using Appium and Android Studio on OS X),
     or cloud hosted desktop or mobile web browsers (using the BrowserStack, Sauce Labs, CrossBrowserTesting, or TestingBot services).}
   spec.homepage      = ''
-  spec.license       = 'BSD3'
+  spec.license       = 'BSD-3-Clause-Clear'
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
@@ -41,4 +41,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'os'
   spec.add_dependency 'i18n'
   spec.add_dependency 'browserstack-local'
+
+  spec.add_dependency 'appium_lib'
 end
