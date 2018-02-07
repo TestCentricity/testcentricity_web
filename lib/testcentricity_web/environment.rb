@@ -56,9 +56,6 @@ module TestCentricity
     attr_accessor :dns
     attr_accessor :db_username
     attr_accessor :db_password
-    attr_accessor :ios_app_path
-    attr_accessor :ios_ipa_path
-    attr_accessor :android_apk_path
 
     def initialize(data)
       @protocol     	  = data['PROTOCOL']
@@ -72,9 +69,6 @@ module TestCentricity
       @dns	            = data['DNS']
       @db_username      = data['DB_USERNAME']
       @db_password      = data['DB_PASSWORD']
-      @ios_app_path     = data['IOS_APP_PATH']
-      @ios_ipa_path     = data['IOS_IPA_PATH']
-      @android_apk_path = data['ANDROID_APK_PATH']
       super
     end
 
