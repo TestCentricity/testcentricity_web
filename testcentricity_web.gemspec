@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = 'testcentricity_web'
   spec.version       = TestCentricityWeb::VERSION
   spec.platform      = Gem::Platform::RUBY
-  spec.required_ruby_version = '>= 2.1.1'
+  spec.required_ruby_version = '>= 2.3.0'
   spec.authors       = ['A.J. Mrozinski']
   spec.email         = ['testcentricity@gmail.com']
   spec.summary       = %q{A Page Object and Data Object Model Framework for desktop and mobile web testing}
