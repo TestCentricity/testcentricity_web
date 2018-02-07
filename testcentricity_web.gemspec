@@ -41,6 +41,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'os'
   spec.add_dependency 'i18n'
   spec.add_dependency 'browserstack-local'
-
-  spec.add_dependency 'appium_lib'
 end

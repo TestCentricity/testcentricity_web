@@ -39,18 +39,6 @@ require 'testcentricity_web/web_elements/list_checkbox'
 require 'testcentricity_web/web_elements/list_radio'
 
 
-
-require 'testcentricity_web/appium_connect_helper'
-
-require 'testcentricity_web/screen_objects_helper'
-
-require 'testcentricity_web/app_elements/app_element_helper'
-require 'testcentricity_web/app_elements/button'
-require 'testcentricity_web/app_elements/checkbox'
-require 'testcentricity_web/app_elements/label'
-require 'testcentricity_web/app_elements/textfield'
-
-
 module TestCentricity
   class PageManager
     attr_accessor :current_page
