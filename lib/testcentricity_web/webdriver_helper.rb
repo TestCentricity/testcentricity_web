@@ -51,7 +51,7 @@ module TestCentricity
       end
 
       # set browser window size only if testing with a desktop web browser
-      unless Environ.is_device? || Capybara.current_driver == :poltergeist
+      unless Environ.is_device? || [:poltergeist, :appium].include?(Capybara.current_driver)
         initialize_browser_size
       end
 

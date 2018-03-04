@@ -410,6 +410,7 @@ module TestCentricity
         error_message = "#{error_message}\nExpected URL of page was #{page_url}." if defined?(page_url)
         raise error_message
       end
+      PageManager.current_page = self
     end
 
     def navigate_to; end
@@ -428,7 +429,6 @@ module TestCentricity
         navigate_to
       end
       verify_page_exists
-      PageManager.current_page = self
     end
 
     def verify_page_contains(content)
@@ -456,6 +456,36 @@ module TestCentricity
       false
     ensure
       Capybara.default_max_wait_time = saved_wait_time
+    end
+
+    # Wait until the page object exists, or until the specified wait time has expired. If the wait time is nil, then the wait
+    # time will be Capybara.default_max_wait_time.
+    #
+    # @param seconds [Integer or Float] wait time in seconds
+    # @example
+    #   home_page.wait_until_exists(15)
+    #
+    def wait_until_exists(seconds = nil)
+      timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
+      wait = Selenium::WebDriver::Wait.new(timeout: timeout)
+      wait.until { exists? }
+    rescue
+      raise "Page object #{self.class.name} not found after #{timeout} seconds" unless exists?
+    end
+
+    # Wait until the page object no longer exists, or until the specified wait time has expired. If the wait time is nil, then
+    # the wait time will be Capybara.default_max_wait_time.
+    #
+    # @param seconds [Integer or Float] wait time in seconds
+    # @example
+    #   verifying_page.wait_until_gone(15)
+    #
+    def wait_until_gone(seconds = nil)
+      timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
+      wait = Selenium::WebDriver::Wait.new(timeout: timeout)
+      wait.until { !exists? }
+    rescue
+      raise "Page object #{self.class.name} remained visible after #{timeout} seconds" if exists?
     end
 
     # Is current Page object URL secure?
@@ -610,6 +640,9 @@ module TestCentricity
           end
         end
       end
+    rescue ObjectNotFoundError => e
+      ExceptionQueue.enqueue_exception(e.message)
+    ensure
       ExceptionQueue.post_exceptions
     end
 

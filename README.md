@@ -28,6 +28,27 @@ hosted instances of Chrome, Firefox, Safari, and IE web browsers.
 
 
 ## What's New
+###Version 2.3.16
+
+* Added `PageSection.double_click`, `PageObject.right_click`, and `PageObject.send_keys` methods.
+
+###Version 2.3.15
+
+* Added `PageObject.wait_until_exists` and `PageObject.wait_until_gone` methods.
+
+###Version 2.3.14
+
+* Updated device profiles for iPhone 7 (iOS 10) with MS Edge browser.
+
+###Version 2.3.13
+
+* Added `AppiumServer.start`, `AppiumServer.running?`, and `AppiumServer.stop` methods for starting and stopping the Appium Server prior to executing tests on
+iOS physical devices or simulators, or Android virtual device emulators.
+
+###Version 2.3.12
+
+* Added `Environ.is_simulator?` and `Environ.is_web?` methods.
+
 ###Version 2.3.11
 
 * Added support for running tests in Mobile Safari browser on physical iOS devices.
@@ -119,6 +140,12 @@ use the [parallel_tests gem](https://rubygems.org/gems/parallel_tests) to decrea
 
 
 ## What's Fixed
+
+###Version 2.3.15
+
+* Fixed bug in `UIElement.get_object_type` method that could result in a `NoMethodError obj not defined` error.
+* Fixed bug in `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods that failed to enqueue errors when UI elements could not be found.
+
 ###Version 2.3.8
 
 * Fixed locator resolution for **Indexed PageSection Objects**.

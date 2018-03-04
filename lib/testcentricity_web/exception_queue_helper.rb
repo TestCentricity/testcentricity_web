@@ -44,4 +44,11 @@ module TestCentricity
       Environ.save_screen_shot(screen_shot)
     end
   end
+
+
+  class ObjectNotFoundError < StandardError
+    def initialize(message)
+      super(message)
+    end
+  end
 end

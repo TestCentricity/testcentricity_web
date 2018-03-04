@@ -527,7 +527,7 @@ module TestCentricity
     #
     def disabled?
       section, = find_section
-      raise "Section object '#{get_name}' (#{get_locator}) not found" unless section
+      section_not_found_exception(section)
       section.disabled?
     end
 
@@ -564,7 +564,7 @@ module TestCentricity
     #
     def displayed?
       section, = find_section
-      raise "Section object '#{get_name}' (#{get_locator}) not found" unless section
+      section_not_found_exception(section)
       section.displayed?
     end
 
@@ -628,6 +628,43 @@ module TestCentricity
       raise "Section object '#{get_name}' (#{get_locator}) remained visible after #{timeout} seconds" if visible?
     end
 
+    # Click on a Section object
+    #
+    # @example
+    #   bar_chart_section.click
+    #
+    def click
+      section, = find_section
+      section_not_found_exception(section)
+      begin
+        section.click
+      rescue
+        section.click_at(10, 10) unless Capybara.current_driver == :poltergeist
+      end
+    end
+
+    # Double-click on a Section object
+    #
+    # @example
+    #   bar_chart_section.double_click
+    #
+    def double_click
+      section, = find_section
+      section_not_found_exception(section)
+      page.driver.browser.action.double_click(section.native).perform
+    end
+
+    # Right-click on a Section object
+    #
+    # @example
+    #   bar_chart_section.right_click
+    #
+    def right_click
+      section, = find_section
+      section_not_found_exception(section)
+      page.driver.browser.action.context_click(section.native).perform
+    end
+
     # Click at a specific location within a Section object
     #
     # @param x [Integer] X offset
@@ -637,8 +674,20 @@ module TestCentricity
     #
     def click_at(x, y)
       section, = find_section
-      raise "Section object '#{get_name}' (#{get_locator}) not found" unless section
+      section_not_found_exception(section)
       section.click_at(x, y)
+    end
+
+    # Send keystrokes to a Section object
+    #
+    # @param keys [String] keys
+    # @example
+    #   bar_chart_section.send_keys(:enter)
+    #
+    def send_keys(*keys)
+      section, = find_section
+      section_not_found_exception(section)
+      section.send_keys(*keys)
     end
 
     def verify_ui_states(ui_states)
@@ -783,6 +832,9 @@ module TestCentricity
           end
         end
       end
+    rescue ObjectNotFoundError => e
+      ExceptionQueue.enqueue_exception(e.message)
+    ensure
       ExceptionQueue.post_exceptions
     end
 
@@ -842,13 +894,13 @@ module TestCentricity
 
     def get_attribute(attrib)
       section, = find_section
-      raise "Section object '#{get_name}' (#{get_locator}) not found" unless section
+      section_not_found_exception(section)
       section[attrib]
     end
 
     def get_native_attribute(attrib)
       section, = find_section
-      raise "Section object '#{get_name}' (#{get_locator}) not found" unless section
+      section_not_found_exception(section)
       section.native.attribute(attrib)
     end
 
@@ -862,5 +914,10 @@ module TestCentricity
     rescue
       [nil, nil]
     end
+
+    def section_not_found_exception(section)
+      raise ObjectNotFoundError.new("Section object '#{get_name}' (#{get_locator}) not found") unless section
+    end
+
   end
 end

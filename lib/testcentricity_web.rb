@@ -37,6 +37,7 @@ require 'testcentricity_web/web_elements/list_element'
 require 'testcentricity_web/web_elements/list_button'
 require 'testcentricity_web/web_elements/list_checkbox'
 require 'testcentricity_web/web_elements/list_radio'
+require 'testcentricity_web/appium_server'
 
 
 module TestCentricity
