@@ -2,13 +2,15 @@ module TestCentricity
   class SelectList < UIElement
     attr_accessor :list_item
     attr_accessor :selected_item
+    attr_accessor :list_trigger
 
     def initialize(name, parent, locator, context)
       super
       @type = :selectlist
       list_spec = {
-          :list_item     => 'option',
-          :selected_item => 'option[selected]'
+          :list_item     => "li[class*='active-result']",
+          :selected_item => "li[class*='result-selected']",
+          :list_trigger  => nil
       }
       define_list_elements(list_spec)
     end
@@ -16,12 +18,14 @@ module TestCentricity
     def define_list_elements(element_spec)
       element_spec.each do |element, value|
         case element
-        when :list_item
-          @list_item = value
-        when :selected_item
-          @selected_item = value
-        else
-          raise "#{element} is not a recognized selectlist element"
+          when :list_item
+            @list_item = value
+          when :selected_item
+            @selected_item = value
+          when :list_trigger
+            @list_trigger = value
+          else
+            raise "#{element} is not a recognized selectlist element"
         end
       end
     end
@@ -42,19 +46,26 @@ module TestCentricity
     def choose_option(option)
       obj, = find_element
       object_not_found_exception(obj, nil)
-      obj.click
-      if first(:css, "li[class*='active-result']")
+      if @list_trigger.nil?
+        obj.click
+      else
+        page.find(:css, @list_trigger).click
+        sleep(1)
+      end
+      if first(:css, @list_item)
         if option.is_a?(Array)
           option.each do |item|
-            page.find(:css, "li[class*='active-result']", text: item.strip).click
+            page.find(:css, @list_item, text: item.strip).click
           end
         else
           if option.is_a?(Hash)
-            page.find(:css, "li[class*='active-result']:nth-of-type(#{option[:index]})").click if option.has_key?(:index)
+            page.find(:css, "#{@list_item}:nth-of-type(#{option[:index]})").click if option.has_key?(:index)
+            page.find(:css, "#{@list_item}:nth-of-type(#{option[:value]})").click if option.has_key?(:value)
+            page.find(:css, "#{@list_item}:nth-of-type(#{option[:text]})").click if option.has_key?(:text)
           else
-            options = obj.all("li[class*='active-result']").collect(&:text)
+            options = obj.all(@list_item).collect(&:text)
             sleep(2) unless options.include?(option)
-            first(:css, "li[class*='active-result']", text: option).click
+            first(:css, @list_item, text: option).click
           end
         end
       else
@@ -78,10 +89,10 @@ module TestCentricity
     def get_options
       obj, = find_element
       object_not_found_exception(obj, nil)
-      if first(:css, "li[class*='active-result']")
-        obj.all("li[class*='active-result']").collect(&:text)
-      else
+      if first(:css, @list_item)
         obj.all(@list_item).collect(&:text)
+      else
+        obj.all('option').collect(&:text)
       end
     end
 
@@ -97,10 +108,10 @@ module TestCentricity
     def get_option_count
       obj, = find_element
       object_not_found_exception(obj, nil)
-      if first(:css, "li[class*='active-result']")
-        obj.all("li[class*='active-result']").count
-      else
+      if first(:css, @list_item)
         obj.all(@list_item).count
+      else
+        obj.all('option').count
       end
     end
 
@@ -123,10 +134,10 @@ module TestCentricity
     def get_selected_option
       obj, = find_element
       object_not_found_exception(obj, nil)
-      if first(:css, "li[class*='active-result']")
-        obj.first(:css, "li[class*='result-selected']").text
+      if first(:css, @list_item)
+        obj.first(:css, @selected_item).text
       else
-        obj.first(@selected_item).text
+        obj.first('option[selected]').text
       end
     end
 

@@ -28,7 +28,12 @@ module TestCentricity
     #   element :siebel_busy,  "//html[contains(@class, 'siebui-busy')]"
     #
     def self.element(element_name, locator)
-      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::UIElement.new("#{element_name}", self, "#{locator}", :page);end))
+      define_method(element_name) do
+        ivar_name = "@#{element_name}"
+        ivar = instance_variable_get(ivar_name)
+        return ivar if ivar
+        instance_variable_set(ivar_name, TestCentricity::UIElement.new(element_name, self, locator, :page))
+      end
     end
 
     # Declare and instantiate a collection of generic UI Elements for this page object.
@@ -54,7 +59,12 @@ module TestCentricity
     #   button :login_button,    "//input[@id='submit_button']"
     #
     def self.button(element_name, locator)
-      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::Button.new("#{element_name}", self, "#{locator}", :page);end))
+      define_method(element_name) do
+        ivar_name = "@#{element_name}"
+        ivar = instance_variable_get(ivar_name)
+        return ivar if ivar
+        instance_variable_set(ivar_name, TestCentricity::Button.new(element_name, self, locator, :page))
+      end
     end
 
     # Declare and instantiate a collection of buttons for this page object.
@@ -80,7 +90,12 @@ module TestCentricity
     #   textfield :password_field, 'consumer_password'
     #
     def self.textfield(element_name, locator)
-      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::TextField.new("#{element_name}", self, "#{locator}", :page);end))
+      define_method(element_name) do
+        ivar_name = "@#{element_name}"
+        ivar = instance_variable_get(ivar_name)
+        return ivar if ivar
+        instance_variable_set(ivar_name, TestCentricity::TextField.new(element_name, self, locator, :page))
+      end
     end
 
     # Declare and instantiate a collection of text fields for this page object.
@@ -164,7 +179,12 @@ module TestCentricity
     #   label :rollup_price_label, "//div[contains(@id, 'Rollup Item Price')]"
     #
     def self.label(element_name, locator)
-      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::Label.new("#{element_name}", self, "#{locator}", :page);end))
+      define_method(element_name) do
+        ivar_name = "@#{element_name}"
+        ivar = instance_variable_get(ivar_name)
+        return ivar if ivar
+        instance_variable_set(ivar_name, TestCentricity::Label.new(element_name, self, locator, :page))
+      end
     end
 
     def self.labels(element_hash)
@@ -182,7 +202,12 @@ module TestCentricity
     #   link :shopping_basket_link, "//a[@href='shopping_basket']"
     #
     def self.link(element_name, locator)
-      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::Link.new("#{element_name}", self, "#{locator}", :page);end))
+      define_method(element_name) do
+        ivar_name = "@#{element_name}"
+        ivar = instance_variable_get(ivar_name)
+        return ivar if ivar
+        instance_variable_set(ivar_name, TestCentricity::Link.new(element_name, self, locator, :page))
+      end
     end
 
     def self.links(element_hash)
@@ -199,7 +224,12 @@ module TestCentricity
     #   table :payments_table, "//table[@class='payments_table']"
     #
     def self.table(element_name, locator)
-      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::Table.new("#{element_name}", self, "#{locator}", :page);end))
+      define_method(element_name) do
+        ivar_name = "@#{element_name}"
+        ivar = instance_variable_get(ivar_name)
+        return ivar if ivar
+        instance_variable_set(ivar_name, TestCentricity::Table.new(element_name, self, locator, :page))
+      end
     end
 
     def self.tables(element_hash)
@@ -217,7 +247,12 @@ module TestCentricity
     #   selectlist :gender_select,     "//select[@id='customer_gender']"
     #
     def self.selectlist(element_name, locator)
-      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::SelectList.new("#{element_name}", self, "#{locator}", :page);end))
+      define_method(element_name) do
+        ivar_name = "@#{element_name}"
+        ivar = instance_variable_get(ivar_name)
+        return ivar if ivar
+        instance_variable_set(ivar_name, TestCentricity::SelectList.new(element_name, self, locator, :page))
+      end
     end
 
     def self.selectlists(element_hash)
@@ -234,7 +269,12 @@ module TestCentricity
     #   list :x_axis_list, 'g.x-axis'
     #
     def self.list(element_name, locator)
-      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::List.new("#{element_name}", self, "#{locator}", :page);end))
+      define_method(element_name) do
+        ivar_name = "@#{element_name}"
+        ivar = instance_variable_get(ivar_name)
+        return ivar if ivar
+        instance_variable_set(ivar_name, TestCentricity::List.new(element_name, self, locator, :page))
+      end
     end
 
     def self.lists(element_hash)
@@ -252,7 +292,12 @@ module TestCentricity
     #   image :corporate_logo_image, "//img[@alt='MyCompany_logo']"
     #
     def self.image(element_name, locator)
-      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::Image.new("#{element_name}", self, "#{locator}", :page);end))
+      define_method(element_name) do
+        ivar_name = "@#{element_name}"
+        ivar = instance_variable_get(ivar_name)
+        return ivar if ivar
+        instance_variable_set(ivar_name, TestCentricity::Image.new(element_name, self, locator, :page))
+      end
     end
 
     def self.images(element_hash)
@@ -269,7 +314,12 @@ module TestCentricity
     #   filefield :attach_file, 's_SweFileName'
     #
     def self.filefield(element_name, locator)
-      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::FileField.new("#{element_name}", self, "#{locator}", :page);end))
+      define_method(element_name) do
+        ivar_name = "@#{element_name}"
+        ivar = instance_variable_get(ivar_name)
+        return ivar if ivar
+        instance_variable_set(ivar_name, TestCentricity::FileField.new(element_name, self, locator, :page))
+      end
     end
 
     def self.filefields(element_hash)
@@ -502,142 +552,101 @@ module TestCentricity
       ui_states.each do |ui_object, object_states|
         object_states.each do |property, state|
           case property
-          when :class
-            actual = ui_object.get_attribute(:class)
-          when :exists
-            actual = ui_object.exists?
-          when :enabled
-            actual = ui_object.enabled?
-          when :disabled
-            actual = ui_object.disabled?
-          when :visible
-            actual = ui_object.visible?
-          when :hidden
-            actual = ui_object.hidden?
-          when :displayed
-            actual = ui_object.displayed?
-          when :width
-            actual = ui_object.width
-          when :height
-            actual = ui_object.height
-          when :x
-            actual = ui_object.x
-          when :y
-            actual = ui_object.y
-          when :readonly
-            actual = ui_object.read_only?
-          when :checked
-            actual = ui_object.checked?
-          when :selected
-            actual = ui_object.selected?
-          when :value, :caption
-            actual = ui_object.get_value
-          when :maxlength
-            actual = ui_object.get_max_length
-          when :rowcount
-            actual = ui_object.get_row_count
-          when :columncount
-            actual = ui_object.get_column_count
-          when :placeholder
-            actual = ui_object.get_placeholder
-          when :min
-            actual = ui_object.get_min
-          when :max
-            actual = ui_object.get_max
-          when :step
-            actual = ui_object.get_step
-          when :options, :items, :list_items
-            actual = ui_object.get_list_items
-          when :optioncount, :itemcount
-            actual = ui_object.get_item_count
-          when :all_items, :all_list_items
-            actual = ui_object.get_all_list_items
-          when :all_items_count
-            actual = ui_object.get_all_items_count
-          when :column_headers
-            actual = ui_object.get_header_columns
-          when :siebel_options
-            actual = ui_object.get_siebel_options
-          else
-            if property.is_a?(Hash)
-              property.each do |key, value|
-                case key
-                when :cell
-                  actual = ui_object.get_table_cell(value[0].to_i, value[1].to_i)
-                when :row
-                  actual = ui_object.get_table_row(value.to_i)
-                when :column
-                  actual = ui_object.get_table_column(value.to_i)
-                when :item
-                  actual = ui_object.get_list_item(value.to_i)
-                when :attribute
-                  actual = ui_object.get_attribute(value)
-                when :native_attribute
-                  actual = ui_object.get_native_attribute(value)
+            when :class
+              actual = ui_object.get_attribute(:class)
+            when :exists
+              actual = ui_object.exists?
+            when :enabled
+              actual = ui_object.enabled?
+            when :disabled
+              actual = ui_object.disabled?
+            when :visible
+              actual = ui_object.visible?
+            when :hidden
+              actual = ui_object.hidden?
+            when :displayed
+              actual = ui_object.displayed?
+            when :width
+              actual = ui_object.width
+            when :height
+              actual = ui_object.height
+            when :x
+              actual = ui_object.x
+            when :y
+              actual = ui_object.y
+            when :readonly
+              actual = ui_object.read_only?
+            when :checked
+              actual = ui_object.checked?
+            when :selected
+              actual = ui_object.selected?
+            when :value, :caption
+              actual = ui_object.get_value
+            when :maxlength
+              actual = ui_object.get_max_length
+            when :rowcount
+              actual = ui_object.get_row_count
+            when :columncount
+              actual = ui_object.get_column_count
+            when :placeholder
+              actual = ui_object.get_placeholder
+            when :min
+              actual = ui_object.get_min
+            when :max
+              actual = ui_object.get_max
+            when :step
+              actual = ui_object.get_step
+            when :options, :items, :list_items
+              actual = ui_object.get_list_items
+            when :optioncount, :itemcount
+              actual = ui_object.get_item_count
+            when :all_items, :all_list_items
+              actual = ui_object.get_all_list_items
+            when :all_items_count
+              actual = ui_object.get_all_items_count
+            when :column_headers
+              actual = ui_object.get_header_columns
+            when :siebel_options
+              actual = ui_object.get_siebel_options
+            else
+              if property.is_a?(Hash)
+                property.each do |key, value|
+                  case key
+                    when :cell
+                      actual = ui_object.get_table_cell(value[0].to_i, value[1].to_i)
+                    when :row
+                      actual = ui_object.get_table_row(value.to_i)
+                    when :column
+                      actual = ui_object.get_table_column(value.to_i)
+                    when :item
+                      actual = ui_object.get_list_item(value.to_i)
+                    when :attribute
+                      actual = ui_object.get_attribute(value)
+                    when :native_attribute
+                      actual = ui_object.get_native_attribute(value)
+                  end
+                end
+              else
+                props = property.to_s.split('_')
+                case props[0].to_sym
+                  when :cell
+                    cell = property.to_s.delete('cell_')
+                    cell = cell.split('_')
+                    actual = ui_object.get_table_cell(cell[0].to_i, cell[1].to_i)
+                  when :row
+                    row = property.to_s.delete('row_')
+                    actual = ui_object.get_table_row(row.to_i)
+                  when :column
+                    column = property.to_s.delete('column_')
+                    actual = ui_object.get_table_column(column.to_i)
+                  when :item
+                    item = property.to_s.delete('item_')
+                    actual = ui_object.get_list_item(item.to_i)
                 end
               end
-            else
-              props = property.to_s.split('_')
-              case props[0].to_sym
-              when :cell
-                cell = property.to_s.delete('cell_')
-                cell = cell.split('_')
-                actual = ui_object.get_table_cell(cell[0].to_i, cell[1].to_i)
-              when :row
-                row = property.to_s.delete('row_')
-                actual = ui_object.get_table_row(row.to_i)
-              when :column
-                column = property.to_s.delete('column_')
-                actual = ui_object.get_table_column(column.to_i)
-              when :item
-                item = property.to_s.delete('item_')
-                actual = ui_object.get_list_item(item.to_i)
-              end
-            end
           end
-
-          if state.is_a?(Hash) && state.length == 1
-            error_msg = "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) #{property} property to"
-            state.each do |key, value|
-              case key
-              when :lt, :less_than
-                ExceptionQueue.enqueue_exception("#{error_msg} be less than #{value} but found '#{actual}'") unless actual < value
-              when :lt_eq, :less_than_or_equal
-                ExceptionQueue.enqueue_exception("#{error_msg} be less than or equal to #{value} but found '#{actual}'") unless actual <= value
-              when :gt, :greater_than
-                ExceptionQueue.enqueue_exception("#{error_msg} be greater than #{value} but found '#{actual}'") unless actual > value
-              when :gt_eq, :greater_than_or_equal
-                ExceptionQueue.enqueue_exception("#{error_msg} be greater than or equal to  #{value} but found '#{actual}'") unless actual >= value
-              when :starts_with
-                ExceptionQueue.enqueue_exception("#{error_msg} start with '#{value}' but found '#{actual}'") unless actual.start_with?(value)
-              when :ends_with
-                ExceptionQueue.enqueue_exception("#{error_msg} end with '#{value}' but found '#{actual}'") unless actual.end_with?(value)
-              when :contains
-                ExceptionQueue.enqueue_exception("#{error_msg} contain '#{value}' but found '#{actual}'") unless actual.include?(value)
-              when :not_contains, :does_not_contain
-                ExceptionQueue.enqueue_exception("#{error_msg} not contain '#{value}' but found '#{actual}'") if actual.include?(value)
-              when :not_equal
-                ExceptionQueue.enqueue_exception("#{error_msg} not equal '#{value}' but found '#{actual}'") if actual == value
-              when :like, :is_like
-                actual_like = actual.delete("\n")
-                actual_like = actual_like.delete("\r")
-                actual_like = actual_like.delete("\t")
-                actual_like = actual_like.delete(' ')
-                actual_like = actual_like.downcase
-                expected    = value.delete("\n")
-                expected    = expected.delete("\r")
-                expected    = expected.delete("\t")
-                expected    = expected.delete(' ')
-                expected    = expected.downcase
-                ExceptionQueue.enqueue_exception("#{error_msg} be like '#{value}' but found '#{actual}'") unless actual_like.include?(expected)
-              when :translate
-                expected = I18n.t(value)
-                ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) translated #{property} property")
-              end
-            end
-          else
-            ExceptionQueue.enqueue_assert_equal(state, actual, "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) #{property} property")
-          end
+          error_msg = "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) #{property} property to"
+          ExceptionQueue.enqueue_comparison(state, actual, error_msg)
         end
       end
     rescue ObjectNotFoundError => e
@@ -681,18 +690,18 @@ module TestCentricity
             data_field.clear
           else
             case data_field.get_object_type
-            when :checkbox
-              data_field.set_checkbox_state(data_param.to_bool)
-            when :selectlist
-              data_field.get_siebel_object_type == 'JComboBox' ?
-                  data_field.set("#{data_param}\t") :
-                  data_field.choose_option(data_param)
-            when :radio
-              data_field.set_selected_state(data_param.to_bool)
-            when :textfield
-              data_field.set("#{data_param}\t")
-            when :section
-              data_field.set(data_param)
+              when :checkbox
+                data_field.set_checkbox_state(data_param.to_bool)
+              when :selectlist
+                data_field.get_siebel_object_type == 'JComboBox' ?
+                    data_field.set("#{data_param}\t") :
+                    data_field.choose_option(data_param)
+              when :radio
+                data_field.set_selected_state(data_param.to_bool)
+              when :textfield
+                data_field.set("#{data_param}\t")
+              when :section
+                data_field.set(data_param)
             end
           end
         end

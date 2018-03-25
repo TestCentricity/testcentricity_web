@@ -28,6 +28,24 @@ hosted instances of Chrome, Firefox, Safari, and IE web browsers.
 
 
 ## What's New
+###Version 2.4.0
+
+* Updated `TestCentricity::WebDriverConnect.initialize_web_driver` method to read the `APP_FULL_RESET`, `APP_NO_RESET`, and `NEW_COMMAND_TIMEOUT` Environment
+Variables and set the corresponding `fullReset`, `noReset`, and `newCommandTimeout` Appium capabilities for iOS and Android physical devices and simulators.
+Also reads the `WDA_LOCAL_PORT` Environment Variable and sets the `wdaLocalPort` Appium capability for iOS physical devices only.
+
+###Version 2.3.18
+
+* Updated `SelectList.define_list_elements` method to accept value for `:list_trigger` element.
+* Updated `SelectList.choose_option` to respect `:list_item` value and to click on `:list_trigger` element, if one is specified.
+* Updated `PageSection` and `PageObject` UI element object declaration methods to no longer use `class_eval` pattern.
+* Updated device profiles for iPhone 7 (iOS 10) with Chrome browser and iPad (iOS 10) with Chrome browser.
+
+###Version 2.3.17
+
+* Added `List.wait_until_item_count_is` and `List.wait_until_item_count_changes` methods.
+* `UIElement.wait_until_value_is` and `List.wait_until_item_count_is` methods now accept comparison hash.
+
 ###Version 2.3.16
 
 * Added `PageSection.double_click`, `PageObject.right_click`, and `PageObject.send_keys` methods.
@@ -140,6 +158,13 @@ use the [parallel_tests gem](https://rubygems.org/gems/parallel_tests) to decrea
 
 
 ## What's Fixed
+###Version 2.3.19
+
+* Fixed device profile for `android_phone` - Generic Android Phone.
+
+###Version 2.3.18
+
+* Fixed `SelectList.choose_option` to also accept `:text`, `:value`, and `:index` option hashes across all types of select list objects.
 
 ###Version 2.3.15
 
@@ -919,7 +944,7 @@ the `WEB_BROWSER` Environment Variable must be set to one of the values from the
 `iphone8`             |`chrome`        |375 x 667  |portrait  |iOS 11
 `iphone8_plus`        |`chrome`        |414 x 736  |portrait  |iOS 11
 `iphonex`             |`chrome`        |375 x 812  |portrait  |iOS 11
-`android_phone`       |`chrome`        |320 x 480  |portrait  |Android 4
+`android_phone`       |`chrome`        |360 x 640  |portrait  |Android 4.2.1
 `nexus6`              |`chrome`        |411 x 731  |portrait  |Android 6
 `pixel`               |`chrome`        |411 x 731  |portrait  |Android 8
 `pixel_xl`            |`chrome`        |411 x 731  |portrait  |Android 8
@@ -965,10 +990,13 @@ Once your test environment is properly configured, the following **Environment V
 `APP_ALLOW_POPUPS`  | [Optional] Allow javascript to open new windows in Safari. Set to `true` or `false`
 `APP_IGNORE_FRAUD_WARNING` | [Optional] Prevent Safari from showing a fraudulent website warning. Set to `true` or `false`
 `APP_NO_RESET`      | [Optional] Don't reset app state after each test. Set to `true` or `false`
+`APP_FULL_RESET`    | [Optional] Perform a complete reset. Set to `true` or `false`
 `APP_INITIAL_URL`   | [Optional] Initial URL, default is a local welcome page.  e.g.  `http://www.apple.com`
+`WDA_LOCAL_PORT`    | [Optional] Used to forward traffic from Mac host to real iOS devices over USB. Default value is same as port number used by WDA on device.
 `LOCALE`            | [Optional] Locale to set for the simulator.  e.g.  `fr_CA`
 `LANGUAGE`          | [Optional] Language to set for the simulator.  e.g.  `fr`
 `ORIENTATION`       | [Optional] Set to `portrait` or `landscape` (only for iOS simulators)
+`NEW_COMMAND_TIMEOUT` | [Optional] Time (in Seconds) that Appium will wait for a new command from the client
 
 
 ### Mobile Chrome or Android browsers on Android Studio Virtual Device emulators
@@ -993,8 +1021,12 @@ Once your test environment is properly configured, the following **Environment V
 `DEVICE_TYPE`       | Must be set to `phone` or `tablet`
 `ORIENTATION`       | [Optional] Set to `portrait` or `landscape`
 `APP_INITIAL_URL`   | [Optional] Initial URL, default is a local welcome page.  e.g.  `http://www.apple.com`
+`APP_NO_RESET`      | [Optional] Don't reset app state after each test. Set to `true` or `false`
+`APP_FULL_RESET`    | [Optional] Perform a complete reset. Set to `true` or `false`
 `LOCALE`            | [Optional] Locale to set for the simulator.  e.g.  `fr_CA`
 `LANGUAGE`          | [Optional] Language to set for the simulator.  e.g.  `fr`
+`NEW_COMMAND_TIMEOUT` | [Optional] Time (in Seconds) that Appium will wait for a new command from the client
+`CHROMEDRIVER_EXECUTABLE` | [Optional] Absolute local path to webdriver executable
 
 
 ### Remotely hosted desktop and mobile web browsers

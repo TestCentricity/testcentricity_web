@@ -192,12 +192,21 @@ module TestCentricity
       else
         Environ.device = :simulator
       end
-      desired_capabilities[:safariInitialUrl] = ENV['APP_INITIAL_URL'] if ENV['APP_INITIAL_URL']
-      desired_capabilities[:safariAllowPopups] = ENV['APP_ALLOW_POPUPS'] if ENV['APP_ALLOW_POPUPS']
       desired_capabilities[:safariIgnoreFraudWarning] = ENV['APP_IGNORE_FRAUD_WARNING'] if ENV['APP_IGNORE_FRAUD_WARNING']
-      desired_capabilities[:noReset] = ENV['APP_NO_RESET'] if ENV['APP_NO_RESET']
+      desired_capabilities[:safariInitialUrl]       = ENV['APP_INITIAL_URL'] if ENV['APP_INITIAL_URL']
+      desired_capabilities[:safariAllowPopups]      = ENV['APP_ALLOW_POPUPS'] if ENV['APP_ALLOW_POPUPS']
+      desired_capabilities[:newCommandTimeout]      = ENV['NEW_COMMAND_TIMEOUT'] if ENV['NEW_COMMAND_TIMEOUT']
+      desired_capabilities[:noReset]                = ENV['APP_NO_RESET'] if ENV['APP_NO_RESET']
+      desired_capabilities[:fullReset]              = ENV['APP_FULL_RESET'] if ENV['APP_FULL_RESET']
+      desired_capabilities[:webkitDebugProxyPort]   = ENV['WEBKIT_DEBUG_PROXY_PORT'] if ENV['WEBKIT_DEBUG_PROXY_PORT']
+      desired_capabilities[:webDriverAgentUrl]      = ENV['WEBDRIVER_AGENT_URL'] if ENV['WEBDRIVER_AGENT_URL']
+      desired_capabilities[:wdaLocalPort]           = ENV['WDA_LOCAL_PORT'] if ENV['WDA_LOCAL_PORT']
+      desired_capabilities[:usePrebuiltWDA]         = ENV['USE_PREBUILT_WDA'] if ENV['USE_PREBUILT_WDA']
+      desired_capabilities[:useNewWDA]              = ENV['USE_NEW_WDA'] if ENV['USE_NEW_WDA']
+      desired_capabilities[:chromedriverExecutable] = ENV['CHROMEDRIVER_EXECUTABLE'] if ENV['CHROMEDRIVER_EXECUTABLE']
+
       desired_capabilities[:language] = ENV['LANGUAGE'] if ENV['LANGUAGE']
-      desired_capabilities[:locale] = ENV['LOCALE'].gsub('-', '_') if ENV['LOCALE']
+      desired_capabilities[:locale]   = ENV['LOCALE'].gsub('-', '_') if ENV['LOCALE']
 
       Capybara.register_driver :appium do |app|
         appium_lib_options = { server_url: endpoint }

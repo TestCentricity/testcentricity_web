@@ -301,14 +301,17 @@ module TestCentricity
     # Wait until the object's value equals the specified value, or until the specified wait time has expired. If the wait
     # time is nil, then the wait time will be Capybara.default_max_wait_time.
     #
+    # @param value [String or Hash] value expected or comparison hash
     # @param seconds [Integer or Float] wait time in seconds
     # @example
-    #   card_authorized_label.wait_until_value_is(5, 'Card authorized')
+    #   card_authorized_label.wait_until_value_is('Card authorized', 5)
+    #     or
+    #   total_weight_field.wait_until_value_is({ :greater_than => '250' }, 5)
     #
     def wait_until_value_is(value, seconds = nil)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
-      wait.until { get_value == value }
+      wait.until { compare(value, get_value) }
     rescue
       raise "Value of UI #{object_ref_message} failed to equal '#{value}' after #{timeout} seconds" unless get_value == value
     end

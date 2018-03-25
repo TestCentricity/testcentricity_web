@@ -61,7 +61,7 @@
   :css_width: 375
   :css_height: 667
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) CriOS/64.0.3282.112 Mobile/14G60 Safari/602.1"
+  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) CriOS/65.0.3325.152 Mobile/14G60 Safari/602.1"
 :iphone7_firefox:
   :name: "iPhone 7 - Firefox"
   :os: ios
@@ -106,10 +106,10 @@
   :name: "Generic Android phone"
   :os: android
   :type: phone
-  :css_width: 320
-  :css_height: 480
+  :css_width: 360
+  :css_height: 640
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (Linux; U; Android 4.0.1; en-us; sdk Build/ICS_MR0) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30"
+  :user_agent: "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19"
 nexus6:
   :name: "Nexus 6 or 6P phone"
   :os: android
@@ -237,7 +237,7 @@ nexus6:
   :css_width: 1024
   :css_height: 768
   :default_orientation: landscape
-  :user_agent: "Mozilla/5.0 (iPad; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) CriOS/64.0.3282.112 Mobile/14G60 Safari/602.1"
+  :user_agent: "Mozilla/5.0 (iPad; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) CriOS/65.0.3325.152 Mobile/14G60 Safari/602.1"
 :ipad_firefox:
   :name: "iPad - Firefox"
   :os: ios
