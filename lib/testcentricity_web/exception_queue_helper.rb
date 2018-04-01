@@ -32,39 +32,48 @@ module TestCentricity
       if state.is_a?(Hash) && state.length == 1
         state.each do |key, value|
           case key
-            when :lt, :less_than
-              enqueue_exception("#{error_msg} be less than #{value} but found '#{actual}'") unless actual < value
-            when :lt_eq, :less_than_or_equal
-              enqueue_exception("#{error_msg} be less than or equal to #{value} but found '#{actual}'") unless actual <= value
-            when :gt, :greater_than
-              enqueue_exception("#{error_msg} be greater than #{value} but found '#{actual}'") unless actual > value
-            when :gt_eq, :greater_than_or_equal
-              enqueue_exception("#{error_msg} be greater than or equal to  #{value} but found '#{actual}'") unless actual >= value
-            when :starts_with
-              enqueue_exception("#{error_msg} start with '#{value}' but found '#{actual}'") unless actual.start_with?(value)
-            when :ends_with
-              enqueue_exception("#{error_msg} end with '#{value}' but found '#{actual}'") unless actual.end_with?(value)
-            when :contains
-              enqueue_exception("#{error_msg} contain '#{value}' but found '#{actual}'") unless actual.include?(value)
-            when :not_contains, :does_not_contain
-              enqueue_exception("#{error_msg} not contain '#{value}' but found '#{actual}'") if actual.include?(value)
-            when :not_equal
-              enqueue_exception("#{error_msg} not equal '#{value}' but found '#{actual}'") if actual == value
-            when :like, :is_like
-              actual_like = actual.delete("\n")
-              actual_like = actual_like.delete("\r")
-              actual_like = actual_like.delete("\t")
-              actual_like = actual_like.delete(' ')
-              actual_like = actual_like.downcase
-              expected    = value.delete("\n")
-              expected    = expected.delete("\r")
-              expected    = expected.delete("\t")
-              expected    = expected.delete(' ')
-              expected    = expected.downcase
-              enqueue_exception("#{error_msg} be like '#{value}' but found '#{actual}'") unless actual_like.include?(expected)
-            when :translate
-              expected = I18n.t(value)
-              enqueue_assert_equal(expected, actual, error_msg)
+          when :lt, :less_than
+            enqueue_exception("#{error_msg} be less than #{value} but found '#{actual}'") unless actual < value
+          when :lt_eq, :less_than_or_equal
+            enqueue_exception("#{error_msg} be less than or equal to #{value} but found '#{actual}'") unless actual <= value
+          when :gt, :greater_than
+            enqueue_exception("#{error_msg} be greater than #{value} but found '#{actual}'") unless actual > value
+          when :gt_eq, :greater_than_or_equal
+            enqueue_exception("#{error_msg} be greater than or equal to  #{value} but found '#{actual}'") unless actual >= value
+          when :starts_with
+            enqueue_exception("#{error_msg} start with '#{value}' but found '#{actual}'") unless actual.start_with?(value)
+          when :ends_with
+            enqueue_exception("#{error_msg} end with '#{value}' but found '#{actual}'") unless actual.end_with?(value)
+          when :contains
+            enqueue_exception("#{error_msg} contain '#{value}' but found '#{actual}'") unless actual.include?(value)
+          when :not_contains, :does_not_contain
+            enqueue_exception("#{error_msg} not contain '#{value}' but found '#{actual}'") if actual.include?(value)
+          when :not_equal
+            enqueue_exception("#{error_msg} not equal '#{value}' but found '#{actual}'") if actual == value
+          when :like, :is_like
+            actual_like = actual.delete("\n")
+            actual_like = actual_like.delete("\r")
+            actual_like = actual_like.delete("\t")
+            actual_like = actual_like.delete(' ')
+            actual_like = actual_like.downcase
+            expected    = value.delete("\n")
+            expected    = expected.delete("\r")
+            expected    = expected.delete("\t")
+            expected    = expected.delete(' ')
+            expected    = expected.downcase
+            enqueue_exception("#{error_msg} be like '#{value}' but found '#{actual}'") unless actual_like.include?(expected)
+          when :translate
+            expected = I18n.t(value)
+            enqueue_assert_equal(expected, actual, error_msg)
+          when :translate_upcase
+            expected = I18n.t(value).upcase
+            enqueue_assert_equal(expected, actual, error_msg)
+          when :translate_downcase
+            expected = I18n.t(value).downcase
+            enqueue_assert_equal(expected, actual, error_msg)
+          when :translate_capitalize
+            expected = I18n.t(value).capitalize
+            enqueue_assert_equal(expected, actual, error_msg)
           end
         end
       else

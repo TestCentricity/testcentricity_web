@@ -28,6 +28,10 @@ hosted instances of Chrome, Firefox, Safari, and IE web browsers.
 
 
 ## What's New
+###Version 2.4.1
+
+* Added device profiles for iPad (iOS 10) with MS Edge browser.
+
 ###Version 2.4.0
 
 * Updated `TestCentricity::WebDriverConnect.initialize_web_driver` method to read the `APP_FULL_RESET`, `APP_NO_RESET`, and `NEW_COMMAND_TIMEOUT` Environment
@@ -920,6 +924,7 @@ the `WEB_BROWSER` Environment Variable must be set to one of the values from the
 `ipad_pro_10_5`       |`chrome`        |1112 x 834 |landscape |iOS 11
 `ipad_chrome`         |`chrome`        |1024 x 768 |landscape |iOS 10 - Mobile Chrome browser for iOS
 `ipad_firefox`        |`chrome`        |1024 x 768 |landscape |iOS 10 - Mobile Firefox browser for iOS
+`ipad_edge`           |`chrome`        |1024 x 768 |landscape |iOS 10 - Mobile Edge browser for iOS
 `android_tablet`      |`chrome`        |1024 x 768 |landscape |Android 3.0
 `kindle_fire`         |`chrome`        |1024 x 600 |landscape |
 `kindle_firehd7`      |`chrome`        |800 x 480  |landscape |Fire OS 3
@@ -1221,6 +1226,7 @@ service(s) that you intend to connect with.
     ipad_pro_10_5:       WEB_BROWSER=ipad_pro_10_5       HOST_BROWSER=chrome <%= mobile %>
     ipad_chrome:         WEB_BROWSER=ipad_chrome         HOST_BROWSER=chrome <%= mobile %>
     ipad_firefox:        WEB_BROWSER=ipad_firefox        HOST_BROWSER=chrome <%= mobile %>
+    ipad_edge:           WEB_BROWSER=ipad_edge           HOST_BROWSER=chrome <%= mobile %>
     iphone:              WEB_BROWSER=iphone              HOST_BROWSER=chrome <%= mobile %>
     iphone4:             WEB_BROWSER=iphone4             HOST_BROWSER=chrome <%= mobile %>
     iphone5:             WEB_BROWSER=iphone5             HOST_BROWSER=chrome <%= mobile %>

@@ -28,12 +28,7 @@ module TestCentricity
     #   element :siebel_busy,  "//html[contains(@class, 'siebui-busy')]"
     #
     def self.element(element_name, locator)
-      define_method(element_name) do
-        ivar_name = "@#{element_name}"
-        ivar = instance_variable_get(ivar_name)
-        return ivar if ivar
-        instance_variable_set(ivar_name, TestCentricity::UIElement.new(element_name, self, locator, :page))
-      end
+      define_page_element(element_name, TestCentricity::UIElement, locator)
     end
 
     # Declare and instantiate a collection of generic UI Elements for this page object.
@@ -59,12 +54,7 @@ module TestCentricity
     #   button :login_button,    "//input[@id='submit_button']"
     #
     def self.button(element_name, locator)
-      define_method(element_name) do
-        ivar_name = "@#{element_name}"
-        ivar = instance_variable_get(ivar_name)
-        return ivar if ivar
-        instance_variable_set(ivar_name, TestCentricity::Button.new(element_name, self, locator, :page))
-      end
+      define_page_element(element_name, TestCentricity::Button, locator)
     end
 
     # Declare and instantiate a collection of buttons for this page object.
@@ -90,12 +80,7 @@ module TestCentricity
     #   textfield :password_field, 'consumer_password'
     #
     def self.textfield(element_name, locator)
-      define_method(element_name) do
-        ivar_name = "@#{element_name}"
-        ivar = instance_variable_get(ivar_name)
-        return ivar if ivar
-        instance_variable_set(ivar_name, TestCentricity::TextField.new(element_name, self, locator, :page))
-      end
+      define_page_element(element_name, TestCentricity::TextField, locator)
     end
 
     # Declare and instantiate a collection of text fields for this page object.
@@ -179,12 +164,7 @@ module TestCentricity
     #   label :rollup_price_label, "//div[contains(@id, 'Rollup Item Price')]"
     #
     def self.label(element_name, locator)
-      define_method(element_name) do
-        ivar_name = "@#{element_name}"
-        ivar = instance_variable_get(ivar_name)
-        return ivar if ivar
-        instance_variable_set(ivar_name, TestCentricity::Label.new(element_name, self, locator, :page))
-      end
+      define_page_element(element_name, TestCentricity::Label, locator)
     end
 
     def self.labels(element_hash)
@@ -202,12 +182,7 @@ module TestCentricity
     #   link :shopping_basket_link, "//a[@href='shopping_basket']"
     #
     def self.link(element_name, locator)
-      define_method(element_name) do
-        ivar_name = "@#{element_name}"
-        ivar = instance_variable_get(ivar_name)
-        return ivar if ivar
-        instance_variable_set(ivar_name, TestCentricity::Link.new(element_name, self, locator, :page))
-      end
+      define_page_element(element_name, TestCentricity::Link, locator)
     end
 
     def self.links(element_hash)
@@ -224,12 +199,7 @@ module TestCentricity
     #   table :payments_table, "//table[@class='payments_table']"
     #
     def self.table(element_name, locator)
-      define_method(element_name) do
-        ivar_name = "@#{element_name}"
-        ivar = instance_variable_get(ivar_name)
-        return ivar if ivar
-        instance_variable_set(ivar_name, TestCentricity::Table.new(element_name, self, locator, :page))
-      end
+      define_page_element(element_name, TestCentricity::Table, locator)
     end
 
     def self.tables(element_hash)
@@ -247,12 +217,7 @@ module TestCentricity
     #   selectlist :gender_select,     "//select[@id='customer_gender']"
     #
     def self.selectlist(element_name, locator)
-      define_method(element_name) do
-        ivar_name = "@#{element_name}"
-        ivar = instance_variable_get(ivar_name)
-        return ivar if ivar
-        instance_variable_set(ivar_name, TestCentricity::SelectList.new(element_name, self, locator, :page))
-      end
+      define_page_element(element_name, TestCentricity::SelectList, locator)
     end
 
     def self.selectlists(element_hash)
@@ -269,12 +234,7 @@ module TestCentricity
     #   list :x_axis_list, 'g.x-axis'
     #
     def self.list(element_name, locator)
-      define_method(element_name) do
-        ivar_name = "@#{element_name}"
-        ivar = instance_variable_get(ivar_name)
-        return ivar if ivar
-        instance_variable_set(ivar_name, TestCentricity::List.new(element_name, self, locator, :page))
-      end
+      define_page_element(element_name, TestCentricity::List, locator)
     end
 
     def self.lists(element_hash)
@@ -292,12 +252,7 @@ module TestCentricity
     #   image :corporate_logo_image, "//img[@alt='MyCompany_logo']"
     #
     def self.image(element_name, locator)
-      define_method(element_name) do
-        ivar_name = "@#{element_name}"
-        ivar = instance_variable_get(ivar_name)
-        return ivar if ivar
-        instance_variable_set(ivar_name, TestCentricity::Image.new(element_name, self, locator, :page))
-      end
+      define_page_element(element_name, TestCentricity::Image, locator)
     end
 
     def self.images(element_hash)
@@ -314,12 +269,7 @@ module TestCentricity
     #   filefield :attach_file, 's_SweFileName'
     #
     def self.filefield(element_name, locator)
-      define_method(element_name) do
-        ivar_name = "@#{element_name}"
-        ivar = instance_variable_get(ivar_name)
-        return ivar if ivar
-        instance_variable_set(ivar_name, TestCentricity::FileField.new(element_name, self, locator, :page))
-      end
+      define_page_element(element_name, TestCentricity::FileField, locator)
     end
 
     def self.filefields(element_hash)
@@ -426,8 +376,13 @@ module TestCentricity
     # @example
     #   section :search_form, SearchForm
     #
-    def self.section(section_name, class_name, locator = nil)
-      class_eval(%(def #{section_name};@#{section_name} ||= #{class_name}.new("#{section_name}", self, "#{locator}", :page);end))
+    def self.section(section_name, obj, locator = nil)
+      define_method(section_name) do
+        ivar_name = "@#{section_name}"
+        ivar = instance_variable_get(ivar_name)
+        return ivar if ivar
+        instance_variable_set(ivar_name, obj.new(section_name, self, "#{locator}", :page))
+      end
     end
 
     def self.sections(section_hash)
@@ -705,6 +660,17 @@ module TestCentricity
             end
           end
         end
+      end
+    end
+
+    private
+
+    def self.define_page_element(element_name, obj, locator)
+      define_method(element_name) do
+        ivar_name = "@#{element_name}"
+        ivar = instance_variable_get(ivar_name)
+        return ivar if ivar
+        instance_variable_set(ivar_name, obj.new(element_name, self, locator, :page))
       end
     end
   end
