@@ -28,6 +28,10 @@ hosted instances of Chrome, Firefox, Safari, and IE web browsers.
 
 
 ## What's New
+###Version 2.4.3
+
+* Updated device profiles for iPhone 7 (iOS 11) with Mobile Firefox browser and iPad (iOS 10) with Mobile Firefox browser.
+
 ###Version 2.4.1
 
 * Added device profiles for iPad (iOS 10) with MS Edge browser.
@@ -943,9 +947,9 @@ the `WEB_BROWSER` Environment Variable must be set to one of the values from the
 `iphone6_plus`        |`chrome`        |414 x 736  |portrait  |iOS 9.1
 `iphone7`             |`chrome`        |375 x 667  |portrait  |iOS 10
 `iphone7_plus`        |`chrome`        |414 x 736  |portrait  |iOS 10
-`iphone7_chrome`      |`chrome`        |375 x 667  |portrait  |iOS 10 - Mobile Chrome browser for iOS
-`iphone7_firefox`     |`chrome`        |375 x 667  |portrait  |iOS 10 - Mobile Firefox browser for iOS
-`iphone7_edge`        |`chrome`        |375 x 667  |portrait  |iOS 10 - Microsoft Edge browser for iOS
+`iphone7_chrome`      |`chrome`        |375 x 667  |portrait  |iOS 11 - Mobile Chrome browser for iOS
+`iphone7_firefox`     |`chrome`        |375 x 667  |portrait  |iOS 11 - Mobile Firefox browser for iOS
+`iphone7_edge`        |`chrome`        |375 x 667  |portrait  |iOS 11 - Microsoft Edge browser for iOS
 `iphone8`             |`chrome`        |375 x 667  |portrait  |iOS 11
 `iphone8_plus`        |`chrome`        |414 x 736  |portrait  |iOS 11
 `iphonex`             |`chrome`        |375 x 812  |portrait  |iOS 11

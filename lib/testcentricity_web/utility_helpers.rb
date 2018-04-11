@@ -23,6 +23,10 @@ class String
   def format_date_time(date_time_format)
     return if self.blank?
     new_date = DateTime.parse(self)
-    new_date.strftime(date_time_format)
+    if ENV['LOCALE'] && date_time_format.is_a?(Symbol)
+      I18n.l(new_date, format: date_time_format)
+    else
+      new_date.strftime(date_time_format)
+    end
   end
 end
