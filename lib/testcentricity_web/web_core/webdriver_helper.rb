@@ -31,9 +31,6 @@ module TestCentricity
       when :crossbrowser
         initialize_crossbrowser
         context = 'CrossBrowserTesting cloud service'
-      when :poltergeist
-        initialize_poltergeist
-        context = 'PhantomJS'
       when :saucelabs
         initialize_saucelabs
         context = 'Sauce Labs cloud service'
@@ -51,7 +48,7 @@ module TestCentricity
       end
 
       # set browser window size only if testing with a desktop web browser
-      unless Environ.is_device? || [:poltergeist, :appium].include?(Capybara.current_driver)
+      unless Environ.is_device? || Capybara.current_driver == :appium
         initialize_browser_size
       end
 
@@ -76,7 +73,7 @@ module TestCentricity
       end
       # set WebDriver path based on browser and operating system
       case ENV['WEB_BROWSER'].downcase.to_sym
-      when :chrome
+      when :chrome, :chrome_headless
         if OS.osx?
           path_to_driver = 'mac/chromedriver'
         elsif OS.windows?
@@ -84,14 +81,14 @@ module TestCentricity
         end
         @webdriver_path = File.join(project_path, base_path, path_to_driver)
         Selenium::WebDriver::Chrome.driver_path = @webdriver_path
-      # when :firefox
-      #   if OS.osx?
-      #     path_to_driver = 'mac/geckodriver'
-      #   elsif OS.windows?
-      #     path_to_driver = 'windows/geckodriver.exe'
-      #   end
-      #   @webdriver_path = File.join(project_path, base_path, path_to_driver)
-      #   Selenium::WebDriver::Firefox.driver_path = @webdriver_path
+      when :firefox, :firefox_headless
+        if OS.osx?
+          path_to_driver = 'mac/geckodriver'
+        elsif OS.windows?
+          path_to_driver = 'windows/geckodriver.exe'
+        end
+        @webdriver_path = File.join(project_path, base_path, path_to_driver)
+        Selenium::WebDriver::Firefox.driver_path = @webdriver_path
       when :ie
         path_to_driver = 'windows/IEDriverServer.exe'
         @webdriver_path = File.join(project_path, base_path, path_to_driver)
@@ -111,14 +108,14 @@ module TestCentricity
             end
             @webdriver_path = File.join(project_path, base_path, path_to_driver)
             Selenium::WebDriver::Chrome.driver_path = @webdriver_path
-          # when :firefox
-          #   if OS.osx?
-          #     path_to_driver = 'mac/geckodriver'
-          #   elsif OS.windows?
-          #     path_to_driver = 'windows/geckodriver.exe'
-          #   end
-          #   @webdriver_path = File.join(project_path, base_path, path_to_driver)
-          #   Selenium::WebDriver::Firefox.driver_path = @webdriver_path
+          when :firefox
+            if OS.osx?
+              path_to_driver = 'mac/geckodriver'
+            elsif OS.windows?
+              path_to_driver = 'windows/geckodriver.exe'
+            end
+            @webdriver_path = File.join(project_path, base_path, path_to_driver)
+            Selenium::WebDriver::Firefox.driver_path = @webdriver_path
           end
         end
       end
@@ -182,7 +179,6 @@ module TestCentricity
       }
       desired_capabilities[:avd] = ENV['APP_DEVICE'] if ENV['APP_PLATFORM_NAME'].downcase.to_sym == :android
       desired_capabilities[:automationName] = ENV['AUTOMATION_ENGINE'] if ENV['AUTOMATION_ENGINE']
-      desired_capabilities[:orientation] = ENV['ORIENTATION'].upcase if ENV['ORIENTATION']
       if ENV['UDID']
         Environ.device = :device
         desired_capabilities[:udid] = ENV['UDID']
@@ -191,6 +187,11 @@ module TestCentricity
         desired_capabilities[:xcodeSigningId] = ENV['TEAM_NAME'] if ENV['TEAM_NAME']
       else
         Environ.device = :simulator
+        desired_capabilities[:orientation] = ENV['ORIENTATION'].upcase if ENV['ORIENTATION']
+        if Environ.device_os == :ios
+          desired_capabilities[:language] = ENV['LANGUAGE'] if ENV['LANGUAGE']
+          desired_capabilities[:locale]   = ENV['LOCALE'].gsub('-', '_') if ENV['LOCALE']
+        end
       end
       desired_capabilities[:safariIgnoreFraudWarning] = ENV['APP_IGNORE_FRAUD_WARNING'] if ENV['APP_IGNORE_FRAUD_WARNING']
       desired_capabilities[:safariInitialUrl]       = ENV['APP_INITIAL_URL'] if ENV['APP_INITIAL_URL']
@@ -204,9 +205,6 @@ module TestCentricity
       desired_capabilities[:usePrebuiltWDA]         = ENV['USE_PREBUILT_WDA'] if ENV['USE_PREBUILT_WDA']
       desired_capabilities[:useNewWDA]              = ENV['USE_NEW_WDA'] if ENV['USE_NEW_WDA']
       desired_capabilities[:chromedriverExecutable] = ENV['CHROMEDRIVER_EXECUTABLE'] if ENV['CHROMEDRIVER_EXECUTABLE']
-
-      desired_capabilities[:language] = ENV['LANGUAGE'] if ENV['LANGUAGE']
-      desired_capabilities[:locale]   = ENV['LOCALE'].gsub('-', '_') if ENV['LOCALE']
 
       Capybara.register_driver :appium do |app|
         appium_lib_options = { server_url: endpoint }
@@ -225,83 +223,53 @@ module TestCentricity
         Environ.os = 'Windows'
       end
 
-      browser = ENV['WEB_BROWSER']
+      browser = ENV['WEB_BROWSER'].downcase.to_sym
 
-      case browser.downcase.to_sym
-      when :firefox, :chrome, :ie, :safari, :edge
+      case browser
+      when :firefox, :chrome, :ie, :safari, :edge, :chrome_headless, :firefox_headless, :firefox_legacy
         Environ.platform = :desktop
       else
-        Environ.platform    = :mobile
-        Environ.device_name = Browsers.mobile_device_name(browser)
+        Environ.platform = :mobile
+        Environ.device_name = Browsers.mobile_device_name(ENV['WEB_BROWSER'])
       end
 
       Capybara.default_driver = :selenium
       Capybara.register_driver :selenium do |app|
-        case browser.downcase.to_sym
+        case browser
         when :ie, :safari, :edge
-          Capybara::Selenium::Driver.new(app, :browser => browser.to_sym)
-
-        when :firefox
-          if ENV['LOCALE']
-            profile = Selenium::WebDriver::Firefox::Profile.new
-            profile['intl.accept_languages'] = ENV['LOCALE']
-            Capybara::Selenium::Driver.new(app, :profile => profile)
+          Capybara::Selenium::Driver.new(app, browser: browser)
+        when :firefox_legacy
+          Capybara::Selenium::Driver.new(app, browser: :firefox, marionette: false)
+        when :firefox, :firefox_headless
+          profile = Selenium::WebDriver::Firefox::Profile.new
+          profile['browser.download.dir'] = '/tmp/webdriver-downloads'
+          profile['browser.download.folderList'] = 2
+          profile['browser.helperApps.neverAsk.saveToDisk'] = 'text/csv, application/x-msexcel, application/excel, application/x-excel, application/vnd.ms-excel, image/png, image/jpeg, text/html, text/plain, application/pdf, application/octet-stream'
+          profile['pdfjs.disabled'] = true
+          profile['intl.accept_languages'] = ENV['LOCALE'] if ENV['LOCALE']
+          options = Selenium::WebDriver::Firefox::Options.new(profile: profile)
+          options.args << '--headless' if browser == :firefox_headless
+          if @webdriver_path.blank?
+            Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
           else
-            Capybara::Selenium::Driver.new(app, :browser => :firefox)
+            Capybara::Selenium::Driver.new(app, browser: :firefox, options: options, driver_path: @webdriver_path)
           end
-
-        when :chrome
-          ENV['LOCALE'] ? args = ['--disable-infobars', "--lang=#{ENV['LOCALE']}"] : args = ['--disable-infobars']
-          Capybara::Selenium::Driver.new(app, :browser => :chrome, :args => args)
-
+        when :chrome, :chrome_headless
+          if browser == :chrome
+            options = Selenium::WebDriver::Chrome::Options.new
+          else
+            options = Selenium::WebDriver::Chrome::Options.new(args: %w[headless disable-gpu no-sandbox])
+          end
+          options.add_argument('--disable-infobars')
+          options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
+          Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
         else
-          user_agent = Browsers.mobile_device_agent(browser)
-          ENV['HOST_BROWSER'] ? host_browser = ENV['HOST_BROWSER'].downcase.to_sym : host_browser = :chrome
+          user_agent = Browsers.mobile_device_agent(ENV['WEB_BROWSER'])
+          ENV['HOST_BROWSER'] ? host_browser = ENV['HOST_BROWSER'].downcase.to_sym : host_browser = :firefox
           case host_browser
           when :firefox
             profile = Selenium::WebDriver::Firefox::Profile.new
             profile['general.useragent.override'] = user_agent
-            profile['intl.accept_languages'] = ENV['LOCALE'] if ENV['LOCALE']
-            Capybara::Selenium::Driver.new(app, :profile => profile)
-
-          when :chrome
-            ENV['LOCALE'] ?
-                args = ["--user-agent='#{user_agent}'", "--lang=#{ENV['LOCALE']}", '--disable-infobars'] :
-                args = ["--user-agent='#{user_agent}'", '--disable-infobars']
-            Capybara::Selenium::Driver.new(app, :browser => :chrome, :args => args)
-          end
-        end
-      end
-    end
-
-    def self.new_initialize_local_browser
-      if OS.osx?
-        Environ.os = 'OS X'
-      elsif OS.windows?
-        Environ.os = 'Windows'
-      end
-
-      browser = ENV['WEB_BROWSER']
-
-      case browser.downcase.to_sym
-        when :firefox, :chrome, :ie, :safari, :edge
-          Environ.platform = :desktop
-        else
-          Environ.platform    = :mobile
-          Environ.device_name = Browsers.mobile_device_name(browser)
-      end
-
-      Capybara.default_driver = :selenium
-      Capybara.register_driver :selenium do |app|
-        case browser.downcase.to_sym
-          when :ie, :safari, :edge
-            Capybara::Selenium::Driver.new(app, browser: browser.to_sym)
-          when :firefox
-            profile = Selenium::WebDriver::Firefox::Profile.new
-            profile['browser.download.dir'] = '/tmp/webdriver-downloads'
-            profile['browser.download.folderList'] = 2
-            profile['browser.helperApps.neverAsk.saveToDisk'] = 'text/csv, application/x-msexcel, application/excel, application/x-excel, application/vnd.ms-excel, image/png, image/jpeg, text/html, text/plain, application/pdf, application/octet-stream'
-            profile['pdfjs.disabled'] = true
             profile['intl.accept_languages'] = ENV['LOCALE'] if ENV['LOCALE']
             options = Selenium::WebDriver::Firefox::Options.new(profile: profile)
             if @webdriver_path.blank?
@@ -312,29 +280,10 @@ module TestCentricity
           when :chrome
             options = Selenium::WebDriver::Chrome::Options.new
             options.add_argument('--disable-infobars')
+            options.add_argument("--user-agent='#{user_agent}'")
             options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
             Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
-          else
-            user_agent = Browsers.mobile_device_agent(browser)
-            ENV['HOST_BROWSER'] ? host_browser = ENV['HOST_BROWSER'].downcase.to_sym : host_browser = :firefox
-            case host_browser
-              when :firefox
-                profile = Selenium::WebDriver::Firefox::Profile.new
-                profile['general.useragent.override'] = user_agent
-                profile['intl.accept_languages'] = ENV['LOCALE'] if ENV['LOCALE']
-                options = Selenium::WebDriver::Firefox::Options.new(profile: profile)
-                if @webdriver_path.blank?
-                  Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
-                else
-                  Capybara::Selenium::Driver.new(app, browser: :firefox, options: options, driver_path: @webdriver_path)
-                end
-              when :chrome
-                options = Selenium::WebDriver::Chrome::Options.new
-                options.add_argument('--disable-infobars')
-                options.add_argument("--user-agent='#{user_agent}'")
-                options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
-                Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
-            end
+          end
         end
       end
     end
@@ -463,29 +412,6 @@ module TestCentricity
 
       Capybara.default_driver = :crossbrowser
       Capybara.run_server = false
-    end
-
-    def self.initialize_poltergeist
-      if ENV['BROWSER_SIZE']
-        resolution = ENV['BROWSER_SIZE'].split(',')
-        width  = resolution[0]
-        height = resolution[1]
-      else
-        width  = 1650
-        height = 1000
-      end
-      Capybara.default_driver = :poltergeist
-      Capybara.register_driver :poltergeist do |app|
-        options = {
-            js_errors:         true,
-            timeout:           120,
-            debug:             false,
-            phantomjs_options: ['--load-images=no', '--disk-cache=false'],
-            inspector:         true,
-            window_size:       [width, height]
-        }
-        Capybara::Poltergeist::Driver.new(app, options)
-      end
     end
 
     def self.initialize_remote

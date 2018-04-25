@@ -1,20 +1,21 @@
 require 'capybara/cucumber'
 require 'test/unit'
-require 'capybara/poltergeist'
 
-require 'testcentricity_web/world_extensions'
-require 'testcentricity_web/browser_helper'
-require 'testcentricity_web/data_objects_helper'
-require 'testcentricity_web/drag_drop_helper'
-require 'testcentricity_web/excel_helper'
-require 'testcentricity_web/exception_queue_helper'
-require 'testcentricity_web/page_objects_helper'
-require 'testcentricity_web/page_sections_helper'
-require 'testcentricity_web/siebel_open_ui_helper'
-require 'testcentricity_web/utility_helpers'
-require 'testcentricity_web/environment'
-require 'testcentricity_web/webdriver_helper'
 require 'testcentricity_web/version'
+require 'testcentricity_web/world_extensions'
+require 'testcentricity_web/exception_queue_helper'
+require 'testcentricity_web/utility_helpers'
+require 'testcentricity_web/browser_helper'
+require 'testcentricity_web/appium_server'
+
+require 'testcentricity_web/web_core/drag_drop_helper'
+require 'testcentricity_web/web_core/page_objects_helper'
+require 'testcentricity_web/web_core/page_sections_helper'
+require 'testcentricity_web/web_core/webdriver_helper'
+
+require 'testcentricity_web/data_objects/data_objects_helper'
+require 'testcentricity_web/data_objects/environment'
+require 'testcentricity_web/data_objects/excel_helper'
 
 require 'testcentricity_web/web_elements/ui_elements_helper'
 require 'testcentricity_web/web_elements/button'
@@ -37,7 +38,7 @@ require 'testcentricity_web/web_elements/list_element'
 require 'testcentricity_web/web_elements/list_button'
 require 'testcentricity_web/web_elements/list_checkbox'
 require 'testcentricity_web/web_elements/list_radio'
-require 'testcentricity_web/appium_server'
+require 'testcentricity_web/web_elements/siebel_open_ui_helper'
 
 
 module TestCentricity
@@ -96,18 +97,6 @@ module TestCentricity
     #   TestCentricity::PageManager.current_page = product_search_page
     #
     def self.current_page=(page)
-      @current_page = page
-    end
-
-    # Sets the currently active PageObject
-    #
-    # @param page [PageObject] Reference to the active PageObject
-    # @example
-    #   TestCentricity::PageManager.set_current_page(product_search_page)
-    #
-    # @deprecated Please use {#current_page=} instead
-    def self.set_current_page(page)
-      warn "[DEPRECATION] 'TestCentricity::PageManager.set_current_page' is deprecated.  Please use 'current_page=' instead."
       @current_page = page
     end
   end

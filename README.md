@@ -6,10 +6,12 @@
 The TestCentricity™ Web core generic framework for desktop and mobile web site testing implements a Page Object and Data Object Model DSL for
 use with Cucumber, Capybara, and Selenium-Webdriver.
 
+An example project that demonstrates the implementation of a page object model framework using Cucumber and TestCentricity™ can be found [here](https://github.com/TestCentricity/tc_web_sample).
+
 The TestCentricity™ Web gem supports running automated tests against the following web test targets:
-* locally hosted desktop browsers (Firefox*, Chrome, Safari, or IE)
+* locally hosted desktop browsers (Firefox, Chrome, Safari, or IE)
 * locally hosted emulated iOS Mobile Safari, Android, Windows Phone, or Blackberry mobile browsers (running within a local instance of Chrome)
-* a "headless" browser (using Poltergeist and PhantomJS)
+* locally hosted headless Chrome or Firefox browsers
 * mobile Safari browsers on iOS device simulators or physical iOS devices (using Appium and XCode on OS X)
 * mobile Chrome or Android browsers on Android Studio virtual device emulators (using Appium and Android Studio on OS X)
 * cloud hosted desktop (Firefox, Chrome, Safari, IE, or Edge) or mobile (iOS Mobile Safari or Android) web browsers using the [Browserstack](https://www.browserstack.com/list-of-browsers-and-platforms?product=automate),
@@ -19,15 +21,17 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 * enterprise web portals build using Siebel Open UI
 
 
-**Note:** Test execution against local instances of Firefox version 48 or greater is currently not supported by the TestCentricity™ Web gem. Testing with
-locally hosted instances of Firefox 48 or greater requires Marionette (aka geckodriver) and selenium-webdriver version 3.x, both of which are currently
-feature incomplete and potentially unstable. More information can be found [here](https://github.com/teamcapybara/capybara/issues/1710).
-
-TestCentricity™ will be updated to support testing with Selenium-WebDriver version 3.x as soon as a stable version is available that **fully** supports locally
-hosted instances of Chrome, Firefox, Safari, and IE web browsers.
-
-
 ## What's New
+###Version 3.0.0
+
+* The TestCentricity™ Web gem now works with Selenium-WebDriver version 3.11 and **geckodriver** version 0.20.1 (or later) to support testing of the latest
+versions of Firefox web browsers.
+* Support for testing on locally hosted "headless" Chrome or Firefox browsers has been added.
+* Support for headless browser testing using Poltergeist and PhantomJS has been removed.
+* Support for Legacy FirefoxDriver (used in Firefox versions < 48) has been added.
+* `TestCentricity::WebDriverConnect.set_webdriver_path` method now sets the path to the appropriate **geckodriver** file for OS X or Windows when testing on
+locally hosted Firefox browsers.
+
 ###Version 2.4.3
 
 * Updated device profiles for iPhone 7 (iOS 11) with Mobile Firefox browser and iPad (iOS 10) with Mobile Firefox browser.
@@ -207,7 +211,7 @@ did not recognize grouped option in Chosen list objects.
 
 ###Version 2.1.6
 
-* Fixed bug in `TestCentricity::WebDriverConnect.set_webdriver_path` method that was failing to set the path to the appropriate chromedriver file for OS X
+* Fixed bug in `TestCentricity::WebDriverConnect.set_webdriver_path` method that was failing to set the path to the appropriate **chromedriver** file for OS X
 and Windows.
 
 ###Version 2.1.5
@@ -257,14 +261,6 @@ If you are using RSpec instead, you need to require the following in your *env.r
     require 'capybara'
     require 'capybara/rspec'
     require 'testcentricity_web'
-
-
-### Using Poltergeist
-
-If you will be running your tests on a "headless" web browser using Poltergeist and PhantomJS, you must add this line to your automation
-project's Gemfile:
-
-    gem 'poltergeist'
 
 
 ### Using Appium
@@ -884,7 +880,7 @@ To use these **PageManager** methods, include the step definitions and code belo
 
 ## Connecting to a Web Browser
 
-The `TestCentricity::WebDriverConnect.initialize_web_driver` method configures the appropriate selenium-webdriver capabilities required to establish a
+The `TestCentricity::WebDriverConnect.initialize_web_driver` method configures the appropriate Selenium-Webdriver capabilities required to establish a
 connection with a target web browser, and sets the base host URL of the web site you are running your tests against.
 
 The `TestCentricity::WebDriverConnect.initialize_web_driver` method accepts a single optional parameter - the base host URL. Cucumber **Environment
@@ -903,7 +899,6 @@ values from the table below:
 `chrome`      | macOS (OS X) or Windows
 `safari`      | macOS (OS X) only
 `ie`          | Windows only
-`poltergeist` | macOS (OS X) or Windows
 
 To set the size of a desktop browser window, you set the `BROWSER_SIZE` Environment Variable to the desired width and height in pixels as shown below:
                                                                                                                                
@@ -1215,11 +1210,15 @@ service(s) that you intend to connect with.
     #==============
     
     firefox:            WEB_BROWSER=firefox     <%= desktop %>
-    safari:             WEB_BROWSER=safari      <%= desktop %>
     chrome:             WEB_BROWSER=chrome      <%= desktop %>
+    safari:             WEB_BROWSER=safari      <%= desktop %>
     ie:                 WEB_BROWSER=ie          <%= desktop %>
-    headless:           WEB_BROWSER=poltergeist <%= desktop %>
-    
+
+    chrome_headless:    WEB_BROWSER=chrome_headless  <%= desktop %>
+    firefox_headless:   WEB_BROWSER=firefox_headless <%= desktop %>
+    firefox_legacy:     WEB_BROWSER=firefox_legacy   <%= desktop %>
+
+
     #==============
     # profiles for locally hosted mobile web browsers (emulated locally in Firefox browser)
     # NOTE: to host emulated mobile browsers in Chrome set the HOST_BROWSER=chrome
@@ -1319,7 +1318,7 @@ service(s) that you intend to connect with.
     # NOTE: Requires installation of XCode, Appium, and the appium_capybara gem
     #==============
 
-    my_ios_10_3_iphone:    --profile app_ios_10 DEVICE_TYPE=phone APP_DEVICE="My Test iPhone6" APP_UDID="INSERT YOUR DEVICE UDID"
+    my_ios_11_3_iphone:    --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="My Test iPhoneX" APP_UDID="INSERT YOUR DEVICE UDID"
     my_ios_10_3_ipad:      --profile app_ios_10 DEVICE_TYPE=tablet APP_DEVICE="My Test iPad Pro" APP_UDID="INSERT YOUR DEVICE UDID"
 
 

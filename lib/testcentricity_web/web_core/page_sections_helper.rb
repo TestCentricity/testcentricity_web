@@ -699,98 +699,98 @@ module TestCentricity
       ui_states.each do |ui_object, object_states|
         object_states.each do |property, state|
           case property
-            when :class
-              actual = ui_object.get_attribute(:class)
-            when :exists
-              actual = ui_object.exists?
-            when :enabled
-              actual = ui_object.enabled?
-            when :disabled
-              actual = ui_object.disabled?
-            when :visible
-              actual = ui_object.visible?
-            when :hidden
-              actual = ui_object.hidden?
-            when :displayed
-              actual = ui_object.displayed?
-            when :width
-              actual = ui_object.width
-            when :height
-              actual = ui_object.height
-            when :x
-              actual = ui_object.x
-            when :y
-              actual = ui_object.y
-            when :readonly
-              actual = ui_object.read_only?
-            when :checked
-              actual = ui_object.checked?
-            when :selected
-              actual = ui_object.selected?
-            when :value, :caption
-              actual = ui_object.get_value
-            when :maxlength
-              actual = ui_object.get_max_length
-            when :rowcount
-              actual = ui_object.get_row_count
-            when :columncount
-              actual = ui_object.get_column_count
-            when :placeholder
-              actual = ui_object.get_placeholder
-            when :min
-              actual = ui_object.get_min
-            when :max
-              actual = ui_object.get_max
-            when :step
-              actual = ui_object.get_step
-            when :options, :items, :list_items
-              actual = ui_object.get_list_items
-            when :optioncount, :itemcount
-              actual = ui_object.get_item_count
-            when :all_items, :all_list_items
-              actual = ui_object.get_all_list_items
-            when :all_items_count
-              actual = ui_object.get_all_items_count
-            when :column_headers
-              actual = ui_object.get_header_columns
-            when :siebel_options
-              actual = ui_object.get_siebel_options
-            else
-              if property.is_a?(Hash)
-                property.each do |key, value|
-                  case key
-                    when :cell
-                      actual = ui_object.get_table_cell(value[0].to_i, value[1].to_i)
-                    when :row
-                      actual = ui_object.get_table_row(value.to_i)
-                    when :column
-                      actual = ui_object.get_table_column(value.to_i)
-                    when :item
-                      actual = ui_object.get_list_item(value.to_i)
-                    when :attribute
-                      actual = ui_object.get_attribute(value)
-                    when :native_attribute
-                      actual = ui_object.get_native_attribute(value)
-                  end
-                end
-              else
-                props = property.to_s.split('_')
-                case props[0].to_sym
-                  when :cell
-                    cell = property.to_s.delete('cell_')
-                    cell = cell.split('_')
-                    actual = ui_object.get_table_cell(cell[0].to_i, cell[1].to_i)
-                  when :row
-                    row = property.to_s.delete('row_')
-                    actual = ui_object.get_table_row(row.to_i)
-                  when :column
-                    column = property.to_s.delete('column_')
-                    actual = ui_object.get_table_column(column.to_i)
-                  when :item
-                    item = property.to_s.delete('item_')
-                    actual = ui_object.get_list_item(item.to_i)
+          when :class
+            actual = ui_object.get_attribute(:class)
+          when :exists
+            actual = ui_object.exists?
+          when :enabled
+            actual = ui_object.enabled?
+          when :disabled
+            actual = ui_object.disabled?
+          when :visible
+            actual = ui_object.visible?
+          when :hidden
+            actual = ui_object.hidden?
+          when :displayed
+            actual = ui_object.displayed?
+          when :width
+            actual = ui_object.width
+          when :height
+            actual = ui_object.height
+          when :x
+            actual = ui_object.x
+          when :y
+            actual = ui_object.y
+          when :readonly
+            actual = ui_object.read_only?
+          when :checked
+            actual = ui_object.checked?
+          when :selected
+            actual = ui_object.selected?
+          when :value, :caption
+            actual = ui_object.get_value
+          when :maxlength
+            actual = ui_object.get_max_length
+          when :rowcount
+            actual = ui_object.get_row_count
+          when :columncount
+            actual = ui_object.get_column_count
+          when :placeholder
+            actual = ui_object.get_placeholder
+          when :min
+            actual = ui_object.get_min
+          when :max
+            actual = ui_object.get_max
+          when :step
+            actual = ui_object.get_step
+          when :options, :items, :list_items
+            actual = ui_object.get_list_items
+          when :optioncount, :itemcount
+            actual = ui_object.get_item_count
+          when :all_items, :all_list_items
+            actual = ui_object.get_all_list_items
+          when :all_items_count
+            actual = ui_object.get_all_items_count
+          when :column_headers
+            actual = ui_object.get_header_columns
+          when :siebel_options
+            actual = ui_object.get_siebel_options
+          else
+            if property.is_a?(Hash)
+              property.each do |key, value|
+                case key
+                when :cell
+                  actual = ui_object.get_table_cell(value[0].to_i, value[1].to_i)
+                when :row
+                  actual = ui_object.get_table_row(value.to_i)
+                when :column
+                  actual = ui_object.get_table_column(value.to_i)
+                when :item
+                  actual = ui_object.get_list_item(value.to_i)
+                when :attribute
+                  actual = ui_object.get_attribute(value)
+                when :native_attribute
+                  actual = ui_object.get_native_attribute(value)
                 end
               end
+            else
+              props = property.to_s.split('_')
+              case props[0].to_sym
+              when :cell
+                cell = property.to_s.delete('cell_')
+                cell = cell.split('_')
+                actual = ui_object.get_table_cell(cell[0].to_i, cell[1].to_i)
+              when :row
+                row = property.to_s.delete('row_')
+                actual = ui_object.get_table_row(row.to_i)
+              when :column
+                column = property.to_s.delete('column_')
+                actual = ui_object.get_table_column(column.to_i)
+              when :item
+                item = property.to_s.delete('item_')
+                actual = ui_object.get_list_item(item.to_i)
+              end
+            end
           end
           error_msg = "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) #{property} property to"
           ExceptionQueue.enqueue_comparison(state, actual, error_msg)
@@ -838,18 +838,18 @@ module TestCentricity
             data_field.clear
           else
             case data_field.get_object_type
-              when :checkbox
-                data_field.set_checkbox_state(data_param.to_bool)
-              when :selectlist
-                data_field.get_siebel_object_type == 'JComboBox' ?
-                    data_field.set("#{data_param}\t") :
-                    data_field.choose_option(data_param)
-              when :radio
-                data_field.set_selected_state(data_param.to_bool)
-              when :textfield
-                data_field.set("#{data_param}\t")
-              when :section
-                data_field.set(data_param)
+            when :checkbox
+              data_field.set_checkbox_state(data_param.to_bool)
+            when :selectlist
+              data_field.get_siebel_object_type == 'JComboBox' ?
+                  data_field.set("#{data_param}\t") :
+                  data_field.choose_option(data_param)
+            when :radio
+              data_field.set_selected_state(data_param.to_bool)
+            when :textfield
+              data_field.set("#{data_param}\t")
+            when :section
+              data_field.set(data_param)
             end
           end
         end

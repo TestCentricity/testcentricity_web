@@ -24,7 +24,7 @@ module TestCentricity
         sleep(5)
         puts 'Appium Server is being restarted'
       else
-        puts 'Appium Server is being started'
+        puts 'Appium Server is starting'
       end
       # start new Appium Server
       @process = ChildProcess.build(*parameters)

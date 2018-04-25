@@ -96,12 +96,6 @@ module TestCentricity
       end
     end
 
-    # @deprecated Please use {#browser=} instead
-    def self.set_browser(browser)
-      warn "[DEPRECATION] 'TestCentricity::Environ.set_browser' is deprecated.  Please use 'Environ.browser =' instead."
-      @browser = browser.downcase.to_sym
-    end
-
     def self.browser=(browser)
       @browser = browser.downcase.to_sym
     end
@@ -126,24 +120,12 @@ module TestCentricity
       @session_state
     end
 
-    # @deprecated Please use {#os=} instead
-    def self.set_os(os)
-      warn "[DEPRECATION] 'TestCentricity::Environ.set_os' is deprecated.  Please use 'Environ.os =' instead."
-      @os = os
-    end
-
     def self.os=(os)
       @os = os
     end
 
     def self.os
       @os
-    end
-
-    # @deprecated Please use {#device=} instead
-    def self.set_device(device)
-      warn "[DEPRECATION] 'TestCentricity::Environ.set_device' is deprecated.  Please use 'Environ.device =' instead."
-      @device = device
     end
 
     def self.device=(device)
@@ -164,12 +146,6 @@ module TestCentricity
 
     def self.is_web?
       @device == :web
-    end
-
-    # @deprecated Please use {#device_type=} instead
-    def self.set_device_type(type)
-      warn "[DEPRECATION] 'TestCentricity::Environ.set_device_type' is deprecated.  Please use 'Environ.device_type =' instead."
-      @device_type = type.downcase
     end
 
     def self.device_type=(type)
@@ -228,12 +204,6 @@ module TestCentricity
       @tunneling
     end
 
-    # @deprecated Please use {#platform=} instead
-    def self.set_platform(platform)
-      warn "[DEPRECATION] 'TestCentricity::Environ.set_platform' is deprecated.  Please use 'Environ.platform =' instead."
-      @platform = platform
-    end
-
     def self.platform=(platform)
       @platform = platform
     end
@@ -254,24 +224,12 @@ module TestCentricity
       @signed_in
     end
 
-    # @deprecated Please use {#portal_state=} instead
-    def self.set_portal_state(portal_state)
-      warn "[DEPRECATION] 'TestCentricity::Environ.set_portal_state' is deprecated.  Please use 'Environ.portal_state =' instead."
-      @portal_status = portal_state
-    end
-
     def self.portal_state=(portal_state)
       @portal_status = portal_state
     end
 
     def self.portal_state
       @portal_status
-    end
-
-    # @deprecated Please use {#portal_context=} instead
-    def self.set_portal_context(portal_context)
-      warn "[DEPRECATION] 'TestCentricity::Environ.set_portal_context' is deprecated.  Please use 'Environ.portal_context =' instead."
-      @portal_context = portal_context
     end
 
     def self.portal_context=(portal_context)
