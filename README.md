@@ -22,6 +22,12 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 
 
 ## What's New
+###Version 3.0.1
+
+* Updated device profiles for iPhone 7 (iOS 11) with Mobile Firefox browser and iPad (iOS 10) with Mobile Firefox browser.
+* Updated device profiles for iPhone 7 (iOS 11) with Mobile Edge browser and iPad (iOS 10) with Mobile Edge browser.
+* Updated device profiles for iPhone 7 (iOS 11) with Mobile Chrome browser and iPad (iOS 10) with Mobile Chrome browser.
+
 ###Version 3.0.0
 
 * The TestCentricity™ Web gem now works with Selenium-WebDriver version 3.11 and **geckodriver** version 0.20.1 (or later) to support testing of the latest
