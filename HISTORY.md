@@ -1,4 +1,8 @@
 
+###Version 3.0.3
+
+* Pinning to Capybara version 2.18.0 because Capybara 3.x breaks several `SelectList` methods.
+
 ###Version 3.0.2
 
 * `PageManager.find_page` method now raises an exception if the requested page object has not been defined and instantiated.
