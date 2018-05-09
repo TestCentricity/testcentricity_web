@@ -100,10 +100,7 @@ module TestCentricity
           send_keys(:backspace)
         end
         sleep(0.5)
-        send_keys(:tab)
-        sleep(0.5)
-        length = get_value.length
-        if length > 0
+        if get_value.length > 0
           set('')
           sleep(0.5)
           send_keys(:tab)

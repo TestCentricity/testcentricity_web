@@ -1,5 +1,6 @@
 require 'capybara/cucumber'
 require 'test/unit'
+require 'appium_lib'
 
 require 'testcentricity_web/version'
 require 'testcentricity_web/world_extensions'
@@ -77,7 +78,9 @@ module TestCentricity
 
     def self.find_page(page_name)
       (page_name.is_a? String) ? page_id = page_name.gsub(/\s+/, '').downcase.to_sym : page_id = page_name
-      @page_objects[page_id]
+      page = @page_objects[page_id]
+      raise "No page object defined for page named '#{page_name}'" unless page
+      page
     end
 
     # Get the currently active PageObject

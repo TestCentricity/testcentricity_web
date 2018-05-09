@@ -1,4 +1,8 @@
 
+###Version 3.0.2
+
+* `PageManager.find_page` method now raises an exception if the requested page object has not been defined and instantiated.
+
 ###Version 3.0.1
 
 * Updated device profiles for iPhone 7 (iOS 11) with Mobile Firefox browser and iPad (iOS 10) with Mobile Firefox browser.
