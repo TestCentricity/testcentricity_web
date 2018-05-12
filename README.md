@@ -25,6 +25,10 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 
 A complete history of bug fixes and new features can be found in the {file:HISTORY.html HISTORY} file.
 
+###Version 3.0.4
+
+* Refactored `SelectList` methods to work with Capybara version 3.x.
+
 ###Version 3.0.3
 
 * Pinning to Capybara version 2.18.0 because Capybara 3.x breaks several `SelectList` methods.
