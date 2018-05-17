@@ -4,7 +4,7 @@
 
 
 The TestCentricity™ Web core generic framework for desktop and mobile web site testing implements a Page Object and Data Object Model DSL for
-use with Cucumber, Capybara, and Selenium-Webdriver.
+use with Cucumber, Capybara (version 3.x), and Selenium-Webdriver (version 3.x).
 
 An example project that demonstrates the implementation of a page object model framework using Cucumber and TestCentricity™ can be found [here](https://github.com/TestCentricity/tc_web_sample).
 
@@ -23,7 +23,11 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 
 ## What's New
 
-A complete history of bug fixes and new features can be found in the {file:HISTORY.html HISTORY} file.
+A complete history of bug fixes and new features can be found in the {file:HISTORY.md HISTORY} file.
+
+###Version 3.0.5
+
+* Added `Environ.headless` method. Will return `true` if testing against a *headless* instance of Chrome or Firefox..
 
 ###Version 3.0.4
 

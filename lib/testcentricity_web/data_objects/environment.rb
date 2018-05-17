@@ -29,6 +29,7 @@ module TestCentricity
     attr_accessor :test_environment
     attr_accessor :browser
     attr_accessor :browser_size
+    attr_accessor :headless
     attr_accessor :session_state
     attr_accessor :os
     attr_accessor :device
@@ -110,6 +111,14 @@ module TestCentricity
 
     def self.browser_size
       @browser_size
+    end
+
+    def self.headless=(state)
+      @headless = state
+    end
+
+    def self.headless
+      @headless
     end
 
     def self.session_state=(session_state)

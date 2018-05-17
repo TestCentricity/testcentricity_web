@@ -18,6 +18,7 @@ module TestCentricity
       Environ.driver      = :webdriver
       Environ.platform    = :desktop
       Environ.browser     = browser
+      Environ.headless    = false
       Environ.device      = :web
       Environ.device_name = 'browser'
 
@@ -116,6 +117,8 @@ module TestCentricity
             end
             @webdriver_path = File.join(project_path, base_path, path_to_driver)
             Selenium::WebDriver::Firefox.driver_path = @webdriver_path
+          else
+            raise "#{ENV['HOST_BROWSER']} is not a valid host browser for mobile browser emulation"
           end
         end
       end
@@ -226,8 +229,11 @@ module TestCentricity
       browser = ENV['WEB_BROWSER'].downcase.to_sym
 
       case browser
-      when :firefox, :chrome, :ie, :safari, :edge, :chrome_headless, :firefox_headless, :firefox_legacy
+      when :firefox, :chrome, :ie, :safari, :edge, :firefox_legacy
         Environ.platform = :desktop
+      when :chrome_headless, :firefox_headless
+        Environ.platform = :desktop
+        Environ.headless = true
       else
         Environ.platform = :mobile
         Environ.device_name = Browsers.mobile_device_name(ENV['WEB_BROWSER'])
@@ -255,17 +261,15 @@ module TestCentricity
             Capybara::Selenium::Driver.new(app, browser: :firefox, options: options, driver_path: @webdriver_path)
           end
         when :chrome, :chrome_headless
-          if browser == :chrome
-            options = Selenium::WebDriver::Chrome::Options.new
-          else
-            options = Selenium::WebDriver::Chrome::Options.new(args: %w[headless disable-gpu no-sandbox])
-          end
+          (browser == :chrome) ?
+              options = Selenium::WebDriver::Chrome::Options.new :
+              options = Selenium::WebDriver::Chrome::Options.new(args: %w[headless disable-gpu no-sandbox])
           options.add_argument('--disable-infobars')
           options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
           Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
         else
           user_agent = Browsers.mobile_device_agent(ENV['WEB_BROWSER'])
-          ENV['HOST_BROWSER'] ? host_browser = ENV['HOST_BROWSER'].downcase.to_sym : host_browser = :firefox
+          ENV['HOST_BROWSER'] ? host_browser = ENV['HOST_BROWSER'].downcase.to_sym : host_browser = :chrome
           case host_browser
           when :firefox
             profile = Selenium::WebDriver::Firefox::Profile.new

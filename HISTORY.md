@@ -1,3 +1,8 @@
+# HISTORY
+
+###Version 3.0.5
+
+* Added `Environ.headless` method. Will return `true` if testing against a *headless* instance of Chrome or Firefox..
 
 ###Version 3.0.4
 
