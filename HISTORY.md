@@ -1,8 +1,17 @@
 # HISTORY
 
+###Version 3.0.6
+
+* Added support for connecting to and running your tests on cloud hosted browsers on the Gridlastic cloud platform.
+* Added support for specifying Selenium WebDriver version, browser-specific WebDriver version (for Firefox, IE, and Safari), and browser console
+logs when running tests on BrowserStack hosted browsers. Refer to **section 8.5.1 (Remote desktop browsers on the BrowserStack service)** in the README.
+* Updated device profiles for iPhone 7 (iOS 11) with Mobile Firefox browser and iPad (iOS 11) with Mobile Firefox browser.
+* Updated device profiles for iPhone 7 (iOS 11) with Mobile Edge browser and iPad (iOS 11) with Mobile Edge browser.
+* Updated device profiles for iPhone 7 (iOS 11) with Mobile Chrome browser and iPad (iOS 11) with Mobile Chrome browser.
+
 ###Version 3.0.5
 
-* Added `Environ.headless` method. Will return `true` if testing against a *headless* instance of Chrome or Firefox..
+* Added `Environ.headless` method. Will return `true` if testing against a *headless* instance of Chrome or Firefox.
 
 ###Version 3.0.4
 

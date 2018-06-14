@@ -3,8 +3,8 @@
 [![Gem Version](https://badge.fury.io/rb/testcentricity_web.svg)](https://badge.fury.io/rb/testcentricity_web)  [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause)
 
 
-The TestCentricity™ Web core generic framework for desktop and mobile web site testing implements a Page Object and Data Object Model DSL for
-use with Cucumber, Capybara (version 3.x), and Selenium-Webdriver (version 3.x).
+The TestCentricity™ Web core generic framework for desktop and mobile web browser-based application testing implements a Page Object and Data
+Object Model DSL for use with Cucumber, Capybara (version 3.x), and Selenium-Webdriver (version 3.x).
 
 An example project that demonstrates the implementation of a page object model framework using Cucumber and TestCentricity™ can be found [here](https://github.com/TestCentricity/tc_web_sample).
 
@@ -15,8 +15,8 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 * mobile Safari browsers on iOS device simulators or physical iOS devices (using Appium and XCode on OS X)
 * mobile Chrome or Android browsers on Android Studio virtual device emulators (using Appium and Android Studio on OS X)
 * cloud hosted desktop (Firefox, Chrome, Safari, IE, or Edge) or mobile (iOS Mobile Safari or Android) web browsers using the [Browserstack](https://www.browserstack.com/list-of-browsers-and-platforms?product=automate),
-[Sauce Labs](https://saucelabs.com/open-source#automated-testing-platform), [CrossBrowserTesting](https://crossbrowsertesting.com/selenium-testing), or
-[TestingBot](https://testingbot.com/features) services.
+[Sauce Labs](https://saucelabs.com/open-source#automated-testing-platform), [CrossBrowserTesting](https://crossbrowsertesting.com/selenium-testing),
+[TestingBot](https://testingbot.com/features), or [Gridlastic](https://www.gridlastic.com/test-environments.html) services.
 * web portals utilizing JavaScript front end application frameworks like Ember, React, Angular, and GWT
 * enterprise web portals build using Siebel Open UI
 
@@ -25,9 +25,18 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 
 A complete history of bug fixes and new features can be found in the {file:HISTORY.md HISTORY} file.
 
+###Version 3.0.6
+
+* Added support for connecting to and running your tests on cloud hosted browsers on the Gridlastic cloud platform.
+* Added support for specifying Selenium WebDriver version, browser-specific WebDriver version (for Firefox, IE, and Safari), and browser console
+logs when running tests on BrowserStack hosted browsers. Refer to **section 8.5.1 (Remote desktop browsers on the BrowserStack service)** below.
+* Updated device profiles for iPhone 7 (iOS 11) with Mobile Firefox browser and iPad (iOS 11) with Mobile Firefox browser.
+* Updated device profiles for iPhone 7 (iOS 11) with Mobile Edge browser and iPad (iOS 11) with Mobile Edge browser.
+* Updated device profiles for iPhone 7 (iOS 11) with Mobile Chrome browser and iPad (iOS 11) with Mobile Chrome browser.
+
 ###Version 3.0.5
 
-* Added `Environ.headless` method. Will return `true` if testing against a *headless* instance of Chrome or Firefox..
+* Added `Environ.headless` method. Will return `true` if testing against a *headless* instance of Chrome or Firefox.
 
 ###Version 3.0.4
 
@@ -741,9 +750,9 @@ the `WEB_BROWSER` Environment Variable must be set to one of the values from the
 `ipad`                |`chrome`        |1024 x 768 |landscape |iOS 10
 `ipad_pro`            |`chrome`        |1366 x 1024|landscape |iOS 11
 `ipad_pro_10_5`       |`chrome`        |1112 x 834 |landscape |iOS 11
-`ipad_chrome`         |`chrome`        |1024 x 768 |landscape |iOS 10 - Mobile Chrome browser for iOS
-`ipad_firefox`        |`chrome`        |1024 x 768 |landscape |iOS 10 - Mobile Firefox browser for iOS
-`ipad_edge`           |`chrome`        |1024 x 768 |landscape |iOS 10 - Mobile Edge browser for iOS
+`ipad_chrome`         |`chrome`        |1024 x 768 |landscape |iOS 11 - Mobile Chrome browser for iOS
+`ipad_firefox`        |`chrome`        |1024 x 768 |landscape |iOS 11 - Mobile Firefox browser for iOS
+`ipad_edge`           |`chrome`        |1024 x 768 |landscape |iOS 11 - Mobile Edge browser for iOS
 `android_tablet`      |`chrome`        |1024 x 768 |landscape |Android 3.0
 `kindle_fire`         |`chrome`        |1024 x 600 |landscape |
 `kindle_firehd7`      |`chrome`        |800 x 480  |landscape |Fire OS 3
@@ -828,7 +837,7 @@ Once your test environment is properly configured, the following **Environment V
 You can run your mobile web tests against the mobile Chrome or Android browser on emulated Android devices using Appium and Android Studio on OS X. You
 must install Android Studio, the desired Android version-specific virtual device emulators, and Appium. Refer to [this page](https://github.com/appium/ruby_console/blob/master/osx.md)
 for information on configuring Appium to work with the Android SDK. You must also ensure that the `appium_capybara` gem is installed and required as
-described in **section 2.4 (Setup - Using Appium)** above.
+described in **section 3.3 (Setup - Using Appium)** above.
 
 The Appium server must be running prior to invoking Cucumber to run your features/scenarios. Refer to [this page](https://appium.io/docs/en/writing-running-appium/web/chromedriver/index.html)
 for information on configuring Appium to use the correct version of Chromedriver required to work with the web browser supported by each Android OS version.
@@ -863,23 +872,26 @@ staging server inside your LAN, you must set the `TUNNELING` Environment Variabl
 #### Remote desktop browsers on the BrowserStack service
 
 For remotely hosted desktop web browsers on the BrowserStack service, the following **Environment Variables** must be set as described in
-the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities#capabilities-browserstack)
+the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities)
 for information regarding the specific capabilities.
 
 **Environment Variable** | **Description**
---------------- | ----------------
-`WEB_BROWSER`   | Must be set to `browserstack`
-`BS_USERNAME`   | Must be set to your BrowserStack account user name
-`BS_AUTHKEY`    | Must be set to your BrowserStack account access key
-`BS_OS`         | Must be set to `OS X` or `Windows`
-`BS_OS_VERSION` | Refer to `os_version` capability in chart
-`BS_BROWSER`    | Refer to `browser` capability in chart
-`BS_VERSION`    | [Optional] Refer to `browser_version` capability in chart. If not specified, latest stable version of browser will be used.
-`TUNNELING`     | Must be `true` if you are testing against internal/local servers (`true` or `false`). If `true`, the BrowserStack Local instance will be automatically started.
-`RESOLUTION`    | [Optional] Refer to supported screen `resolution` capability in chart
-`BROWSER_SIZE`  | [Optional] Specify width, height of browser window
-`RECORD_VIDEO`  | [Optional] Enable screen video recording during test execution (`true` or `false`)
-`TIME_ZONE`     | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart
+------------------ | ----------------
+`WEB_BROWSER`      | Must be set to `browserstack`
+`BS_USERNAME`      | Must be set to your BrowserStack account user name
+`BS_AUTHKEY`       | Must be set to your BrowserStack account access key
+`BS_OS`            | Must be set to `OS X` or `Windows`
+`BS_OS_VERSION`    | Refer to `os_version` capability in chart
+`BS_BROWSER`       | Refer to `browser` capability in chart
+`BS_VERSION`       | [Optional] Refer to `browser_version` capability in chart. If not specified, latest stable version of browser will be used.
+`TUNNELING`        | Must be `true` if you are testing against internal/local servers (`true` or `false`). If `true`, the BrowserStack Local instance will be automatically started.
+`RESOLUTION`       | [Optional] Refer to supported screen `resolution` capability in chart
+`BROWSER_SIZE`     | [Optional] Specify width, height of browser window
+`RECORD_VIDEO`     | [Optional] Enable screen video recording during test execution (`true` or `false`)
+`TIME_ZONE`        | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart
+`SELENIUM_VERSION` | [Optional] Specify Selenium WebDriver version to use
+`CONSOLE_LOGS`     | [Optional] Used to capture browser console logs. Refer to `browserstack.console` capability in chart
+`WD_VERSION`       | [Optional] Specify browser-specific WebDriver version to use. Refer to `browserstack.geckodriver`, `browserstack.ie.driver`, and `browserstack.safari.driver` capabilities in chart
 
 If the BrowserStack Local instance is running (`TUNNELING` Environment Variable is `true`), call the`TestCentricity::WebDriverConnect.close_tunnel` method
 upon completion of your test suite to stop the Local instance. Place the code shown below in your `env.rb` file.
@@ -893,7 +905,7 @@ upon completion of your test suite to stop the Local instance. Place the code sh
 #### Remote mobile browsers on the BrowserStack service
 
 For remotely hosted mobile web browsers on the BrowserStack service, the following **Environment Variables** must be set as described in
-the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities#capabilities-browserstack)
+the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities)
 for information regarding the specific capabilities.
 
 **Environment Variable** | **Description**
@@ -911,6 +923,7 @@ for information regarding the specific capabilities.
 `ORIENTATION`    | [Optional] Set to `portrait` or `landscape`
 `RECORD_VIDEO`   | [Optional] Enable screen video recording during test execution (`true` or `false`)
 `TIME_ZONE`      | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart
+`CONSOLE_LOGS`   | [Optional] Used to capture browser console logs. Refer to `browserstack.console` capability in chart
 
 
 
@@ -1010,6 +1023,26 @@ regarding the specific capabilities.
 `ORIENTATION` | [Optional] Set to `portrait` or `landscape`
 
 
+#### Remote desktop browsers on the Gridlastic service
+
+For remotely hosted desktop web browsers on the Gridlastic service, the following **Environment Variables** must be set as described in
+the table below. Refer to the [Gridlastic Selenium Grid Test Environments](https://www.gridlastic.com/test-environments.html) for information
+regarding the specific capabilities.
+
+**Environment Variable** | **Description**
+--------------- | ----------------
+`WEB_BROWSER`  | Must be set to `gridlastic`
+`GL_USERNAME`  | Must be set to your Gridlastic account user name
+`GL_AUTHKEY`   | Must be set to your Gridlastic account access key
+`GL_SUBDOMAIN` | Must be set to your Gridlastic subdomain
+`GL_OS`        | Refer to `platform` capability in chart
+`GL_BROWSER`   | Refer to `browserName` capability in chart
+`GL_VERSION`   | Refer to `version` capability in chart
+`GL_PLATFORM`  | Must be set to `windows` when running on Windows operating systems
+`RECORD_VIDEO` | [Optional] Enable screen video recording during test execution (`true` or `false`)
+`VIDEO_URL`    | [Optional] Video Files Location Endpoint URL shown in the **Your Selenium Grid Credentials** section of the Gridlastic Dashboard
+
+
 ### Using Browser specific Profiles in cucumber.yml
 
 While you can set **Environment Variables** in the command line when invoking Cucumber, a preferred method of specifying and managing
@@ -1022,8 +1055,9 @@ replace the *INSERT USER NAME HERE* and *INSERT PASSWORD HERE* placeholder text 
 service(s) that you intend to connect with.
 
 
-    <% desktop          = "--tags ~@wip --tags ~@failing --tags @desktop --require features BROWSER_SIZE=1600,1000" %>
-    <% mobile           = "--tags ~@wip --tags ~@failing --tags @mobile  --require features" %>
+    <% desktop          = "--tags @desktop --require features BROWSER_TILE=true BROWSER_SIZE=1500,1000" %>
+    <% tablet           = "--tags @desktop --require features BROWSER_TILE=true" %>
+    <% mobile           = "--tags @mobile  --require features BROWSER_TILE=true" %>
     
     #==============
     # profiles for locally hosted desktop web browsers
@@ -1040,16 +1074,15 @@ service(s) that you intend to connect with.
 
 
     #==============
-    # profiles for locally hosted mobile web browsers (emulated locally in Firefox browser)
-    # NOTE: to host emulated mobile browsers in Chrome set the HOST_BROWSER=chrome
+    # profiles for locally hosted mobile web browsers (emulated locally in Chrome browser)
     #==============
     
-    ipad:                WEB_BROWSER=ipad                HOST_BROWSER=chrome <%= mobile %>
-    ipad_pro:            WEB_BROWSER=ipad_pro            HOST_BROWSER=chrome <%= mobile %>
-    ipad_pro_10_5:       WEB_BROWSER=ipad_pro_10_5       HOST_BROWSER=chrome <%= mobile %>
-    ipad_chrome:         WEB_BROWSER=ipad_chrome         HOST_BROWSER=chrome <%= mobile %>
-    ipad_firefox:        WEB_BROWSER=ipad_firefox        HOST_BROWSER=chrome <%= mobile %>
-    ipad_edge:           WEB_BROWSER=ipad_edge           HOST_BROWSER=chrome <%= mobile %>
+    ipad:                WEB_BROWSER=ipad                HOST_BROWSER=chrome <%= tablet %>
+    ipad_pro:            WEB_BROWSER=ipad_pro            HOST_BROWSER=chrome <%= tablet %>
+    ipad_pro_10_5:       WEB_BROWSER=ipad_pro_10_5       HOST_BROWSER=chrome <%= tablet %>
+    ipad_chrome:         WEB_BROWSER=ipad_chrome         HOST_BROWSER=chrome <%= tablet %>
+    ipad_firefox:        WEB_BROWSER=ipad_firefox        HOST_BROWSER=chrome <%= tablet %>
+    ipad_edge:           WEB_BROWSER=ipad_edge           HOST_BROWSER=chrome <%= tablet %>
     iphone:              WEB_BROWSER=iphone              HOST_BROWSER=chrome <%= mobile %>
     iphone4:             WEB_BROWSER=iphone4             HOST_BROWSER=chrome <%= mobile %>
     iphone5:             WEB_BROWSER=iphone5             HOST_BROWSER=chrome <%= mobile %>
@@ -1065,17 +1098,17 @@ service(s) that you intend to connect with.
     iphoneX:             WEB_BROWSER=iphonex             HOST_BROWSER=chrome <%= mobile %>
     android_phone:       WEB_BROWSER=android_phone       HOST_BROWSER=chrome <%= mobile %>
     nexus6:              WEB_BROWSER=nexus6              HOST_BROWSER=chrome <%= mobile %>
-    android_tablet:      WEB_BROWSER=android_tablet      HOST_BROWSER=chrome <%= mobile %>
-    kindle_fire:         WEB_BROWSER=kindle_fire         HOST_BROWSER=chrome <%= mobile %>
-    kindle_firehd7:      WEB_BROWSER=kindle_firehd7      HOST_BROWSER=chrome <%= mobile %>
-    kindle_firehd8:      WEB_BROWSER=kindle_firehd8      HOST_BROWSER=chrome <%= mobile %>
+    android_tablet:      WEB_BROWSER=android_tablet      HOST_BROWSER=chrome <%= tablet %>
+    kindle_fire:         WEB_BROWSER=kindle_fire         HOST_BROWSER=chrome <%= tablet %>
+    kindle_firehd7:      WEB_BROWSER=kindle_firehd7      HOST_BROWSER=chrome <%= tablet %>
+    kindle_firehd8:      WEB_BROWSER=kindle_firehd8      HOST_BROWSER=chrome <%= tablet %>
     kindle_firehd10:     WEB_BROWSER=kindle_firehd10     HOST_BROWSER=chrome <%= tablet %>
-    surface:             WEB_BROWSER=surface             HOST_BROWSER=chrome <%= mobile %>
-    blackberry_playbook: WEB_BROWSER=blackberry_playbook HOST_BROWSER=chrome <%= mobile %>
-    samsung_galaxy_tab:  WEB_BROWSER=samsung_galaxy_tab  HOST_BROWSER=chrome <%= mobile %>
-    google_nexus7:       WEB_BROWSER=google_nexus7       HOST_BROWSER=chrome <%= mobile %>
-    google_nexus9:       WEB_BROWSER=google_nexus9       HOST_BROWSER=chrome <%= mobile %>
-    google_nexus10:      WEB_BROWSER=google_nexus10      HOST_BROWSER=chrome <%= mobile %>
+    surface:             WEB_BROWSER=surface             HOST_BROWSER=chrome <%= tablet %>
+    blackberry_playbook: WEB_BROWSER=blackberry_playbook HOST_BROWSER=chrome <%= tablet %>
+    samsung_galaxy_tab:  WEB_BROWSER=samsung_galaxy_tab  HOST_BROWSER=chrome <%= tablet %>
+    google_nexus7:       WEB_BROWSER=google_nexus7       HOST_BROWSER=chrome <%= tablet %>
+    google_nexus9:       WEB_BROWSER=google_nexus9       HOST_BROWSER=chrome <%= tablet %>
+    google_nexus10:      WEB_BROWSER=google_nexus10      HOST_BROWSER=chrome <%= tablet %>
     samsung_galaxy_s4:   WEB_BROWSER=samsung_galaxy_s4   HOST_BROWSER=chrome <%= mobile %>
     samsung_galaxy_s5:   WEB_BROWSER=samsung_galaxy_s5   HOST_BROWSER=chrome <%= mobile %>
     samsung_galaxy_s6:   WEB_BROWSER=samsung_galaxy_s6   HOST_BROWSER=chrome <%= mobile %>
@@ -1158,7 +1191,7 @@ service(s) that you intend to connect with.
     # profiles for remotely hosted web browsers on the BrowserStack service
     #==============
     
-    browserstack:       WEB_BROWSER=browserstack BS_USERNAME=<INSERT USER NAME HERE> BS_AUTHKEY=<INSERT PASSWORD HERE>
+    browserstack:       WEB_BROWSER=browserstack BS_USERNAME="<INSERT USER NAME HERE>" BS_AUTHKEY="<INSERT PASSWORD HERE>"
     bs_desktop:         --profile browserstack <%= desktop %> RESOLUTION="1920x1080"
     bs_mobile:          --profile browserstack <%= mobile %>
     
@@ -1183,26 +1216,14 @@ service(s) that you intend to connect with.
     bs_chrome_yos:      --profile bs_osx_yosemite BS_BROWSER="Chrome"
     bs_safari_yos:      --profile bs_osx_yosemite BS_BROWSER="Safari"
     
-    bs_osx_mavericks:   --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="Mavericks"
-    bs_ff_mav:          --profile bs_osx_mavericks BS_BROWSER="Firefox"
-    bs_chrome_mav:      --profile bs_osx_mavericks BS_BROWSER="Chrome"
-    bs_safari_mav:      --profile bs_osx_mavericks BS_BROWSER="Safari"
-    
     # BrowserStack Windows desktop browser profiles
-    bs_win7:            --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="7"
     bs_win8:            --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="8"
     bs_win10:           --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="10"
-    bs_ff_win7:         --profile bs_win7 BS_BROWSER="Firefox"
     bs_ff_win8:         --profile bs_win8 BS_BROWSER="Firefox"
     bs_ff_win10:        --profile bs_win10 BS_BROWSER="Firefox"
-    bs_chrome_win7:     --profile bs_win7 BS_BROWSER="Chrome"
     bs_chrome_win8:     --profile bs_win8 BS_BROWSER="Chrome"
     bs_chrome_win10:    --profile bs_win10 BS_BROWSER="Chrome"
     
-    bs_ie_win7:         --profile bs_win7 BS_BROWSER="IE"
-    bs_ie11_win7:       --profile bs_ie_win7 BS_VERSION="11.0"
-    bs_ie10_win7:       --profile bs_ie_win7 BS_VERSION="10.0"
-    bs_ie9_win7:        --profile bs_ie_win7 BS_VERSION="9.0"
     bs_ie10_win8:       --profile bs_win8 BS_BROWSER="IE" BS_VERSION="10.0"
     bs_ie11_win8:       --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="8.1" BS_BROWSER="IE" BS_VERSION="11.0"
     bs_ie11_win10:      --profile bs_win10 BS_BROWSER="IE" BS_VERSION="11.0"
@@ -1265,7 +1286,7 @@ service(s) that you intend to connect with.
     # profiles for remotely hosted web browsers on the CrossBrowserTesting service
     #==============
     
-    crossbrowser:       WEB_BROWSER=crossbrowser CB_USERNAME=<INSERT USER NAME HERE> CB_AUTHKEY=<INSERT PASSWORD HERE>
+    crossbrowser:       WEB_BROWSER=crossbrowser CB_USERNAME="<INSERT USER NAME HERE>" CB_AUTHKEY="<INSERT PASSWORD HERE>"
     cb_desktop:         --profile crossbrowser <%= desktop %>
     cb_mobile:          --profile crossbrowser <%= mobile %>
     
@@ -1285,27 +1306,16 @@ service(s) that you intend to connect with.
     cb_chrome_yos:      --profile cb_osx_yosemite CB_BROWSER="Chrome48x64"
     cb_safari_yos:      --profile cb_osx_yosemite CB_BROWSER="Safari8"
     
-    cb_osx_mavericks:   --profile cb_osx CB_OS="Mac10.9"
-    cb_ff_mav:          --profile cb_osx_mavericks CB_BROWSER="FF46"
-    cb_chrome_mav:      --profile cb_osx_mavericks CB_BROWSER="Chrome48x64"
-    cb_safari_mav:      --profile cb_osx_mavericks CB_BROWSER="Safari7"
-    
     # CrossBrowserTesting Windows desktop browser profiles
     cb_win:             --profile cb_desktop RESOLUTION="1920x1080"
-    cb_win7:            --profile cb_win CB_OS="Win7x64-C1"
     cb_win8:            --profile cb_win CB_OS="Win8"
     cb_win10:           --profile cb_win CB_OS="Win10"
-    cb_ff_win7:         --profile cb_win7 CB_BROWSER="FF46"
     cb_ff_win8:         --profile cb_win8 CB_BROWSER="FF46"
     cb_ff_win10:        --profile cb_win10 CB_BROWSER="FF46"
-    cb_chrome_win7:     --profile cb_win7 CB_BROWSER="Chrome48x64"
     cb_chrome_win8:     --profile cb_win8 CB_BROWSER="Chrome48x64"
     cb_chrome_win10:    --profile cb_win10 CB_BROWSER="Chrome48x64"
     cb_edge_win10:      --profile cb_win10 CB_BROWSER="Edge20"
     
-    cb_ie11_win7:       --profile cb_win7 CB_BROWSER="IE11"
-    cb_ie10_win7:       --profile cb_win7 CB_BROWSER="IE10"
-    cb_ie9_win7:        --profile cb_win7 CB_BROWSER="IE9"
     cb_ie11_win8:       --profile cb_win8 CB_BROWSER="IE11"
     cb_ie10_win8:       --profile cb_win8 CB_BROWSER="IE10"
     cb_ie11_win10:      --profile cb_win10 CB_BROWSER="IE11"
@@ -1332,7 +1342,7 @@ service(s) that you intend to connect with.
     # profiles for remotely hosted web browsers on the SauceLabs service
     #==============
     
-    saucelabs:          WEB_BROWSER=saucelabs SL_USERNAME=<INSERT USER NAME HERE> SL_AUTHKEY=<INSERT PASSWORD HERE>
+    saucelabs:          WEB_BROWSER=saucelabs SL_USERNAME="<INSERT USER NAME HERE>" SL_AUTHKEY="<INSERT PASSWORD HERE>"
     sl_desktop:         --profile saucelabs <%= desktop %>
     
     # SauceLabs OS X desktop browser profiles
@@ -1351,25 +1361,14 @@ service(s) that you intend to connect with.
     sl_chrome_yos:      --profile sl_osx_yosemite SL_BROWSER="chrome"
     sl_safari_yos:      --profile sl_osx_yosemite SL_BROWSER="safari"
     
-    sl_osx_mavericks:   --profile sl_desktop SL_OS="OS X 10.9" RESOLUTION="1920x1200"
-    sl_ff_mav:          --profile sl_osx_mavericks SL_BROWSER="firefox"
-    sl_chrome_mav:      --profile sl_osx_mavericks SL_BROWSER="chrome"
-    sl_safari_mav:      --profile sl_osx_mavericks SL_BROWSER="safari"
-    
     # SauceLabs Windows desktop browser profiles
-    sl_win7:            --profile sl_desktop SL_OS="Windows 7" RESOLUTION="1920x1200"
     sl_win8:            --profile sl_desktop SL_OS="Windows 8.1" RESOLUTION="1280x1024"
     sl_win10:           --profile sl_desktop SL_OS="Windows 10" RESOLUTION="1280x1024"
-    sl_ff_win7:         --profile sl_win7 SL_BROWSER="firefox"
     sl_ff_win8:         --profile sl_win8 SL_BROWSER="firefox"
     sl_ff_win10:        --profile sl_win10 SL_BROWSER="firefox"
-    sl_chrome_win7:     --profile sl_win7 SL_BROWSER="chrome"
     sl_chrome_win8:     --profile sl_win8 SL_BROWSER="chrome"
     sl_chrome_win10:    --profile sl_win10 SL_BROWSER="chrome"
     
-    sl_ie11_win7:       --profile sl_win7 SL_BROWSER="internet explorer" SL_VERSION="11.0"
-    sl_ie10_win7:       --profile sl_win7 SL_BROWSER="internet explorer" SL_VERSION="10.0"
-    sl_ie9_win7:        --profile sl_win7 SL_BROWSER="internet explorer" SL_VERSION="9.0"
     sl_ie11_win8:       --profile sl_win8 SL_BROWSER="internet explorer" SL_VERSION="11.0"
     sl_ie11_win10:      --profile sl_win10 SL_BROWSER="internet explorer"
     
@@ -1378,7 +1377,7 @@ service(s) that you intend to connect with.
     # profiles for remotely hosted web browsers on the TestingBot service
     #==============
     
-    testingbot:         WEB_BROWSER=testingbot TB_USERNAME=<INSERT USER NAME HERE> TB_AUTHKEY=<INSERT PASSWORD HERE>
+    testingbot:         WEB_BROWSER=testingbot TB_USERNAME="<INSERT USER NAME HERE>" TB_AUTHKEY="<INSERT PASSWORD HERE>"
     tb_desktop:         --profile testingbot <%= desktop %> RESOLUTION="1920x1200"
     tb_mobile:          --profile testingbot <%= mobile %>
     
@@ -1398,23 +1397,14 @@ service(s) that you intend to connect with.
     tb_chrome_yos:      --profile tb_osx_yosemite TB_BROWSER="chrome"
     tb_safari_yos:      --profile tb_osx_yosemite TB_BROWSER="safari" TB_VERSION="8"
     
-    tb_osx_mavericks:   --profile tb_desktop TB_OS="MAVERICKS"
-    tb_ff_mav:          --profile tb_osx_mavericks TB_BROWSER="firefox"
-    tb_chrome_mav:      --profile tb_osx_mavericks TB_BROWSER="chrome"
-    tb_safari_mav:      --profile tb_osx_mavericks TB_BROWSER="safari" TB_VERSION="7"
-    
     # TestingBot Windows desktop browser profiles
-    tb_win7:            --profile tb_desktop TB_OS="WIN7"
     tb_win8:            --profile tb_desktop TB_OS="WIN8"
     tb_win10:           --profile tb_desktop TB_OS="WIN10"
-    tb_ff_win7:         --profile tb_win7 TB_BROWSER="firefox"
     tb_ff_win8:         --profile tb_win8 TB_BROWSER="firefox"
     tb_ff_win10:        --profile tb_win10 TB_BROWSER="firefox"
-    tb_chrome_win7:     --profile tb_win7 TB_BROWSER="chrome"
     tb_chrome_win8:     --profile tb_win8 TB_BROWSER="chrome"
     tb_chrome_win10:    --profile tb_win10 TB_BROWSER="chrome"
     
-    tb_ie9_win7:        --profile tb_win7 TB_BROWSER="internet explorer" TB_VERSION="9"
     tb_ie11_win8:       --profile tb_win8 TB_BROWSER="internet explorer" TB_VERSION="11"
     tb_ie10_win8:       --profile tb_win8 TB_BROWSER="internet explorer" TB_VERSION="10"
     tb_ie11_win10:      --profile tb_win10 TB_BROWSER="internet explorer" TB_VERSION="11"
@@ -1435,7 +1425,6 @@ service(s) that you intend to connect with.
     tb_ipad_air2_10:     --profile tb_ios DEVICE_TYPE=tablet TB_VERSION="10.0" TB_DEVICE="iPad Air 2"
     tb_ipad_air2_93:     --profile tb_ios DEVICE_TYPE=tablet TB_VERSION="9.3"  TB_DEVICE="iPad Air 2"
     
-    
     # TestingBot Android mobile browser profiles
     tb_android:          --profile tb_mobile TB_OS="ANDROID" TB_BROWSER="browser" TB_PLATFORM="Android"
     tb_nexus_s:          --profile tb_android TB_VERSION="6.0" TB_DEVICE="Nexus S"
@@ -1445,6 +1434,31 @@ service(s) that you intend to connect with.
     tb_galaxy_s4:        --profile tb_android TB_VERSION="4.4" TB_DEVICE="Galaxy S4"
     tb_galaxy_s5:        --profile tb_android TB_VERSION="5.0" TB_DEVICE="Galaxy S5"
     tb_galaxy_s6:        --profile tb_android TB_VERSION="6.0" TB_DEVICE="Galaxy S6"
+
+
+    #==============
+    # profiles for remotely hosted web browsers on the Gridlastic service
+    #==============
+    
+    gridlastic:         WEB_BROWSER=gridlastic GL_USERNAME="<INSERT USER NAME HERE>" GL_AUTHKEY="<INSERT PASSWORD HERE>" GL_SUBDOMAIN="<INSERT SUBDOMAIN HERE>"
+    gl_video:           RECORD_VIDEO="True" VIDEO_URL="<INSERT VIDEO URL HERE>"
+    gl_desktop:         --profile gridlastic --profile gl_video <%= desktop %>
+    
+    # Gridlastic Windows desktop browser profiles
+    gl_windows:         --profile gl_desktop GL_PLATFORM="windows"
+    gl_win8:            --profile gl_windows GL_OS="WIN8"
+    gl_win8_1:          --profile gl_windows GL_OS="WIN8_1"
+    gl_win10:           --profile gl_windows GL_OS="WIN10"
+    gl_ff_win8:         --profile gl_win8_1 GL_BROWSER="firefox" GL_VERSION="59"
+    gl_ff_win10:        --profile gl_win10 GL_BROWSER="firefox" GL_VERSION="59"
+    gl_chrome_win8:     --profile gl_win8_1 GL_BROWSER="chrome" GL_VERSION="latest"
+    gl_chrome_win10:    --profile gl_win10 GL_BROWSER="chrome" GL_VERSION="latest"
+    
+    gl_ie11_win8:       --profile gl_win8_1 GL_BROWSER="internet explorer" GL_VERSION="11"
+    gl_ie10_win8:       --profile gl_win8 GL_BROWSER="internet explorer" GL_VERSION="10"
+    gl_ie11_win10:      --profile gl_win10 GL_BROWSER="internet explorer" GL_VERSION="11"
+    
+    gl_chrome_linux:    --profile gl_desktop GL_OS="LINUX" GL_BROWSER="chrome" GL_VERSION="latest"
 
 
 To specify a locally hosted target browser using a profile at runtime, you use the flag `--profile` or `-p` followed by the profile name when

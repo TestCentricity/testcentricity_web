@@ -52,7 +52,7 @@ module TestCentricity
         page.find(:css, @list_trigger).click
         sleep(1)
       end
-      if first(:css, @list_item, between: 0..999)
+      if first(:css, @list_item, minimum: 0)
         if option.is_a?(Array)
           option.each do |item|
             page.find(:css, @list_item, text: item.strip).click
@@ -89,7 +89,7 @@ module TestCentricity
     def get_options
       obj, = find_element
       object_not_found_exception(obj, nil)
-      if first(:css, @list_item, between: 0..999)
+      if first(:css, @list_item, minimum: 0)
         obj.all(@list_item).collect(&:text)
       else
         obj.all('option').collect(&:text)
@@ -108,7 +108,7 @@ module TestCentricity
     def get_option_count
       obj, = find_element
       object_not_found_exception(obj, nil)
-      if first(:css, @list_item, between: 0..999)
+      if first(:css, @list_item, minimum: 0)
         obj.all(@list_item).count
       else
         obj.all('option').count
@@ -134,7 +134,7 @@ module TestCentricity
     def get_selected_option
       obj, = find_element
       object_not_found_exception(obj, nil)
-      if first(:css, @list_item, between: 0..999)
+      if first(:css, @list_item, minimum: 0)
         obj.first(:css, @selected_item).text
       else
         obj.first('option[selected]').text
@@ -198,7 +198,15 @@ module TestCentricity
     def select_item(obj, option)
       if option.is_a?(Hash)
         obj.find("option[value='#{option[:value]}']").click if option.has_key?(:value)
-        obj.find(:xpath, "option[#{option[:index]}]").select_option if option.has_key?(:index)
+
+        if option.has_key?(:index)
+          if @locator_type == :xpath
+            obj.find(:xpath, "option[#{option[:index]}]").select_option
+          else
+            obj.find(:css, "option:nth-child(#{option[:index]})").select_option
+          end
+        end
+
         obj.select option[:text] if option.has_key?(:text)
       else
         obj.select option

@@ -32,6 +32,9 @@ module TestCentricity
       when :crossbrowser
         initialize_crossbrowser
         context = 'CrossBrowserTesting cloud service'
+      when :gridlastic
+        initialize_gridlastic
+        context = 'Gridlastic cloud service'
       when :saucelabs
         initialize_saucelabs
         context = 'Sauce Labs cloud service'
@@ -44,7 +47,7 @@ module TestCentricity
           context = 'Selenium Grid2'
         else
           initialize_local_browser
-          context = 'local instance'
+          context = 'local browser instance'
         end
       end
 
@@ -239,10 +242,12 @@ module TestCentricity
         Environ.device_name = Browsers.mobile_device_name(ENV['WEB_BROWSER'])
       end
 
-      Capybara.default_driver = :selenium
       Capybara.register_driver :selenium do |app|
         case browser
-        when :ie, :safari, :edge
+        when :safari
+          desired_caps = Selenium::WebDriver::Remote::Capabilities.safari(cleanSession: true)
+          Capybara::Selenium::Driver.new(app, browser: browser, desired_capabilities: desired_caps)
+        when :ie, :edge
           Capybara::Selenium::Driver.new(app, browser: browser)
         when :firefox_legacy
           Capybara::Selenium::Driver.new(app, browser: :firefox, marionette: false)
@@ -290,6 +295,7 @@ module TestCentricity
           end
         end
       end
+      Capybara.default_driver = :selenium
     end
 
     def self.initialize_browserstack
@@ -329,6 +335,8 @@ module TestCentricity
           capabilities['resolution'] = ENV['RESOLUTION'] if ENV['RESOLUTION']
         end
 
+        capabilities['browserstack.selenium_version'] = ENV['SELENIUM_VERSION'] if ENV['SELENIUM_VERSION']
+        capabilities['browserstack.console'] = ENV['CONSOLE_LOGS'] if ENV['CONSOLE_LOGS']
         capabilities['browserstack.timezone'] = ENV['TIME_ZONE'] if ENV['TIME_ZONE']
         capabilities['browserstack.video'] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
         capabilities['browserstack.debug'] = 'true'
@@ -354,8 +362,12 @@ module TestCentricity
           capabilities['ie.ensureCleanSession'] = 'true'
           capabilities['ie.browserCommandLineSwitches'] = 'true'
           capabilities['nativeEvents'] = 'true'
+          capabilities['browserstack.ie.driver'] = ENV['WD_VERSION'] if ENV['WD_VERSION']
+        when :firefox
+          capabilities['browserstack.geckodriver'] = ENV['WD_VERSION'] if ENV['WD_VERSION']
         when :safari
           capabilities['cleanSession'] = 'true'
+          capabilities['browserstack.safari.driver'] = ENV['WD_VERSION'] if ENV['WD_VERSION']
         when :iphone, :ipad
           capabilities['javascriptEnabled'] = 'true'
           capabilities['cleanSession'] = 'true'
@@ -418,6 +430,33 @@ module TestCentricity
       Capybara.run_server = false
     end
 
+    def self.initialize_gridlastic
+      browser = ENV['GL_BROWSER']
+      Environ.os = ENV['GL_OS']
+      endpoint = "http://#{ENV['GL_USERNAME']}:#{ENV['GL_AUTHKEY']}@#{ENV['GL_SUBDOMAIN']}.gridlastic.com:80/wd/hub"
+
+      capabilities = Selenium::WebDriver::Remote::Capabilities.new
+      capabilities['browserName']  = browser
+      capabilities['version']      = ENV['GL_VERSION'] if ENV['GL_VERSION']
+      capabilities['platform']     = ENV['GL_OS']
+      capabilities['platformName'] = ENV['GL_PLATFORM']
+      capabilities['video']        = ENV['RECORD_VIDEO'].capitalize if ENV['RECORD_VIDEO']
+
+      Capybara.register_driver :selenium do |app|
+        client = Selenium::WebDriver::Remote::Http::Default.new
+        client.timeout = 1200
+        Capybara::Selenium::Driver.new(app, http_client: client, browser: :remote, url: endpoint, desired_capabilities: capabilities)
+      end
+
+      Capybara.default_driver = :selenium
+      Capybara.run_server = false
+
+      if ENV['RECORD_VIDEO']
+        session_id = Capybara.current_session.driver.browser.instance_variable_get(:@bridge).session_id
+        puts "TEST VIDEO URL: #{ENV['VIDEO_URL']}#{session_id}"
+      end
+    end
+
     def self.initialize_remote
       browser = ENV['WEB_BROWSER']
       endpoint = ENV['REMOTE_ENDPOINT'] || 'http://127.0.0.1:4444/wd/hub'
@@ -472,16 +511,14 @@ module TestCentricity
 
       Environ.os = ENV['TB_OS']
       if ENV['TB_PLATFORM']
-        if ENV['ORIENTATION']
-          Environ.device_orientation  = ENV['ORIENTATION']
-        end
+        Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
         Environ.device_os   = ENV['TB_PLATFORM']
         Environ.device_name = ENV['TB_DEVICE']
         Environ.device      = :device
         Environ.platform    = :mobile
         Environ.device_type = ENV['DEVICE_TYPE'] if ENV['DEVICE_TYPE']
       else
-        Environ.platform    = :desktop
+        Environ.platform = :desktop
       end
 
       ENV['TUNNELING'] ?
@@ -498,11 +535,9 @@ module TestCentricity
         capabilities['platform'] = ENV['TB_OS']
         capabilities['record_video'] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
         if ENV['TB_PLATFORM']
-          if ENV['ORIENTATION']
-             capabilities['orientation'] = ENV['ORIENTATION']
-          end
+          capabilities['orientation']  = ENV['ORIENTATION'] if ENV['ORIENTATION']
           capabilities['platformName'] = ENV['TB_PLATFORM']
-          capabilities['deviceName'] = ENV['TB_DEVICE']
+          capabilities['deviceName']   = ENV['TB_DEVICE']
         end
 
         Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, desired_capabilities: capabilities)
@@ -512,7 +547,6 @@ module TestCentricity
 
       Capybara.default_driver = :testingbot
       Capybara.run_server = false
-
     end
   end
 end

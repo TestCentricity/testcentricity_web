@@ -12,13 +12,13 @@ Gem::Specification.new do |spec|
   spec.email         = ['testcentricity@gmail.com']
   spec.summary       = %q{A Page Object and Data Object Model Framework for desktop and mobile web testing}
   spec.description   = %q{
-    The TestCentricity™ Web core generic framework for desktop and mobile web site testing implements a Page Object Model DSL
-    for use with Cucumber, Capybara, and Selenium-Webdriver. The TestCentricity™ Web gem supports running automated tests
-    against locally hosted desktop browsers (Firefox, Chrome, Safari, or IE), locally hosted emulated mobile browsers (iOS,
-    Android, Windows Phone, Blackberry, Kindle Fire) running within a locally hosted instance of Chrome, mobile Safari browsers on
-    iOS device simulators or physical iOS devices  (using Appium and XCode on OS X), mobile Chrome or Android browsers on Android
-    Studio virtual device emulators (using Appium and Android Studio on OS X), or cloud hosted desktop or mobile web browsers
-    (using the BrowserStack, Sauce Labs, CrossBrowserTesting, or TestingBot services).}
+    The TestCentricity™ Web core generic framework for desktop and mobile web browser-based applications testing implements
+    a Page Object Model DSL for use with Cucumber, Capybara, and Selenium-Webdriver. The gem provides support for running
+    automated tests against locally hosted desktop browsers, locally hosted emulated mobile browsers (iOS, Android, Windows
+    Phone, Blackberry, Kindle Fire) running within a locally hosted instance of Chrome, mobile Safari browsers on iOS device
+    simulators or physical iOS devices (using Appium and XCode on OS X), mobile Chrome or Android browsers on Android Studio
+    virtual device emulators (using Appium and Android Studio on OS X), or cloud hosted desktop or mobile web browsers (using
+    the BrowserStack, Sauce Labs, CrossBrowserTesting, TestingBot, or Gridlastic services).}
   spec.homepage      = ''
   spec.license       = 'BSD3'
 
@@ -31,16 +31,16 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 1.5'
   spec.add_development_dependency 'rake'
 
-  spec.add_dependency 'capybara'
-  spec.add_dependency 'test-unit'
-  spec.add_dependency 'selenium-webdriver', '>= 3.11.0'
-  spec.add_dependency 'faker'
-  spec.add_dependency 'chronic', '0.10.2'
-  spec.add_dependency 'spreadsheet', '1.1.1'
-  spec.add_dependency 'os'
-  spec.add_dependency 'i18n'
-  spec.add_dependency 'browserstack-local'
-  spec.add_dependency 'appium_lib'
+  spec.add_runtime_dependency 'capybara'
+  spec.add_runtime_dependency 'test-unit'
+  spec.add_runtime_dependency 'selenium-webdriver', ['>= 3.11.0', '< 4.0']
+  spec.add_runtime_dependency 'faker'
+  spec.add_runtime_dependency 'chronic', '0.10.2'
+  spec.add_runtime_dependency 'spreadsheet', '1.1.1'
+  spec.add_runtime_dependency 'os'
+  spec.add_runtime_dependency 'i18n'
+  spec.add_runtime_dependency 'browserstack-local'
+  spec.add_runtime_dependency 'appium_lib'
 
   spec.add_runtime_dependency 'childprocess', '~> 0.5'
 end
