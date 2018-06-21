@@ -12,6 +12,7 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 * locally hosted desktop browsers (Firefox, Chrome, Safari, or IE)
 * locally hosted emulated iOS Mobile Safari, Android, Windows Phone, or Blackberry mobile browsers (running within a local instance of Chrome)
 * locally hosted "headless" Chrome or Firefox browsers
+* desktop and emulated mobile web browsers hosted on Selenium Grid and Dockerized Selenium Grid environments
 * mobile Safari browsers on iOS device simulators or physical iOS devices (using Appium and XCode on OS X)
 * mobile Chrome or Android browsers on Android Studio virtual device emulators (using Appium and Android Studio on OS X)
 * cloud hosted desktop (Firefox, Chrome, Safari, IE, or Edge) or mobile (iOS Mobile Safari or Android) web browsers using the [Browserstack](https://www.browserstack.com/list-of-browsers-and-platforms?product=automate),
@@ -24,6 +25,13 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 ## What's New
 
 A complete history of bug fixes and new features can be found in the {file:HISTORY.md HISTORY} file.
+
+###Version 3.0.7
+
+* Added support for connecting to and running your tests in desktop and emulated mobile web browsers hosted on Selenium Grid and Dockerized Selenium
+Grid environments.
+* Added `Environ.report_header` method that can be used to provide formatted test environment information in HTML test results.
+* Deprecated `TestCentricity::WebDriverConnect.set_webdriver_path` method because the correct WebDriver is now automatically set.
 
 ###Version 3.0.6
 
@@ -798,6 +806,18 @@ To use a local instance of the Chrome desktop browser to host the emulated mobil
 to `chrome`.
 
 
+### Selenium Grid and Dockerized Selenium Grid hosted desktop and emulated mobile web browsers
+
+For desktop and emulated mobile web browsers running on Selenium Grid or Dockerized Selenium Grid environments, the following **Environment Variables** must be set
+as described in the table below.
+
+**Environment Variable** | **Description**
+---------------   | ----------------
+`WEB_BROWSER`     | Must be set to one of the following desktop browsers - `chrome`, `chrome_headless`, `firefox`, `ie`, `edge`, or `safari` or any of the mobile web browsers described above.
+`SELENIUM`        | Must be set to `remote`
+`REMOTE_ENDPOINT` | Must be set to the URL of the Grid hub, which is usually `http://localhost:4444/wd/hub`
+
+
 ### Mobile Safari browser on iOS Simulators or iOS Physical Devices
 
 You can run your mobile web tests against the mobile Safari browser on simulated iOS devices or physically connected iOS devices using Appium and XCode on
@@ -1050,9 +1070,10 @@ target web browsers is to create browser specific **Profiles** that set the appr
 in your `cucumber.yml` file.
 
 Below is a list of Cucumber **Profiles** for supported locally and remotely hosted desktop and mobile web browsers (put these in in your
-`cucumber.yml` file). Before you can use the BrowserStack, CrossBrowserTesting, Sauce Labs, or TestingBot services, you will need to
+`cucumber.yml` file). Before you can use the BrowserStack, CrossBrowserTesting, Sauce Labs, TestingBot, or Gridlastic services, you will need to
 replace the *INSERT USER NAME HERE* and *INSERT PASSWORD HERE* placeholder text with your user account and authorization code for the cloud
-service(s) that you intend to connect with.
+service(s) that you intend to connect with. When using the Gridlastic service, you will also need replace the *INSERT SUBDOMAIN HERE* placeholder
+text with the Subdomain specified on the Grid Configuration Parameters section of the Gridlastic Dashboard.
 
 
     <% desktop          = "--tags @desktop --require features BROWSER_TILE=true BROWSER_SIZE=1500,1000" %>
@@ -1071,6 +1092,11 @@ service(s) that you intend to connect with.
     chrome_headless:    WEB_BROWSER=chrome_headless  <%= desktop %>
     firefox_headless:   WEB_BROWSER=firefox_headless <%= desktop %>
     firefox_legacy:     WEB_BROWSER=firefox_legacy   <%= desktop %>
+
+    #==============
+    # profile for Selenium Grid and Dockerized Selenium Grid hosted desktop web browsers
+    #==============
+    grid:               SELENIUM=remote REMOTE_ENDPOINT="http://localhost:4444/wd/hub"
 
 
     #==============
@@ -1462,13 +1488,18 @@ service(s) that you intend to connect with.
 
 
 To specify a locally hosted target browser using a profile at runtime, you use the flag `--profile` or `-p` followed by the profile name when
-invoking Cucumber in the command line. For instance, the following command invokes Cucumber and specifies that a local instance of Chrome
+invoking Cucumber in the command line. For instance, the following command invokes Cucumber and specifies that a local instance of Firefox
 will be used as the target web browser:
     
-    $ cucumber -p chrome
+    $ cucumber -p firefox
 
 
-The following command specifies that Cucumber will run tests against a local instance of Firefox, which will be used to emulate an iPad Pro
+The following command specifies that Cucumber will run tests against an instance of Chrome hosted within a Dockerized Selenium Grid environment"
+    
+    $ cucumber -p chrome -p grid
+
+
+The following command specifies that Cucumber will run tests against a local instance of Chrome, which will be used to emulate an iPad Pro
 in landscape orientation:
     
     $ cucumber -p ipad_pro -p landscape
@@ -1497,7 +1528,7 @@ landscape orientation running on the BrowserStack service:
 
 ## Web Test Automation Framework Implementation
 
- <img src="http://i.imgur.com/RvpxjzW.jpg" width="1024" alt="Web Framework Overview" title="Web Framework Overview">
+ <img src="https://i.imgur.com/Ca6XPCS.jpg" width="1024" alt="Web Framework Overview" title="Web Framework Overview">
 
 
 

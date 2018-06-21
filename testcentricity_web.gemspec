@@ -41,6 +41,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'i18n'
   spec.add_runtime_dependency 'browserstack-local'
   spec.add_runtime_dependency 'appium_lib'
-
+  spec.add_runtime_dependency 'webdrivers', '~> 3.3'
   spec.add_runtime_dependency 'childprocess', '~> 0.5'
 end

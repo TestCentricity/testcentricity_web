@@ -1,5 +1,12 @@
 # HISTORY
 
+###Version 3.0.7
+
+* Added support for connecting to and running your tests in desktop and emulated mobile web browsers hosted on Selenium Grid and Dockerized Selenium
+Grid environments.
+* Added `Environ.report_header` method that can be used to provide formatted test environment information in HTML test results.
+* Deprecated `TestCentricity::WebDriverConnect.set_webdriver_path` method because the correct WebDriver is now automatically set.
+
 ###Version 3.0.6
 
 * Added support for connecting to and running your tests on cloud hosted browsers on the Gridlastic cloud platform.

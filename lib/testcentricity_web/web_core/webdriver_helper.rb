@@ -1,13 +1,13 @@
 require 'selenium-webdriver'
 require 'os'
 require 'browserstack/local'
+require 'webdrivers'
 
 
 module TestCentricity
   module WebDriverConnect
     include Capybara::DSL
 
-    attr_accessor :webdriver_path
     attr_accessor :bs_local
 
     def self.initialize_web_driver(app_host = nil)
@@ -44,7 +44,7 @@ module TestCentricity
       else
         if ENV['SELENIUM'] == 'remote'
           initialize_remote
-          context = 'Selenium Grid2'
+          context = 'Selenium Grid'
         else
           initialize_local_browser
           context = 'local browser instance'
@@ -64,68 +64,10 @@ module TestCentricity
       Capybara.app_host = url
     end
 
+    # @deprecated Correct webdriver is now automatically loaded
     # Set the WebDriver path for Chrome, Firefox, IE, or Edge browsers
     def self.set_webdriver_path(project_path)
-      path_to_driver = nil
-      # check for existence of /webdrivers or /features/support/drivers folders
-      base_path = 'features/support/drivers'
-      unless File.directory?(File.join(project_path, base_path))
-        base_path = 'webdrivers'
-        unless File.directory?(File.join(project_path, base_path))
-          raise 'Could not find WebDriver files in /webdrivers or /features/support/drivers folders'
-        end
-      end
-      # set WebDriver path based on browser and operating system
-      case ENV['WEB_BROWSER'].downcase.to_sym
-      when :chrome, :chrome_headless
-        if OS.osx?
-          path_to_driver = 'mac/chromedriver'
-        elsif OS.windows?
-          path_to_driver = 'windows/chromedriver.exe'
-        end
-        @webdriver_path = File.join(project_path, base_path, path_to_driver)
-        Selenium::WebDriver::Chrome.driver_path = @webdriver_path
-      when :firefox, :firefox_headless
-        if OS.osx?
-          path_to_driver = 'mac/geckodriver'
-        elsif OS.windows?
-          path_to_driver = 'windows/geckodriver.exe'
-        end
-        @webdriver_path = File.join(project_path, base_path, path_to_driver)
-        Selenium::WebDriver::Firefox.driver_path = @webdriver_path
-      when :ie
-        path_to_driver = 'windows/IEDriverServer.exe'
-        @webdriver_path = File.join(project_path, base_path, path_to_driver)
-        Selenium::WebDriver::IE.driver_path = @webdriver_path
-      when :edge
-        path_to_driver = 'windows/MicrosoftWebDriver.exe'
-        @webdriver_path = File.join(project_path, base_path, path_to_driver)
-        Selenium::WebDriver::Edge.driver_path = @webdriver_path
-      else
-        if ENV['HOST_BROWSER']
-          case ENV['HOST_BROWSER'].downcase.to_sym
-          when :chrome
-            if OS.osx?
-              path_to_driver = 'mac/chromedriver'
-            elsif OS.windows?
-              path_to_driver = 'windows/chromedriver.exe'
-            end
-            @webdriver_path = File.join(project_path, base_path, path_to_driver)
-            Selenium::WebDriver::Chrome.driver_path = @webdriver_path
-          when :firefox
-            if OS.osx?
-              path_to_driver = 'mac/geckodriver'
-            elsif OS.windows?
-              path_to_driver = 'windows/geckodriver.exe'
-            end
-            @webdriver_path = File.join(project_path, base_path, path_to_driver)
-            Selenium::WebDriver::Firefox.driver_path = @webdriver_path
-          else
-            raise "#{ENV['HOST_BROWSER']} is not a valid host browser for mobile browser emulation"
-          end
-        end
-      end
-      puts "The webdriver path is: #{@webdriver_path}" unless path_to_driver.nil?
+      warn "[DEPRECATION] 'TestCentricity::WebDriverConnect.set_webdriver_path' is deprecated. Correct webdrivers are now automatically loaded."
     end
 
     def self.initialize_browser_size
@@ -260,11 +202,7 @@ module TestCentricity
           profile['intl.accept_languages'] = ENV['LOCALE'] if ENV['LOCALE']
           options = Selenium::WebDriver::Firefox::Options.new(profile: profile)
           options.args << '--headless' if browser == :firefox_headless
-          if @webdriver_path.blank?
-            Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
-          else
-            Capybara::Selenium::Driver.new(app, browser: :firefox, options: options, driver_path: @webdriver_path)
-          end
+          Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
         when :chrome, :chrome_headless
           (browser == :chrome) ?
               options = Selenium::WebDriver::Chrome::Options.new :
@@ -273,25 +211,15 @@ module TestCentricity
           options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
           Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
         else
-          user_agent = Browsers.mobile_device_agent(ENV['WEB_BROWSER'])
-          ENV['HOST_BROWSER'] ? host_browser = ENV['HOST_BROWSER'].downcase.to_sym : host_browser = :chrome
-          case host_browser
-          when :firefox
-            profile = Selenium::WebDriver::Firefox::Profile.new
-            profile['general.useragent.override'] = user_agent
-            profile['intl.accept_languages'] = ENV['LOCALE'] if ENV['LOCALE']
-            options = Selenium::WebDriver::Firefox::Options.new(profile: profile)
-            if @webdriver_path.blank?
-              Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
-            else
-              Capybara::Selenium::Driver.new(app, browser: :firefox, options: options, driver_path: @webdriver_path)
-            end
-          when :chrome
+          if ENV['HOST_BROWSER'] && ENV['HOST_BROWSER'].downcase.to_sym == :chrome
+            user_agent = Browsers.mobile_device_agent(ENV['WEB_BROWSER'])
             options = Selenium::WebDriver::Chrome::Options.new
             options.add_argument('--disable-infobars')
             options.add_argument("--user-agent='#{user_agent}'")
             options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
             Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+          else
+            raise "Requested browser '#{browser}' is not supported"
           end
         end
       end
@@ -300,6 +228,7 @@ module TestCentricity
 
     def self.initialize_browserstack
       browser = ENV['BS_BROWSER']
+      Environ.grid = :browserstack
 
       if ENV['BS_REAL_MOBILE'] || ENV['BS_PLATFORM']
         Environ.platform    = :mobile
@@ -397,6 +326,7 @@ module TestCentricity
 
     def self.initialize_crossbrowser
       browser = ENV['CB_BROWSER']
+      Environ.grid = :crossbrowser
 
       if ENV['CB_OS']
         Environ.os = ENV['CB_OS']
@@ -432,6 +362,7 @@ module TestCentricity
 
     def self.initialize_gridlastic
       browser = ENV['GL_BROWSER']
+      Environ.grid = :gridlastic
       Environ.os = ENV['GL_OS']
       endpoint = "http://#{ENV['GL_USERNAME']}:#{ENV['GL_AUTHKEY']}@#{ENV['GL_SUBDOMAIN']}.gridlastic.com:80/wd/hub"
 
@@ -448,6 +379,8 @@ module TestCentricity
         Capybara::Selenium::Driver.new(app, http_client: client, browser: :remote, url: endpoint, desired_capabilities: capabilities)
       end
 
+      Environ.browser = browser
+
       Capybara.default_driver = :selenium
       Capybara.run_server = false
 
@@ -458,10 +391,30 @@ module TestCentricity
     end
 
     def self.initialize_remote
-      browser = ENV['WEB_BROWSER']
+      Environ.grid = :selenium_grid
+      browser  = ENV['WEB_BROWSER'].downcase.to_sym
       endpoint = ENV['REMOTE_ENDPOINT'] || 'http://127.0.0.1:4444/wd/hub'
-      capabilities = Selenium::WebDriver::Remote::Capabilities.send(browser.downcase.to_sym)
       Capybara.register_driver :remote_browser do |app|
+        case browser
+        when :firefox, :safari, :ie, :edge
+          capabilities = Selenium::WebDriver::Remote::Capabilities.send(browser)
+        when :chrome, :chrome_headless
+          (browser == :chrome) ?
+              options = %w[--disable-infobars] :
+              options = %w[headless disable-gpu no-sandbox --disable-infobars]
+          options.push("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
+          capabilities = Selenium::WebDriver::Remote::Capabilities.chrome('goog:chromeOptions' => { args: options })
+        else
+          if ENV['HOST_BROWSER'] && ENV['HOST_BROWSER'].downcase.to_sym == :chrome
+            user_agent = Browsers.mobile_device_agent(ENV['WEB_BROWSER'])
+            options = %w[--disable-infobars]
+            options.push("--user-agent='#{user_agent}'")
+            options.push("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
+            capabilities = Selenium::WebDriver::Remote::Capabilities.chrome('goog:chromeOptions' => { args: options })
+          else
+            raise "Requested browser '#{browser}' is not supported on Selenium Grid"
+          end
+        end
         Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, desired_capabilities: capabilities)
       end
       Capybara.current_driver = :remote_browser
@@ -470,6 +423,7 @@ module TestCentricity
 
     def self.initialize_saucelabs
       browser = ENV['SL_BROWSER']
+      Environ.grid = :saucelabs
 
       if ENV['SL_OS']
         Environ.platform = :desktop
@@ -508,6 +462,7 @@ module TestCentricity
 
     def self.initialize_testingbot
       browser = ENV['TB_BROWSER']
+      Environ.grid = :testingbot
 
       Environ.os = ENV['TB_OS']
       if ENV['TB_PLATFORM']

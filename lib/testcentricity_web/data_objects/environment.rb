@@ -39,6 +39,7 @@ module TestCentricity
     attr_accessor :device_orientation
     attr_accessor :platform
     attr_accessor :driver
+    attr_accessor :grid
     attr_accessor :tunneling
 
     attr_accessor :signed_in
@@ -205,6 +206,14 @@ module TestCentricity
       @driver
     end
 
+    def self.grid=(type)
+      @grid = type
+    end
+
+    def self.grid
+      @grid
+    end
+
     def self.tunneling=(state)
       @tunneling = state
     end
@@ -267,6 +276,21 @@ module TestCentricity
 
     def self.reset_contexts
       @screen_shots = []
+    end
+
+    def self.report_header
+      report_header = "\n<b><u>TEST ENVIRONMENT</u>:</b> #{ENV['TEST_ENVIRONMENT']}\n"\
+      "  <b>Browser:</b>\t #{Environ.browser.capitalize}\n"
+      report_header = "#{report_header}  <b>Device:</b>\t\t #{Environ.device_name}\n" if Environ.device_name
+      report_header = "#{report_header}  <b>Device OS:</b>\t #{Environ.device_os}\n" if Environ.device_os
+      report_header = "#{report_header}  <b>Device type:</b>\t #{Environ.device_type}\n" if Environ.device_type
+      report_header = "#{report_header}  <b>Driver:</b>\t\t #{Environ.driver}\n" if Environ.driver
+      report_header = "#{report_header}  <b>Grid:</b>\t\t #{Environ.grid}\n" if Environ.grid
+      report_header = "#{report_header}  <b>OS:</b>\t\t\t #{Environ.os}\n" if Environ.os
+      report_header = "#{report_header}  <b>Locale:</b>\t\t #{ENV['LOCALE']}\n" if ENV['LOCALE']
+      report_header = "#{report_header}  <b>Language:</b>\t #{ENV['LANGUAGE']}\n" if ENV['LANGUAGE']
+      report_header = "#{report_header}  <b>Country:</b>\t #{ENV['COUNTRY']}\n" if ENV['COUNTRY']
+      "#{report_header}\n\n"
     end
   end
 end
