@@ -19,9 +19,6 @@ Metrics/ModuleLength:
 Metrics/ClassLength:
   Enabled: false
 
-Encoding:
-  EnforcedStyle: when_needed
-
 Metrics/LineLength:
   Enabled: false
 
@@ -37,5 +34,5 @@ Style/HashSyntax:
 Metrics/CyclomaticComplexity:
   Enabled: false
 
-Style/EmptyLines:
+Layout/EmptyLines:
   Enabled: false

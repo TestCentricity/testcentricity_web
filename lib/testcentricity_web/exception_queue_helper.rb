@@ -22,8 +22,11 @@ module TestCentricity
       enqueue(error_message)
     end
 
-    def self.post_exceptions
-      raise @error_queue unless @error_queue.nil?
+    def self.post_exceptions(preample_message = nil)
+      unless @error_queue.nil?
+        @error_queue = "#{preample_message} - The following errors were found:\n_______________________________\n#{@error_queue}" unless preample_message.nil?
+        raise @error_queue
+      end
     ensure
       @error_queue = nil
     end

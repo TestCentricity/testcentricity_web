@@ -483,7 +483,7 @@ module TestCentricity
     #
     # @param seconds [Integer or Float] wait time in seconds
     # @example
-    #   verifying_page.wait_until_gone(15)
+    #   payment_processing_page.wait_until_gone(15)
     #
     def wait_until_gone(seconds = nil)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
@@ -491,6 +491,23 @@ module TestCentricity
       wait.until { !exists? }
     rescue
       raise "Page object #{self.class.name} remained visible after #{timeout} seconds" if exists?
+    end
+
+    # Wait until all AJAX requests have completed, or until the specified wait time has expired. If the wait time is nil, then
+    # the wait time will be Capybara.default_max_wait_time.
+    #
+    # @param seconds [Integer or Float] wait time in seconds
+    # @example
+    #   shopping_basket_page.wait_for_ajax(15)
+    #
+    def wait_for_ajax(seconds = nil)
+      wait_time = seconds.nil? ? Capybara.default_max_wait_time : seconds
+      Timeout.timeout(wait_time) do
+        loop do
+          active = page.evaluate_script('jQuery.active')
+          break if active == 0
+        end
+      end
     end
 
     # Is current Page object URL secure?
@@ -503,7 +520,7 @@ module TestCentricity
       !current_url.match(/^https/).nil?
     end
 
-    def verify_ui_states(ui_states)
+    def verify_ui_states(ui_states, fail_message = nil)
       ui_states.each do |ui_object, object_states|
         object_states.each do |property, state|
           case property
@@ -607,7 +624,7 @@ module TestCentricity
     rescue ObjectNotFoundError => e
       ExceptionQueue.enqueue_exception(e.message)
     ensure
-      ExceptionQueue.post_exceptions
+      ExceptionQueue.post_exceptions(fail_message)
     end
 
     # Populate the specified UI elements on this page with the associated data from a Hash passed as an argument. Data

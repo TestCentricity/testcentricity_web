@@ -695,7 +695,7 @@ module TestCentricity
       section.send_keys(*keys)
     end
 
-    def verify_ui_states(ui_states)
+    def verify_ui_states(ui_states, fail_message = nil)
       ui_states.each do |ui_object, object_states|
         object_states.each do |property, state|
           case property
@@ -799,7 +799,7 @@ module TestCentricity
     rescue ObjectNotFoundError => e
       ExceptionQueue.enqueue_exception(e.message)
     ensure
-      ExceptionQueue.post_exceptions
+      ExceptionQueue.post_exceptions(fail_message)
     end
 
     # Populate the specified UI elements in this Section object with the associated data from a Hash passed as an

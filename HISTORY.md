@@ -1,5 +1,11 @@
 # HISTORY
 
+###Version 3.0.8
+
+* Added `PageObject.wait_for_ajax` method.
+* `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods now accept optional `fail_message` string parameter to add context to error
+messages when UI verifications raise an exception.
+
 ###Version 3.0.7
 
 * Added support for connecting to and running your tests in desktop and emulated mobile web browsers hosted on Selenium Grid and Dockerized Selenium

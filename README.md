@@ -26,6 +26,12 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 
 A complete history of bug fixes and new features can be found in the {file:HISTORY.md HISTORY} file.
 
+###Version 3.0.8
+
+* Added `PageObject.wait_for_ajax` method.
+* `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods now accept optional `fail_message` string parameter to add context to error
+messages when UI verifications raise an exception.
+
 ###Version 3.0.7
 
 * Added support for connecting to and running your tests in desktop and emulated mobile web browsers hosted on Selenium Grid and Dockerized Selenium
@@ -1484,6 +1490,7 @@ text with the Subdomain specified on the Grid Configuration Parameters section o
     gl_ie10_win8:       --profile gl_win8 GL_BROWSER="internet explorer" GL_VERSION="10"
     gl_ie11_win10:      --profile gl_win10 GL_BROWSER="internet explorer" GL_VERSION="11"
     
+    # Gridlastic Linux desktop browser profiles
     gl_chrome_linux:    --profile gl_desktop GL_OS="LINUX" GL_BROWSER="chrome" GL_VERSION="latest"
 
 
