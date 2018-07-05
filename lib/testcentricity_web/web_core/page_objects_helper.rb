@@ -665,9 +665,11 @@ module TestCentricity
             when :checkbox
               data_field.set_checkbox_state(data_param.to_bool)
             when :selectlist
-              data_field.get_siebel_object_type == 'JComboBox' ?
-                  data_field.set("#{data_param}\t") :
-                  data_field.choose_option(data_param)
+              if data_field.get_siebel_object_type == 'JComboBox'
+                data_field.set("#{data_param}\t")
+              else
+                data_field.choose_option(data_param)
+              end
             when :radio
               data_field.set_selected_state(data_param.to_bool)
             when :textfield

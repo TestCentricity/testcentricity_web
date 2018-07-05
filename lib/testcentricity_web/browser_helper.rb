@@ -152,9 +152,11 @@ module TestCentricity
         default_orientation = device[:default_orientation].to_sym
         if orientation
           Environ.device_orientation = orientation
-          orientation.downcase.to_sym == default_orientation ?
-              size = [width, height] :
-              size = [height, width]
+          size = if orientation.downcase.to_sym == default_orientation
+                   [width, height]
+                 else
+                   [height, width]
+                 end
         else
           Environ.device_orientation = device[:default_orientation]
           size = [width, height]

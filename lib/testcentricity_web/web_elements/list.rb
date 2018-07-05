@@ -1,24 +1,49 @@
 module TestCentricity
   class List < UIElement
     attr_accessor :list_item
+    attr_accessor :selected_item
 
     def initialize(name, parent, locator, context)
       super
       @type = :list
-      define_list_elements({ :list_item => 'li' })
+      list_spec = {
+          list_item:     'li',
+          selected_item: 'li.selected'
+      }
+      define_list_elements(list_spec)
     end
 
     def define_list_elements(element_spec)
       element_spec.each do |element, value|
         case element
-          when :list_item
-            @list_item = value
-          else
-            raise "#{element} is not a recognized list element"
+        when :list_item
+          @list_item = value
+        when :selected_item
+          @selected_item = value
+        else
+          raise "#{element} is not a recognized list element"
         end
       end
     end
 
+    def choose_item(item)
+      obj, = find_element
+      object_not_found_exception(obj, nil)
+      if item.is_a?(Integer)
+        obj.find(:css, "#{@list_item}:nth-of-type(#{item})").click
+      elsif item.is_a?(String)
+        items = obj.all(@list_item).collect(&:text)
+        sleep(2) unless items.include?(item)
+        obj.first(:css, @list_item, text: item).click
+      end
+    end
+
+    # Return array of strings of all items in a list object.
+    #
+    # @return [Array]
+    # @example
+    #   nav_items = nav_list.get_options
+    #
     def get_list_items(element_spec = nil)
       define_list_elements(element_spec) unless element_spec.nil?
       obj, = find_element
@@ -27,14 +52,16 @@ module TestCentricity
     end
 
     def get_list_item(index, visible = true)
-      if visible
-        items = get_list_items
-      else
-        items = get_all_list_items
-      end
+      items = visible ? get_list_items : get_all_list_items
       items[index - 1]
     end
 
+    # Return the number of items in a list object.
+    #
+    # @return [Integer]
+    # @example
+    #   num_nav_items = nav_list.get_item_count
+    #
     def get_item_count
       obj, = find_element
       object_not_found_exception(obj, nil)
@@ -45,28 +72,44 @@ module TestCentricity
       define_list_elements(element_spec) unless element_spec.nil?
       obj, = find_element
       object_not_found_exception(obj, nil)
-      obj.all(@list_item, :visible => :all).collect(&:text)
+      obj.all(@list_item, visible: :all).collect(&:text)
     end
 
     def get_all_items_count
       obj, = find_element
       object_not_found_exception(obj, nil)
-      obj.all(@list_item, :visible => :all).count
+      obj.all(@list_item, visible: :all).count
     end
+
+    # Return text of first selected item in a list object.
+    #
+    # @return [String]
+    # @example
+    #   current_selection = nav_list.get_selected_item
+    #
+    def get_selected_item
+      obj, = find_element
+      object_not_found_exception(obj, nil)
+      obj.first(:css, @list_item, minimum: 0) ? obj.first(:css, @selected_item).text : nil
+    end
+
+    alias selected? get_selected_item
 
     def verify_list_items(expected, enqueue = false)
       actual = get_list_items
-      enqueue ?
-          ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list #{object_ref_message}") :
-          assert_equal(expected, actual, "Expected list #{object_ref_message} to be #{expected} but found #{actual}")
+      if enqueue
+        ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list #{object_ref_message}")
+      else
+        assert_equal(expected, actual, "Expected list #{object_ref_message} to be #{expected} but found #{actual}")
+      end
     end
 
     def get_list_row_locator(row)
       case @locator_type
-        when :xpath
-          "#{@locator}/#{@list_item}[#{row}]"
-        when :css
-          "#{@locator} > #{@list_item}:nth-of-type(#{row})"
+      when :xpath
+        "#{@locator}/#{@list_item}[#{row}]"
+      when :css
+        "#{@locator} > #{@list_item}:nth-of-type(#{row})"
       end
     end
 
@@ -78,7 +121,7 @@ module TestCentricity
     # @example
     #   search_results_list.wait_until_item_count_is(10, 15)
     #     or
-    #   search_results_list.wait_until_item_count_is({ :greater_than_or_equal => 1 }, 5)
+    #   search_results_list.wait_until_item_count_is({ greater_than_or_equal: 1 }, 5)
     #
     def wait_until_item_count_is(value, seconds = nil)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
@@ -88,6 +131,13 @@ module TestCentricity
       raise "Value of List #{object_ref_message} failed to equal '#{value}' after #{timeout} seconds" unless get_item_count == value
     end
 
+    # Wait until the list's item count changes to a different value, or until the specified wait time has expired. If the
+    # wait time is nil, then the wait time will be Capybara.default_max_wait_time.
+    #
+    # @param seconds [Integer or Float] wait time in seconds
+    # @example
+    #   search_results_list.wait_until_value_changes(5)
+    #
     def wait_until_item_count_changes(seconds = nil)
       value = get_item_count
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds

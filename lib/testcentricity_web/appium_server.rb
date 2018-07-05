@@ -6,10 +6,9 @@ require 'childprocess'
 #
 module TestCentricity
   class AppiumServer
-
     attr_accessor :process
 
-    def initialize(params={})
+    def initialize(params = {})
       @params = params
     end
 

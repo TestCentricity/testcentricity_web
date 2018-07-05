@@ -81,9 +81,9 @@ module TestCentricity
         end
 
         pool_spec = {
-            :start_row => row_start,
-            :num_rows  => row_end,
-            :used_rows => mru_rows
+            start_row: row_start,
+            num_rows:  row_end,
+            used_rows: mru_rows
         }
       else
         # get column headings from row 0 of worksheet
@@ -113,9 +113,9 @@ module TestCentricity
 
         new_row   = found.sample.to_i
         pool_spec = {
-            :start_row => found[0],
-            :num_rows  => found.size,
-            :used_rows => [new_row]
+            start_row: found[0],
+            num_rows:  found.size,
+            used_rows: [new_row]
         }
       end
       @mru[pool_spec_key] = pool_spec

@@ -26,15 +26,15 @@ module TestCentricity
 
       is_xpath = XPATH_SELECTORS.any? { |selector| @locator.include?(selector) }
       is_css = CSS_SELECTORS.any? { |selector| @locator.include?(selector) }
-      if is_xpath && !is_css
-        @locator_type = :xpath
-      elsif is_css && !is_xpath
-        @locator_type = :css
-      elsif !is_css && !is_xpath
-        @locator_type = :css
-      else
-        raise "Cannot determine type of locator for PageSection '#{@name}' - locator = #{@locator}"
-      end
+      @locator_type = if is_xpath && !is_css
+                        :xpath
+                      elsif is_css && !is_xpath
+                        :css
+                      elsif !is_css && !is_xpath
+                        :css
+                      else
+                        :css
+                      end
     end
 
     def get_locator
@@ -841,9 +841,11 @@ module TestCentricity
             when :checkbox
               data_field.set_checkbox_state(data_param.to_bool)
             when :selectlist
-              data_field.get_siebel_object_type == 'JComboBox' ?
-                  data_field.set("#{data_param}\t") :
-                  data_field.choose_option(data_param)
+              if data_field.get_siebel_object_type == 'JComboBox'
+                data_field.set("#{data_param}\t")
+              else
+                data_field.choose_option(data_param)
+              end
             when :radio
               data_field.set_selected_state(data_param.to_bool)
             when :textfield
@@ -873,7 +875,7 @@ module TestCentricity
     def find_section
       locator = get_locator
       locator = locator.gsub('|', ' ')
-      obj = page.find(@locator_type, locator, :wait => 0.1)
+      obj = page.find(@locator_type, locator, wait: 0.1)
       [obj, @locator_type]
     rescue
       [nil, nil]

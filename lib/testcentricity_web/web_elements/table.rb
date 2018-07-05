@@ -14,13 +14,15 @@ module TestCentricity
       super
       @type = :table
 
-      table_spec = { :table_body    => 'tbody',
-                     :table_section => nil,
-                     :table_row     => 'tr',
-                     :table_column  => 'td',
-                     :table_header  => 'thead',
-                     :header_row    => 'tr',
-                     :header_column => 'th' }
+      table_spec = {
+          table_body:    'tbody',
+          table_section: nil,
+          table_row:     'tr',
+          table_column:  'td',
+          table_header:  'thead',
+          header_row:    'tr',
+          header_column: 'th'
+      }
 
       case @locator_type
       when :xpath
@@ -71,15 +73,15 @@ module TestCentricity
       case @locator_type
       when :xpath
         if @table_section.nil?
-          page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}", :visible => :all).count
+          page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}", visible: :all).count
         else
-          page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}", :visible => :all).count
+          page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}", visible: :all).count
         end
       when :css
         if @table_section.nil?
-          page.all(:css, "#{@locator} > #{@table_body} > #{@table_row}", :visible => :all).count
+          page.all(:css, "#{@locator} > #{@table_body} > #{@table_row}", visible: :all).count
         else
-          page.all(:css, "#{@locator} > #{@table_body} > #{@table_section}", :visible => :all).count
+          page.all(:css, "#{@locator} > #{@table_body} > #{@table_section}", visible: :all).count
         end
       end
     end
@@ -94,31 +96,31 @@ module TestCentricity
       row_count = get_row_count
       case @locator_type
       when :xpath
-        if row_count == 0
-          page.all(:xpath, "#{@locator}/#{@table_header}/#{@header_row}/#{@header_column}", :visible => :all).count
+        if row_count.zero?
+          page.all(:xpath, "#{@locator}/#{@table_header}/#{@header_row}/#{@header_column}", visible: :all).count
         else
           if @table_section.nil?
             row_count == 1 ?
-                page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}/#{@table_column}", :visible => :all).count :
-                page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}[2]/#{@table_column}", :visible => :all).count
+                page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}/#{@table_column}", visible: :all).count :
+                page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}[2]/#{@table_column}", visible: :all).count
           else
             row_count == 1 ?
-                page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}/#{@table_row}/#{@table_column}", :visible => :all).count :
-                page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}[2]/#{@table_row}/#{@table_column}", :visible => :all).count
+                page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}/#{@table_row}/#{@table_column}", visible: :all).count :
+                page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}[2]/#{@table_row}/#{@table_column}", visible: :all).count
           end
         end
       when :css
-        if row_count == 0
-          page.all(:css, "#{@locator} > #{@table_header} > #{@header_row} > #{@header_column}", :visible => :all).count
+        if row_count.zero?
+          page.all(:css, "#{@locator} > #{@table_header} > #{@header_row} > #{@header_column}", visible: :all).count
         else
           if @table_section.nil?
             row_count == 1 ?
-                page.all(:css, "#{@locator} > #{@table_body} > #{@table_row} > #{@table_column}", :visible => :all).count :
-                page.all(:css, "#{@locator} > #{@table_body} > #{@table_row}:nth-of-type(2) > #{@table_column}", :visible => :all).count
+                page.all(:css, "#{@locator} > #{@table_body} > #{@table_row} > #{@table_column}", visible: :all).count :
+                page.all(:css, "#{@locator} > #{@table_body} > #{@table_row}:nth-of-type(2) > #{@table_column}", visible: :all).count
           else
             row_count == 1 ?
-                page.all(:css, "#{@locator} > #{@table_body} > #{@table_section} > #{@table_row} > #{@table_column}", :visible => :all).count :
-                page.all(:css, "#{@locator} > #{@table_body} > #{@table_section}:nth-of-type(2) > #{@table_row} > #{@table_column}", :visible => :all).count
+                page.all(:css, "#{@locator} > #{@table_body} > #{@table_section} > #{@table_row} > #{@table_column}", visible: :all).count :
+                page.all(:css, "#{@locator} > #{@table_body} > #{@table_section}:nth-of-type(2) > #{@table_row} > #{@table_column}", visible: :all).count
           end
         end
       end

@@ -54,15 +54,15 @@ module TestCentricity
       locator = @locator if locator.nil?
       is_xpath = XPATH_SELECTORS.any? { |selector| locator.include?(selector) }
       is_css = CSS_SELECTORS.any? { |selector| locator.include?(selector) }
-      if is_xpath && !is_css
-        @locator_type = :xpath
-      elsif is_css && !is_xpath
-        @locator_type = :css
-      elsif !is_css && !is_xpath
-        @locator_type = :css
-      else
-        raise "Cannot determine type of locator for UIElement '#{@name}' - locator = #{locator}"
-      end
+      @locator_type = if is_xpath && !is_css
+                        :xpath
+                      elsif is_css && !is_xpath
+                        :css
+                      elsif !is_css && !is_xpath
+                        :css
+                      else
+                        :css
+                      end
     end
 
     def get_object_type
@@ -306,7 +306,7 @@ module TestCentricity
     # @example
     #   card_authorized_label.wait_until_value_is('Card authorized', 5)
     #     or
-    #   total_weight_field.wait_until_value_is({ :greater_than => '250' }, 5)
+    #   total_weight_field.wait_until_value_is({ greater_than: '250' }, 5)
     #
     def wait_until_value_is(value, seconds = nil)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
@@ -470,9 +470,9 @@ module TestCentricity
         parent_locator = @parent.get_locator
         parent_locator = parent_locator.gsub('|', ' ')
         parent_locator_type = @parent.get_locator_type
-        obj = page.find(parent_locator_type, parent_locator, :wait => 0.01).find(@locator_type, obj_locator, :wait => 0.01, :visible => visible)
+        obj = page.find(parent_locator_type, parent_locator, wait: 0.01).find(@locator_type, obj_locator, wait: 0.01, visible: visible)
       else
-        obj = page.find(@locator_type, obj_locator, :wait => 0.01, :visible => visible)
+        obj = page.find(@locator_type, obj_locator, wait: 0.01, visible: visible)
       end
       [obj, @locator_type]
     rescue

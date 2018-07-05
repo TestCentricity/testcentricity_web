@@ -1,5 +1,10 @@
 # HISTORY
 
+###Version 3.0.9
+
+* Added `List.choose_item` and `List.get_selected_item` methods.
+* Added `SelectList.set` method.
+
 ###Version 3.0.8
 
 * Added `PageObject.wait_for_ajax` method.

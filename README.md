@@ -26,6 +26,11 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 
 A complete history of bug fixes and new features can be found in the {file:HISTORY.md HISTORY} file.
 
+###Version 3.0.9
+
+* Added `List.choose_item` and `List.get_selected_item` methods.
+* Added `SelectList.set` method.
+
 ###Version 3.0.8
 
 * Added `PageObject.wait_for_ajax` method.
