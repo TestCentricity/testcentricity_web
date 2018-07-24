@@ -11,10 +11,28 @@ module TestCentricity
     # @example
     #   company_logo_image.is_loaded??
     #
-    def is_loaded?
+    def loaded?
       obj, = find_element
       object_not_found_exception(obj, nil)
       obj.native.attribute('complete')
+    end
+
+    alias is_loaded? loaded?
+
+    # Is image broken?
+    #
+    # @return [Boolean]
+    # @example
+    #   company_logo_image.broken???
+    #
+    def broken?
+      obj, = find_element
+      object_not_found_exception(obj, nil)
+      result = page.execute_script(
+        'return arguments[0].complete && typeof arguments[0].naturalWidth != "undefined" && arguments[0].naturalWidth > 0',
+        obj
+      )
+      !result
     end
 
     # Wait until the image is fully loaded, or until the specified wait time has expired.

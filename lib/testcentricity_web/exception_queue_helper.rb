@@ -2,7 +2,9 @@ module TestCentricity
   class ExceptionQueue
     include Capybara::DSL
 
-    @error_queue
+    attr_accessor :error_queue
+    attr_accessor :active_ui_element
+    attr_accessor :mru_ui_element
 
     def self.enqueue_assert_equal(expected, actual, error_message)
       unless expected == actual
@@ -29,9 +31,12 @@ module TestCentricity
       end
     ensure
       @error_queue = nil
+      @active_ui_element = nil
+      @mru_ui_element = nil
     end
 
-    def self.enqueue_comparison(state, actual, error_msg)
+    def self.enqueue_comparison(ui_object, state, actual, error_msg)
+      @active_ui_element = ui_object
       if state.is_a?(Hash) && state.length == 1
         state.each do |key, value|
           case key
@@ -94,11 +99,20 @@ module TestCentricity
       timestamp = Time.now.strftime('%Y%m%d%H%M%S')
       filename = "Screenshot-#{timestamp}"
       path = File.join Dir.pwd, 'reports/screenshots/', filename
+      # highlight the active UI element prior to taking a screenshot
+      unless @active_ui_element.nil? || @mru_ui_element == @active_ui_element
+        @active_ui_element.highlight(0)
+        @mru_ui_element = @active_ui_element
+      end
+      # take screenshot
       if Environ.driver == :appium
         AppiumConnect.take_screenshot("#{path}.png")
       else
         Capybara.save_screenshot "#{path}.png"
       end
+      # unhighlight the active UI element
+      @mru_ui_element.unhighlight unless @mru_ui_element.blank?
+      # add screenshot to queue
       puts "Screenshot saved at #{path}.png"
       screen_shot = {path: path, filename: filename}
       Environ.save_screen_shot(screen_shot)

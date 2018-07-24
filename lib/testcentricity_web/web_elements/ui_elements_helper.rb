@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test/unit'
 
 Capybara::Node::Element.class_eval do
@@ -35,18 +37,19 @@ module TestCentricity
     include Test::Unit::Assertions
 
     attr_reader   :parent, :locator, :context, :type, :name
-    attr_accessor :alt_locator, :locator_type
+    attr_accessor :alt_locator, :locator_type, :original_style
 
-    XPATH_SELECTORS = ['//', '[@', '[contains(@']
-    CSS_SELECTORS   = ['#', ':nth-child(', ':nth-of-type(', '^=', '$=', '*=']
+    XPATH_SELECTORS = ['//', '[@', '[contains('].freeze
+    CSS_SELECTORS   = ['#', ':nth-child(', ':first-child', ':last-child', ':nth-of-type(', ':first-of-type', ':last-of-type', '^=', '$=', '*=', ':contains('].freeze
 
     def initialize(name, parent, locator, context)
-      @name        = name
-      @parent      = parent
-      @locator     = locator
-      @context     = context
-      @type        = nil
-      @alt_locator = nil
+      @name           = name
+      @parent         = parent
+      @locator        = locator
+      @context        = context
+      @type           = nil
+      @alt_locator    = nil
+      @original_style = nil
       set_locator_type
     end
 
@@ -105,7 +108,7 @@ module TestCentricity
       object_not_found_exception(obj, type)
       begin
         obj.click
-      rescue
+      rescue StandardError
         obj.click_at(10, 10) unless Capybara.current_driver == :poltergeist
       end
     end
@@ -249,7 +252,7 @@ module TestCentricity
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { exists? }
-    rescue
+    rescue StandardError
       raise "Could not find UI #{object_ref_message} after #{timeout} seconds" unless exists?
     end
 
@@ -264,7 +267,7 @@ module TestCentricity
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { !exists? }
-    rescue
+    rescue StandardError
       raise "UI #{object_ref_message} remained visible after #{timeout} seconds" if exists?
     end
 
@@ -279,7 +282,7 @@ module TestCentricity
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { visible? }
-    rescue
+    rescue StandardError
       raise "Could not find UI #{object_ref_message} after #{timeout} seconds" unless visible?
     end
 
@@ -294,7 +297,7 @@ module TestCentricity
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { hidden? }
-    rescue
+    rescue StandardError
       raise "UI #{object_ref_message} remained visible after #{timeout} seconds" if visible?
     end
 
@@ -312,7 +315,7 @@ module TestCentricity
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { compare(value, get_value) }
-    rescue
+    rescue StandardError
       raise "Value of UI #{object_ref_message} failed to equal '#{value}' after #{timeout} seconds" unless get_value == value
     end
 
@@ -328,7 +331,7 @@ module TestCentricity
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { get_value != value }
-    rescue
+    rescue StandardError
       raise "Value of UI #{object_ref_message} failed to change from '#{value}' after #{timeout} seconds" if get_value == value
     end
 
@@ -442,6 +445,54 @@ module TestCentricity
       page.driver.browser.action.move_to(target_drop.native, right_offset.to_i, down_offset.to_i).release.perform
     end
 
+    # Highlight an object with a 3 pixel wide, red dashed border for the specified wait time.
+    # If wait time is zero, then the highlight will remain until the page is refreshed
+    #
+    # @param seconds [Integer or Float] wait time in seconds
+    # @example
+    #   error_message.highlight(3)
+    #
+    def highlight(duration = 1)
+      obj, type = find_element
+      object_not_found_exception(obj, type)
+      # store original style so it can be reset later
+      @original_style = obj.native.attribute('style')
+      # style element with red border
+      page.execute_script(
+        'arguments[0].setAttribute(arguments[1], arguments[2])',
+        obj,
+        'style',
+        'border: 3px solid red; border-style: dashed;'
+      )
+      # keep element highlighted for duration and then revert to original style
+      if duration.positive?
+        sleep duration
+        page.execute_script(
+          'arguments[0].setAttribute(arguments[1], arguments[2])',
+          obj,
+          'style',
+          @original_style
+        )
+      end
+    end
+
+    # Restore a highlighted object's original style
+    #
+    # @example
+    #   store_link.unhighlight
+    #
+    def unhighlight
+      obj, type = find_element
+      object_not_found_exception(obj, type)
+      return if @original_style.nil?
+      page.execute_script(
+        'arguments[0].setAttribute(arguments[1], arguments[2])',
+        obj,
+        'style',
+        @original_style
+      )
+    end
+
     def get_attribute(attrib)
       obj, type = find_element(false)
       object_not_found_exception(obj, type)
@@ -462,33 +513,33 @@ module TestCentricity
     end
 
     def find_object(visible = true)
-      @alt_locator.nil? ? obj_locator = @locator : obj_locator = @alt_locator
+      obj_locator = @alt_locator.nil? ? @locator : @alt_locator
       parent_section = @context == :section && !@parent.get_locator.nil?
-      parent_section ? tries ||= 2 : tries ||= 1
+      tries ||= parent_section ? 2 : 1
 
       if parent_section && tries > 1
         parent_locator = @parent.get_locator
-        parent_locator = parent_locator.gsub('|', ' ')
+        parent_locator = parent_locator.tr('|', ' ')
         parent_locator_type = @parent.get_locator_type
         obj = page.find(parent_locator_type, parent_locator, wait: 0.01).find(@locator_type, obj_locator, wait: 0.01, visible: visible)
       else
         obj = page.find(@locator_type, obj_locator, wait: 0.01, visible: visible)
       end
       [obj, @locator_type]
-    rescue
+    rescue StandardError
       retry if (tries -= 1) > 0
       [nil, nil]
     end
 
     def object_not_found_exception(obj, obj_type)
-      @alt_locator.nil? ? locator = @locator : locator = @alt_locator
-      obj_type.nil? ? object_type = 'Object' : object_type = obj_type
-      raise ObjectNotFoundError.new("#{object_type} named '#{@name}' (#{locator}) not found") unless obj
+      locator = @alt_locator.nil? ? @locator : @alt_locator
+      object_type = obj_type.nil? ? 'Object' : obj_type
+      raise ObjectNotFoundError, "#{object_type} named '#{@name}' (#{locator}) not found" unless obj
     end
 
     def invalid_object_type_exception(obj, obj_type)
       unless obj.tag_name == obj_type || obj.native.attribute('type') == obj_type
-        @alt_locator.nil? ? locator = @locator : locator = @alt_locator
+        locator = @alt_locator.nil? ? @locator : @alt_locator
         raise "#{locator} is not a #{obj_type} element"
       end
     end

@@ -6,22 +6,15 @@ Thumbs.db
 .idea
 .settings
 .project
-.idea/workspace.xml
-.idea/.rakeTasks
-*.iml
 
-doc/*
-.yardoc/*
-notes.txt
-coverage
-.bundle
-.ruby-version
-.ruby-gemset
-/my_templates
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
 
-Gemfile.lock
-
-
-.idea/testcentricity_web.iml
-
-.idea/.rakeTasks
+# rspec failure tracking
+.rspec_status

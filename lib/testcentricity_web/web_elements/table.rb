@@ -15,13 +15,13 @@ module TestCentricity
       @type = :table
 
       table_spec = {
-          table_body:    'tbody',
-          table_section: nil,
-          table_row:     'tr',
-          table_column:  'td',
-          table_header:  'thead',
-          header_row:    'tr',
-          header_column: 'th'
+        table_body:    'tbody',
+        table_section: nil,
+        table_row:     'tr',
+        table_column:  'td',
+        table_header:  'thead',
+        header_row:    'tr',
+        header_column: 'th'
       }
 
       case @locator_type

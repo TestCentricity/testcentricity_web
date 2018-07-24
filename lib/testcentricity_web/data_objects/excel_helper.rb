@@ -11,7 +11,7 @@ module TestCentricity
     def self.worksheet_exists?(file, sheet)
       exists = false
       if File.exist?(file)
-        work_book  = Spreadsheet.open file
+        work_book  = Spreadsheet.open(file)
         worksheets = work_book.worksheets
         worksheets.each do |worksheet|
           if worksheet.name == sheet
@@ -23,15 +23,15 @@ module TestCentricity
       exists
     end
 
-    def self.rowspec_exists?(file, sheet, rowspec)
+    def self.row_spec_exists?(file, sheet, row_spec)
       exists = false
       if worksheet_exists?(file, sheet)
-        work_book  = Spreadsheet.open file
-        work_sheet = work_book.worksheet sheet
+        work_book  = Spreadsheet.open(file)
+        work_sheet = work_book.worksheet(sheet)
         # get column headings from row 0 of worksheet
         headings = work_sheet.row(0)
-        # if rowspec is a string then we have to find a matching row name
-        if rowspec.is_a? String
+        # if row_spec is a string then we have to find a matching row name
+        if row_spec.is_a? String
           column_number = 0
           exists = false
           headings.each do |heading|
@@ -42,27 +42,25 @@ module TestCentricity
             column_number += 1
           end
           raise "Could not find a column named ROW_NAME in worksheet #{sheet}" unless exists
-          # find first cell in ROW_NAME column containing a string that matches the rowspec parameter
+          # find first cell in ROW_NAME column containing a string that matches the row_spec parameter
           exists = false
-          row_number = 0
           work_sheet.each do |row|
-            if row[column_number] == rowspec
+            if row[column_number] == row_spec
               exists = true
               break
             end
-            row_number += 1
           end
         end
       end
       exists
     end
 
-    def self.read_row_from_pool(file, sheet, rowspec, columns = nil)
+    def self.read_row_from_pool(file, sheet, row_spec, columns = nil)
       raise "File #{file} does not exists" unless File.exist?(file)
-      work_book  = Spreadsheet.open file
-      work_sheet = work_book.worksheet sheet
+      work_book  = Spreadsheet.open(file)
+      work_sheet = work_book.worksheet(sheet)
 
-      pool_spec_key = "#{sheet}:#{rowspec}"
+      pool_spec_key = "#{sheet}:#{row_spec}"
       if @mru.key?(pool_spec_key)
         pool_spec = @mru[pool_spec_key]
         row_start = pool_spec[:start_row]
@@ -81,9 +79,9 @@ module TestCentricity
         end
 
         pool_spec = {
-            start_row: row_start,
-            num_rows:  row_end,
-            used_rows: mru_rows
+          start_row: row_start,
+          num_rows:  row_end,
+          used_rows: mru_rows
         }
       else
         # get column headings from row 0 of worksheet
@@ -98,24 +96,24 @@ module TestCentricity
           column_number += 1
         end
         raise "Could not find a column named ROW_NAME in worksheet #{sheet}" unless found
-        # find cell(s) in ROW_NAME column containing a string that matches the rowspec parameter
+        # find cell(s) in ROW_NAME column containing a string that matches the row_spec parameter
         found      = []
         row_number = 0
         work_sheet.each do |row|
-          if row[column_number] == rowspec
+          if row[column_number] == row_spec
             found.push(row_number)
           elsif !found.empty?
             break
           end
           row_number += 1
         end
-        raise "Could not find a row named '#{rowspec}' in worksheet #{sheet}" if found.empty?
+        raise "Could not find a row named '#{row_spec}' in worksheet #{sheet}" if found.empty?
 
         new_row   = found.sample.to_i
         pool_spec = {
-            start_row: found[0],
-            num_rows:  found.size,
-            used_rows: [new_row]
+          start_row: found[0],
+          num_rows:  found.size,
+          used_rows: [new_row]
         }
       end
       @mru[pool_spec_key] = pool_spec
@@ -123,14 +121,14 @@ module TestCentricity
       read_row_data(file, sheet, new_row, columns)
     end
 
-    def self.read_row_data(file, sheet, rowspec, columns = nil)
+    def self.read_row_data(file, sheet, row_spec, columns = nil)
       raise "File #{file} does not exists" unless File.exist?(file)
-      work_book  = Spreadsheet.open file
-      work_sheet = work_book.worksheet sheet
+      work_book  = Spreadsheet.open(file)
+      work_sheet = work_book.worksheet(sheet)
       # get column headings from row 0 of worksheet
       headings = work_sheet.row(0)
-      # if rowspec is a string then we have to find a matching row name
-      if rowspec.is_a? String
+      # if row_spec is a string then we have to find a matching row name
+      if row_spec.is_a? String
         column_number = 0
         found = false
         headings.each do |heading|
@@ -141,22 +139,22 @@ module TestCentricity
           column_number += 1
         end
         raise "Could not find a column named ROW_NAME in worksheet #{sheet}" unless found
-        # find first cell in ROW_NAME column containing a string that matches the rowspec parameter
+        # find first cell in ROW_NAME column containing a string that matches the row_spec parameter
         found = false
         row_number = 0
         work_sheet.each do |row|
-          if row[column_number] == rowspec
+          if row[column_number] == row_spec
             found = true
             break
           end
           row_number += 1
         end
-        raise "Could not find a row named '#{rowspec}' in worksheet #{sheet}" unless found
+        raise "Could not find a row named '#{row_spec}' in worksheet #{sheet}" unless found
         data = work_sheet.row(row_number)
-        # if rowspec is a number then ensure that it doesn't exceed the number of available rows
-      elsif rowspec.is_a? Numeric
-        raise "Row # #{rowspec} is greater than number of rows in worksheet #{sheet}" if rowspec > work_sheet.last_row_index
-        data = work_sheet.row(rowspec)
+        # if row_spec is a number then ensure that it doesn't exceed the number of available rows
+      elsif row_spec.is_a? Numeric
+        raise "Row # #{row_spec} is greater than number of rows in worksheet #{sheet}" if row_spec > work_sheet.last_row_index
+        data = work_sheet.row(row_spec)
       end
 
       # if no columns have been specified, return all columns
@@ -181,10 +179,10 @@ module TestCentricity
       result
     end
 
-    def self.read_range_data(file, sheet, rangespec)
+    def self.read_range_data(file, sheet, range_spec)
       raise "File #{file} does not exists" unless File.exist?(file)
-      work_book  = Spreadsheet.open file
-      work_sheet = work_book.worksheet sheet
+      work_book  = Spreadsheet.open(file)
+      work_sheet = work_book.worksheet(sheet)
       # get column headings from row 0 of worksheet
       headings = work_sheet.row(0)
       column_number = 0
@@ -197,24 +195,83 @@ module TestCentricity
         column_number += 1
       end
       raise "Could not find a column named ROW_NAME in worksheet #{sheet}" unless found
-      # find cell(s) in ROW_NAME column containing a string that matches the rangespec parameter
+      # find cell(s) in ROW_NAME column containing a string that matches the range_spec parameter
       found      = []
       row_number = 0
       work_sheet.each do |row|
-        if row[column_number] == rangespec
+        if row[column_number] == range_spec
           found.push(row_number)
         elsif !found.empty?
           break
         end
         row_number += 1
       end
-      raise "Could not find a row named '#{rangespec}' in worksheet #{sheet}" if found.empty?
+      raise "Could not find a row named '#{range_spec}' in worksheet #{sheet}" if found.empty?
 
       result = []
       found.each do |row|
         result.push(read_row_data(file, sheet, row))
       end
       result
+    end
+
+    def self.write_row_data(file, sheet, row_spec, row_data)
+      raise "File #{file} does not exists" unless File.exist?(file)
+      work_book  = Spreadsheet.open(file)
+      work_sheet = work_book.worksheet(sheet)
+      # get column headings from row 0 of worksheet
+      headings = work_sheet.row(0)
+      # find a matching row name
+      column_number = 0
+      found = false
+      headings.each do |heading|
+        if heading == 'ROW_NAME'
+          found = true
+          break
+        end
+        column_number += 1
+      end
+      raise "Could not find a column named ROW_NAME in worksheet #{sheet}" unless found
+      # find first cell in ROW_NAME column containing a string that matches the row_spec parameter
+      found = false
+      row_number = 0
+      work_sheet.each do |row|
+        if row[column_number] == row_spec
+          found = true
+          break
+        end
+        row_number += 1
+      end
+      raise "Could not find a row named '#{row_spec}' in worksheet #{sheet}" unless found
+      # iterate through the row_data Hash
+      row_data.each do |column, value|
+        column_number = 0
+        found = false
+        # find the column heading that matches the specified column name
+        headings.each do |heading|
+          if heading == column
+            found = true
+            break
+          end
+          column_number += 1
+        end
+        raise "Could not find a column named '#{column}' in worksheet #{sheet}" unless found
+        # set the value of the specified row and column
+        work_sheet.rows[row_number][column_number] = value
+      end
+      # iterate through all worksheets so that all worksheets are saved in new Excel document
+      worksheets = work_book.worksheets
+      worksheets.each do |worksheet|
+        headings = worksheet.row(0)
+        worksheet.rows[0][0] = headings[0]
+      end
+      # write all changes to new Excel document
+      outfile = file.gsub(File.basename(file), 'output.xls')
+      work_book.write outfile
+      # delete original Excel document
+      File.delete(file)
+      # rename new Excel document, replacing the original
+      File.rename(outfile, file)
     end
 
     private
@@ -230,11 +287,11 @@ module TestCentricity
         date_time = eval("Chronic.parse('#{date_time_params[0].strip}')")
         result = date_time.to_s.format_date_time("#{date_time_params[1].strip}")
       else
-        if Faker.constants.include?(parameter[0].to_sym)
-          result = eval("Faker::#{parameter[0]}.#{parameter[1]}")
-        else
-          result = eval(test_value[1])
-        end
+        result = if Faker.constants.include?(parameter[0].to_sym)
+                   eval("Faker::#{parameter[0]}.#{parameter[1]}")
+                 else
+                   eval(test_value[1])
+                 end
       end
       result.to_s
     end

@@ -517,7 +517,7 @@ module TestCentricity
     #   home_page.secure?
     #
     def secure?
-      !current_url.match(/^https/).nil?
+      current_url.start_with?('https')
     end
 
     def verify_ui_states(ui_states, fail_message = nil)
@@ -568,6 +568,10 @@ module TestCentricity
             actual = ui_object.get_max
           when :step
             actual = ui_object.get_step
+          when :loaded
+            actual = ui_object.loaded?
+          when :broken
+            actual = ui_object.broken?
           when :options, :items, :list_items
             actual = ui_object.get_list_items
           when :optioncount, :itemcount
@@ -618,7 +622,7 @@ module TestCentricity
             end
           end
           error_msg = "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) #{property} property to"
-          ExceptionQueue.enqueue_comparison(state, actual, error_msg)
+          ExceptionQueue.enqueue_comparison(ui_object, state, actual, error_msg)
         end
       end
     rescue ObjectNotFoundError => e

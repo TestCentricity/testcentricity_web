@@ -13,8 +13,8 @@ module TestCentricity
     attr_accessor :list_index
     attr_accessor :locator_type
 
-    XPATH_SELECTORS = ['//', '[@', '[contains(@']
-    CSS_SELECTORS   = ['#', ':nth-child(', ':nth-of-type(', '^=', '$=', '*=']
+    XPATH_SELECTORS = ['//', '[@', '[contains(']
+    CSS_SELECTORS   = ['#', ':nth-child(', ':first-child', ':last-child', ':nth-of-type(', ':first-of-type', ':last-of-type', '^=', '$=', '*=', ':contains(']
 
     def initialize(name, parent, locator, context)
       @name         = name
@@ -743,6 +743,10 @@ module TestCentricity
             actual = ui_object.get_max
           when :step
             actual = ui_object.get_step
+          when :loaded
+            actual = ui_object.loaded?
+          when :broken
+            actual = ui_object.broken?
           when :options, :items, :list_items
             actual = ui_object.get_list_items
           when :optioncount, :itemcount
@@ -793,7 +797,7 @@ module TestCentricity
             end
           end
           error_msg = "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) #{property} property to"
-          ExceptionQueue.enqueue_comparison(state, actual, error_msg)
+          ExceptionQueue.enqueue_comparison(ui_object, state, actual, error_msg)
         end
       end
     rescue ObjectNotFoundError => e
@@ -874,7 +878,7 @@ module TestCentricity
 
     def find_section
       locator = get_locator
-      locator = locator.gsub('|', ' ')
+      locator = locator.tr('|', ' ')
       obj = page.find(@locator_type, locator, wait: 0.1)
       [obj, @locator_type]
     rescue
