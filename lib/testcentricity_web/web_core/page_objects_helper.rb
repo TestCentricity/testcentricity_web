@@ -470,12 +470,16 @@ module TestCentricity
     # @example
     #   home_page.wait_until_exists(15)
     #
-    def wait_until_exists(seconds = nil)
+    def wait_until_exists(seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { exists? }
     rescue
-      raise "Page object #{self.class.name} not found after #{timeout} seconds" unless exists?
+      if post_exception
+        raise "Page object #{self.class.name} not found after #{timeout} seconds" unless exists?
+      else
+        exists?
+      end
     end
 
     # Wait until the page object no longer exists, or until the specified wait time has expired. If the wait time is nil, then
@@ -485,12 +489,16 @@ module TestCentricity
     # @example
     #   payment_processing_page.wait_until_gone(15)
     #
-    def wait_until_gone(seconds = nil)
+    def wait_until_gone(seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { !exists? }
     rescue
-      raise "Page object #{self.class.name} remained visible after #{timeout} seconds" if exists?
+      if post_exception
+        raise "Page object #{self.class.name} remained visible after #{timeout} seconds" if exists?
+      else
+        exists?
+      end
     end
 
     # Wait until all AJAX requests have completed, or until the specified wait time has expired. If the wait time is nil, then

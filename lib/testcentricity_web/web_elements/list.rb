@@ -68,6 +68,8 @@ module TestCentricity
       obj.all(@list_item).count
     end
 
+    alias item_count get_item_count
+
     def get_all_list_items(element_spec = nil)
       define_list_elements(element_spec) unless element_spec.nil?
       obj, = find_element
@@ -123,12 +125,16 @@ module TestCentricity
     #     or
     #   search_results_list.wait_until_item_count_is({ greater_than_or_equal: 1 }, 5)
     #
-    def wait_until_item_count_is(value, seconds = nil)
+    def wait_until_item_count_is(value, seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { compare(value, get_item_count) }
     rescue
-      raise "Value of List #{object_ref_message} failed to equal '#{value}' after #{timeout} seconds" unless get_item_count == value
+      if post_exception
+        raise "Value of List #{object_ref_message} failed to equal '#{value}' after #{timeout} seconds" unless get_item_count == value
+      else
+        get_item_count == value
+      end
     end
 
     # Wait until the list's item count changes to a different value, or until the specified wait time has expired. If the
@@ -138,13 +144,17 @@ module TestCentricity
     # @example
     #   search_results_list.wait_until_value_changes(5)
     #
-    def wait_until_item_count_changes(seconds = nil)
+    def wait_until_item_count_changes(seconds = nil, post_exception = true)
       value = get_item_count
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { get_item_count != value }
     rescue
-      raise "Value of List #{object_ref_message} failed to change from '#{value}' after #{timeout} seconds" if get_item_count == value
+      if post_exception
+        raise "Value of List #{object_ref_message} failed to change from '#{value}' after #{timeout} seconds" if get_item_count == value
+      else
+        get_item_count == value
+      end
     end
   end
 end

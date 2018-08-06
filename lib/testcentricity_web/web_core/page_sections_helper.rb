@@ -38,21 +38,23 @@ module TestCentricity
     end
 
     def get_locator
-      if @locator.empty? && defined?(section_locator)
-        locator = section_locator
-      else
-        locator = @locator
-      end
-
+      locator = if @locator.empty? && defined?(section_locator)
+                  section_locator
+                else
+                  @locator
+                end
       unless @parent_list.nil?
-        locator = "#{@parent_list.get_locator}|#{locator}"
+        locator = if @locator_type == @parent_list.get_locator_type
+                    "#{@parent_list.get_locator} #{locator}"
+                  else
+                    "#{@parent_list.get_locator}|#{locator}"
+                  end
         unless @list_index.nil?
-          case @locator_type
-            when :xpath
-              locator = "(#{locator})[#{@list_index}]"
-            when :css
-              locator = "#{locator}:nth-of-type(#{@list_index})"
-          end
+          locator = if @locator_type == :xpath
+                      "#{locator}[#{@list_index}]"
+                    else
+                      "#{locator}:nth-of-type(#{@list_index})"
+                    end
         end
       end
 
@@ -65,6 +67,10 @@ module TestCentricity
 
     def get_locator_type
       @locator_type
+    end
+
+    def get_parent_list
+      @parent_list
     end
 
     def set_list_index(list, index = 1)
@@ -580,12 +586,16 @@ module TestCentricity
     # @example
     #   navigation_toolbar.wait_until_exists(0.5)
     #
-    def wait_until_exists(seconds = nil)
+    def wait_until_exists(seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { exists? }
     rescue
-      raise "Could not find Section object '#{get_name}' (#{get_locator}) after #{timeout} seconds" unless exists?
+      if post_exception
+        raise "Could not find Section object '#{get_name}' (#{get_locator}) after #{timeout} seconds" unless exists?
+      else
+        exists?
+      end
     end
 
     # Wait until the Section object no longer exists, or until the specified wait time has expired. If the wait time is
@@ -595,12 +605,16 @@ module TestCentricity
     # @example
     #   navigation_toolbar.wait_until_gone(5)
     #
-    def wait_until_gone(seconds = nil)
+    def wait_until_gone(seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { !exists? }
     rescue
-      raise "Section object '#{get_name}' (#{get_locator}) remained visible after #{timeout} seconds" if exists?
+      if post_exception
+        raise "Section object '#{get_name}' (#{get_locator}) remained visible after #{timeout} seconds" if exists?
+      else
+        exists?
+      end
     end
 
     # Wait until the Section object is visible, or until the specified wait time has expired. If the wait time is nil,
@@ -610,12 +624,16 @@ module TestCentricity
     # @example
     #   bar_chart_section.wait_until_visible(0.5)
     #
-    def wait_until_visible(seconds = nil)
+    def wait_until_visible(seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { visible? }
     rescue
-      raise "Could not find Section object '#{get_name}' (#{get_locator}) after #{timeout} seconds" unless visible?
+      if post_exception
+        raise "Could not find Section object '#{get_name}' (#{get_locator}) after #{timeout} seconds" unless visible?
+      else
+        visible?
+      end
     end
 
     # Wait until the Section object is hidden, or until the specified wait time has expired. If the wait time is nil,
@@ -625,12 +643,16 @@ module TestCentricity
     # @example
     #   bar_chart_section.wait_until_hidden(10)
     #
-    def wait_until_hidden(seconds = nil)
+    def wait_until_hidden(seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { hidden? }
     rescue
-      raise "Section object '#{get_name}' (#{get_locator}) remained visible after #{timeout} seconds" if visible?
+      if post_exception
+        raise "Section object '#{get_name}' (#{get_locator}) remained visible after #{timeout} seconds" if visible?
+      else
+        visible?
+      end
     end
 
     # Click on a Section object

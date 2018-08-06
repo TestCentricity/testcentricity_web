@@ -22,7 +22,6 @@ module TestCentricity
   class Environ < TestCentricity::DataObject
     @session_id = Time.now.strftime('%d%H%M%S%L')
     @session_time_stamp = Time.now.strftime('%Y%m%d%H%M%S')
-    @session_code
     @test_environment = ENV['TEST_ENVIRONMENT']
     @screen_shots = []
 
@@ -31,6 +30,7 @@ module TestCentricity
     attr_accessor :browser_size
     attr_accessor :headless
     attr_accessor :session_state
+    attr_accessor :session_code
     attr_accessor :os
     attr_accessor :device
     attr_accessor :device_name
@@ -60,17 +60,17 @@ module TestCentricity
     attr_accessor :db_password
 
     def initialize(data)
-      @protocol     	  = data['PROTOCOL']
-      @hostname         = data['HOST_NAME']
-      @base_url         = data['BASE_URL']
-      @user_id	        = data['USER_ID']
-      @password	        = data['PASSWORD']
-      @append	          = data['APPEND']
-      @option1	        = data['OPTIONAL_1']
-      @option2	        = data['OPTIONAL_2']
-      @dns	            = data['DNS']
-      @db_username      = data['DB_USERNAME']
-      @db_password      = data['DB_PASSWORD']
+      @protocol    = data['PROTOCOL']
+      @hostname    = data['HOST_NAME']
+      @base_url    = data['BASE_URL']
+      @user_id	   = data['USER_ID']
+      @password	   = data['PASSWORD']
+      @append	     = data['APPEND']
+      @option1	   = data['OPTIONAL_1']
+      @option2	   = data['OPTIONAL_2']
+      @dns	       = data['DNS']
+      @db_username = data['DB_USERNAME']
+      @db_password = data['DB_PASSWORD']
       super
     end
 

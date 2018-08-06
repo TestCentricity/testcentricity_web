@@ -68,6 +68,10 @@ module TestCentricity
                       end
     end
 
+    def get_locator_type
+      @locator_type
+    end
+
     def get_object_type
       if @type
         @type
@@ -248,12 +252,16 @@ module TestCentricity
     # @example
     #   run_button.wait_until_exists(0.5)
     #
-    def wait_until_exists(seconds = nil)
+    def wait_until_exists(seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { exists? }
     rescue StandardError
-      raise "Could not find UI #{object_ref_message} after #{timeout} seconds" unless exists?
+      if post_exception
+        raise "Could not find UI #{object_ref_message} after #{timeout} seconds" unless exists?
+      else
+        exists?
+      end
     end
 
     # Wait until the object no longer exists, or until the specified wait time has expired. If the wait time is nil, then
@@ -263,12 +271,16 @@ module TestCentricity
     # @example
     #   logout_button.wait_until_gone(5)
     #
-    def wait_until_gone(seconds = nil)
+    def wait_until_gone(seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { !exists? }
     rescue StandardError
-      raise "UI #{object_ref_message} remained visible after #{timeout} seconds" if exists?
+      if post_exception
+        raise "UI #{object_ref_message} remained visible after #{timeout} seconds" if exists?
+      else
+        exists?
+      end
     end
 
     # Wait until the object is visible, or until the specified wait time has expired. If the wait time is nil, then the
@@ -278,12 +290,16 @@ module TestCentricity
     # @example
     #   run_button.wait_until_visible(0.5)
     #
-    def wait_until_visible(seconds = nil)
+    def wait_until_visible(seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { visible? }
     rescue StandardError
-      raise "Could not find UI #{object_ref_message} after #{timeout} seconds" unless visible?
+      if post_exception
+        raise "Could not find UI #{object_ref_message} after #{timeout} seconds" unless visible?
+      else
+        visible?
+      end
     end
 
     # Wait until the object is hidden, or until the specified wait time has expired. If the wait time is nil, then the
@@ -293,12 +309,16 @@ module TestCentricity
     # @example
     #   run_button.wait_until_hidden(10)
     #
-    def wait_until_hidden(seconds = nil)
+    def wait_until_hidden(seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { hidden? }
     rescue StandardError
-      raise "UI #{object_ref_message} remained visible after #{timeout} seconds" if visible?
+      if post_exception
+        raise "UI #{object_ref_message} remained visible after #{timeout} seconds" if visible?
+      else
+        visible?
+      end
     end
 
     # Wait until the object's value equals the specified value, or until the specified wait time has expired. If the wait
@@ -311,12 +331,16 @@ module TestCentricity
     #     or
     #   total_weight_field.wait_until_value_is({ greater_than: '250' }, 5)
     #
-    def wait_until_value_is(value, seconds = nil)
+    def wait_until_value_is(value, seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { compare(value, get_value) }
     rescue StandardError
-      raise "Value of UI #{object_ref_message} failed to equal '#{value}' after #{timeout} seconds" unless get_value == value
+      if post_exception
+        raise "Value of UI #{object_ref_message} failed to equal '#{value}' after #{timeout} seconds" unless get_value == value
+      else
+        get_value == value
+      end
     end
 
     # Wait until the object's value changes to a different value, or until the specified wait time has expired. If the
@@ -326,13 +350,33 @@ module TestCentricity
     # @example
     #   basket_grand_total_label.wait_until_value_changes(5)
     #
-    def wait_until_value_changes(seconds = nil)
+    def wait_until_value_changes(seconds = nil, post_exception = true)
       value = get_value
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { get_value != value }
     rescue StandardError
-      raise "Value of UI #{object_ref_message} failed to change from '#{value}' after #{timeout} seconds" if get_value == value
+      if post_exception
+        raise "Value of UI #{object_ref_message} failed to change from '#{value}' after #{timeout} seconds" if get_value == value
+      else
+        get_value == value
+      end
+    end
+
+    # Return the number of occurrences of an object with an ambiguous locator that evaluates to multiple UI elements.
+    #
+    # @param visible [Boolean, Symbol] Only find elements with the specified visibility:
+    #                                    * true - only finds visible elements.
+    #                                    * false - finds invisible _and_ visible elements.
+    #                                    * :all - same as false; finds visible and invisible elements.
+    #                                    * :hidden - only finds invisible elements.
+    #                                    * :visible - same as true; only finds visible elements.
+    # @example
+    #   num_uploads = upload_progress_bars.count(:all)
+    #
+    def count(visible = true)
+      obj_locator = @alt_locator.nil? ? @locator : @alt_locator
+      page.all(@locator_type, obj_locator, wait: 0.01, visible: visible, minimum: 0).count
     end
 
     # Return width of object.
@@ -448,7 +492,7 @@ module TestCentricity
     # Highlight an object with a 3 pixel wide, red dashed border for the specified wait time.
     # If wait time is zero, then the highlight will remain until the page is refreshed
     #
-    # @param seconds [Integer or Float] wait time in seconds
+    # @param duration [Integer or Float] wait time in seconds
     # @example
     #   error_message.highlight(3)
     #
@@ -516,18 +560,17 @@ module TestCentricity
       obj_locator = @alt_locator.nil? ? @locator : @alt_locator
       parent_section = @context == :section && !@parent.get_locator.nil?
       tries ||= parent_section ? 2 : 1
-
-      if parent_section && tries > 1
+      if parent_section && tries == 2
         parent_locator = @parent.get_locator
         parent_locator = parent_locator.tr('|', ' ')
         parent_locator_type = @parent.get_locator_type
-        obj = page.find(parent_locator_type, parent_locator, wait: 0.01).find(@locator_type, obj_locator, wait: 0.01, visible: visible)
+        obj = page.find(parent_locator_type, parent_locator, visible: :all, wait: 0.01).find(@locator_type, obj_locator, wait: 0.01, visible: visible)
       else
         obj = page.find(@locator_type, obj_locator, wait: 0.01, visible: visible)
       end
       [obj, @locator_type]
     rescue StandardError
-      retry if (tries -= 1) > 0
+      retry if (tries -= 1).positive?
       [nil, nil]
     end
 

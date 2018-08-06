@@ -41,12 +41,16 @@ module TestCentricity
     # @example
     #   company_logo_image.wait_until_loaded(5)
     #
-    def wait_until_loaded(seconds = nil)
+    def wait_until_loaded(seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { is_loaded? }
     rescue
-      raise "Image #{object_ref_message} failed to load within #{timeout} seconds" unless is_loaded?
+      if post_exception
+        raise "Image #{object_ref_message} failed to load within #{timeout} seconds" unless loaded?
+      else
+        loaded?
+      end
     end
   end
 end

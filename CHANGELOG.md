@@ -1,6 +1,10 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.0.11] - 2018-08-05
+### Added
+* `UIElement.count` method.
+
 ## [3.0.10] - 2018-07-20
 ### Added
 * `Image.broken?` method.
