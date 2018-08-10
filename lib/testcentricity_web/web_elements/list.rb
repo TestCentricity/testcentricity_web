@@ -26,15 +26,42 @@ module TestCentricity
       end
     end
 
+    # Select the specified item in a list object. Accepts a String or Integer.
+    #
+    # @param item [String, Integer] text or index of item to select
+    #
+    # @example
+    #   province_list.choose_item(2)
+    #   province_list.choose_item('Manitoba')
+    #
     def choose_item(item)
       obj, = find_element
       object_not_found_exception(obj, nil)
       if item.is_a?(Integer)
-        obj.find(:css, "#{@list_item}:nth-of-type(#{item})").click
+        obj.find(:css, "#{@list_item}:nth-of-type(#{item})", visible: true, minimum: 0).click
       elsif item.is_a?(String)
         items = obj.all(@list_item).collect(&:text)
         sleep(2) unless items.include?(item)
         obj.first(:css, @list_item, text: item).click
+      end
+    end
+
+    # Hover over the specified item in a list object. Accepts a String or Integer.
+    #
+    # @param item [String, Integer] text or index of item to hover over
+    # @example
+    #   province_list.hover_item(2)
+    #   province_list.hover_item('Manitoba')
+    #
+    def hover_item(item)
+      obj, = find_element
+      object_not_found_exception(obj, nil)
+      if item.is_a?(Integer)
+        obj.find(:css, "#{@list_item}:nth-of-type(#{item})", visible: true, minimum: 0).hover
+      elsif item.is_a?(String)
+        items = obj.all(@list_item).collect(&:text)
+        sleep(2) unless items.include?(item)
+        obj.first(:css, @list_item, text: item).hover
       end
     end
 

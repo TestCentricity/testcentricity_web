@@ -1,6 +1,11 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.0.12] - 2018-08-10
+### Added
+* `PageSection.hover` method.
+* `List.hover_item` method.
+
 ## [3.0.11] - 2018-08-05
 ### Added
 * `UIElement.count` method.

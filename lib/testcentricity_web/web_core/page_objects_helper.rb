@@ -590,6 +590,10 @@ module TestCentricity
             actual = ui_object.get_all_items_count
           when :column_headers
             actual = ui_object.get_header_columns
+          when :count, :count_visible
+            actual = ui_object.count(visible = true)
+          when :count_all
+            actual = ui_object.count(visible = :all)
           when :siebel_options
             actual = ui_object.get_siebel_options
           else

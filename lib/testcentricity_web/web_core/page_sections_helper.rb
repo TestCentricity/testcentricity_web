@@ -717,6 +717,17 @@ module TestCentricity
       section.send_keys(*keys)
     end
 
+    # Hover the cursor over a Section object
+    #
+    # @example
+    #   bar_chart_section.hover
+    #
+    def hover
+      section, = find_section
+      section_not_found_exception(section)
+      section.hover
+    end
+
     def verify_ui_states(ui_states, fail_message = nil)
       ui_states.each do |ui_object, object_states|
         object_states.each do |property, state|
@@ -779,6 +790,10 @@ module TestCentricity
             actual = ui_object.get_all_items_count
           when :column_headers
             actual = ui_object.get_header_columns
+          when :count, :count_visible
+            actual = ui_object.count(visible = true)
+          when :count_all
+            actual = ui_object.count(visible = :all)
           when :siebel_options
             actual = ui_object.get_siebel_options
           else
