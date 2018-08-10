@@ -1,7 +1,12 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
-## [3.0.12] - 2018-08-10
+## [3.0.13] - 2018-08-10
+
+### Fixed
+* Improved response times of `List.get_item_count` and `List.get_list_items` methods by shortening `wait` time.
+
+## [3.0.12] - 2018-08-09
 ### Added
 * `PageSection.hover` method.
 * `List.hover_item` method.
