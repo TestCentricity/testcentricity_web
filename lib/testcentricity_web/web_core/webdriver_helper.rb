@@ -322,6 +322,12 @@ module TestCentricity
 
       Capybara.default_driver = :browserstack
       Capybara.run_server = false
+      # configure file_detector for remote uploads
+      selenium = Capybara.page.driver.browser
+      selenium.file_detector = lambda do |args|
+        str = args.first.to_s
+        str if File.exist?(str)
+      end
     end
 
     def self.initialize_crossbrowser
@@ -358,6 +364,12 @@ module TestCentricity
 
       Capybara.default_driver = :crossbrowser
       Capybara.run_server = false
+      # configure file_detector for remote uploads
+      selenium = Capybara.page.driver.browser
+      selenium.file_detector = lambda do |args|
+        str = args.first.to_s
+        str if File.exist?(str)
+      end
     end
 
     def self.initialize_gridlastic
@@ -387,6 +399,12 @@ module TestCentricity
       if ENV['RECORD_VIDEO']
         session_id = Capybara.current_session.driver.browser.instance_variable_get(:@bridge).session_id
         puts "TEST VIDEO URL: #{ENV['VIDEO_URL']}#{session_id}"
+      end
+      # configure file_detector for remote uploads
+      selenium = Capybara.page.driver.browser
+      selenium.file_detector = lambda do |args|
+        str = args.first.to_s
+        str if File.exist?(str)
       end
     end
 
@@ -419,6 +437,12 @@ module TestCentricity
       end
       Capybara.current_driver = :remote_browser
       Capybara.default_driver = :remote_browser
+      # configure file_detector for remote uploads
+      selenium = Capybara.page.driver.browser
+      selenium.file_detector = lambda do |args|
+        str = args.first.to_s
+        str if File.exist?(str)
+      end
     end
 
     def self.initialize_saucelabs
@@ -458,6 +482,12 @@ module TestCentricity
 
       Capybara.default_driver = :saucelabs
       Capybara.run_server = false
+      # configure file_detector for remote uploads
+      selenium = Capybara.page.driver.browser
+      selenium.file_detector = lambda do |args|
+        str = args.first.to_s
+        str if File.exist?(str)
+      end
     end
 
     def self.initialize_testingbot
@@ -502,6 +532,12 @@ module TestCentricity
 
       Capybara.default_driver = :testingbot
       Capybara.run_server = false
+      # configure file_detector for remote uploads
+      selenium = Capybara.page.driver.browser
+      selenium.file_detector = lambda do |args|
+        str = args.first.to_s
+        str if File.exist?(str)
+      end
     end
   end
 end

@@ -6,7 +6,7 @@
 The TestCentricity™ Web core generic framework for desktop and mobile web browser-based application testing implements a Page Object and Data
 Object Model DSL for use with Cucumber, Capybara (version 3.x), and Selenium-Webdriver (version 3.x).
 
-An example project that demonstrates the implementation of a page object model framework using Cucumber and TestCentricity™ can be found [here](https://github.com/TestCentricity/tc_web_sample).
+**An example project that demonstrates the implementation of a page object model framework using Cucumber and TestCentricity™ can be found [here](https://github.com/TestCentricity/tc_web_sample).**
 
 The TestCentricity™ Web gem supports running automated tests against the following web test targets:
 * locally hosted desktop browsers (Firefox, Chrome, Safari, or IE)
@@ -229,15 +229,14 @@ the UI to hide implementation details, as shown below:
       # verify Login page default UI state
       def verify_page_ui
         ui = {
-            login_button         => { :visible => true, :caption => 'LOGIN' },
-            user_id_field        => { :visible => true, :enabled => true },
-            password_field       => { :visible => true, :enabled => true, :value => '', :placeholder => 'Password' },
-            remember_checkbox    => { :exists  => true, :enabled => true, :checked => false },
-            forgot_password_link => { :visible => true, :caption => 'Forgot your password?' },
-            error_message_label  => { :visible => false }
+            login_button         => { visible: true, caption: 'LOGIN' },
+            user_id_field        => { visible: true, enabled: true },
+            password_field       => { visible: true, enabled: true, value: '', placeholder: 'Password' },
+            remember_checkbox    => { :exists  => true, enabled: true, checked: false },
+            forgot_password_link => { visible: true, caption: 'Forgot your password?' },
+            error_message_label  => { visible: false }
             }
         verify_ui_states(ui)
-        super
       end
     end
         
@@ -537,27 +536,29 @@ to be instantiated by **PageManager**:
     
     module WorldPages
       def page_objects
-        { :login_page                => LoginPage,
-          :home_page                 => HomePage,
-          :registration_page         => RegistrationPage,
-          :search_results_page       => SearchResultsPage,
-          :products_grid_page        => ProductsCollectionPage,
-          :product_detail_page       => ProductDetailPage,
-          :shopping_basket_page      => ShoppingBasketPage,
-          :payment_method_page       => PaymentMethodPage,
-          :confirm_purchase_page     => PurchaseConfirmationPage,
-          :my_account_page           => MyAccountPage,
-          :my_order_history_page     => MyOrderHistoryPage,
-          :my_ship_to_addresses_page => MyShipToAddressesPage,
-          :terms_conditions_page     => TermsConditionsPage,
-          :privacy_policy_page       => PrivacyPolicyPage,
-          :faqs_page                 => FAQsPage,
-          :contact_us_page           => ContactUsPage
+        {
+            login_page:                LoginPage,
+            home_page:                 HomePage,
+            registration_page:         RegistrationPage,
+            search_results_page:       SearchResultsPage,
+            products_grid_page:        ProductsCollectionPage,
+            product_detail_page:       ProductDetailPage,
+            shopping_basket_page:      ShoppingBasketPage,
+            payment_method_page:       PaymentMethodPage,
+            confirm_purchase_page:     PurchaseConfirmationPage,
+            my_account_page:           MyAccountPage,
+            my_order_history_page:     MyOrderHistoryPage,
+            my_ship_to_addresses_page: MyShipToAddressesPage,
+            terms_conditions_page:     TermsConditionsPage,
+            privacy_policy_page:       PrivacyPolicyPage,
+            faqs_page:                 FAQsPage,
+            contact_us_page:           ContactUsPage
         }
       end
     end
     
     World(WorldPages)
+
     
 The `WorldPages` module above should be defined in the `world_pages.rb` file in the `features/support` folder.
 

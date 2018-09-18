@@ -1,6 +1,12 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.0.14] - 2018-09-17
+
+### Added
+* Added support for performing file uploads in browsers running on remote cloud hosted services as well as in Selenium Grid and Dockerized Selenium
+Grid environments.
+
 ## [3.0.13] - 2018-08-10
 
 ### Fixed

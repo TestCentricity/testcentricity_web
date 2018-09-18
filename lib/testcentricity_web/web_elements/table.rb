@@ -29,8 +29,8 @@ module TestCentricity
         table_spec[:tree_expand]   = "div/div[contains(@class, 'tree-plus treeclick')]"
         table_spec[:tree_collapse] = "div/div[contains(@class, 'tree-minus treeclick')]"
       when :css
-        table_spec[:tree_expand]   = "div/div[class*='tree-plus treeclick']"
-        table_spec[:tree_collapse] = "div/div[class*='tree-minus treeclick']"
+        table_spec[:tree_expand]   = "div > div[class*='tree-plus treeclick']"
+        table_spec[:tree_collapse] = "div > div[class*='tree-minus treeclick']"
       end
       define_table_elements(table_spec)
     end
