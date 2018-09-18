@@ -9,6 +9,12 @@ Capybara::Node::Element.class_eval do
     driver.browser.action.move_to(native).move_by(right.to_i, top.to_i).click.perform
   end
 
+  def hover_at(x, y)
+    right = x - (native.size.width / 2)
+    top = y - (native.size.height / 2)
+    driver.browser.action.move_to(native).move_by(right.to_i, top.to_i).perform
+  end
+
   def get_width
     native.size.width
   end
@@ -470,6 +476,19 @@ module TestCentricity
       obj, type = find_element
       object_not_found_exception(obj, type)
       obj.hover
+    end
+
+    # Hover at a specific location within an object
+    #
+    # @param x [Integer] X offset
+    # @param y [Integer] Y offset
+    # @example
+    #   timeline_bar.hover_at(100, 5)
+    #
+    def hover_at(x, y)
+      obj, = find_element
+      raise "UI #{object_ref_message} not found" unless obj
+      obj.hover_at(x, y)
     end
 
     def drag_by(right_offset, down_offset)

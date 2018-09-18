@@ -1,6 +1,12 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.0.15] - 2018-09-19
+
+### Added
+* `UIElement.hover_at` method.
+* Added support for specifying IP Geolocation when testing on BrowserStack cloud hosted browsers.
+
 ## [3.0.14] - 2018-09-17
 
 ### Added

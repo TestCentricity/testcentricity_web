@@ -465,6 +465,7 @@ With TestCentricity, all UI elements are based on the **UIElement** class, and i
     element.right_click
     element.click_at(x, y)
     element.hover
+    element.hover_at(x, y)
     element.drag_by(right_offset, down_offset)
     element.drag_and_drop(target, right_offset, down_offset)
 
@@ -477,6 +478,7 @@ With TestCentricity, all UI elements are based on the **UIElement** class, and i
     element.disabled?
     element.displayed?
     element.get_value
+    element.count
     element.width
     element.height
     element.x
@@ -578,17 +580,17 @@ navigated to by clicking associated links. One such Cucumber navigation scenario
 
     Scenario Outline:  Verify Home page navigation links
       Given I am on the Home page
-      When I click the <page> navigation link
-      Then I expect the <page> page to be correctly displayed
+      When I click the <page_name> navigation link
+      Then I expect the <page_name> page to be correctly displayed
     
       Examples:
-        |page                    |
-        |Registration            |
-        |My Account              |
-        |Terms & Conditions      |
-        |Privacy Policy          |
-        |FAQs                    |
-        |Contact Us              |
+        |page_name          |
+        |Registration       |
+        |My Account         |
+        |Terms & Conditions |
+        |Privacy Policy     |
+        |FAQs               |
+        |Contact Us         |
 
 In the above example, the step definitions associated with the 3 steps might be implemented using a `page_dispatcher` method using a
 `case` statement to parse the `page` parameter as in the example below:
@@ -896,6 +898,7 @@ for information regarding the specific capabilities.
 `ORIENTATION`    | [Optional] Set to `portrait` or `landscape`
 `RECORD_VIDEO`   | [Optional] Enable screen video recording during test execution (`true` or `false`)
 `TIME_ZONE`      | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart
+`IP_GEOLOCATION` | [Optional] Specify IP Geolocation. Refer to [IP Geolocation](https://www.browserstack.com/automate/ip-geolocation) to select a country code.
 `CONSOLE_LOGS`   | [Optional] Used to capture browser console logs. Refer to `browserstack.console` capability in chart
 
 

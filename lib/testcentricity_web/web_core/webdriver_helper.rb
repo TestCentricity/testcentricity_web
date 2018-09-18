@@ -267,6 +267,7 @@ module TestCentricity
         capabilities['browserstack.selenium_version'] = ENV['SELENIUM_VERSION'] if ENV['SELENIUM_VERSION']
         capabilities['browserstack.console'] = ENV['CONSOLE_LOGS'] if ENV['CONSOLE_LOGS']
         capabilities['browserstack.timezone'] = ENV['TIME_ZONE'] if ENV['TIME_ZONE']
+        capabilities['browserstack.geoLocation'] = ENV['IP_GEOLOCATION'] if ENV['IP_GEOLOCATION']
         capabilities['browserstack.video'] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
         capabilities['browserstack.debug'] = 'true'
         capabilities['project'] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
