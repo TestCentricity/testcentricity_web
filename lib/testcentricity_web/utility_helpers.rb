@@ -6,6 +6,10 @@ class Object
   def present?
     !blank?
   end
+
+  def boolean?
+    [true, false].include? self
+  end
 end
 
 

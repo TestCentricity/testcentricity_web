@@ -1,11 +1,19 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.0.16] - 2018-09-21
+
+### Added
+* `Image.src` and `Image.alt` method.
+* Added `Video` and `Audio` type `UIElement` to support verification of HTML5 Video and Audio Objects.
+
+
 ## [3.0.15] - 2018-09-19
 
 ### Added
 * `UIElement.hover_at` method.
 * Added support for specifying IP Geolocation when testing on BrowserStack cloud hosted browsers.
+
 
 ## [3.0.14] - 2018-09-17
 
@@ -13,19 +21,23 @@ All notable changes to this project will be documented in this file.
 * Added support for performing file uploads in browsers running on remote cloud hosted services as well as in Selenium Grid and Dockerized Selenium
 Grid environments.
 
+
 ## [3.0.13] - 2018-08-10
 
 ### Fixed
 * Improved response times of `List.get_item_count` and `List.get_list_items` methods by shortening `wait` time.
+
 
 ## [3.0.12] - 2018-08-09
 ### Added
 * `PageSection.hover` method.
 * `List.hover_item` method.
 
+
 ## [3.0.11] - 2018-08-05
 ### Added
 * `UIElement.count` method.
+
 
 ## [3.0.10] - 2018-07-20
 ### Added
@@ -56,6 +68,7 @@ any UI element with property states that do not match expected results.
 * `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods now accept optional `fail_message` string parameter to add context to error
 messages when UI verifications raise an exception.
 
+
 ## [3.0.7] - 2018-06-21
 
 ### Added
@@ -65,6 +78,7 @@ Grid environments.
 
 ### Deprecated
 * Deprecated `TestCentricity::WebDriverConnect.set_webdriver_path` method because the correct WebDriver is now automatically set.
+
 
 ## [3.0.6] - 2018-06-14
 
@@ -78,25 +92,30 @@ logs when running tests on BrowserStack hosted browsers. Refer to **section 8.5.
 * Updated device profiles for iPhone 7 (iOS 11) with Mobile Edge browser and iPad (iOS 11) with Mobile Edge browser.
 * Updated device profiles for iPhone 7 (iOS 11) with Mobile Chrome browser and iPad (iOS 11) with Mobile Chrome browser.
 
+
 ## [3.0.5] - 2018-05-17
 
 ### Added
 * Added `Environ.headless` method. Will return `true` if testing against a *headless* instance of Chrome or Firefox.
+
 
 ## [3.0.4] - 2018-05-12
 
 ### Fixed
 * Refactored `SelectList` methods to work with Capybara version 3.x.
 
+
 ## [3.0.3] - 2018-05-09
 
 ### Changed
 * Pinning to Capybara version 2.18.0 because Capybara 3.x breaks several `SelectList` methods.
 
+
 ## [3.0.2] - 2018-05-09
 
 ### Changed
 * `PageManager.find_page` method now raises an exception if the requested page object has not been defined and instantiated.
+
 
 ## [3.0.1] - 2018-04-28
 
@@ -104,6 +123,7 @@ logs when running tests on BrowserStack hosted browsers. Refer to **section 8.5.
 * Updated device profiles for iPhone 7 (iOS 11) with Mobile Firefox browser and iPad (iOS 10) with Mobile Firefox browser.
 * Updated device profiles for iPhone 7 (iOS 11) with Mobile Edge browser and iPad (iOS 10) with Mobile Edge browser.
 * Updated device profiles for iPhone 7 (iOS 11) with Mobile Chrome browser and iPad (iOS 10) with Mobile Chrome browser.
+
 
 ## [3.0.0] - 2018-04-25
 
@@ -118,15 +138,18 @@ of Firefox web browsers.
 * `TestCentricity::WebDriverConnect.set_webdriver_path` method now sets the path to the appropriate **geckodriver** file for OS X or Windows when testing on
 locally hosted Firefox browsers.
 
+
 ## [2.4.3] - 2018-04-11
 
 ### Changed
 * Updated device profiles for iPhone 7 (iOS 11) with Mobile Firefox browser and iPad (iOS 10) with Mobile Firefox browser.
 
+
 ## [2.4.1] - 2018-03-27
 
 ### Added
 * Added device profiles for iPad (iOS 10) with MS Edge browser.
+
 
 ## [2.4.0] - 2018-03-25
 
@@ -135,10 +158,12 @@ locally hosted Firefox browsers.
 Variables and set the corresponding `fullReset`, `noReset`, and `newCommandTimeout` Appium capabilities for iOS and Android physical devices and simulators.
 Also reads the `WDA_LOCAL_PORT` Environment Variable and sets the `wdaLocalPort` Appium capability for iOS physical devices only.
 
+
 ## [2.3.19] - 2018-03-14
 
 ### Fixed
 * Fixed device profile for `android_phone` - Generic Android Phone.
+
 
 ## [2.3.18] - 2018-03-11
 
@@ -151,6 +176,7 @@ Also reads the `WDA_LOCAL_PORT` Environment Variable and sets the `wdaLocalPort`
 ### Fixed
 * Fixed `SelectList.choose_option` to also accept `:text`, `:value`, and `:index` option hashes across all types of select list objects.
 
+
 ## [2.3.17] - 2018-03-08
 
 ### Added
@@ -159,10 +185,12 @@ Also reads the `WDA_LOCAL_PORT` Environment Variable and sets the `wdaLocalPort`
 ### Changed
 * `UIElement.wait_until_value_is` and `List.wait_until_item_count_is` methods now accept comparison hash.
 
+
 ## [2.3.16] - 2018-03-04
 
 ### Added
 * Added `PageSection.double_click`, `PageObject.right_click`, and `PageObject.send_keys` methods.
+
 
 ## [2.3.15] - 2018-03-02
 
@@ -173,10 +201,12 @@ Also reads the `WDA_LOCAL_PORT` Environment Variable and sets the `wdaLocalPort`
 * Fixed bug in `UIElement.get_object_type` method that could result in a `NoMethodError obj not defined` error.
 * Fixed bug in `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods that failed to enqueue errors when UI elements could not be found.
 
+
 ## [2.3.14] - 2018-02-28
 
 ### Changed
 * Updated device profiles for iPhone 7 (iOS 10) with MS Edge browser.
+
 
 ## [2.3.13] - 2018-02-09
 
@@ -184,10 +214,12 @@ Also reads the `WDA_LOCAL_PORT` Environment Variable and sets the `wdaLocalPort`
 * Added `AppiumServer.start`, `AppiumServer.running?`, and `AppiumServer.stop` methods for starting and stopping the Appium Server prior to executing tests on
 iOS physical devices or simulators, or Android virtual device emulators.
 
+
 ## [2.3.12] - 2018-02-07
 
 ### Added
 * Added `Environ.is_simulator?` and `Environ.is_web?` methods.
+
 
 ## [2.3.11] - 2018-02-02
 
@@ -197,12 +229,14 @@ iOS physical devices or simulators, or Android virtual device emulators.
 ### Changed
 * Updated device profiles for iPhone 7 (iOS 10) with Mobile Firefox browser and iPad (iOS 10) with Mobile Firefox browser.
 
+
 ## [2.3.10] - 2018-01-31
 
 ### Added
 * Added support for running tests in mobile Chrome or Android browsers on Android Studio virtual device emulators.
 * Added `displayed?`, `get_all_items_count`, and `get_all_list_items` methods to `PageSection` class.
 * Added `get_all_items_count`, and `get_all_list_items` methods to `List` class.
+
 
 ## [2.3.9] - 2018-01-27
 
@@ -211,15 +245,18 @@ iOS physical devices or simulators, or Android virtual device emulators.
 * Updated device profiles for iPhone 7 (iOS 10) with MS Edge browser, iPhone 7 (iOS 10) with Chrome browser, and iPhone 7 (iOS 10) with Firefox browser.
 * Updated device profiles for iPad (iOS 10) with Chrome browser and iPad (iOS 10) with Firefox browser.
 
+
 ## [2.3.8] - 2018-01-23
 
 ### Fixed
 * Fixed locator resolution for **Indexed PageSection Objects**.
 
+
 ## [2.3.7] - 2018-01-18
 
 ### Added
 * Added `width`, `height`, `x`, `y`, and `displayed?` methods to `UIElement` class.
+
 
 ## [2.3.6] - 2017-12-21
 
@@ -229,17 +266,20 @@ iOS physical devices or simulators, or Android virtual device emulators.
 ### Changed
 * `TextField.clear` method now works with most `number` type fields.
 
+
 ## [2.3.5] - 2017-12-19
 
 ### Changed
 * Updated `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods to be compatible with Redactor editor fields.
 * Updated device profiles for iPhone 7 (iOS 10) with MS Edge browser, iPhone 7 (iOS 10) with Chrome browser, and iPhone 7 (iOS 10) with Firefox browser.
 
+
 ## [2.3.4] - 2017-12-12
 
 ### Fixed
 * Fixed bug in `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods that prevented deletion of data in number type textfields
 and textarea controls.
+
 
 ## [2.3.3] - 2017-12-09
 
@@ -249,6 +289,7 @@ and textarea controls.
 ### Fixed
 * Corrected device profiles for iPad (iOS 10) with Mobile Chrome browser and iPad (iOS 10) with Mobile Firefox browser.
 
+
 ## [2.3.1] - 2017-12-07
 
 ### Added
@@ -257,20 +298,24 @@ Environment Variable is set to `true`. `Environ.tunneling` will be set to true i
 * Added `TestCentricity::WebDriverConnect.close_tunnel` method to close BrowserStack Local instance when Local testing is enabled. Refer to the
 **Remotely hosted desktop and mobile web browsers** section for information on usage.
 
+
 ## [2.2.1] - 2017-11-29
 
 ### Changed
 * `SelectList.choose_option` method now accepts index values for Chosen list objects.
+
 
 ## [2.2.0] - 2017-11-29
 
 ### Changed
 * CSS selectors or XPath expressions may be used as locators for all types of **UI Elements**, including tables.
 
+
 ## [2.1.10] - 2017-11-14
 
 ### Added
 * Added device profiles for iPhone 7 (iOS 10) with Mobile Firefox browser and iPad (iOS 10) with Mobile Firefox browser.
+
 
 ## [2.1.9] - 2017-11-13
 
@@ -278,10 +323,12 @@ Environment Variable is set to `true`. `Environ.tunneling` will be set to true i
 * Fixed bug in `SelectList.choose_option`, `SelectList.get_options`, `SelectList.get_option_count`, and `SelectList.get_selected_option` methods which
 did not recognize grouped option in Chosen list objects.
 
+
 ## [2.1.8] - 2017-11-09
 
 ### Added
 * Added `PageSection.verify_list_items` method for **Indexed PageSection Objects**.
+
 
 ## [2.1.7] - 2017-11-07
 
@@ -289,11 +336,13 @@ did not recognize grouped option in Chosen list objects.
 * Updated `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods to use backspace characters to delete contents of a textfield
 instead of using `clear`, which was preventing `onchange` JavaScript events from being triggered in some browsers.
 
+
 ## [2.1.6] - 2017-10-31
 
 ### Fixed
 * Fixed bug in `TestCentricity::WebDriverConnect.set_webdriver_path` method that was failing to set the path to the appropriate **chromedriver** file for OS X
 and Windows.
+
 
 ## [2.1.5] - 2017-10-28
 
@@ -305,6 +354,7 @@ for textfields.
 ### Fixed
 * Fixed Chrome and Firefox support for setting browser language via the `LOCALE` Environment Variable. This capability now works for emulated mobile
 browsers hosted in a local instance of Chrome or Firefox.
+
 
 ## [2.1.4] - 2017-10-24
 
@@ -319,11 +369,13 @@ browsers hosted in a local instance of Chrome or Firefox.
 concurrent parallel thread being executed, the position of each browser will be offset by 100 pixels right and 100 pixels down. For parallel test execution,
 use the [parallel_tests gem](https://rubygems.org/gems/parallel_tests) to decrease overall test execution time.
 
+
 ## [2.1.2] - 2017-10-01
 
 ### Added
 * Added device profiles for Microsoft Lumia 950, Blackberry Leap, Blackberry Passport, and Kindle Fire HD 10
 * Added ability to set browser language support via the `LOCALE` Environment Variable for local instances of Chrome browsers
+
 
 ## [2.1.0] - 2017-09-23
 

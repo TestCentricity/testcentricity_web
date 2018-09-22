@@ -261,6 +261,40 @@ module TestCentricity
       end
     end
 
+    # Declare and instantiate a single HTML5 video UI Element for this page object.
+    #
+    # @param element_name [Symbol] name of an HTML5 video object (as a symbol)
+    # @param locator [String] CSS selector or XPath expression that uniquely identifies object
+    # @example
+    #   video :video_player, 'video#my_video_player'
+    #
+    def self.video(element_name, locator)
+      define_element(element_name, TestCentricity::Video, locator)
+    end
+
+    def self.videos(element_hash)
+      element_hash.each do |element_name, locator|
+        video(element_name, locator)
+      end
+    end
+
+    # Declare and instantiate a single HTML5 audio UI Element for this page object.
+    #
+    # @param element_name [Symbol] name of an HTML5 audio object (as a symbol)
+    # @param locator [String] CSS selector or XPath expression that uniquely identifies object
+    # @example
+    #   audio :audio_player, 'audio#my_audio_player'
+    #
+    def self.audio(element_name, locator)
+      define_element(element_name, TestCentricity::Audio, locator)
+    end
+
+    def self.audios(element_hash)
+      element_hash.each do |element_name, locator|
+        audio(element_name, locator)
+      end
+    end
+
     # Declare and instantiate a single File Field UI Element for this page object.
     #
     # @param element_name [Symbol] name of file field object (as a symbol)
@@ -580,6 +614,38 @@ module TestCentricity
             actual = ui_object.loaded?
           when :broken
             actual = ui_object.broken?
+          when :alt
+            actual = ui_object.alt
+          when :src
+            actual = ui_object.src
+          when :autoplay
+            actual = ui_object.autoplay?
+          when :ended
+            actual = ui_object.ended?
+          when :controls
+            actual = ui_object.controls?
+          when :loop
+            actual = ui_object.loop?
+          when :muted
+            actual = ui_object.muted?
+          when :default_muted
+            actual = ui_object.default_muted?
+          when :paused
+            actual = ui_object.paused?
+          when :seeking
+            actual = ui_object.seeking?
+          when :current_time
+            actual = ui_object.current_time
+          when :default_playback_rate
+            actual = ui_object.default_playback_rate
+          when :duration
+            actual = ui_object.duration
+          when :playback_rate
+            actual = ui_object.playback_rate
+          when :ready_state
+            actual = ui_object.ready_state
+          when :volume
+            actual = ui_object.volume
           when :options, :items, :list_items
             actual = ui_object.get_list_items
           when :optioncount, :itemcount

@@ -9,7 +9,7 @@ module TestCentricity
     #
     # @return [Boolean]
     # @example
-    #   company_logo_image.is_loaded??
+    #   company_logo_image.is_loaded?
     #
     def loaded?
       obj, = find_element
@@ -23,7 +23,7 @@ module TestCentricity
     #
     # @return [Boolean]
     # @example
-    #   company_logo_image.broken???
+    #   company_logo_image.broken?
     #
     def broken?
       obj, = find_element
@@ -51,6 +51,30 @@ module TestCentricity
       else
         loaded?
       end
+    end
+
+    # Return image alt property
+    #
+    # @return [String] value of alt property
+    # @example
+    #   alt_value = company_logo_image.alt
+    #
+    def alt
+      obj, = find_element
+      object_not_found_exception(obj, nil)
+      obj.native.attribute('alt')
+    end
+
+    # Return image src property
+    #
+    # @return [String] value of src property
+    # @example
+    #   src_value = company_logo_image.src
+    #
+    def src
+      obj, = find_element
+      object_not_found_exception(obj, nil)
+      obj.native.attribute('src')
     end
   end
 end

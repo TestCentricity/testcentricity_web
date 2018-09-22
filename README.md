@@ -20,6 +20,7 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 [TestingBot](https://testingbot.com/features), or [Gridlastic](https://www.gridlastic.com/test-environments.html) services.
 * web portals utilizing JavaScript front end application frameworks like Ember, React, Angular, and GWT
 * enterprise web portals build using Siebel Open UI
+* web pages containing HTML5 Video and Audio objects
 
 
 ## What's New
@@ -378,8 +379,9 @@ Once your **Page Object** has been instantiated, you can call its **PageSection*
 ## UI Elements
 
 **Page Objects** and **PageSection Objects** are typically made up of **UI Element** like text fields, check boxes, combo boxes, radio buttons,
-tables, lists, buttons, etc. **UI Elements** are declared and instantiated within the class definition of the **Page Object** or **PageSection
-Object** in which they are contained. With TestCentricity Web, all UI elements are based on the **UIElement** class.
+tables, lists, buttons, images, HTML5 video objects, HTML5 audio objects, etc. **UI Elements** are declared and instantiated within the class
+definition of the **Page Object** or **PageSection Object** in which they are contained. With TestCentricity Web, all UI elements are based on
+the **UIElement** class.
 
 
 ### Declaring and Instantiating UI Element
@@ -412,6 +414,8 @@ Supported **UI Element** elementTypes and their declarations have the following 
       list        :list_name, locator
       table       :table_name, locator
       image       :image_name, locator
+      video       :video_name, locator
+      audio       :audio_name, locator
       filefield   :filefield_name, locator
       
     end
@@ -443,9 +447,13 @@ Supported **UI Element** elementTypes and their declarations have the following 
                    table_X_name: locator
       images       image_1_name: locator,
                    image_X_name: locator
+      videos       video_1_name: locator,
+                   video_X_name: locator
+      audios       audio_1_name: locator,
+                   audio_X_name: locator
       filefields   filefield_1_name: locator,
                    filefield_X_name: locator
-                   
+
     end
 
 
