@@ -662,6 +662,10 @@ module TestCentricity
             actual = ui_object.count(visible = :all)
           when :siebel_options
             actual = ui_object.get_siebel_options
+          when :aria_label
+            actual = ui_object.aria_label
+          when :aria_disabled
+            actual = ui_object.aria_disabled?
           else
             if property.is_a?(Hash)
               property.each do |key, value|

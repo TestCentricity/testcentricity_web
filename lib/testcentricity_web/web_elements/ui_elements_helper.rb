@@ -556,6 +556,27 @@ module TestCentricity
       )
     end
 
+    # Return state of UI object's aria-label property
+    #
+    # @return [String]
+    # @example
+    #   buy_now_button.aria_label
+    #
+    def aria_label
+      get_attribute('aria-label')
+    end
+
+    # Return state of UI object's aria-disabled property
+    #
+    # @return [Boolean]
+    # @example
+    #   buy_now_button.aria_disabled?
+    #
+    def aria_disabled?
+      state = get_attribute('aria-disabled')
+      state.boolean? ? state : state == 'true'
+    end
+
     def get_attribute(attrib)
       obj, type = find_element(false)
       object_not_found_exception(obj, type)

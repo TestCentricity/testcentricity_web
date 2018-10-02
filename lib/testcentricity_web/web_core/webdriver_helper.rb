@@ -204,9 +204,7 @@ module TestCentricity
           options.args << '--headless' if browser == :firefox_headless
           Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
         when :chrome, :chrome_headless
-          (browser == :chrome) ?
-              options = Selenium::WebDriver::Chrome::Options.new :
-              options = Selenium::WebDriver::Chrome::Options.new(args: %w[headless disable-gpu no-sandbox])
+          options = (browser == :chrome) ? Selenium::WebDriver::Chrome::Options.new : Selenium::WebDriver::Chrome::Options.new(args: %w[headless disable-gpu no-sandbox])
           options.add_argument('--disable-infobars')
           options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
           Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
@@ -273,9 +271,7 @@ module TestCentricity
         capabilities['project'] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
         capabilities['build'] = ENV['AUTOMATE_BUILD'] if ENV['AUTOMATE_BUILD']
 
-        ENV['TEST_CONTEXT'] ?
-            context_message = "#{Environ.test_environment} - #{ENV['TEST_CONTEXT']}" :
-            context_message = Environ.test_environment
+        context_message = ENV['TEST_CONTEXT'] ? "#{Environ.test_environment} - #{ENV['TEST_CONTEXT']}" : Environ.test_environment
         if ENV['PARALLEL']
           thread_num = ENV['TEST_ENV_NUMBER']
           thread_num = 1 if thread_num.blank?
@@ -289,6 +285,7 @@ module TestCentricity
 
         case browser.downcase.to_sym
         when :ie
+          capabilities['ie.fileUploadDialogTimeout'] = 10000
           capabilities['ie.ensureCleanSession'] = 'true'
           capabilities['ie.browserCommandLineSwitches'] = 'true'
           capabilities['nativeEvents'] = 'true'
@@ -418,9 +415,7 @@ module TestCentricity
         when :firefox, :safari, :ie, :edge
           capabilities = Selenium::WebDriver::Remote::Capabilities.send(browser)
         when :chrome, :chrome_headless
-          (browser == :chrome) ?
-              options = %w[--disable-infobars] :
-              options = %w[headless disable-gpu no-sandbox --disable-infobars]
+          options = browser == :chrome ? %w[--disable-infobars] : %w[headless disable-gpu no-sandbox --disable-infobars]
           options.push("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
           capabilities = Selenium::WebDriver::Remote::Capabilities.chrome('goog:chromeOptions' => { args: options })
         else
@@ -507,9 +502,7 @@ module TestCentricity
         Environ.platform = :desktop
       end
 
-      ENV['TUNNELING'] ?
-          endpoint = '@localhost:4445/wd/hub' :
-          endpoint = '@hub.testingbot.com:4444/wd/hub'
+      endpoint = ENV['TUNNELING'] ? '@localhost:4445/wd/hub' : '@hub.testingbot.com:4444/wd/hub'
       endpoint = "http://#{ENV['TB_USERNAME']}:#{ENV['TB_AUTHKEY']}#{endpoint}"
       Capybara.register_driver :testingbot do |app|
         capabilities = Selenium::WebDriver::Remote::Capabilities.new

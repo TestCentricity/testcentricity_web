@@ -1,6 +1,12 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.0.17] - 2018-09-19
+
+### Added
+* `UIElement.aria_disabled?` and `UIElement.aria_label` methods.
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `aria-label` and `aria-disabled` properties.
+
 ## [3.0.16] - 2018-09-21
 
 ### Added
