@@ -493,6 +493,8 @@ With TestCentricity, all UI elements are based on the **UIElement** class, and i
     element.y
     element.get_attribute(attrib)
     element.get_native_attribute(attrib)
+    element.aria_disabled?
+    element.aria_label
     
 **Waiting methods:**
 
@@ -718,12 +720,12 @@ the `WEB_BROWSER` Environment Variable must be set to one of the values from the
 
 `WEB_BROWSER`         | `HOST_BROWSER` | **CSS Screen Dimensions** | **Default Orientation**  | **OS Version**
 ----------------------|----------------------|-----------|----------|---------
-`ipad`                |`chrome`        |1024 x 768 |landscape |iOS 10
-`ipad_pro`            |`chrome`        |1366 x 1024|landscape |iOS 11
-`ipad_pro_10_5`       |`chrome`        |1112 x 834 |landscape |iOS 11
-`ipad_chrome`         |`chrome`        |1024 x 768 |landscape |iOS 11 - Mobile Chrome browser for iOS
-`ipad_firefox`        |`chrome`        |1024 x 768 |landscape |iOS 11 - Mobile Firefox browser for iOS
-`ipad_edge`           |`chrome`        |1024 x 768 |landscape |iOS 11 - Mobile Edge browser for iOS
+`ipad`                |`chrome`        |1024 x 768 |landscape |iOS 12
+`ipad_pro`            |`chrome`        |1366 x 1024|landscape |iOS 12
+`ipad_pro_10_5`       |`chrome`        |1112 x 834 |landscape |iOS 12
+`ipad_chrome`         |`chrome`        |1024 x 768 |landscape |iOS 12 - Mobile Chrome browser for iOS
+`ipad_firefox`        |`chrome`        |1024 x 768 |landscape |iOS 12 - Mobile Firefox browser for iOS
+`ipad_edge`           |`chrome`        |1024 x 768 |landscape |iOS 12 - Mobile Edge browser for iOS
 `android_tablet`      |`chrome`        |1024 x 768 |landscape |Android 3.0
 `kindle_fire`         |`chrome`        |1024 x 600 |landscape |
 `kindle_firehd7`      |`chrome`        |800 x 480  |landscape |Fire OS 3
@@ -735,19 +737,16 @@ the `WEB_BROWSER` Environment Variable must be set to one of the values from the
 `google_nexus7`       |`chrome`        |960 x 600  |landscape |Android 4.4.4
 `google_nexus9`       |`chrome`        |1024 x 768 |landscape |Android 5.1
 `google_nexus10`      |`chrome`        |1280 x 800 |landscape |Android 5.1
-`iphone`              |`chrome`        |320 x 480  |portrait  |iOS 9.1
-`iphone4`             |`chrome`        |320 x 480  |portrait  |iOS 9.1
-`iphone5`             |`chrome`        |320 x 568  |portrait  |iOS 9.1
-`iphone6`             |`chrome`        |375 x 667  |portrait  |iOS 9.1
-`iphone6_plus`        |`chrome`        |414 x 736  |portrait  |iOS 9.1
-`iphone7`             |`chrome`        |375 x 667  |portrait  |iOS 10
-`iphone7_plus`        |`chrome`        |414 x 736  |portrait  |iOS 10
-`iphone7_chrome`      |`chrome`        |375 x 667  |portrait  |iOS 11 - Mobile Chrome browser for iOS
-`iphone7_firefox`     |`chrome`        |375 x 667  |portrait  |iOS 11 - Mobile Firefox browser for iOS
-`iphone7_edge`        |`chrome`        |375 x 667  |portrait  |iOS 11 - Microsoft Edge browser for iOS
-`iphone8`             |`chrome`        |375 x 667  |portrait  |iOS 11
-`iphone8_plus`        |`chrome`        |414 x 736  |portrait  |iOS 11
-`iphonex`             |`chrome`        |375 x 812  |portrait  |iOS 11
+`iphone6`             |`chrome`        |375 x 667  |portrait  |iOS 12
+`iphone6_plus`        |`chrome`        |414 x 736  |portrait  |iOS 12
+`iphone7`             |`chrome`        |375 x 667  |portrait  |iOS 12
+`iphone7_plus`        |`chrome`        |414 x 736  |portrait  |iOS 12
+`iphone7_chrome`      |`chrome`        |375 x 667  |portrait  |iOS 12 - Mobile Chrome browser for iOS
+`iphone7_firefox`     |`chrome`        |375 x 667  |portrait  |iOS 12 - Mobile Firefox browser for iOS
+`iphone7_edge`        |`chrome`        |375 x 667  |portrait  |iOS 12 - Microsoft Edge browser for iOS
+`iphone8`             |`chrome`        |375 x 667  |portrait  |iOS 12
+`iphone8_plus`        |`chrome`        |414 x 736  |portrait  |iOS 12
+`iphonex`             |`chrome`        |375 x 812  |portrait  |iOS 12
 `android_phone`       |`chrome`        |360 x 640  |portrait  |Android 4.2.1
 `nexus6`              |`chrome`        |411 x 731  |portrait  |Android 6
 `pixel`               |`chrome`        |411 x 731  |portrait  |Android 8
@@ -771,7 +770,7 @@ to `chrome`.
 
 ### Selenium Grid and Dockerized Selenium Grid hosted desktop and emulated mobile web browsers
 
-For desktop and emulated mobile web browsers running on Selenium Grid or Dockerized Selenium Grid environments, the following **Environment Variables** must be set
+For desktop and emulated mobile web browsers running on Selenium Grid or Dockerized Selenium Grid environments ([like Zalenium](https://opensource.zalando.com/zalenium/)), the following **Environment Variables** must be set
 as described in the table below.
 
 **Environment Variable** | **Description**

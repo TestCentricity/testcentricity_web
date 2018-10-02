@@ -1,27 +1,3 @@
-:iphone:
-  :name: "iPhone"
-  :os: ios
-  :type: phone
-  :css_width: 320
-  :css_height: 480
-  :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1"
-:iphone4:
-  :name: "iPhone 4"
-  :os: ios
-  :type: phone
-  :css_width: 320
-  :css_height: 480
-  :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1"
-:iphone5:
-  :name: "iPhone 5"
-  :os: ios
-  :type: phone
-  :css_width: 320
-  :css_height: 568
-  :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1"
 :iphone6:
   :name: "iPhone 6"
   :os: ios
@@ -29,7 +5,7 @@
   :css_width: 375
   :css_height: 667
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1"
+  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1"
 :iphone6_plus:
   :name: "iPhone 6 Plus"
   :os: ios
@@ -37,7 +13,7 @@
   :css_width: 414
   :css_height: 736
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1"
+  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1"
 :iphone7:
   :name: "iPhone 7"
   :os: ios
@@ -45,7 +21,7 @@
   :css_width: 375
   :css_height: 667
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/603.1.23 (KHTML, like Gecko) Version/10.0 Mobile/14E5239e Safari/602.1"
+  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1"
 :iphone7_plus:
   :name: "iPhone 7 Plus"
   :os: ios
@@ -53,7 +29,7 @@
   :css_width: 414
   :css_height: 736
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/603.1.23 (KHTML, like Gecko) Version/10.0 Mobile/14E5239e Safari/602.1"
+  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1"
 :iphone7_chrome:
   :name: "iPhone 7 - Chrome"
   :os: ios
@@ -61,7 +37,7 @@
   :css_width: 375
   :css_height: 667
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/604.1.34 (KHTML, like Gecko) CriOS/67.0.3396.69 Mobile/15F79 Safari/604.1"
+  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/69.0.3497.105 Mobile/15E148 Safari/605.1"
 :iphone7_firefox:
   :name: "iPhone 7 - Firefox"
   :os: ios
@@ -69,7 +45,7 @@
   :css_width: 375
   :css_height: 667
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/12.0b10862 Mobile/15F79 Safari/605.1.15"
+  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/13.2b11866 Mobile/16A366 Safari/605.1.15"
 :iphone7_edge:
   :name: "iPhone 7 - MS Edge"
   :os: ios
@@ -77,7 +53,7 @@
   :css_width: 375
   :css_height: 667
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 EdgiOS/42.1.1.0 Mobile/15F79 Safari/605.1.15"
+  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 EdgiOS/42.5.3 Mobile/16A366 Safari/605.1.15"
 :iphone8:
   :name: "iPhone 8"
   :os: ios
@@ -85,7 +61,7 @@
   :css_width: 375
   :css_height: 667
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU OS 11_0 like Mac OS X) AppleWebKit/604.1.25 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1"
+  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1"
 :iphone8_plus:
   :name: "iPhone 8 Plus"
   :os: ios
@@ -93,7 +69,7 @@
   :css_width: 414
   :css_height: 736
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU OS 11_0 like Mac OS X) AppleWebKit/604.1.25 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1"
+  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1"
 :iphonex:
   :name: "iPhone X"
   :os: ios
@@ -101,7 +77,7 @@
   :css_width: 375
   :css_height: 812
   :default_orientation: portrait
-  :user_agent: "Mozilla/5.0 (iPhone; CPU OS 11_0 like Mac OS X) AppleWebKit/604.1.25 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1"
+  :user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1"
 :android_phone:
   :name: "Generic Android phone"
   :os: android
@@ -213,7 +189,7 @@ nexus6:
   :css_width: 1024
   :css_height: 768
   :default_orientation: landscape
-  :user_agent: "Mozilla/5.0 (iPad; CPU OS 10_3 like Mac OS X) AppleWebKit/603.1.23 (KHTML, like Gecko) Version/10.0 Mobile/14E5239e Safari/602.1"
+  :user_agent: "Mozilla/5.0 (iPad; CPU OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1"
 :ipad_pro:
   :name: "iPad Pro"
   :os: ios
@@ -221,7 +197,7 @@ nexus6:
   :css_width: 1366
   :css_height: 1024
   :default_orientation: landscape
-  :user_agent: "Mozilla/5.0 (iPad; CPU OS 11_0 like Mac OS X) AppleWebKit/604.1.25 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1"
+  :user_agent: "Mozilla/5.0 (iPad; CPU OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1"
 :ipad_pro_10_5:
   :name: "iPad Pro 10.5 in."
   :os: ios
@@ -229,7 +205,7 @@ nexus6:
   :css_width: 1112
   :css_height: 834
   :default_orientation: landscape
-  :user_agent: "Mozilla/5.0 (iPad; CPU OS 11_0 like Mac OS X) AppleWebKit/604.1.25 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1"
+  :user_agent: "Mozilla/5.0 (iPad; CPU OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1"
 :ipad_chrome:
   :name: "iPad - Chrome"
   :os: ios
@@ -237,7 +213,7 @@ nexus6:
   :css_width: 1024
   :css_height: 768
   :default_orientation: landscape
-  :user_agent: "Mozilla/5.0 (iPad; CPU OS 11_4 like Mac OS X) AppleWebKit/604.1.34 (KHTML, like Gecko) CriOS/67.0.3396.69 Mobile/15F79 Safari/604.1"
+  :user_agent: "Mozilla/5.0 (iPad; CPU OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/69.0.3497.105 Mobile/15E148 Safari/605.1"
 :ipad_firefox:
   :name: "iPad - Firefox"
   :os: ios
@@ -245,7 +221,7 @@ nexus6:
   :css_width: 1024
   :css_height: 768
   :default_orientation: landscape
-  :user_agent: "Mozilla/5.0 (iPad; CPU OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/12.0b10862 Mobile/15F79 Safari/605.1.15"
+  :user_agent: "Mozilla/5.0 (iPad; CPU OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/13.2b11866 Mobile/16A366 Safari/605.1.15"
 :ipad_edge:
   :name: "iPad - MS Edge"
   :os: ios
@@ -253,7 +229,7 @@ nexus6:
   :css_width: 1024
   :css_height: 768
   :default_orientation: landscape
-  :user_agent: "Mozilla/5.0 (iPad; CPU OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 EdgiOS/42.1.1.0 Mobile/15F79 Safari/605.1.15"
+  :user_agent: "Mozilla/5.0 (iPad; CPU OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 EdgiOS/42.5.3 Mobile/16A366 Safari/605.1.15"
 :android_tablet:
   :name: "Generic Android tablet"
   :os: android

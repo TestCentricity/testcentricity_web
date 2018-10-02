@@ -1,7 +1,17 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
-## [3.0.17] - 2018-09-19
+## [3.0.18] - 2018-10-02
+
+### Changed
+* Updated device profiles for iPhone 7 (iOS 12) with Mobile Firefox browser and iPad (iOS 12) with Mobile Firefox browser.
+* Updated device profiles for iPhone 7 (iOS 12) with Mobile Edge browser and iPad (iOS 12) with Mobile Edge browser.
+* Updated device profiles for iPhone 7 (iOS 12) with Mobile Chrome browser and iPad (iOS 12) with Mobile Chrome browser.
+
+### Removed
+* Removed `iPhone`, `iPhone4`, and `iPhone5` device profiles.
+
+## [3.0.17] - 2018-10-01
 
 ### Added
 * `UIElement.aria_disabled?` and `UIElement.aria_label` methods.
