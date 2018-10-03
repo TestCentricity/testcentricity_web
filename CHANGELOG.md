@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [3.0.18] - 2018-10-02
 
+### Added
+* `UIElement.style` method.
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `style` property.
+
 ### Changed
 * Updated device profiles for iPhone 7 (iOS 12) with Mobile Firefox browser and iPad (iOS 12) with Mobile Firefox browser.
 * Updated device profiles for iPhone 7 (iOS 12) with Mobile Edge browser and iPad (iOS 12) with Mobile Edge browser.

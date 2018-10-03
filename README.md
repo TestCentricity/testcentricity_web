@@ -487,6 +487,7 @@ With TestCentricity, all UI elements are based on the **UIElement** class, and i
     element.displayed?
     element.get_value
     element.count
+    element.style
     element.width
     element.height
     element.x

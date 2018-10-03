@@ -556,6 +556,16 @@ module TestCentricity
       )
     end
 
+    # Return UI object's style property
+    #
+    # @return [String]
+    # @example
+    #   buy_now_button.style
+    #
+    def style
+      get_attribute('style')
+    end
+
     # Return state of UI object's aria-label property
     #
     # @return [String]
