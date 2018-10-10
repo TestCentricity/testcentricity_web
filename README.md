@@ -698,10 +698,11 @@ values from the table below:
 `chrome_headless`  | OS X or Windows (headless - no visible UI)
 `firefox`          | OS X or Windows (Firefox version 55 or greater only)
 `firefox_headless` | OS X or Windows (headless - no visible UI)
-`firefox_legacy`   | OS X or Windows (Firefox version 47.0.1 only)
 `safari`           | OS X only
 `ie`               | Windows only (IE version 10.x or greater only)
 
+
+#### Setting desktop browser window size
 
 To set the size of a desktop browser window, you set the `BROWSER_SIZE` Environment Variable to the desired width and height in pixels as shown below:
                                                                                                                                
@@ -710,6 +711,31 @@ To set the size of a desktop browser window, you set the `BROWSER_SIZE` Environm
 To maximize a desktop browser window, you set the `BROWSER_SIZE` Environment Variable to 'max' as shown below:
                                                                                                                                
     BROWSER_SIZE=max
+
+
+#### Testing file downloads with desktop browsers
+
+File download functionality can be tested with locally hosted instances of Chrome or Firefox desktop browsers. Your automation project must include
+a `/downloads` folder at the same level as the `/config` and `/features` folders, as depicted below:
+
+        my_automation_project
+            ├── config
+            ├── downloads
+            ├── features
+            │   ├── step_definitions
+            │   └── support
+            ├── Gemfile
+            └── README.md
+
+
+When testing file downloads using a local instance of Firefox, you will need to specify the MIME types of the various file types that your tests will
+be downloading. This is accomplished by setting the `MIME_TYPES` Environment Variable to a comma-delimited string containing the list of MIME types to
+be accepted. This list is required as it will prevent Firefox from displaying the File Download modal dialog, which will halt your automated tests. An
+example of a list of MIME types is depicted below:
+
+    MIME_TYPES='images/jpeg, application/pdf, application/octet-stream'
+
+A detailed list of file MIME types can be found [here](https://www.freeformatter.com/mime-types-list.html)
 
 
 ### Locally hosted emulated mobile web browser
@@ -721,47 +747,47 @@ the `WEB_BROWSER` Environment Variable must be set to one of the values from the
 
 `WEB_BROWSER`         | `HOST_BROWSER` | **CSS Screen Dimensions** | **Default Orientation**  | **OS Version**
 ----------------------|----------------------|-----------|----------|---------
-`ipad`                |`chrome`        |1024 x 768 |landscape |iOS 12
-`ipad_pro`            |`chrome`        |1366 x 1024|landscape |iOS 12
-`ipad_pro_10_5`       |`chrome`        |1112 x 834 |landscape |iOS 12
-`ipad_chrome`         |`chrome`        |1024 x 768 |landscape |iOS 12 - Mobile Chrome browser for iOS
-`ipad_firefox`        |`chrome`        |1024 x 768 |landscape |iOS 12 - Mobile Firefox browser for iOS
-`ipad_edge`           |`chrome`        |1024 x 768 |landscape |iOS 12 - Mobile Edge browser for iOS
-`android_tablet`      |`chrome`        |1024 x 768 |landscape |Android 3.0
-`kindle_fire`         |`chrome`        |1024 x 600 |landscape |
-`kindle_firehd7`      |`chrome`        |800 x 480  |landscape |Fire OS 3
-`kindle_firehd8`      |`chrome`        |1280 x 800 |landscape |Fire OS 5
+`ipad`                |`chrome`        |1024 x 768  |landscape |iOS 12
+`ipad_pro`            |`chrome`        |1366 x 1024 |landscape |iOS 12
+`ipad_pro_10_5`       |`chrome`        |1112 x 834  |landscape |iOS 12
+`ipad_chrome`         |`chrome`        |1024 x 768  |landscape |iOS 12 - Mobile Chrome browser for iOS
+`ipad_firefox`        |`chrome`        |1024 x 768  |landscape |iOS 12 - Mobile Firefox browser for iOS
+`ipad_edge`           |`chrome`        |1024 x 768  |landscape |iOS 12 - Mobile Edge browser for iOS
+`android_tablet`      |`chrome`        |1024 x 768  |landscape |Android 3.0
+`kindle_fire`         |`chrome`        |1024 x 600  |landscape |
+`kindle_firehd7`      |`chrome`        |800 x 480   |landscape |Fire OS 3
+`kindle_firehd8`      |`chrome`        |1280 x 800  |landscape |Fire OS 5
 `kindle_firehd10`     |`chrome`        |1920 x 1200 |landscape |Fire OS 5
-`surface`             |`chrome`        |1366 x 768 |landscape |
-`blackberry_playbook` |`chrome`        |1024 x 600 |landscape |BlackBerry Tablet OS
-`samsung_galaxy_tab`  |`chrome`        |1280 x 800 |landscape |Android 4.0.4
-`google_nexus7`       |`chrome`        |960 x 600  |landscape |Android 4.4.4
-`google_nexus9`       |`chrome`        |1024 x 768 |landscape |Android 5.1
-`google_nexus10`      |`chrome`        |1280 x 800 |landscape |Android 5.1
-`iphone6`             |`chrome`        |375 x 667  |portrait  |iOS 12
-`iphone6_plus`        |`chrome`        |414 x 736  |portrait  |iOS 12
-`iphone7`             |`chrome`        |375 x 667  |portrait  |iOS 12
-`iphone7_plus`        |`chrome`        |414 x 736  |portrait  |iOS 12
-`iphone7_chrome`      |`chrome`        |375 x 667  |portrait  |iOS 12 - Mobile Chrome browser for iOS
-`iphone7_firefox`     |`chrome`        |375 x 667  |portrait  |iOS 12 - Mobile Firefox browser for iOS
-`iphone7_edge`        |`chrome`        |375 x 667  |portrait  |iOS 12 - Microsoft Edge browser for iOS
-`iphone8`             |`chrome`        |375 x 667  |portrait  |iOS 12
-`iphone8_plus`        |`chrome`        |414 x 736  |portrait  |iOS 12
-`iphonex`             |`chrome`        |375 x 812  |portrait  |iOS 12
-`android_phone`       |`chrome`        |360 x 640  |portrait  |Android 4.2.1
-`nexus6`              |`chrome`        |411 x 731  |portrait  |Android 6
-`pixel`               |`chrome`        |411 x 731  |portrait  |Android 8
-`pixel_xl`            |`chrome`        |411 x 731  |portrait  |Android 8
-`samsung_galaxy_s4`   |`chrome`        |360 x 640  |portrait  |Android 5.0.1
-`samsung_galaxy_s5`   |`chrome`        |360 x 640  |portrait  |Android 6.0.1
-`samsung_galaxy_s6`   |`chrome`        |360 x 640  |portrait  |Android 6.0.1
-`windows_phone7`      |`chrome`        |320 x 480  |portrait  |Windows Phone OS 7.5
-`windows_phone8`      |`chrome`        |320 x 480  |portrait  |Windows Phone OS 8.0
-`lumia_950_xl`        |`chrome`        |360 x 640  |portrait  |Windows Phone OS 10
-`blackberry_z10`      |`chrome`        |384 x 640  |portrait  |BlackBerry 10 OS
-`blackberry_z30`      |`chrome`        |360 x 640  |portrait  |BlackBerry 10 OS
-`blackberry_leap`     |`chrome`        |360 x 640  |portrait  |BlackBerry 10 OS
-`blackberry_passport` |`chrome`        |504 x 504  |square    |BlackBerry 10 OS
+`surface`             |`chrome`        |1366 x 768  |landscape |
+`blackberry_playbook` |`chrome`        |1024 x 600  |landscape |BlackBerry Tablet OS
+`samsung_galaxy_tab`  |`chrome`        |1280 x 800  |landscape |Android 4.0.4
+`google_nexus7`       |`chrome`        |960 x 600   |landscape |Android 4.4.4
+`google_nexus9`       |`chrome`        |1024 x 768  |landscape |Android 5.1
+`google_nexus10`      |`chrome`        |1280 x 800  |landscape |Android 5.1
+`iphone6`             |`chrome`        |375 x 667   |portrait  |iOS 12
+`iphone6_plus`        |`chrome`        |414 x 736   |portrait  |iOS 12
+`iphone7`             |`chrome`        |375 x 667   |portrait  |iOS 12
+`iphone7_plus`        |`chrome`        |414 x 736   |portrait  |iOS 12
+`iphone7_chrome`      |`chrome`        |375 x 667   |portrait  |iOS 12 - Mobile Chrome browser for iOS
+`iphone7_firefox`     |`chrome`        |375 x 667   |portrait  |iOS 12 - Mobile Firefox browser for iOS
+`iphone7_edge`        |`chrome`        |375 x 667   |portrait  |iOS 12 - Microsoft Edge browser for iOS
+`iphone8`             |`chrome`        |375 x 667   |portrait  |iOS 12
+`iphone8_plus`        |`chrome`        |414 x 736   |portrait  |iOS 12
+`iphonex`             |`chrome`        |375 x 812   |portrait  |iOS 12
+`android_phone`       |`chrome`        |360 x 640   |portrait  |Android 4.2.1
+`nexus6`              |`chrome`        |411 x 731   |portrait  |Android 6
+`pixel`               |`chrome`        |411 x 731   |portrait  |Android 8
+`pixel_xl`            |`chrome`        |411 x 731   |portrait  |Android 8
+`samsung_galaxy_s4`   |`chrome`        |360 x 640   |portrait  |Android 5.0.1
+`samsung_galaxy_s5`   |`chrome`        |360 x 640   |portrait  |Android 6.0.1
+`samsung_galaxy_s6`   |`chrome`        |360 x 640   |portrait  |Android 6.0.1
+`windows_phone7`      |`chrome`        |320 x 480   |portrait  |Windows Phone OS 7.5
+`windows_phone8`      |`chrome`        |320 x 480   |portrait  |Windows Phone OS 8.0
+`lumia_950_xl`        |`chrome`        |360 x 640   |portrait  |Windows Phone OS 10
+`blackberry_z10`      |`chrome`        |384 x 640   |portrait  |BlackBerry 10 OS
+`blackberry_z30`      |`chrome`        |360 x 640   |portrait  |BlackBerry 10 OS
+`blackberry_leap`     |`chrome`        |360 x 640   |portrait  |BlackBerry 10 OS
+`blackberry_passport` |`chrome`        |504 x 504   |square    |BlackBerry 10 OS
 
 To change the emulated device's screen orientation from the default setting, set the `ORIENTATION` Environment Variable to either `portrait` or `landscape`.
 
@@ -872,6 +898,7 @@ for information regarding the specific capabilities.
 `BROWSER_SIZE`     | [Optional] Specify width, height of browser window
 `RECORD_VIDEO`     | [Optional] Enable screen video recording during test execution (`true` or `false`)
 `TIME_ZONE`        | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart
+`IP_GEOLOCATION`   | [Optional] Specify IP Geolocation. Refer to [IP Geolocation](https://www.browserstack.com/automate/ip-geolocation) to select a country code.
 `SELENIUM_VERSION` | [Optional] Specify Selenium WebDriver version to use
 `CONSOLE_LOGS`     | [Optional] Used to capture browser console logs. Refer to `browserstack.console` capability in chart
 `WD_VERSION`       | [Optional] Specify browser-specific WebDriver version to use. Refer to `browserstack.geckodriver`, `browserstack.ie.driver`, and `browserstack.safari.driver` capabilities in chart
@@ -1055,7 +1082,6 @@ text with the Subdomain specified on the Grid Configuration Parameters section o
 
     chrome_headless:    WEB_BROWSER=chrome_headless  <%= desktop %>
     firefox_headless:   WEB_BROWSER=firefox_headless <%= desktop %>
-    firefox_legacy:     WEB_BROWSER=firefox_legacy   <%= desktop %>
 
     #==============
     # profile for Selenium Grid and Dockerized Selenium Grid hosted desktop web browsers
@@ -1073,9 +1099,6 @@ text with the Subdomain specified on the Grid Configuration Parameters section o
     ipad_chrome:         WEB_BROWSER=ipad_chrome         HOST_BROWSER=chrome <%= tablet %>
     ipad_firefox:        WEB_BROWSER=ipad_firefox        HOST_BROWSER=chrome <%= tablet %>
     ipad_edge:           WEB_BROWSER=ipad_edge           HOST_BROWSER=chrome <%= tablet %>
-    iphone:              WEB_BROWSER=iphone              HOST_BROWSER=chrome <%= mobile %>
-    iphone4:             WEB_BROWSER=iphone4             HOST_BROWSER=chrome <%= mobile %>
-    iphone5:             WEB_BROWSER=iphone5             HOST_BROWSER=chrome <%= mobile %>
     iphone6:             WEB_BROWSER=iphone6             HOST_BROWSER=chrome <%= mobile %>
     iphone6_plus:        WEB_BROWSER=iphone6_plus        HOST_BROWSER=chrome <%= mobile %>
     iphone7:             WEB_BROWSER=iphone7             HOST_BROWSER=chrome <%= mobile %>

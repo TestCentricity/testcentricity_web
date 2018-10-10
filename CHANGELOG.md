@@ -1,6 +1,20 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+
+## [3.0.19] - 2018-10-10
+
+### Added
+* Added support for testing file downloads with locally hosted instances of Chrome or Firefox desktop browsers.
+
+### Changed
+* `Audio.current_time`, `Audio.duration`, `Video.current_time`, and `Video.duration` methods now return a `Float`.
+
+### Removed
+* Removed support for legacy Firefox version 47.0.1.
+* Removed deprecated `TestCentricity::WebDriverConnect.set_webdriver_path` method.
+
+
 ## [3.0.18] - 2018-10-02
 
 ### Added
@@ -15,11 +29,13 @@ All notable changes to this project will be documented in this file.
 ### Removed
 * Removed `iPhone`, `iPhone4`, and `iPhone5` device profiles.
 
+
 ## [3.0.17] - 2018-10-01
 
 ### Added
 * `UIElement.aria_disabled?` and `UIElement.aria_label` methods.
 * Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `aria-label` and `aria-disabled` properties.
+
 
 ## [3.0.16] - 2018-09-21
 
@@ -38,7 +54,7 @@ All notable changes to this project will be documented in this file.
 ## [3.0.14] - 2018-09-17
 
 ### Added
-* Added support for performing file uploads in browsers running on remote cloud hosted services as well as in Selenium Grid and Dockerized Selenium
+* Added support for testing file uploads in browsers running on remote cloud hosted services as well as in Selenium Grid and Dockerized Selenium
 Grid environments.
 
 

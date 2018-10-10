@@ -123,14 +123,14 @@ module TestCentricity
 
     # Return audio currentTime property
     #
-    # @return [Integer or Float] current playback position in seconds
+    # @return [Float] current playback position in seconds
     # @example
     #   current_player_time = audio_player.current_time
     #
     def current_time
       obj, = find_element(visible = :all)
       object_not_found_exception(obj, :audio)
-      obj.native.attribute('currentTime')
+      obj.native.attribute('currentTime').to_f
     end
 
     # Return audio defaultPlaybackRate property
@@ -147,14 +147,14 @@ module TestCentricity
 
     # Return audio duration property
     #
-    # @return [Integer or Float] duration of audio
+    # @return [Float] duration of audio
     # @example
     #   how_long = audio_player.duration
     #
     def duration
       obj, = find_element(visible = :all)
       object_not_found_exception(obj, :audio)
-      obj.native.attribute('duration')
+      obj.native.attribute('duration').to_f
     end
 
     # Return audio playbackRate property

@@ -123,14 +123,14 @@ module TestCentricity
 
     # Return video currentTime property
     #
-    # @return [Integer or Float] current playback position in seconds
+    # @return [Float] current playback position in seconds
     # @example
     #   current_player_time = video_player.current_time
     #
     def current_time
       obj, = find_element
       object_not_found_exception(obj, nil)
-      obj.native.attribute('currentTime')
+      obj.native.attribute('currentTime').to_f
     end
 
     # Return video defaultPlaybackRate property
@@ -147,14 +147,14 @@ module TestCentricity
 
     # Return video duration property
     #
-    # @return [Integer or Float] duration of video
+    # @return [Float] duration of video
     # @example
     #   how_long = video_player.duration
     #
     def duration
       obj, = find_element
       object_not_found_exception(obj, nil)
-      obj.native.attribute('duration')
+      obj.native.attribute('duration').to_f
     end
 
     # Return video playbackRate property

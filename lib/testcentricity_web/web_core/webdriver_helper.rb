@@ -9,10 +9,14 @@ module TestCentricity
     include Capybara::DSL
 
     attr_accessor :bs_local
+    attr_accessor :downloads_path
 
     def self.initialize_web_driver(app_host = nil)
       Capybara.app_host = app_host unless app_host.nil?
       browser = ENV['WEB_BROWSER']
+      # set downloads folder path
+      @downloads_path = "#{Dir.pwd}/downloads"
+      @downloads_path = @downloads_path.tr('/', "\\") if OS.windows?
 
       # assume that we're testing within a local desktop web browser
       Environ.driver      = :webdriver
@@ -62,12 +66,6 @@ module TestCentricity
 
     def self.set_domain(url)
       Capybara.app_host = url
-    end
-
-    # @deprecated Correct webdriver is now automatically loaded
-    # Set the WebDriver path for Chrome, Firefox, IE, or Edge browsers
-    def self.set_webdriver_path(project_path)
-      warn "[DEPRECATION] 'TestCentricity::WebDriverConnect.set_webdriver_path' is deprecated. Correct webdrivers are now automatically loaded."
     end
 
     def self.initialize_browser_size
@@ -174,7 +172,7 @@ module TestCentricity
       browser = ENV['WEB_BROWSER'].downcase.to_sym
 
       case browser
-      when :firefox, :chrome, :ie, :safari, :edge, :firefox_legacy
+      when :firefox, :chrome, :ie, :safari, :edge
         Environ.platform = :desktop
       when :chrome_headless, :firefox_headless
         Environ.platform = :desktop
@@ -191,20 +189,38 @@ module TestCentricity
           Capybara::Selenium::Driver.new(app, browser: browser, desired_capabilities: desired_caps)
         when :ie, :edge
           Capybara::Selenium::Driver.new(app, browser: browser)
-        when :firefox_legacy
-          Capybara::Selenium::Driver.new(app, browser: :firefox, marionette: false)
         when :firefox, :firefox_headless
           profile = Selenium::WebDriver::Firefox::Profile.new
-          profile['browser.download.dir'] = '/tmp/webdriver-downloads'
+          profile['browser.download.dir'] = @downloads_path
           profile['browser.download.folderList'] = 2
-          profile['browser.helperApps.neverAsk.saveToDisk'] = 'text/csv, application/x-msexcel, application/excel, application/x-excel, application/vnd.ms-excel, image/png, image/jpeg, text/html, text/plain, application/pdf, application/octet-stream'
+          profile['browser.download.manager.showWhenStarting'] = false
+          profile['browser.download.manager.closeWhenDone'] = true
+          profile['browser.download.manager.showAlertOnComplete'] = false
+          profile['browser.download.manager.alertOnEXEOpen'] = false
+          profile['browser.download.manager.useWindow'] = false
+          profile['browser.helperApps.alwaysAsk.force'] = false
           profile['pdfjs.disabled'] = true
+
+          mime_types = ENV['MIME_TYPES'] || 'images/jpeg, application/pdf, application/octet-stream'
+          profile['browser.helperApps.neverAsk.saveToDisk'] = mime_types
+
           profile['intl.accept_languages'] = ENV['LOCALE'] if ENV['LOCALE']
           options = Selenium::WebDriver::Firefox::Options.new(profile: profile)
           options.args << '--headless' if browser == :firefox_headless
           Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
         when :chrome, :chrome_headless
-          options = (browser == :chrome) ? Selenium::WebDriver::Chrome::Options.new : Selenium::WebDriver::Chrome::Options.new(args: %w[headless disable-gpu no-sandbox])
+          if browser == :chrome
+            options = Selenium::WebDriver::Chrome::Options.new
+
+            prefs = {
+              prompt_for_download: false,
+              directory_upgrade:   true,
+              default_directory:   @downloads_path
+            }
+            options.add_preference(:download, prefs)
+          else
+            options = Selenium::WebDriver::Chrome::Options.new(args: %w[headless disable-gpu no-sandbox])
+          end
           options.add_argument('--disable-infobars')
           options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
           Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
@@ -284,7 +300,7 @@ module TestCentricity
         capabilities['browserstack.local'] = 'true' if ENV['TUNNELING']
 
         case browser.downcase.to_sym
-        when :ie
+        when :ie, :edge
           capabilities['ie.fileUploadDialogTimeout'] = 10000
           capabilities['ie.ensureCleanSession'] = 'true'
           capabilities['ie.browserCommandLineSwitches'] = 'true'
