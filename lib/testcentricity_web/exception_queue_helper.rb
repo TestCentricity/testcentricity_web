@@ -7,7 +7,12 @@ module TestCentricity
     attr_accessor :mru_ui_element
 
     def self.enqueue_assert_equal(expected, actual, error_message)
-      is_equal = if Environ.browser == :edge || Environ.browser == :safari && expected.is_a?(String) && actual.is_a?(String)
+      is_equal = if %i[edge safari].include?(Environ.browser) && expected.is_a?(String) && actual.is_a?(String)
+
+
+                   puts "Environ.browser = #{Environ.browser}"
+
+
                    expected.downcase.strip == actual.downcase.strip
                  else
                    expected == actual

@@ -729,7 +729,7 @@ module TestCentricity
     #
     # @param data [Hash] UI element(s) and associated data to be entered
     # @param wait_time [Integer] wait time in seconds
-    # @param integrity_check [Boolean] if TRUE, verify that text entered into text fields matches what was entered
+    # @param integrity_check [Boolean] if TRUE, ensure that text entered into text fields matches what was entered
     # @example
     #   field_data = { prefix_select      => 'Ms',
     #                  first_name_field   => 'Priscilla',
