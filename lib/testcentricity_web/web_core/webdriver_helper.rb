@@ -287,7 +287,7 @@ module TestCentricity
         capabilities['project'] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
         capabilities['build'] = ENV['AUTOMATE_BUILD'] if ENV['AUTOMATE_BUILD']
 
-        context_message = ENV['TEST_CONTEXT'] ? "#{Environ.test_environment} - #{ENV['TEST_CONTEXT']}" : Environ.test_environment
+        context_message = ENV['TEST_CONTEXT'] ? "#{Environ.test_environment.upcase} - #{ENV['TEST_CONTEXT']}" : Environ.test_environment.upcase
         if ENV['PARALLEL']
           thread_num = ENV['TEST_ENV_NUMBER']
           thread_num = 1 if thread_num.blank?

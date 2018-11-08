@@ -7,7 +7,12 @@ module TestCentricity
     attr_accessor :mru_ui_element
 
     def self.enqueue_assert_equal(expected, actual, error_message)
-      unless expected == actual
+      is_equal = if Environ.browser == :edge || Environ.browser == :safari && expected.is_a?(String) && actual.is_a?(String)
+                   expected.downcase.strip == actual.downcase.strip
+                 else
+                   expected == actual
+                 end
+      unless is_equal
         enqueue("#{error_message} to be\n  '#{expected}'\nbut found\n  '#{actual}'")
         enqueue_screenshot
       end

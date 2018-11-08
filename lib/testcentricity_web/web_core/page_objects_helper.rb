@@ -729,6 +729,7 @@ module TestCentricity
     #
     # @param data [Hash] UI element(s) and associated data to be entered
     # @param wait_time [Integer] wait time in seconds
+    # @param integrity_check [Boolean] if TRUE, verify that text entered into text fields matches what was entered
     # @example
     #   field_data = { prefix_select      => 'Ms',
     #                  first_name_field   => 'Priscilla',
@@ -740,7 +741,7 @@ module TestCentricity
     #          }
     #   populate_data_fields(field_data)
     #
-    def populate_data_fields(data, wait_time = nil)
+    def populate_data_fields(data, wait_time = nil, integrity_check = false)
       timeout = wait_time.nil? ? 5 : wait_time
       data.each do |data_field, data_param|
         unless data_param.blank?
@@ -762,6 +763,11 @@ module TestCentricity
               data_field.set_selected_state(data_param.to_bool)
             when :textfield
               data_field.set("#{data_param}\t")
+              if integrity_check && data_field.get_value != data_param
+                data_field.set('')
+                data_field.send_keys(data_param)
+                data_field.send_keys(:tab)
+              end
             when :section
               data_field.set(data_param)
             end

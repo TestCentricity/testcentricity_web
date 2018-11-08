@@ -718,14 +718,15 @@ To maximize a desktop browser window, you set the `BROWSER_SIZE` Environment Var
 File download functionality can be tested with locally hosted instances of Chrome or Firefox desktop browsers. Your automation project must include
 a `/downloads` folder at the same level as the `/config` and `/features` folders, as depicted below:
 
-        my_automation_project
-            ├── config
-            ├── downloads
-            ├── features
-            │   ├── step_definitions
-            │   └── support
-            ├── Gemfile
-            └── README.md
+    my_automation_project
+        ├── config
+        ├── downloads
+        ├── features
+        │   ├── step_definitions
+        │   ├── support
+        │   └── test_data
+        ├── Gemfile
+        └── README.md
 
 
 When testing file downloads using a local instance of Firefox, you will need to specify the MIME types of the various file types that your tests will
@@ -844,7 +845,7 @@ Once your test environment is properly configured, the following **Environment V
 ### Mobile Chrome or Android browsers on Android Studio Virtual Device emulators
 
 You can run your mobile web tests against the mobile Chrome or Android browser on emulated Android devices using Appium and Android Studio on OS X. You
-must install Android Studio, the desired Android version-specific virtual device emulators, and Appium. Refer to [this page](https://github.com/appium/ruby_console/blob/master/osx.md)
+must install Android Studio, the desired Android version-specific virtual device emulators, and Appium. Refer to [this page](http://appium.io/docs/en/drivers/android-uiautomator2/index.html)
 for information on configuring Appium to work with the Android SDK. You must also ensure that the `appium_capybara` gem is installed and required as
 described in **section 3.3 (Setup - Using Appium)** above.
 
@@ -898,7 +899,7 @@ for information regarding the specific capabilities.
 `BROWSER_SIZE`     | [Optional] Specify width, height of browser window
 `RECORD_VIDEO`     | [Optional] Enable screen video recording during test execution (`true` or `false`)
 `TIME_ZONE`        | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart
-`IP_GEOLOCATION`   | [Optional] Specify IP Geolocation. Refer to [IP Geolocation](https://www.browserstack.com/automate/ip-geolocation) to select a country code.
+`IP_GEOLOCATION`   | [Optional] Specify IP Geolocation. Refer to [IP Geolocation](https://www.browserstack.com/ip-geolocation) to select a country code.
 `SELENIUM_VERSION` | [Optional] Specify Selenium WebDriver version to use
 `CONSOLE_LOGS`     | [Optional] Used to capture browser console logs. Refer to `browserstack.console` capability in chart
 `WD_VERSION`       | [Optional] Specify browser-specific WebDriver version to use. Refer to `browserstack.geckodriver`, `browserstack.ie.driver`, and `browserstack.safari.driver` capabilities in chart
@@ -933,7 +934,7 @@ for information regarding the specific capabilities.
 `ORIENTATION`    | [Optional] Set to `portrait` or `landscape`
 `RECORD_VIDEO`   | [Optional] Enable screen video recording during test execution (`true` or `false`)
 `TIME_ZONE`      | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart
-`IP_GEOLOCATION` | [Optional] Specify IP Geolocation. Refer to [IP Geolocation](https://www.browserstack.com/automate/ip-geolocation) to select a country code.
+`IP_GEOLOCATION` | [Optional] Specify IP Geolocation. Refer to [IP Geolocation](https://www.browserstack.com/ip-geolocation) to select a country code.
 `CONSOLE_LOGS`   | [Optional] Used to capture browser console logs. Refer to `browserstack.console` capability in chart
 
 
@@ -1209,6 +1210,11 @@ text with the Subdomain specified on the Grid Configuration Parameters section o
     bs_mobile:          --profile browserstack <%= mobile %>
     
     # BrowserStack OS X desktop browser profiles
+    bs_macos_mojave:    --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="Mojave"
+    bs_ff_mojave:       --profile bs_macos_mojave BS_BROWSER="Firefox"
+    bs_chrome_mojave:   --profile bs_macos_mojave BS_BROWSER="Chrome"
+    bs_safari_mojave:   --profile bs_macos_mojave BS_BROWSER="Safari"
+    
     bs_macos_high_sierra:  --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="High Sierra"
     bs_ff_high_sierra:     --profile bs_macos_high_sierra BS_BROWSER="Firefox"
     bs_chrome_high_sierra: --profile bs_macos_high_sierra BS_BROWSER="Chrome"

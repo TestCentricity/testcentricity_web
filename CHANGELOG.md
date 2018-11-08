@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 
+## [3.0.20] - 2018-11-08
+
+### Changed
+* `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods now ignore case and whitespace when verifying text
+captions and values when running tests against Microsoft Edge browsers to accommodate known Edge WebDriver [Issue #11322543](https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/11322543/).
+* Updated `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods to accept optional `integrity_check` parameter.
+
+
 ## [3.0.19] - 2018-10-10
 
 ### Added
