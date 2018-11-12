@@ -864,10 +864,28 @@ module TestCentricity
             actual = ui_object.get_siebel_options
           when :style
             actual = ui_object.style
+          when :role
+            actual = ui_object.role
           when :aria_label
             actual = ui_object.aria_label
           when :aria_disabled
             actual = ui_object.aria_disabled?
+          when :tabindex
+            actual = ui_object.tabindex
+          when :aria_labelledby
+            actual = ui_object.aria_labelledby
+          when :aria_describedby
+            actual = ui_object.aria_describedby
+          when :aria_live
+            actual = ui_object.aria_live
+          when :aria_selected
+            actual = ui_object.aria_selected?
+          when :aria_hidden
+            actual = ui_object.aria_hidden?
+          when :aria_expanded
+            actual = ui_object.aria_expanded?
+          when :aria_required
+            actual = ui_object.aria_required?
           else
             if property.is_a?(Hash)
               property.each do |key, value|

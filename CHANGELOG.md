@@ -2,6 +2,23 @@
 All notable changes to this project will be documented in this file.
 
 
+## [3.1.0] - 2018-11-10
+
+### Added
+* Adding greater support for WCAG 2.x accessibility testing and verification:
+* `UIElement.role` method.
+* `UIElement.tabindex` method.
+* `UIElement.aria_labelledby` method.
+* `UIElement.aria_describedby` method.
+* `UIElement.aria_live` method.
+* `UIElement.aria_selected?` method.
+* `UIElement.aria_hidden?` method.
+* `UIElement.aria_expanded?` method.
+* `UIElement.aria_required?` method.
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `role`, `tabindex`, `aria-labelledby`,
+`aria-describedby`, `aria-live`, `aria-selected`, `aria-hidden`, `aria-expanded`, and `aria-required` properties.
+
+
 ## [3.0.20] - 2018-11-08
 
 ### Changed

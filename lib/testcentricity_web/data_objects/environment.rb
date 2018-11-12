@@ -47,6 +47,8 @@ module TestCentricity
     attr_accessor :portal_context
     attr_accessor :external_page
 
+    attr_accessor :a11y_standard
+
     attr_accessor :protocol
     attr_accessor :hostname
     attr_accessor :base_url
@@ -60,17 +62,19 @@ module TestCentricity
     attr_accessor :db_password
 
     def initialize(data)
-      @protocol    = data['PROTOCOL']
-      @hostname    = data['HOST_NAME']
-      @base_url    = data['BASE_URL']
-      @user_id	   = data['USER_ID']
-      @password	   = data['PASSWORD']
-      @append	     = data['APPEND']
-      @option1	   = data['OPTIONAL_1']
-      @option2	   = data['OPTIONAL_2']
-      @dns	       = data['DNS']
-      @db_username = data['DB_USERNAME']
-      @db_password = data['DB_PASSWORD']
+      @protocol      = data['PROTOCOL']
+      @hostname      = data['HOST_NAME']
+      @base_url      = data['BASE_URL']
+      @user_id	     = data['USER_ID']
+      @password	     = data['PASSWORD']
+      @append	       = data['APPEND']
+      @option1	     = data['OPTIONAL_1']
+      @option2	     = data['OPTIONAL_2']
+      @dns	         = data['DNS']
+      @db_username   = data['DB_USERNAME']
+      @db_password   = data['DB_PASSWORD']
+      @a11y_standard = ENV['ACCESSIBILITY_STANDARD'] || 'best-practice'
+
       super
     end
 
@@ -290,6 +294,7 @@ module TestCentricity
       report_header = "#{report_header}  <b>Locale:</b>\t\t #{ENV['LOCALE']}\n" if ENV['LOCALE']
       report_header = "#{report_header}  <b>Language:</b>\t #{ENV['LANGUAGE']}\n" if ENV['LANGUAGE']
       report_header = "#{report_header}  <b>Country:</b>\t #{ENV['COUNTRY']}\n" if ENV['COUNTRY']
+      report_header = "#{report_header}  <b>WCAG Accessibility Standard:</b>\t #{ENV['ACCESSIBILITY_STANDARD']}\n" if ENV['ACCESSIBILITY_STANDARD']
       "#{report_header}\n\n"
     end
   end

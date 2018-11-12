@@ -494,9 +494,21 @@ With TestCentricity, all UI elements are based on the **UIElement** class, and i
     element.y
     element.get_attribute(attrib)
     element.get_native_attribute(attrib)
+
+**Object Accessibility methods:**
+
     element.aria_disabled?
     element.aria_label
-    
+    element.role
+    element.tabindex
+    element.aria_labelledby
+    element.aria_describedby
+    element.aria_live
+    element.aria_selected?
+    element.aria_hidden?
+    element.aria_expanded?
+    element.aria_required?
+
 **Waiting methods:**
 
     element.wait_until_exists(seconds)

@@ -566,6 +566,26 @@ module TestCentricity
       get_attribute('style')
     end
 
+    # Return state of UI object's role property
+    #
+    # @return [String]
+    # @example
+    #   buy_now_button.role
+    #
+    def role
+      get_attribute('role')
+    end
+
+    # Return state of UI object's tabindex property
+    #
+    # @return [String]
+    # @example
+    #   buy_now_button.tabindex
+    #
+    def tabindex
+      get_attribute('tabindex')
+    end
+
     # Return state of UI object's aria-label property
     #
     # @return [String]
@@ -576,6 +596,36 @@ module TestCentricity
       get_attribute('aria-label')
     end
 
+    # Return state of UI object's aria-labelledby property
+    #
+    # @return [String]
+    # @example
+    #   buy_now_button.aria_labelledby
+    #
+    def aria_labelledby
+      get_attribute('aria-labelledby')
+    end
+
+    # Return state of UI object's aria-describedby property
+    #
+    # @return [String]
+    # @example
+    #   buy_now_button.aria_describedby
+    #
+    def aria_describedby
+      get_attribute('aria-describedby')
+    end
+
+    # Return state of UI object's aria-live property
+    #
+    # @return [String]
+    # @example
+    #   properties_list.aria_live
+    #
+    def aria_live
+      get_attribute('aria-live')
+    end
+
     # Return state of UI object's aria-disabled property
     #
     # @return [Boolean]
@@ -584,6 +634,50 @@ module TestCentricity
     #
     def aria_disabled?
       state = get_attribute('aria-disabled')
+      state.boolean? ? state : state == 'true'
+    end
+
+    # Return state of UI object's aria-selected property
+    #
+    # @return [Boolean]
+    # @example
+    #   nutrition_info_tab.aria_selected?
+    #
+    def aria_selected?
+      state = get_attribute('aria-selected')
+      state.boolean? ? state : state == 'true'
+    end
+
+    # Return state of UI object's aria-hidden property
+    #
+    # @return [Boolean]
+    # @example
+    #   nutrition_info_tab.aria_hidden?
+    #
+    def aria_hidden?
+      state = get_attribute('aria-hidden')
+      state.boolean? ? state : state == 'true'
+    end
+
+    # Return state of UI object's aria-expanded property
+    #
+    # @return [Boolean]
+    # @example
+    #   catalog_tree.aria_expanded?
+    #
+    def aria_expanded?
+      state = get_attribute('aria-expanded')
+      state.boolean? ? state : state == 'true'
+    end
+
+    # Return state of UI object's aria-required property
+    #
+    # @return [Boolean]
+    # @example
+    #   home_phone_field.aria_required?
+    #
+    def aria_required?
+      state = get_attribute('aria-required')
       state.boolean? ? state : state == 'true'
     end
 
