@@ -763,9 +763,11 @@ the `WEB_BROWSER` Environment Variable must be set to one of the values from the
 `ipad`                |`chrome`        |1024 x 768  |landscape |iOS 12
 `ipad_pro`            |`chrome`        |1366 x 1024 |landscape |iOS 12
 `ipad_pro_10_5`       |`chrome`        |1112 x 834  |landscape |iOS 12
-`ipad_chrome`         |`chrome`        |1024 x 768  |landscape |iOS 12 - Mobile Chrome browser for iOS
-`ipad_firefox`        |`chrome`        |1024 x 768  |landscape |iOS 12 - Mobile Firefox browser for iOS
-`ipad_edge`           |`chrome`        |1024 x 768  |landscape |iOS 12 - Mobile Edge browser for iOS
+`ipad_pro_11`         |`chrome`        |1194 x 834  |landscape |iOS 12.1
+`ipad_pro_12_9`       |`chrome`        |1366 x 1024 |landscape |iOS 12.1
+`ipad_chrome`         |`chrome`        |1024 x 768  |landscape |iOS 12.1 - Mobile Chrome browser for iOS
+`ipad_firefox`        |`chrome`        |1024 x 768  |landscape |iOS 12.1 - Mobile Firefox browser for iOS
+`ipad_edge`           |`chrome`        |1024 x 768  |landscape |iOS 12.1 - Mobile Edge browser for iOS
 `android_tablet`      |`chrome`        |1024 x 768  |landscape |Android 3.0
 `kindle_fire`         |`chrome`        |1024 x 600  |landscape |
 `kindle_firehd7`      |`chrome`        |800 x 480   |landscape |Fire OS 3
@@ -781,12 +783,15 @@ the `WEB_BROWSER` Environment Variable must be set to one of the values from the
 `iphone6_plus`        |`chrome`        |414 x 736   |portrait  |iOS 12
 `iphone7`             |`chrome`        |375 x 667   |portrait  |iOS 12
 `iphone7_plus`        |`chrome`        |414 x 736   |portrait  |iOS 12
-`iphone7_chrome`      |`chrome`        |375 x 667   |portrait  |iOS 12 - Mobile Chrome browser for iOS
-`iphone7_firefox`     |`chrome`        |375 x 667   |portrait  |iOS 12 - Mobile Firefox browser for iOS
-`iphone7_edge`        |`chrome`        |375 x 667   |portrait  |iOS 12 - Microsoft Edge browser for iOS
+`iphone7_chrome`      |`chrome`        |375 x 667   |portrait  |iOS 12.1 - Mobile Chrome browser for iOS
+`iphone7_firefox`     |`chrome`        |375 x 667   |portrait  |iOS 12.1 - Mobile Firefox browser for iOS
+`iphone7_edge`        |`chrome`        |375 x 667   |portrait  |iOS 12.1 - Microsoft Edge browser for iOS
 `iphone8`             |`chrome`        |375 x 667   |portrait  |iOS 12
 `iphone8_plus`        |`chrome`        |414 x 736   |portrait  |iOS 12
-`iphonex`             |`chrome`        |375 x 812   |portrait  |iOS 12
+`iphone_x`            |`chrome`        |375 x 812   |portrait  |iOS 12.1
+`iphone_xr`           |`chrome`        |414 x 896   |portrait  |iOS 12.1
+`iphone_xs`           |`chrome`        |375 x 812   |portrait  |iOS 12.1
+`iphone_xs_max`       |`chrome`        |414 x 896   |portrait  |iOS 12.1
 `android_phone`       |`chrome`        |360 x 640   |portrait  |Android 4.2.1
 `nexus6`              |`chrome`        |411 x 731   |portrait  |Android 6
 `pixel`               |`chrome`        |411 x 731   |portrait  |Android 8
@@ -1109,6 +1114,8 @@ text with the Subdomain specified on the Grid Configuration Parameters section o
     ipad:                WEB_BROWSER=ipad                HOST_BROWSER=chrome <%= tablet %>
     ipad_pro:            WEB_BROWSER=ipad_pro            HOST_BROWSER=chrome <%= tablet %>
     ipad_pro_10_5:       WEB_BROWSER=ipad_pro_10_5       HOST_BROWSER=chrome <%= tablet %>
+    ipad_pro_11:         WEB_BROWSER=ipad_pro_11         HOST_BROWSER=chrome <%= tablet %>
+    ipad_pro_12_9:       WEB_BROWSER=ipad_pro_12_9       HOST_BROWSER=chrome <%= tablet %>
     ipad_chrome:         WEB_BROWSER=ipad_chrome         HOST_BROWSER=chrome <%= tablet %>
     ipad_firefox:        WEB_BROWSER=ipad_firefox        HOST_BROWSER=chrome <%= tablet %>
     ipad_edge:           WEB_BROWSER=ipad_edge           HOST_BROWSER=chrome <%= tablet %>
@@ -1121,7 +1128,10 @@ text with the Subdomain specified on the Grid Configuration Parameters section o
     iphone7_edge:        WEB_BROWSER=iphone7_edge        HOST_BROWSER=chrome <%= mobile %>
     iphone8:             WEB_BROWSER=iphone8             HOST_BROWSER=chrome <%= mobile %>
     iphone8_plus:        WEB_BROWSER=iphone8_plus        HOST_BROWSER=chrome <%= mobile %>
-    iphoneX:             WEB_BROWSER=iphonex             HOST_BROWSER=chrome <%= mobile %>
+    iphone_x:            WEB_BROWSER=iphone_x            HOST_BROWSER=chrome <%= mobile %>
+    iphone_xr:           WEB_BROWSER=iphone_xr           HOST_BROWSER=chrome <%= mobile %>
+    iphone_xs:           WEB_BROWSER=iphone_xs           HOST_BROWSER=chrome <%= mobile %>
+    iphone_xs_max:       WEB_BROWSER=iphone_xs_max       HOST_BROWSER=chrome <%= mobile %>
     android_phone:       WEB_BROWSER=android_phone       HOST_BROWSER=chrome <%= mobile %>
     nexus6:              WEB_BROWSER=nexus6              HOST_BROWSER=chrome <%= mobile %>
     android_tablet:      WEB_BROWSER=android_tablet      HOST_BROWSER=chrome <%= tablet %>

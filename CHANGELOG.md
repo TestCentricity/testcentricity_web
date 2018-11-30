@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file.
 
 
+## [3.1.1] - 2018-11-30
+
+### Added
+* Added device profiles for iPhone XR, XS, and XS Max (iOS 12.1) with Mobile Safari browser.
+* Added device profiles for iPad Pro 11" and iPad Pro 12.9" 3rd Generation (iOS 12.1) with Mobile Safari browser.
+
+### Changed
+* Updated device profiles for iPhone 7 (iOS 12) with Mobile Firefox browser and iPad (iOS 12) with Mobile Firefox browser.
+* Updated device profiles for iPhone 7 (iOS 12) with Mobile Edge browser and iPad (iOS 12) with Mobile Edge browser.
+* Updated device profiles for iPhone 7 (iOS 12) with Mobile Chrome browser and iPad (iOS 12) with Mobile Chrome browser.
+
+
 ## [3.1.0] - 2018-11-10
 
 ### Added
