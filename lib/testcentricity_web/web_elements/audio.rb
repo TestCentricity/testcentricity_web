@@ -192,5 +192,39 @@ module TestCentricity
       object_not_found_exception(obj, :audio)
       obj.native.attribute('volume')
     end
+
+    # Set the audio currentTime property
+    #
+    # @param value [Float] time in seconds
+    # @example
+    #   audio_player.current_time = 1.5
+    #
+    def current_time=(value)
+      obj, = find_element(visible = :all)
+      object_not_found_exception(obj, nil)
+      page.execute_script('arguments[0].currentTime = arguments[1]', obj, value)
+    end
+
+    # Play the audio
+    #
+    # @example
+    #   audio_player.play
+    #
+    def play
+      obj, = find_element(visible = :all)
+      object_not_found_exception(obj, nil)
+      page.execute_script('arguments[0].play()', obj)
+    end
+
+    # Pause the audio
+    #
+    # @example
+    #   audio_player.pause
+    #
+    def pause
+      obj, = find_element(visible = :all)
+      object_not_found_exception(obj, nil)
+      page.execute_script('arguments[0].pause()', obj)
+    end
   end
 end

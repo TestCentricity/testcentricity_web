@@ -167,7 +167,7 @@ module TestCentricity
     # Send keystrokes to this object.
     #
     # @param keys [String] keys
-     # @example
+    # @example
     #   comment_field.send_keys(:enter)
     #
     def send_keys(*keys)

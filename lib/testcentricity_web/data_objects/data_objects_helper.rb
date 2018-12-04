@@ -1,5 +1,6 @@
 require 'yaml'
 require 'json'
+require 'virtus'
 
 
 module TestCentricity
@@ -23,6 +24,53 @@ module TestCentricity
 
     def self.current=(current)
       @current = current
+    end
+  end
+
+
+  class DataPresenter
+    include Virtus.model
+
+    attr_accessor :current
+    attr_accessor :context
+
+    def initialize(data)
+      self.attributes = data
+    end
+
+    def self.current
+      @current
+    end
+
+    def self.current=(current)
+      @current = current
+    end
+
+    def to_hash(node_name)
+      data = {}
+      data[node_name] = {
+          class:      self.class.name,
+          attributes: self.attributes
+      }
+      data
+    end
+
+    def to_yaml(node_name)
+      data = to_hash(node_name)
+      data.to_yaml
+    end
+
+    def write_yaml_data(file_name, mode, node_name)
+      File.open(file_name, mode) { |file| file.write(to_yaml(node_name)) }
+    end
+
+    def to_json(node_name)
+      data = to_hash(node_name)
+      data.to_json
+    end
+
+    def write_json_data(file_name, mode, node_name)
+      File.open(file_name, mode) { |file| file.write(to_json(node_name)) }
     end
   end
 

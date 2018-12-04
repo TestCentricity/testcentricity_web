@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [3.1.2] - 2018-12-03
+
+### Added
+* Added `Audio.current_time` (setter), `Audio.play`, and `Audio.pause` methods.
+* Added `Video.current_time` (setter), `Video.play`, and `Video.pause` methods.
+
+
 ## [3.1.1] - 2018-11-30
 
 ### Added
