@@ -886,6 +886,12 @@ module TestCentricity
             actual = ui_object.aria_expanded?
           when :aria_required
             actual = ui_object.aria_required?
+          when :aria_invalid
+            actual = ui_object.aria_invalid?
+          when :aria_checked
+            actual = ui_object.aria_checked?
+          when :aria_readonly
+            actual = ui_object.aria_readonly?
           else
             if property.is_a?(Hash)
               property.each do |key, value|

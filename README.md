@@ -497,17 +497,20 @@ With TestCentricity, all UI elements are based on the **UIElement** class, and i
 
 **Object Accessibility methods:**
 
-    element.aria_disabled?
-    element.aria_label
     element.role
     element.tabindex
-    element.aria_labelledby
-    element.aria_describedby
-    element.aria_live
-    element.aria_selected?
+    element.aria_disabled?
     element.aria_hidden?
     element.aria_expanded?
     element.aria_required?
+    element.aria_invalid?
+    element.aria_checked?
+    element.aria_readonly?
+    element.aria_selected?
+    element.aria_label
+    element.aria_labelledby
+    element.aria_describedby
+    element.aria_live
 
 **Waiting methods:**
 

@@ -681,6 +681,39 @@ module TestCentricity
       state.boolean? ? state : state == 'true'
     end
 
+    # Return state of UI object's aria-invalid property
+    #
+    # @return [Boolean]
+    # @example
+    #   home_phone_field.aria_invalid?
+    #
+    def aria_invalid?
+      state = get_attribute('aria-invalid')
+      state.boolean? ? state : state == 'true'
+    end
+
+    # Return state of UI object's aria-checked property
+    #
+    # @return [Boolean]
+    # @example
+    #   allow_new_users_checkbox.aria_checked?
+    #
+    def aria_checked?
+      state = get_attribute('aria-checked')
+      state.boolean? ? state : state == 'true'
+    end
+
+    # Return state of UI object's aria-readonly property
+    #
+    # @return [Boolean]
+    # @example
+    #   home_phone_field.aria_readonly?
+    #
+    def aria_readonly?
+      state = get_attribute('aria-readonly')
+      state.boolean? ? state : state == 'true'
+    end
+
     def get_attribute(attrib)
       obj, type = find_element(false)
       object_not_found_exception(obj, type)

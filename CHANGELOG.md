@@ -2,6 +2,17 @@
 All notable changes to this project will be documented in this file.
 
 
+## [3.1.3] - 2018-12-08
+
+### Added
+* Additional methods to support WCAG 2.x accessibility testing and verification:
+* `UIElement.aria_invalid?` method.
+* `UIElement.aria_checked?` method.
+* `UIElement.aria_readonly?` method.
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `aria_invalid`, `aria_checked`,
+and `aria_readonly` properties.
+
+
 ## [3.1.2] - 2018-12-03
 
 ### Added
