@@ -269,7 +269,7 @@ module TestCentricity
     #   video :video_player, 'video#my_video_player'
     #
     def self.video(element_name, locator)
-      define_element(element_name, TestCentricity::Video, locator)
+      define_page_element(element_name, TestCentricity::Video, locator)
     end
 
     def self.videos(element_hash)
@@ -286,7 +286,7 @@ module TestCentricity
     #   audio :audio_player, 'audio#my_audio_player'
     #
     def self.audio(element_name, locator)
-      define_element(element_name, TestCentricity::Audio, locator)
+      define_page_element(element_name, TestCentricity::Audio, locator)
     end
 
     def self.audios(element_hash)

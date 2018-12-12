@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [3.1.4] - 2018-12-12
+
+### Fixed
+* `PageObject.audio`, `PageObject.audios`, `PageObject.video`, and `PageObject.videos` methods now correctly instantiate HTML 5 Audio and
+Video objects at the page level.
+
+
 ## [3.1.3] - 2018-12-08
 
 ### Added
