@@ -892,6 +892,16 @@ module TestCentricity
             actual = ui_object.aria_checked?
           when :aria_readonly
             actual = ui_object.aria_readonly?
+          when :aria_pressed
+            actual = ui_object.aria_pressed?
+          when :aria_haspopup
+            actual = ui_object.aria_haspopup?
+          when :aria_sort
+            actual = ui_object.aria_sort
+          when :aria_rowcount
+            actual = ui_object.aria_rowcount
+          when :aria_colcount
+            actual = ui_object.aria_colcount
           else
             if property.is_a?(Hash)
               property.each do |key, value|
@@ -909,23 +919,6 @@ module TestCentricity
                 when :native_attribute
                   actual = ui_object.get_native_attribute(value)
                 end
-              end
-            else
-              props = property.to_s.split('_')
-              case props[0].to_sym
-              when :cell
-                cell = property.to_s.delete('cell_')
-                cell = cell.split('_')
-                actual = ui_object.get_table_cell(cell[0].to_i, cell[1].to_i)
-              when :row
-                row = property.to_s.delete('row_')
-                actual = ui_object.get_table_row(row.to_i)
-              when :column
-                column = property.to_s.delete('column_')
-                actual = ui_object.get_table_column(column.to_i)
-              when :item
-                item = property.to_s.delete('item_')
-                actual = ui_object.get_list_item(item.to_i)
               end
             end
           end

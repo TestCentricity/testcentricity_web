@@ -495,7 +495,7 @@ With TestCentricity, all UI elements are based on the **UIElement** class, and i
     element.get_attribute(attrib)
     element.get_native_attribute(attrib)
 
-**Object Accessibility methods:**
+**Object Accessibility (A11y) methods:**
 
     element.role
     element.tabindex
@@ -506,11 +506,16 @@ With TestCentricity, all UI elements are based on the **UIElement** class, and i
     element.aria_invalid?
     element.aria_checked?
     element.aria_readonly?
+    element.aria_haspopup?
     element.aria_selected?
+    element.aria_pressed?
     element.aria_label
     element.aria_labelledby
     element.aria_describedby
     element.aria_live
+    element.aria_sort
+    element.aria_rowcount
+    element.aria_colcount
 
 **Waiting methods:**
 
@@ -1554,7 +1559,7 @@ landscape orientation running on the BrowserStack service:
 
 ## Copyright and License
 
-TestCentricity™ Framework is Copyright (c) 2014-2018, Tony Mrozinski.
+TestCentricity™ Framework is Copyright (c) 2014-2019, Tony Mrozinski.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

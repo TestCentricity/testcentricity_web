@@ -211,7 +211,6 @@ module TestCentricity
         when :chrome, :chrome_headless
           if browser == :chrome
             options = Selenium::WebDriver::Chrome::Options.new
-
             prefs = {
               prompt_for_download: false,
               directory_upgrade:   true,

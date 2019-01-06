@@ -2,6 +2,19 @@
 All notable changes to this project will be documented in this file.
 
 
+## [3.1.5] - 2019-01-06
+
+### Added
+* Additional methods to support WCAG 2.x accessibility testing and verification:
+* `UIElement.aria_rowcount` method.
+* `UIElement.aria_colcount` method.
+* `UIElement.aria_sort` method.
+* `UIElement.aria_haspopup?` method.
+* `UIElement.aria_pressed?` method.
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `aria_rowcount`, `aria_colcount`,
+`aria_sort`, `aria_pressed`, and `aria_haspopup` properties.
+
+
 ## [3.1.4] - 2018-12-12
 
 ### Fixed

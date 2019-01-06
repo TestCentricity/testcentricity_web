@@ -626,6 +626,36 @@ module TestCentricity
       get_attribute('aria-live')
     end
 
+    # Return state of UI object's aria-sort property
+    #
+    # @return [String]
+    # @example
+    #   name_column.aria_sort
+    #
+    def aria_sort
+      get_attribute('aria-sort')
+    end
+
+    # Return state of UI object's aria-rowcount property
+    #
+    # @return [Integer]
+    # @example
+    #   user_grid.aria_rowcount
+    #
+    def aria_rowcount
+      get_attribute('aria-rowcount')
+    end
+
+    # Return state of UI object's aria-colcount property
+    #
+    # @return [Integer]
+    # @example
+    #   user_grid.aria_colcount
+    #
+    def aria_colcount
+      get_attribute('aria-colcount')
+    end
+
     # Return state of UI object's aria-disabled property
     #
     # @return [Boolean]
@@ -700,6 +730,28 @@ module TestCentricity
     #
     def aria_checked?
       state = get_attribute('aria-checked')
+      state.boolean? ? state : state == 'true'
+    end
+
+    # Return state of UI object's aria-haspopup property
+    #
+    # @return [Boolean]
+    # @example
+    #   user_avatar.aria_haspopup?
+    #
+    def aria_haspopup?
+      state = get_attribute('aria-haspopup')
+      state.boolean? ? state : state == 'true'
+    end
+
+    # Return state of UI object's aria-pressed property
+    #
+    # @return [Boolean]
+    # @example
+    #   option1_button.aria_pressed?
+    #
+    def aria_pressed?
+      state = get_attribute('aria-pressed')
       state.boolean? ? state : state == 'true'
     end
 

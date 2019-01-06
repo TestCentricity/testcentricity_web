@@ -46,30 +46,31 @@ module TestCentricity
       @current = current
     end
 
-    def to_hash(node_name)
+    def to_hash(node_name = nil)
       data = {}
-      data[node_name] = {
-          class:      self.class.name,
-          attributes: self.attributes
-      }
+      if node_name.nil?
+        data = { class: self.class.name, attributes: self.attributes }
+      else
+        data[node_name] = { class: self.class.name, attributes: self.attributes }
+      end
       data
     end
 
-    def to_yaml(node_name)
+    def to_yaml(node_name = nil)
       data = to_hash(node_name)
       data.to_yaml
     end
 
-    def write_yaml_data(file_name, mode, node_name)
+    def write_yaml_data(file_name, mode, node_name = nil)
       File.open(file_name, mode) { |file| file.write(to_yaml(node_name)) }
     end
 
-    def to_json(node_name)
+    def to_json(node_name = nil)
       data = to_hash(node_name)
       data.to_json
     end
 
-    def write_json_data(file_name, mode, node_name)
+    def write_json_data(file_name, mode, node_name = nil)
       File.open(file_name, mode) { |file| file.write(to_json(node_name)) }
     end
   end
