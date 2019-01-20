@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 
 
+## [3.1.6] - 2019-01-20
+
+### Added
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `name` property.
+
+
 ## [3.1.5] - 2019-01-06
 
 ### Added

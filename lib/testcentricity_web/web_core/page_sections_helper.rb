@@ -158,9 +158,7 @@ module TestCentricity
     #             log_out_item:  'a#logout'
     #
     def self.elements(element_hash)
-      element_hash.each do |element_name, locator|
-        element(element_name, locator)
-      end
+      element_hash.each(&method(:element))
     end
 
     # Declare and instantiate a single button UI Element for this page section.
@@ -184,9 +182,7 @@ module TestCentricity
     #             cancel_button:       'button#cancel'
     #
     def self.buttons(element_hash)
-      element_hash.each do |element_name, locator|
-        button(element_name, locator)
-      end
+      element_hash.each(&method(:button))
     end
 
     # Declare and instantiate a single text field UI Element for this page section.
@@ -212,9 +208,7 @@ module TestCentricity
     #                   email_field:   'input#Email'
     #
     def self.textfields(element_hash)
-      element_hash.each do |element_name, locator|
-        textfield(element_name, locator)
-      end
+      element_hash.each(&method(:textfield))
     end
 
     # Declare and instantiate a single checkbox UI Element for this page section.
@@ -240,9 +234,7 @@ module TestCentricity
     #                   carb_compliant_check:    'input#carbCompliant'
     #
     def self.checkboxes(element_hash)
-      element_hash.each do |element_name, locator|
-        checkbox(element_name, locator)
-      end
+      element_hash.each(&method(:checkbox))
     end
 
     # Declare and instantiate a single radio button UI Element for this page section.
@@ -268,9 +260,7 @@ module TestCentricity
     #               amex_radio:       'input#payWithAmEx'
     #
     def self.radios(element_hash)
-      element_hash.each do |element_name, locator|
-        radio(element_name, locator)
-      end
+      element_hash.each(&method(:radio))
     end
 
     # Declare and instantiate a single label UI Element for this page section.
@@ -286,9 +276,7 @@ module TestCentricity
     end
 
     def self.labels(element_hash)
-      element_hash.each do |element_name, locator|
-        label(element_name, locator)
-      end
+      element_hash.each(&method(:label))
     end
 
     # Declare and instantiate a single link UI Element for this page section.
@@ -304,9 +292,7 @@ module TestCentricity
     end
 
     def self.links(element_hash)
-      element_hash.each do |element_name, locator|
-        link(element_name, locator)
-      end
+      element_hash.each(&method(:link))
     end
 
     # Declare and instantiate a single table UI Element for this page section.
@@ -321,9 +307,7 @@ module TestCentricity
     end
 
     def self.tables(element_hash)
-      element_hash.each do |element_name, locator|
-        table(element_name, locator)
-      end
+      element_hash.each(&method(:table))
     end
 
     # Declare and instantiate a single select list UI Element for this page section.
@@ -339,9 +323,7 @@ module TestCentricity
     end
 
     def self.selectlists(element_hash)
-      element_hash.each do |element_name, locator|
-        selectlist(element_name, locator)
-      end
+      element_hash.each(&method(:selectlist))
     end
 
     # Declare and instantiate a single list UI Element for this page section.
@@ -356,9 +338,7 @@ module TestCentricity
     end
 
     def self.lists(element_hash)
-      element_hash.each do |element_name, locator|
-        list(element_name, locator)
-      end
+      element_hash.each(&method(:list))
     end
 
     # Declare and instantiate a single image UI Element for this page section.
@@ -374,9 +354,7 @@ module TestCentricity
     end
 
     def self.images(element_hash)
-      element_hash.each do |element_name, locator|
-        image(element_name, locator)
-      end
+      element_hash.each(&method(:image))
     end
 
     # Declare and instantiate a single video UI Element for this page section.
@@ -391,9 +369,7 @@ module TestCentricity
     end
 
     def self.videos(element_hash)
-      element_hash.each do |element_name, locator|
-        video(element_name, locator)
-      end
+      element_hash.each(&method(:video))
     end
 
     # Declare and instantiate a single HTML5 audio UI Element for this page section.
@@ -408,9 +384,7 @@ module TestCentricity
     end
 
     def self.audios(element_hash)
-      element_hash.each do |element_name, locator|
-        audio(element_name, locator)
-      end
+      element_hash.each(&method(:audio))
     end
 
     # Declare and instantiate a single File Field UI Element for this page section.
@@ -425,9 +399,7 @@ module TestCentricity
     end
 
     def self.filefields(element_hash)
-      element_hash.each do |element_name, locator|
-        filefield(element_name, locator)
-      end
+      element_hash.each(&method(:filefield))
     end
 
     # Declare and instantiate a cell button in a table column on this page section.
@@ -768,6 +740,8 @@ module TestCentricity
           case property
           when :class
             actual = ui_object.get_attribute(:class)
+          when :name
+            actual = ui_object.get_attribute(:name)
           when :exists
             actual = ui_object.exists?
           when :enabled

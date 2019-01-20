@@ -60,6 +60,9 @@ module TestCentricity
         initialize_browser_size
       end
 
+      # set Capybara's server port if PARALLEL_PORT is true
+      Capybara.server_port = 9887 + ENV['TEST_ENV_NUMBER'].to_i if ENV['PARALLEL'] && ENV['PARALLEL_PORT']
+
       Environ.session_state = :running
       puts "Using #{Environ.browser} browser via #{context}"
     end
