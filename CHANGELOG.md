@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 
+## [3.1.7] - 2019-02-01
+
+### Added
+* Added `UIElement.title` and `PageObject.title` methods.
+* Added `Video.video_height`, and `Video.video_width` methods.
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `title` property.
+
+
 ## [3.1.6] - 2019-01-20
 
 ### Added

@@ -399,9 +399,7 @@ module TestCentricity
 
     def open_portal
       environment = Environ.current
-      environment.hostname.blank? ?
-          url = "#{environment.base_url}#{environment.append}" :
-          url = "#{environment.hostname}/#{environment.base_url}#{environment.append}"
+      url = environment.hostname.blank? ? "#{environment.base_url}#{environment.append}" : "#{environment.hostname}/#{environment.base_url}#{environment.append}"
       if environment.user_id.blank? || environment.password.blank?
         visit "#{environment.protocol}://#{url}"
       else
@@ -469,6 +467,16 @@ module TestCentricity
       Capybara.default_max_wait_time = saved_wait_time
     end
 
+    # Return page title
+    #
+    # @return [String]
+    # @example
+    #   home_page.title
+    #
+    def title
+      page.driver.browser.title
+    end
+
     # Wait until the page object exists, or until the specified wait time has expired. If the wait time is nil, then the wait
     # time will be Capybara.default_max_wait_time.
     #
@@ -519,7 +527,7 @@ module TestCentricity
       Timeout.timeout(wait_time) do
         loop do
           active = page.evaluate_script('jQuery.active')
-          break if active == 0
+          break if active.zero?
         end
       end
     end
@@ -542,6 +550,8 @@ module TestCentricity
             actual = ui_object.get_attribute(:class)
           when :name
             actual = ui_object.get_attribute(:name)
+          when :title
+            actual = ui_object.title
           when :exists
             actual = ui_object.exists?
           when :enabled
@@ -696,7 +706,11 @@ module TestCentricity
               end
             end
           end
-          error_msg = "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) #{property} property to"
+          error_msg = if ui_object.respond_to?(:get_name)
+                        "Expected UI object '#{ui_object.get_name}' (#{ui_object.get_locator}) #{property} property to"
+                      else
+                        "Expected '#{page_name}' page object #{property} property to"
+                      end
           ExceptionQueue.enqueue_comparison(ui_object, state, actual, error_msg)
         end
       end

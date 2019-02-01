@@ -193,6 +193,30 @@ module TestCentricity
       obj.native.attribute('volume')
     end
 
+    # Return video Height property
+    #
+    # @return [Integer] video height
+    # @example
+    #   height = video_player.video_height
+    #
+    def video_height
+      obj, = find_element
+      object_not_found_exception(obj, nil)
+      obj.native.attribute('videoHeight')
+    end
+
+    # Return video Width property
+    #
+    # @return [Integer] video width
+    # @example
+    #   width = video_player.video_width
+    #
+    def video_width
+      obj, = find_element
+      object_not_found_exception(obj, nil)
+      obj.native.attribute('videoWidth')
+    end
+
     # Set the video currentTime property
     #
     # @param value [Float] time in seconds

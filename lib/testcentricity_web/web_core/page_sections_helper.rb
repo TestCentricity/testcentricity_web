@@ -742,6 +742,8 @@ module TestCentricity
             actual = ui_object.get_attribute(:class)
           when :name
             actual = ui_object.get_attribute(:name)
+          when :title
+            actual = ui_object.title
           when :exists
             actual = ui_object.exists?
           when :enabled

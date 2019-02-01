@@ -433,6 +433,16 @@ module TestCentricity
       obj.get_y
     end
 
+    # Return UI object's title property
+    #
+    # @return [String]
+    # @example
+    #   buy_now_button.title
+    #
+    def title
+      get_attribute(:title)
+    end
+
     # Is UI object displayed in browser window?
     #
     # @return [Boolean]
