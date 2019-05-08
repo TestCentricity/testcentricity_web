@@ -4,15 +4,17 @@ module TestCentricity
     attr_accessor :selected_item
     attr_accessor :list_trigger
     attr_accessor :text_field
+    attr_accessor :options_list
 
     def initialize(name, parent, locator, context)
       super
       @type = :selectlist
       list_spec = {
-          list_item:     "li[class*='active-result']",
-          selected_item: "li[class*='result-selected']",
-          list_trigger:  nil,
-          text_field:    nil
+        selected_item: "li[class*='result-selected']",
+        list_item:     "li[class*='active-result']",
+        list_trigger:  nil,
+        text_field:    nil,
+        options_list:  nil
       }
       define_list_elements(list_spec)
     end
@@ -28,6 +30,8 @@ module TestCentricity
           @list_trigger = value
         when :text_field
           @text_field = value
+        when :options_list
+          @options_list = value
         else
           raise "#{element} is not a recognized selectlist element"
         end
@@ -50,13 +54,39 @@ module TestCentricity
     def choose_option(option)
       obj, = find_element
       object_not_found_exception(obj, nil)
+
+      unless @list_trigger.nil? && @options_list.nil?
+        obj.find(:css, @list_trigger).click
+        menu = obj.find(:css, @options_list, minimum: 0, wait: 2)
+        object_not_found_exception(menu, nil)
+        raise "Could not find option #{option} to choose" unless first(:css, @list_item, minimum: 0, wait: 2)
+
+        if option.is_a?(Array)
+          option.each do |item|
+            page.find(:css, @list_item, text: item.strip).click
+          end
+        else
+          if option.is_a?(Hash)
+            page.find(:css, "#{@list_item}:nth-of-type(#{option[:index]})").click if option.key?(:index)
+            page.find(:css, "#{@list_item}:nth-of-type(#{option[:value]})").click if option.key?(:value)
+            page.find(:css, "#{@list_item}:nth-of-type(#{option[:text]})").click if option.key?(:text)
+          else
+            options = obj.all(@list_item).collect(&:text)
+            sleep(2) unless options.include?(option)
+            first(:css, @list_item, text: option).click
+          end
+        end
+        return
+      end
+
       if @list_trigger.nil?
         obj.click
       else
         page.find(:css, @list_trigger).click
         sleep(1)
       end
-      if first(:css, @list_item, minimum: 0)
+
+      if first(:css, @list_item, minimum: 0, wait: 2)
         if option.is_a?(Array)
           option.each do |item|
             page.find(:css, @list_item, text: item.strip).click
@@ -107,10 +137,19 @@ module TestCentricity
     def get_options
       obj, = find_element
       object_not_found_exception(obj, nil)
-      if obj.first(:css, @list_item, minimum: 0)
-        obj.all(@list_item).collect(&:text)
+      if @list_trigger.nil? && @options_list.nil?
+        if obj.first(:css, @list_item, minimum: 0, wait: 2)
+          obj.all(@list_item).collect(&:text)
+        else
+          obj.all('option', visible: :all).collect(&:text)
+        end
       else
-        obj.all('option', visible: :all).collect(&:text)
+        obj.find(:css, @list_trigger).click
+        menu = obj.find(:css, @options_list, minimum: 0, wait: 2)
+        object_not_found_exception(menu, nil)
+        options = menu.all(@list_item, visible: true, minimum: 0, wait: 2).collect(&:text)
+        obj.find(:css, @list_trigger).click
+        options
       end
     end
 
@@ -126,10 +165,19 @@ module TestCentricity
     def get_option_count
       obj, = find_element
       object_not_found_exception(obj, nil)
-      if obj.first(:css, @list_item, minimum: 0)
-        obj.all(@list_item).count
+      if @list_trigger.nil? && @options_list.nil?
+        if obj.first(:css, @list_item, minimum: 0, wait: 2)
+          obj.all(@list_item).count
+        else
+          obj.all('option', visible: :all).count
+        end
       else
-        obj.all('option', visible: :all).count
+        obj.find(:css, @list_trigger).click
+        menu = obj.find(:css, @options_list, minimum: 0, wait: 2)
+        object_not_found_exception(menu, nil)
+        num_items = menu.all(@list_item, visible: true, minimum: 0, wait: 2).count
+        obj.find(:css, @list_trigger).click
+        num_items
       end
     end
 
@@ -155,6 +203,8 @@ module TestCentricity
       obj, = find_element
       object_not_found_exception(obj, nil)
       if obj.first(:css, @list_item, minimum: 0)
+        obj.first(:css, @selected_item).text
+      elsif obj.first(:css, @selected_item, minimum: 0)
         obj.first(:css, @selected_item).text
       else
         obj.first('option[selected]', visible: :all).text

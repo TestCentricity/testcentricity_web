@@ -4,5 +4,15 @@ module TestCentricity
       super
       @type = :link
     end
+
+    # Return link object's href property
+    #
+    # @return [String]
+    # @example
+    #   contact_us_link.href
+    #
+    def href
+      get_attribute('href')
+    end
   end
 end

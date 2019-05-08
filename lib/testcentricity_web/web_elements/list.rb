@@ -7,8 +7,8 @@ module TestCentricity
       super
       @type = :list
       list_spec = {
-          list_item:     'li',
-          selected_item: 'li.selected'
+        selected_item: 'li.selected',
+        list_item:     'li'
       }
       define_list_elements(list_spec)
     end

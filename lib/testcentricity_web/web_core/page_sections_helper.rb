@@ -840,6 +840,8 @@ module TestCentricity
             actual = ui_object.get_siebel_options
           when :style
             actual = ui_object.style
+          when :href
+            actual = ui_object.href
           when :role
             actual = ui_object.role
           when :aria_label

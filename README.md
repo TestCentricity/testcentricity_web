@@ -44,7 +44,7 @@ Or install it yourself as:
 
 
 ## Setup
-###Using Cucumber
+### Using Cucumber
 
 If you are using Cucumber, you need to require the following in your *env.rb* file:
 
@@ -53,7 +53,7 @@ If you are using Cucumber, you need to require the following in your *env.rb* fi
     require 'testcentricity_web'
 
 
-###Using RSpec
+### Using RSpec
 
 If you are using RSpec instead, you need to require the following in your *env.rb* file:
 
@@ -87,9 +87,9 @@ implementation details of a web page and expose an API that supports interaction
 
 **Page Objects** makes it easier to maintain automated tests because changes to page UI elements are updated in only one location - in the
 **Page Object** class definition. By adopting a **Page Object Model**, Cucumber Feature files and step definitions are no longer required to
-hold specific information about a page's UI objects, thus minimizing maintenance requirements. If any element on a page changes (URL path,
-text field attributes, button captions, etc.), maintenance is performed in the **Page Object** class definition only, typically with no need
-to update the affected feature file, scenarios, or step definitions.
+hold specific information about a page's UI objects, thus minimizing maintenance requirements. If any element on, or property of a page changes
+(URL path, text field attributes, button captions, etc.), maintenance is performed in the **Page Object** class definition only, typically with
+no need to update the affected feature file, scenarios, or step definitions.
 
 
 ### Defining a Page Object
@@ -223,6 +223,7 @@ the UI to hide implementation details, as shown below:
         login_button.click
       end
 
+      # set the state of the Remember Me checkbox
       def remember_me(state)
         remember_checkbox.set_checkbox_state(state)
       end
@@ -230,6 +231,7 @@ the UI to hide implementation details, as shown below:
       # verify Login page default UI state
       def verify_page_ui
         ui = {
+            self                 => { title: 'Login' },
             login_button         => { visible: true, caption: 'LOGIN' },
             user_id_field        => { visible: true, enabled: true },
             password_field       => { visible: true, enabled: true, value: '', placeholder: 'Password' },
@@ -261,7 +263,8 @@ the UI to hide implementation details, as shown below:
                   gender_select:       'select#gender',
                   state_select:        'select#stateProvince'
       checkbox    :email_opt_in_check, 'input#marketingEmailsOptIn'
-      button      :sign_up_button,     'button#registrationSignUp'
+      buttons     sign_up_button:      'button#registrationSignUp',
+                  cancel_button:       'button#registrationCancel'
       
       # populate Registration page fields with profile data
       def enter_profile_data(profile)
@@ -771,12 +774,12 @@ the `WEB_BROWSER` Environment Variable must be set to one of the values from the
 ----------------------|----------------------|-----------|----------|---------
 `ipad`                |`chrome`        |1024 x 768  |landscape |iOS 12
 `ipad_pro`            |`chrome`        |1366 x 1024 |landscape |iOS 12
-`ipad_pro_10_5`       |`chrome`        |1112 x 834  |landscape |iOS 12
-`ipad_pro_11`         |`chrome`        |1194 x 834  |landscape |iOS 12.1
-`ipad_pro_12_9`       |`chrome`        |1366 x 1024 |landscape |iOS 12.1
-`ipad_chrome`         |`chrome`        |1024 x 768  |landscape |iOS 12.1 - Mobile Chrome browser for iOS
-`ipad_firefox`        |`chrome`        |1024 x 768  |landscape |iOS 12.1 - Mobile Firefox browser for iOS
-`ipad_edge`           |`chrome`        |1024 x 768  |landscape |iOS 12.1 - Mobile Edge browser for iOS
+`ipad_pro_10_5`       |`chrome`        |1112 x 834  |landscape |iOS 12.2
+`ipad_pro_11`         |`chrome`        |1194 x 834  |landscape |iOS 12.2
+`ipad_pro_12_9`       |`chrome`        |1366 x 1024 |landscape |iOS 12.2
+`ipad_chrome`         |`chrome`        |1024 x 768  |landscape |iOS 12.2 - Mobile Chrome browser for iOS
+`ipad_firefox`        |`chrome`        |1024 x 768  |landscape |iOS 12.2 - Mobile Firefox browser for iOS
+`ipad_edge`           |`chrome`        |1024 x 768  |landscape |iOS 12.2 - Mobile Edge browser for iOS
 `android_tablet`      |`chrome`        |1024 x 768  |landscape |Android 3.0
 `kindle_fire`         |`chrome`        |1024 x 600  |landscape |
 `kindle_firehd7`      |`chrome`        |800 x 480   |landscape |Fire OS 3
@@ -792,15 +795,15 @@ the `WEB_BROWSER` Environment Variable must be set to one of the values from the
 `iphone6_plus`        |`chrome`        |414 x 736   |portrait  |iOS 12
 `iphone7`             |`chrome`        |375 x 667   |portrait  |iOS 12
 `iphone7_plus`        |`chrome`        |414 x 736   |portrait  |iOS 12
-`iphone7_chrome`      |`chrome`        |375 x 667   |portrait  |iOS 12.1 - Mobile Chrome browser for iOS
-`iphone7_firefox`     |`chrome`        |375 x 667   |portrait  |iOS 12.1 - Mobile Firefox browser for iOS
-`iphone7_edge`        |`chrome`        |375 x 667   |portrait  |iOS 12.1 - Microsoft Edge browser for iOS
+`iphone7_chrome`      |`chrome`        |375 x 667   |portrait  |iOS 12.2 - Mobile Chrome browser for iOS
+`iphone7_firefox`     |`chrome`        |375 x 667   |portrait  |iOS 12.2 - Mobile Firefox browser for iOS
+`iphone7_edge`        |`chrome`        |375 x 667   |portrait  |iOS 12.2 - Microsoft Edge browser for iOS
 `iphone8`             |`chrome`        |375 x 667   |portrait  |iOS 12
 `iphone8_plus`        |`chrome`        |414 x 736   |portrait  |iOS 12
-`iphone_x`            |`chrome`        |375 x 812   |portrait  |iOS 12.1
-`iphone_xr`           |`chrome`        |414 x 896   |portrait  |iOS 12.1
-`iphone_xs`           |`chrome`        |375 x 812   |portrait  |iOS 12.1
-`iphone_xs_max`       |`chrome`        |414 x 896   |portrait  |iOS 12.1
+`iphone_x`            |`chrome`        |375 x 812   |portrait  |iOS 12.2
+`iphone_xr`           |`chrome`        |414 x 896   |portrait  |iOS 12.2
+`iphone_xs`           |`chrome`        |375 x 812   |portrait  |iOS 12.2
+`iphone_xs_max`       |`chrome`        |414 x 896   |portrait  |iOS 12.2
 `android_phone`       |`chrome`        |360 x 640   |portrait  |Android 4.2.1
 `nexus6`              |`chrome`        |411 x 731   |portrait  |Android 6
 `pixel`               |`chrome`        |411 x 731   |portrait  |Android 8

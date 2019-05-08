@@ -10,15 +10,15 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.3.0'
   spec.authors       = ['A.J. Mrozinski']
   spec.email         = ['testcentricity@gmail.com']
-  spec.summary       = %q{A Page Object and Data Object Model Framework for desktop and mobile web testing}
-  spec.description   = %q{
+  spec.summary       = 'A Page Object and Data Object Model Framework for desktop and mobile web testing'
+  spec.description   = '
     The TestCentricity™ Web core generic framework for desktop and mobile web browser-based applications testing implements
     a Page Object Model DSL for use with Cucumber, Capybara, and Selenium-Webdriver. The gem provides support for running
     automated tests against locally hosted desktop browsers, locally hosted emulated mobile browsers (iOS, Android, Windows
     Phone, Blackberry, Kindle Fire) running within a local instance of Chrome, mobile Safari browsers on iOS device simulators
      or physical iOS devices (using Appium and XCode on OS X), mobile Chrome or Android browsers on Android Studio virtual
     device emulators (using Appium and Android Studio on OS X), or cloud hosted desktop or mobile web browsers (using the
-    BrowserStack, Sauce Labs, CrossBrowserTesting, TestingBot, or Gridlastic services).}
+    BrowserStack, Sauce Labs, CrossBrowserTesting, TestingBot, or Gridlastic services).'
   spec.homepage      = ''
   spec.license       = 'BSD-3-Clause'
 
