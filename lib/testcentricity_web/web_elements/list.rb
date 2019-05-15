@@ -75,12 +75,21 @@ module TestCentricity
       define_list_elements(element_spec) unless element_spec.nil?
       obj, = find_element
       object_not_found_exception(obj, nil)
-      obj.all(@list_item, visible: true, minimum: 0, wait: 2).collect(&:text)
+      items = obj.all(@list_item, visible: true, minimum: 0, wait: 2).collect(&:text)
+
+      items.map!{ |item| item.delete("\n") }
+      items.map!{ |item| item.delete("\r") }
+      items.map!{ |item| item.delete("\t") }
+      items.map!{ |item| item.strip }
     end
 
     def get_list_item(index, visible = true)
       items = visible ? get_list_items : get_all_list_items
-      items[index - 1]
+      item = items[index - 1]
+      item.delete!("\n")
+      item.delete!("\r")
+      item.delete!("\t")
+      item.strip!
     end
 
     # Return the number of items in a list object.

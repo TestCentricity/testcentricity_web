@@ -932,6 +932,8 @@ for information regarding the specific capabilities.
 `SELENIUM_VERSION` | [Optional] Specify Selenium WebDriver version to use
 `CONSOLE_LOGS`     | [Optional] Used to capture browser console logs. Refer to `browserstack.console` capability in chart
 `WD_VERSION`       | [Optional] Specify browser-specific WebDriver version to use. Refer to `browserstack.geckodriver`, `browserstack.ie.driver`, and `browserstack.safari.driver` capabilities in chart
+`ALLOW_POPUPS`     | [Optional] Allow popups (`true` or `false`) - for Safari, IE, and Edge browsers only
+`ALLOW_COOKIES`    | [Optional] Allow all cookies (`true` or `false`) - for Safari browsers only
 
 If the BrowserStack Local instance is running (`TUNNELING` Environment Variable is `true`), call the`TestCentricity::WebDriverConnect.close_tunnel` method
 upon completion of your test suite to stop the Local instance. Place the code shown below in your `env.rb` file.

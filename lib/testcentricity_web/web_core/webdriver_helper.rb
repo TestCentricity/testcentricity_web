@@ -302,17 +302,27 @@ module TestCentricity
         capabilities['browserstack.local'] = 'true' if ENV['TUNNELING']
 
         case browser.downcase.to_sym
-        when :ie, :edge
+        when :ie
           capabilities['ie.fileUploadDialogTimeout'] = 10000
           capabilities['ie.ensureCleanSession'] = 'true'
           capabilities['ie.browserCommandLineSwitches'] = 'true'
           capabilities['nativeEvents'] = 'true'
           capabilities['browserstack.ie.driver'] = ENV['WD_VERSION'] if ENV['WD_VERSION']
+          capabilities['browserstack.ie.enablePopups'] = ENV['ALLOW_POPUPS'] if ENV['ALLOW_POPUPS']
+        when :edge
+          capabilities['ie.fileUploadDialogTimeout'] = 10000
+          capabilities['ie.ensureCleanSession'] = 'true'
+          capabilities['ie.browserCommandLineSwitches'] = 'true'
+          capabilities['nativeEvents'] = 'true'
+          capabilities['browserstack.ie.driver'] = ENV['WD_VERSION'] if ENV['WD_VERSION']
+          capabilities['browserstack.edge.enablePopups'] = ENV['ALLOW_POPUPS'] if ENV['ALLOW_POPUPS']
         when :firefox
           capabilities['browserstack.geckodriver'] = ENV['WD_VERSION'] if ENV['WD_VERSION']
         when :safari
           capabilities['cleanSession'] = 'true'
           capabilities['browserstack.safari.driver'] = ENV['WD_VERSION'] if ENV['WD_VERSION']
+          capabilities['browserstack.safari.enablePopups'] = ENV['ALLOW_POPUPS'] if ENV['ALLOW_POPUPS']
+          capabilities['browserstack.safari.allowAllCookies'] = ENV['ALLOW_COOKIES'] if ENV['ALLOW_COOKIES']
         when :iphone, :ipad
           capabilities['javascriptEnabled'] = 'true'
           capabilities['cleanSession'] = 'true'

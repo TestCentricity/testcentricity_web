@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file.
 
 
+## [3.1.9] - 2019-05-16
+
+### Added
+* Added support for enabling popups when testing on BrowserStack cloud hosted Safari, IE, and Edge browsers.
+* Added support for enabling all cookies when testing on BrowserStack cloud hosted Safari browsers.
+
+### Changed
+* `List.get_list_items` and `List.get_list_item` methods now strip leading and trailing whitespace from returned values.
+
 ## [3.1.8] - 2019-05-08
 
 ### Added
