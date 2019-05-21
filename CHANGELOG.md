@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 
 
+## [3.1.10] - 2019-05-21
+
+### Fixed
+* Improved compatibility with React and Chosen select lists.
+
+
 ## [3.1.9] - 2019-05-16
 
 ### Added

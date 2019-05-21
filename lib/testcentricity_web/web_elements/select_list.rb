@@ -5,6 +5,7 @@ module TestCentricity
     attr_accessor :list_trigger
     attr_accessor :text_field
     attr_accessor :options_list
+    attr_accessor :base_object
 
     def initialize(name, parent, locator, context)
       super
@@ -52,13 +53,13 @@ module TestCentricity
     #   state_select.choose_option(text: 'Maryland')
     #
     def choose_option(option)
-      obj, = find_element
-      object_not_found_exception(obj, nil)
+      @base_object, = find_element
+      object_not_found_exception(@base_object, nil)
 
-      unless @list_trigger.nil? && @options_list.nil?
-        obj.find(:css, @list_trigger).click
-        menu = obj.find(:css, @options_list, minimum: 0, wait: 2)
-        object_not_found_exception(menu, nil)
+      trigger_list
+
+      unless @options_list.nil?
+        find_component(@options_list, 'drop menu')
         raise "Could not find option #{option} to choose" unless first(:css, @list_item, minimum: 0, wait: 2)
 
         if option.is_a?(Array)
@@ -71,19 +72,12 @@ module TestCentricity
             page.find(:css, "#{@list_item}:nth-of-type(#{option[:value]})").click if option.key?(:value)
             page.find(:css, "#{@list_item}:nth-of-type(#{option[:text]})").click if option.key?(:text)
           else
-            options = obj.all(@list_item).collect(&:text)
+            options = @base_object.all(@list_item).collect(&:text)
             sleep(2) unless options.include?(option)
             first(:css, @list_item, text: option).click
           end
         end
         return
-      end
-
-      if @list_trigger.nil?
-        obj.click
-      else
-        page.find(:css, @list_trigger).click
-        sleep(1)
       end
 
       if first(:css, @list_item, minimum: 0, wait: 2)
@@ -97,7 +91,7 @@ module TestCentricity
             page.find(:css, "#{@list_item}:nth-of-type(#{option[:value]})").click if option.key?(:value)
             page.find(:css, "#{@list_item}:nth-of-type(#{option[:text]})").click if option.key?(:text)
           else
-            options = obj.all(@list_item).collect(&:text)
+            options = @base_object.all(@list_item).collect(&:text)
             sleep(2) unless options.include?(option)
             first(:css, @list_item, text: option).click
           end
@@ -105,25 +99,20 @@ module TestCentricity
       else
         if option.is_a?(Array)
           option.each do |item|
-            select_item(obj, item)
+            select_item(@base_object, item)
           end
         else
-          select_item(obj, option)
+          select_item(@base_object, option)
         end
       end
     end
 
     def set(text)
-      if @text_field.nil?
-        raise "A 'text_field' list element must be defined before calling the 'set' method on a selectlist object"
-      end
-      obj, = find_element
-      object_not_found_exception(obj, nil)
-      if @list_trigger.nil?
-        obj.click
-      else
-        page.find(:css, @list_trigger).click
-      end
+      raise "A 'text_field' list element must be defined before calling the 'set' method on a selectlist object" if @text_field.nil?
+      @base_object, = find_element
+      object_not_found_exception(@base_object, nil)
+      trigger_list
+
       page.find(:css, @text_field, wait: 2).set(text)
     end
 
@@ -135,20 +124,19 @@ module TestCentricity
     #   all_colors = color_select.get_options
     #
     def get_options
-      obj, = find_element
-      object_not_found_exception(obj, nil)
-      if @list_trigger.nil? && @options_list.nil?
-        if obj.first(:css, @list_item, minimum: 0, wait: 2)
-          obj.all(@list_item).collect(&:text)
+      @base_object, = find_element
+      object_not_found_exception(@base_object, nil)
+      if @options_list.nil?
+        if @base_object.first(:css, @list_item, minimum: 0, wait: 2)
+          @base_object.all(@list_item).collect(&:text)
         else
-          obj.all('option', visible: :all).collect(&:text)
+          @base_object.all('option', visible: :all).collect(&:text)
         end
       else
-        obj.find(:css, @list_trigger).click
-        menu = obj.find(:css, @options_list, minimum: 0, wait: 2)
-        object_not_found_exception(menu, nil)
+        trigger_list
+        menu = find_component(@options_list, 'drop menu')
         options = menu.all(@list_item, visible: true, minimum: 0, wait: 2).collect(&:text)
-        obj.find(:css, @list_trigger).click
+        trigger_list
         options
       end
     end
@@ -163,20 +151,19 @@ module TestCentricity
     #   num_colors = color_select.get_option_count
     #
     def get_option_count
-      obj, = find_element
-      object_not_found_exception(obj, nil)
-      if @list_trigger.nil? && @options_list.nil?
-        if obj.first(:css, @list_item, minimum: 0, wait: 2)
-          obj.all(@list_item).count
+      @base_object, = find_element
+      object_not_found_exception(@base_object, nil)
+      if @options_list.nil?
+        if @base_object.first(:css, @list_item, minimum: 0, wait: 2)
+          @base_object.all(@list_item).count
         else
-          obj.all('option', visible: :all).count
+          @base_object.all('option', visible: :all).count
         end
       else
-        obj.find(:css, @list_trigger).click
-        menu = obj.find(:css, @options_list, minimum: 0, wait: 2)
-        object_not_found_exception(menu, nil)
+        trigger_list
+        menu = find_component(@options_list, 'drop menu')
         num_items = menu.all(@list_item, visible: true, minimum: 0, wait: 2).count
-        obj.find(:css, @list_trigger).click
+        trigger_list
         num_items
       end
     end
@@ -200,14 +187,14 @@ module TestCentricity
     #   current_color = color_select.get_selected_option
     #
     def get_selected_option
-      obj, = find_element
-      object_not_found_exception(obj, nil)
-      if obj.first(:css, @list_item, minimum: 0)
-        obj.first(:css, @selected_item).text
-      elsif obj.first(:css, @selected_item, minimum: 0)
-        obj.first(:css, @selected_item).text
+      @base_object, = find_element
+      object_not_found_exception(@base_object, nil)
+      if @base_object.first(:css, @list_item, minimum: 0)
+        @base_object.first(:css, @selected_item).text
+      elsif @base_object.first(:css, @selected_item, minimum: 0)
+        @base_object.first(:css, @selected_item).text
       else
-        obj.first('option[selected]', visible: :all).text
+        @base_object.first('option[selected]', visible: :all).text
       end
     end
 
@@ -235,8 +222,8 @@ module TestCentricity
       invoke_siebel_popup
       sleep(0.5)
       options = page.all(:xpath, "//li[@class='ui-menu-item']").collect(&:text)
-      obj, = find_element
-      obj.native.send_keys(:escape)
+      @base_object, = find_element
+      @base_object.native.send_keys(:escape)
       options
     end
 
@@ -249,8 +236,8 @@ module TestCentricity
       else
         assert_equal(expected, actual, "Expected list of options in list #{object_ref_message} to be #{expected} but found #{actual}")
       end
-      obj, = find_element
-      obj.native.send_keys(:escape)
+      @base_object, = find_element
+      @base_object.native.send_keys(:escape)
     end
 
     # Is Siebel JComboBox set to read-only?
@@ -260,9 +247,9 @@ module TestCentricity
     #   country_select.read_only?
     #
     def read_only?
-      obj, = find_element
-      object_not_found_exception(obj, nil)
-      !obj.native.attribute('readonly')
+      @base_object, = find_element
+      object_not_found_exception(@base_object, nil)
+      !@base_object.native.attribute('readonly')
     end
 
     private
@@ -283,6 +270,28 @@ module TestCentricity
       else
         obj.select(option, visible: :all)
       end
+    end
+
+    def trigger_list
+      if @list_trigger.nil?
+        @base_object.click
+      else
+        trigger = find_component(@list_trigger, 'trigger')
+        trigger.click
+      end
+    end
+
+    def find_component(component, component_name)
+      begin
+        element = @base_object.find(:css, component, minimum: 0, wait: 1)
+      rescue
+        begin
+          element = page.find(:css, component, minimum: 0, wait: 1)
+        rescue
+          raise "List #{component_name} (#{component}) for selectlist named '#{@name}' (#{locator}) not found"
+        end
+      end
+      element
     end
   end
 end
