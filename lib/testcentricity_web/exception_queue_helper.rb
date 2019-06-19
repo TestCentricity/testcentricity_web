@@ -87,6 +87,10 @@ module TestCentricity
           when :translate_capitalize
             expected = I18n.t(value).capitalize
             enqueue_assert_equal(expected, actual, error_msg)
+          when :translate_titlecase
+            expected = I18n.t(value)
+            expected = "#{expected.split.each{ |expected| expected.capitalize! }.join(' ')}"
+            enqueue_assert_equal(expected, actual, error_msg)
           end
         end
       else

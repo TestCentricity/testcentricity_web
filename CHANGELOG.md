@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [3.1.11] - 2019-01-20
+
+### Added
+* Added `SelectList.get_group_count` and `SelectList.get_group_headings` methods.
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `groupcount`
+and `group_headings` properties of `SelectList` objects.
+
 ## [3.1.10] - 2019-05-21
 
 ### Fixed
