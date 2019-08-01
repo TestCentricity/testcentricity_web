@@ -171,14 +171,39 @@ module TestCentricity
 
     # Return video readyState property
     #
-    # @return [Integer or Float] video ready state
+    # @return [Integer] video ready state
+    #   0 = HAVE_NOTHING - no information whether or not the audio/video is ready
+    #   1 = HAVE_METADATA - metadata for the audio/video is ready
+    #   2 = HAVE_CURRENT_DATA - data for the current playback position is available, but not enough data to play next frame/millisecond
+    #   3 = HAVE_FUTURE_DATA - data for the current and at least the next frame is available
+    #   4 = HAVE_ENOUGH_DATA - enough data available to start playing
     # @example
     #   vid_status = video_player.ready_state
     #
     def ready_state
       obj, = find_element
       object_not_found_exception(obj, nil)
-      obj.native.attribute('readyState')
+      obj.native.attribute('readyState').to_i
+    end
+
+    # Wait until the video object's readyState value equals the specified value, or until the specified wait time has expired. If the wait
+    # time is nil, then the wait time will be Capybara.default_max_wait_time.
+    #
+    # @param value [Integer] value expected
+    # @param seconds [Integer or Float] wait time in seconds
+    # @example
+    #   video_player.wait_until_ready_state_is(4, 5)
+    #
+    def wait_until_ready_state_is(value, seconds = nil, post_exception = true)
+      timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
+      wait = Selenium::WebDriver::Wait.new(timeout: timeout)
+      wait.until { ready_state == value }
+    rescue StandardError
+      if post_exception
+        raise "Ready state of Video #{object_ref_message} failed to equal '#{value}' after #{timeout} seconds" unless get_value == value
+      else
+        ready_state == value
+      end
     end
 
     # Return video volume property

@@ -17,9 +17,9 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 * mobile Chrome or Android browsers on Android Studio virtual device emulators (using Appium and Android Studio on OS X)
 * cloud hosted desktop (Firefox, Chrome, Safari, IE, or Edge) or mobile (iOS Mobile Safari or Android) web browsers using the [Browserstack](https://www.browserstack.com/list-of-browsers-and-platforms?product=automate),
 [Sauce Labs](https://saucelabs.com/open-source#automated-testing-platform), [CrossBrowserTesting](https://crossbrowsertesting.com/selenium-testing),
-[TestingBot](https://testingbot.com/features), or [Gridlastic](https://www.gridlastic.com/test-environments.html) services.
+[TestingBot](https://testingbot.com/features), [Gridlastic](https://www.gridlastic.com/test-environments.html), or [LambdaTest](https://www.lambdatest.com/selenium-automation) services.
 * web portals utilizing JavaScript front end application frameworks like Ember, React, Angular, and GWT
-* enterprise web portals build using Siebel Open UI
+* enterprise web portals built using Siebel Open UI
 * web pages containing HTML5 Video and Audio objects
 
 
@@ -488,6 +488,7 @@ With TestCentricity, all UI elements are based on the **UIElement** class, and i
     element.enabled?
     element.disabled?
     element.displayed?
+    element.obscured?
     element.get_value
     element.count
     element.style
@@ -498,6 +499,7 @@ With TestCentricity, all UI elements are based on the **UIElement** class, and i
     element.y
     element.get_attribute(attrib)
     element.get_native_attribute(attrib)
+    element.inspect
 
 **Object Accessibility (A11y) methods:**
 
@@ -904,8 +906,8 @@ Once your test environment is properly configured, the following **Environment V
 ### Remotely hosted desktop and mobile web browsers
 
 You can run your automated tests against remotely hosted desktop and mobile web browsers using the BrowserStack, CrossBrowserTesting,
-Sauce Labs, or TestingBot services. If your tests are running against a web site hosted on your local computer (`localhost`), or on a
-staging server inside your LAN, you must set the `TUNNELING` Environment Variable to `true`.
+Sauce Labs, TestingBot, Gridlastic, or LambdaTest services. If your tests are running against a web site hosted on your local computer
+(`localhost`), or on a staging server inside your LAN, you must set the `TUNNELING` Environment Variable to `true`.
 
 
 #### Remote desktop browsers on the BrowserStack service
@@ -1086,6 +1088,29 @@ regarding the specific capabilities.
 `VIDEO_URL`    | [Optional] Video Files Location Endpoint URL shown in the **Your Selenium Grid Credentials** section of the Gridlastic Dashboard
 
 
+
+#### Remote desktop browsers on the LambdaTest service
+
+For remotely hosted desktop web browsers on the LambdaTest service, the following **Environment Variables** must be set as described in the table
+below. Use the Configuration Wizard on the [Selenium Desired Capabilities Generator](https://www.lambdatest.com/capabilities-generator/) to obtain
+information regarding the specific capabilities.
+
+**Environment Variable** | **Description**
+--------------- | ----------------
+`WEB_BROWSER`   | Must be set to `lambdatest`
+`LT_USERNAME`   | Must be set to your LambdaTest account user name or email address
+`LT_AUTHKEY`    | Must be set to your LambdaTest account access key
+`LT_OS`         | Refer to `platform` capability in the sample script of the Wizard
+`LT_BROWSER`    | Refer to `browserName` capability in the sample script of the Wizard
+`LT_VERSION`    | Refer to `version` capability in chart
+`RESOLUTION`    | [Optional] Refer to supported `resolution` capability in the sample script of the Wizard
+`BROWSER_SIZE`  | [Optional] Specify width, height of browser window
+`RECORD_VIDEO`  | [Optional] Enable screen video recording during test execution (`true` or `false`)
+`ALLOW_POPUPS`  | [Optional] Allow popups (`true` or `false`) - for Safari, IE, and Edge browsers only
+`ALLOW_COOKIES` | [Optional] Allow all cookies (`true` or `false`) - for Safari browsers only
+`CONSOLE_LOGS`  | [Optional] Used to capture browser console logs.
+
+
 ### Using Browser specific Profiles in cucumber.yml
 
 While you can set **Environment Variables** in the command line when invoking Cucumber, a preferred method of specifying and managing
@@ -1093,10 +1118,10 @@ target web browsers is to create browser specific **Profiles** that set the appr
 in your `cucumber.yml` file.
 
 Below is a list of Cucumber **Profiles** for supported locally and remotely hosted desktop and mobile web browsers (put these in in your
-`cucumber.yml` file). Before you can use the BrowserStack, CrossBrowserTesting, Sauce Labs, TestingBot, or Gridlastic services, you will need to
-replace the *INSERT USER NAME HERE* and *INSERT PASSWORD HERE* placeholder text with your user account and authorization code for the cloud
-service(s) that you intend to connect with. When using the Gridlastic service, you will also need replace the *INSERT SUBDOMAIN HERE* placeholder
-text with the Subdomain specified on the Grid Configuration Parameters section of the Gridlastic Dashboard.
+`cucumber.yml` file). Before you can use the BrowserStack, CrossBrowserTesting, Sauce Labs, TestingBot, Gridlastic or LambdaTest services, you
+will need to replace the *INSERT USER NAME HERE* and *INSERT PASSWORD HERE* placeholder text with your user account and authorization code for
+the cloud service(s) that you intend to connect with. When using the Gridlastic service, you will also need replace the *INSERT SUBDOMAIN HERE*
+placeholder text with the Subdomain specified on the Grid Configuration Parameters section of the Gridlastic Dashboard.
 
 
     <% desktop          = "--tags @desktop --require features BROWSER_TILE=true BROWSER_SIZE=1500,1000" %>
@@ -1144,6 +1169,9 @@ text with the Subdomain specified on the Grid Configuration Parameters section o
     iphone8_plus:        WEB_BROWSER=iphone8_plus        HOST_BROWSER=chrome <%= mobile %>
     iphone_x:            WEB_BROWSER=iphone_x            HOST_BROWSER=chrome <%= mobile %>
     iphone_xr:           WEB_BROWSER=iphone_xr           HOST_BROWSER=chrome <%= mobile %>
+    iphone_xr_chrome:    WEB_BROWSER=iphone_xr_chrome    HOST_BROWSER=chrome <%= mobile %>
+    iphone_xr_firefox:   WEB_BROWSER=iphone_xr_firefox   HOST_BROWSER=chrome <%= mobile %>
+    iphone_xr_edge:      WEB_BROWSER=iphone_xr_edge      HOST_BROWSER=chrome <%= mobile %>
     iphone_xs:           WEB_BROWSER=iphone_xs           HOST_BROWSER=chrome <%= mobile %>
     iphone_xs_max:       WEB_BROWSER=iphone_xs_max       HOST_BROWSER=chrome <%= mobile %>
     android_phone:       WEB_BROWSER=android_phone       HOST_BROWSER=chrome <%= mobile %>
@@ -1515,6 +1543,40 @@ text with the Subdomain specified on the Grid Configuration Parameters section o
     
     # Gridlastic Linux desktop browser profiles
     gl_chrome_linux:    --profile gl_desktop GL_OS="LINUX" GL_BROWSER="chrome" GL_VERSION="latest"
+
+
+    #==============
+    # profiles for remotely hosted web browsers on the LambdaTest service
+    #==============
+    
+    lambdatest:         WEB_BROWSER=lambdatest LT_USERNAME=<INSERT USER NAME HERE> LT_AUTHKEY=<INSERT PASSWORD HERE>
+    lt_desktop:         --profile lambdatest <%= desktop %> RESOLUTION="1920x1080"
+    lt_firefox:         LT_BROWSER="Firefox" LT_VERSION="67.0"
+    lt_chrome:          LT_BROWSER="Chrome" LT_VERSION="76.0"
+    lt_safari:          LT_BROWSER="Safari" ALLOW_COOKIES="true" ALLOW_POPUPS="true"
+    
+    # LambdaTest OS X desktop browser profiles
+    lt_macos_mojave:    --profile lt_desktop LT_OS="macOS Mojave"
+    lt_ff_mojave:       --profile lt_macos_mojave --profile lt_firefox
+    lt_chrome_mojave:   --profile lt_macos_mojave --profile lt_chrome
+    lt_safari_mojave:   --profile lt_macos_mojave --profile lt_safari LT_VERSION="12.0"
+    
+    lt_macos_high_sierra:  --profile lt_desktop LT_OS="macOS High Sierra"
+    lt_ff_high_sierra:     --profile lt_macos_high_sierra --profile lt_firefox
+    lt_chrome_high_sierra: --profile lt_macos_high_sierra --profile lt_chrome
+    lt_safari_high_sierra: --profile lt_macos_high_sierra --profile lt_safari LT_VERSION="11.0"
+    
+    lt_macos_sierra:    --profile lt_desktop LT_OS="macOS Sierra"
+    lt_ff_sierra:       --profile lt_macos_sierra --profile lt_firefox
+    lt_chrome_sierra:   --profile lt_macos_sierra --profile lt_chrome
+    lt_safari_sierra:   --profile lt_macos_sierra --profile lt_safari LT_VERSION="10.0"
+    
+    # LambdaTest Windows desktop browser profiles
+    lt_win10:           --profile lt_desktop LT_OS="Windows 10"
+    lt_ff_win10:        --profile lt_win10 --profile lt_firefox
+    lt_chrome_win10:    --profile lt_win10 --profile lt_chrome
+    lt_ie11_win10:      --profile lt_win10 LT_BROWSER="Internet Explorer" LT_VERSION="11.0"
+    lt_edge_win10:      --profile lt_win10 LT_BROWSER="MicrosoftEdge" LT_VERSION="18.0"
 
 
 To specify a locally hosted target browser using a profile at runtime, you use the flag `--profile` or `-p` followed by the profile name when

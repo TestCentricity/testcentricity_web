@@ -39,6 +39,9 @@ module TestCentricity
       when :gridlastic
         initialize_gridlastic
         context = 'Gridlastic cloud service'
+      when :lambdatest
+        initialize_lambdatest
+        context = 'LambdaTest cloud service'
       when :saucelabs
         initialize_saucelabs
         context = 'Sauce Labs cloud service'
@@ -426,6 +429,60 @@ module TestCentricity
         session_id = Capybara.current_session.driver.browser.instance_variable_get(:@bridge).session_id
         puts "TEST VIDEO URL: #{ENV['VIDEO_URL']}#{session_id}"
       end
+      # configure file_detector for remote uploads
+      selenium = Capybara.page.driver.browser
+      selenium.file_detector = lambda do |args|
+        str = args.first.to_s
+        str if File.exist?(str)
+      end
+    end
+
+    def self.initialize_lambdatest
+      browser = ENV['LT_BROWSER']
+      Environ.grid = :lambdatest
+      Environ.os = ENV['LT_OS']
+      Environ.platform = :desktop
+      Environ.tunneling = ENV['TUNNELING'] if ENV['TUNNELING']
+
+      endpoint = "http://#{ENV['LT_USERNAME']}:#{ENV['LT_AUTHKEY']}@hub.lambdatest.com/wd/hub"
+      Capybara.register_driver :lambdatest do |app|
+        capabilities = Selenium::WebDriver::Remote::Capabilities.new
+        capabilities['name'] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
+        capabilities['browserName'] = browser
+        capabilities['version'] = ENV['LT_VERSION'] if ENV['LT_VERSION']
+        capabilities['platform'] = ENV['LT_OS']
+        capabilities['resolution'] = ENV['RESOLUTION'] if ENV['RESOLUTION']
+        capabilities['video'] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
+        capabilities['console'] = ENV['CONSOLE_LOGS'] if ENV['CONSOLE_LOGS']
+        capabilities['network'] = true
+        capabilities['visual'] = true
+        capabilities['tunnel'] = ENV['TUNNELING'] if ENV['TUNNELING']
+
+        case browser.downcase.to_sym
+        when :safari
+          capabilities['safari.popups'] = ENV['ALLOW_POPUPS'] if ENV['ALLOW_POPUPS']
+          capabilities['safari.cookies'] = ENV['ALLOW_COOKIES'] if ENV['ALLOW_COOKIES']
+        when :ie
+          capabilities['ie.popups'] = ENV['ALLOW_POPUPS'] if ENV['ALLOW_POPUPS']
+        when :edge
+          capabilities['edge.popups'] = ENV['ALLOW_POPUPS'] if ENV['ALLOW_POPUPS']
+        end
+
+        context_message = ENV['TEST_CONTEXT'] ? "#{Environ.test_environment.upcase} - #{ENV['TEST_CONTEXT']}" : Environ.test_environment.upcase
+        if ENV['PARALLEL']
+          thread_num = ENV['TEST_ENV_NUMBER']
+          thread_num = 1 if thread_num.blank?
+          context_message = "#{context_message} - Thread ##{thread_num}"
+        end
+        capabilities['build'] = context_message
+
+        Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, desired_capabilities: capabilities)
+      end
+
+      Environ.browser = browser
+
+      Capybara.default_driver = :lambdatest
+      Capybara.run_server = false
       # configure file_detector for remote uploads
       selenium = Capybara.page.driver.browser
       selenium.file_detector = lambda do |args|

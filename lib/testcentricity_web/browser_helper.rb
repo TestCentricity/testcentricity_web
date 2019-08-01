@@ -27,6 +27,7 @@ module TestCentricity
       window = Capybara.current_session.driver.browser.manage.window
       window.maximize
     end
+
     # Sets the position of the browser window.
     #
     # @param x [Integer] the desired x coordinate

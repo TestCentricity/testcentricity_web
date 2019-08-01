@@ -251,6 +251,30 @@ module TestCentricity
       obj.disabled?
     end
 
+    # Is UI object obscured (not currently in viewport and not clickable)?
+    #
+    # @return [Boolean]
+    # @example
+    #   buy_now_button.obscured?
+    #
+    def obscured?
+      obj, type = find_element
+      object_not_found_exception(obj, type)
+      obj.obscured?
+    end
+
+    # Return a human readable representation of the UI element
+    #
+    # @return [String]
+    # @example
+    #   buy_now_button.inspect
+    #
+    def inspect
+      obj, type = find_element
+      object_not_found_exception(obj, type)
+      obj.inspect
+    end
+
     # Wait until the object exists, or until the specified wait time has expired. If the wait time is nil, then the wait
     # time will be Capybara.default_max_wait_time.
     #

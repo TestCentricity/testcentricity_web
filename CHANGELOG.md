@@ -2,7 +2,17 @@
 All notable changes to this project will be documented in this file.
 
 
-## [3.1.11] - 2019-01-20
+## [3.2.0] - 2019-07-28
+
+### Added
+* Added support for connecting to and running your tests on cloud hosted browsers on the LambdaTest cloud platform.
+* Added `UIElement.obscured?` and `UIElement.inspect` methods.
+* Added `Video.wait_until_ready_state_is` and `Audio.wait_until_ready_state_is` methods.
+
+### Changed
+* `Video.ready_state` and `Audio.ready_state` methods now return an Integer result.
+
+## [3.1.11] - 2019-06-20
 
 ### Added
 * Added `SelectList.get_group_count` and `SelectList.get_group_headings` methods.

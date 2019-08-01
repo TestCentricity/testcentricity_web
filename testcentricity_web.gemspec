@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
     Phone, Blackberry, Kindle Fire) running within a local instance of Chrome, mobile Safari browsers on iOS device simulators
      or physical iOS devices (using Appium and XCode on OS X), mobile Chrome or Android browsers on Android Studio virtual
     device emulators (using Appium and Android Studio on OS X), or cloud hosted desktop or mobile web browsers (using the
-    BrowserStack, Sauce Labs, CrossBrowserTesting, TestingBot, or Gridlastic services).'
+    BrowserStack, Sauce Labs, CrossBrowserTesting, TestingBot, Gridlastic, or LambdaTest services).'
   spec.homepage      = ''
   spec.license       = 'BSD-3-Clause'
 
