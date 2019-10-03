@@ -36,6 +36,39 @@ module TestCentricity
       obj.checked?
     end
 
+    # Is radio button visible?
+    #
+    # @return [Boolean]
+    # @example
+    #   accept_terms_radio.visible?
+    #
+    def visible?
+      @proxy.nil? ? super : @proxy.visible?
+    end
+
+    # Is radio button disabled (not enabled)?
+    #
+    # @return [Boolean]
+    # @example
+    #   accept_terms_radio.disabled?
+    #
+    def disabled?
+      visibility = @proxy.nil? ? true : :all
+      obj, type = find_element(visibility)
+      object_not_found_exception(obj, type)
+      obj.disabled?
+    end
+
+    # Return radio button caption
+    #
+    # @return [Boolean]
+    # @example
+    #   accept_terms_radio.get_value
+    #
+    def get_value
+      @proxy.nil? ? super : @proxy.get_value
+    end
+
     # Set the select state of a radio button object.
     #
     # @param state [Boolean] true = selected / false = unselected

@@ -19,12 +19,12 @@ module TestCentricity
 
     def set_column(column)
       @column  = column
-      case @locator_type
-      when :xpath
-        @locator = "#{@table.get_table_cell_locator('ROW_SPEC', @column)}/#{@element_locator}"
-      when :css
-        @locator = "#{@table.get_table_cell_locator('ROW_SPEC', @column)} > #{@element_locator}"
-      end
+      @locator = case @locator_type
+                 when :xpath
+                   "#{@table.get_table_cell_locator('ROW_SPEC', @column)}/#{@element_locator}"
+                 when :css
+                   "#{@table.get_table_cell_locator('ROW_SPEC', @column)} > #{@element_locator}"
+                 end
     end
 
     def exists?(row)

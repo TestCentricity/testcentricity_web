@@ -45,8 +45,8 @@ module TestCentricity
     attr_reader   :parent, :locator, :context, :type, :name
     attr_accessor :alt_locator, :locator_type, :original_style
 
-    XPATH_SELECTORS = ['//', '[@', '[contains('].freeze
-    CSS_SELECTORS   = ['#', ':nth-child(', ':first-child', ':last-child', ':nth-of-type(', ':first-of-type', ':last-of-type', '^=', '$=', '*=', ':contains('].freeze
+    XPATH_SELECTORS = ['//', '[@', '[contains(']
+    CSS_SELECTORS   = ['#', ':nth-child(', ':first-child', ':last-child', ':nth-of-type(', ':first-of-type', ':last-of-type', '^=', '$=', '*=', ':contains(']
 
     def initialize(name, parent, locator, context)
       @name           = name
@@ -801,13 +801,13 @@ module TestCentricity
     end
 
     def get_attribute(attrib)
-      obj, type = find_element(false)
+      obj, type = find_element(visible = false)
       object_not_found_exception(obj, type)
       obj[attrib]
     end
 
     def get_native_attribute(attrib)
-      obj, type = find_element(false)
+      obj, type = find_element(visible = false)
       object_not_found_exception(obj, type)
       obj.native.attribute(attrib)
     end

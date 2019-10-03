@@ -36,6 +36,39 @@ module TestCentricity
       obj.checked?
     end
 
+    # Is checkbox visible?
+    #
+    # @return [Boolean]
+    # @example
+    #   remember_me_checkbox.visible?
+    #
+    def visible?
+      @proxy.nil? ? super : @proxy.visible?
+    end
+
+    # Is checkbox disabled (not enabled)?
+    #
+    # @return [Boolean]
+    # @example
+    #   remember_me_checkbox.disabled?
+    #
+    def disabled?
+      visibility = @proxy.nil? ? true : :all
+      obj, type = find_element(visibility)
+      object_not_found_exception(obj, type)
+      obj.disabled?
+    end
+
+    # Return checkbox caption
+    #
+    # @return [Boolean]
+    # @example
+    #   remember_me_checkbox.get_value
+    #
+    def get_value
+      @proxy.nil? ? super : @proxy.get_value
+    end
+
     # Set the check state of a checkbox object.
     #
     # @param state [Boolean] true = checked / false = unchecked

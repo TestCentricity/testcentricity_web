@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 
+## [3.2.1] - 2019-10-03
+
+### Changed
+* `CheckBox.visible?`, `CheckBox.disabled?`, and `CheckBox.get_value` methods now work with React and Ember checkboxes with
+proxy elements.
+* `Radio.visible?`, `Radio.disabled?`, and `Radio.get_value` methods now work with React and Ember radio buttons with
+proxy elements.
+
 ## [3.2.0] - 2019-07-28
 
 ### Added

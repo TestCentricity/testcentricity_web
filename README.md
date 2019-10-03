@@ -15,9 +15,13 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 * desktop and emulated mobile web browsers hosted on Selenium Grid and Dockerized Selenium Grid environments
 * mobile Safari browsers on iOS device simulators or physical iOS devices (using Appium and XCode on OS X)
 * mobile Chrome or Android browsers on Android Studio virtual device emulators (using Appium and Android Studio on OS X)
-* cloud hosted desktop (Firefox, Chrome, Safari, IE, or Edge) or mobile (iOS Mobile Safari or Android) web browsers using the [Browserstack](https://www.browserstack.com/list-of-browsers-and-platforms?product=automate),
-[Sauce Labs](https://saucelabs.com/open-source#automated-testing-platform), [CrossBrowserTesting](https://crossbrowsertesting.com/selenium-testing),
-[TestingBot](https://testingbot.com/features), [Gridlastic](https://www.gridlastic.com/test-environments.html), or [LambdaTest](https://www.lambdatest.com/selenium-automation) services.
+* cloud hosted desktop (Firefox, Chrome, Safari, IE, or Edge) or mobile (iOS Mobile Safari or Android) web browsers using the following service:
+  * [Browserstack](https://www.browserstack.com/list-of-browsers-and-platforms?product=automate)
+  * [Sauce Labs](https://saucelabs.com/open-source#automated-testing-platform)
+  * [CrossBrowserTesting](https://crossbrowsertesting.com/selenium-testing)
+  * [TestingBot](https://testingbot.com/features)
+  * [Gridlastic](https://www.gridlastic.com/test-environments.html)
+  * [LambdaTest](https://www.lambdatest.com/selenium-automation)
 * web portals utilizing JavaScript front end application frameworks like Ember, React, Angular, and GWT
 * enterprise web portals built using Siebel Open UI
 * web pages containing HTML5 Video and Audio objects
@@ -855,7 +859,7 @@ Once your test environment is properly configured, the following **Environment V
 `WEB_BROWSER`       | Must be set to `appium`
 `APP_PLATFORM_NAME` | Must be set to `iOS`
 `APP_BROWSER`       | Must be set to `Safari`
-`APP_VERSION`       | Must be set to `11.2`, `10.3`, `9.3`, or which ever iOS version you wish to run within the XCode Simulator
+`APP_VERSION`       | Must be set to `12.2`, `11.4`, `10.3.1`, or which ever iOS version you wish to run within the XCode Simulator
 `APP_DEVICE`        | Set to iOS device name supported by the iOS Simulator (`iPhone 6s Plus`, `iPad Pro (10.5-inch)`, `iPad Air 2`, etc.) or name of physically connected iOS device
 `DEVICE_TYPE`       | Must be set to `phone` or `tablet`
 `APP_UDID`          | UDID of physically connected iOS device (not used for simulators)

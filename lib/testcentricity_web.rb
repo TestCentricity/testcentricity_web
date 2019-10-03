@@ -11,7 +11,8 @@ require 'testcentricity_web/appium_server'
 
 require 'testcentricity_web/web_core/drag_drop_helper'
 require 'testcentricity_web/web_core/page_objects_helper'
-require 'testcentricity_web/web_core/page_sections_helper'
+require 'testcentricity_web/web_core/page_object'
+require 'testcentricity_web/web_core/page_section'
 require 'testcentricity_web/web_core/webdriver_helper'
 
 require 'testcentricity_web/data_objects/data_objects_helper'

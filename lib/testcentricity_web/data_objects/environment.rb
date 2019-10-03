@@ -5,14 +5,14 @@ module TestCentricity
     WKS_ENVIRONS ||= 'Environments'
 
     def find_environ(environ_name, source_type = :excel)
-      case source_type
-      when :excel
-        data = ExcelData.read_row_data(XL_PRIMARY_DATA_FILE, WKS_ENVIRONS, environ_name)
-      when :yaml
-        data = read_yaml_node_data('environments.yml', environ_name)
-      when :json
-        data = read_json_node_data('environments.json', environ_name)
-      end
+      data = case source_type
+             when :excel
+               ExcelData.read_row_data(XL_PRIMARY_DATA_FILE, WKS_ENVIRONS, environ_name)
+             when :yaml
+               read_yaml_node_data('environments.yml', environ_name)
+             when :json
+               read_json_node_data('environments.json', environ_name)
+             end
       @current = Environ.new(data)
       Environ.current = @current
     end
