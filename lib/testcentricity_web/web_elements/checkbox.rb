@@ -36,6 +36,17 @@ module TestCentricity
       obj.checked?
     end
 
+    # Is checkbox state indeterminate?
+    #
+    # @return [Boolean]
+    # @example
+    #   remember_me_checkbox.indeterminate?
+    #
+    def indeterminate?
+      state = get_attribute('indeterminate')
+      state.boolean? ? state : state == 'true'
+    end
+
     # Is checkbox visible?
     #
     # @return [Boolean]
@@ -128,6 +139,26 @@ module TestCentricity
       raise "UI #{object_ref_message} is not a Siebel CheckBox object" unless get_siebel_object_type == 'JCheckBox'
       expected = state.to_bool
       obj.click unless expected == obj.checked?
+    end
+
+    # Highlight a checkbox with a 3 pixel wide, red dashed border for the specified wait time.
+    # If wait time is zero, then the highlight will remain until the page is refreshed
+    #
+    # @param duration [Integer or Float] wait time in seconds
+    # @example
+    #   remember_me_checkbox.highlight(3)
+    #
+    def highlight(duration = 1)
+      @proxy.nil? ? super : @proxy.highlight(duration)
+    end
+
+    # Restore a highlighted checkbox's original style
+    #
+    # @example
+    #   remember_me_checkbox.unhighlight
+    #
+    def unhighlight
+      @proxy.nil? ? super : @proxy.unhighlight
     end
   end
 end

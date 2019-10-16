@@ -3,7 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/testcentricity_web.svg)](https://badge.fury.io/rb/testcentricity_web)  [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause)
 
 
-The TestCentricity™ Web core generic framework for desktop and mobile web browser-based application testing implements a Page Object and Data
+The TestCentricity™ Web core generic framework for desktop and mobile web browser-based app testing implements a Page Object and Data
 Object Model DSL for use with Cucumber, Capybara (version 3.x), and Selenium-Webdriver (version 3.x).
 
 **An example project that demonstrates the implementation of a page object model framework using Cucumber and TestCentricity™ can be found [here](https://github.com/TestCentricity/tc_web_sample).**
@@ -782,7 +782,7 @@ the `WEB_BROWSER` Environment Variable must be set to one of the values from the
 `ipad_pro`            |`chrome`        |1366 x 1024 |landscape |iOS 12
 `ipad_pro_10_5`       |`chrome`        |1112 x 834  |landscape |iOS 12.2
 `ipad_pro_11`         |`chrome`        |1194 x 834  |landscape |iOS 12.2
-`ipad_pro_12_9`       |`chrome`        |1366 x 1024 |landscape |iOS 12.2
+`ipad_pro_12_9`       |`chrome`        |1366 x 1024 |landscape |iOS 13.1
 `ipad_chrome`         |`chrome`        |1024 x 768  |landscape |iOS 12.2 - Mobile Chrome browser for iOS
 `ipad_firefox`        |`chrome`        |1024 x 768  |landscape |iOS 12.2 - Mobile Firefox browser for iOS
 `ipad_edge`           |`chrome`        |1024 x 768  |landscape |iOS 12.2 - Mobile Edge browser for iOS
@@ -810,6 +810,9 @@ the `WEB_BROWSER` Environment Variable must be set to one of the values from the
 `iphone_xr`           |`chrome`        |414 x 896   |portrait  |iOS 12.2
 `iphone_xs`           |`chrome`        |375 x 812   |portrait  |iOS 12.2
 `iphone_xs_max`       |`chrome`        |414 x 896   |portrait  |iOS 12.2
+`iphone_11`           |`chrome`        |414 x 896   |portrait  |iOS 13.1
+`iphone_11_pro`       |`chrome`        |375 x 812   |portrait  |iOS 13.1
+`iphone_11_pro_max`   |`chrome`        |414 x 896   |portrait  |iOS 13.1
 `android_phone`       |`chrome`        |360 x 640   |portrait  |Android 4.2.1
 `nexus6`              |`chrome`        |411 x 731   |portrait  |Android 6
 `pixel`               |`chrome`        |411 x 731   |portrait  |Android 8
@@ -1178,6 +1181,9 @@ placeholder text with the Subdomain specified on the Grid Configuration Paramete
     iphone_xr_edge:      WEB_BROWSER=iphone_xr_edge      HOST_BROWSER=chrome <%= mobile %>
     iphone_xs:           WEB_BROWSER=iphone_xs           HOST_BROWSER=chrome <%= mobile %>
     iphone_xs_max:       WEB_BROWSER=iphone_xs_max       HOST_BROWSER=chrome <%= mobile %>
+    iphone_11:           WEB_BROWSER=iphone_11           HOST_BROWSER=chrome <%= mobile %>
+    iphone_11_pro:       WEB_BROWSER=iphone_11_pro       HOST_BROWSER=chrome <%= mobile %>
+    iphone_11_pro_max:   WEB_BROWSER=iphone_11_pro_max   HOST_BROWSER=chrome <%= mobile %>
     android_phone:       WEB_BROWSER=android_phone       HOST_BROWSER=chrome <%= mobile %>
     nexus6:              WEB_BROWSER=nexus6              HOST_BROWSER=chrome <%= mobile %>
     android_tablet:      WEB_BROWSER=android_tablet      HOST_BROWSER=chrome <%= tablet %>

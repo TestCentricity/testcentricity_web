@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['testcentricity@gmail.com']
   spec.summary       = 'A Page Object and Data Object Model Framework for desktop and mobile web testing'
   spec.description   = '
-    The TestCentricity™ Web core generic framework for desktop and mobile web browser-based applications testing implements
+    The TestCentricity™ Web core generic framework for desktop and mobile web browser-based app testing implements
     a Page Object Model DSL for use with Cucumber, Capybara, and Selenium-Webdriver. The gem provides support for running
     automated tests against locally hosted desktop browsers, locally hosted emulated mobile browsers (iOS, Android, Windows
     Phone, Blackberry, Kindle Fire) running within a local instance of Chrome, mobile Safari browsers on iOS device simulators

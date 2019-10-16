@@ -151,7 +151,7 @@ module TestCentricity
       end
     end
 
-    # Wait until the list's item_count equals the specified value, or until the specified wait time has expired. If the wait
+    # Wait until the list's item count equals the specified value, or until the specified wait time has expired. If the wait
     # time is nil, then the wait time will be Capybara.default_max_wait_time.
     #
     # @param value [Integer or Hash] value expected or comparison hash

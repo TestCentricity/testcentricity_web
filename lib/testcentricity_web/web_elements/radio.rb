@@ -103,5 +103,25 @@ module TestCentricity
     def unselect
       set_selected_state(false)
     end
+
+    # Highlight a radio button with a 3 pixel wide, red dashed border for the specified wait time.
+    # If wait time is zero, then the highlight will remain until the page is refreshed
+    #
+    # @param duration [Integer or Float] wait time in seconds
+    # @example
+    #   accept_terms_radio.highlight(3)
+    #
+    def highlight(duration = 1)
+      @proxy.nil? ? super : @proxy.highlight(duration)
+    end
+
+    # Restore a highlighted radio button's original style
+    #
+    # @example
+    #   accept_terms_radio.unhighlight
+    #
+    def unhighlight
+      @proxy.nil? ? super : @proxy.unhighlight
+    end
   end
 end

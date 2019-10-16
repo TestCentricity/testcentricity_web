@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file.
 
 
+## [3.2.2] - 2019-10-16
+
+### Added
+* Added device profiles for iPhone 11, 11 Pro, and 11 Pro Max (iOS 13.1) with Mobile Safari browser.
+* Added `Table.wait_until_row_count_is` and `Table.wait_until_row_count_changes` methods.
+* Added `CheckBox.indeterminate?` method.
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `indeterminate` property.
+* Updated device profiles for iPad Pro 12.9" 3rd Generation (iOS 13.1) with Mobile Safari browser.
+
 ## [3.2.1] - 2019-10-03
 
 ### Changed

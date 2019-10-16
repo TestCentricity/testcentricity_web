@@ -86,6 +86,48 @@ module TestCentricity
       end
     end
 
+    # Wait until the table's row count equals the specified value, or until the specified wait time has expired. If the wait
+    # time is nil, then the wait time will be Capybara.default_max_wait_time.
+    #
+    # @param value [Integer or Hash] value expected or comparison hash
+    # @param seconds [Integer or Float] wait time in seconds
+    # @example
+    #   list_table.wait_until_row_count_is(10, 15)
+    #     or
+    #   list_table.wait_until_row_count_is({ greater_than_or_equal: 1 }, 5)
+    #
+    def wait_until_row_count_is(value, seconds = nil, post_exception = true)
+      timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
+      wait = Selenium::WebDriver::Wait.new(timeout: timeout)
+      wait.until { compare(value, get_row_count) }
+    rescue
+      if post_exception
+        raise "Value of Table #{object_ref_message} failed to equal '#{value}' after #{timeout} seconds" unless get_row_count == value
+      else
+        get_row_count == value
+      end
+    end
+
+    # Wait until the table's row count changes to a different value, or until the specified wait time has expired. If the
+    # wait time is nil, then the wait time will be Capybara.default_max_wait_time.
+    #
+    # @param seconds [Integer or Float] wait time in seconds
+    # @example
+    #   list_table.wait_until_row_count_changes(5)
+    #
+    def wait_until_row_count_changes(seconds = nil, post_exception = true)
+      value = get_row_count
+      timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
+      wait = Selenium::WebDriver::Wait.new(timeout: timeout)
+      wait.until { get_row_count != value }
+    rescue
+      if post_exception
+        raise "Value of Table #{object_ref_message} failed to change from '#{value}' after #{timeout} seconds" if get_row_count == value
+      else
+        get_row_count == value
+      end
+    end
+
     # Return number of columns in a table object.
     #
     # @return [Integer]

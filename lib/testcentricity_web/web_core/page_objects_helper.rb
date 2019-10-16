@@ -57,6 +57,8 @@ module TestCentricity
                      ui_object.checked?
                    when :selected
                      ui_object.selected?
+                   when :indeterminate
+                     ui_object.indeterminate?
                    when :value, :caption
                      ui_object.get_value
                    when :maxlength
