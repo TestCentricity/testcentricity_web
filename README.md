@@ -52,7 +52,6 @@ Or install it yourself as:
 
 If you are using Cucumber, you need to require the following in your *env.rb* file:
 
-    require 'capybara'
     require 'capybara/cucumber'
     require 'testcentricity_web'
 
@@ -505,7 +504,7 @@ With TestCentricity, all UI elements are based on the **UIElement** class, and i
     element.get_native_attribute(attrib)
     element.inspect
 
-**Object Accessibility (A11y) methods:**
+**WAI-ARIA Object Accessibility (A11y) methods:**
 
     element.role
     element.tabindex
@@ -526,6 +525,19 @@ With TestCentricity, all UI elements are based on the **UIElement** class, and i
     element.aria_sort
     element.aria_rowcount
     element.aria_colcount
+    element.aria_valuemax
+    element.aria_valuemin
+    element.aria_valuenow
+    element.aria_valuetext
+    element.aria_orientation
+    element.aria_roledescription
+    element.aria_autocomplete
+    element.aria_controls
+    element.aria_modal?
+    element.aria_keyshortcuts
+    element.aria_multiline?
+    element.aria_multiselectable?
+    element.aria_busy?
 
 **Waiting methods:**
 
@@ -776,8 +788,8 @@ Windows. The specified mobile browser's user agent, CSS screen dimensions, and d
 local Chrome browser instance. You may even specify the emulated device's screen orientation. For locally hosted emulated mobile web browsers,
 the `WEB_BROWSER` Environment Variable must be set to one of the values from the table below: 
 
-`WEB_BROWSER`         | `HOST_BROWSER` | **CSS Screen Dimensions** | **Default Orientation**  | **OS Version**
-----------------------|----------------------|-----------|----------|---------
+`WEB_BROWSER`         | `HOST_BROWSER` | **CSS Screen Dimensions** | **Default Orientation** | **OS Version**
+----------------------|----------------|---------------------------|-------------------------|---------------
 `ipad`                |`chrome`        |1024 x 768  |landscape |iOS 12
 `ipad_pro`            |`chrome`        |1366 x 1024 |landscape |iOS 12
 `ipad_pro_10_5`       |`chrome`        |1112 x 834  |landscape |iOS 12.2
@@ -945,9 +957,9 @@ for information regarding the specific capabilities.
 `ALLOW_COOKIES`    | [Optional] Allow all cookies (`true` or `false`) - for Safari browsers only
 
 If the BrowserStack Local instance is running (`TUNNELING` Environment Variable is `true`), call the`TestCentricity::WebDriverConnect.close_tunnel` method
-upon completion of your test suite to stop the Local instance. Place the code shown below in your `env.rb` file.
+upon completion of your test suite to stop the Local instance. Place the code shown below in your `env.rb` or `hooks.rb` file.
 
-    # Code to stop BrowserStack Local instance after end of test (if tunneling is enabled)
+    # code to stop BrowserStack Local instance after end of test (if tunneling is enabled)
     at_exit do
       TestCentricity::WebDriverConnect.close_tunnel if Environ.tunneling
     end
@@ -1615,10 +1627,10 @@ in landscape orientation:
     NOTE:  Appium must be running prior to executing this command
 
 
-The following command specifies that Cucumber will run tests against a remotely hosted Safari web browser running on an OS X Yosemite
+The following command specifies that Cucumber will run tests against a remotely hosted Safari web browser running on an OS X Mojave
 virtual machine on the BrowserStack service:
 
-    cucumber -p bs_safari_yos
+    cucumber -p bs_safari_mojave
  
 
 The following command specifies that Cucumber will run tests against a remotely hosted Mobile Safari web browser on an iPhone 6s Plus in
@@ -1630,14 +1642,14 @@ landscape orientation running on the BrowserStack service:
 
 ## Web Test Automation Framework Implementation
 
- <img src="https://i.imgur.com/Ca6XPCS.jpg" width="1024" alt="Web Framework Overview" title="Web Framework Overview">
+ <img src="https://i.imgur.com/qw48Kkf.jpg" width="1024" alt="Web Framework Overview" title="Web Framework Overview">
 
 
 
 
 ## Copyright and License
 
-TestCentricity™ Framework is Copyright (c) 2014-2019, Tony Mrozinski.
+TestCentricity™ Framework is Copyright (c) 2014-2020, Tony Mrozinski.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

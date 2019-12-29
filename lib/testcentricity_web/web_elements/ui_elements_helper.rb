@@ -690,6 +690,96 @@ module TestCentricity
       get_attribute('aria-colcount')
     end
 
+    # Return state of UI object's aria-valuemax property
+    #
+    # @return [Integer]
+    # @example
+    #   volume_slider.aria_valuemax
+    #
+    def aria_valuemax
+      get_attribute('aria-valuemax')
+    end
+
+    # Return state of UI object's aria-valuemin property
+    #
+    # @return [Integer]
+    # @example
+    #   volume_slider.aria_valuemin
+    #
+    def aria_valuemin
+      get_attribute('aria-valuemin')
+    end
+
+    # Return state of UI object's aria-valuenow property
+    #
+    # @return [Integer]
+    # @example
+    #   volume_slider.aria_valuenow
+    #
+    def aria_valuenow
+      get_attribute('aria-valuenow')
+    end
+
+    # Return state of UI object's aria-valuetext property
+    #
+    # @return [Integer]
+    # @example
+    #   volume_slider.aria_valuetext
+    #
+    def aria_valuetext
+      get_attribute('aria-valuetext')
+    end
+
+    # Return state of UI object's aria-orientation property
+    #
+    # @return [Integer]
+    # @example
+    #   volume_slider.aria_orientation
+    #
+    def aria_orientation
+      get_attribute('aria-orientation')
+    end
+
+    # Return state of UI object's aria-keyshortcuts property
+    #
+    # @return [Integer]
+    # @example
+    #   play_button.aria_keyshortcuts
+    #
+    def aria_keyshortcuts
+      get_attribute('aria-keyshortcuts')
+    end
+
+    # Return state of UI object's aria-roledescription property
+    #
+    # @return [Integer]
+    # @example
+    #   editor_button.aria_roledescription
+    #
+    def aria_roledescription
+      get_attribute('aria-roledescription')
+    end
+
+    # Return state of UI object's aria-autocomplete property
+    #
+    # @return [Integer]
+    # @example
+    #   email_field.aria_autocomplete
+    #
+    def aria_autocomplete
+      get_attribute('aria-autocomplete')
+    end
+
+    # Return state of UI object's aria-controls property
+    #
+    # @return [Integer]
+    # @example
+    #   video_menu.aria_controls
+    #
+    def aria_controls
+      get_attribute('aria-controls')
+    end
+
     # Return state of UI object's aria-disabled property
     #
     # @return [Boolean]
@@ -797,6 +887,50 @@ module TestCentricity
     #
     def aria_readonly?
       state = get_attribute('aria-readonly')
+      state.boolean? ? state : state == 'true'
+    end
+
+    # Return state of UI object's aria-busy property
+    #
+    # @return [Boolean]
+    # @example
+    #   home_phone_field.aria_busy?
+    #
+    def aria_busy?
+      state = get_attribute('aria-busy')
+      state.boolean? ? state : state == 'true'
+    end
+
+    # Return state of UI object's aria-modal property
+    #
+    # @return [Boolean]
+    # @example
+    #   add_user_modal.aria_modal?
+    #
+    def aria_modal?
+      state = get_attribute('aria-modal')
+      state.boolean? ? state : state == 'true'
+    end
+
+    # Return state of UI object's aria-multiline property
+    #
+    # @return [Boolean]
+    # @example
+    #   description_field.aria_multiline?
+    #
+    def aria_multiline?
+      state = get_attribute('aria-multiline')
+      state.boolean? ? state : state == 'true'
+    end
+
+    # Return state of UI object's aria-aria_multiselectable property
+    #
+    # @return [Boolean]
+    # @example
+    #   channels_select.aria_multiselectable?
+    #
+    def aria_multiselectable?
+      state = get_attribute('aria-aria_multiselectable')
       state.boolean? ? state : state == 'true'
     end
 

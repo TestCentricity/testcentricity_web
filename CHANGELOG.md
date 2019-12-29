@@ -2,7 +2,40 @@
 All notable changes to this project will be documented in this file.
 
 
-## [3.2.2] - 2019-10-16
+## [3.2.3] - 29-DEC-2019
+
+### Added
+* Additional methods to support WCAG 2.x accessibility testing and verification:
+  * `UIElement.aria_valuemax` method
+  * `UIElement.aria_valuemin` method
+  * `UIElement.aria_valuenow` method
+  * `UIElement.aria_valuetext` method
+  * `UIElement.aria_orientation` method
+  * `UIElement.aria_keyshortcuts` method
+  * `UIElement.aria_roledescription` method
+  * `UIElement.aria_autocomplete` method
+  * `UIElement.aria_modal?` method
+  * `UIElement.aria_busy?` method
+  * `UIElement.aria_multiline?` method
+  * `UIElement.aria_multiselectable?` method
+  * `UIElement.aria_controls` method
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of the following
+properties:
+  * `aria_valuemax`
+  * `aria_valuemin`
+  * `aria_valuenow`
+  * `aria_valuetext`
+  * `aria_orientation`
+  * `aria_roledescription`
+  * `aria_autocomplete`
+  * `aria_modal`
+  * `aria_keyshortcuts`
+  * `aria_multiline`
+  * `aria_multiselectable`
+  * `aria_controls`
+
+
+## [3.2.2] - 16-OCT-2019
 
 ### Added
 * Added device profiles for iPhone 11, 11 Pro, and 11 Pro Max (iOS 13.1) with Mobile Safari browser.
@@ -11,7 +44,7 @@ All notable changes to this project will be documented in this file.
 * Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `indeterminate` property.
 * Updated device profiles for iPad Pro 12.9" 3rd Generation (iOS 13.1) with Mobile Safari browser.
 
-## [3.2.1] - 2019-10-03
+## [3.2.1] - 03-OCT-2019
 
 ### Changed
 * `CheckBox.visible?`, `CheckBox.disabled?`, and `CheckBox.get_value` methods now work with React and Ember checkboxes with
@@ -19,7 +52,7 @@ proxy elements.
 * `Radio.visible?`, `Radio.disabled?`, and `Radio.get_value` methods now work with React and Ember radio buttons with
 proxy elements.
 
-## [3.2.0] - 2019-07-28
+## [3.2.0] - 28-JULY-2019
 
 ### Added
 * Added support for connecting to and running your tests on cloud hosted browsers on the LambdaTest cloud platform.
@@ -29,20 +62,20 @@ proxy elements.
 ### Changed
 * `Video.ready_state` and `Audio.ready_state` methods now return an Integer result.
 
-## [3.1.11] - 2019-06-20
+## [3.1.11] - 20-JUNE-2019
 
 ### Added
 * Added `SelectList.get_group_count` and `SelectList.get_group_headings` methods.
 * Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `groupcount`
 and `group_headings` properties of `SelectList` objects.
 
-## [3.1.10] - 2019-05-21
+## [3.1.10] - 21-MAY-2019
 
 ### Fixed
 * Improved compatibility with React and Chosen select lists.
 
 
-## [3.1.9] - 2019-05-16
+## [3.1.9] - 16-MAY-2019
 
 ### Added
 * Added support for enabling popups when testing on BrowserStack cloud hosted Safari, IE, and Edge browsers.
@@ -51,7 +84,7 @@ and `group_headings` properties of `SelectList` objects.
 ### Changed
 * `List.get_list_items` and `List.get_list_item` methods now strip leading and trailing whitespace from returned values.
 
-## [3.1.8] - 2019-05-08
+## [3.1.8] - 08-MAY-2019
 
 ### Added
 * Added `Link.href` method.
@@ -63,7 +96,7 @@ and `group_headings` properties of `SelectList` objects.
 * Updated device profiles for iPhone 7 (iOS 12.2) with Mobile Chrome browser and iPad (iOS 12.2) with Mobile Chrome browser.
 
 
-## [3.1.7] - 2019-02-01
+## [3.1.7] - 01-FEB-2019
 
 ### Added
 * Added `UIElement.title` and `PageObject.title` methods.
@@ -71,21 +104,21 @@ and `group_headings` properties of `SelectList` objects.
 * Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `title` property.
 
 
-## [3.1.6] - 2019-01-20
+## [3.1.6] - 20-JAN-2019
 
 ### Added
 * Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `name` property.
 
 
-## [3.1.5] - 2019-01-06
+## [3.1.5] - 06-JAN-2019
 
 ### Added
 * Additional methods to support WCAG 2.x accessibility testing and verification:
-* `UIElement.aria_rowcount` method.
-* `UIElement.aria_colcount` method.
-* `UIElement.aria_sort` method.
-* `UIElement.aria_haspopup?` method.
-* `UIElement.aria_pressed?` method.
+  * `UIElement.aria_rowcount` method.
+  * `UIElement.aria_colcount` method.
+  * `UIElement.aria_sort` method.
+  * `UIElement.aria_haspopup?` method.
+  * `UIElement.aria_pressed?` method.
 * Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `aria_rowcount`, `aria_colcount`,
 `aria_sort`, `aria_pressed`, and `aria_haspopup` properties.
 
@@ -101,9 +134,9 @@ Video objects at the page level.
 
 ### Added
 * Additional methods to support WCAG 2.x accessibility testing and verification:
-* `UIElement.aria_invalid?` method.
-* `UIElement.aria_checked?` method.
-* `UIElement.aria_readonly?` method.
+  * `UIElement.aria_invalid?` method.
+  * `UIElement.aria_checked?` method.
+  * `UIElement.aria_readonly?` method.
 * Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `aria_invalid`, `aria_checked`,
 and `aria_readonly` properties.
 
@@ -131,17 +164,26 @@ and `aria_readonly` properties.
 
 ### Added
 * Adding greater support for WCAG 2.x accessibility testing and verification:
-* `UIElement.role` method.
-* `UIElement.tabindex` method.
-* `UIElement.aria_labelledby` method.
-* `UIElement.aria_describedby` method.
-* `UIElement.aria_live` method.
-* `UIElement.aria_selected?` method.
-* `UIElement.aria_hidden?` method.
-* `UIElement.aria_expanded?` method.
-* `UIElement.aria_required?` method.
-* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `role`, `tabindex`, `aria-labelledby`,
-`aria-describedby`, `aria-live`, `aria-selected`, `aria-hidden`, `aria-expanded`, and `aria-required` properties.
+  * `UIElement.role` method.
+  * `UIElement.tabindex` method.
+  * `UIElement.aria_labelledby` method.
+  * `UIElement.aria_describedby` method.
+  * `UIElement.aria_live` method.
+  * `UIElement.aria_selected?` method.
+  * `UIElement.aria_hidden?` method.
+  * `UIElement.aria_expanded?` method.
+  * `UIElement.aria_required?` method.
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of the following
+properties:
+  * `role`
+  * `tabindex`
+  * `aria-labelledby`
+  * `aria-describedby`
+  * `aria-live`
+  * `aria-selected`
+  * `aria-hidden`
+  * `aria-expanded`
+  * `aria-required`
 
 
 ## [3.0.20] - 2018-11-08

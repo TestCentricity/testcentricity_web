@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    testcentricity_web (3.2.2)
+    testcentricity_web (3.2.3)
       appium_lib
       browserstack-local
       capybara (>= 3.1, < 4)
@@ -33,7 +33,7 @@ GEM
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
     browserstack-local (1.3.0)
-    capybara (3.29.0)
+    capybara (3.28.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -57,7 +57,7 @@ GEM
       eventmachine (>= 0.12.0)
       websocket-driver (>= 0.5.1)
     ffi (1.11.1)
-    i18n (1.7.0)
+    i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
     mini_mime (1.0.2)

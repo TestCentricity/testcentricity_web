@@ -173,6 +173,30 @@ module TestCentricity
                      ui_object.aria_rowcount
                    when :aria_colcount
                      ui_object.aria_colcount
+                   when :aria_valuemax
+                     ui_object.aria_valuemax
+                   when :aria_valuemin
+                     ui_object.aria_valuemin
+                   when :aria_valuenow
+                     ui_object.aria_valuenow
+                   when :aria_valuetext
+                     ui_object.aria_valuetext
+                   when :aria_orientation
+                     ui_object.aria_orientation
+                   when :aria_keyshortcuts
+                     ui_object.aria_keyshortcuts
+                   when :aria_roledescription
+                     ui_object.aria_roledescription
+                   when :aria_autocomplete
+                     ui_object.aria_autocomplete
+                   when :aria_controls
+                     ui_object.aria_controls
+                   when :aria_modal
+                     ui_object.aria_modal?
+                   when :aria_multiline
+                     ui_object.aria_multiline?
+                   when :aria_multiselectable
+                     ui_object.aria_multiselectable?
                    else
                      if property.is_a?(Hash)
                        property.each do |key, value|
