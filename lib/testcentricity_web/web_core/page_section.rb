@@ -193,6 +193,29 @@ module TestCentricity
       element_hash.each(&method(:textfield))
     end
 
+    # Declare and instantiate a single range input UI Element for this page section.
+    #
+    # @param element_name [Symbol] name of range input object (as a symbol)
+    # @param locator [String] CSS selector or XPath expression that uniquely identifies object
+    # @example
+    #   range :volume_level, "//input[@id='volume_slider']"
+    #   range :points_slider, 'input#points'
+    #
+    def self.range(element_name, locator)
+      define_element(element_name, TestCentricity::Range, locator)
+    end
+
+    # Declare and instantiate a collection of range inputs for this page section.
+    #
+    # @param element_hash [Hash] names of ranges (as a symbol) and CSS selectors or XPath expressions that uniquely identifies the ranges
+    # @example
+    #       ranges points_slider: 'input#points',
+    #              risk_slider:   'input#risk_percentage'
+    #
+    def self.ranges(element_hash)
+      element_hash.each(&method(:range))
+    end
+
     # Declare and instantiate a single checkbox UI Element for this page section.
     #
     # @param element_name [Symbol] name of checkbox object (as a symbol)

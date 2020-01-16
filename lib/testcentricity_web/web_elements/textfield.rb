@@ -52,7 +52,15 @@ module TestCentricity
       obj, = find_element
       object_not_found_exception(obj, nil)
       min = obj.native.attribute('min')
-      min.to_i unless min.blank?
+      unless min.blank?
+        if min.is_int?
+          min.to_i
+        elsif min.is_float?
+          min.to_f
+        else
+          min
+        end
+      end
     end
 
     # Return max attribute of a number type text field.
@@ -65,7 +73,15 @@ module TestCentricity
       obj, = find_element
       object_not_found_exception(obj, nil)
       max = obj.native.attribute('max')
-      max.to_i unless max.blank?
+      unless max.blank?
+        if max.is_int?
+          max.to_i
+        elsif max.is_float?
+          max.to_f
+        else
+          max
+        end
+      end
     end
 
     # Return step attribute of a number type text field.
@@ -78,7 +94,15 @@ module TestCentricity
       obj, = find_element
       object_not_found_exception(obj, nil)
       step = obj.native.attribute('step')
-      step.to_i unless step.blank?
+      unless step.blank?
+        if step.is_int?
+          step.to_i
+        elsif step.is_float?
+          step.to_f
+        else
+          step
+        end
+      end
     end
 
     # Clear the contents of a text field

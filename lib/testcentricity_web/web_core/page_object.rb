@@ -54,7 +54,7 @@ module TestCentricity
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
     # @example
     #   textfield :user_id_field,  "//input[@id='UserName']"
-    #   textfield :password_field, 'consumer_password'
+    #   textfield :password_field, 'input#consumer_password'
     #
     def self.textfield(element_name, locator)
       define_page_element(element_name, TestCentricity::TextField, locator)
@@ -72,6 +72,29 @@ module TestCentricity
     #
     def self.textfields(element_hash)
       element_hash.each(&method(:textfield))
+    end
+
+    # Declare and instantiate a single range input UI Element for this page object.
+    #
+    # @param element_name [Symbol] name of range input object (as a symbol)
+    # @param locator [String] CSS selector or XPath expression that uniquely identifies object
+    # @example
+    #   range :volume_level, "//input[@id='volume_slider']"
+    #   range :points_slider, 'input#points'
+    #
+    def self.range(element_name, locator)
+      define_page_element(element_name, TestCentricity::Range, locator)
+    end
+
+    # Declare and instantiate a collection of range inputs for this page object.
+    #
+    # @param element_hash [Hash] names of ranges (as a symbol) and CSS selectors or XPath expressions that uniquely identifies the ranges
+    # @example
+    #       ranges points_slider: 'input#points',
+    #              risk_slider:   'input#risk_percentage'
+    #
+    def self.ranges(element_hash)
+      element_hash.each(&method(:range))
     end
 
     # Declare and instantiate a single checkbox UI Element for this page object.

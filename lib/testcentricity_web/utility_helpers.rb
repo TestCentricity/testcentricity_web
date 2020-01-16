@@ -33,4 +33,12 @@ class String
       new_date.strftime(date_time_format)
     end
   end
+
+  def is_int?
+    Integer(self) && true rescue false
+  end
+
+  def is_float?
+    Float(self) && true rescue false
+  end
 end

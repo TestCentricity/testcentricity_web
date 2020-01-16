@@ -419,6 +419,7 @@ Supported **UI Element** elementTypes and their declarations have the following 
       selectlist  :select_name, locator
       list        :list_name, locator
       table       :table_name, locator
+      range       :range_name, locator
       image       :image_name, locator
       video       :video_name, locator
       audio       :audio_name, locator
@@ -451,6 +452,8 @@ Supported **UI Element** elementTypes and their declarations have the following 
                    list_X_name: locator
       tables       table_1_name: locator,
                    table_X_name: locator
+      ranges       range_1_name: locator,
+                   range_X_name: locator
       images       image_1_name: locator,
                    image_X_name: locator
       videos       video_1_name: locator,
@@ -504,6 +507,15 @@ With TestCentricity, all UI elements are based on the **UIElement** class, and i
     element.get_native_attribute(attrib)
     element.inspect
 
+**Waiting methods:**
+
+    element.wait_until_exists(seconds)
+    element.wait_until_gone(seconds)
+    element.wait_until_visible(seconds)
+    element.wait_until_hidden(seconds)
+    element.wait_until_value_is(value, seconds)
+    element.wait_until_value_changes(seconds)
+
 **WAI-ARIA Object Accessibility (A11y) methods:**
 
     element.role
@@ -538,15 +550,6 @@ With TestCentricity, all UI elements are based on the **UIElement** class, and i
     element.aria_multiline?
     element.aria_multiselectable?
     element.aria_busy?
-
-**Waiting methods:**
-
-    element.wait_until_exists(seconds)
-    element.wait_until_gone(seconds)
-    element.wait_until_visible(seconds)
-    element.wait_until_hidden(seconds)
-    element.wait_until_value_is(value, seconds)
-    element.wait_until_value_changes(seconds)
 
 
 ## Instantiating your Page Objects

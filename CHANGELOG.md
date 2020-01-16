@@ -1,6 +1,10 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.2.4] - 16-JAN-2020
+
+### Added
+* Added `Range` type `UIElement` to support interaction with and verification of HTML5 Input Range Slider Objects.
 
 ## [3.2.3] - 29-DEC-2019
 

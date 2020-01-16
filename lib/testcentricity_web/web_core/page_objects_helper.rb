@@ -228,7 +228,8 @@ module TestCentricity
     rescue ObjectNotFoundError => e
       ExceptionQueue.enqueue_exception(e.message)
     ensure
-      ExceptionQueue.post_exceptions(fail_message)
+      error_msg = "#{fail_message}\nPage URL = #{URI.parse(current_url)}"
+      ExceptionQueue.post_exceptions(error_msg)
     end
 
     # Populate the specified UI elements on this page or section object with the associated data from a Hash passed as an
