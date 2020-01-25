@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    testcentricity_web (3.2.4)
+    testcentricity_web (3.2.5)
       appium_lib
       browserstack-local
       capybara (>= 3.1, < 4)
@@ -109,4 +109,4 @@ DEPENDENCIES
   testcentricity_web!
 
 BUNDLED WITH
-   2.1.2
+   2.1.4

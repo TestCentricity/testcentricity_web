@@ -197,6 +197,8 @@ module TestCentricity
                      ui_object.aria_multiline?
                    when :aria_multiselectable
                      ui_object.aria_multiselectable?
+                   when :content_editable
+                     ui_object.content_editable?
                    else
                      if property.is_a?(Hash)
                        property.each do |key, value|

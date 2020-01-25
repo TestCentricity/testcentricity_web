@@ -1,6 +1,16 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.2.5] - 25-JAN-2020
+
+### Added
+* Added `UIElement.content_editable?` method.
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of the
+`content_editable` property.
+
+### Fixed
+* Fixed `UIElement.aria_multiselectable?` method.
+
 ## [3.2.4] - 16-JAN-2020
 
 ### Added
@@ -37,7 +47,6 @@ properties:
   * `aria_multiline`
   * `aria_multiselectable`
   * `aria_controls`
-
 
 ## [3.2.2] - 16-OCT-2019
 

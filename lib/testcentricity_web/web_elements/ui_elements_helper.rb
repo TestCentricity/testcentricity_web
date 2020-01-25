@@ -923,14 +923,25 @@ module TestCentricity
       state.boolean? ? state : state == 'true'
     end
 
-    # Return state of UI object's aria-aria_multiselectable property
+    # Return state of UI object's aria-multiselectable property
     #
     # @return [Boolean]
     # @example
     #   channels_select.aria_multiselectable?
     #
     def aria_multiselectable?
-      state = get_attribute('aria-aria_multiselectable')
+      state = get_attribute('aria-multiselectable')
+      state.boolean? ? state : state == 'true'
+    end
+
+    # Return state of UI object's contenteditable property
+    #
+    # @return [Boolean]
+    # @example
+    #   description_field.content_editable?
+    #
+    def content_editable?
+      state = get_attribute('contenteditable')
       state.boolean? ? state : state == 'true'
     end
 
