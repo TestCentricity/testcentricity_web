@@ -208,14 +208,14 @@ module TestCentricity
 
     # Return video volume property
     #
-    # @return [Integer or Float] video volume setting
+    # @return [Float] video volume setting
     # @example
     #   volume_level = video_player.volume
     #
     def volume
       obj, = find_element
       object_not_found_exception(obj, nil)
-      obj.native.attribute('volume')
+      obj.native.attribute('volume').to_f
     end
 
     # Return video Height property

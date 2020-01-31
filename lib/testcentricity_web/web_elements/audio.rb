@@ -208,14 +208,14 @@ module TestCentricity
 
     # Return audio volume property
     #
-    # @return [Integer or Float] audio volume setting
+    # @return [Float] audio volume setting
     # @example
     #   volume_level = audio_player.volume
     #
     def volume
       obj, = find_element(visible = :all)
       object_not_found_exception(obj, :audio)
-      obj.native.attribute('volume')
+      obj.native.attribute('volume').to_f
     end
 
     # Set the audio currentTime property

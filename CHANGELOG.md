@@ -1,6 +1,11 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.2.6] - 31-JAN-2020
+
+### Changed
+* `Audio.volume` and `Video.volume` methods now return a `Float`.
+
 ## [3.2.5] - 25-JAN-2020
 
 ### Added
