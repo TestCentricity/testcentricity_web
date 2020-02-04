@@ -1,6 +1,15 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.2.7] - 05-FEB-2020
+
+### Added
+* Added `Audio.crossorigin` and `Video.crossorigin` methods.
+* Added `Audio.preload` and `Video.preload` methods.
+* Added `Video.poster` method.
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of the
+`crossorigin`, `preload`, and `poster` properties.
+
 ## [3.2.6] - 31-JAN-2020
 
 ### Changed

@@ -111,6 +111,12 @@ module TestCentricity
                      ui_object.ready_state
                    when :volume
                      ui_object.volume
+                   when :crossorigin
+                     ui_object.crossorigin
+                   when :preload
+                     ui_object.preload
+                   when :poster
+                     ui_object.poster
                    when :options, :items, :list_items
                      ui_object.get_list_items
                    when :optioncount, :itemcount

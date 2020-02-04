@@ -119,7 +119,7 @@ module TestCentricity
       begin
         obj.click
       rescue StandardError
-        obj.click_at(10, 10) unless Capybara.current_driver == :poltergeist
+        obj.click_at(10, 10)
       end
     end
 
@@ -194,29 +194,9 @@ module TestCentricity
     #   remember_me_checkbox.visible?
     #
     def visible?
-      obj, type = find_object
+      obj, = find_element
       exists = obj
-      invisible = false
-      if type == :css
-        Capybara.using_wait_time 0.1 do
-          # is object itself hidden with .ui-helper-hidden class?
-          self_hidden = page.has_css?("#{@locator}.ui-helper-hidden")
-          # is parent of object hidden, thus hiding the object?
-          parent_hidden = page.has_css?(".ui-helper-hidden > #{@locator}")
-          # is grandparent of object, or any other ancestor, hidden?
-          other_ancestor_hidden = page.has_css?(".ui-helper-hidden * #{@locator}")
-          # if any of the above conditions are true, then object is invisible
-          invisible = self_hidden || parent_hidden || other_ancestor_hidden
-        end
-      else
-        invisible = !obj.visible? if exists
-      end
-      # the object is visible if it exists and it is not invisible
-      if exists && !invisible
-        true
-      else
-        false
-      end
+      exists ? obj.visible? : false
     end
 
     # Is UI object hidden (not visible)?
