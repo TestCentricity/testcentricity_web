@@ -1,6 +1,11 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.2.8] - 08-FEB-2020
+
+### Fixed
+* Fixed `UIElement.visible?` method that was broken in release 3.2.7.
+
 ## [3.2.7] - 05-FEB-2020
 
 ### Added
