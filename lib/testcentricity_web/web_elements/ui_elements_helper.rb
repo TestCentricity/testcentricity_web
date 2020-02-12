@@ -1007,5 +1007,34 @@ module TestCentricity
     def object_ref_message
       "object '#{get_name}' (#{get_locator})"
     end
+
+    def compare(expected, actual)
+      if expected.is_a?(Hash) && expected.length == 1
+        expected.each do |key, value|
+          case key
+          when :lt, :less_than
+            actual < value
+          when :lt_eq, :less_than_or_equal
+            actual <= value
+          when :gt, :greater_than
+            actual > value
+          when :gt_eq, :greater_than_or_equal
+            actual >= value
+          when :starts_with
+            actual.start_with?(value)
+          when :ends_with
+            actual.end_with?(value)
+          when :contains
+            actual.include?(value)
+          when :not_contains, :does_not_contain
+            !actual.include?(value)
+          when :not_equal
+            actual != value
+          end
+        end
+      else
+        expected == actual
+      end
+    end
   end
 end

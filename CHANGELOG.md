@@ -1,6 +1,11 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.2.9] - 12-FEB-2020
+
+### Fixed
+* Fixed `UIElement.wait_until_value_is`, `List.wait_until_item_count_is`, and `Table.wait_until_row_count_is`' methods.
+
 ## [3.2.8] - 08-FEB-2020
 
 ### Fixed
