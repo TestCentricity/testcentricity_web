@@ -546,29 +546,7 @@ module TestCentricity
       current_url.start_with?('https')
     end
 
-    def verify_focus_order(order)
-      order.each do |expected_element|
-        if expected_element.is_a?(Array)
-          expected_element.each do |sub_element|
-            set_verify_focus(:arrow_right, sub_element)
-          end
-        else
-          set_verify_focus(:tab, expected_element)
-        end
-      end
-    end
-
     private
-
-    def set_verify_focus(key, expected_element)
-      page.driver.browser.action.send_keys(key).perform
-      sleep(0.5)
-      focused_obj = page.driver.browser.switch_to.active_element
-      expected_obj = page.find(expected_element.get_locator_type, expected_element.get_locator, wait: 0.01, visible: :all).native
-      raise "Expected element '#{expected_element.get_name}' to have focus" unless focused_obj == expected_obj
-
-      puts "Element '#{expected_element.get_name}' is focused as expected"
-    end
 
     def self.define_page_element(element_name, obj, locator)
       define_method(element_name) do

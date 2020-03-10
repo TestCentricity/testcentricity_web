@@ -957,12 +957,12 @@ module TestCentricity
       obj.native.attribute(attrib)
     end
 
-    private
-
     def find_element(visible = true)
       wait = Selenium::WebDriver::Wait.new(timeout: Capybara.default_max_wait_time)
       wait.until { find_object(visible) }
     end
+
+    private
 
     def find_object(visible = true)
       obj_locator = @alt_locator.nil? ? @locator : @alt_locator

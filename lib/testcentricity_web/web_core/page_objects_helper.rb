@@ -300,5 +300,28 @@ module TestCentricity
         end
       end
     end
-  end
+
+    def verify_focus_order(order)
+      order.each do |expected_element|
+        if expected_element.is_a?(Array)
+          expected_element.each do |sub_element|
+            set_verify_focus(:arrow_right, sub_element)
+          end
+        else
+          set_verify_focus(:tab, expected_element)
+        end
+      end
+    end
+
+    private
+
+    def set_verify_focus(key, expected_element)
+      page.driver.browser.action.send_keys(key).perform
+      sleep(0.5)
+      focused_obj = page.driver.browser.switch_to.active_element
+      expected_obj, = expected_element.find_element(visible = :all)
+      raise "Expected element '#{expected_element.get_name}' to have focus but found '#{focused_obj.id} is focused instead'" unless focused_obj == expected_obj.native
+
+      puts "Element '#{expected_element.get_name}' is focused as expected"
+    end  end
 end
