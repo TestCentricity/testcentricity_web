@@ -263,6 +263,19 @@ module TestCentricity
       obj.obscured?
     end
 
+    # Does UI object have the current focus?
+    #
+    # @return [Boolean]
+    # @example
+    #   first_name_field.focused?
+    #
+    def focused?
+      obj, type = find_element(visible = :all)
+      object_not_found_exception(obj, type)
+      focused_obj = page.driver.browser.switch_to.active_element
+      focused_obj == obj.native
+    end
+
     # Return a human readable representation of the UI element
     #
     # @return [String]

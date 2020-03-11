@@ -1,15 +1,22 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.2.12] - 11-MAR-2020
+
+### Added
+* Added `UIElement.focused?` method.
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of the
+`focused` property.
+
 ## [3.2.11] - 10-MAR-2020
 
 ### Added
-* Added `PageSection.verify_focus_order`method.
+* Added `PageSection.verify_focus_order` method.
 
 ## [3.2.10] - 09-MAR-2020
 
 ### Added
-* Added `PageObject.verify_focus_order`method.
+* Added `PageObject.verify_focus_order` method.
 
 ## [3.2.9] - 12-FEB-2020
 

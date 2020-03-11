@@ -43,6 +43,8 @@ module TestCentricity
                      ui_object.hidden?
                    when :displayed
                      ui_object.displayed?
+                   when :focused
+                     ui_object.focused?
                    when :width
                      ui_object.width
                    when :height

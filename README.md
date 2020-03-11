@@ -495,6 +495,7 @@ With TestCentricity, all UI elements are based on the **UIElement** class, and i
     element.disabled?
     element.displayed?
     element.obscured?
+    element.focused?
     element.content_editable?
     element.get_value
     element.count
