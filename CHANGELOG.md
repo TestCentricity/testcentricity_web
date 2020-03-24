@@ -1,6 +1,11 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.2.13] - 24-MAR-2020
+
+### Added
+* Added `PageObject.send_keys` method.
+
 ## [3.2.12] - 11-MAR-2020
 
 ### Added

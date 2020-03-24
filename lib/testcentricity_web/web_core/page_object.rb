@@ -481,6 +481,17 @@ module TestCentricity
       page.driver.browser.title
     end
 
+    # Send keystrokes to the focused element on a Page object
+    #
+    # @param keys [String] keys
+    # @example
+    #   editor_page.send_keys([:control, 'z'])
+    #
+    def send_keys(*keys)
+      focused_obj = page.driver.browser.switch_to.active_element
+      focused_obj.send_keys(*keys)
+    end
+
     # Wait until the page object exists, or until the specified wait time has expired. If the wait time is nil, then the wait
     # time will be Capybara.default_max_wait_time.
     #
