@@ -158,6 +158,18 @@ module TestCentricity
       obj.click_at(x, y)
     end
 
+    # Scroll the object to its top, middle, or bottom
+    #
+    # @param position [Symbol] :top, :bottom, :center
+    # @example
+    #   cue_list.scroll_to(:bottom)
+    #
+    def scroll_to(position)
+      obj, type = find_element
+      object_not_found_exception(obj, type)
+      obj.scroll_to(position)
+    end
+
     def set(value)
       obj, type = find_element
       object_not_found_exception(obj, type)

@@ -1,6 +1,11 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.2.14] - 06-APR-2020
+
+### Added
+* Added `UIElement.scroll_to` method.
+
 ## [3.2.13] - 24-MAR-2020
 
 ### Added
