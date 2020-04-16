@@ -279,7 +279,8 @@ module TestCentricity
           else
             case data_field.get_object_type
             when :checkbox
-              data_field.set_checkbox_state(data_param.to_bool)
+              check_state = data_param.is_a?(String) ? data_param.to_bool : data_param
+              data_field.set_checkbox_state(check_state)
             when :selectlist
               if data_field.get_siebel_object_type == 'JComboBox'
                 data_field.set("#{data_param}\t")
@@ -287,7 +288,8 @@ module TestCentricity
                 data_field.choose_option(data_param)
               end
             when :radio
-              data_field.set_selected_state(data_param.to_bool)
+              check_state = data_param.is_a?(String) ? data_param.to_bool : data_param
+              data_field.set_selected_state(check_state)
             when :textfield
               data_field.set("#{data_param}\t")
               if integrity_check && data_field.get_value != data_param

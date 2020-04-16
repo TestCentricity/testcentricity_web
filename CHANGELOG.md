@@ -1,6 +1,12 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.2.15] - 06-APR-2020
+
+### Fixed
+* `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods accept `String` or `Boolean` values
+for checkboxes and radio buttons.
+
 ## [3.2.14] - 06-APR-2020
 
 ### Added
