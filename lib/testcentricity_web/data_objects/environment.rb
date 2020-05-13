@@ -42,6 +42,9 @@ module TestCentricity
     attr_accessor :grid
     attr_accessor :tunneling
 
+    attr_accessor :parallel
+    attr_accessor :process_num
+
     attr_accessor :signed_in
     attr_accessor :portal_status
     attr_accessor :portal_context
@@ -92,6 +95,22 @@ module TestCentricity
 
     def self.session_time_stamp
       @session_time_stamp
+    end
+
+    def self.parallel=(state)
+      @parallel = state
+    end
+
+    def self.parallel
+      @parallel
+    end
+
+    def self.process_num=(num)
+      @process_num = num
+    end
+
+    def self.process_num
+      @process_num
     end
 
     def self.test_environment

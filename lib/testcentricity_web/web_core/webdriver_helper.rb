@@ -2,6 +2,7 @@ require 'selenium-webdriver'
 require 'os'
 require 'browserstack/local'
 require 'webdrivers'
+require 'fileutils'
 
 
 module TestCentricity
@@ -16,6 +17,14 @@ module TestCentricity
       browser = ENV['WEB_BROWSER']
       # set downloads folder path
       @downloads_path = "#{Dir.pwd}/downloads"
+      if ENV['PARALLEL']
+        Environ.parallel = true
+        Environ.process_num = ENV['TEST_ENV_NUMBER']
+        @downloads_path = "#{@downloads_path}/#{ENV['TEST_ENV_NUMBER']}"
+        Dir.mkdir(@downloads_path) unless Dir.exist?(@downloads_path)
+      else
+        Environ.parallel = false
+      end
       @downloads_path = @downloads_path.tr('/', "\\") if OS.windows?
 
       # assume that we're testing within a local desktop web browser
@@ -26,37 +35,37 @@ module TestCentricity
       Environ.device      = :web
       Environ.device_name = 'browser'
 
-      case browser.downcase.to_sym
-      when :appium
-        initialize_appium
-        context = 'mobile device emulator'
-      when :browserstack
-        initialize_browserstack
-        context = 'Browserstack cloud service'
-      when :crossbrowser
-        initialize_crossbrowser
-        context = 'CrossBrowserTesting cloud service'
-      when :gridlastic
-        initialize_gridlastic
-        context = 'Gridlastic cloud service'
-      when :lambdatest
-        initialize_lambdatest
-        context = 'LambdaTest cloud service'
-      when :saucelabs
-        initialize_saucelabs
-        context = 'Sauce Labs cloud service'
-      when :testingbot
-        initialize_testingbot
-        context = 'TestingBot cloud service'
-      else
-        if ENV['SELENIUM'] == 'remote'
-          initialize_remote
-          context = 'Selenium Grid'
-        else
-          initialize_local_browser
-          context = 'local browser instance'
-        end
-      end
+      context = case browser.downcase.to_sym
+                when :appium
+                  initialize_appium
+                  'mobile device emulator'
+                when :browserstack
+                  initialize_browserstack
+                  'Browserstack cloud service'
+                when :crossbrowser
+                  initialize_crossbrowser
+                  'CrossBrowserTesting cloud service'
+                when :gridlastic
+                  initialize_gridlastic
+                  'Gridlastic cloud service'
+                when :lambdatest
+                  initialize_lambdatest
+                  'LambdaTest cloud service'
+                when :saucelabs
+                  initialize_saucelabs
+                  'Sauce Labs cloud service'
+                when :testingbot
+                  initialize_testingbot
+                  'TestingBot cloud service'
+                else
+                  if ENV['SELENIUM'] == 'remote'
+                    initialize_remote
+                    'Selenium Grid'
+                  else
+                    initialize_local_browser
+                    'local browser instance'
+                  end
+                end
 
       # set browser window size only if testing with a desktop web browser
       unless Environ.is_device? || Capybara.current_driver == :appium
@@ -169,11 +178,11 @@ module TestCentricity
     end
 
     def self.initialize_local_browser
-      if OS.osx?
-        Environ.os = 'OS X'
-      elsif OS.windows?
-        Environ.os = 'Windows'
-      end
+      Environ.os = if OS.osx?
+                     'OS X'
+                   elsif OS.windows?
+                     'Windows'
+                   end
 
       browser = ENV['WEB_BROWSER'].downcase.to_sym
 

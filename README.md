@@ -776,6 +776,25 @@ a `/downloads` folder at the same level as the `/config` and `/features` folders
         └── README.md
 
 
+When running tests in multiple concurrent threads using the `parallel_tests` gem, a new folder will be created within the `/downloads` folder for each
+test thread. This is to ensure that files downloaded in each test thread are isolated from tests running in other parallel threads. An example of the
+`/downloads` folder structure for 4 paralle threads is depicted below:
+
+    my_automation_project
+        ├── config
+        ├── downloads
+        │   ├── 1
+        │   ├── 2
+        │   ├── 3
+        │   └── 4
+        ├── features
+        │   ├── step_definitions
+        │   ├── support
+        │   └── test_data
+        ├── Gemfile
+        └── README.md
+
+
 When testing file downloads using a local instance of Firefox, you will need to specify the MIME types of the various file types that your tests will
 be downloading. This is accomplished by setting the `MIME_TYPES` Environment Variable to a comma-delimited string containing the list of MIME types to
 be accepted. This list is required as it will prevent Firefox from displaying the File Download modal dialog, which will halt your automated tests. An

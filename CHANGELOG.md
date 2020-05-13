@@ -1,6 +1,12 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.2.16] - 13-MAY-2020
+
+### Changed
+* `WebDriverConnect.initialize_web_driver` method now sets local Chrome and Firefox browser Download directory to separate
+folders for each parallel test thread when using `parallel_tests` gem to run tests in concurrent threads.
+
 ## [3.2.15] - 06-APR-2020
 
 ### Fixed

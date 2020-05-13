@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    testcentricity_web (3.2.15)
+    testcentricity_web (3.2.16)
       appium_lib
       browserstack-local
       capybara (>= 3.1, < 4)
@@ -25,7 +25,7 @@ GEM
       appium_lib_core (~> 3.3)
       nokogiri (~> 1.8, >= 1.8.1)
       tomlrb (~> 1.1)
-    appium_lib_core (3.6.1)
+    appium_lib_core (3.7.0)
       faye-websocket (~> 0.10.0)
       selenium-webdriver (~> 3.14, >= 3.14.1)
     axiom-types (0.1.1)
@@ -65,8 +65,8 @@ GEM
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     os (1.1.0)
-    power_assert (1.1.7)
-    public_suffix (4.0.4)
+    power_assert (1.2.0)
+    public_suffix (4.0.5)
     rack (2.2.2)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
