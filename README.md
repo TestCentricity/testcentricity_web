@@ -778,7 +778,7 @@ a `/downloads` folder at the same level as the `/config` and `/features` folders
 
 When running tests in multiple concurrent threads using the `parallel_tests` gem, a new folder will be created within the `/downloads` folder for each
 test thread. This is to ensure that files downloaded in each test thread are isolated from tests running in other parallel threads. An example of the
-`/downloads` folder structure for 4 paralle threads is depicted below:
+`/downloads` folder structure for 4 parallel threads is depicted below:
 
     my_automation_project
         ├── config

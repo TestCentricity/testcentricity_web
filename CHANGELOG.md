@@ -1,6 +1,13 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.2.17] - 19-JUNE-2020
+
+### Changed
+* Updated `Table.define_table_elements` method to accept value for `:row_header` element.
+* Updated `Table.get_row_count`, `Table.get_column_count`, and `Table.get_table_cell_locator` methods to support tables
+with row headers in row #1.
+
 ## [3.2.16] - 13-MAY-2020
 
 ### Changed

@@ -7,6 +7,7 @@ module TestCentricity
     attr_accessor :table_header
     attr_accessor :header_row
     attr_accessor :header_column
+    attr_accessor :row_header
     attr_accessor :tree_expand
     attr_accessor :tree_collapse
 
@@ -21,7 +22,8 @@ module TestCentricity
         table_column:  'td',
         table_header:  'thead',
         header_row:    'tr',
-        header_column: 'th'
+        header_column: 'th',
+        row_header:    nil
       }
 
       case @locator_type
@@ -52,6 +54,8 @@ module TestCentricity
           @header_row = value
         when :header_column
           @header_column = value
+        when :row_header
+          @row_header = value
         when :tree_expand
           @tree_expand = value
         when :tree_collapse
@@ -70,20 +74,18 @@ module TestCentricity
     #
     def get_row_count
       wait_until_exists(5)
-      case @locator_type
-      when :xpath
-        if @table_section.nil?
-          page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}", visible: :all).count
-        else
-          page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}", visible: :all).count
-        end
-      when :css
-        if @table_section.nil?
-          page.all(:css, "#{@locator} > #{@table_body} > #{@table_row}", visible: :all).count
-        else
-          page.all(:css, "#{@locator} > #{@table_body} > #{@table_section}", visible: :all).count
-        end
-      end
+      delimiter = case @locator_type
+                  when :xpath
+                    "/"
+                  when :css
+                    " > "
+                  end
+      path = if @table_section.nil?
+               "#{@locator}#{delimiter}#{@table_body}#{delimiter}#{@table_row}"
+             else
+               "#{@locator}#{delimiter}#{@table_body}#{delimiter}#{@table_section}"
+             end
+      page.all(@locator_type, path, visible: :all).count
     end
 
     # Wait until the table's row count equals the specified value, or until the specified wait time has expired. If the wait
@@ -138,33 +140,48 @@ module TestCentricity
       row_count = get_row_count
       case @locator_type
       when :xpath
-        if row_count.zero?
-          page.all(:xpath, "#{@locator}/#{@table_header}/#{@header_row}/#{@header_column}", visible: :all).count
-        else
-          if @table_section.nil?
-            row_count == 1 ?
-                page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}/#{@table_column}", visible: :all).count :
-                page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_row}[2]/#{@table_column}", visible: :all).count
-          else
-            row_count == 1 ?
-                page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}/#{@table_row}/#{@table_column}", visible: :all).count :
-                page.all(:xpath, "#{@locator}/#{@table_body}/#{@table_section}[2]/#{@table_row}/#{@table_column}", visible: :all).count
-          end
-        end
+        delimiter = "/"
+        index = "[2]"
       when :css
-        if row_count.zero?
-          page.all(:css, "#{@locator} > #{@table_header} > #{@header_row} > #{@header_column}", visible: :all).count
-        else
-          if @table_section.nil?
-            row_count == 1 ?
-                page.all(:css, "#{@locator} > #{@table_body} > #{@table_row} > #{@table_column}", visible: :all).count :
-                page.all(:css, "#{@locator} > #{@table_body} > #{@table_row}:nth-of-type(2) > #{@table_column}", visible: :all).count
-          else
-            row_count == 1 ?
-                page.all(:css, "#{@locator} > #{@table_body} > #{@table_section} > #{@table_row} > #{@table_column}", visible: :all).count :
-                page.all(:css, "#{@locator} > #{@table_body} > #{@table_section}:nth-of-type(2) > #{@table_row} > #{@table_column}", visible: :all).count
-          end
-        end
+        delimiter = " > "
+        index = ":nth-of-type(2)"
+      end
+      path = if row_count.zero?
+               "#{@locator}#{delimiter}#{@table_header}#{delimiter}#{@header_row}#{delimiter}#{@header_column}"
+             else
+               if @table_section.nil?
+                 if row_count == 1
+                   "#{@locator}#{delimiter}#{@table_body}#{delimiter}#{@table_row}#{delimiter}#{@table_column}"
+                 else
+                   "#{@locator}#{delimiter}#{@table_body}#{delimiter}#{@table_row}#{index}#{delimiter}#{@table_column}"
+                 end
+               else
+                 if row_count == 1
+                   "#{@locator}#{delimiter}#{@table_body}#{delimiter}#{@table_section}#{delimiter}#{@table_row}#{delimiter}#{@table_column}"
+                 else
+                   "#{@locator}#{delimiter}#{@table_body}#{delimiter}#{@table_section}#{index}#{delimiter}#{@table_row}#{delimiter}#{@table_column}"
+                 end
+               end
+             end
+      if @row_header.nil?
+        page.all(@locator_type, path, visible: :all).count
+      else
+        cols = page.all(@locator_type, path, visible: :all).count
+
+        path = if @table_section.nil?
+                 if row_count == 1
+                   "#{@locator}#{delimiter}#{@table_body}#{delimiter}#{@table_row}#{delimiter}#{@row_header}"
+                 else
+                   "#{@locator}#{delimiter}#{@table_body}#{delimiter}#{@table_row}#{index}#{delimiter}#{@row_header}"
+                 end
+               else
+                 if row_count == 1
+                   "#{@locator}#{delimiter}#{@table_body}#{delimiter}#{@table_section}#{delimiter}#{@table_row}#{delimiter}#{@row_header}"
+                 else
+                   "#{@locator}#{delimiter}#{@table_body}#{delimiter}#{@table_section}#{index}#{delimiter}#{@table_row}#{delimiter}#{@row_header}"
+                 end
+               end
+        cols + page.all(@locator_type, path, visible: :all).count
       end
     end
 
@@ -615,7 +632,15 @@ module TestCentricity
           row_spec = "#{@locator}/#{@table_body}/#{@table_section}"
           row_spec = "#{row_spec}[#{row}]/#{@table_row}[1]"
         end
-        column_spec = "/#{@table_column}[#{column}]"
+        column_spec = if @row_header.nil?
+                        "/#{@table_column}[#{column}]"
+                      else
+                        if column == 1
+                          "/#{@row_header}"
+                        else
+                          "/#{@table_column}[#{column - 1}]"
+                        end
+                      end
       when :css
         if @table_section.nil?
           row_spec = "#{@locator} > #{@table_body} > #{@table_row}"
@@ -624,7 +649,16 @@ module TestCentricity
           row_spec = "#{@locator} > #{@table_body} > #{@table_section}"
           row_spec = "#{row_spec}:nth-of-type(#{row}) > #{@table_row}:nth-of-type(1)"
         end
-        column_spec = " > #{@table_column}:nth-of-type(#{column})"
+
+        column_spec = if @row_header.nil?
+                        " > #{@table_column}:nth-of-type(#{column})"
+                      else
+                        if column == 1
+                          " > #{@row_header}"
+                        else
+                          " > #{@table_column}:nth-of-type(#{column - 1})"
+                        end
+                      end
       end
       "#{row_spec}#{column_spec}"
     end
