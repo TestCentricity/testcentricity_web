@@ -209,7 +209,7 @@ module TestCentricity
                      ui_object.content_editable?
                    else
                      if property.is_a?(Hash)
-                       property.each do |key, value|
+                       property.map do |key, value|
                          case key
                          when :cell
                            ui_object.get_table_cell(value[0].to_i, value[1].to_i)

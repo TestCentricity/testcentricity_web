@@ -1,6 +1,12 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.2.18] - 12-AUG-2020
+
+### Fixed
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to correctly handle `:row`, `:column`,
+`:cell`, `:item`, and `:attribute` properties.
+
 ## [3.2.17] - 19-JUNE-2020
 
 ### Changed
