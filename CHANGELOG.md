@@ -1,6 +1,11 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [3.2.19] - 05-JAN-2021
+
+### Fixed
+* `SelectList.choose_option` and `SelectList.get_options` methods now wait up to 5 seconds for list drop menu to appear.
+
 ## [3.2.18] - 12-AUG-2020
 
 ### Fixed

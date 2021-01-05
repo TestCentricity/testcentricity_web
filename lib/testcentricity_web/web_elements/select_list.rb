@@ -344,7 +344,7 @@ module TestCentricity
         element = @base_object.find(:css, component, minimum: 0, wait: 1)
       rescue
         begin
-          element = page.find(:css, component, minimum: 0, wait: 1)
+          element = page.find(:css, component, minimum: 0, wait: 5)
         rescue
           raise "List #{component_name} (#{component}) for selectlist named '#{@name}' (#{locator}) not found"
         end
