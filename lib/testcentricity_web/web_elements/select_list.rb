@@ -68,7 +68,7 @@ module TestCentricity
 
       unless @options_list.nil?
         find_component(@options_list, 'drop menu')
-        raise "Could not find option #{option} to choose" unless first(:css, @list_item, minimum: 0, wait: 2)
+        raise "Could not find option #{option} to choose" unless first(:css, @list_item, minimum: 0, wait: 5)
 
         if option.is_a?(Array)
           option.each do |item|
