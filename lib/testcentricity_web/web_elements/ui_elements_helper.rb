@@ -528,11 +528,17 @@ module TestCentricity
 
     # Hover the cursor over an object
     #
+    # @param visible [Boolean, Symbol] Only find elements with the specified visibility:
+    #                                    * true - only finds visible elements.
+    #                                    * false - finds invisible _and_ visible elements.
+    #                                    * :all - same as false; finds visible and invisible elements.
+    #                                    * :hidden - only finds invisible elements.
+    #                                    * :visible - same as true; only finds visible elements.
     # @example
     #   basket_link.hover
     #
-    def hover
-      obj, type = find_element
+    def hover(visible = true)
+      obj, type = find_element(visible)
       object_not_found_exception(obj, type)
       obj.hover
     end
@@ -541,11 +547,17 @@ module TestCentricity
     #
     # @param x [Integer] X offset
     # @param y [Integer] Y offset
+    # @param visible [Boolean, Symbol] Only find elements with the specified visibility:
+    #                                    * true - only finds visible elements.
+    #                                    * false - finds invisible _and_ visible elements.
+    #                                    * :all - same as false; finds visible and invisible elements.
+    #                                    * :hidden - only finds invisible elements.
+    #                                    * :visible - same as true; only finds visible elements.
     # @example
     #   timeline_bar.hover_at(100, 5)
     #
-    def hover_at(x, y)
-      obj, = find_element
+    def hover_at(x, y, visible = true)
+      obj, = find_element(visible)
       raise "UI #{object_ref_message} not found" unless obj
       obj.hover_at(x, y)
     end

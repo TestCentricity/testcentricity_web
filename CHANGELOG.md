@@ -1,6 +1,19 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+
+## [3.2.21] - 04-FEB-2021
+
+### Changed
+* `UIElement.hover_at` method now accepts an optional `visible` parameter to allow hovering over UI elements that are not
+  visible.
+
+## [3.2.20] - 21-JAN-2021
+
+### Changed
+* `UIElement.hover` method now accepts an optional `visible` parameter to allow hovering over UI elements that are not
+visible.
+
 ## [3.2.19] - 05-JAN-2021
 
 ### Fixed
