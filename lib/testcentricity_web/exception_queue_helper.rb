@@ -79,17 +79,28 @@ module TestCentricity
             expected = I18n.t(value)
             enqueue_assert_equal(expected, actual, error_msg)
           when :translate_upcase
-            expected = I18n.t(value).upcase
+            expected = I18n.t(value)
+            expected = expected.is_a?(Array) ? expected.map(&:upcase) : expected.upcase
             enqueue_assert_equal(expected, actual, error_msg)
           when :translate_downcase
-            expected = I18n.t(value).downcase
+            expected = I18n.t(value)
+            expected = expected.is_a?(Array) ? expected.map(&:downcase) : expected.downcase
             enqueue_assert_equal(expected, actual, error_msg)
           when :translate_capitalize
-            expected = I18n.t(value).capitalize
+            expected = I18n.t(value)
+            expected = expected.is_a?(Array) ? expected.map(&:capitalize) : expected.capitalize
             enqueue_assert_equal(expected, actual, error_msg)
           when :translate_titlecase
             expected = I18n.t(value)
-            expected = "#{expected.split.each{ |expected| expected.capitalize! }.join(' ')}"
+            expected = if expected.is_a?(Array)
+                         result = []
+                         expected.each do |item|
+                           result.push("#{item.split.each{ |item| item.capitalize! }.join(' ')}")
+                         end
+                         result
+                       else
+                         "#{expected.split.each{ |expected| expected.capitalize! }.join(' ')}"
+                       end
             enqueue_assert_equal(expected, actual, error_msg)
           end
         end

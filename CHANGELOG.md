@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 
 
+## [3.2.22] - 09-FEB-2021
+
+### Fixed
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to correctly handle `:translate_upcase`,
+  `:translate_downcase`, `:translate_capitalize`, and `:translate_titlecase` conversions for Arrays of `String`.
+  
 ## [3.2.21] - 04-FEB-2021
 
 ### Changed
