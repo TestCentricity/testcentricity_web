@@ -76,22 +76,22 @@ module TestCentricity
             expected    = expected.downcase
             enqueue_exception("#{error_msg} be like '#{value}' but found '#{actual}'") unless actual_like.include?(expected)
           when :translate
-            expected = I18n.t(value)
+            expected = translate(value)
             enqueue_assert_equal(expected, actual, error_msg)
           when :translate_upcase
-            expected = I18n.t(value)
+            expected = translate(value)
             expected = expected.is_a?(Array) ? expected.map(&:upcase) : expected.upcase
             enqueue_assert_equal(expected, actual, error_msg)
           when :translate_downcase
-            expected = I18n.t(value)
+            expected = translate(value)
             expected = expected.is_a?(Array) ? expected.map(&:downcase) : expected.downcase
             enqueue_assert_equal(expected, actual, error_msg)
           when :translate_capitalize
-            expected = I18n.t(value)
+            expected = translate(value)
             expected = expected.is_a?(Array) ? expected.map(&:capitalize) : expected.capitalize
             enqueue_assert_equal(expected, actual, error_msg)
           when :translate_titlecase
-            expected = I18n.t(value)
+            expected = translate(value)
             expected = if expected.is_a?(Array)
                          result = []
                          expected.each do |item|
@@ -136,6 +136,29 @@ module TestCentricity
       puts "Screenshot saved at #{path}.png"
       screen_shot = {path: path, filename: filename}
       Environ.save_screen_shot(screen_shot)
+    end
+
+    def self.translate(*args, **opts)
+      opts[:locale] ||= I18n.locale
+      opts[:raise] = true
+      I18n.translate(*args, **opts)
+    rescue I18n::MissingTranslationData => err
+      puts err
+      opts[:locale] = :en
+
+      # fallback to en if the translation is missing. If the translation isn't
+      # in en, then raise again.
+      disable_enforce_available_locales do
+        I18n.translate(*args, **opts)
+      end
+    end
+
+    def self.disable_enforce_available_locales
+      saved_enforce_available_locales = I18n.enforce_available_locales
+      I18n.enforce_available_locales = false
+      yield
+    ensure
+      I18n.enforce_available_locales = saved_enforce_available_locales
     end
   end
 

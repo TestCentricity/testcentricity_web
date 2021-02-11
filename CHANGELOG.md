@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [3.2.23] - 11-FEB-2021
+
+### Changed
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to allow `:translate_upcase`,
+  `:translate_downcase`, `:translate_capitalize`, and `:translate_titlecase` conversions to fall back to `:en` default
+  locale if translated strings are missing from the current locale specified in `I18n.locale`.
+
 ## [3.2.22] - 09-FEB-2021
 
 ### Fixed
