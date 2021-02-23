@@ -58,8 +58,12 @@ module TestCentricity
     attr_accessor :user_id
     attr_accessor :password
     attr_accessor :append
+    attr_accessor :app_id
+    attr_accessor :api_key
     attr_accessor :option1
     attr_accessor :option2
+    attr_accessor :option3
+    attr_accessor :option4
     attr_accessor :dns
     attr_accessor :db_username
     attr_accessor :db_password
@@ -71,8 +75,12 @@ module TestCentricity
       @user_id	     = data['USER_ID']
       @password	     = data['PASSWORD']
       @append	       = data['APPEND']
+      @app_id 	     = data['APP_ID']
+      @api_key	     = data['API_KEY']
       @option1	     = data['OPTIONAL_1']
       @option2	     = data['OPTIONAL_2']
+      @option3	     = data['OPTIONAL_3']
+      @option4	     = data['OPTIONAL_4']
       @dns	         = data['DNS']
       @db_username   = data['DB_USERNAME']
       @db_password   = data['DB_PASSWORD']
