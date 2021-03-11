@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 
 
+## [3.2.25] - 11-MAR-2021
+
+### Added
+* Added `String.titlecase` method.
+
 ## [3.2.23] - 11-FEB-2021
 
 ### Changed

@@ -127,18 +127,19 @@ module TestCentricity
     def self.initialize_appium
       Environ.platform    = :mobile
       Environ.device_name = ENV['APP_DEVICE']
-      Environ.device_os   = ENV['APP_PLATFORM_NAME']
+      Environ.device_os   = ENV['APP_PLATFORM_NAME'].downcase.to_sym
       Environ.device_type = ENV['DEVICE_TYPE'] if ENV['DEVICE_TYPE']
+      Environ.device_os_version = ENV['APP_VERSION']
       Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
       Capybara.default_driver = :appium
       endpoint = 'http://localhost:4723/wd/hub'
       desired_capabilities = {
-          platformName:    ENV['APP_PLATFORM_NAME'],
-          platformVersion: ENV['APP_VERSION'],
+          platformName:    Environ.device_os,
+          platformVersion: Environ.device_os_version,
           browserName:     ENV['APP_BROWSER'],
-          deviceName:      ENV['APP_DEVICE']
+          deviceName:      Environ.device_name
       }
-      desired_capabilities[:avd] = ENV['APP_DEVICE'] if ENV['APP_PLATFORM_NAME'].downcase.to_sym == :android
+      desired_capabilities[:avd] = ENV['APP_DEVICE'] if Environ.device_os == :android
       desired_capabilities[:automationName] = ENV['AUTOMATION_ENGINE'] if ENV['AUTOMATION_ENGINE']
       if ENV['UDID']
         Environ.device = :device
@@ -148,30 +149,45 @@ module TestCentricity
         desired_capabilities[:xcodeSigningId] = ENV['TEAM_NAME'] if ENV['TEAM_NAME']
       else
         Environ.device = :simulator
-        desired_capabilities[:orientation] = ENV['ORIENTATION'].upcase if ENV['ORIENTATION']
+        desired_capabilities[:orientation] = Environ.device_orientation.upcase if Environ.device_orientation
         if Environ.device_os == :ios
-          desired_capabilities[:language] = ENV['LANGUAGE'] if ENV['LANGUAGE']
-          desired_capabilities[:locale]   = ENV['LOCALE'].gsub('-', '_') if ENV['LOCALE']
+          desired_capabilities[:language] = Environ.language if Environ.language
+          desired_capabilities[:locale]   = Environ.locale.gsub('-', '_') if Environ.locale
         end
       end
       desired_capabilities[:safariIgnoreFraudWarning] = ENV['APP_IGNORE_FRAUD_WARNING'] if ENV['APP_IGNORE_FRAUD_WARNING']
       desired_capabilities[:safariInitialUrl]       = ENV['APP_INITIAL_URL'] if ENV['APP_INITIAL_URL']
       desired_capabilities[:safariAllowPopups]      = ENV['APP_ALLOW_POPUPS'] if ENV['APP_ALLOW_POPUPS']
+
+      desired_capabilities[:autoAcceptAlerts]       = ENV['AUTO_ACCEPT_ALERTS'] if ENV['AUTO_ACCEPT_ALERTS']
+      desired_capabilities[:autoDismissAlerts]      = ENV['AUTO_DISMISS_ALERTS'] if ENV['AUTO_DISMISS_ALERTS']
+      desired_capabilities[:isHeadless]             = ENV['HEADLESS'] if ENV['HEADLESS']
+
       desired_capabilities[:newCommandTimeout]      = ENV['NEW_COMMAND_TIMEOUT'] if ENV['NEW_COMMAND_TIMEOUT']
       desired_capabilities[:noReset]                = ENV['APP_NO_RESET'] if ENV['APP_NO_RESET']
       desired_capabilities[:fullReset]              = ENV['APP_FULL_RESET'] if ENV['APP_FULL_RESET']
       desired_capabilities[:webkitDebugProxyPort]   = ENV['WEBKIT_DEBUG_PROXY_PORT'] if ENV['WEBKIT_DEBUG_PROXY_PORT']
       desired_capabilities[:webDriverAgentUrl]      = ENV['WEBDRIVER_AGENT_URL'] if ENV['WEBDRIVER_AGENT_URL']
-      desired_capabilities[:wdaLocalPort]           = ENV['WDA_LOCAL_PORT'] if ENV['WDA_LOCAL_PORT']
       desired_capabilities[:usePrebuiltWDA]         = ENV['USE_PREBUILT_WDA'] if ENV['USE_PREBUILT_WDA']
       desired_capabilities[:useNewWDA]              = ENV['USE_NEW_WDA'] if ENV['USE_NEW_WDA']
       desired_capabilities[:chromedriverExecutable] = ENV['CHROMEDRIVER_EXECUTABLE'] if ENV['CHROMEDRIVER_EXECUTABLE']
+      # set wdaLocalPort (iOS) or systemPort (Android) if PARALLEL_PORT is true
+      if ENV['PARALLEL'] && ENV['PARALLEL_PORT']
+        if Environ.device_os == :ios
+          desired_capabilities[:wdaLocalPort] = 8100 + ENV['TEST_ENV_NUMBER'].to_i
+        else
+          desired_capabilities[:systemPort] = 8200 + ENV['TEST_ENV_NUMBER'].to_i
+        end
+      else
+        desired_capabilities[:wdaLocalPort] = ENV['WDA_LOCAL_PORT'] if ENV['WDA_LOCAL_PORT']
+        desired_capabilities[:systemPort]   = ENV['SYSTEM_PORT'] if ENV['SYSTEM_PORT']
+      end
 
       Capybara.register_driver :appium do |app|
         appium_lib_options = { server_url: endpoint }
         all_options = {
-            appium_lib:  appium_lib_options,
-            caps:        desired_capabilities
+          appium_lib: appium_lib_options,
+          caps:       desired_capabilities
         }
         Appium::Capybara::Driver.new app, all_options
       end

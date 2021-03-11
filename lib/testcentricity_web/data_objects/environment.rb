@@ -36,11 +36,14 @@ module TestCentricity
     attr_accessor :device_name
     attr_accessor :device_type
     attr_accessor :device_os
+    attr_accessor :device_os_version
     attr_accessor :device_orientation
     attr_accessor :platform
     attr_accessor :driver
     attr_accessor :grid
     attr_accessor :tunneling
+    attr_accessor :locale
+    attr_accessor :language
 
     attr_accessor :parallel
     attr_accessor :process_num
@@ -85,6 +88,8 @@ module TestCentricity
       @db_username   = data['DB_USERNAME']
       @db_password   = data['DB_PASSWORD']
       @a11y_standard = ENV['ACCESSIBILITY_STANDARD'] || 'best-practice'
+      @locale        = ENV['LOCALE'] || 'en'
+      @language      = ENV['LANGUAGE'] || 'English'
 
       super
     end
@@ -213,6 +218,14 @@ module TestCentricity
       @device_os
     end
 
+    def self.device_os_version=(version)
+      @device_os_version = version
+    end
+
+    def self.device_os_version
+      @device_os_version
+    end
+
     def self.is_ios?
       @device_os == :ios
     end
@@ -251,6 +264,22 @@ module TestCentricity
 
     def self.tunneling
       @tunneling
+    end
+
+    def self.language=(language)
+      @language = language
+    end
+
+    def self.language
+      @language
+    end
+
+    def self.locale=(locale)
+      @locale = locale
+    end
+
+    def self.locale
+      @locale
     end
 
     def self.platform=(platform)
@@ -313,13 +342,13 @@ module TestCentricity
       report_header = "\n<b><u>TEST ENVIRONMENT</u>:</b> #{ENV['TEST_ENVIRONMENT']}\n"\
       "  <b>Browser:</b>\t #{Environ.browser.capitalize}\n"
       report_header = "#{report_header}  <b>Device:</b>\t\t #{Environ.device_name}\n" if Environ.device_name
-      report_header = "#{report_header}  <b>Device OS:</b>\t #{Environ.device_os}\n" if Environ.device_os
+      report_header = "#{report_header}  <b>Device OS:</b>\t #{Environ.device_os} #{Environ.device_os_version}\n" if Environ.device_os
       report_header = "#{report_header}  <b>Device type:</b>\t #{Environ.device_type}\n" if Environ.device_type
       report_header = "#{report_header}  <b>Driver:</b>\t\t #{Environ.driver}\n" if Environ.driver
       report_header = "#{report_header}  <b>Grid:</b>\t\t #{Environ.grid}\n" if Environ.grid
       report_header = "#{report_header}  <b>OS:</b>\t\t\t #{Environ.os}\n" if Environ.os
-      report_header = "#{report_header}  <b>Locale:</b>\t\t #{ENV['LOCALE']}\n" if ENV['LOCALE']
-      report_header = "#{report_header}  <b>Language:</b>\t #{ENV['LANGUAGE']}\n" if ENV['LANGUAGE']
+      report_header = "#{report_header}  <b>Locale:</b>\t\t #{Environ.locale}\n" if Environ.locale
+      report_header = "#{report_header}  <b>Language:</b>\t #{Environ.language}\n" if Environ.language
       report_header = "#{report_header}  <b>Country:</b>\t #{ENV['COUNTRY']}\n" if ENV['COUNTRY']
       report_header = "#{report_header}  <b>WCAG Accessibility Standard:</b>\t #{ENV['ACCESSIBILITY_STANDARD']}\n" if ENV['ACCESSIBILITY_STANDARD']
       "#{report_header}\n\n"

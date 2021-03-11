@@ -34,6 +34,10 @@ class String
     end
   end
 
+  def titlecase
+    "#{self.split.each{ |text| text.capitalize! }.join(' ')}"
+  end
+
   def is_int?
     Integer(self) && true rescue false
   end
