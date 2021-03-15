@@ -240,21 +240,22 @@ module TestCentricity
           options.args << '--headless' if browser == :firefox_headless
           Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
         when :chrome, :chrome_headless
-          if browser == :chrome
-            options = Selenium::WebDriver::Chrome::Options.new
-            prefs = {
-              prompt_for_download: false,
-              directory_upgrade:   true,
-              default_directory:   @downloads_path
-            }
-            options.add_preference(:download, prefs)
-          else
-            options = Selenium::WebDriver::Chrome::Options.new(args: %w[headless disable-gpu no-sandbox])
-          end
+          options = Selenium::WebDriver::Chrome::Options.new
+          prefs = {
+            prompt_for_download: false,
+            directory_upgrade:   true,
+            default_directory:   @downloads_path
+          }
+          options.add_preference(:download, prefs)
           options.add_argument('--disable-infobars')
           options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
-          Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
-        else
+          if browser == :chrome_headless
+            options.add_argument('--headless')
+            options.add_argument('--disable-gpu')
+            options.add_argument('--no-sandbox')
+          end
+
+          Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)        else
           if ENV['HOST_BROWSER'] && ENV['HOST_BROWSER'].downcase.to_sym == :chrome
             user_agent = Browsers.mobile_device_agent(ENV['WEB_BROWSER'])
             options = Selenium::WebDriver::Chrome::Options.new

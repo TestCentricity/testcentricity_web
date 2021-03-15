@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 
 
+## [3.3.0] - 14-MAR-2021
+
+### Fixed
+* `WebDriverConnect.initialize_web_driver` method now correctly sets local Chrome browser Download directory when running
+with headless Chrome.
+
 ## [3.2.25] - 11-MAR-2021
 
 ### Added
