@@ -258,58 +258,6 @@ module TestCentricity
 
     alias selected? get_selected_option
 
-    # Select the specified option in a Siebel OUI select box object.
-    #
-    # @param option [String] text of option to select
-    # @example
-    #   country_select.choose_siebel_option('Cayman Islands')
-    #
-    def choose_siebel_option(option)
-      Capybara.wait_on_first_by_default = true
-      invoke_siebel_popup
-      first(:xpath, "//li[@class='ui-menu-item']", exact: true, match: :prefer_exact, text: option).click
-    end
-
-    # Return array of strings of all options in a Siebel OUI select box object.
-    #
-    # @return [Array]
-    # @example
-    #   all_countries = country_select.get_siebel_options
-    #
-    def get_siebel_options
-      invoke_siebel_popup
-      sleep(0.5)
-      options = page.all(:xpath, "//li[@class='ui-menu-item']").collect(&:text)
-      @base_object, = find_element
-      @base_object.native.send_keys(:escape)
-      options
-    end
-
-    def verify_siebel_options(expected, enqueue = false)
-      invoke_siebel_popup
-      sleep(0.5)
-      actual = page.all(:xpath, "//li[@class='ui-menu-item']").collect(&:text)
-      if enqueue
-        ExceptionQueue.enqueue_assert_equal(expected, actual, "Expected list of options in list #{object_ref_message}")
-      else
-        assert_equal(expected, actual, "Expected list of options in list #{object_ref_message} to be #{expected} but found #{actual}")
-      end
-      @base_object, = find_element
-      @base_object.native.send_keys(:escape)
-    end
-
-    # Is Siebel JComboBox set to read-only?
-    #
-    # @return [Boolean]
-    # @example
-    #   country_select.read_only?
-    #
-    def read_only?
-      @base_object, = find_element
-      object_not_found_exception(@base_object, nil)
-      !@base_object.native.attribute('readonly')
-    end
-
     private
 
     def select_item(obj, option)

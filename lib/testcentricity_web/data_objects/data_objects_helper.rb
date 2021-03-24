@@ -5,8 +5,8 @@ require 'virtus'
 
 module TestCentricity
 
-  XL_PRIMARY_DATA_PATH ||= 'features/test_data/'
-  XL_PRIMARY_DATA_FILE ||= "#{XL_PRIMARY_DATA_PATH}data.xls"
+  PRIMARY_DATA_PATH ||= 'features/test_data/'
+  XL_PRIMARY_DATA_FILE ||= "#{PRIMARY_DATA_PATH}data.xls"
 
 
   class DataObject
@@ -81,7 +81,7 @@ module TestCentricity
     attr_accessor :node
 
     def read_yaml_node_data(file_name, node_name)
-      @file_path = "#{XL_PRIMARY_DATA_PATH}#{file_name}"
+      @file_path = "#{PRIMARY_DATA_PATH}#{file_name}"
       @node = node_name
       data = YAML.load_file(@file_path)
       data[node_name]
@@ -94,7 +94,7 @@ module TestCentricity
     end
 
     def read_json_node_data(file_name, node_name)
-      @file_path = "#{XL_PRIMARY_DATA_PATH}#{file_name}"
+      @file_path = "#{PRIMARY_DATA_PATH}#{file_name}"
       @node = node_name
       raw_data = File.read(@file_path)
       data = JSON.parse(raw_data)
@@ -117,7 +117,7 @@ module TestCentricity
       @worksheet = sheet
       if ENV['TEST_ENVIRONMENT']
         environment = ENV['TEST_ENVIRONMENT']
-        data_file = "#{XL_PRIMARY_DATA_PATH}#{environment}_data.xls"
+        data_file = "#{PRIMARY_DATA_PATH}#{environment}_data.xls"
         data_file = XL_PRIMARY_DATA_FILE unless ExcelData.row_spec_exists?(data_file, @worksheet, row_spec)
       else
         data_file = XL_PRIMARY_DATA_FILE

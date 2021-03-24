@@ -23,7 +23,6 @@ The TestCentricity™ Web gem supports running automated tests against the follo
   * [Gridlastic](https://www.gridlastic.com/test-environments.html)
   * [LambdaTest](https://www.lambdatest.com/selenium-automation)
 * web portals utilizing JavaScript front end application frameworks like Ember, React, Angular, and GWT
-* enterprise web portals built using Siebel Open UI
 * web pages containing HTML5 Video and Audio objects
 
 
@@ -483,6 +482,7 @@ With TestCentricity, all UI elements are based on the **UIElement** class, and i
     element.click_at(x, y)
     element.hover
     element.hover_at(x, y)
+    element.scroll_to(position)
     element.drag_by(right_offset, down_offset)
     element.drag_and_drop(target, right_offset, down_offset)
 
@@ -638,11 +638,11 @@ navigated to by clicking associated links. One such Cucumber navigation scenario
 
     Scenario Outline:  Verify Home page navigation links
       Given I am on the Home page
-      When I click the <page_name> navigation link
-      Then I expect the <page_name> page to be correctly displayed
+      When I click the <page name> navigation link
+      Then I expect the <page name> page to be correctly displayed
     
       Examples:
-        |page_name          |
+        |page name          |
         |Registration       |
         |My Account         |
         |Terms & Conditions |
@@ -653,17 +653,17 @@ navigated to by clicking associated links. One such Cucumber navigation scenario
 In the above example, the step definitions associated with the 3 steps might be implemented using a `page_dispatcher` method using a
 `case` statement to parse the `page` parameter as in the example below:
 
-    Given(/^I am on the ([^\"]*) page$/) do |page_name|
+    Given(/^I am on the (.*) page$/) do |page_name|
       target_page = page_dispatcher(page_name)
       target_page.load_page
     end
     
-    When(/^I click the ([^\"]*) navigation link$/) do |link_name|
+    When(/^I click the (.*) navigation link$/) do |link_name|
       target_page = page_dispatcher(link_name)
       target_page.navigate_to
     end
     
-    Then(/^I expect the ([^\"]*) page to be correctly displayed$/) do |page_name|
+    Then(/^I expect the (.*) page to be correctly displayed$/) do |page_name|
       target_page = page_dispatcher(page_name)
       target_page.verify_page_exists
       target_page.verify_page_ui
@@ -701,22 +701,22 @@ To use these **PageManager** methods, include the step definitions and code belo
 
     include TestCentricity
     
-    Given(/^I am on the ([^\"]*) page$/) do |page_name|
+    Given(/^I am on the (.*) page$/) do |page_name|
       target_page = PageManager.find_page(page_name)
       target_page.load_page
     end
     
-    When(/^I click the ([^\"]*) navigation link$/) do |page_name|
+    When(/^I click the (.*) navigation link$/) do |page_name|
       target_page = PageManager.find_page(page_name)
       target_page.navigate_to
     end
     
-    Then(/^I expect to see the ([^\"]*) page$/) do |page_name|
+    Then(/^I expect to see the (.*) page$/) do |page_name|
       target_page = PageManager.find_page(page_name)
       target_page.verify_page_exists
     end
     
-    Then(/^I expect the ([^\"]*) page to be correctly displayed$/) do |page_name|
+    Then(/^I expect the (.*) page to be correctly displayed$/) do |page_name|
       target_page = PageManager.find_page(page_name)
       target_page.verify_page_exists
       target_page.verify_page_ui

@@ -137,8 +137,6 @@ module TestCentricity
                      ui_object.count(visible = true)
                    when :count_all
                      ui_object.count(visible = :all)
-                   when :siebel_options
-                     ui_object.get_siebel_options
                    when :style
                      ui_object.style
                    when :href
@@ -282,11 +280,7 @@ module TestCentricity
               check_state = data_param.is_a?(String) ? data_param.to_bool : data_param
               data_field.set_checkbox_state(check_state)
             when :selectlist
-              if data_field.get_siebel_object_type == 'JComboBox'
-                data_field.set("#{data_param}\t")
-              else
-                data_field.choose_option(data_param)
-              end
+              data_field.choose_option(data_param)
             when :radio
               check_state = data_param.is_a?(String) ? data_param.to_bool : data_param
               data_field.set_selected_state(check_state)

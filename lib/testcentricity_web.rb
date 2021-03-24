@@ -35,16 +35,6 @@ require 'testcentricity_web/web_elements/range'
 require 'testcentricity_web/web_elements/media'
 require 'testcentricity_web/web_elements/audio'
 require 'testcentricity_web/web_elements/video'
-require 'testcentricity_web/web_elements/cell_element'
-require 'testcentricity_web/web_elements/cell_button'
-require 'testcentricity_web/web_elements/cell_checkbox'
-require 'testcentricity_web/web_elements/cell_radio'
-require 'testcentricity_web/web_elements/cell_image'
-require 'testcentricity_web/web_elements/list_element'
-require 'testcentricity_web/web_elements/list_button'
-require 'testcentricity_web/web_elements/list_checkbox'
-require 'testcentricity_web/web_elements/list_radio'
-require 'testcentricity_web/web_elements/siebel_open_ui_helper'
 
 
 module TestCentricity

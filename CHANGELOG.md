@@ -1,6 +1,27 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [4.0.0] - 25-MAR-2021
+
+### Removed
+* Removed support for the following legacy UI elements:
+  * `CellElement`
+  * `CellButton`
+  * `CellCheckBox`
+  * `CellRadio`
+  * `CellImage`
+  * `ListElement`
+  * `ListButton`
+  * `ListCheckBox`
+* Removed support for Siebel Open UI objects. This includes removal of the following legacy methods:
+  * `CheckBox.set_siebel_checkbox_state`
+  * `SelectList.choose_siebel_option`
+  * `SelectList.get_siebel_options`
+  * `SelectList.verify_siebel_options`
+  * `SelectList.read_only?`
+  * `UIElement.invoke_siebel_dialog`
+  * `UIElement.invoke_siebel_popup`
+  * `UIElement.get_siebel_object_type`
 
 ## [3.3.0] - 14-MAR-2021
 

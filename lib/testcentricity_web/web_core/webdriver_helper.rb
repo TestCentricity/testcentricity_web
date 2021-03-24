@@ -12,8 +12,17 @@ module TestCentricity
     attr_accessor :bs_local
     attr_accessor :downloads_path
 
-    def self.initialize_web_driver(app_host = nil)
-      Capybara.app_host = app_host unless app_host.nil?
+    def self.initialize_web_driver(options = nil)
+      desired_caps = nil
+      merge_caps = nil
+      if options.is_a?(String)
+        Capybara.app_host = options
+      elsif options.is_a?(Hash)
+        Capybara.app_host = options[:app_host] if options.key?(:app_host)
+        desired_caps = options[:desired_capabilities] if options.key?(:desired_capabilities)
+        merge_caps = options[:merge_capabilities] if options.key?(:merge_capabilities)
+      end
+
       browser = ENV['WEB_BROWSER']
       # set downloads folder path
       @downloads_path = "#{Dir.pwd}/downloads"
@@ -37,29 +46,29 @@ module TestCentricity
 
       context = case browser.downcase.to_sym
                 when :appium
-                  initialize_appium
+                  initialize_appium(desired_caps, merge_caps)
                   'mobile device emulator'
                 when :browserstack
-                  initialize_browserstack
+                  initialize_browserstack(desired_caps, merge_caps)
                   'Browserstack cloud service'
                 when :crossbrowser
-                  initialize_crossbrowser
+                  initialize_crossbrowser(desired_caps, merge_caps)
                   'CrossBrowserTesting cloud service'
                 when :gridlastic
-                  initialize_gridlastic
+                  initialize_gridlastic(desired_caps, merge_caps)
                   'Gridlastic cloud service'
                 when :lambdatest
-                  initialize_lambdatest
+                  initialize_lambdatest(desired_caps, merge_caps)
                   'LambdaTest cloud service'
                 when :saucelabs
-                  initialize_saucelabs
+                  initialize_saucelabs(desired_caps, merge_caps)
                   'Sauce Labs cloud service'
                 when :testingbot
-                  initialize_testingbot
+                  initialize_testingbot(desired_caps, merge_caps)
                   'TestingBot cloud service'
                 else
                   if ENV['SELENIUM'] == 'remote'
-                    initialize_remote
+                    initialize_remote(desired_caps, merge_caps)
                     'Selenium Grid'
                   else
                     initialize_local_browser
@@ -124,7 +133,7 @@ module TestCentricity
 
     private
 
-    def self.initialize_appium
+    def self.initialize_appium(desired_caps = nil, merge_caps = false)
       Environ.platform    = :mobile
       Environ.device_name = ENV['APP_DEVICE']
       Environ.device_os   = ENV['APP_PLATFORM_NAME'].downcase.to_sym
@@ -183,6 +192,10 @@ module TestCentricity
         desired_capabilities[:systemPort]   = ENV['SYSTEM_PORT'] if ENV['SYSTEM_PORT']
       end
 
+      unless desired_caps.nil?
+        desired_capabilities = merge_caps ? desired_capabilities.merge(desired_caps) : desired_caps
+      end
+
       Capybara.register_driver :appium do |app|
         appium_lib_options = { server_url: endpoint }
         all_options = {
@@ -198,6 +211,8 @@ module TestCentricity
                      'OS X'
                    elsif OS.windows?
                      'Windows'
+                   elsif OS.linux?
+                     'Linux'
                    end
 
       browser = ENV['WEB_BROWSER'].downcase.to_sym
@@ -216,8 +231,8 @@ module TestCentricity
       Capybara.register_driver :selenium do |app|
         case browser
         when :safari
-          desired_caps = Selenium::WebDriver::Remote::Capabilities.safari(cleanSession: true)
-          Capybara::Selenium::Driver.new(app, browser: browser, desired_capabilities: desired_caps)
+          caps = Selenium::WebDriver::Remote::Capabilities.safari(cleanSession: true)
+          Capybara::Selenium::Driver.new(app, browser: browser, desired_capabilities: caps)
         when :ie, :edge
           Capybara::Selenium::Driver.new(app, browser: browser)
         when :firefox, :firefox_headless
@@ -255,7 +270,8 @@ module TestCentricity
             options.add_argument('--no-sandbox')
           end
 
-          Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)        else
+          Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+        else
           if ENV['HOST_BROWSER'] && ENV['HOST_BROWSER'].downcase.to_sym == :chrome
             user_agent = Browsers.mobile_device_agent(ENV['WEB_BROWSER'])
             options = Selenium::WebDriver::Chrome::Options.new
@@ -271,7 +287,7 @@ module TestCentricity
       Capybara.default_driver = :selenium
     end
 
-    def self.initialize_browserstack
+    def self.initialize_browserstack(desired_caps = nil, merge_caps = false)
       browser = ENV['BS_BROWSER']
       Environ.grid = :browserstack
 
@@ -283,19 +299,22 @@ module TestCentricity
       elsif ENV['BS_OS']
         Environ.os = "#{ENV['BS_OS']} #{ENV['BS_OS_VERSION']}"
       end
+      Environ.device = if ENV['BS_REAL_MOBILE']
+                         :device
+                       elsif ENV['BS_PLATFORM']
+                         :simulator
+                       end
 
       endpoint = "http://#{ENV['BS_USERNAME']}:#{ENV['BS_AUTHKEY']}@hub-cloud.browserstack.com/wd/hub"
       Capybara.register_driver :browserstack do |app|
         capabilities = Selenium::WebDriver::Remote::Capabilities.new
 
         if ENV['BS_REAL_MOBILE']
-          Environ.device = :device
           capabilities['device'] = ENV['BS_DEVICE']
           capabilities['realMobile'] = true
           capabilities['os_version'] = ENV['BS_OS_VERSION']
 
         elsif ENV['BS_PLATFORM']
-          Environ.device = :simulator
           capabilities[:platform] = ENV['BS_PLATFORM']
           capabilities[:browserName] = browser
           capabilities['device'] = ENV['BS_DEVICE'] if ENV['BS_DEVICE']
@@ -357,6 +376,10 @@ module TestCentricity
           capabilities['cleanSession'] = 'true'
         end
 
+        unless desired_caps.nil?
+          capabilities = merge_caps ? capabilities.merge(desired_caps) : desired_caps
+        end
+
         if ENV['TUNNELING']
           @bs_local = BrowserStack::Local.new
           bs_local_args = {'key' => "#{ENV['BS_AUTHKEY']}"}
@@ -385,7 +408,7 @@ module TestCentricity
       end
     end
 
-    def self.initialize_crossbrowser
+    def self.initialize_crossbrowser(desired_caps = nil, merge_caps = false)
       browser = ENV['CB_BROWSER']
       Environ.grid = :crossbrowser
 
@@ -412,6 +435,11 @@ module TestCentricity
         elsif ENV['CB_PLATFORM']
           capabilities['os_api_name'] = ENV['CB_PLATFORM']
         end
+
+        unless desired_caps.nil?
+          capabilities = merge_caps ? capabilities.merge(desired_caps) : desired_caps
+        end
+
         Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, desired_capabilities: capabilities)
       end
 
@@ -427,18 +455,21 @@ module TestCentricity
       end
     end
 
-    def self.initialize_gridlastic
+    def self.initialize_gridlastic(desired_caps = nil, merge_caps = false)
       browser = ENV['GL_BROWSER']
       Environ.grid = :gridlastic
       Environ.os = ENV['GL_OS']
       endpoint = "http://#{ENV['GL_USERNAME']}:#{ENV['GL_AUTHKEY']}@#{ENV['GL_SUBDOMAIN']}.gridlastic.com:80/wd/hub"
-
       capabilities = Selenium::WebDriver::Remote::Capabilities.new
       capabilities['browserName']  = browser
       capabilities['version']      = ENV['GL_VERSION'] if ENV['GL_VERSION']
       capabilities['platform']     = ENV['GL_OS']
       capabilities['platformName'] = ENV['GL_PLATFORM']
       capabilities['video']        = ENV['RECORD_VIDEO'].capitalize if ENV['RECORD_VIDEO']
+
+      unless desired_caps.nil?
+        capabilities = merge_caps ? capabilities.merge(desired_caps) : desired_caps
+      end
 
       Capybara.register_driver :selenium do |app|
         client = Selenium::WebDriver::Remote::Http::Default.new
@@ -463,7 +494,7 @@ module TestCentricity
       end
     end
 
-    def self.initialize_lambdatest
+    def self.initialize_lambdatest(desired_caps = nil, merge_caps = false)
       browser = ENV['LT_BROWSER']
       Environ.grid = :lambdatest
       Environ.os = ENV['LT_OS']
@@ -502,6 +533,10 @@ module TestCentricity
         end
         capabilities['build'] = context_message
 
+        unless desired_caps.nil?
+          capabilities = merge_caps ? capabilities.merge(desired_caps) : desired_caps
+        end
+
         Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, desired_capabilities: capabilities)
       end
 
@@ -517,7 +552,7 @@ module TestCentricity
       end
     end
 
-    def self.initialize_remote
+    def self.initialize_remote(desired_caps = nil, merge_caps = false)
       Environ.grid = :selenium_grid
       browser  = ENV['WEB_BROWSER'].downcase.to_sym
       endpoint = ENV['REMOTE_ENDPOINT'] || 'http://127.0.0.1:4444/wd/hub'
@@ -540,6 +575,11 @@ module TestCentricity
             raise "Requested browser '#{browser}' is not supported on Selenium Grid"
           end
         end
+
+        unless desired_caps.nil?
+          capabilities = merge_caps ? capabilities.merge(desired_caps) : desired_caps
+        end
+
         Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, desired_capabilities: capabilities)
       end
       Capybara.current_driver = :remote_browser
@@ -552,7 +592,7 @@ module TestCentricity
       end
     end
 
-    def self.initialize_saucelabs
+    def self.initialize_saucelabs(desired_caps = nil, merge_caps = false)
       browser = ENV['SL_BROWSER']
       Environ.grid = :saucelabs
 
@@ -582,6 +622,10 @@ module TestCentricity
           capabilities['deviceOrientation'] = ENV['ORIENTATION'] if ENV['ORIENTATION']
         end
 
+        unless desired_caps.nil?
+          capabilities = merge_caps ? capabilities.merge(desired_caps) : desired_caps
+        end
+
         Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, desired_capabilities: capabilities)
       end
 
@@ -597,7 +641,7 @@ module TestCentricity
       end
     end
 
-    def self.initialize_testingbot
+    def self.initialize_testingbot(desired_caps = nil, merge_caps = false)
       browser = ENV['TB_BROWSER']
       Environ.grid = :testingbot
 
@@ -628,6 +672,10 @@ module TestCentricity
           capabilities['orientation']  = ENV['ORIENTATION'] if ENV['ORIENTATION']
           capabilities['platformName'] = ENV['TB_PLATFORM']
           capabilities['deviceName']   = ENV['TB_DEVICE']
+        end
+
+        unless desired_caps.nil?
+          capabilities = merge_caps ? capabilities.merge(desired_caps) : desired_caps
         end
 
         Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, desired_capabilities: capabilities)

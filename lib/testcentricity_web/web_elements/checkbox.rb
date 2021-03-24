@@ -127,20 +127,6 @@ module TestCentricity
           assert_equal(state, actual, "Expected checkbox #{object_ref_message} to be #{state} but found #{actual} instead")
     end
 
-    # Set the check state of a Siebel OUI JCheckBox object.
-    #
-    # @param state [Boolean] true = checked / false = unchecked
-    # @example
-    #   remember_me_checkbox.set_siebel_checkbox_state(true)
-    #
-    def set_siebel_checkbox_state(state)
-      obj, = find_element
-      object_not_found_exception(obj, 'Siebel checkbox')
-      raise "UI #{object_ref_message} is not a Siebel CheckBox object" unless get_siebel_object_type == 'JCheckBox'
-      expected = state.to_bool
-      obj.click unless expected == obj.checked?
-    end
-
     # Highlight a checkbox with a 3 pixel wide, red dashed border for the specified wait time.
     # If wait time is zero, then the highlight will remain until the page is refreshed
     #

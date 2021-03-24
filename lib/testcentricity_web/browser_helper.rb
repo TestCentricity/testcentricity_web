@@ -171,7 +171,12 @@ module TestCentricity
     private
 
     def self.get_devices
-      YAML.load_file File.expand_path('../../devices/devices.yml', __FILE__)
+      external_device_file = 'config/data/devices/devices.yml'
+      if File.size?(external_device_file).nil?
+        YAML.load_file File.expand_path('../../devices/devices.yml', __FILE__)
+      else
+        YAML.load_file(external_device_file)
+      end
     end
   end
 end

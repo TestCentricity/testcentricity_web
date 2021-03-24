@@ -1032,15 +1032,6 @@ module TestCentricity
       end
     end
 
-    def invoke_siebel_popup
-      obj, = find_element
-      object_not_found_exception(obj, 'Siebel object')
-      trigger_name = obj.native.attribute('aria-describedby').strip
-      trigger = "span##{trigger_name}"
-      trigger = "#{@parent.get_locator} #{trigger}" if @context == :section && !@parent.get_locator.nil?
-      first(trigger).click
-    end
-
     def object_ref_message
       "object '#{get_name}' (#{get_locator})"
     end
