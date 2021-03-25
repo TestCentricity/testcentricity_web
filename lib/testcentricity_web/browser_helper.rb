@@ -126,17 +126,15 @@ module TestCentricity
       end
     end
 
-    def self.mobile_device_agent(device)
-      device_name = device.gsub(/\s+/, '').downcase.to_sym
-      device = get_devices[device_name]
+    def self.mobile_device_agent(browser)
+      device = get_device(browser)
       agent_string = device[:user_agent]
       raise "Device '#{device}' is not defined" unless agent_string
       agent_string
     end
 
-    def self.mobile_device_name(device)
-      device_name = device.gsub(/\s+/, '').downcase.to_sym
-      device = get_devices[device_name]
+    def self.mobile_device_name(browser)
+      device = get_device(browser)
       name = device[:name]
       raise "Device '#{device}' is not defined" unless name
       Environ.device_os = device[:os]
@@ -145,8 +143,7 @@ module TestCentricity
     end
 
     def self.browser_size(browser, orientation)
-      device_name = browser.gsub(/\s+/, '').downcase.to_sym
-      device = get_devices[device_name]
+      device = get_device(browser)
       if device
         width = device[:css_width]
         height = device[:css_height]
@@ -170,13 +167,15 @@ module TestCentricity
 
     private
 
-    def self.get_devices
+    def self.get_device(device)
+      devices = YAML.load_file File.expand_path('../../devices/devices.yml', __FILE__)
+      # read in user defined list of devices
       external_device_file = 'config/data/devices/devices.yml'
-      if File.size?(external_device_file).nil?
-        YAML.load_file File.expand_path('../../devices/devices.yml', __FILE__)
-      else
-        YAML.load_file(external_device_file)
+      unless File.size?(external_device_file).nil?
+        ext_devices = YAML.load_file(external_device_file)
+        devices = devices.merge(ext_devices)
       end
+      devices[device.gsub(/\s+/, '').downcase.to_sym]
     end
   end
 end
