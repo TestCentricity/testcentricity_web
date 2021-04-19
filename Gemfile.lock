@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    testcentricity_web (4.0.0.a1)
+    testcentricity_web (4.0.0)
       appium_lib
       browserstack-local
       capybara (>= 3.1, < 4)
@@ -61,9 +61,7 @@ GEM
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
     mini_mime (1.1.0)
-    mini_portile2 (2.5.0)
-    nokogiri (1.11.3)
-      mini_portile2 (~> 2.5.0)
+    nokogiri (1.11.3-x86_64-darwin)
       racc (~> 1.4)
     os (1.1.1)
     power_assert (2.0.0)
