@@ -170,7 +170,7 @@ module TestCentricity
     private
 
     def self.get_device(device)
-      if @devices.nil?
+      if @devices.blank?
         @devices = YAML.load_file File.expand_path('../../devices/devices.yml', __FILE__)
         # read in user defined list of devices
         external_device_file = 'config/data/devices/devices.yml'

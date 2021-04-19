@@ -909,7 +909,7 @@ as described in the table below.
 
 **Environment Variable** | **Description**
 ---------------   | ----------------
-`WEB_BROWSER`     | Must be set to one of the following desktop browsers - `chrome`, `chrome_headless`, `firefox`, `ie`, `edge`, or `safari` or any of the mobile web browsers described above.
+`WEB_BROWSER`     | Must be set to one of the following desktop browsers - `chrome`, `chrome_headless`, or `firefox`, or any of the mobile web browsers described above.
 `SELENIUM`        | Must be set to `remote`
 `REMOTE_ENDPOINT` | Must be set to the URL of the Grid hub, which is usually `http://localhost:4444/wd/hub`
 
