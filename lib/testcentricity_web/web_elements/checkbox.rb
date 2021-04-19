@@ -117,7 +117,7 @@ module TestCentricity
     #   remember_me_checkbox.uncheck
     #
     def uncheck
-      set_checkbox_state(false)
+      set_checkbox_state(state = false)
     end
 
     def verify_check_state(state, enqueue = false)

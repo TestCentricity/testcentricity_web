@@ -12,7 +12,7 @@ module TestCentricity
     end
 
     def file_upload(file_path)
-      obj, = find_element(false)
+      obj, = find_element(visible = false)
       obj.send_keys(file_path)
     end
 

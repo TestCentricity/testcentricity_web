@@ -6,7 +6,7 @@ require 'fileutils'
 
 
 module TestCentricity
-  module WebDriverConnect
+  class WebDriverConnect
     include Capybara::DSL
 
     attr_accessor :bs_local
@@ -68,7 +68,7 @@ module TestCentricity
                   'TestingBot cloud service'
                 else
                   if ENV['SELENIUM'] == 'remote'
-                    initialize_remote(desired_caps, merge_caps)
+                    initialize_remote
                     'Selenium Grid'
                   else
                     initialize_local_browser
@@ -263,6 +263,7 @@ module TestCentricity
           }
           options.add_preference(:download, prefs)
           options.add_argument('--disable-infobars')
+          options.add_argument('--disable-dev-shm-usage')
           options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
           if browser == :chrome_headless
             options.add_argument('--headless')
@@ -276,6 +277,7 @@ module TestCentricity
             user_agent = Browsers.mobile_device_agent(ENV['WEB_BROWSER'])
             options = Selenium::WebDriver::Chrome::Options.new
             options.add_argument('--disable-infobars')
+            options.add_argument('--disable-dev-shm-usage')
             options.add_argument("--user-agent='#{user_agent}'")
             options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
             Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
@@ -552,7 +554,7 @@ module TestCentricity
       end
     end
 
-    def self.initialize_remote(desired_caps = nil, merge_caps = false)
+    def self.initialize_remote
       Environ.grid = :selenium_grid
       browser  = ENV['WEB_BROWSER'].downcase.to_sym
       endpoint = ENV['REMOTE_ENDPOINT'] || 'http://127.0.0.1:4444/wd/hub'
@@ -561,13 +563,23 @@ module TestCentricity
         when :firefox, :safari, :ie, :edge
           capabilities = Selenium::WebDriver::Remote::Capabilities.send(browser)
         when :chrome, :chrome_headless
-          options = browser == :chrome ? %w[--disable-infobars] : %w[headless disable-gpu no-sandbox --disable-infobars]
+          options = %w[--disable-infobars]
+          options.push('--disable-dev-shm-usage')
           options.push("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
+          if browser == :chrome_headless
+            Environ.headless = true
+            options.push('--headless')
+            options.push('--disable-gpu')
+            options.push('--no-sandbox')
+          end
           capabilities = Selenium::WebDriver::Remote::Capabilities.chrome('goog:chromeOptions' => { args: options })
         else
           if ENV['HOST_BROWSER'] && ENV['HOST_BROWSER'].downcase.to_sym == :chrome
+            Environ.platform = :mobile
+            Environ.device_name = Browsers.mobile_device_name(ENV['WEB_BROWSER'])
             user_agent = Browsers.mobile_device_agent(ENV['WEB_BROWSER'])
             options = %w[--disable-infobars]
+            options.push('--disable-dev-shm-usage')
             options.push("--user-agent='#{user_agent}'")
             options.push("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
             capabilities = Selenium::WebDriver::Remote::Capabilities.chrome('goog:chromeOptions' => { args: options })
@@ -575,21 +587,19 @@ module TestCentricity
             raise "Requested browser '#{browser}' is not supported on Selenium Grid"
           end
         end
-
-        unless desired_caps.nil?
-          capabilities = merge_caps ? capabilities.merge(desired_caps) : desired_caps
+        Capybara::Selenium::Driver.new(app,
+                                       browser: :remote,
+                                       url: endpoint,
+                                       desired_capabilities: capabilities).tap do |driver|
+          # configure file_detector for remote uploads
+          driver.browser.file_detector = lambda do |args|
+            str = args.first.to_s
+            str if File.exist?(str)
+          end
         end
-
-        Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, desired_capabilities: capabilities)
       end
       Capybara.current_driver = :remote_browser
       Capybara.default_driver = :remote_browser
-      # configure file_detector for remote uploads
-      selenium = Capybara.page.driver.browser
-      selenium.file_detector = lambda do |args|
-        str = args.first.to_s
-        str if File.exist?(str)
-      end
     end
 
     def self.initialize_saucelabs(desired_caps = nil, merge_caps = false)

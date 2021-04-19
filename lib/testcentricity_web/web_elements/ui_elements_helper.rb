@@ -441,7 +441,7 @@ module TestCentricity
     #   button_width = my_button.width
     #
     def width
-      obj, type = find_element(false)
+      obj, type = find_element(visible = false)
       object_not_found_exception(obj, type)
       obj.get_width
     end
@@ -453,7 +453,7 @@ module TestCentricity
     #   button_height = my_button.height
     #
     def height
-      obj, type = find_element(false)
+      obj, type = find_element(visible = false)
       object_not_found_exception(obj, type)
       obj.get_height
     end
@@ -465,7 +465,7 @@ module TestCentricity
     #   button_x = my_button.x
     #
     def x
-      obj, type = find_element(false)
+      obj, type = find_element(visible = false)
       object_not_found_exception(obj, type)
       obj.get_x
     end
@@ -477,7 +477,7 @@ module TestCentricity
     #   button_y = my_button.y
     #
     def y
-      obj, type = find_element(false)
+      obj, type = find_element(visible = false)
       object_not_found_exception(obj, type)
       obj.get_y
     end
@@ -499,7 +499,7 @@ module TestCentricity
     #   basket_link.displayed??
     #
     def displayed?
-      obj, type = find_element(false)
+      obj, type = find_element(visible = false)
       object_not_found_exception(obj, type)
       obj.displayed?
     end

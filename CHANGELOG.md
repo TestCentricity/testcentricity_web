@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [4.0.0] - 25-MAR-2021
 
+### Changed
+* `WebDriverConnect.initialize_web_driver` method now accepts an `options` hash as an optional parameter, which can be used to
+  specify an optional base host URL and/or the desired Selenium-Webdriver capabilities required to establish a connection with
+  a cloud hosted target web browser.
+* User defined mobile device profiles can be specified in a `device.yml` file for testing locally hosted emulated mobile
+  web browsers running in an instance of the Chrome desktop browser. The user specified device profiles must be located at 
+  `config/data/devices/devices.yml`. Refer to the **User defined mobile device profiles** section of the {file:README.md README} file.
+
 ### Removed
 * Removed support for the following legacy UI elements:
   * `CellElement`

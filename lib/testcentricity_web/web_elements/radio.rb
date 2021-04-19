@@ -101,7 +101,7 @@ module TestCentricity
     #   accept_terms_radio.unselect
     #
     def unselect
-      set_selected_state(false)
+      set_selected_state(state = false)
     end
 
     # Highlight a radio button with a 3 pixel wide, red dashed border for the specified wait time.

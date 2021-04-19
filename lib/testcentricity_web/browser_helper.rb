@@ -2,8 +2,10 @@ require 'yaml'
 
 
 module TestCentricity
-  module Browsers
+  class Browsers
     include Capybara::DSL
+
+    @devices = {}
 
     # Sets the size of the browser window.
     #
@@ -73,8 +75,8 @@ module TestCentricity
 
     def self.close_all_browser_instances
       Capybara.page.driver.browser.window_handles.each do |handle|
-        page.driver.browser.switch_to.window(handle)
-        page.driver.browser.close
+        Capybara.page.driver.browser.switch_to.window(handle)
+        Capybara.page.driver.browser.close
       end
     end
 
@@ -168,14 +170,16 @@ module TestCentricity
     private
 
     def self.get_device(device)
-      devices = YAML.load_file File.expand_path('../../devices/devices.yml', __FILE__)
-      # read in user defined list of devices
-      external_device_file = 'config/data/devices/devices.yml'
-      unless File.size?(external_device_file).nil?
-        ext_devices = YAML.load_file(external_device_file)
-        devices = devices.merge(ext_devices)
+      if @devices.nil?
+        @devices = YAML.load_file File.expand_path('../../devices/devices.yml', __FILE__)
+        # read in user defined list of devices
+        external_device_file = 'config/data/devices/devices.yml'
+        unless File.size?(external_device_file).nil?
+          ext_devices = YAML.load_file(external_device_file)
+          @devices = @devices.merge(ext_devices)
+        end
       end
-      devices[device.gsub(/\s+/, '').downcase.to_sym]
+      @devices[device.gsub(/\s+/, '').downcase.to_sym]
     end
   end
 end

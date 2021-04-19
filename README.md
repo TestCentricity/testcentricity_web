@@ -870,6 +870,38 @@ To use a local instance of the Chrome desktop browser to host the emulated mobil
 to `chrome`.
 
 
+#### User defined mobile device profiles
+
+User defined mobile device profiles can be specified in a `device.yml` file for testing locally hosted emulated mobile web browsers running in an instance
+of the Chrome desktop browser. The user specified device profiles must be located at `config/data/devices/devices.yml` as depicted below:
+
+    my_automation_project
+        ├── config
+        │   ├── data
+        │   │   └── devices
+        │   │       └── devices.yml
+        │   ├── locales
+        │   └── cucumber.yml
+        ├── downloads
+        ├── features
+        │   ├── step_definitions
+        │   ├── support
+        │   └── test_data
+        ├── Gemfile
+        └── README.md
+
+The format for a new device profile is:
+```
+  :new_device_profile:
+    :name: "New Device Name"
+    :os: (ios, android, kindle, or blackberry)
+    :type: (phone or tablet)
+    :css_width: css width in pixels
+    :css_height: css height in pixels
+    :default_orientation: (portrait or landscape)
+    :user_agent: "user agent string"
+```
+
 ### Selenium Grid and Dockerized Selenium Grid hosted desktop and emulated mobile web browsers
 
 For desktop and emulated mobile web browsers running on Selenium Grid or Dockerized Selenium Grid environments ([like Zalenium](https://opensource.zalando.com/zalenium/)), the following **Environment Variables** must be set
