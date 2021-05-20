@@ -1,20 +1,44 @@
 module TestCentricity
   class EnvironData < TestCentricity::ExcelDataSource
     attr_accessor	:current
+    attr_accessor	:generic_data
+    attr_accessor	:environ_specific_data
 
-    WKS_ENVIRONS ||= 'Environments'
-
-    def find_environ(environ_name, source_type = :excel)
+    def self.find_environ(environ_name, source_type = :excel)
       data = case source_type
              when :excel
-               ExcelData.read_row_data(XL_PRIMARY_DATA_FILE, WKS_ENVIRONS, environ_name)
+               ExcelData.read_row_data(XL_PRIMARY_DATA_FILE, 'Environments', environ_name)
              when :yaml
-               read_yaml_node_data('environments.yml', environ_name)
+               # read generic test data from data.yml file
+               @generic_data ||= YAML.load_file(YML_PRIMARY_DATA_FILE)
+               # read environment specific test data
+               data_file = "#{PRIMARY_DATA_PATH}#{environ_name}_data.yml"
+               @environ_specific_data ||= YAML.load_file(data_file)
+
+               read('Environments', environ_name)
              when :json
                read_json_node_data('environments.json', environ_name)
              end
       @current = Environ.new(data)
       Environ.current = @current
+    end
+
+    def self.read(key_name, node_name)
+      if @environ_specific_data.key?(key_name) && @environ_specific_data[key_name].key?(node_name)
+        node_data = @environ_specific_data[key_name][node_name]
+      else
+        raise "No key named #{key_name} in generic and environment-specific data" unless @generic_data.key?(key_name)
+        raise "No node named #{node_name} in #{key_name} section of generic and environment-specific data" unless @generic_data[key_name].key?(node_name)
+
+        node_data = @generic_data[key_name][node_name]
+      end
+
+      if node_data.is_a?(Hash)
+        node_data.each do |key, value|
+          node_data[key] = calculate_dynamic_value(value) if value.to_s.start_with?('eval!')
+        end
+      end
+      node_data
     end
   end
 
@@ -355,3 +379,4 @@ module TestCentricity
     end
   end
 end
+

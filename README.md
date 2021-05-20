@@ -670,24 +670,25 @@ In the above example, the step definitions associated with the 3 steps might be 
     end
     
     # this method takes a page name as a parameter and returns an instance of the associated Page Object
-    def page_dispatcher(page_name)
-      case page_name
-      when 'Registration'
-        page = registration_page
-      when 'My Account'
-        page = my_account_page
-      when 'Terms & Conditions'
-        page = terms_conditions_page
-      when 'Privacy Policy'
-        page = privacy_policy_page
-      when 'Contact Us'
-        page = contact_us_page
-      when 'FAQs'
-        page = faqs_page
+      def page_dispatcher(page_name)
+        page = case page_name
+               when 'Registration'
+                 registration_page
+               when 'My Account'
+                 my_account_page
+               when 'Terms & Conditions'
+                 terms_conditions_page
+               when 'Privacy Policy'
+                 privacy_policy_page
+               when 'Contact Us'
+                 contact_us_page
+               when 'FAQs'
+                 faqs_page
+               end
+        raise "No page object defined for page named '#{page_name}'" unless page
+        page
       end
-      raise "No page object defined for page named '#{page_name}'" unless page
-      page
-    end
+
 
 
 While this approach may be effective for small web applications with only a few pages (and hence few **Page Objects**), it quickly becomes

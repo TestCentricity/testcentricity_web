@@ -1,6 +1,6 @@
 module WorldData
   def environs
-    @environs ||= TestCentricity::EnvironData.new
+    @environs ||= TestCentricity::EnvironData
   end
 
   # instantiate and register all data objects specified in data_objects method

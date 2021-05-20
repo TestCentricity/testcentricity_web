@@ -1,7 +1,7 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
-## [4.0.0] - 25-MAR-2021
+## [4.0.0] - 18-APR-2021
 
 ### Changed
 * `WebDriverConnect.initialize_web_driver` method now accepts an `options` hash as an optional parameter, which can be used to

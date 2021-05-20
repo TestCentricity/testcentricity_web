@@ -1,12 +1,18 @@
 require 'yaml'
 require 'json'
 require 'virtus'
+require 'time'
+require 'chronic'
+require 'faker'
 
 
 module TestCentricity
 
   PRIMARY_DATA_PATH ||= 'features/test_data/'
-  XL_PRIMARY_DATA_FILE ||= "#{PRIMARY_DATA_PATH}data.xls"
+  PRIMARY_DATA_FILE ||= "#{PRIMARY_DATA_PATH}data."
+  XL_PRIMARY_DATA_FILE   ||= "#{PRIMARY_DATA_FILE}xls"
+  YML_PRIMARY_DATA_FILE  ||= "#{PRIMARY_DATA_FILE}yml"
+  JSON_PRIMARY_DATA_FILE ||= "#{PRIMARY_DATA_FILE}json"
 
 
   class DataObject
@@ -106,6 +112,28 @@ module TestCentricity
       data[node_name] = node_data
       File.write(@file_path, data.to_json)
     end
+
+    private
+
+    def self.calculate_dynamic_value(value)
+      test_value = value.split('!', 2)
+      parameter = test_value[1].split('.', 2)
+      case parameter[0]
+      when 'Date'
+        result = eval("Chronic.parse('#{parameter[1]}')")
+      when 'FormattedDate', 'FormatDate'
+        date_time_params = parameter[1].split(' format! ', 2)
+        date_time = eval("Chronic.parse('#{date_time_params[0].strip}')")
+        result = date_time.to_s.format_date_time("#{date_time_params[1].strip}")
+      else
+        result = if Faker.constants.include?(parameter[0].to_sym)
+                   eval("Faker::#{parameter[0]}.#{parameter[1]}")
+                 else
+                   eval(test_value[1])
+                 end
+      end
+      result.to_s
+    end
   end
 
 
@@ -147,3 +175,4 @@ module TestCentricity
     end
   end
 end
+
