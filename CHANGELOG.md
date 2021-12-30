@@ -1,7 +1,7 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
-## [4.0.2] - 30-DEC-2021
+## [4.0.3] - 30-DEC-2021
 
 ### Changed
 * Primary test data path has been changed from `features/test_data/` to `config/test_data/`.
