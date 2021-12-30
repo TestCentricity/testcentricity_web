@@ -8,7 +8,7 @@ require 'faker'
 
 module TestCentricity
 
-  PRIMARY_DATA_PATH ||= 'features/test_data/'
+  PRIMARY_DATA_PATH ||= 'config/test_data/'
   PRIMARY_DATA_FILE ||= "#{PRIMARY_DATA_PATH}data."
   XL_PRIMARY_DATA_FILE   ||= "#{PRIMARY_DATA_FILE}xls"
   YML_PRIMARY_DATA_FILE  ||= "#{PRIMARY_DATA_FILE}yml"

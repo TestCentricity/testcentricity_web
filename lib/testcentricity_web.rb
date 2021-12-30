@@ -1,4 +1,4 @@
-require 'capybara/cucumber'
+require 'capybara/rspec'
 require 'test/unit'
 require 'appium_lib'
 

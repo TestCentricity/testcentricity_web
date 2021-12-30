@@ -768,11 +768,11 @@ a `/downloads` folder at the same level as the `/config` and `/features` folders
 
     my_automation_project
         ├── config
+        │   └── test_data
         ├── downloads
         ├── features
         │   ├── step_definitions
-        │   ├── support
-        │   └── test_data
+        │   └── support
         ├── Gemfile
         └── README.md
 
@@ -783,6 +783,7 @@ test thread. This is to ensure that files downloaded in each test thread are iso
 
     my_automation_project
         ├── config
+        │   └── test_data
         ├── downloads
         │   ├── 1
         │   ├── 2
@@ -790,8 +791,7 @@ test thread. This is to ensure that files downloaded in each test thread are iso
         │   └── 4
         ├── features
         │   ├── step_definitions
-        │   ├── support
-        │   └── test_data
+        │   └── support
         ├── Gemfile
         └── README.md
 
@@ -882,12 +882,12 @@ of the Chrome desktop browser. The user specified device profiles must be locate
         │   │   └── devices
         │   │       └── devices.yml
         │   ├── locales
+        │   ├── test_data
         │   └── cucumber.yml
         ├── downloads
         ├── features
         │   ├── step_definitions
-        │   ├── support
-        │   └── test_data
+        │   └── support
         ├── Gemfile
         └── README.md
 

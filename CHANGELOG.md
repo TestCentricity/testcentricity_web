@@ -1,6 +1,14 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [4.0.2] - 30-DEC-2021
+
+### Changed
+* Primary test data path has been changed from `features/test_data/` to `config/test_data/`.
+
+### Fixed
+* No longer throws a `NoMethodError: undefined method 'World' for main:Object` error when using RSpec.
+
 ## [4.0.0] - 18-APR-2021
 
 ### Changed
