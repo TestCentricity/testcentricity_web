@@ -1,4 +1,4 @@
-Copyright (c) 2014-2021, Tony Mrozinski
+Copyright (c) 2014-2022, Tony Mrozinski
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
