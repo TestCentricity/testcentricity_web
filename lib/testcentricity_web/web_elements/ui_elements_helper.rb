@@ -44,6 +44,7 @@ module TestCentricity
 
     attr_reader   :parent, :locator, :context, :type, :name
     attr_accessor :alt_locator, :locator_type, :original_style
+    attr_accessor :base_object
 
     XPATH_SELECTORS = ['//', '[@', '[contains(']
     CSS_SELECTORS   = ['#', ':nth-child(', ':first-child', ':last-child', ':nth-of-type(', ':first-of-type', ':last-of-type', '^=', '$=', '*=', ':contains(']
@@ -196,7 +197,7 @@ module TestCentricity
     #
     def exists?(visible = true)
       obj, = find_object(visible)
-      obj != nil
+      !obj.nil?
     end
 
     # Is UI object visible?
@@ -516,6 +517,8 @@ module TestCentricity
     end
 
     alias get_caption get_value
+    alias caption get_value
+    alias value get_value
 
     def verify_value(expected, enqueue = false)
       actual = get_value
@@ -1063,6 +1066,19 @@ module TestCentricity
       else
         expected == actual
       end
+    end
+
+    def find_component(component, component_name)
+      begin
+        element = @base_object.find(:css, component, minimum: 0, wait: 1)
+      rescue
+        begin
+          element = page.find(:css, component, minimum: 0, wait: 5)
+        rescue
+          raise "Component #{component_name} (#{component}) for #{@type} named '#{@name}' (#{locator}) not found"
+        end
+      end
+      element
     end
   end
 end

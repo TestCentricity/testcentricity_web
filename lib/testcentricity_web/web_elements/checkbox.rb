@@ -1,16 +1,29 @@
 module TestCentricity
   class CheckBox < UIElement
     attr_accessor :proxy
+    attr_accessor :label
 
-    def initialize(name, parent, locator, context, proxy = nil)
-      @name        = name
-      @parent      = parent
-      @locator     = locator
-      @context     = context
-      @alt_locator = nil
-      @proxy       = proxy
-      @type        = :checkbox
-      set_locator_type
+    def initialize(name, parent, locator, context)
+      super
+      @type = :checkbox
+      check_spec = {
+        proxy: nil,
+        label: nil
+      }
+      define_custom_elements(check_spec)
+    end
+
+    def define_custom_elements(element_spec)
+      element_spec.each do |element, value|
+        case element
+        when :proxy
+          @proxy = value
+        when :label
+          @label = value
+        else
+          raise "#{element} is not a recognized checkbox element"
+        end
+      end
     end
 
     # Does checkbox object exists?
@@ -54,7 +67,7 @@ module TestCentricity
     #   remember_me_checkbox.visible?
     #
     def visible?
-      @proxy.nil? ? super : @proxy.visible?
+      @proxy.nil? ? super : page.find(:css, @proxy).visible?
     end
 
     # Is checkbox disabled (not enabled)?
@@ -77,8 +90,16 @@ module TestCentricity
     #   remember_me_checkbox.get_value
     #
     def get_value
-      @proxy.nil? ? super : @proxy.get_value
+      if @label.nil?
+        @proxy.nil? ? super : page.find(:css, @proxy).text
+      else
+        page.find(:css, @label).text
+      end
     end
+
+    alias get_caption get_value
+    alias caption get_value
+    alias value get_value
 
     # Set the check state of a checkbox object.
     #
@@ -98,7 +119,7 @@ module TestCentricity
           obj.set(state)
         end
       else
-        @proxy.click unless state == obj.checked?
+        page.find(:css, @proxy).click unless state == obj.checked?
       end
     end
 
@@ -125,26 +146,6 @@ module TestCentricity
       enqueue ?
           ExceptionQueue.enqueue_assert_equal(state, actual, "Expected checkbox #{object_ref_message}") :
           assert_equal(state, actual, "Expected checkbox #{object_ref_message} to be #{state} but found #{actual} instead")
-    end
-
-    # Highlight a checkbox with a 3 pixel wide, red dashed border for the specified wait time.
-    # If wait time is zero, then the highlight will remain until the page is refreshed
-    #
-    # @param duration [Integer or Float] wait time in seconds
-    # @example
-    #   remember_me_checkbox.highlight(3)
-    #
-    def highlight(duration = 1)
-      @proxy.nil? ? super : @proxy.highlight(duration)
-    end
-
-    # Restore a highlighted checkbox's original style
-    #
-    # @example
-    #   remember_me_checkbox.unhighlight
-    #
-    def unhighlight
-      @proxy.nil? ? super : @proxy.unhighlight
     end
   end
 end

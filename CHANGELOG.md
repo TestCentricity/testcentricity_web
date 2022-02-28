@@ -1,6 +1,24 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [4.1.0] - 28-FEB-2022
+
+### Added
+* TestCentricity now supports and integrates with Selenium-Webdriver version 4.1.
+* Added support for locally hosted Microsoft Edge desktop web browsers, including in `headless` mode.
+* Added `CheckBox.define_custom_elements` and `Radio.define_custom_elements` methods to support abstracted UI implementations
+  where the `input type="checkbox"` or `input type="radio"` object is hidden or obscured by a proxy object, typically a `label`.
+* Added support for `shutdownOtherSimulators` and `forceSimulatorSoftwareKeyboardPresence` capabilities for iOS simulators
+  when testing with Mobile Safari browser on iOS Simulators.
+
+### Changed
+* `checkbox` and `radio` methods no longer accept an optional `proxy`. Calling the `checkbox` or `radio` methods with a `proxy`
+  parameter will result in a `wrong number of arguments (given 3, expected 2) (ArgumentError)` exception. Use the `define_custom_elements`
+  method to specify the locator for an associated `proxy` and/or `label` element. The `define_custom_elements` method can be
+  called from an `initialize` method for the `PageObject` or `PageSection` where the `checkbox` or `radio` is instantiated.
+* Ruby version 2.7 or greater required.
+
+
 ## [4.0.3] - 30-DEC-2021
 
 ### Changed
@@ -8,6 +26,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 * No longer throws a `NoMethodError: undefined method 'World' for main:Object` error when using RSpec.
+
 
 ## [4.0.0] - 18-APR-2021
 
@@ -39,16 +58,19 @@ All notable changes to this project will be documented in this file.
   * `UIElement.invoke_siebel_popup`
   * `UIElement.get_siebel_object_type`
 
+
 ## [3.3.0] - 14-MAR-2021
 
 ### Fixed
 * `WebDriverConnect.initialize_web_driver` method now correctly sets local Chrome browser Download directory when running
 with headless Chrome.
 
+
 ## [3.2.25] - 11-MAR-2021
 
 ### Added
 * Added `String.titlecase` method.
+
 
 ## [3.2.23] - 11-FEB-2021
 
@@ -57,17 +79,20 @@ with headless Chrome.
   `:translate_downcase`, `:translate_capitalize`, and `:translate_titlecase` conversions to fall back to `:en` default
   locale if translated strings are missing from the current locale specified in `I18n.locale`.
 
+
 ## [3.2.22] - 09-FEB-2021
 
 ### Fixed
 * Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to correctly handle `:translate_upcase`,
   `:translate_downcase`, `:translate_capitalize`, and `:translate_titlecase` conversions for Arrays of `String`.
   
+
 ## [3.2.21] - 04-FEB-2021
 
 ### Changed
 * `UIElement.hover_at` method now accepts an optional `visible` parameter to allow hovering over UI elements that are not
   visible.
+
 
 ## [3.2.20] - 21-JAN-2021
 
@@ -75,16 +100,19 @@ with headless Chrome.
 * `UIElement.hover` method now accepts an optional `visible` parameter to allow hovering over UI elements that are not
 visible.
 
+
 ## [3.2.19] - 05-JAN-2021
 
 ### Fixed
 * `SelectList.choose_option` and `SelectList.get_options` methods now wait up to 5 seconds for list drop menu to appear.
+
 
 ## [3.2.18] - 12-AUG-2020
 
 ### Fixed
 * Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to correctly handle `:row`, `:column`,
 `:cell`, `:item`, and `:attribute` properties.
+
 
 ## [3.2.17] - 19-JUNE-2020
 
@@ -93,11 +121,13 @@ visible.
 * Updated `Table.get_row_count`, `Table.get_column_count`, and `Table.get_table_cell_locator` methods to support tables
 with row headers in row #1.
 
+
 ## [3.2.16] - 13-MAY-2020
 
 ### Changed
 * `WebDriverConnect.initialize_web_driver` method now sets local Chrome and Firefox browser Download directory to separate
 folders for each parallel test thread when using `parallel_tests` gem to run tests in concurrent threads.
+
 
 ## [3.2.15] - 06-APR-2020
 
@@ -105,15 +135,18 @@ folders for each parallel test thread when using `parallel_tests` gem to run tes
 * `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods accept `String` or `Boolean` values
 for checkboxes and radio buttons.
 
+
 ## [3.2.14] - 06-APR-2020
 
 ### Added
 * Added `UIElement.scroll_to` method.
 
+
 ## [3.2.13] - 24-MAR-2020
 
 ### Added
 * Added `PageObject.send_keys` method.
+
 
 ## [3.2.12] - 11-MAR-2020
 
@@ -122,25 +155,30 @@ for checkboxes and radio buttons.
 * Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of the
 `focused` property.
 
+
 ## [3.2.11] - 10-MAR-2020
 
 ### Added
 * Added `PageSection.verify_focus_order` method.
+
 
 ## [3.2.10] - 09-MAR-2020
 
 ### Added
 * Added `PageObject.verify_focus_order` method.
 
+
 ## [3.2.9] - 12-FEB-2020
 
 ### Fixed
 * Fixed `UIElement.wait_until_value_is`, `List.wait_until_item_count_is`, and `Table.wait_until_row_count_is`' methods.
 
+
 ## [3.2.8] - 08-FEB-2020
 
 ### Fixed
 * Fixed `UIElement.visible?` method that was broken in release 3.2.7.
+
 
 ## [3.2.7] - 05-FEB-2020
 
@@ -151,10 +189,12 @@ for checkboxes and radio buttons.
 * Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of the
 `crossorigin`, `preload`, and `poster` properties.
 
+
 ## [3.2.6] - 31-JAN-2020
 
 ### Changed
 * `Audio.volume` and `Video.volume` methods now return a `Float`.
+
 
 ## [3.2.5] - 25-JAN-2020
 
@@ -166,10 +206,12 @@ for checkboxes and radio buttons.
 ### Fixed
 * Fixed `UIElement.aria_multiselectable?` method.
 
+
 ## [3.2.4] - 16-JAN-2020
 
 ### Added
 * Added `Range` type `UIElement` to support interaction with and verification of HTML5 Input Range Slider Objects.
+
 
 ## [3.2.3] - 29-DEC-2019
 
@@ -203,6 +245,7 @@ properties:
   * `aria_multiselectable`
   * `aria_controls`
 
+
 ## [3.2.2] - 16-OCT-2019
 
 ### Added
@@ -211,6 +254,7 @@ properties:
 * Added `CheckBox.indeterminate?` method.
 * Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `indeterminate` property.
 * Updated device profiles for iPad Pro 12.9" 3rd Generation (iOS 13.1) with Mobile Safari browser.
+
 
 ## [3.2.1] - 03-OCT-2019
 

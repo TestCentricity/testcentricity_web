@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = 'testcentricity_web'
   spec.version       = TestCentricityWeb::VERSION
   spec.platform      = Gem::Platform::RUBY
-  spec.required_ruby_version = '>= 2.3.0'
+  spec.required_ruby_version = '>= 2.7.5'
   spec.authors       = ['A.J. Mrozinski']
   spec.email         = ['testcentricity@gmail.com']
   spec.summary       = 'A Page Object and Data Object Model Framework for desktop and mobile web testing'
@@ -34,7 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'appium_lib'
   spec.add_runtime_dependency 'browserstack-local'
   spec.add_runtime_dependency 'capybara', '>= 3.1', '< 4'
-  spec.add_runtime_dependency 'childprocess', '~> 0.5'
+  spec.add_runtime_dependency 'childprocess'
   spec.add_runtime_dependency 'chronic', '0.10.2'
   spec.add_runtime_dependency 'faker'
   spec.add_runtime_dependency 'i18n'
@@ -42,6 +42,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'selenium-webdriver'
   spec.add_runtime_dependency 'spreadsheet', '1.1.7'
   spec.add_runtime_dependency 'test-unit'
-  spec.add_runtime_dependency 'webdrivers', '~> 4.0'
+  spec.add_runtime_dependency 'webdrivers', '~> 5.0'
   spec.add_runtime_dependency 'virtus'
 end

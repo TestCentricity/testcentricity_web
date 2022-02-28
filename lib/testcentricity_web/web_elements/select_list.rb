@@ -7,7 +7,6 @@ module TestCentricity
     attr_accessor :options_list
     attr_accessor :group_item
     attr_accessor :group_heading
-    attr_accessor :base_object
 
     def initialize(name, parent, locator, context)
       super
@@ -285,19 +284,6 @@ module TestCentricity
         trigger = find_component(@list_trigger, 'trigger')
         trigger.click
       end
-    end
-
-    def find_component(component, component_name)
-      begin
-        element = @base_object.find(:css, component, minimum: 0, wait: 1)
-      rescue
-        begin
-          element = page.find(:css, component, minimum: 0, wait: 5)
-        rescue
-          raise "List #{component_name} (#{component}) for selectlist named '#{@name}' (#{locator}) not found"
-        end
-      end
-      element
     end
   end
 end

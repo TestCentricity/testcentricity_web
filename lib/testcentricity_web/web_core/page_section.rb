@@ -220,13 +220,12 @@ module TestCentricity
     #
     # @param element_name [Symbol] name of checkbox object (as a symbol)
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
-    # @param proxy [Symbol] Optional name (as a symbol) of proxy object to receive click actions
     # @example
     #   checkbox :remember_checkbox,     "//input[@id='RememberUser']"
-    #   checkbox :accept_terms_checkbox, 'input#accept_terms_conditions', :accept_terms_label
+    #   checkbox :accept_terms_checkbox, 'input#accept_terms_conditions'
     #
-    def self.checkbox(element_name, locator, proxy = nil)
-      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::CheckBox.new("#{element_name}", self, "#{locator}", :section, #{proxy});end))
+    def self.checkbox(element_name, locator)
+      define_element(element_name, TestCentricity::CheckBox, locator)
     end
 
     # Declare and instantiate a collection of checkboxes for this page section.
@@ -246,13 +245,12 @@ module TestCentricity
     #
     # @param element_name [Symbol] name of radio object (as a symbol)
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
-    # @param proxy [Symbol] Optional name (as a symbol) of proxy object to receive click actions
     # @example
     #   radio :accept_terms_radio,  "//input[@id='Accept_Terms']"
-    #   radio :decline_terms_radio, 'input#decline_terms_conditions', :decline_terms_label
+    #   radio :decline_terms_radio, 'input#decline_terms_conditions'
     #
     def self.radio(element_name, locator, proxy = nil)
-      class_eval(%(def #{element_name};@#{element_name} ||= TestCentricity::Radio.new("#{element_name}", self, "#{locator}", :section, #{proxy});end))
+      define_element(element_name, TestCentricity::Radio, locator)
     end
 
     # Declare and instantiate a collection of radio buttons for this page section.

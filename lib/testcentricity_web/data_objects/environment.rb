@@ -5,6 +5,8 @@ module TestCentricity
     attr_accessor	:environ_specific_data
 
     def self.find_environ(environ_name, source_type = :excel)
+      raise 'No environment specified' if environ_name.nil?
+
       data = case source_type
              when :excel
                ExcelData.read_row_data(XL_PRIMARY_DATA_FILE, 'Environments', environ_name)
@@ -13,11 +15,27 @@ module TestCentricity
                @generic_data ||= YAML.load_file(YML_PRIMARY_DATA_FILE)
                # read environment specific test data
                data_file = "#{PRIMARY_DATA_PATH}#{environ_name}_data.yml"
-               @environ_specific_data ||= YAML.load_file(data_file)
+               @environ_specific_data = if File.exist?(data_file)
+                                          YAML.load_file(data_file)
+                                        else
+                                          {}
+                                        end
 
                read('Environments', environ_name)
              when :json
-               read_json_node_data('environments.json', environ_name)
+               # read generic test data from data.json file
+               raw_data = File.read(JSON_PRIMARY_DATA_FILE)
+               @generic_data = JSON.parse(raw_data)
+               # read environment specific test data
+               data_file = "#{PRIMARY_DATA_PATH}#{environ_name}_data.json"
+               @environ_specific_data = if File.exist?(data_file)
+                                          raw_data = File.read(data_file)
+                                          JSON.parse(raw_data)
+                                        else
+                                          {}
+                                        end
+
+               read('Environments', environ_name)
              end
       @current = Environ.new(data)
       Environ.current = @current
@@ -47,6 +65,9 @@ module TestCentricity
     @session_id = Time.now.strftime('%d%H%M%S%L')
     @session_time_stamp = Time.now.strftime('%Y%m%d%H%M%S')
     @test_environment = ENV['TEST_ENVIRONMENT']
+    @a11y_standard = ENV['ACCESSIBILITY_STANDARD'] || 'best-practice'
+    @locale = ENV['LOCALE'] || 'en'
+    @language = ENV['LANGUAGE'] || 'English'
     @screen_shots = []
 
     attr_accessor :test_environment
@@ -111,9 +132,6 @@ module TestCentricity
       @dns	         = data['DNS']
       @db_username   = data['DB_USERNAME']
       @db_password   = data['DB_PASSWORD']
-      @a11y_standard = ENV['ACCESSIBILITY_STANDARD'] || 'best-practice'
-      @locale        = ENV['LOCALE'] || 'en'
-      @language      = ENV['LANGUAGE'] || 'English'
 
       super
     end
@@ -365,13 +383,13 @@ module TestCentricity
     def self.report_header
       report_header = "\n<b><u>TEST ENVIRONMENT</u>:</b> #{ENV['TEST_ENVIRONMENT']}\n"\
       "  <b>Browser:</b>\t #{Environ.browser.capitalize}\n"
-      report_header = "#{report_header}  <b>Device:</b>\t\t #{Environ.device_name}\n" if Environ.device_name
+      report_header = "#{report_header}  <b>Device:</b>\t #{Environ.device_name}\n" if Environ.device_name
       report_header = "#{report_header}  <b>Device OS:</b>\t #{Environ.device_os} #{Environ.device_os_version}\n" if Environ.device_os
       report_header = "#{report_header}  <b>Device type:</b>\t #{Environ.device_type}\n" if Environ.device_type
-      report_header = "#{report_header}  <b>Driver:</b>\t\t #{Environ.driver}\n" if Environ.driver
+      report_header = "#{report_header}  <b>Driver:</b>\t #{Environ.driver}\n" if Environ.driver
       report_header = "#{report_header}  <b>Grid:</b>\t\t #{Environ.grid}\n" if Environ.grid
-      report_header = "#{report_header}  <b>OS:</b>\t\t\t #{Environ.os}\n" if Environ.os
-      report_header = "#{report_header}  <b>Locale:</b>\t\t #{Environ.locale}\n" if Environ.locale
+      report_header = "#{report_header}  <b>OS:</b>\t\t #{Environ.os}\n" if Environ.os
+      report_header = "#{report_header}  <b>Locale:</b>\t #{Environ.locale}\n" if Environ.locale
       report_header = "#{report_header}  <b>Language:</b>\t #{Environ.language}\n" if Environ.language
       report_header = "#{report_header}  <b>Country:</b>\t #{ENV['COUNTRY']}\n" if ENV['COUNTRY']
       report_header = "#{report_header}  <b>WCAG Accessibility Standard:</b>\t #{ENV['ACCESSIBILITY_STANDARD']}\n" if ENV['ACCESSIBILITY_STANDARD']

@@ -116,8 +116,8 @@ module TestCentricity
     end
 
     def self.enqueue_screenshot
-      timestamp = Time.now.strftime('%Y%m%d%H%M%S')
-      filename = "Screenshot-#{timestamp}"
+      timestamp = Time.now.strftime('%Y%m%d%H%M%S%L')
+      filename = "Screenshot-#{timestamp}.png"
       path = File.join Dir.pwd, 'reports/screenshots/', filename
       # highlight the active UI element prior to taking a screenshot
       unless @active_ui_element.nil? || @mru_ui_element == @active_ui_element
@@ -126,14 +126,14 @@ module TestCentricity
       end
       # take screenshot
       if Environ.driver == :appium
-        AppiumConnect.take_screenshot("#{path}.png")
+        AppiumConnect.take_screenshot(path)
       else
-        Capybara.save_screenshot "#{path}.png"
+        Capybara.save_screenshot path
       end
       # unhighlight the active UI element
       @mru_ui_element.unhighlight unless @mru_ui_element.blank?
       # add screenshot to queue
-      puts "Screenshot saved at #{path}.png"
+      puts "Screenshot saved at #{path}"
       screen_shot = {path: path, filename: filename}
       Environ.save_screen_shot(screen_shot)
     end

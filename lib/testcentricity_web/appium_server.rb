@@ -26,7 +26,7 @@ module TestCentricity
         puts 'Appium Server is starting'
       end
       # start new Appium Server
-      @process = ChildProcess.build(*parameters)
+      @process = ChildProcess.build
       process.start
       # wait until confirmation that Appium Server is running
       wait = Selenium::WebDriver::Wait.new(timeout: 30)

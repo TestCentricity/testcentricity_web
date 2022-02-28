@@ -1,16 +1,29 @@
 module TestCentricity
   class Radio < UIElement
     attr_accessor :proxy
+    attr_accessor :label
 
-    def initialize(name, parent, locator, context, proxy = nil)
-      @name        = name
-      @parent      = parent
-      @locator     = locator
-      @context     = context
-      @alt_locator = nil
-      @proxy       = proxy
-      @type        = :radio
-      set_locator_type
+    def initialize(name, parent, locator, context)
+      super
+      @type = :radio
+      radio_spec = {
+        proxy: nil,
+        label: nil
+      }
+      define_custom_elements(radio_spec)
+    end
+
+    def define_custom_elements(element_spec)
+      element_spec.each do |element, value|
+        case element
+        when :proxy
+          @proxy = value
+        when :label
+          @label = value
+        else
+          raise "#{element} is not a recognized radio element"
+        end
+      end
     end
 
     # Does radio button object exists?
@@ -43,7 +56,7 @@ module TestCentricity
     #   accept_terms_radio.visible?
     #
     def visible?
-      @proxy.nil? ? super : @proxy.visible?
+      @proxy.nil? ? super : page.find(:css, @proxy).visible?
     end
 
     # Is radio button disabled (not enabled)?
@@ -66,8 +79,16 @@ module TestCentricity
     #   accept_terms_radio.get_value
     #
     def get_value
-      @proxy.nil? ? super : @proxy.get_value
+      if @label.nil?
+        @proxy.nil? ? super : page.find(:css, @proxy).text
+      else
+        page.find(:css, @label).text
+      end
     end
+
+    alias get_caption get_value
+    alias caption get_value
+    alias value get_value
 
     # Set the select state of a radio button object.
     #
@@ -82,7 +103,7 @@ module TestCentricity
       if @proxy.nil?
         obj.set(state)
       else
-        @proxy.click unless state == obj.checked?
+        page.find(:css, @proxy).click unless state == obj.checked?
       end
     end
 
@@ -102,26 +123,6 @@ module TestCentricity
     #
     def unselect
       set_selected_state(state = false)
-    end
-
-    # Highlight a radio button with a 3 pixel wide, red dashed border for the specified wait time.
-    # If wait time is zero, then the highlight will remain until the page is refreshed
-    #
-    # @param duration [Integer or Float] wait time in seconds
-    # @example
-    #   accept_terms_radio.highlight(3)
-    #
-    def highlight(duration = 1)
-      @proxy.nil? ? super : @proxy.highlight(duration)
-    end
-
-    # Restore a highlighted radio button's original style
-    #
-    # @example
-    #   accept_terms_radio.unhighlight
-    #
-    def unhighlight
-      @proxy.nil? ? super : @proxy.unhighlight
     end
   end
 end

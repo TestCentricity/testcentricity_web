@@ -4,14 +4,14 @@
 
 
 The TestCentricity™ Web core generic framework for desktop and mobile web browser-based app testing implements a Page Object and Data
-Object Model DSL for use with Cucumber, Capybara (version 3.x), and Selenium-Webdriver (version 3.x).
+Object Model DSL for use with Cucumber, Capybara (version 3.x), and Selenium-Webdriver (version 4.1).
 
 **An example project that demonstrates the implementation of a page object model framework using Cucumber and TestCentricity™ can be found [here](https://github.com/TestCentricity/tc_web_sample).**
 
 The TestCentricity™ Web gem supports running automated tests against the following web test targets:
-* locally hosted desktop browsers (Firefox, Chrome, Safari, or IE)
+* locally hosted desktop browsers (Firefox, Chrome, Edge, Safari, or IE)
 * locally hosted emulated iOS Mobile Safari, Android, Windows Phone, or Blackberry mobile browsers (running within a local instance of Chrome)
-* locally hosted "headless" Chrome or Firefox browsers
+* locally hosted "headless" Chrome, Firefox, or Edge browsers
 * desktop and emulated mobile web browsers hosted on Selenium Grid and Dockerized Selenium Grid environments
 * mobile Safari browsers on iOS device simulators or physical iOS devices (using Appium and XCode on OS X)
 * mobile Chrome or Android browsers on Android Studio virtual device emulators (using Appium and Android Studio on OS X)
@@ -727,11 +727,11 @@ To use these **PageManager** methods, include the step definitions and code belo
 
 ## Connecting to a Web Browser
 
-The `TestCentricity::WebDriverConnect.initialize_web_driver` method configures the appropriate Selenium-Webdriver capabilities required to establish a
-connection with a target web browser, and sets the base host URL of the web site you are running your tests against.
+The `TestCentricity::WebDriverConnect.initialize_web_driver` method configures the appropriate Selenium-Webdriver capabilities required to
+establish a connection with a target web browser, and sets the base host URL of the web site you are running your tests against.
 
-The `TestCentricity::WebDriverConnect.initialize_web_driver` method accepts a single optional parameter - the base host URL. Cucumber **Environment
-Variables** are used to specify the target local or remote web browser, and the various webdriver capability parameters required to configure
+The `TestCentricity::WebDriverConnect.initialize_web_driver` method accepts a single optional parameter - the base host URL. Cucumber
+**Environment Variables** are used to specify the target local or remote web browser, and the various webdriver capability parameters required to configure
 the connection.
 
 
@@ -746,6 +746,8 @@ values from the table below:
 `chrome_headless`  | OS X or Windows (headless - no visible UI)
 `firefox`          | OS X or Windows (Firefox version 55 or greater only)
 `firefox_headless` | OS X or Windows (headless - no visible UI)
+`edge`             | OS X or Windows
+`edge_headless`    | OS X or Windows (headless - no visible UI)
 `safari`           | OS X only
 `ie`               | Windows only (IE version 10.x or greater only)
 
@@ -947,6 +949,8 @@ Once your test environment is properly configured, the following **Environment V
 `LANGUAGE`          | [Optional] Language to set for the simulator.  e.g.  `fr`
 `ORIENTATION`       | [Optional] Set to `portrait` or `landscape` (only for iOS simulators)
 `NEW_COMMAND_TIMEOUT` | [Optional] Time (in Seconds) that Appium will wait for a new command from the client
+`SHOW_SIM_KEYBOARD` | [Optional] Show the simulator keyboard during text entry. Set to `true` or `false`
+`SHUTDOWN_OTHER_SIMS`| [Optional] Close any other running simulators. Set to `true` or `false`
 
 
 ### Mobile Chrome or Android browsers on Android Studio Virtual Device emulators
@@ -989,7 +993,7 @@ Sauce Labs, TestingBot, Gridlastic, or LambdaTest services. If your tests are ru
 #### Remote desktop browsers on the BrowserStack service
 
 For remotely hosted desktop web browsers on the BrowserStack service, the following **Environment Variables** must be set as described in
-the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities)
+the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities?tag=selenium-4)
 for information regarding the specific capabilities.
 
 **Environment Variable** | **Description**
@@ -1003,15 +1007,13 @@ for information regarding the specific capabilities.
 `BS_VERSION`       | [Optional] Refer to `browser_version` capability in chart. If not specified, latest stable version of browser will be used.
 `TUNNELING`        | Must be `true` if you are testing against internal/local servers (`true` or `false`). If `true`, the BrowserStack Local instance will be automatically started.
 `RESOLUTION`       | [Optional] Refer to supported screen `resolution` capability in chart
-`BROWSER_SIZE`     | [Optional] Specify width, height of browser window
 `RECORD_VIDEO`     | [Optional] Enable screen video recording during test execution (`true` or `false`)
 `TIME_ZONE`        | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart
 `IP_GEOLOCATION`   | [Optional] Specify IP Geolocation. Refer to [IP Geolocation](https://www.browserstack.com/ip-geolocation) to select a country code.
-`SELENIUM_VERSION` | [Optional] Specify Selenium WebDriver version to use
-`CONSOLE_LOGS`     | [Optional] Used to capture browser console logs. Refer to `browserstack.console` capability in chart
-`WD_VERSION`       | [Optional] Specify browser-specific WebDriver version to use. Refer to `browserstack.geckodriver`, `browserstack.ie.driver`, and `browserstack.safari.driver` capabilities in chart
 `ALLOW_POPUPS`     | [Optional] Allow popups (`true` or `false`) - for Safari, IE, and Edge browsers only
 `ALLOW_COOKIES`    | [Optional] Allow all cookies (`true` or `false`) - for Safari browsers only
+`SCREENSHOTS`      | [Optional] Generate screenshots for debugging (`true` or `false`)
+`NETWORK_LOGS`     | [Optional] Capture network logs (`true` or `false`)
 
 If the BrowserStack Local instance is running (`TUNNELING` Environment Variable is `true`), call the`TestCentricity::WebDriverConnect.close_tunnel` method
 upon completion of your test suite to stop the Local instance. Place the code shown below in your `env.rb` or `hooks.rb` file.
@@ -1025,7 +1027,7 @@ upon completion of your test suite to stop the Local instance. Place the code sh
 #### Remote mobile browsers on the BrowserStack service
 
 For remotely hosted mobile web browsers on the BrowserStack service, the following **Environment Variables** must be set as described in
-the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities)
+the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities?tag=selenium-4)
 for information regarding the specific capabilities.
 
 **Environment Variable** | **Description**
@@ -1034,8 +1036,7 @@ for information regarding the specific capabilities.
 `BS_USERNAME`    | Must be set to your BrowserStack account user name
 `BS_AUTHKEY`     | Must be set to your BrowserStack account access key
 `BS_OS`          | Must be set to `ios` or `android`
-`BS_BROWSER`     | Must be set to `iPhone`, `iPad`, or `android`
-`BS_PLATFORM`    | Must be set to `MAC` (for iOS) or `ANDROID`
+`BS_BROWSER`     | Must be set to `Safari` (for iOS) or `Chrome` (for Android)
 `BS_DEVICE`      | Refer to `device` capability in chart
 `BS_REAL_MOBILE` | Set to `true` if running against a real device
 `DEVICE_TYPE`    | Must be set to `phone` or `tablet`
@@ -1044,7 +1045,9 @@ for information regarding the specific capabilities.
 `RECORD_VIDEO`   | [Optional] Enable screen video recording during test execution (`true` or `false`)
 `TIME_ZONE`      | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart
 `IP_GEOLOCATION` | [Optional] Specify IP Geolocation. Refer to [IP Geolocation](https://www.browserstack.com/ip-geolocation) to select a country code.
-`CONSOLE_LOGS`   | [Optional] Used to capture browser console logs. Refer to `browserstack.console` capability in chart
+`SCREENSHOTS`    | [Optional] Generate screenshots for debugging (`true` or `false`)
+`NETWORK_LOGS`   | [Optional] Capture network logs (`true` or `false`)
+`APPIUM_LOGS`    | [Optional] Generate Appium logs (`true` or `false`)
 
 
 

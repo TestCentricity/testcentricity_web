@@ -14,13 +14,11 @@ module TestCentricity
 
     def self.initialize_web_driver(options = nil)
       desired_caps = nil
-      merge_caps = nil
       if options.is_a?(String)
         Capybara.app_host = options
       elsif options.is_a?(Hash)
         Capybara.app_host = options[:app_host] if options.key?(:app_host)
         desired_caps = options[:desired_capabilities] if options.key?(:desired_capabilities)
-        merge_caps = options[:merge_capabilities] if options.key?(:merge_capabilities)
       end
 
       browser = ENV['WEB_BROWSER']
@@ -46,25 +44,25 @@ module TestCentricity
 
       context = case browser.downcase.to_sym
                 when :appium
-                  initialize_appium(desired_caps, merge_caps)
+                  initialize_appium(desired_caps)
                   'mobile device emulator'
                 when :browserstack
-                  initialize_browserstack(desired_caps, merge_caps)
+                  initialize_browserstack(desired_caps)
                   'Browserstack cloud service'
                 when :crossbrowser
-                  initialize_crossbrowser(desired_caps, merge_caps)
+                  initialize_crossbrowser(desired_caps)
                   'CrossBrowserTesting cloud service'
                 when :gridlastic
-                  initialize_gridlastic(desired_caps, merge_caps)
+                  initialize_gridlastic(desired_caps)
                   'Gridlastic cloud service'
                 when :lambdatest
-                  initialize_lambdatest(desired_caps, merge_caps)
+                  initialize_lambdatest(desired_caps)
                   'LambdaTest cloud service'
                 when :saucelabs
-                  initialize_saucelabs(desired_caps, merge_caps)
+                  initialize_saucelabs(desired_caps)
                   'Sauce Labs cloud service'
                 when :testingbot
-                  initialize_testingbot(desired_caps, merge_caps)
+                  initialize_testingbot(desired_caps)
                   'TestingBot cloud service'
                 else
                   if ENV['SELENIUM'] == 'remote'
@@ -133,7 +131,7 @@ module TestCentricity
 
     private
 
-    def self.initialize_appium(desired_caps = nil, merge_caps = false)
+    def self.initialize_appium(desired_caps = nil)
       Environ.platform    = :mobile
       Environ.device_name = ENV['APP_DEVICE']
       Environ.device_os   = ENV['APP_PLATFORM_NAME'].downcase.to_sym
@@ -153,7 +151,6 @@ module TestCentricity
       if ENV['UDID']
         Environ.device = :device
         desired_capabilities[:udid] = ENV['UDID']
-        desired_capabilities[:startIWDP] = true
         desired_capabilities[:xcodeOrgId] = ENV['TEAM_ID'] if ENV['TEAM_ID']
         desired_capabilities[:xcodeSigningId] = ENV['TEAM_NAME'] if ENV['TEAM_NAME']
       else
@@ -161,24 +158,26 @@ module TestCentricity
         desired_capabilities[:orientation] = Environ.device_orientation.upcase if Environ.device_orientation
         if Environ.device_os == :ios
           desired_capabilities[:language] = Environ.language if Environ.language
-          desired_capabilities[:locale]   = Environ.locale.gsub('-', '_') if Environ.locale
+          desired_capabilities[:locale] = Environ.locale.gsub('-', '_') if Environ.locale
         end
       end
       desired_capabilities[:safariIgnoreFraudWarning] = ENV['APP_IGNORE_FRAUD_WARNING'] if ENV['APP_IGNORE_FRAUD_WARNING']
-      desired_capabilities[:safariInitialUrl]       = ENV['APP_INITIAL_URL'] if ENV['APP_INITIAL_URL']
-      desired_capabilities[:safariAllowPopups]      = ENV['APP_ALLOW_POPUPS'] if ENV['APP_ALLOW_POPUPS']
+      desired_capabilities[:safariInitialUrl] = ENV['APP_INITIAL_URL'] if ENV['APP_INITIAL_URL']
+      desired_capabilities[:safariAllowPopups] = ENV['APP_ALLOW_POPUPS'] if ENV['APP_ALLOW_POPUPS']
+      desired_capabilities[:shutdownOtherSimulators] = ENV['SHUTDOWN_OTHER_SIMS'] if ENV['SHUTDOWN_OTHER_SIMS']
+      desired_capabilities[:forceSimulatorSoftwareKeyboardPresence] = ENV['SHOW_SIM_KEYBOARD'] if ENV['SHOW_SIM_KEYBOARD']
 
-      desired_capabilities[:autoAcceptAlerts]       = ENV['AUTO_ACCEPT_ALERTS'] if ENV['AUTO_ACCEPT_ALERTS']
-      desired_capabilities[:autoDismissAlerts]      = ENV['AUTO_DISMISS_ALERTS'] if ENV['AUTO_DISMISS_ALERTS']
-      desired_capabilities[:isHeadless]             = ENV['HEADLESS'] if ENV['HEADLESS']
+      desired_capabilities[:autoAcceptAlerts] = ENV['AUTO_ACCEPT_ALERTS'] if ENV['AUTO_ACCEPT_ALERTS']
+      desired_capabilities[:autoDismissAlerts] = ENV['AUTO_DISMISS_ALERTS'] if ENV['AUTO_DISMISS_ALERTS']
+      desired_capabilities[:isHeadless] = ENV['HEADLESS'] if ENV['HEADLESS']
 
-      desired_capabilities[:newCommandTimeout]      = ENV['NEW_COMMAND_TIMEOUT'] if ENV['NEW_COMMAND_TIMEOUT']
-      desired_capabilities[:noReset]                = ENV['APP_NO_RESET'] if ENV['APP_NO_RESET']
-      desired_capabilities[:fullReset]              = ENV['APP_FULL_RESET'] if ENV['APP_FULL_RESET']
-      desired_capabilities[:webkitDebugProxyPort]   = ENV['WEBKIT_DEBUG_PROXY_PORT'] if ENV['WEBKIT_DEBUG_PROXY_PORT']
-      desired_capabilities[:webDriverAgentUrl]      = ENV['WEBDRIVER_AGENT_URL'] if ENV['WEBDRIVER_AGENT_URL']
-      desired_capabilities[:usePrebuiltWDA]         = ENV['USE_PREBUILT_WDA'] if ENV['USE_PREBUILT_WDA']
-      desired_capabilities[:useNewWDA]              = ENV['USE_NEW_WDA'] if ENV['USE_NEW_WDA']
+      desired_capabilities[:newCommandTimeout] = ENV['NEW_COMMAND_TIMEOUT'] if ENV['NEW_COMMAND_TIMEOUT']
+      desired_capabilities[:noReset] = ENV['APP_NO_RESET'] if ENV['APP_NO_RESET']
+      desired_capabilities[:fullReset] = ENV['APP_FULL_RESET'] if ENV['APP_FULL_RESET']
+      desired_capabilities[:webkitDebugProxyPort] = ENV['WEBKIT_DEBUG_PROXY_PORT'] if ENV['WEBKIT_DEBUG_PROXY_PORT']
+      desired_capabilities[:webDriverAgentUrl] = ENV['WEBDRIVER_AGENT_URL'] if ENV['WEBDRIVER_AGENT_URL']
+      desired_capabilities[:usePrebuiltWDA] = ENV['USE_PREBUILT_WDA'] if ENV['USE_PREBUILT_WDA']
+      desired_capabilities[:useNewWDA] = ENV['USE_NEW_WDA'] if ENV['USE_NEW_WDA']
       desired_capabilities[:chromedriverExecutable] = ENV['CHROMEDRIVER_EXECUTABLE'] if ENV['CHROMEDRIVER_EXECUTABLE']
       # set wdaLocalPort (iOS) or systemPort (Android) if PARALLEL_PORT is true
       if ENV['PARALLEL'] && ENV['PARALLEL_PORT']
@@ -193,7 +192,7 @@ module TestCentricity
       end
 
       unless desired_caps.nil?
-        desired_capabilities = merge_caps ? desired_capabilities.merge(desired_caps) : desired_caps
+        desired_capabilities = desired_caps
       end
 
       Capybara.register_driver :appium do |app|
@@ -202,25 +201,27 @@ module TestCentricity
           appium_lib: appium_lib_options,
           caps:       desired_capabilities
         }
-        Appium::Capybara::Driver.new app, all_options
+        Appium::Capybara::Driver.new(app, all_options)
       end
     end
 
     def self.initialize_local_browser
-      Environ.os = if OS.osx?
+      Environ.os = case
+                   when OS.osx?
                      'OS X'
-                   elsif OS.windows?
+                   when OS.windows?
                      'Windows'
-                   elsif OS.linux?
+                   when OS.linux?
                      'Linux'
+                   else
+                     'unknown'
                    end
-
       browser = ENV['WEB_BROWSER'].downcase.to_sym
 
       case browser
       when :firefox, :chrome, :ie, :safari, :edge
         Environ.platform = :desktop
-      when :chrome_headless, :firefox_headless
+      when :chrome_headless, :firefox_headless, :edge_headless
         Environ.platform = :desktop
         Environ.headless = true
       else
@@ -231,9 +232,8 @@ module TestCentricity
       Capybara.register_driver :selenium do |app|
         case browser
         when :safari
-          caps = Selenium::WebDriver::Remote::Capabilities.safari(cleanSession: true)
-          Capybara::Selenium::Driver.new(app, browser: browser, desired_capabilities: caps)
-        when :ie, :edge
+          Capybara::Selenium::Driver.new(app, browser: browser)
+        when :ie
           Capybara::Selenium::Driver.new(app, browser: browser)
         when :firefox, :firefox_headless
           profile = Selenium::WebDriver::Firefox::Profile.new
@@ -253,16 +253,15 @@ module TestCentricity
           profile['intl.accept_languages'] = ENV['LOCALE'] if ENV['LOCALE']
           options = Selenium::WebDriver::Firefox::Options.new(profile: profile)
           options.args << '--headless' if browser == :firefox_headless
-          Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
+          Capybara::Selenium::Driver.new(app, browser: :firefox, capabilities: [options])
         when :chrome, :chrome_headless
-          options = Selenium::WebDriver::Chrome::Options.new
+          options = Selenium::WebDriver::Chrome::Options.new(options: {'excludeSwitches' => ['enable-automation']})
           prefs = {
             prompt_for_download: false,
             directory_upgrade:   true,
             default_directory:   @downloads_path
           }
           options.add_preference(:download, prefs)
-          options.add_argument('--disable-infobars')
           options.add_argument('--disable-dev-shm-usage')
           options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
           if browser == :chrome_headless
@@ -271,7 +270,24 @@ module TestCentricity
             options.add_argument('--no-sandbox')
           end
 
-          Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+          Capybara::Selenium::Driver.new(app, browser: :chrome, capabilities: [options])
+        when :edge, :edge_headless
+          options = Selenium::WebDriver::Edge::Options.new(options: {'excludeSwitches' => ['enable-automation']})
+          prefs = {
+            prompt_for_download: false,
+            directory_upgrade:   true,
+            default_directory:   @downloads_path
+          }
+          options.add_preference(:download, prefs)
+          options.add_argument('--disable-dev-shm-usage')
+          options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
+          if browser == :edge_headless
+            options.add_argument('--headless')
+            options.add_argument('--disable-gpu')
+            options.add_argument('--no-sandbox')
+          end
+
+          Capybara::Selenium::Driver.new(app, browser: :edge, capabilities: [options])
         else
           if ENV['HOST_BROWSER'] && ENV['HOST_BROWSER'].downcase.to_sym == :chrome
             user_agent = Browsers.mobile_device_agent(ENV['WEB_BROWSER'])
@@ -280,7 +296,7 @@ module TestCentricity
             options.add_argument('--disable-dev-shm-usage')
             options.add_argument("--user-agent='#{user_agent}'")
             options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
-            Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+            Capybara::Selenium::Driver.new(app, browser: :chrome, capabilities: [options])
           else
             raise "Requested browser '#{browser}' is not supported"
           end
@@ -289,111 +305,95 @@ module TestCentricity
       Capybara.default_driver = :selenium
     end
 
-    def self.initialize_browserstack(desired_caps = nil, merge_caps = false)
+    def self.initialize_browserstack(desired_caps = nil)
       browser = ENV['BS_BROWSER']
       Environ.grid = :browserstack
 
-      if ENV['BS_REAL_MOBILE'] || ENV['BS_PLATFORM']
+      if ENV['BS_REAL_MOBILE'] || ENV['BS_DEVICE']
         Environ.platform    = :mobile
         Environ.device_name = ENV['BS_DEVICE']
         Environ.device_os   = ENV['BS_OS']
         Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
+        Environ.device = if ENV['BS_REAL_MOBILE']
+                           :device
+                         else
+                           :simulator
+                         end
       elsif ENV['BS_OS']
         Environ.os = "#{ENV['BS_OS']} #{ENV['BS_OS_VERSION']}"
       end
-      Environ.device = if ENV['BS_REAL_MOBILE']
-                         :device
-                       elsif ENV['BS_PLATFORM']
-                         :simulator
-                       end
-
+      # specify endpoint url
       endpoint = "http://#{ENV['BS_USERNAME']}:#{ENV['BS_AUTHKEY']}@hub-cloud.browserstack.com/wd/hub"
+      # enable tunneling if specified
+      if ENV['TUNNELING']
+        @bs_local = BrowserStack::Local.new
+        bs_local_args = {'key' => "#{ENV['BS_AUTHKEY']}"}
+        @bs_local.start(bs_local_args)
+        if @bs_local.isRunning
+          puts 'BrowserStack Local instance has been started'
+        else
+          puts 'BrowserStack Local instance failed to start'
+        end
+      end
+      # define BrowserStack options
+      options = if desired_caps.nil?
+                  browser_options = {}
+                  # define the required set of BrowserStack options
+                  bs_options = {
+                    userName: ENV['BS_USERNAME'],
+                    accessKey: ENV['BS_AUTHKEY'],
+                    sessionName: test_context_message,
+                    os: ENV['BS_OS'],
+                    osVersion: ENV['BS_OS_VERSION']
+                  }
+                  # define browser specific BrowserStack options
+                  case browser.downcase.to_sym
+                  when :safari
+                    browser_options[:enablePopups] = ENV['ALLOW_POPUPS'] if ENV['ALLOW_POPUPS']
+                    browser_options[:allowAllCookies] = ENV['ALLOW_COOKIES'] if ENV['ALLOW_COOKIES']
+                    bs_options[:safari] = browser_options unless browser_options.empty?
+                  when :ie
+                    browser_options[:enablePopups] = ENV['ALLOW_POPUPS'] if ENV['ALLOW_POPUPS']
+                    bs_options[:ie] = browser_options unless browser_options.empty?
+                  when :edge
+                    browser_options[:enablePopups] = ENV['ALLOW_POPUPS'] if ENV['ALLOW_POPUPS']
+                    bs_options[:edge] = browser_options unless browser_options.empty?
+                  end
+                  # define the optional BrowserStack options
+                  bs_options[:projectName] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
+                  bs_options[:buildName] = ENV['AUTOMATE_BUILD'] if ENV['AUTOMATE_BUILD']
+                  bs_options[:headless] = ENV['HEADLESS'] if ENV['HEADLESS']
+                  bs_options[:timezone] = ENV['TIME_ZONE'] if ENV['TIME_ZONE']
+                  bs_options[:geoLocation] = ENV['IP_GEOLOCATION'] if ENV['IP_GEOLOCATION']
+                  bs_options[:video] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
+                  bs_options[:debug] = ENV['SCREENSHOTS'] if ENV['SCREENSHOTS']
+                  bs_options[:networkLogs] = ENV['NETWORK_LOGS'] if ENV['NETWORK_LOGS']
+                  bs_options[:local] = ENV['TUNNELING'] if ENV['TUNNELING']
+                  bs_options[:deviceOrientation] = ENV['ORIENTATION'] if ENV['ORIENTATION']
+                  bs_options[:appiumLogs] = ENV['APPIUM_LOGS'] if ENV['APPIUM_LOGS']
+                  bs_options[:realMobile] = ENV['BS_REAL_MOBILE'] if ENV['BS_REAL_MOBILE']
+                  if ENV['BS_DEVICE']
+                    bs_options[:deviceName] = ENV['BS_DEVICE']
+                    bs_options[:appiumVersion] = '1.22.0'
+                    {
+                      browserName: browser,
+                      'bstack:options': bs_options
+                    }
+                  else
+                    bs_options[:resolution] = ENV['RESOLUTION'] if ENV['RESOLUTION']
+                    bs_options[:seleniumVersion] = '4.1.0'
+                    {
+                      browserName: browser,
+                      browserVersion: ENV['BS_VERSION'],
+                      'bstack:options': bs_options
+                    }
+                  end
+                else
+                  desired_caps
+                end
       Capybara.register_driver :browserstack do |app|
-        capabilities = Selenium::WebDriver::Remote::Capabilities.new
-
-        if ENV['BS_REAL_MOBILE']
-          capabilities['device'] = ENV['BS_DEVICE']
-          capabilities['realMobile'] = true
-          capabilities['os_version'] = ENV['BS_OS_VERSION']
-
-        elsif ENV['BS_PLATFORM']
-          capabilities[:platform] = ENV['BS_PLATFORM']
-          capabilities[:browserName] = browser
-          capabilities['device'] = ENV['BS_DEVICE'] if ENV['BS_DEVICE']
-          capabilities['deviceOrientation'] = ENV['ORIENTATION'] if ENV['ORIENTATION']
-
-        elsif ENV['BS_OS']
-          capabilities['os'] = ENV['BS_OS']
-          capabilities['os_version'] = ENV['BS_OS_VERSION']
-          capabilities['browser'] = browser || 'chrome'
-          capabilities['browser_version'] = ENV['BS_VERSION'] if ENV['BS_VERSION']
-          capabilities['resolution'] = ENV['RESOLUTION'] if ENV['RESOLUTION']
-        end
-
-        capabilities['browserstack.selenium_version'] = ENV['SELENIUM_VERSION'] if ENV['SELENIUM_VERSION']
-        capabilities['browserstack.console'] = ENV['CONSOLE_LOGS'] if ENV['CONSOLE_LOGS']
-        capabilities['browserstack.timezone'] = ENV['TIME_ZONE'] if ENV['TIME_ZONE']
-        capabilities['browserstack.geoLocation'] = ENV['IP_GEOLOCATION'] if ENV['IP_GEOLOCATION']
-        capabilities['browserstack.video'] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
-        capabilities['browserstack.debug'] = 'true'
-        capabilities['project'] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
-        capabilities['build'] = ENV['AUTOMATE_BUILD'] if ENV['AUTOMATE_BUILD']
-
-        context_message = ENV['TEST_CONTEXT'] ? "#{Environ.test_environment.upcase} - #{ENV['TEST_CONTEXT']}" : Environ.test_environment.upcase
-        if ENV['PARALLEL']
-          thread_num = ENV['TEST_ENV_NUMBER']
-          thread_num = 1 if thread_num.blank?
-          context_message = "#{context_message} - Thread ##{thread_num}"
-        end
-        capabilities['name'] = context_message
-
-        capabilities['acceptSslCerts'] = 'true'
-        capabilities['browserstack.localIdentifier'] = ENV['BS_LOCAL_ID'] if ENV['BS_LOCAL_ID']
-        capabilities['browserstack.local'] = 'true' if ENV['TUNNELING']
-
-        case browser.downcase.to_sym
-        when :ie
-          capabilities['ie.fileUploadDialogTimeout'] = 10000
-          capabilities['ie.ensureCleanSession'] = 'true'
-          capabilities['ie.browserCommandLineSwitches'] = 'true'
-          capabilities['nativeEvents'] = 'true'
-          capabilities['browserstack.ie.driver'] = ENV['WD_VERSION'] if ENV['WD_VERSION']
-          capabilities['browserstack.ie.enablePopups'] = ENV['ALLOW_POPUPS'] if ENV['ALLOW_POPUPS']
-        when :edge
-          capabilities['ie.fileUploadDialogTimeout'] = 10000
-          capabilities['ie.ensureCleanSession'] = 'true'
-          capabilities['ie.browserCommandLineSwitches'] = 'true'
-          capabilities['nativeEvents'] = 'true'
-          capabilities['browserstack.ie.driver'] = ENV['WD_VERSION'] if ENV['WD_VERSION']
-          capabilities['browserstack.edge.enablePopups'] = ENV['ALLOW_POPUPS'] if ENV['ALLOW_POPUPS']
-        when :firefox
-          capabilities['browserstack.geckodriver'] = ENV['WD_VERSION'] if ENV['WD_VERSION']
-        when :safari
-          capabilities['cleanSession'] = 'true'
-          capabilities['browserstack.safari.driver'] = ENV['WD_VERSION'] if ENV['WD_VERSION']
-          capabilities['browserstack.safari.enablePopups'] = ENV['ALLOW_POPUPS'] if ENV['ALLOW_POPUPS']
-          capabilities['browserstack.safari.allowAllCookies'] = ENV['ALLOW_COOKIES'] if ENV['ALLOW_COOKIES']
-        when :iphone, :ipad
-          capabilities['javascriptEnabled'] = 'true'
-          capabilities['cleanSession'] = 'true'
-        end
-
-        unless desired_caps.nil?
-          capabilities = merge_caps ? capabilities.merge(desired_caps) : desired_caps
-        end
-
-        if ENV['TUNNELING']
-          @bs_local = BrowserStack::Local.new
-          bs_local_args = {'key' => "#{ENV['BS_AUTHKEY']}"}
-          @bs_local.start(bs_local_args)
-          if @bs_local.isRunning
-            puts 'BrowserStack Local instance has been started'
-          else
-            puts 'BrowserStack Local instance failed to start'
-          end
-        end
-
-        Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, desired_capabilities: capabilities)
+        capabilities = Selenium::WebDriver::Remote::Capabilities.send(browser.gsub(/\s+/, '_').downcase.to_sym, options)
+        Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, capabilities: capabilities)
       end
 
       Environ.browser = browser
@@ -410,7 +410,7 @@ module TestCentricity
       end
     end
 
-    def self.initialize_crossbrowser(desired_caps = nil, merge_caps = false)
+    def self.initialize_crossbrowser(desired_caps = nil)
       browser = ENV['CB_BROWSER']
       Environ.grid = :crossbrowser
 
@@ -439,7 +439,7 @@ module TestCentricity
         end
 
         unless desired_caps.nil?
-          capabilities = merge_caps ? capabilities.merge(desired_caps) : desired_caps
+          capabilities = desired_caps
         end
 
         Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, desired_capabilities: capabilities)
@@ -457,7 +457,7 @@ module TestCentricity
       end
     end
 
-    def self.initialize_gridlastic(desired_caps = nil, merge_caps = false)
+    def self.initialize_gridlastic(desired_caps = nil)
       browser = ENV['GL_BROWSER']
       Environ.grid = :gridlastic
       Environ.os = ENV['GL_OS']
@@ -470,7 +470,7 @@ module TestCentricity
       capabilities['video']        = ENV['RECORD_VIDEO'].capitalize if ENV['RECORD_VIDEO']
 
       unless desired_caps.nil?
-        capabilities = merge_caps ? capabilities.merge(desired_caps) : desired_caps
+        capabilities = desired_caps
       end
 
       Capybara.register_driver :selenium do |app|
@@ -496,50 +496,55 @@ module TestCentricity
       end
     end
 
-    def self.initialize_lambdatest(desired_caps = nil, merge_caps = false)
+    def self.initialize_lambdatest(desired_caps = nil)
       browser = ENV['LT_BROWSER']
       Environ.grid = :lambdatest
       Environ.os = ENV['LT_OS']
       Environ.platform = :desktop
       Environ.tunneling = ENV['TUNNELING'] if ENV['TUNNELING']
-
-      endpoint = "http://#{ENV['LT_USERNAME']}:#{ENV['LT_AUTHKEY']}@hub.lambdatest.com/wd/hub"
+      # specify endpoint url
+      endpoint = "https://#{ENV['LT_USERNAME']}:#{ENV['LT_AUTHKEY']}@hub.lambdatest.com/wd/hub"
+      # define LambdaTest options
+      options = if desired_caps.nil?
+                  # define the required set of LambdaTest options
+                  lt_options = {
+                    user: ENV['LT_USERNAME'],
+                    accessKey: ENV['LT_AUTHKEY'],
+                    build: test_context_message,
+                    platformName: ENV['LT_OS'],
+                    resolution: ENV['RESOLUTION'],
+                    selenium_version: '4.0.0',
+                  }
+                  # define the optional LambdaTest options
+                  lt_options[:name] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
+                  lt_options[:headless] = ENV['HEADLESS'] if ENV['HEADLESS']
+                  lt_options[:timezone] = ENV['TIME_ZONE'] if ENV['TIME_ZONE']
+                  lt_options[:geoLocation] = ENV['GEO_LOCATION'] if ENV['GEO_LOCATION']
+                  lt_options[:video] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
+                  lt_options[:visual] = ENV['SCREENSHOTS'] if ENV['SCREENSHOTS']
+                  lt_options[:network] = ENV['NETWORK_LOGS'] if ENV['NETWORK_LOGS']
+                  lt_options[:tunnel] = ENV['TUNNELING'] if ENV['TUNNELING']
+                  # define browser specific LambdaTest options
+                  case browser.downcase.to_sym
+                  when :safari
+                    lt_options['safari.popups'] = ENV['ALLOW_POPUPS'] if ENV['ALLOW_POPUPS']
+                    lt_options['safari.cookies'] = ENV['ALLOW_COOKIES'] if ENV['ALLOW_COOKIES']
+                  when :ie
+                    lt_options['ie.popups'] = ENV['ALLOW_POPUPS'] if ENV['ALLOW_POPUPS']
+                  when :microsoftedge
+                    lt_options['edge.popups'] = ENV['ALLOW_POPUPS'] if ENV['ALLOW_POPUPS']
+                  end
+                  {
+                    browserName: browser,
+                    browserVersion: ENV['LT_VERSION'],
+                    'LT:Options': lt_options
+                  }
+                else
+                  desired_caps
+                end
       Capybara.register_driver :lambdatest do |app|
-        capabilities = Selenium::WebDriver::Remote::Capabilities.new
-        capabilities['name'] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
-        capabilities['browserName'] = browser
-        capabilities['version'] = ENV['LT_VERSION'] if ENV['LT_VERSION']
-        capabilities['platform'] = ENV['LT_OS']
-        capabilities['resolution'] = ENV['RESOLUTION'] if ENV['RESOLUTION']
-        capabilities['video'] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
-        capabilities['console'] = ENV['CONSOLE_LOGS'] if ENV['CONSOLE_LOGS']
-        capabilities['network'] = true
-        capabilities['visual'] = true
-        capabilities['tunnel'] = ENV['TUNNELING'] if ENV['TUNNELING']
-
-        case browser.downcase.to_sym
-        when :safari
-          capabilities['safari.popups'] = ENV['ALLOW_POPUPS'] if ENV['ALLOW_POPUPS']
-          capabilities['safari.cookies'] = ENV['ALLOW_COOKIES'] if ENV['ALLOW_COOKIES']
-        when :ie
-          capabilities['ie.popups'] = ENV['ALLOW_POPUPS'] if ENV['ALLOW_POPUPS']
-        when :edge
-          capabilities['edge.popups'] = ENV['ALLOW_POPUPS'] if ENV['ALLOW_POPUPS']
-        end
-
-        context_message = ENV['TEST_CONTEXT'] ? "#{Environ.test_environment.upcase} - #{ENV['TEST_CONTEXT']}" : Environ.test_environment.upcase
-        if ENV['PARALLEL']
-          thread_num = ENV['TEST_ENV_NUMBER']
-          thread_num = 1 if thread_num.blank?
-          context_message = "#{context_message} - Thread ##{thread_num}"
-        end
-        capabilities['build'] = context_message
-
-        unless desired_caps.nil?
-          capabilities = merge_caps ? capabilities.merge(desired_caps) : desired_caps
-        end
-
-        Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, desired_capabilities: capabilities)
+        capabilities = Selenium::WebDriver::Remote::Capabilities.send(browser.gsub(/\s+/, '_').downcase.to_sym, options)
+        Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, capabilities: capabilities)
       end
 
       Environ.browser = browser
@@ -602,7 +607,7 @@ module TestCentricity
       Capybara.default_driver = :remote_browser
     end
 
-    def self.initialize_saucelabs(desired_caps = nil, merge_caps = false)
+    def self.initialize_saucelabs(desired_caps = nil)
       browser = ENV['SL_BROWSER']
       Environ.grid = :saucelabs
 
@@ -633,7 +638,7 @@ module TestCentricity
         end
 
         unless desired_caps.nil?
-          capabilities = merge_caps ? capabilities.merge(desired_caps) : desired_caps
+          capabilities = desired_caps
         end
 
         Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, desired_capabilities: capabilities)
@@ -651,7 +656,7 @@ module TestCentricity
       end
     end
 
-    def self.initialize_testingbot(desired_caps = nil, merge_caps = false)
+    def self.initialize_testingbot(desired_caps = nil)
       browser = ENV['TB_BROWSER']
       Environ.grid = :testingbot
 
@@ -685,7 +690,7 @@ module TestCentricity
         end
 
         unless desired_caps.nil?
-          capabilities = merge_caps ? capabilities.merge(desired_caps) : desired_caps
+          capabilities = desired_caps
         end
 
         Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, desired_capabilities: capabilities)
@@ -701,6 +706,20 @@ module TestCentricity
         str = args.first.to_s
         str if File.exist?(str)
       end
+    end
+
+    def self.test_context_message
+      context_message = if ENV['TEST_CONTEXT']
+                          "#{Environ.test_environment.to_s.upcase} - #{ENV['TEST_CONTEXT']}"
+                        else
+                          Environ.test_environment.to_s.upcase
+                        end
+      if ENV['PARALLEL']
+        thread_num = ENV['TEST_ENV_NUMBER']
+        thread_num = 1 if thread_num.blank?
+        context_message = "#{context_message} - Thread ##{thread_num}"
+      end
+      context_message
     end
   end
 end
