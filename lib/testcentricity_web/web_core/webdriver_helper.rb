@@ -11,14 +11,18 @@ module TestCentricity
 
     attr_accessor :bs_local
     attr_accessor :downloads_path
+    attr_accessor :endpoint
+    attr_accessor :capabilities
 
     def self.initialize_web_driver(options = nil)
-      desired_caps = nil
+      @endpoint = nil
+      @capabilities = nil
       if options.is_a?(String)
         Capybara.app_host = options
       elsif options.is_a?(Hash)
         Capybara.app_host = options[:app_host] if options.key?(:app_host)
-        desired_caps = options[:desired_capabilities] if options.key?(:desired_capabilities)
+        @endpoint = options[:endpoint] if options.key?(:endpoint)
+        @capabilities = options[:desired_capabilities] if options.key?(:desired_capabilities)
       end
 
       browser = ENV['WEB_BROWSER']
@@ -44,25 +48,19 @@ module TestCentricity
 
       context = case browser.downcase.to_sym
                 when :appium
-                  initialize_appium(desired_caps)
+                  initialize_appium
                   'mobile device emulator'
                 when :browserstack
-                  initialize_browserstack(desired_caps)
+                  initialize_browserstack
                   'Browserstack cloud service'
-                when :crossbrowser
-                  initialize_crossbrowser(desired_caps)
-                  'CrossBrowserTesting cloud service'
-                when :gridlastic
-                  initialize_gridlastic(desired_caps)
-                  'Gridlastic cloud service'
                 when :lambdatest
-                  initialize_lambdatest(desired_caps)
+                  initialize_lambdatest
                   'LambdaTest cloud service'
                 when :saucelabs
-                  initialize_saucelabs(desired_caps)
+                  initialize_saucelabs
                   'Sauce Labs cloud service'
                 when :testingbot
-                  initialize_testingbot(desired_caps)
+                  initialize_testingbot
                   'TestingBot cloud service'
                 else
                   if ENV['SELENIUM'] == 'remote'
@@ -75,7 +73,7 @@ module TestCentricity
                 end
 
       # set browser window size only if testing with a desktop web browser
-      unless Environ.is_device? || Capybara.current_driver == :appium
+      unless Environ.is_device? || Environ.is_simulator? || Capybara.current_driver == :appium
         initialize_browser_size
       end
 
@@ -131,7 +129,7 @@ module TestCentricity
 
     private
 
-    def self.initialize_appium(desired_caps = nil)
+    def self.initialize_appium
       Environ.platform    = :mobile
       Environ.device_name = ENV['APP_DEVICE']
       Environ.device_os   = ENV['APP_PLATFORM_NAME'].downcase.to_sym
@@ -139,7 +137,7 @@ module TestCentricity
       Environ.device_os_version = ENV['APP_VERSION']
       Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
       Capybara.default_driver = :appium
-      endpoint = 'http://localhost:4723/wd/hub'
+      @endpoint = 'http://localhost:4723/wd/hub' if @endpoint.nil?
       desired_capabilities = {
           platformName:    Environ.device_os,
           platformVersion: Environ.device_os_version,
@@ -191,12 +189,12 @@ module TestCentricity
         desired_capabilities[:systemPort]   = ENV['SYSTEM_PORT'] if ENV['SYSTEM_PORT']
       end
 
-      unless desired_caps.nil?
-        desired_capabilities = desired_caps
+      unless @capabilities.nil?
+        desired_capabilities = @capabilities
       end
 
       Capybara.register_driver :appium do |app|
-        appium_lib_options = { server_url: endpoint }
+        appium_lib_options = { server_url: @endpoint }
         all_options = {
           appium_lib: appium_lib_options,
           caps:       desired_capabilities
@@ -231,9 +229,7 @@ module TestCentricity
 
       Capybara.register_driver :selenium do |app|
         case browser
-        when :safari
-          Capybara::Selenium::Driver.new(app, browser: browser)
-        when :ie
+        when :safari, :ie
           Capybara::Selenium::Driver.new(app, browser: browser)
         when :firefox, :firefox_headless
           profile = Selenium::WebDriver::Firefox::Profile.new
@@ -291,7 +287,7 @@ module TestCentricity
         else
           if ENV['HOST_BROWSER'] && ENV['HOST_BROWSER'].downcase.to_sym == :chrome
             user_agent = Browsers.mobile_device_agent(ENV['WEB_BROWSER'])
-            options = Selenium::WebDriver::Chrome::Options.new
+            options = Selenium::WebDriver::Chrome::Options.new(options: {'excludeSwitches' => ['enable-automation']})
             options.add_argument('--disable-infobars')
             options.add_argument('--disable-dev-shm-usage')
             options.add_argument("--user-agent='#{user_agent}'")
@@ -305,7 +301,7 @@ module TestCentricity
       Capybara.default_driver = :selenium
     end
 
-    def self.initialize_browserstack(desired_caps = nil)
+    def self.initialize_browserstack
       browser = ENV['BS_BROWSER']
       Environ.grid = :browserstack
 
@@ -323,7 +319,7 @@ module TestCentricity
         Environ.os = "#{ENV['BS_OS']} #{ENV['BS_OS_VERSION']}"
       end
       # specify endpoint url
-      endpoint = "http://#{ENV['BS_USERNAME']}:#{ENV['BS_AUTHKEY']}@hub-cloud.browserstack.com/wd/hub"
+      @endpoint = "http://#{ENV['BS_USERNAME']}:#{ENV['BS_AUTHKEY']}@hub-cloud.browserstack.com/wd/hub" if @endpoint.nil?
       # enable tunneling if specified
       if ENV['TUNNELING']
         @bs_local = BrowserStack::Local.new
@@ -336,7 +332,7 @@ module TestCentricity
         end
       end
       # define BrowserStack options
-      options = if desired_caps.nil?
+      options = if @capabilities.nil?
                   browser_options = {}
                   # define the required set of BrowserStack options
                   bs_options = {
@@ -372,6 +368,7 @@ module TestCentricity
                   bs_options[:deviceOrientation] = ENV['ORIENTATION'] if ENV['ORIENTATION']
                   bs_options[:appiumLogs] = ENV['APPIUM_LOGS'] if ENV['APPIUM_LOGS']
                   bs_options[:realMobile] = ENV['BS_REAL_MOBILE'] if ENV['BS_REAL_MOBILE']
+                  # define mobile device options
                   if ENV['BS_DEVICE']
                     bs_options[:deviceName] = ENV['BS_DEVICE']
                     bs_options[:appiumVersion] = '1.22.0'
@@ -380,6 +377,7 @@ module TestCentricity
                       'bstack:options': bs_options
                     }
                   else
+                    # define desktop browser options
                     bs_options[:resolution] = ENV['RESOLUTION'] if ENV['RESOLUTION']
                     bs_options[:seleniumVersion] = '4.1.0'
                     {
@@ -389,123 +387,25 @@ module TestCentricity
                     }
                   end
                 else
-                  desired_caps
+                  @capabilities
                 end
-      Capybara.register_driver :browserstack do |app|
-        capabilities = Selenium::WebDriver::Remote::Capabilities.send(browser.gsub(/\s+/, '_').downcase.to_sym, options)
-        Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, capabilities: capabilities)
-      end
-
-      Environ.browser = browser
+      register_remote_driver(:browserstack, browser, options)
+      # configure file_detector for remote uploads
+      config_file_uploads
       Environ.tunneling = ENV['TUNNELING'] if ENV['TUNNELING']
       Environ.device_type = ENV['DEVICE_TYPE'] if ENV['DEVICE_TYPE']
-
-      Capybara.default_driver = :browserstack
-      Capybara.run_server = false
-      # configure file_detector for remote uploads
-      selenium = Capybara.page.driver.browser
-      selenium.file_detector = lambda do |args|
-        str = args.first.to_s
-        str if File.exist?(str)
-      end
     end
 
-    def self.initialize_crossbrowser(desired_caps = nil)
-      browser = ENV['CB_BROWSER']
-      Environ.grid = :crossbrowser
-
-      if ENV['CB_OS']
-        Environ.os = ENV['CB_OS']
-        Environ.platform = :desktop
-      elsif ENV['CB_PLATFORM']
-        Environ.device_name = ENV['CB_PLATFORM']
-        Environ.device      = :device
-        Environ.platform    = :mobile
-        Environ.device_type = ENV['DEVICE_TYPE'] if ENV['DEVICE_TYPE']
-      end
-
-      endpoint = "http://#{ENV['CB_USERNAME']}:#{ENV['CB_AUTHKEY']}@hub.crossbrowsertesting.com:80/wd/hub"
-      Capybara.register_driver :crossbrowser do |app|
-        capabilities = Selenium::WebDriver::Remote::Capabilities.new
-        capabilities['name'] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
-        capabilities['build'] = ENV['AUTOMATE_BUILD'] if ENV['AUTOMATE_BUILD']
-        capabilities['browser_api_name'] = browser
-        capabilities['screen_resolution'] = ENV['RESOLUTION'] if ENV['RESOLUTION']
-        if ENV['CB_OS']
-          capabilities['os_api_name'] = ENV['CB_OS']
-          Environ.platform = :desktop
-        elsif ENV['CB_PLATFORM']
-          capabilities['os_api_name'] = ENV['CB_PLATFORM']
-        end
-
-        unless desired_caps.nil?
-          capabilities = desired_caps
-        end
-
-        Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, desired_capabilities: capabilities)
-      end
-
-      Environ.browser = browser
-
-      Capybara.default_driver = :crossbrowser
-      Capybara.run_server = false
-      # configure file_detector for remote uploads
-      selenium = Capybara.page.driver.browser
-      selenium.file_detector = lambda do |args|
-        str = args.first.to_s
-        str if File.exist?(str)
-      end
-    end
-
-    def self.initialize_gridlastic(desired_caps = nil)
-      browser = ENV['GL_BROWSER']
-      Environ.grid = :gridlastic
-      Environ.os = ENV['GL_OS']
-      endpoint = "http://#{ENV['GL_USERNAME']}:#{ENV['GL_AUTHKEY']}@#{ENV['GL_SUBDOMAIN']}.gridlastic.com:80/wd/hub"
-      capabilities = Selenium::WebDriver::Remote::Capabilities.new
-      capabilities['browserName']  = browser
-      capabilities['version']      = ENV['GL_VERSION'] if ENV['GL_VERSION']
-      capabilities['platform']     = ENV['GL_OS']
-      capabilities['platformName'] = ENV['GL_PLATFORM']
-      capabilities['video']        = ENV['RECORD_VIDEO'].capitalize if ENV['RECORD_VIDEO']
-
-      unless desired_caps.nil?
-        capabilities = desired_caps
-      end
-
-      Capybara.register_driver :selenium do |app|
-        client = Selenium::WebDriver::Remote::Http::Default.new
-        client.timeout = 1200
-        Capybara::Selenium::Driver.new(app, http_client: client, browser: :remote, url: endpoint, desired_capabilities: capabilities)
-      end
-
-      Environ.browser = browser
-
-      Capybara.default_driver = :selenium
-      Capybara.run_server = false
-
-      if ENV['RECORD_VIDEO']
-        session_id = Capybara.current_session.driver.browser.instance_variable_get(:@bridge).session_id
-        puts "TEST VIDEO URL: #{ENV['VIDEO_URL']}#{session_id}"
-      end
-      # configure file_detector for remote uploads
-      selenium = Capybara.page.driver.browser
-      selenium.file_detector = lambda do |args|
-        str = args.first.to_s
-        str if File.exist?(str)
-      end
-    end
-
-    def self.initialize_lambdatest(desired_caps = nil)
+    def self.initialize_lambdatest
       browser = ENV['LT_BROWSER']
       Environ.grid = :lambdatest
       Environ.os = ENV['LT_OS']
       Environ.platform = :desktop
       Environ.tunneling = ENV['TUNNELING'] if ENV['TUNNELING']
       # specify endpoint url
-      endpoint = "https://#{ENV['LT_USERNAME']}:#{ENV['LT_AUTHKEY']}@hub.lambdatest.com/wd/hub"
+      @endpoint = "https://#{ENV['LT_USERNAME']}:#{ENV['LT_AUTHKEY']}@hub.lambdatest.com/wd/hub" if @endpoint.nil?
       # define LambdaTest options
-      options = if desired_caps.nil?
+      options = if @capabilities.nil?
                   # define the required set of LambdaTest options
                   lt_options = {
                     user: ENV['LT_USERNAME'],
@@ -540,62 +440,89 @@ module TestCentricity
                     'LT:Options': lt_options
                   }
                 else
-                  desired_caps
+                  @capabilities
                 end
-      Capybara.register_driver :lambdatest do |app|
-        capabilities = Selenium::WebDriver::Remote::Capabilities.send(browser.gsub(/\s+/, '_').downcase.to_sym, options)
-        Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, capabilities: capabilities)
-      end
-
-      Environ.browser = browser
-
-      Capybara.default_driver = :lambdatest
-      Capybara.run_server = false
+      register_remote_driver(:lambdatest, browser, options)
       # configure file_detector for remote uploads
-      selenium = Capybara.page.driver.browser
-      selenium.file_detector = lambda do |args|
-        str = args.first.to_s
-        str if File.exist?(str)
-      end
+      config_file_uploads
     end
 
     def self.initialize_remote
       Environ.grid = :selenium_grid
       browser  = ENV['WEB_BROWSER'].downcase.to_sym
-      endpoint = ENV['REMOTE_ENDPOINT'] || 'http://127.0.0.1:4444/wd/hub'
+      @endpoint = ENV['REMOTE_ENDPOINT'] || 'http://127.0.0.1:4444/wd/hub' if @endpoint.nil?
       Capybara.register_driver :remote_browser do |app|
         case browser
-        when :firefox, :safari, :ie, :edge
-          capabilities = Selenium::WebDriver::Remote::Capabilities.send(browser)
+        when :safari
+          options = Selenium::WebDriver::Safari::Options.new
+        when :ie
+          options = Selenium::WebDriver::IE::Options.new
+        when :firefox, :firefox_headless
+          profile = Selenium::WebDriver::Firefox::Profile.new
+          profile['browser.download.dir'] = @downloads_path
+          profile['browser.download.folderList'] = 2
+          profile['browser.download.manager.showWhenStarting'] = false
+          profile['browser.download.manager.closeWhenDone'] = true
+          profile['browser.download.manager.showAlertOnComplete'] = false
+          profile['browser.download.manager.alertOnEXEOpen'] = false
+          profile['browser.download.manager.useWindow'] = false
+          profile['browser.helperApps.alwaysAsk.force'] = false
+          profile['pdfjs.disabled'] = true
+
+          mime_types = ENV['MIME_TYPES'] || 'images/jpeg, application/pdf, application/octet-stream'
+          profile['browser.helperApps.neverAsk.saveToDisk'] = mime_types
+
+          profile['intl.accept_languages'] = ENV['LOCALE'] if ENV['LOCALE']
+          options = Selenium::WebDriver::Firefox::Options.new(profile: profile)
+          options.args << '--headless' if browser == :firefox_headless
         when :chrome, :chrome_headless
-          options = %w[--disable-infobars]
-          options.push('--disable-dev-shm-usage')
-          options.push("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
+          options = Selenium::WebDriver::Chrome::Options.new(options: {'excludeSwitches' => ['enable-automation']})
+          prefs = {
+            prompt_for_download: false,
+            directory_upgrade:   true,
+            default_directory:   @downloads_path
+          }
+          options.add_preference(:download, prefs)
+          options.add_argument('--disable-dev-shm-usage')
+          options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
           if browser == :chrome_headless
-            Environ.headless = true
-            options.push('--headless')
-            options.push('--disable-gpu')
-            options.push('--no-sandbox')
+            options.add_argument('--headless')
+            options.add_argument('--disable-gpu')
+            options.add_argument('--no-sandbox')
           end
-          capabilities = Selenium::WebDriver::Remote::Capabilities.chrome('goog:chromeOptions' => { args: options })
+        when :edge, :edge_headless
+          options = Selenium::WebDriver::Edge::Options.new(options: {'excludeSwitches' => ['enable-automation']})
+          prefs = {
+            prompt_for_download: false,
+            directory_upgrade:   true,
+            default_directory:   @downloads_path
+          }
+          options.add_preference(:download, prefs)
+          options.add_argument('--disable-dev-shm-usage')
+          options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
+          if browser == :edge_headless
+            options.add_argument('--headless')
+            options.add_argument('--disable-gpu')
+            options.add_argument('--no-sandbox')
+          end
         else
           if ENV['HOST_BROWSER'] && ENV['HOST_BROWSER'].downcase.to_sym == :chrome
             Environ.platform = :mobile
             Environ.device_name = Browsers.mobile_device_name(ENV['WEB_BROWSER'])
             user_agent = Browsers.mobile_device_agent(ENV['WEB_BROWSER'])
-            options = %w[--disable-infobars]
-            options.push('--disable-dev-shm-usage')
-            options.push("--user-agent='#{user_agent}'")
-            options.push("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
-            capabilities = Selenium::WebDriver::Remote::Capabilities.chrome('goog:chromeOptions' => { args: options })
+            options = Selenium::WebDriver::Chrome::Options.new(options: {'excludeSwitches' => ['enable-automation']})
+            options.add_argument('--disable-infobars')
+            options.add_argument('--disable-dev-shm-usage')
+            options.add_argument("--user-agent='#{user_agent}'")
+            options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
           else
             raise "Requested browser '#{browser}' is not supported on Selenium Grid"
           end
         end
         Capybara::Selenium::Driver.new(app,
                                        browser: :remote,
-                                       url: endpoint,
-                                       desired_capabilities: capabilities).tap do |driver|
+                                       url: @endpoint,
+                                       capabilities: [options]).tap do |driver|
           # configure file_detector for remote uploads
           driver.browser.file_detector = lambda do |args|
             str = args.first.to_s
@@ -607,7 +534,7 @@ module TestCentricity
       Capybara.default_driver = :remote_browser
     end
 
-    def self.initialize_saucelabs(desired_caps = nil)
+    def self.initialize_saucelabs
       browser = ENV['SL_BROWSER']
       Environ.grid = :saucelabs
 
@@ -616,47 +543,54 @@ module TestCentricity
         Environ.os = ENV['SL_OS']
       elsif ENV['SL_PLATFORM']
         Environ.device_name = ENV['SL_DEVICE']
-        Environ.platform    = :mobile
+        Environ.platform = :mobile
+        Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
+        Environ.device = :simulator
       end
-
-      endpoint = "http://#{ENV['SL_USERNAME']}:#{ENV['SL_AUTHKEY']}@ondemand.saucelabs.com:80/wd/hub"
-      Capybara.register_driver :saucelabs do |app|
-        capabilities = Selenium::WebDriver::Remote::Capabilities.new
-        capabilities['name'] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
-        capabilities['build'] = ENV['AUTOMATE_BUILD'] if ENV['AUTOMATE_BUILD']
-        capabilities['browserName'] = browser
-        capabilities['version'] = ENV['SL_VERSION'] if ENV['SL_VERSION']
-        capabilities['screenResolution'] = ENV['RESOLUTION'] if ENV['RESOLUTION']
-        capabilities['recordVideo'] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
-        if ENV['SL_OS']
-          capabilities['platform'] = ENV['SL_OS']
-        elsif ENV['SL_PLATFORM']
-          capabilities['platform'] = ENV['SL_PLATFORM']
-          capabilities['deviceName'] = ENV['SL_DEVICE']
-          capabilities['deviceType'] = ENV['SL_DEVICE_TYPE'] if ENV['SL_DEVICE_TYPE']
-          capabilities['deviceOrientation'] = ENV['ORIENTATION'] if ENV['ORIENTATION']
-        end
-
-        unless desired_caps.nil?
-          capabilities = desired_caps
-        end
-
-        Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, desired_capabilities: capabilities)
-      end
-
-      Environ.browser = browser
-
-      Capybara.default_driver = :saucelabs
-      Capybara.run_server = false
+      # specify endpoint url
+      @endpoint = "https://#{ENV['SL_USERNAME']}:#{ENV['SL_AUTHKEY']}@ondemand.#{ENV['DATA_CENTER']}.saucelabs.com/wd/hub" if @endpoint.nil?
+      # define SauceLab options
+      options = if @capabilities.nil?
+                  # define the required set of SauceLab options
+                  sl_options = {
+                    userName: ENV['SL_USERNAME'],
+                    accessKey: ENV['SL_AUTHKEY'],
+                    build: test_context_message
+                  }
+                  # define the optional SauceLab options
+                  sl_options[:name] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
+                  sl_options[:recordVideo] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
+                  sl_options[:recordScreenshots] = ENV['SCREENSHOTS'] if ENV['SCREENSHOTS']
+                  # define mobile device options
+                  if ENV['SL_PLATFORM']
+                    sl_options[:deviceOrientation] = ENV['ORIENTATION'].upcase if ENV['ORIENTATION']
+                    sl_options[:appiumVersion] = '1.22.0'
+                    {
+                      browserName: browser,
+                      platformName: ENV['SL_PLATFORM'],
+                      'appium:deviceName': ENV['SL_DEVICE'],
+                      'appium:platformVersion': ENV['SL_VERSION'],
+                      'sauce:options': sl_options
+                    }
+                  else
+                    # define desktop browser options
+                    sl_options[:screenResolution] = ENV['RESOLUTION'] if ENV['RESOLUTION']
+                    {
+                      browserName: browser,
+                      browserVersion: ENV['SL_VERSION'],
+                      platformName: ENV['SL_OS'],
+                      'sauce:options': sl_options
+                    }
+                  end
+                else
+                  @capabilities
+                end
+      register_remote_driver(:saucelabs, browser, options)
       # configure file_detector for remote uploads
-      selenium = Capybara.page.driver.browser
-      selenium.file_detector = lambda do |args|
-        str = args.first.to_s
-        str if File.exist?(str)
-      end
+      config_file_uploads
     end
 
-    def self.initialize_testingbot(desired_caps = nil)
+    def self.initialize_testingbot
       browser = ENV['TB_BROWSER']
       Environ.grid = :testingbot
 
@@ -671,41 +605,43 @@ module TestCentricity
       else
         Environ.platform = :desktop
       end
-
-      endpoint = ENV['TUNNELING'] ? '@localhost:4445/wd/hub' : '@hub.testingbot.com:4444/wd/hub'
-      endpoint = "http://#{ENV['TB_USERNAME']}:#{ENV['TB_AUTHKEY']}#{endpoint}"
-      Capybara.register_driver :testingbot do |app|
-        capabilities = Selenium::WebDriver::Remote::Capabilities.new
-        capabilities['name'] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
-        capabilities['build'] = ENV['AUTOMATE_BUILD'] if ENV['AUTOMATE_BUILD']
-        capabilities['browserName'] = browser
-        capabilities['version'] = ENV['TB_VERSION'] if ENV['TB_VERSION']
-        capabilities['screen-resolution'] = ENV['RESOLUTION'] if ENV['RESOLUTION']
-        capabilities['platform'] = ENV['TB_OS']
-        capabilities['record_video'] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
-        if ENV['TB_PLATFORM']
-          capabilities['orientation']  = ENV['ORIENTATION'] if ENV['ORIENTATION']
-          capabilities['platformName'] = ENV['TB_PLATFORM']
-          capabilities['deviceName']   = ENV['TB_DEVICE']
-        end
-
-        unless desired_caps.nil?
-          capabilities = desired_caps
-        end
-
-        Capybara::Selenium::Driver.new(app, browser: :remote, url: endpoint, desired_capabilities: capabilities)
+      # specify endpoint url
+      if @endpoint.nil?
+        url = ENV['TUNNELING'] ? '@localhost:4445/wd/hub' : '@hub.testingbot.com/wd/hub'
+        @endpoint = "http://#{ENV['TB_USERNAME']}:#{ENV['TB_AUTHKEY']}#{url}"
       end
-
-      Environ.browser = browser
-
-      Capybara.default_driver = :testingbot
-      Capybara.run_server = false
-      # configure file_detector for remote uploads
-      selenium = Capybara.page.driver.browser
-      selenium.file_detector = lambda do |args|
-        str = args.first.to_s
-        str if File.exist?(str)
-      end
+      # define TestingBot options
+      options = if @capabilities.nil?
+                  # define the required set of TestingBot options
+                  tb_options = { build: test_context_message }
+                  # define the optional TestingBot options
+                  tb_options[:name] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
+                  tb_options[:timeZone] = ENV['TIME_ZONE'] if ENV['TIME_ZONE']
+                  tb_options['testingbot.geoCountryCode'] = ENV['GEO_LOCATION'] if ENV['GEO_LOCATION']
+                  tb_options[:screenrecorder] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
+                  tb_options[:screenshot] = ENV['SCREENSHOTS'] if ENV['SCREENSHOTS']
+                  # define mobile device options
+                  if ENV['TB_PLATFORM']
+                    tb_options[:platform] = ENV['TB_PLATFORM']
+                    tb_options[:orientation] = ENV['ORIENTATION'].upcase if ENV['ORIENTATION']
+                    tb_options[:deviceName] = ENV['TB_DEVICE'] if ENV['TB_DEVICE']
+                  else
+                    # define desktop browser options
+                    tb_options['screen-resolution'] = ENV['RESOLUTION'] if ENV['RESOLUTION']
+                    tb_options['selenium-version'] = '4.1.0'
+                  end
+                  {
+                    browserName: browser,
+                    browserVersion: ENV['TB_VERSION'],
+                    platformName: ENV['TB_OS'],
+                    'tb:options': tb_options
+                  }
+                else
+                  @capabilities
+                end
+      register_remote_driver(:testingbot, browser, options)
+      # configure file_detector for remote uploads if target is desktop web browser
+      config_file_uploads unless ENV['TB_PLATFORM']
     end
 
     def self.test_context_message
@@ -720,6 +656,27 @@ module TestCentricity
         context_message = "#{context_message} - Thread ##{thread_num}"
       end
       context_message
+    end
+
+    def self.register_remote_driver(driver, browser, options)
+      Capybara.register_driver driver do |app|
+        capabilities = Selenium::WebDriver::Remote::Capabilities.send(browser.gsub(/\s+/, '_').downcase.to_sym, options)
+        Capybara::Selenium::Driver.new(app, browser: :remote, url: @endpoint, capabilities: capabilities)
+      end
+
+      Environ.browser = browser
+
+      Capybara.default_driver = driver
+      Capybara.run_server = false
+    end
+
+    def self.config_file_uploads
+      # configure file_detector for remote uploads
+      selenium = Capybara.page.driver.browser
+      selenium.file_detector = lambda do |args|
+        str = args.first.to_s
+        str if File.exist?(str)
+      end
     end
   end
 end

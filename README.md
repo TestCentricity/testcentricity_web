@@ -4,7 +4,7 @@
 
 
 The TestCentricity™ Web core generic framework for desktop and mobile web browser-based app testing implements a Page Object and Data
-Object Model DSL for use with Cucumber, Capybara (version 3.x), and Selenium-Webdriver (version 4.1).
+Object Model DSL for use with Cucumber, Capybara (version 3.x), and Selenium-Webdriver (version 4.x).
 
 **An example project that demonstrates the implementation of a page object model framework using Cucumber and TestCentricity™ can be found [here](https://github.com/TestCentricity/tc_web_sample).**
 
@@ -12,15 +12,13 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 * locally hosted desktop browsers (Firefox, Chrome, Edge, Safari, or IE)
 * locally hosted emulated iOS Mobile Safari, Android, Windows Phone, or Blackberry mobile browsers (running within a local instance of Chrome)
 * locally hosted "headless" Chrome, Firefox, or Edge browsers
-* desktop and emulated mobile web browsers hosted on Selenium Grid and Dockerized Selenium Grid environments
+* remote desktop and emulated mobile web browsers hosted on Selenium Grid 4 and Dockerized Selenium Grid 4 environments
 * mobile Safari browsers on iOS device simulators or physical iOS devices (using Appium and XCode on OS X)
 * mobile Chrome or Android browsers on Android Studio virtual device emulators (using Appium and Android Studio on OS X)
 * cloud hosted desktop (Firefox, Chrome, Safari, IE, or Edge) or mobile (iOS Mobile Safari or Android) web browsers using the following service:
   * [Browserstack](https://www.browserstack.com/list-of-browsers-and-platforms?product=automate)
   * [Sauce Labs](https://saucelabs.com/open-source#automated-testing-platform)
-  * [CrossBrowserTesting](https://crossbrowsertesting.com/selenium-testing)
   * [TestingBot](https://testingbot.com/features)
-  * [Gridlastic](https://www.gridlastic.com/test-environments.html)
   * [LambdaTest](https://www.lambdatest.com/selenium-automation)
 * web portals utilizing JavaScript front end application frameworks like Ember, React, Angular, and GWT
 * web pages containing HTML5 Video and Audio objects
@@ -33,7 +31,7 @@ A complete history of bug fixes and new features can be found in the {file:CHANG
 
 ## Installation
 
-Add this line to your automation project's Gemfile:
+TestCentricity requires Ruby 2.7 or later. To install the TestCentricity gem, add this line to your automation project's Gemfile:
 
     gem 'testcentricity_web'
 
@@ -78,7 +76,6 @@ You also need to add this line to your automation project's Gemfile:
 And then execute:
 
     $ bundle
-
 
 
 ## Page Objects
@@ -740,16 +737,18 @@ the connection.
 For locally hosted desktop web browsers running on macOS (OS X) or Windows platforms, the `WEB_BROWSER` Environment Variable must be set to one of the
 values from the table below: 
 
-`WEB_BROWSER`      | **Desktop Platform**
--------------------|----------------
-`chrome`           | OS X or Windows
-`chrome_headless`  | OS X or Windows (headless - no visible UI)
-`firefox`          | OS X or Windows (Firefox version 55 or greater only)
-`firefox_headless` | OS X or Windows (headless - no visible UI)
-`edge`             | OS X or Windows
-`edge_headless`    | OS X or Windows (headless - no visible UI)
-`safari`           | OS X only
-`ie`               | Windows only (IE version 10.x or greater only)
+| `WEB_BROWSER`      | **Desktop Platform**                           |
+|--------------------|------------------------------------------------|
+| `chrome`           | OS X or Windows                                |
+| `chrome_headless`  | OS X or Windows (headless - no visible UI)     |
+| `firefox`          | OS X or Windows |
+| `firefox_headless` | OS X or Windows (headless - no visible UI)     |
+| `edge`             | OS X or Windows                                |
+| `edge_headless`    | OS X or Windows (headless - no visible UI)     |
+| `safari`           | OS X only                                      |
+| `ie`               | Windows only (IE version 10.x or greater only) |
+
+Refer to **section 8.7 (Using Browser specific Profiles in cucumber.yml)** below.
 
 
 #### Setting desktop browser window size
@@ -815,62 +814,64 @@ Windows. The specified mobile browser's user agent, CSS screen dimensions, and d
 local Chrome browser instance. You may even specify the emulated device's screen orientation. For locally hosted emulated mobile web browsers,
 the `WEB_BROWSER` Environment Variable must be set to one of the values from the table below: 
 
-`WEB_BROWSER`         | `HOST_BROWSER` | **CSS Screen Dimensions** | **Default Orientation** | **OS Version**
-----------------------|----------------|---------------------------|-------------------------|---------------
-`ipad`                |`chrome`        |1024 x 768  |landscape |iOS 12
-`ipad_pro`            |`chrome`        |1366 x 1024 |landscape |iOS 12
-`ipad_pro_10_5`       |`chrome`        |1112 x 834  |landscape |iOS 12.2
-`ipad_pro_11`         |`chrome`        |1194 x 834  |landscape |iOS 12.2
-`ipad_pro_12_9`       |`chrome`        |1366 x 1024 |landscape |iOS 13.1
-`ipad_chrome`         |`chrome`        |1024 x 768  |landscape |iOS 12.2 - Mobile Chrome browser for iOS
-`ipad_firefox`        |`chrome`        |1024 x 768  |landscape |iOS 12.2 - Mobile Firefox browser for iOS
-`ipad_edge`           |`chrome`        |1024 x 768  |landscape |iOS 12.2 - Mobile Edge browser for iOS
-`android_tablet`      |`chrome`        |1024 x 768  |landscape |Android 3.0
-`kindle_fire`         |`chrome`        |1024 x 600  |landscape |
-`kindle_firehd7`      |`chrome`        |800 x 480   |landscape |Fire OS 3
-`kindle_firehd8`      |`chrome`        |1280 x 800  |landscape |Fire OS 5
-`kindle_firehd10`     |`chrome`        |1920 x 1200 |landscape |Fire OS 5
-`surface`             |`chrome`        |1366 x 768  |landscape |
-`blackberry_playbook` |`chrome`        |1024 x 600  |landscape |BlackBerry Tablet OS
-`samsung_galaxy_tab`  |`chrome`        |1280 x 800  |landscape |Android 4.0.4
-`google_nexus7`       |`chrome`        |960 x 600   |landscape |Android 4.4.4
-`google_nexus9`       |`chrome`        |1024 x 768  |landscape |Android 5.1
-`google_nexus10`      |`chrome`        |1280 x 800  |landscape |Android 5.1
-`iphone6`             |`chrome`        |375 x 667   |portrait  |iOS 12
-`iphone6_plus`        |`chrome`        |414 x 736   |portrait  |iOS 12
-`iphone7`             |`chrome`        |375 x 667   |portrait  |iOS 12
-`iphone7_plus`        |`chrome`        |414 x 736   |portrait  |iOS 12
-`iphone7_chrome`      |`chrome`        |375 x 667   |portrait  |iOS 12.2 - Mobile Chrome browser for iOS
-`iphone7_firefox`     |`chrome`        |375 x 667   |portrait  |iOS 12.2 - Mobile Firefox browser for iOS
-`iphone7_edge`        |`chrome`        |375 x 667   |portrait  |iOS 12.2 - Microsoft Edge browser for iOS
-`iphone8`             |`chrome`        |375 x 667   |portrait  |iOS 12
-`iphone8_plus`        |`chrome`        |414 x 736   |portrait  |iOS 12
-`iphone_x`            |`chrome`        |375 x 812   |portrait  |iOS 12.2
-`iphone_xr`           |`chrome`        |414 x 896   |portrait  |iOS 12.2
-`iphone_xs`           |`chrome`        |375 x 812   |portrait  |iOS 12.2
-`iphone_xs_max`       |`chrome`        |414 x 896   |portrait  |iOS 12.2
-`iphone_11`           |`chrome`        |414 x 896   |portrait  |iOS 13.1
-`iphone_11_pro`       |`chrome`        |375 x 812   |portrait  |iOS 13.1
-`iphone_11_pro_max`   |`chrome`        |414 x 896   |portrait  |iOS 13.1
-`android_phone`       |`chrome`        |360 x 640   |portrait  |Android 4.2.1
-`nexus6`              |`chrome`        |411 x 731   |portrait  |Android 6
-`pixel`               |`chrome`        |411 x 731   |portrait  |Android 8
-`pixel_xl`            |`chrome`        |411 x 731   |portrait  |Android 8
-`samsung_galaxy_s4`   |`chrome`        |360 x 640   |portrait  |Android 5.0.1
-`samsung_galaxy_s5`   |`chrome`        |360 x 640   |portrait  |Android 6.0.1
-`samsung_galaxy_s6`   |`chrome`        |360 x 640   |portrait  |Android 6.0.1
-`windows_phone7`      |`chrome`        |320 x 480   |portrait  |Windows Phone OS 7.5
-`windows_phone8`      |`chrome`        |320 x 480   |portrait  |Windows Phone OS 8.0
-`lumia_950_xl`        |`chrome`        |360 x 640   |portrait  |Windows Phone OS 10
-`blackberry_z10`      |`chrome`        |384 x 640   |portrait  |BlackBerry 10 OS
-`blackberry_z30`      |`chrome`        |360 x 640   |portrait  |BlackBerry 10 OS
-`blackberry_leap`     |`chrome`        |360 x 640   |portrait  |BlackBerry 10 OS
-`blackberry_passport` |`chrome`        |504 x 504   |square    |BlackBerry 10 OS
+| `WEB_BROWSER`         | `HOST_BROWSER` | **CSS Screen Dimensions** | **Default Orientation** | **OS Version**                            |
+|-----------------------|----------------|---------------------------|-------------------------|-------------------------------------------|
+| `ipad`                | `chrome`       | 1024 x 768                | landscape               | iOS 12                                    |
+| `ipad_pro`            | `chrome`       | 1366 x 1024               | landscape               | iOS 12                                    |
+| `ipad_pro_10_5`       | `chrome`       | 1112 x 834                | landscape               | iOS 12.2                                  |
+| `ipad_pro_11`         | `chrome`       | 1194 x 834                | landscape               | iOS 12.2                                  |
+| `ipad_pro_12_9`       | `chrome`       | 1366 x 1024               | landscape               | iOS 13.1                                  |
+| `ipad_chrome`         | `chrome`       | 1024 x 768                | landscape               | iOS 12.2 - Mobile Chrome browser for iOS  |
+| `ipad_firefox`        | `chrome`       | 1024 x 768                | landscape               | iOS 12.2 - Mobile Firefox browser for iOS |
+| `ipad_edge`           | `chrome`       | 1024 x 768                | landscape               | iOS 12.2 - Mobile Edge browser for iOS    |
+| `android_tablet`      | `chrome`       | 1024 x 768                | landscape               | Android 3.0                               |
+| `kindle_fire`         | `chrome`       | 1024 x 600                | landscape               |                                           |
+| `kindle_firehd7`      | `chrome`       | 800 x 480                 | landscape               | Fire OS 3                                 |
+| `kindle_firehd8`      | `chrome`       | 1280 x 800                | landscape               | Fire OS 5                                 |
+| `kindle_firehd10`     | `chrome`       | 1920 x 1200               | landscape               | Fire OS 5                                 |
+| `surface`             | `chrome`       | 1366 x 768                | landscape               |                                           |
+| `blackberry_playbook` | `chrome`       | 1024 x 600                | landscape               | BlackBerry Tablet OS                      |
+| `samsung_galaxy_tab`  | `chrome`       | 1280 x 800                | landscape               | Android 4.0.4                             |
+| `google_nexus7`       | `chrome`       | 960 x 600                 | landscape               | Android 4.4.4                             |
+| `google_nexus9`       | `chrome`       | 1024 x 768                | landscape               | Android 5.1                               |
+| `google_nexus10`      | `chrome`       | 1280 x 800                | landscape               | Android 5.1                               |
+| `iphone6`             | `chrome`       | 375 x 667                 | portrait                | iOS 12                                    |
+| `iphone6_plus`        | `chrome`       | 414 x 736                 | portrait                | iOS 12                                    |
+| `iphone7`             | `chrome`       | 375 x 667                 | portrait                | iOS 12                                    |
+| `iphone7_plus`        | `chrome`       | 414 x 736                 | portrait                | iOS 12                                    |
+| `iphone7_chrome`      | `chrome`       | 375 x 667                 | portrait                | iOS 12.2 - Mobile Chrome browser for iOS  |
+| `iphone7_firefox`     | `chrome`       | 375 x 667                 | portrait                | iOS 12.2 - Mobile Firefox browser for iOS |
+| `iphone7_edge`        | `chrome`       | 375 x 667                 | portrait                | iOS 12.2 - Microsoft Edge browser for iOS |
+| `iphone8`             | `chrome`       | 375 x 667                 | portrait                | iOS 12                                    |
+| `iphone8_plus`        | `chrome`       | 414 x 736                 | portrait                | iOS 12                                    |
+| `iphone_x`            | `chrome`       | 375 x 812                 | portrait                | iOS 12.2                                  |
+| `iphone_xr`           | `chrome`       | 414 x 896                 | portrait                | iOS 12.2                                  |
+| `iphone_xs`           | `chrome`       | 375 x 812                 | portrait                | iOS 12.2                                  |
+| `iphone_xs_max`       | `chrome`       | 414 x 896                 | portrait                | iOS 12.2                                  |
+| `iphone_11`           | `chrome`       | 414 x 896                 | portrait                | iOS 13.1                                  |
+| `iphone_11_pro`       | `chrome`       | 375 x 812                 | portrait                | iOS 13.1                                  |
+| `iphone_11_pro_max`   | `chrome`       | 414 x 896                 | portrait                | iOS 13.1                                  |
+| `android_phone`       | `chrome`       | 360 x 640                 | portrait                | Android 4.2.1                             |
+| `nexus6`              | `chrome`       | 411 x 731                 | portrait                | Android 6                                 |
+| `pixel`               | `chrome`       | 411 x 731                 | portrait                | Android 8                                 |
+| `pixel_xl`            | `chrome`       | 411 x 731                 | portrait                | Android 8                                 |
+| `samsung_galaxy_s4`   | `chrome`       | 360 x 640                 | portrait                | Android 5.0.1                             |
+| `samsung_galaxy_s5`   | `chrome`       | 360 x 640                 | portrait                | Android 6.0.1                             |
+| `samsung_galaxy_s6`   | `chrome`       | 360 x 640                 | portrait                | Android 6.0.1                             |
+| `windows_phone7`      | `chrome`       | 320 x 480                 | portrait                | Windows Phone OS 7.5                      |
+| `windows_phone8`      | `chrome`       | 320 x 480                 | portrait                | Windows Phone OS 8.0                      |
+| `lumia_950_xl`        | `chrome`       | 360 x 640                 | portrait                | Windows Phone OS 10                       |
+| `blackberry_z10`      | `chrome`       | 384 x 640                 | portrait                | BlackBerry 10 OS                          |
+| `blackberry_z30`      | `chrome`       | 360 x 640                 | portrait                | BlackBerry 10 OS                          |
+| `blackberry_leap`     | `chrome`       | 360 x 640                 | portrait                | BlackBerry 10 OS                          |
+| `blackberry_passport` | `chrome`       | 504 x 504                 | square                  | BlackBerry 10 OS                          |
 
 To change the emulated device's screen orientation from the default setting, set the `ORIENTATION` Environment Variable to either `portrait` or `landscape`.
 
 To use a local instance of the Chrome desktop browser to host the emulated mobile web browser, you must set the `HOST_BROWSER` Environment Variable
 to `chrome`.
+
+Refer to **section 8.7 (Using Browser specific Profiles in cucumber.yml)** below.
 
 
 #### User defined mobile device profiles
@@ -905,16 +906,17 @@ The format for a new device profile is:
     :user_agent: "user agent string"
 ```
 
-### Selenium Grid and Dockerized Selenium Grid hosted desktop and emulated mobile web browsers
+### Selenium Grid 4 and Dockerized Selenium Grid 4 hosted desktop and emulated mobile web browsers
 
-For desktop and emulated mobile web browsers running on Selenium Grid or Dockerized Selenium Grid environments ([like Zalenium](https://opensource.zalando.com/zalenium/)), the following **Environment Variables** must be set
-as described in the table below.
+For remote desktop and emulated mobile web browsers running on Selenium Grid 4 or Dockerized Selenium Grid 4 environments as described in the table below.
 
-**Environment Variable** | **Description**
----------------   | ----------------
-`WEB_BROWSER`     | Must be set to one of the following desktop browsers - `chrome`, `chrome_headless`, or `firefox`, or any of the mobile web browsers described above.
-`SELENIUM`        | Must be set to `remote`
-`REMOTE_ENDPOINT` | Must be set to the URL of the Grid hub, which is usually `http://localhost:4444/wd/hub`
+| **Environment Variable** | **Description**                                                                                                                                                               |
+|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `WEB_BROWSER`            | Must be set to one of the following desktop browsers - `chrome`, `chrome_headless`, `edge`, `edge_headless`, or `firefox`, or any of the mobile web browsers described above. |
+| `SELENIUM`               | Must be set to `remote`                                                                                                                                                       |
+| `REMOTE_ENDPOINT`        | Must be set to the URL of the Grid hub, which is usually `http://localhost:4444/wd/hub`                                                                                       |
+
+Refer to **section 8.7 (Using Browser specific Profiles in cucumber.yml)** below.
 
 
 ### Mobile Safari browser on iOS Simulators or iOS Physical Devices
@@ -928,29 +930,31 @@ The Appium server must be running prior to invoking Cucumber to run your feature
 
 Once your test environment is properly configured, the following **Environment Variables** must be set as described in the table below.
 
-**Environment Variable** | **Description**
---------------- | ----------------
-`WEB_BROWSER`       | Must be set to `appium`
-`APP_PLATFORM_NAME` | Must be set to `iOS`
-`APP_BROWSER`       | Must be set to `Safari`
-`APP_VERSION`       | Must be set to `12.2`, `11.4`, `10.3.1`, or which ever iOS version you wish to run within the XCode Simulator
-`APP_DEVICE`        | Set to iOS device name supported by the iOS Simulator (`iPhone 6s Plus`, `iPad Pro (10.5-inch)`, `iPad Air 2`, etc.) or name of physically connected iOS device
-`DEVICE_TYPE`       | Must be set to `phone` or `tablet`
-`APP_UDID`          | UDID of physically connected iOS device (not used for simulators)
-`TEAM_ID`           | unique 10-character Apple developer team identifier string (not used for simulators)
-`TEAM_NAME`         | String representing a signing certificate (not used for simulators)
-`APP_ALLOW_POPUPS`  | [Optional] Allow javascript to open new windows in Safari. Set to `true` or `false`
-`APP_IGNORE_FRAUD_WARNING` | [Optional] Prevent Safari from showing a fraudulent website warning. Set to `true` or `false`
-`APP_NO_RESET`      | [Optional] Don't reset app state after each test. Set to `true` or `false`
-`APP_FULL_RESET`    | [Optional] Perform a complete reset. Set to `true` or `false`
-`APP_INITIAL_URL`   | [Optional] Initial URL, default is a local welcome page.  e.g.  `http://www.apple.com`
-`WDA_LOCAL_PORT`    | [Optional] Used to forward traffic from Mac host to real iOS devices over USB. Default value is same as port number used by WDA on device.
-`LOCALE`            | [Optional] Locale to set for the simulator.  e.g.  `fr_CA`
-`LANGUAGE`          | [Optional] Language to set for the simulator.  e.g.  `fr`
-`ORIENTATION`       | [Optional] Set to `portrait` or `landscape` (only for iOS simulators)
-`NEW_COMMAND_TIMEOUT` | [Optional] Time (in Seconds) that Appium will wait for a new command from the client
-`SHOW_SIM_KEYBOARD` | [Optional] Show the simulator keyboard during text entry. Set to `true` or `false`
-`SHUTDOWN_OTHER_SIMS`| [Optional] Close any other running simulators. Set to `true` or `false`
+| **Environment Variable**   | **Description**                                                                                                                                                 |
+|----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `WEB_BROWSER`              | Must be set to `appium`                                                                                                                                         |
+| `APP_PLATFORM_NAME`        | Must be set to `iOS`                                                                                                                                            |
+| `APP_BROWSER`              | Must be set to `Safari`                                                                                                                                         |
+| `APP_VERSION`              | Must be set to `12.2`, `11.4`, `10.3.1`, or which ever iOS version you wish to run within the XCode Simulator                                                   |
+| `APP_DEVICE`               | Set to iOS device name supported by the iOS Simulator (`iPhone 6s Plus`, `iPad Pro (10.5-inch)`, `iPad Air 2`, etc.) or name of physically connected iOS device |
+| `DEVICE_TYPE`              | Must be set to `phone` or `tablet`                                                                                                                              |
+| `APP_UDID`                 | UDID of physically connected iOS device (not used for simulators)                                                                                               |
+| `TEAM_ID`                  | unique 10-character Apple developer team identifier string (not used for simulators)                                                                            |
+| `TEAM_NAME`                | String representing a signing certificate (not used for simulators)                                                                                             |
+| `APP_ALLOW_POPUPS`         | [Optional] Allow javascript to open new windows in Safari. Set to `true` or `false`                                                                             |
+| `APP_IGNORE_FRAUD_WARNING` | [Optional] Prevent Safari from showing a fraudulent website warning. Set to `true` or `false`                                                                   |
+| `APP_NO_RESET`             | [Optional] Don't reset app state after each test. Set to `true` or `false`                                                                                      |
+| `APP_FULL_RESET`           | [Optional] Perform a complete reset. Set to `true` or `false`                                                                                                   |
+| `APP_INITIAL_URL`          | [Optional] Initial URL, default is a local welcome page.  e.g.  `http://www.apple.com`                                                                          |
+| `WDA_LOCAL_PORT`           | [Optional] Used to forward traffic from Mac host to real iOS devices over USB. Default value is same as port number used by WDA on device.                      |
+| `LOCALE`                   | [Optional] Locale to set for the simulator.  e.g.  `fr_CA`                                                                                                      |
+| `LANGUAGE`                 | [Optional] Language to set for the simulator.  e.g.  `fr`                                                                                                       |
+| `ORIENTATION`              | [Optional] Set to `portrait` or `landscape` (only for iOS simulators)                                                                                           |
+| `NEW_COMMAND_TIMEOUT`      | [Optional] Time (in Seconds) that Appium will wait for a new command from the client                                                                            |
+| `SHOW_SIM_KEYBOARD`        | [Optional] Show the simulator keyboard during text entry. Set to `true` or `false`                                                                              |
+| `SHUTDOWN_OTHER_SIMS`      | [Optional] Close any other running simulators. Set to `true` or `false`                                                                                         |
+
+Refer to **section 8.7 (Using Browser specific Profiles in cucumber.yml)** below.
 
 
 ### Mobile Chrome or Android browsers on Android Studio Virtual Device emulators
@@ -965,29 +969,33 @@ for information on configuring Appium to use the correct version of Chromedriver
 
 Once your test environment is properly configured, the following **Environment Variables** must be set as described in the table below.
 
-**Environment Variable** | **Description**
---------------- | ----------------
-`WEB_BROWSER`       | Must be set to `appium`
-`APP_PLATFORM_NAME` | Must be set to `Android`
-`APP_BROWSER`       | Must be set to `Chrome` or `Browser`
-`APP_VERSION`       | Must be set to `8.0`, `7.0`, or which ever Android OS version you wish to run with the Android Virtual Device
-`APP_DEVICE`        | Set to Android Virtual Device ID (`Pixel_2_XL_API_26`, `Nexus_6_API_23`, etc.) found in Advanced Settings of AVD Configuration
-`DEVICE_TYPE`       | Must be set to `phone` or `tablet`
-`ORIENTATION`       | [Optional] Set to `portrait` or `landscape`
-`APP_INITIAL_URL`   | [Optional] Initial URL, default is a local welcome page.  e.g.  `http://www.apple.com`
-`APP_NO_RESET`      | [Optional] Don't reset app state after each test. Set to `true` or `false`
-`APP_FULL_RESET`    | [Optional] Perform a complete reset. Set to `true` or `false`
-`LOCALE`            | [Optional] Locale to set for the simulator.  e.g.  `fr_CA`
-`LANGUAGE`          | [Optional] Language to set for the simulator.  e.g.  `fr`
-`NEW_COMMAND_TIMEOUT` | [Optional] Time (in Seconds) that Appium will wait for a new command from the client
-`CHROMEDRIVER_EXECUTABLE` | [Optional] Absolute local path to webdriver executable
+| **Environment Variable**  | **Description**                                                                                                                |
+|---------------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| `WEB_BROWSER`             | Must be set to `appium`                                                                                                        |
+| `APP_PLATFORM_NAME`       | Must be set to `Android`                                                                                                       |
+| `APP_BROWSER`             | Must be set to `Chrome` or `Browser`                                                                                           |
+| `APP_VERSION`             | Must be set to `8.0`, `7.0`, or which ever Android OS version you wish to run with the Android Virtual Device                  |
+| `APP_DEVICE`              | Set to Android Virtual Device ID (`Pixel_2_XL_API_26`, `Nexus_6_API_23`, etc.) found in Advanced Settings of AVD Configuration |
+| `DEVICE_TYPE`             | Must be set to `phone` or `tablet`                                                                                             |
+| `ORIENTATION`             | [Optional] Set to `portrait` or `landscape`                                                                                    |
+| `APP_INITIAL_URL`         | [Optional] Initial URL, default is a local welcome page.  e.g.  `http://www.apple.com`                                         |
+| `APP_NO_RESET`            | [Optional] Don't reset app state after each test. Set to `true` or `false`                                                     |
+| `APP_FULL_RESET`          | [Optional] Perform a complete reset. Set to `true` or `false`                                                                  |
+| `LOCALE`                  | [Optional] Locale to set for the simulator.  e.g.  `fr_CA`                                                                     |
+| `LANGUAGE`                | [Optional] Language to set for the simulator.  e.g.  `fr`                                                                      |
+| `NEW_COMMAND_TIMEOUT`     | [Optional] Time (in Seconds) that Appium will wait for a new command from the client                                           |
+| `CHROMEDRIVER_EXECUTABLE` | [Optional] Absolute local path to webdriver executable                                                                         |
+
+Refer to **section 8.7 (Using Browser specific Profiles in cucumber.yml)** below.
 
 
 ### Remotely hosted desktop and mobile web browsers
 
-You can run your automated tests against remotely hosted desktop and mobile web browsers using the BrowserStack, CrossBrowserTesting,
-Sauce Labs, TestingBot, Gridlastic, or LambdaTest services. If your tests are running against a web site hosted on your local computer
-(`localhost`), or on a staging server inside your LAN, you must set the `TUNNELING` Environment Variable to `true`.
+You can run your automated tests against remotely hosted desktop and mobile web browsers using the BrowserStack, SauceLabs, TestingBot, or
+LambdaTest services. If your tests are running against a web site hosted on your local computer (`localhost`), or on a staging server inside
+your LAN, you must set the `TUNNELING` Environment Variable to `true`.
+
+Refer to **section 8.7 (Using Browser specific Profiles in cucumber.yml)** below.
 
 
 #### Remote desktop browsers on the BrowserStack service
@@ -996,24 +1004,24 @@ For remotely hosted desktop web browsers on the BrowserStack service, the follow
 the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities?tag=selenium-4)
 for information regarding the specific capabilities.
 
-**Environment Variable** | **Description**
------------------- | ----------------
-`WEB_BROWSER`      | Must be set to `browserstack`
-`BS_USERNAME`      | Must be set to your BrowserStack account user name
-`BS_AUTHKEY`       | Must be set to your BrowserStack account access key
-`BS_OS`            | Must be set to `OS X` or `Windows`
-`BS_OS_VERSION`    | Refer to `os_version` capability in chart
-`BS_BROWSER`       | Refer to `browser` capability in chart
-`BS_VERSION`       | [Optional] Refer to `browser_version` capability in chart. If not specified, latest stable version of browser will be used.
-`TUNNELING`        | Must be `true` if you are testing against internal/local servers (`true` or `false`). If `true`, the BrowserStack Local instance will be automatically started.
-`RESOLUTION`       | [Optional] Refer to supported screen `resolution` capability in chart
-`RECORD_VIDEO`     | [Optional] Enable screen video recording during test execution (`true` or `false`)
-`TIME_ZONE`        | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart
-`IP_GEOLOCATION`   | [Optional] Specify IP Geolocation. Refer to [IP Geolocation](https://www.browserstack.com/ip-geolocation) to select a country code.
-`ALLOW_POPUPS`     | [Optional] Allow popups (`true` or `false`) - for Safari, IE, and Edge browsers only
-`ALLOW_COOKIES`    | [Optional] Allow all cookies (`true` or `false`) - for Safari browsers only
-`SCREENSHOTS`      | [Optional] Generate screenshots for debugging (`true` or `false`)
-`NETWORK_LOGS`     | [Optional] Capture network logs (`true` or `false`)
+| **Environment Variable** | **Description**                                                                                                                                                 |
+|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `WEB_BROWSER`            | Must be set to `browserstack`                                                                                                                                   |
+| `BS_USERNAME`            | Must be set to your BrowserStack account user name                                                                                                              |
+| `BS_AUTHKEY`             | Must be set to your BrowserStack account access key                                                                                                             |
+| `BS_OS`                  | Must be set to `OS X` or `Windows`                                                                                                                              |
+| `BS_OS_VERSION`          | Refer to `os_version` capability in chart                                                                                                                       |
+| `BS_BROWSER`             | Refer to `browser` capability in chart                                                                                                                          |
+| `BS_VERSION`             | [Optional] Refer to `browser_version` capability in chart. If not specified, latest stable version of browser will be used.                                     |
+| `TUNNELING`              | Must be `true` if you are testing against internal/local servers (`true` or `false`). If `true`, the BrowserStack Local instance will be automatically started. |
+| `RESOLUTION`             | [Optional] Refer to supported screen `resolution` capability in chart                                                                                           |
+| `RECORD_VIDEO`           | [Optional] Enable screen video recording during test execution (`true` or `false`)                                                                              |
+| `TIME_ZONE`              | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart                                                                       |
+| `IP_GEOLOCATION`         | [Optional] Specify IP Geolocation. Refer to [IP Geolocation](https://www.browserstack.com/ip-geolocation) to select a country code.                             |
+| `ALLOW_POPUPS`           | [Optional] Allow popups (`true` or `false`) - for Safari, IE, and Edge browsers only                                                                            |
+| `ALLOW_COOKIES`          | [Optional] Allow all cookies (`true` or `false`) - for Safari browsers only                                                                                     |
+| `SCREENSHOTS`            | [Optional] Generate screenshots for debugging (`true` or `false`)                                                                                               |
+| `NETWORK_LOGS`           | [Optional] Capture network logs (`true` or `false`)                                                                                                             |
 
 If the BrowserStack Local instance is running (`TUNNELING` Environment Variable is `true`), call the`TestCentricity::WebDriverConnect.close_tunnel` method
 upon completion of your test suite to stop the Local instance. Place the code shown below in your `env.rb` or `hooks.rb` file.
@@ -1030,63 +1038,24 @@ For remotely hosted mobile web browsers on the BrowserStack service, the followi
 the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities?tag=selenium-4)
 for information regarding the specific capabilities.
 
-**Environment Variable** | **Description**
----------------  | ----------------
-`WEB_BROWSER`    | Must be set to `browserstack`
-`BS_USERNAME`    | Must be set to your BrowserStack account user name
-`BS_AUTHKEY`     | Must be set to your BrowserStack account access key
-`BS_OS`          | Must be set to `ios` or `android`
-`BS_BROWSER`     | Must be set to `Safari` (for iOS) or `Chrome` (for Android)
-`BS_DEVICE`      | Refer to `device` capability in chart
-`BS_REAL_MOBILE` | Set to `true` if running against a real device
-`DEVICE_TYPE`    | Must be set to `phone` or `tablet`
-`TUNNELING`      | Must be `true` if you are testing against internal/local servers (`true` or `false`). If `true`, the BrowserStack Local instance will be automatically started.
-`ORIENTATION`    | [Optional] Set to `portrait` or `landscape`
-`RECORD_VIDEO`   | [Optional] Enable screen video recording during test execution (`true` or `false`)
-`TIME_ZONE`      | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart
-`IP_GEOLOCATION` | [Optional] Specify IP Geolocation. Refer to [IP Geolocation](https://www.browserstack.com/ip-geolocation) to select a country code.
-`SCREENSHOTS`    | [Optional] Generate screenshots for debugging (`true` or `false`)
-`NETWORK_LOGS`   | [Optional] Capture network logs (`true` or `false`)
-`APPIUM_LOGS`    | [Optional] Generate Appium logs (`true` or `false`)
-
-
-
-#### Remote desktop browsers on the CrossBrowserTesting service
-
-For remotely hosted desktop web browsers on the CrossBrowserTesting service, the following **Environment Variables** must be set as described in
-the table below. Use the Configuration Wizard on the [Start a Selenium Test page](https://app.crossbrowsertesting.com/selenium/run) to obtain
-information regarding the specific capabilities.
-
-**Environment Variable** | **Description**
---------------- | ----------------
-`WEB_BROWSER`  | Must be set to `crossbrowser`
-`CB_USERNAME`  | Must be set to your CrossBrowserTesting account user name or email address
-`CB_AUTHKEY`   | Must be set to your CrossBrowserTesting account access key
-`CB_OS`        | Refer to `os_api_name` capability in the sample script of the Wizard
-`CB_BROWSER`   | Refer to `browser_api_name` capability in the sample script of the Wizard
-`RESOLUTION`   | [Optional] Refer to supported `screen_resolution` capability in the sample script of the Wizard
-`BROWSER_SIZE` | [Optional] Specify width, height of browser window
-`RECORD_VIDEO` | [Optional] Enable screen video recording during test execution (`true` or `false`)
-
-
-#### Remote mobile browsers on the CrossBrowserTesting service
-
-For remotely hosted mobile web browsers on the CrossBrowserTesting service, the following **Environment Variables** must be set as described in
-the table below. Use the Configuration Wizard on the [Start a Selenium Test page](https://app.crossbrowsertesting.com/selenium/run) to obtain
-information regarding the specific capabilities.
-
-**Environment Variable** | **Description**
---------------- | ----------------
-`WEB_BROWSER`  | Must be set to `crossbrowser`
-`CB_USERNAME`  | Must be set to your CrossBrowserTesting account user name or email address
-`CB_AUTHKEY`   | Must be set to your CrossBrowserTesting account access key
-`CB_PLATFORM`  | Refer to `os_api_name` capability in the sample script of the Wizard
-`CB_BROWSER`   | Refer to `browser_api_name` capability in the sample script of the Wizard
-`RESOLUTION`   | Refer to supported `screen_resolution` capability in the sample script of the Wizard
-`DEVICE_TYPE`  | Must be set to `phone` or `tablet`
-`RECORD_VIDEO` | [Optional] Enable screen video recording during test execution (`true` or `false`)
-
-
+| **Environment Variable** | **Description**                                                                                                                                                 |
+|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `WEB_BROWSER`            | Must be set to `browserstack`                                                                                                                                   |
+| `BS_USERNAME`            | Must be set to your BrowserStack account user name                                                                                                              |
+| `BS_AUTHKEY`             | Must be set to your BrowserStack account access key                                                                                                             |
+| `BS_OS`                  | Must be set to `ios` or `android`                                                                                                                               |
+| `BS_BROWSER`             | Must be set to `Safari` (for iOS) or `Chrome` (for Android)                                                                                                     |
+| `BS_DEVICE`              | Refer to `device` capability in chart                                                                                                                           |
+| `BS_REAL_MOBILE`         | Set to `true` if running against a real device                                                                                                                  |
+| `DEVICE_TYPE`            | Must be set to `phone` or `tablet`                                                                                                                              |
+| `TUNNELING`              | Must be `true` if you are testing against internal/local servers (`true` or `false`). If `true`, the BrowserStack Local instance will be automatically started. |
+| `ORIENTATION`            | [Optional] Set to `portrait` or `landscape`                                                                                                                     |
+| `RECORD_VIDEO`           | [Optional] Enable screen video recording during test execution (`true` or `false`)                                                                              |
+| `TIME_ZONE`              | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart                                                                       |
+| `IP_GEOLOCATION`         | [Optional] Specify IP Geolocation. Refer to [IP Geolocation](https://www.browserstack.com/ip-geolocation) to select a country code.                             |
+| `SCREENSHOTS`            | [Optional] Generate screenshots for debugging (`true` or `false`)                                                                                               |
+| `NETWORK_LOGS`           | [Optional] Capture network logs (`true` or `false`)                                                                                                             |
+| `APPIUM_LOGS`            | [Optional] Generate Appium logs (`true` or `false`)                                                                                                             |
 
 #### Remote desktop browsers on the Sauce Labs service
 
@@ -1094,18 +1063,18 @@ For remotely hosted desktop web browsers on the Sauce Labs service, the followin
 the table below. Use the Selenium API on the [Platform Configurator page](https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/) to obtain
 information regarding the specific capabilities.
 
-**Environment Variable** | **Description**
---------------- | ----------------
-`WEB_BROWSER`  | Must be set to `saucelabs`
-`SL_USERNAME`  | Must be set to your Sauce Labs account user name or email address
-`SL_AUTHKEY`   | Must be set to your Sauce Labs account access key
-`SL_OS`        | Refer to `platform` capability in the Copy Code section of the Platform Configurator page
-`SL_BROWSER`   | Must be set to `chrome`, `firefox`, `safari`, `internet explorer`, or `edge`
-`SL_VERSION`   | Refer to `version` capability in the Copy Code section of the Platform Configurator page
-`RESOLUTION`   | [Optional] Refer to supported `screenResolution` capability in the Copy Code section of the Platform Configurator page
-`BROWSER_SIZE `| [Optional] Specify width, height of browser window
-`RECORD_VIDEO` | [Optional] Enable screen video recording during test execution (`true` or `false`)
-
+| **Environment Variable** | **Description**                                                                                                        |
+|--------------------------|------------------------------------------------------------------------------------------------------------------------|
+| `WEB_BROWSER`            | Must be set to `saucelabs`                                                                                             |
+| `SL_USERNAME`            | Must be set to your Sauce Labs account user name or email address                                                      |
+| `SL_AUTHKEY`             | Must be set to your Sauce Labs account access key                                                                      |
+| `DATA_CENTER`            | Must be set to your Sauce Labs account Data Center assignment (`us-west-1`, `eu-central-1`, `apac-southeast-1`)        |
+| `SL_OS`                  | Refer to `platform` capability in the Copy Code section of the Platform Configurator page                              |
+| `SL_BROWSER`             | Must be set to `chrome`, `firefox`, `safari`, `internet explorer`, or `edge`                                           |
+| `SL_VERSION`             | Refer to `version` capability in the Copy Code section of the Platform Configurator page                               |
+| `RESOLUTION`             | [Optional] Refer to supported `screenResolution` capability in the Copy Code section of the Platform Configurator page |
+| `BROWSER_SIZE `          | [Optional] Specify width, height of browser window                                                                     |
+| `RECORD_VIDEO`           | [Optional] Enable screen video recording during test execution (`true` or `false`)                                     |
 
 #### Remote desktop browsers on the TestingBot service
 
@@ -1113,60 +1082,17 @@ For remotely hosted desktop web browsers on the TestingBot service, the followin
 the table below. Refer to the [TestingBot List of Available Browsers page](https://testingbot.com/support/getting-started/browsers.html) for information
 regarding the specific capabilities.
 
-**Environment Variable** | **Description**
---------------- | ----------------
-`WEB_BROWSER` | Must be set to `testingbot`
-`TB_USERNAME` | Must be set to your TestingBot account user name
-`TB_AUTHKEY`  | Must be set to your TestingBot account access key
-`TB_OS`       | Refer to `platform` capability in chart
-`TB_BROWSER`  | Refer to `browserName` capability in chart
-`TB_VERSION`  | Refer to `version` capability in chart
-`TUNNELING`   | Must be `true` if you are testing against internal/local servers (`true` or `false`)
-`RESOLUTION`  | [Optional] Possible values: `800x600`, `1024x768`, `1280x960`, `1280x1024`, `1600x1200`, `1920x1200`, `2560x1440`
-`BROWSER_SIZE`| [Optional] Specify width, height of browser window
-
-
-#### Remote mobile browsers on the TestingBot service
-
-For remotely hosted mobile web browsers on the TestingBot service, the following **Environment Variables** must be set as described in
-the table below. Refer to the [TestingBot List of Available Browsers page](https://testingbot.com/support/getting-started/browsers.html) for information
-regarding the specific capabilities.
-
-**Environment Variable** | **Description**
---------------- | ----------------
-`WEB_BROWSER` | Must be set to `testingbot`
-`TB_USERNAME` | Must be set to your TestingBot account user name
-`TB_AUTHKEY`  | Must be set to your TestingBot account access key
-`TB_OS`       | Must be set to `MAC` (for iOS) or `ANDROID`
-`TB_BROWSER`  | Must be set to `safari` (for iOS) or `browser` (for Android)
-`TB_VERSION`  | Refer to `version` capability in chart
-`TB_PLATFORM` | Must be set to `iOS` or `ANDROID`
-`TB_DEVICE`   | Refer to `deviceName` capability in chart
-`DEVICE_TYPE` | Must be set to `phone` or `tablet`
-`TUNNELING`   | Must be `true` if you are testing against internal/local servers (`true` or `false`)
-`ORIENTATION` | [Optional] Set to `portrait` or `landscape`
-
-
-#### Remote desktop browsers on the Gridlastic service
-
-For remotely hosted desktop web browsers on the Gridlastic service, the following **Environment Variables** must be set as described in
-the table below. Refer to the [Gridlastic Selenium Grid Test Environments](https://www.gridlastic.com/test-environments.html) for information
-regarding the specific capabilities.
-
-**Environment Variable** | **Description**
---------------- | ----------------
-`WEB_BROWSER`  | Must be set to `gridlastic`
-`GL_USERNAME`  | Must be set to your Gridlastic account user name
-`GL_AUTHKEY`   | Must be set to your Gridlastic account access key
-`GL_SUBDOMAIN` | Must be set to your Gridlastic subdomain
-`GL_OS`        | Refer to `platform` capability in chart
-`GL_BROWSER`   | Refer to `browserName` capability in chart
-`GL_VERSION`   | Refer to `version` capability in chart
-`GL_PLATFORM`  | Must be set to `windows` when running on Windows operating systems
-`RECORD_VIDEO` | [Optional] Enable screen video recording during test execution (`true` or `false`)
-`VIDEO_URL`    | [Optional] Video Files Location Endpoint URL shown in the **Your Selenium Grid Credentials** section of the Gridlastic Dashboard
-
-
+| **Environment Variable** | **Description**                                                                                                   |
+|--------------------------|-------------------------------------------------------------------------------------------------------------------|
+| `WEB_BROWSER`            | Must be set to `testingbot`                                                                                       |
+| `TB_USERNAME`            | Must be set to your TestingBot account user name                                                                  |
+| `TB_AUTHKEY`             | Must be set to your TestingBot account access key                                                                 |
+| `TB_OS`                  | Refer to `platform` capability in chart                                                                           |
+| `TB_BROWSER`             | Refer to `browserName` capability in chart                                                                        |
+| `TB_VERSION`             | Refer to `version` capability in chart                                                                            |
+| `TUNNELING`              | Must be `true` if you are testing against internal/local servers (`true` or `false`)                              |
+| `RESOLUTION`             | [Optional] Possible values: `800x600`, `1024x768`, `1280x960`, `1280x1024`, `1600x1200`, `1920x1200`, `2560x1440` |
+| `BROWSER_SIZE`           | [Optional] Specify width, height of browser window                                                                |
 
 #### Remote desktop browsers on the LambdaTest service
 
@@ -1174,21 +1100,20 @@ For remotely hosted desktop web browsers on the LambdaTest service, the followin
 below. Use the Configuration Wizard on the [Selenium Desired Capabilities Generator](https://www.lambdatest.com/capabilities-generator/) to obtain
 information regarding the specific capabilities.
 
-**Environment Variable** | **Description**
---------------- | ----------------
-`WEB_BROWSER`   | Must be set to `lambdatest`
-`LT_USERNAME`   | Must be set to your LambdaTest account user name or email address
-`LT_AUTHKEY`    | Must be set to your LambdaTest account access key
-`LT_OS`         | Refer to `platform` capability in the sample script of the Wizard
-`LT_BROWSER`    | Refer to `browserName` capability in the sample script of the Wizard
-`LT_VERSION`    | Refer to `version` capability in chart
-`RESOLUTION`    | [Optional] Refer to supported `resolution` capability in the sample script of the Wizard
-`BROWSER_SIZE`  | [Optional] Specify width, height of browser window
-`RECORD_VIDEO`  | [Optional] Enable screen video recording during test execution (`true` or `false`)
-`ALLOW_POPUPS`  | [Optional] Allow popups (`true` or `false`) - for Safari, IE, and Edge browsers only
-`ALLOW_COOKIES` | [Optional] Allow all cookies (`true` or `false`) - for Safari browsers only
-`CONSOLE_LOGS`  | [Optional] Used to capture browser console logs.
-
+| **Environment Variable** | **Description**                                                                          |
+|--------------------------|------------------------------------------------------------------------------------------|
+| `WEB_BROWSER`            | Must be set to `lambdatest`                                                              |
+| `LT_USERNAME`            | Must be set to your LambdaTest account user name or email address                        |
+| `LT_AUTHKEY`             | Must be set to your LambdaTest account access key                                        |
+| `LT_OS`                  | Refer to `platform` capability in the sample script of the Wizard                        |
+| `LT_BROWSER`             | Refer to `browserName` capability in the sample script of the Wizard                     |
+| `LT_VERSION`             | Refer to `version` capability in chart                                                   |
+| `RESOLUTION`             | [Optional] Refer to supported `resolution` capability in the sample script of the Wizard |
+| `BROWSER_SIZE`           | [Optional] Specify width, height of browser window                                       |
+| `RECORD_VIDEO`           | [Optional] Enable screen video recording during test execution (`true` or `false`)       |
+| `ALLOW_POPUPS`           | [Optional] Allow popups (`true` or `false`) - for Safari, IE, and Edge browsers only     |
+| `ALLOW_COOKIES`          | [Optional] Allow all cookies (`true` or `false`) - for Safari browsers only              |
+| `CONSOLE_LOGS`           | [Optional] Used to capture browser console logs.                                         |
 
 ### Using Browser specific Profiles in cucumber.yml
 
@@ -1197,10 +1122,9 @@ target web browsers is to create browser specific **Profiles** that set the appr
 in your `cucumber.yml` file.
 
 Below is a list of Cucumber **Profiles** for supported locally and remotely hosted desktop and mobile web browsers (put these in in your
-`cucumber.yml` file). Before you can use the BrowserStack, CrossBrowserTesting, Sauce Labs, TestingBot, Gridlastic or LambdaTest services, you
-will need to replace the *INSERT USER NAME HERE* and *INSERT PASSWORD HERE* placeholder text with your user account and authorization code for
-the cloud service(s) that you intend to connect with. When using the Gridlastic service, you will also need replace the *INSERT SUBDOMAIN HERE*
-placeholder text with the Subdomain specified on the Grid Configuration Parameters section of the Gridlastic Dashboard.
+`cucumber.yml` file). Before you can use the BrowserStack, SauceLabs, TestingBot or LambdaTest services, you will need to replace the
+*INSERT USER NAME HERE* and *INSERT PASSWORD HERE* placeholder text with your user account and authorization code for the cloud service(s)
+that you intend to connect with.
 
 
     <% desktop          = "--tags @desktop --require features BROWSER_TILE=true BROWSER_SIZE=1500,1000" %>
@@ -1448,62 +1372,6 @@ placeholder text with the Subdomain specified on the Grid Configuration Paramete
 
     
     #==============
-    # profiles for remotely hosted web browsers on the CrossBrowserTesting service
-    #==============
-    
-    crossbrowser:       WEB_BROWSER=crossbrowser CB_USERNAME="<INSERT USER NAME HERE>" CB_AUTHKEY="<INSERT PASSWORD HERE>"
-    cb_desktop:         --profile crossbrowser <%= desktop %>
-    cb_mobile:          --profile crossbrowser <%= mobile %>
-    
-    # CrossBrowserTesting OS X desktop browser profiles
-    cb_osx:             --profile cb_desktop RESOLUTION="1920x1200"
-    cb_macos_sierra:    --profile cb_osx CB_OS="Mac10.12"
-    cb_chrome_sierra:   --profile cb_macos_sierra CB_BROWSER="Chrome53x64"
-    cb_safari_sierra:   --profile cb_macos_sierra CB_BROWSER="Safari10"
-    
-    cb_osx_el_capitan:  --profile cb_osx CB_OS="Mac10.11"
-    cb_ff_el_cap:       --profile cb_osx_el_capitan CB_BROWSER="FF46"
-    cb_chrome_el_cap:   --profile cb_osx_el_capitan CB_BROWSER="Chrome48x64"
-    cb_safari_el_cap:   --profile cb_osx_el_capitan CB_BROWSER="Safari9"
-    
-    cb_osx_yosemite:    --profile cb_osx CB_OS="Mac10.10"
-    cb_ff_yos:          --profile cb_osx_yosemite CB_BROWSER="FF46"
-    cb_chrome_yos:      --profile cb_osx_yosemite CB_BROWSER="Chrome48x64"
-    cb_safari_yos:      --profile cb_osx_yosemite CB_BROWSER="Safari8"
-    
-    # CrossBrowserTesting Windows desktop browser profiles
-    cb_win:             --profile cb_desktop RESOLUTION="1920x1080"
-    cb_win8:            --profile cb_win CB_OS="Win8"
-    cb_win10:           --profile cb_win CB_OS="Win10"
-    cb_ff_win8:         --profile cb_win8 CB_BROWSER="FF46"
-    cb_ff_win10:        --profile cb_win10 CB_BROWSER="FF46"
-    cb_chrome_win8:     --profile cb_win8 CB_BROWSER="Chrome48x64"
-    cb_chrome_win10:    --profile cb_win10 CB_BROWSER="Chrome48x64"
-    cb_edge_win10:      --profile cb_win10 CB_BROWSER="Edge20"
-    
-    cb_ie11_win8:       --profile cb_win8 CB_BROWSER="IE11"
-    cb_ie10_win8:       --profile cb_win8 CB_BROWSER="IE10"
-    cb_ie11_win10:      --profile cb_win10 CB_BROWSER="IE11"
-    
-    # CrossBrowserTesting iOS mobile browser profiles
-    cb_iphone6s_plus:   --profile cb_mobile DEVICE_TYPE=phone CB_PLATFORM="iPhone6sPlus-iOS9sim" CB_BROWSER="MblSafari9.0" RESOLUTION="1242x2208"
-    cb_iphone6s:        --profile cb_mobile DEVICE_TYPE=phone CB_PLATFORM="iPhone6s-iOS9sim" CB_BROWSER="MblSafari9.0" RESOLUTION="750x1334"
-    cb_iphone6_plus:    --profile cb_mobile DEVICE_TYPE=phone CB_PLATFORM="iPhone6Plus-iOS8sim" CB_BROWSER="MblSafari8.0" RESOLUTION="1242x2208"
-    cb_iphone6:         --profile cb_mobile DEVICE_TYPE=phone CB_PLATFORM="iPhone6-iOS8sim" CB_BROWSER="MblSafari8.0" RESOLUTION="750x1334"
-    cb_iphone5s:        --profile cb_mobile DEVICE_TYPE=phone CB_PLATFORM="iPhone5s-iOS7sim" CB_BROWSER="MblSafari7.0" RESOLUTION="640x1136"
-    cb_ipad_pro:        --profile cb_mobile DEVICE_TYPE=tablet CB_PLATFORM="iPadPro-iOS9Sim" CB_BROWSER="MblSafari9.0" RESOLUTION="2732x2048"
-    cb_ipad_air2:       --profile cb_mobile DEVICE_TYPE=tablet CB_PLATFORM="iPadAir2-iOS9Sim" CB_BROWSER="MblSafari9.0" RESOLUTION="2048x1536"
-    cb_ipad_air:        --profile cb_mobile DEVICE_TYPE=tablet CB_PLATFORM="iPadAir-iOS8Sim" CB_BROWSER="MblSafari8.0" RESOLUTION="2048x1536"
-    cb_ipad_mini:       --profile cb_mobile DEVICE_TYPE=tablet CB_PLATFORM="iPadMiniRetina-iOS7Sim" CB_BROWSER="MblSafari7.0" RESOLUTION="2048x1536"
-    
-    # CrossBrowserTesting Android mobile browser profiles
-    cb_nexus7:          --profile cb_mobile CB_PLATFORM="Nexus7-And42" CB_BROWSER="MblChrome37" RESOLUTION="800x1280"
-    cb_galaxy_tab2:     --profile cb_mobile CB_PLATFORM="GalaxyTab2-And41" CB_BROWSER="MblChrome38" RESOLUTION="1280x800"
-    cb_galaxy_s5:       --profile cb_mobile CB_PLATFORM="GalaxyS5-And44" CB_BROWSER="MblChrome35" RESOLUTION="1080x1920"
-    cb_galaxy_s4:       --profile cb_mobile CB_PLATFORM="GalaxyS4-And42" CB_BROWSER="MblChrome33" RESOLUTION="1080x1920"
-    
-    
-    #==============
     # profiles for remotely hosted web browsers on the SauceLabs service
     #==============
     
@@ -1574,57 +1442,6 @@ placeholder text with the Subdomain specified on the Grid Configuration Paramete
     tb_ie10_win8:       --profile tb_win8 TB_BROWSER="internet explorer" TB_VERSION="10"
     tb_ie11_win10:      --profile tb_win10 TB_BROWSER="internet explorer" TB_VERSION="11"
     tb_edge_win10:      --profile tb_win10 TB_BROWSER="microsoftedge" TB_VERSION="14"
-    
-    # TestingBot iOS mobile browser profiles
-    tb_ios:              --profile tb_mobile TB_OS="MAC" TB_BROWSER="safari" TB_PLATFORM="iOS"
-    tb_iphone6s_plus_10: --profile tb_ios DEVICE_TYPE=phone TB_VERSION="10.0" TB_DEVICE="iPhone 6s Plus"
-    tb_iphone6s_plus_93: --profile tb_ios DEVICE_TYPE=phone TB_VERSION="9.3"  TB_DEVICE="iPhone 6s Plus"
-    tb_iphone6_plus_10:  --profile tb_ios DEVICE_TYPE=phone TB_VERSION="10.0" TB_DEVICE="iPhone 6 Plus"
-    tb_iphone6_plus_93:  --profile tb_ios DEVICE_TYPE=phone TB_VERSION="9.3"  TB_DEVICE="iPhone 6 Plus"
-    tb_iphone6s_10:      --profile tb_ios DEVICE_TYPE=phone TB_VERSION="10.0" TB_DEVICE="iPhone 6s"
-    tb_iphone6s_93:      --profile tb_ios DEVICE_TYPE=phone TB_VERSION="9.3"  TB_DEVICE="iPhone 6s"
-    tb_iphone5s_10:      --profile tb_ios DEVICE_TYPE=phone TB_VERSION="10.0" TB_DEVICE="iPhone 5s"
-    tb_iphone5s_93:      --profile tb_ios DEVICE_TYPE=phone TB_VERSION="9.3"  TB_DEVICE="iPhone 5s"
-    tb_ipad_pro_10:      --profile tb_ios DEVICE_TYPE=tablet TB_VERSION="10.0" TB_DEVICE="iPad Pro"
-    tb_ipad_pro_93:      --profile tb_ios DEVICE_TYPE=tablet TB_VERSION="9.3"  TB_DEVICE="iPad Pro"
-    tb_ipad_air2_10:     --profile tb_ios DEVICE_TYPE=tablet TB_VERSION="10.0" TB_DEVICE="iPad Air 2"
-    tb_ipad_air2_93:     --profile tb_ios DEVICE_TYPE=tablet TB_VERSION="9.3"  TB_DEVICE="iPad Air 2"
-    
-    # TestingBot Android mobile browser profiles
-    tb_android:          --profile tb_mobile TB_OS="ANDROID" TB_BROWSER="browser" TB_PLATFORM="Android"
-    tb_nexus_s:          --profile tb_android TB_VERSION="6.0" TB_DEVICE="Nexus S"
-    tb_nexus_1:          --profile tb_android TB_VERSION="5.0" TB_DEVICE="Nexus 1"
-    tb_nexus_4:          --profile tb_android TB_VERSION="6.0" TB_DEVICE="Nexus 4"
-    tb_galaxy_nexus:     --profile tb_android TB_VERSION="4.4" TB_DEVICE="Galaxy Nexus"
-    tb_galaxy_s4:        --profile tb_android TB_VERSION="4.4" TB_DEVICE="Galaxy S4"
-    tb_galaxy_s5:        --profile tb_android TB_VERSION="5.0" TB_DEVICE="Galaxy S5"
-    tb_galaxy_s6:        --profile tb_android TB_VERSION="6.0" TB_DEVICE="Galaxy S6"
-
-
-    #==============
-    # profiles for remotely hosted web browsers on the Gridlastic service
-    #==============
-    
-    gridlastic:         WEB_BROWSER=gridlastic GL_USERNAME="<INSERT USER NAME HERE>" GL_AUTHKEY="<INSERT PASSWORD HERE>" GL_SUBDOMAIN="<INSERT SUBDOMAIN HERE>"
-    gl_video:           RECORD_VIDEO="True" VIDEO_URL="<INSERT VIDEO URL HERE>"
-    gl_desktop:         --profile gridlastic --profile gl_video <%= desktop %>
-    
-    # Gridlastic Windows desktop browser profiles
-    gl_windows:         --profile gl_desktop GL_PLATFORM="windows"
-    gl_win8:            --profile gl_windows GL_OS="WIN8"
-    gl_win8_1:          --profile gl_windows GL_OS="WIN8_1"
-    gl_win10:           --profile gl_windows GL_OS="WIN10"
-    gl_ff_win8:         --profile gl_win8_1 GL_BROWSER="firefox" GL_VERSION="59"
-    gl_ff_win10:        --profile gl_win10 GL_BROWSER="firefox" GL_VERSION="59"
-    gl_chrome_win8:     --profile gl_win8_1 GL_BROWSER="chrome" GL_VERSION="latest"
-    gl_chrome_win10:    --profile gl_win10 GL_BROWSER="chrome" GL_VERSION="latest"
-    
-    gl_ie11_win8:       --profile gl_win8_1 GL_BROWSER="internet explorer" GL_VERSION="11"
-    gl_ie10_win8:       --profile gl_win8 GL_BROWSER="internet explorer" GL_VERSION="10"
-    gl_ie11_win10:      --profile gl_win10 GL_BROWSER="internet explorer" GL_VERSION="11"
-    
-    # Gridlastic Linux desktop browser profiles
-    gl_chrome_linux:    --profile gl_desktop GL_OS="LINUX" GL_BROWSER="chrome" GL_VERSION="latest"
 
 
     #==============
@@ -1702,7 +1519,7 @@ landscape orientation running on the BrowserStack service:
 
 ## Web Test Automation Framework Implementation
 
- <img src="https://i.imgur.com/qw48Kkf.jpg" width="1024" alt="Web Framework Overview" title="Web Framework Overview">
+ ![TestCentricity Web Framework Overview](/doc/images/TC_Web.jpg)
 
 
 

@@ -1,6 +1,15 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [4.1.1] - 03-MAR-2022
+
+### Changed
+* W3C WebDriver-compliant sessions using Selenium version 4.x are now supported when using the BrowserStack, LambdaTest, TestingBot,
+and SauceLabs services.
+* W3C WebDriver-compliant sessions are now supported when running against remote browsers hosted on Selenium Grid 4 and Dockerized Selenium 
+Grid 4 environments.
+
+
 ## [4.1.0] - 28-FEB-2022
 
 ### Added
@@ -17,6 +26,10 @@ All notable changes to this project will be documented in this file.
   method to specify the locator for an associated `proxy` and/or `label` element. The `define_custom_elements` method can be
   called from an `initialize` method for the `PageObject` or `PageSection` where the `checkbox` or `radio` is instantiated.
 * Ruby version 2.7 or greater required.
+* Selenium-Webdriver version 4 or greater required.
+
+### Removed
+* Support for CrossBrowserTesting and Gridlastic cloud hosted Selenium grids have been removed.
 
 
 ## [4.0.3] - 30-DEC-2021

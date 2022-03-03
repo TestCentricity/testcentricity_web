@@ -124,8 +124,8 @@ module TestCentricity
     # @param element_name [Symbol] name of UI object (as a symbol)
     # @param locator [String] CSS selector or XPath expression that uniquely identifies object
     # @example
-    #   element :undo_record_item,  "//li[@rn='Undo Record']/a"
-    #   element :basket_header,     'div.basket_header'
+    #   element :undo_record_item, "//li[@rn='Undo Record']/a"
+    #   element :basket_header,    'div.basket_header'
     #
     def self.element(element_name, locator)
       define_element(element_name, TestCentricity::UIElement, locator)
@@ -159,9 +159,9 @@ module TestCentricity
     #
     # @param element_hash [Hash] names of buttons (as a symbol) and CSS selectors or XPath expressions that uniquely identifies buttons
     # @example
-    #     buttons new_account_button:  'button#new-account',
-    #             save_button:         'button#save',
-    #             cancel_button:       'button#cancel'
+    #     buttons new_account_button: 'button#new-account',
+    #             save_button:        'button#save',
+    #             cancel_button:      'button#cancel'
     #
     def self.buttons(element_hash)
       element_hash.each(&method(:button))
@@ -183,11 +183,11 @@ module TestCentricity
     #
     # @param element_hash [Hash] names of text fields (as a symbol) and CSS selectors or XPath expressions that uniquely identifies text fields
     # @example
-    #       textfields  name_field:    'input#Name',
-    #                   title_field:   'input#Title',
-    #                   phone_field:   'input#PhoneNumber',
-    #                   fax_field:     'input#FaxNumber',
-    #                   email_field:   'input#Email'
+    #       textfields  name_field:  'input#Name',
+    #                   title_field: 'input#Title',
+    #                   phone_field: 'input#PhoneNumber',
+    #                   fax_field:   'input#FaxNumber',
+    #                   email_field: 'input#Email'
     #
     def self.textfields(element_hash)
       element_hash.each(&method(:textfield))
@@ -232,10 +232,10 @@ module TestCentricity
     #
     # @param element_hash [Hash] names of checkboxes (as a symbol) and CSS selectors or XPath expressions that uniquely identifies checkboxes
     # @example
-    #       checkboxes  hazmat_certified_check:  'input#hazmatCertified',
-    #                   epa_certified_check:     'input#epaCertified',
-    #                   dhs_certified_check:     'input#homelandSecurityCertified',
-    #                   carb_compliant_check:    'input#carbCompliant'
+    #       checkboxes  hazmat_certified_check: 'input#hazmatCertified',
+    #                   epa_certified_check:    'input#epaCertified',
+    #                   dhs_certified_check:    'input#homelandSecurityCertified',
+    #                   carb_compliant_check:   'input#carbCompliant'
     #
     def self.checkboxes(element_hash)
       element_hash.each(&method(:checkbox))

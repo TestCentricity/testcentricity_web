@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    testcentricity_web (4.0.3.25)
+    testcentricity_web (4.1.1)
       appium_lib
       browserstack-local
       capybara (>= 3.1, < 4)
@@ -10,7 +10,7 @@ PATH
       faker
       i18n
       os (~> 1.0)
-      selenium-webdriver
+      selenium-webdriver (>= 4.0, < 5)
       spreadsheet (= 1.1.7)
       test-unit
       virtus
