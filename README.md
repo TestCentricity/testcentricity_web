@@ -300,6 +300,13 @@ A **PageSection Object** is a collection of **UI Elements** that may appear in m
 app. It is a collection of **UI Elements** that represent a conceptual area of functionality, like a navigation bar, a search capability,
 or a menu. **UI Elements** and functional behavior are confined to the scope of a **PageSection Object**.
 
+![Navigation Header](/doc/images/LI_NavHeader.jpg)
+
+![Navigation Header](/doc/images/LI_NavHeader2.jpg)
+
+![User Profile Popup](/doc/images/LI_Me.jpg)
+
+
 A **PageSection Object** may contain other **PageSection Objects**.
 
 
@@ -549,6 +556,268 @@ With TestCentricity, all UI elements are based on the **UIElement** class, and i
     element.aria_multiline?
     element.aria_multiselectable?
     element.aria_busy?
+
+
+### Populating your PageObject or PageSection with data
+
+A typical automated test may be required to perform the entry of test data by interacting with various `UIElements` on your `PageObject` or
+`PageSection`. This data entry can be performed using the various object action methods (listed above) for each `UIElement` that needs to be
+interacted with.
+
+The `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods support the entry of test data into a collection of
+`UIElements`. The `populate_data_fields` method accepts a hash containing key/hash pairs of `UIElements` and their associated data to be
+entered. Data values must be in the form of a `String` for `textfield` and `selectlist` controls. For `checkbox` and `radio` controls, data
+must either be a `Boolean` or a `String` that evaluates to a `Boolean` value (Yes, No, 1, 0, true, false). For `section` objects, data values
+must be a `String`, and the `section` object must have a `set` method defined.
+
+The `populate_data_fields` method verifies that data attributes associated with each `UIElement` is not `nil` or `empty` before attempting to
+enter data into the `UIElement`.
+
+The optional `wait_time` parameter is used to specify the time (in seconds) to wait for each `UIElement` to become become viable for data entry
+(the `UIElement` must be visible and enabled) before entering the associated data value. This option is useful in situations where entering data,
+or setting the state of a `UIElement` might cause other `UIElements` to become visible or active. Specifying a wait_time value ensures that the
+subsequent `UIElements` will be ready to be interacted with as states are changed. If the wait time is `nil`, then the wait time will be 5 seconds.
+
+    def enter_data(user_data)
+      fields = {
+        first_name_field    => user_data.first_name,
+        last_name_field     => user_data.last_name,
+        email_field         => user_data.email,
+        country_code_select => user_data.country_code,
+        phone_number_field  => user_data.phone_number,
+        time_zone_select    => user_data.time_zone,
+        language_select     => user_data.language
+      }
+      populate_data_fields(fields, wait_time = 2)
+    end
+
+
+### Verifying UIElements on your PageObject or PageSection
+
+A typical automated test executes one or more interactions with the user interface, and then performs a validation to verify whether
+the expected state of the UI has been achieved. This verification can be performed using the various object state methods (listed above)
+for each `UIElement` that requires verification. Depending on the complexity and number of `UIElements` to be verified, the code required to
+verify the presence of `UIElements` and their correct states can become cumbersome.
+
+The `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods support the verification of multiple properties of multiple
+UI elements on a **Page Object** or **PageSection Object**. The `verify_ui_states` method accepts a hash containing key/hash pairs of UI
+elements and their properties or attributes to be verified.
+
+     ui = {
+       object1 => { property: state },
+       object2 => { property: state, property: state },
+       object3 => { property: state }
+     }
+     verify_ui_states(ui)
+
+The `verify_ui_states` method queues up any exceptions that occur while verifying each object's properties until all `UIElements` and their
+properties have been checked, and then posts any exceptions encountered upon completion. Posted exceptions include a screenshot with a red
+dashed highlight around the UI element that did not match the expected results.
+
+The `verify_ui_states` method supports the following property/state pairs:
+
+**All Objects:**
+
+    :exists            Boolean
+    :enabled           Boolean
+    :disabled          Boolean
+    :visible           Boolean
+    :hidden            Boolean
+    :displayed         Boolean
+    :width             Integer
+    :height            Integer
+    :x                 Integer
+    :y                 Integer
+    :class             String
+    :value or :caption String
+    :attribute         Hash
+
+**Text Fields:**
+
+    :readonly    Boolean
+    :placeholder String
+    :maxlength   Integer
+    :min         Integer
+    :max         Integer
+    :step        Integer
+
+**Checkboxes:**
+
+    :checked Boolean
+
+**Radio Buttons:**
+
+    :selected Boolean
+
+**Images**
+
+    :loaded Boolean
+    :broken Boolean
+    :src    String
+    :alt    String
+
+**Lists**
+
+    :items     Array of Strings
+    :itemcount Integer
+    :item      Hash
+    :selected  String
+
+**Select Lists** (ComboBoxes):
+
+    :items or :options         Array of Strings
+    :itemcount or :optioncount Integer
+    :selected                  String
+
+**Tables**
+
+    :rowcount      Integer
+    :columncount   Integer
+    :columnheaders Array of String
+    :cell          Hash
+    :row           Hash
+    :column        Hash
+
+**Audio/Video Media Objects**
+
+    :autoplay              Boolean
+    :ended                 Boolean
+    :controls              Boolean
+    :loop                  Boolean
+    :muted                 Boolean
+    :default_muted         Boolean
+    :paused                Boolean
+    :seeking               Boolean
+    :src                   String
+    :current_time          Float
+    :default_playback_rate Float
+    :duration              Float
+    :playback_rate         Float
+    :ready_state           Integer
+    :volume                Float
+    :crossorigin           String
+    :preload               String
+    :poster                String
+
+The `verify_ui_states` method supports the following ARIA accessibility property/state pairs:
+
+**All Objects:**
+
+    :aria_label           String
+    :aria_disabled        Boolean
+    :aria_labelledby      String
+    :aria_describedby     String
+    :aria_live            Boolean
+    :aria_selected        Boolean
+    :aria_hidden          Boolean
+    :aria_expanded        Boolean
+    :aria_required        Boolean
+    :aria_invalid         Boolean
+    :aria_checked         Boolean
+    :aria_readonly        Boolean
+    :aria_pressed         Boolean
+    :aria_haspopup        Boolean
+    :aria_sort            String
+    :aria_rowcount        String
+    :aria_colcount        String
+    :aria_valuemax        String
+    :aria_valuemin        String
+    :aria_valuenow        String
+    :aria_valuetext       String
+    :aria_orientation     String
+    :aria_keyshortcuts    String
+    :aria_roledescription String
+    :aria_autocomplete    String
+    :aria_controls        String
+    :aria_modal           String
+    :aria_multiline       Boolean
+    :aria_multiselectable Boolean
+    :content_editable     Boolean
+
+The `verify_ui_states` method supports comparison states using property/comparison state pairs:
+
+    object => { property: { comparison_state: value } }
+
+**Comparison States:**
+
+    :lt or :less_than                  Integer or String
+    :lt_eq or :less_than_or_equal      Integer or String
+    :gt or :greater_than               Integer or String
+    :gt_eq or :greater_than_or_equal   Integer or String
+    :starts_with                       String
+    :ends_with                         String
+    :contains                          String
+    :not_contains or :does_not_contain Integer or String
+    :not_equal                         Integer, String, or Boolean
+
+The example below depicts a `verify_changes_saved` method that uses the `verify_ui_states` method to verify that all expected
+values appear in the associated text fields after entering data and performing a save operation.
+
+    def verify_changes_saved
+      # verify saved user data is correctly displayed
+      ui = {
+        first_name_field    => { visible: true, aria_invalid: false, value: User.current.first_name },
+        last_name_field     => { visible: true, aria_invalid: false, value: User.current.last_name },
+        email_field         => { visible: true, aria_invalid: false, value: User.current.email },
+        phone_number_field  => { visible: true, aria_invalid: false, value: User.current.phone_number },
+        time_zone_select    => { visible: true, aria_invalid: false, value: User.current.time_zone },
+        language_select     => { visible: true, aria_invalid: false, value: User.current.language },
+        avatar_container    => { visible: true },
+        avatar_image        => { visible: true, broken: false, src: { contains: User.current.avatar_file_name } },
+        error_message_label => { visible: false }
+      }
+      verify_ui_states(ui)
+
+      # verify avatar src url does not contain /null/ institution id
+      verify_ui_states(avatar_image => { src: { does_not_contain: "/null/" } })
+    end
+
+
+**I18n Translation Validation**
+
+The `verify_ui_states` method also supports I18n string translations using property/I18n key name pairs:
+
+    object => { property: { translate_key: I18n key name } }
+
+**I18n Translation Keys:**
+
+    :translate            String (name of key in I18n compatible .yml file)
+    :translate_upcase     String (name of key in I18n compatible .yml file)
+    :translate_downcase   String (name of key in I18n compatible .yml file)
+    :translate_capitalize String (name of key in I18n compatible .yml file)
+    translate_titlecase:  String (name of key in I18n compatible .yml file)
+
+The example below depicts the usage of the `verify_ui_states` method to verify that the captions for menu items are correctly
+translated.
+
+    def verify_menu
+      ui = {
+        account_settings_item => { visible: true, caption: { translate: 'Header.settings.account' } },
+        help_item             => { visible: true, caption: { translate: 'Header.settings.help' } },
+        feedback_item         => { visible: true, caption: { translate: 'Header.settings.feedback' } },
+        legal_item            => { visible: true, caption: { translate: 'Header.settings.legal' } },
+        institution_item      => { visible: true, caption: { translate: 'Header.settings.institution' } },
+        configurations_item   => { visible: true, caption: { translate: 'Header.settings.configurations' } },
+        contact_us_item       => { visible: true, caption: { translate: 'Header.settings.contact' } },
+        downloads_item        => { visible: true, caption: { translate: 'Header.settings.downloads' } }
+      }
+      verify_ui_states(ui)
+    end
+
+Baseline translation strings are stored in `.yml` files in the `config/locales/` folder. Each supported language/locale combination
+has a corresponding `.yml` file. I18n `.yml` file naming convention uses [ISO-639 language codes and ISO-3166 country codes](https://docs.oracle.com/cd/E13214_01/wli/docs92/xref/xqisocodes.html). For example:
+
+    English               en.yml
+    English (Canada)      en-CA.yml
+    French (Canada)       fr-CA.yml
+    French                fr.yml
+    Spanish               es.yml
+    German                de.yml
+    Portuguese (Brazil)   pt-BR.yml
+    Portuguese (Portugal) pt-PT.yml
+
+I18n `.yml` files contain key/value pairs representing the name of a translated string (key) and the string value.
+
 
 
 ## Instantiating your Page Objects
@@ -824,7 +1093,6 @@ the `WEB_BROWSER` Environment Variable must be set to one of the values from the
 | `ipad_chrome`         | `chrome`       | 1024 x 768                | landscape               | iOS 12.2 - Mobile Chrome browser for iOS  |
 | `ipad_firefox`        | `chrome`       | 1024 x 768                | landscape               | iOS 12.2 - Mobile Firefox browser for iOS |
 | `ipad_edge`           | `chrome`       | 1024 x 768                | landscape               | iOS 12.2 - Mobile Edge browser for iOS    |
-| `android_tablet`      | `chrome`       | 1024 x 768                | landscape               | Android 3.0                               |
 | `kindle_fire`         | `chrome`       | 1024 x 600                | landscape               |                                           |
 | `kindle_firehd7`      | `chrome`       | 800 x 480                 | landscape               | Fire OS 3                                 |
 | `kindle_firehd8`      | `chrome`       | 1280 x 800                | landscape               | Fire OS 5                                 |
@@ -851,7 +1119,6 @@ the `WEB_BROWSER` Environment Variable must be set to one of the values from the
 | `iphone_11`           | `chrome`       | 414 x 896                 | portrait                | iOS 13.1                                  |
 | `iphone_11_pro`       | `chrome`       | 375 x 812                 | portrait                | iOS 13.1                                  |
 | `iphone_11_pro_max`   | `chrome`       | 414 x 896                 | portrait                | iOS 13.1                                  |
-| `android_phone`       | `chrome`       | 360 x 640                 | portrait                | Android 4.2.1                             |
 | `nexus6`              | `chrome`       | 411 x 731                 | portrait                | Android 6                                 |
 | `pixel`               | `chrome`       | 411 x 731                 | portrait                | Android 8                                 |
 | `pixel_xl`            | `chrome`       | 411 x 731                 | portrait                | Android 8                                 |
@@ -1127,26 +1394,28 @@ Below is a list of Cucumber **Profiles** for supported locally and remotely host
 that you intend to connect with.
 
 
-    <% desktop          = "--tags @desktop --require features BROWSER_TILE=true BROWSER_SIZE=1500,1000" %>
-    <% tablet           = "--tags @desktop --require features BROWSER_TILE=true" %>
-    <% mobile           = "--tags @mobile  --require features BROWSER_TILE=true" %>
+    <% desktop = "--tags @desktop --require features BROWSER_TILE=true BROWSER_SIZE=1500,1000" %>
+    <% tablet  = "--tags @desktop --require features BROWSER_TILE=true" %>
+    <% mobile  = "--tags @mobile  --require features BROWSER_TILE=true" %>
     
     #==============
     # profiles for locally hosted desktop web browsers
     #==============
     
-    firefox:            WEB_BROWSER=firefox     <%= desktop %>
-    chrome:             WEB_BROWSER=chrome      <%= desktop %>
-    safari:             WEB_BROWSER=safari      <%= desktop %>
-    ie:                 WEB_BROWSER=ie          <%= desktop %>
+    firefox: WEB_BROWSER=firefox <%= desktop %>
+    chrome:  WEB_BROWSER=chrome <%= desktop %>
+    edge:    WEB_BROWSER=edge <%= desktop %>
+    safari:  WEB_BROWSER=safari <%= desktop %>
+    ie:      WEB_BROWSER=ie <%= desktop %>
 
-    chrome_headless:    WEB_BROWSER=chrome_headless  <%= desktop %>
-    firefox_headless:   WEB_BROWSER=firefox_headless <%= desktop %>
+    firefox_headless: WEB_BROWSER=firefox_headless <%= desktop %>
+    chrome_headless:  WEB_BROWSER=chrome_headless <%= desktop %>
+    edge_headless:    WEB_BROWSER=edge_headless <%= desktop %>
 
     #==============
     # profile for Selenium Grid and Dockerized Selenium Grid hosted desktop web browsers
     #==============
-    grid:               SELENIUM=remote REMOTE_ENDPOINT="http://localhost:4444/wd/hub"
+    grid: SELENIUM=remote REMOTE_ENDPOINT="http://localhost:4444/wd/hub"
 
 
     #==============
@@ -1180,9 +1449,7 @@ that you intend to connect with.
     iphone_11:           WEB_BROWSER=iphone_11           HOST_BROWSER=chrome <%= mobile %>
     iphone_11_pro:       WEB_BROWSER=iphone_11_pro       HOST_BROWSER=chrome <%= mobile %>
     iphone_11_pro_max:   WEB_BROWSER=iphone_11_pro_max   HOST_BROWSER=chrome <%= mobile %>
-    android_phone:       WEB_BROWSER=android_phone       HOST_BROWSER=chrome <%= mobile %>
     nexus6:              WEB_BROWSER=nexus6              HOST_BROWSER=chrome <%= mobile %>
-    android_tablet:      WEB_BROWSER=android_tablet      HOST_BROWSER=chrome <%= tablet %>
     kindle_fire:         WEB_BROWSER=kindle_fire         HOST_BROWSER=chrome <%= tablet %>
     kindle_firehd7:      WEB_BROWSER=kindle_firehd7      HOST_BROWSER=chrome <%= tablet %>
     kindle_firehd8:      WEB_BROWSER=kindle_firehd8      HOST_BROWSER=chrome <%= tablet %>
@@ -1211,43 +1478,19 @@ that you intend to connect with.
     # profiles for mobile device screen orientation
     #==============
     
-    portrait:           ORIENTATION=portrait
-    landscape:          ORIENTATION=landscape
+    portrait:  ORIENTATION=portrait
+    landscape: ORIENTATION=landscape
     
     
     #==============
     # profiles for mobile Safari web browsers hosted within XCode iOS simulator
     # NOTE: Requires installation of XCode, iOS version specific target simulators, Appium, and the appium_capybara gem
     #==============
-    
-    appium_ios:            WEB_BROWSER=appium APP_PLATFORM_NAME="iOS" APP_BROWSER="Safari" <%= mobile %>
-    app_ios_10:            --profile appium_ios APP_VERSION="10.3"
-    app_ios_11:            --profile appium_ios APP_VERSION="11.2"
-    
-    iphone_7_plus_10_sim:  --profile app_ios_10 DEVICE_TYPE=phone APP_DEVICE="iPhone 7 Plus"
-    iphone_7_10_sim:       --profile app_ios_10 DEVICE_TYPE=phone APP_DEVICE="iPhone 7"
-    iphone_7se_10_sim:     --profile app_ios_10 DEVICE_TYPE=phone APP_DEVICE="iPhone SE"
-    iphone_6s_plus_10_sim: --profile app_ios_10 DEVICE_TYPE=phone APP_DEVICE="iPhone 6s Plus"
-    iphone_6s_10_sim:      --profile app_ios_10 DEVICE_TYPE=phone APP_DEVICE="iPhone 6s"
-    iphone_SE_10_sim:      --profile app_ios_10 DEVICE_TYPE=phone APP_DEVICE="iPhone SE"
-    iphone_X_11_sim:       --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="iPhone X"
-    iphone_8_11_sim:       --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="iPhone 8"
-    iphone_8_plus_11_sim:  --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="iPhone 8 Plus"
-    iphone_7_plus_11_sim:  --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="iPhone 7 Plus"
-    iphone_7_11_sim:       --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="iPhone 7"
-    iphone_7se_11_sim:     --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="iPhone SE"
-    iphone_6s_plus_11_sim: --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="iPhone 6s Plus"
-    iphone_6s_11_sim:      --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="iPhone 6s"
-    iphone_SE_11_sim:      --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="iPhone SE"
-    
-    ipad_pro_12_9_11_sim:  --profile app_ios_11 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (12.9-inch)"
-    ipad_pro_12_9_10_sim:  --profile app_ios_10 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (12.9-inch)"
-    ipad_pro_10_5_11_sim:  --profile app_ios_11 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (10.5-inch)"
-    ipad_pro_10_5_10_sim:  --profile app_ios_10 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (10.5-inch)"
-    ipad_pro_9_7_11_sim:   --profile app_ios_11 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (9.7-inch)"
-    ipad_pro_9_7_10_sim:   --profile app_ios_10 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (9.7-inch)"
-    ipad_air_2_11_sim:     --profile app_ios_11 DEVICE_TYPE=tablet APP_DEVICE="iPad Air 2"
-    ipad_air_2_10_sim:     --profile app_ios_10 DEVICE_TYPE=tablet APP_DEVICE="iPad Air 2"
+
+    appium_ios: WEB_BROWSER=appium AUTOMATION_ENGINE=XCUITest APP_PLATFORM_NAME="ios" APP_BROWSER="Safari" NEW_COMMAND_TIMEOUT=30 SHUTDOWN_OTHER_SIMS=true SHOW_SIM_KEYBOARD=false
+    app_ios_15: --profile appium_ios APP_VERSION="15.2"
+    ipad_pro_12_9_15_sim: --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (12.9-inch) (5th generation)" <%= desktop %>
+    ipad_air_15_sim: --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="iPad Air (4th generation)" <%= desktop %>
 
 
     #==============
@@ -1255,227 +1498,110 @@ that you intend to connect with.
     # NOTE: Requires installation of XCode, Appium, and the appium_capybara gem
     #==============
 
-    my_ios_11_3_iphone:    --profile app_ios_11 DEVICE_TYPE=phone APP_DEVICE="My Test iPhoneX" APP_UDID="INSERT YOUR DEVICE UDID"
-    my_ios_10_3_ipad:      --profile app_ios_10 DEVICE_TYPE=tablet APP_DEVICE="My Test iPad Pro" APP_UDID="INSERT YOUR DEVICE UDID"
+    my_ios_15_iphone: --profile app_ios_15 DEVICE_TYPE=phone APP_DEVICE="My Test iPhoneX" APP_UDID="INSERT YOUR DEVICE UDID"
+    my_ios_15_ipad:   --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="My Test iPad Pro" APP_UDID="INSERT YOUR DEVICE UDID"
 
 
     #==============
     # profiles for Android mobile web browsers hosted within Android Studio Android Virtual Device emulators
     # NOTE: Requires installation of Android Studio, Android version specific virtual device simulators, Appium, and the appium_capybara gem
     #==============
-    
-    appium_android:        WEB_BROWSER=appium APP_PLATFORM_NAME="Android" <%= mobile %>
-    android_api_26:        --profile appium_android APP_BROWSER="Chrome" APP_VERSION="8.0"
-    android_api_23:        --profile appium_android APP_BROWSER="Browser" APP_VERSION="6.0"
-    pixel_xl_api26_sim:    --profile android_api_26 DEVICE_TYPE=phone APP_DEVICE="Pixel_XL_API_26"
-    pixel_2_xl_api26_sim:  --profile android_api_26 DEVICE_TYPE=phone APP_DEVICE="Pixel_2_XL_API_26"
-    nexus_6_api23_sim:     --profile android_api_23 DEVICE_TYPE=phone APP_DEVICE="Nexus_6_API_23"
+
+    appium_android:    WEB_BROWSER=appium APP_PLATFORM_NAME="Android" <%= mobile %>
+    app_android_12:    --profile appium_android APP_BROWSER="Chrome" APP_VERSION="12.0"
+    pixel_c_api31_sim: --profile app_android_12 DEVICE_TYPE=tablet APP_DEVICE="Pixel_C_API_31"
+
     
     #==============
     # profiles for remotely hosted web browsers on the BrowserStack service
     #==============
     
-    browserstack:       WEB_BROWSER=browserstack BS_USERNAME="<INSERT USER NAME HERE>" BS_AUTHKEY="<INSERT PASSWORD HERE>"
-    bs_desktop:         --profile browserstack <%= desktop %> RESOLUTION="1920x1080"
-    bs_mobile:          --profile browserstack <%= mobile %>
+    browserstack: WEB_BROWSER=browserstack BS_USERNAME="<INSERT USER NAME HERE>" BS_AUTHKEY="<INSERT PASSWORD HERE>"
+    bs_desktop:   --profile browserstack <%= desktop %> RESOLUTION="1920x1080"
+    bs_mobile:    --profile browserstack <%= mobile %>
     
-    # BrowserStack OS X desktop browser profiles
-    bs_macos_mojave:    --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="Mojave"
-    bs_ff_mojave:       --profile bs_macos_mojave BS_BROWSER="Firefox"
-    bs_chrome_mojave:   --profile bs_macos_mojave BS_BROWSER="Chrome"
-    bs_safari_mojave:   --profile bs_macos_mojave BS_BROWSER="Safari"
-    
-    bs_macos_high_sierra:  --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="High Sierra"
-    bs_ff_high_sierra:     --profile bs_macos_high_sierra BS_BROWSER="Firefox"
-    bs_chrome_high_sierra: --profile bs_macos_high_sierra BS_BROWSER="Chrome"
-    bs_safari_high_sierra: --profile bs_macos_high_sierra BS_BROWSER="Safari"
-    
-    bs_macos_sierra:    --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="Sierra"
-    bs_ff_sierra:       --profile bs_macos_sierra BS_BROWSER="Firefox"
-    bs_chrome_sierra:   --profile bs_macos_sierra BS_BROWSER="Chrome"
-    bs_safari_sierra:   --profile bs_macos_sierra BS_BROWSER="Safari"
-    
-    bs_osx_el_capitan:  --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="El Capitan"
-    bs_ff_el_cap:       --profile bs_osx_el_capitan BS_BROWSER="Firefox"
-    bs_chrome_el_cap:   --profile bs_osx_el_capitan BS_BROWSER="Chrome"
-    bs_safari_el_cap:   --profile bs_osx_el_capitan BS_BROWSER="Safari"
-    
-    bs_osx_yosemite:    --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="Yosemite"
-    bs_ff_yos:          --profile bs_osx_yosemite BS_BROWSER="Firefox"
-    bs_chrome_yos:      --profile bs_osx_yosemite BS_BROWSER="Chrome"
-    bs_safari_yos:      --profile bs_osx_yosemite BS_BROWSER="Safari"
-    
+    # BrowserStack macOS desktop browser profiles
+    bs_macos_monterey:  --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="Monterey"
+    bs_chrome_monterey: --profile bs_macos_monterey BS_BROWSER="Chrome" BS_VERSION="latest"
+    bs_edge_monterey:   --profile bs_macos_monterey BS_BROWSER="Edge" BS_VERSION="latest"
+    bs_safari_monterey: --profile bs_macos_monterey BS_BROWSER="Safari" BS_VERSION="latest"
+        
     # BrowserStack Windows desktop browser profiles
-    bs_win8:            --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="8"
-    bs_win10:           --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="10"
-    bs_ff_win8:         --profile bs_win8 BS_BROWSER="Firefox"
-    bs_ff_win10:        --profile bs_win10 BS_BROWSER="Firefox"
-    bs_chrome_win8:     --profile bs_win8 BS_BROWSER="Chrome"
-    bs_chrome_win10:    --profile bs_win10 BS_BROWSER="Chrome"
-    
-    bs_ie10_win8:       --profile bs_win8 BS_BROWSER="IE" BS_VERSION="10.0"
-    bs_ie11_win8:       --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="8.1" BS_BROWSER="IE" BS_VERSION="11.0"
-    bs_ie11_win10:      --profile bs_win10 BS_BROWSER="IE" BS_VERSION="11.0"
-    bs_edge_win10:      --profile bs_win10 BS_BROWSER="Edge" BS_VERSION="15.0"
-    
+    bs_win11:        --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="11"
+    bs_chrome_win11: --profile bs_win11 BS_BROWSER="Chrome" BS_VERSION="latest"
+    bs_edge_win11:   --profile bs_win11 BS_BROWSER="Edge" BS_VERSION="latest"
+    bs_win10:        --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="10"
+    bs_ie_win10:     --profile bs_win10 BS_BROWSER="IE" BS_VERSION="11.0"
+
     # BrowserStack iOS mobile browser profiles
-    bs_iphone:          --profile bs_mobile BS_PLATFORM=MAC BS_OS=ios BS_BROWSER=iPhone DEVICE_TYPE=phone
-    bs_iphone6s_plus:   --profile bs_iphone BS_DEVICE="iPhone 6S Plus"
-    bs_iphone6s:        --profile bs_iphone BS_DEVICE="iPhone 6S"
-    bs_iphone6_plus:    --profile bs_iphone BS_DEVICE="iPhone 6 Plus"
-    bs_iphone6:         --profile bs_iphone BS_DEVICE="iPhone 6"
-    bs_iphone5s:        --profile bs_iphone BS_DEVICE="iPhone 5S"
-    bs_iphone4s:        --profile bs_iphone BS_DEVICE="iPhone 4S (6.0)"
-    
-    bs_ipad:            --profile bs_mobile BS_PLATFORM=MAC BS_BROWSER=iPad DEVICE_TYPE=tablet
-    bs_ipad_pro:        --profile bs_ipad BS_DEVICE="iPad Pro"
-    bs_ipad_air2:       --profile bs_ipad BS_DEVICE="iPad Air 2"
-    bs_ipad_air:        --profile bs_ipad BS_DEVICE="iPad Air"
-    bs_ipad_mini:       --profile bs_ipad BS_DEVICE="iPad Mini 4"
-    
-    # BrowserStack iOS real device mobile browser profiles
-    bs_iphone_device:   --profile bs_iphone BS_REAL_MOBILE="true"
-    bs_iphoneX:         --profile bs_iphone_device BS_OS_VERSION="11.0" BS_DEVICE="iPhone X"
-    bs_iphone8_plus:    --profile bs_iphone_device BS_OS_VERSION="11.0" BS_DEVICE="iPhone 8 Plus"
-    bs_iphone8:         --profile bs_iphone_device BS_OS_VERSION="11.0" BS_DEVICE="iPhone 8"
-    bs_iphone7_plus:    --profile bs_iphone_device BS_OS_VERSION="10.3" BS_DEVICE="iPhone 7 Plus"
-    bs_iphone7:         --profile bs_iphone_device BS_OS_VERSION="10.3" BS_DEVICE="iPhone 7"
-    
-    bs_ipad_device:     --profile bs_ipad BS_REAL_MOBILE="true"
-    bs_ipad5:           --profile bs_ipad_device BS_OS_VERSION="11.0" BS_DEVICE="iPad 5th"
+    bs_ipad:        --profile bs_mobile BS_OS=ios BS_BROWSER=Safari DEVICE_TYPE=tablet BS_REAL_MOBILE="true"
+    bs_ipad_pro_12: --profile bs_ipad BS_DEVICE="iPad Pro 12.9 2018" BS_OS_VERSION="15"
     
     # BrowserStack Android mobile browser profiles
-    bs_android:          --profile bs_mobile BS_PLATFORM=ANDROID BS_BROWSER=android BS_OS=android
-    bs_android_phone:    --profile bs_android DEVICE_TYPE=phone
-    bs_galaxy_s5:        --profile bs_android_phone BS_DEVICE="Samsung Galaxy S5"
-    bs_nexus5:           --profile bs_android_phone BS_DEVICE="Google Nexus 5"
-    bs_moto_razr:        --profile bs_android_phone BS_DEVICE="Motorola Razr"
-    bs_sony_xperia:      --profile bs_android_phone BS_DEVICE="Sony Xperia Tipo"
-    
-    bs_android_tablet:   --profile bs_android DEVICE_TYPE=tablet
-    bs_kindle_fire_hd89: --profile bs_android_tablet BS_DEVICE="Amazon Kindle Fire HD 8.9"
-    bs_kindle_fire_hdx7: --profile bs_android_tablet BS_DEVICE="Amazon Kindle Fire HDX 7"
-    bs_kindle_fire2:     --profile bs_android_tablet BS_DEVICE="Amazon Kindle Fire 2"
-    bs_nexus7:           --profile bs_android_tablet BS_DEVICE="Google Nexus 7"
-    
-    # BrowserStack Android real device mobile browser profiles
-    bs_android_device:   --profile bs_mobile BS_BROWSER=android BS_OS=android BS_REAL_MOBILE="true"
-    bs_google_pixel8:    --profile bs_android_device BS_DEVICE="Google Pixel" BS_OS_VERSION="8.0" DEVICE_TYPE=phone
-    bs_google_pixel71:   --profile bs_android_device BS_DEVICE="Google Pixel" BS_OS_VERSION="7.1" DEVICE_TYPE=phone
-    bs_nexus6:           --profile bs_android_device BS_DEVICE="Google Nexus 6" DEVICE_TYPE=phone
-    bs_galaxy_s8_plus:   --profile bs_android_device BS_DEVICE="Samsung Galaxy S8 Plus" DEVICE_TYPE=phone
-    bs_galaxy_s8:        --profile bs_android_device BS_DEVICE="Samsung Galaxy S8" DEVICE_TYPE=phone
-    bs_galaxy_s7:        --profile bs_android_device BS_DEVICE="Samsung Galaxy S7" DEVICE_TYPE=phone
-    bs_galaxy_s6:        --profile bs_android_device BS_DEVICE="Samsung Galaxy S6" DEVICE_TYPE=phone
-    bs_galaxy_note4:     --profile bs_android_device BS_DEVICE="Samsung Galaxy Note 4" DEVICE_TYPE=tablet
-    bs_nexus9:           --profile bs_android_device BS_DEVICE="Google Nexus 9" DEVICE_TYPE=tablet
+    bs_android:        --profile bs_mobile BS_OS=android BS_BROWSER=Chrome DEVICE_TYPE=tablet BS_REAL_MOBILE="true"
+    bs_android_tablet: --profile bs_android BS_DEVICE="Samsung Galaxy Tab S7" BS_OS_VERSION="10.0"
 
     
     #==============
     # profiles for remotely hosted web browsers on the SauceLabs service
     #==============
     
-    saucelabs:          WEB_BROWSER=saucelabs SL_USERNAME="<INSERT USER NAME HERE>" SL_AUTHKEY="<INSERT PASSWORD HERE>"
-    sl_desktop:         --profile saucelabs <%= desktop %>
+    saucelabs:  WEB_BROWSER=saucelabs SL_USERNAME="<INSERT USER NAME HERE>" SL_AUTHKEY="<INSERT PASSWORD HERE>" DATA_CENTER="<INSERT DATA CENTER HERE"
+    sl_desktop: --profile saucelabs <%= desktop %>
+    sl_mobile:  --profile saucelabs <%= mobile %>
     
-    # SauceLabs OS X desktop browser profiles
-    sl_osx_sierra:      --profile sl_desktop SL_OS="macOS 10.12"
-    sl_ff_sierra:       --profile sl_osx_sierra SL_BROWSER="firefox"
-    sl_chrome_sierra:   --profile sl_osx_sierra SL_BROWSER="chrome"
-    sl_safari_sierra:   --profile sl_osx_sierra SL_BROWSER="safari"
-
-    sl_osx_el_capitan:  --profile sl_desktop SL_OS="OS X 10.11"
-    sl_ff_el_cap:       --profile sl_osx_el_capitan SL_BROWSER="firefox"
-    sl_chrome_el_cap:   --profile sl_osx_el_capitan SL_BROWSER="chrome"
-    sl_safari_el_cap:   --profile sl_osx_el_capitan SL_BROWSER="safari"
-    
-    sl_osx_yosemite:    --profile sl_desktop SL_OS="OS X 10.10" RESOLUTION="1920x1200"
-    sl_ff_yos:          --profile sl_osx_yosemite SL_BROWSER="firefox"
-    sl_chrome_yos:      --profile sl_osx_yosemite SL_BROWSER="chrome"
-    sl_safari_yos:      --profile sl_osx_yosemite SL_BROWSER="safari"
+    # SauceLabs macOS desktop browser profiles
+    sl_macos_monterey:  --profile sl_desktop SL_OS="macOS 12" RESOLUTION="1920x1440"
+    sl_chrome_monterey: --profile sl_macos_monterey SL_BROWSER="chrome" SL_VERSION="latest"
+    sl_edge_monterey:   --profile sl_macos_monterey SL_BROWSER="MicrosoftEdge" SL_VERSION="latest"
+    sl_firefox_monterey: --profile sl_macos_monterey SL_BROWSER="Firefox" SL_VERSION="latest"
     
     # SauceLabs Windows desktop browser profiles
-    sl_win8:            --profile sl_desktop SL_OS="Windows 8.1" RESOLUTION="1280x1024"
-    sl_win10:           --profile sl_desktop SL_OS="Windows 10" RESOLUTION="1280x1024"
-    sl_ff_win8:         --profile sl_win8 SL_BROWSER="firefox"
-    sl_ff_win10:        --profile sl_win10 SL_BROWSER="firefox"
-    sl_chrome_win8:     --profile sl_win8 SL_BROWSER="chrome"
-    sl_chrome_win10:    --profile sl_win10 SL_BROWSER="chrome"
+    sl_windows:    --profile sl_desktop RESOLUTION="1920x1200"
+    sl_edge_win11: --profile sl_windows SL_OS="Windows 11" SL_BROWSER="MicrosoftEdge" SL_VERSION="latest"
+    sl_ie_win10:   --profile sl_windows SL_OS="Windows 10" SL_BROWSER="internet explorer" SL_VERSION="11"
     
-    sl_ie11_win8:       --profile sl_win8 SL_BROWSER="internet explorer" SL_VERSION="11.0"
-    sl_ie11_win10:      --profile sl_win10 SL_BROWSER="internet explorer"
+    # SauceLabs iOS mobile browser profiles
+    sl_ipad:        --profile sl_mobile DEVICE_TYPE=tablet SL_PLATFORM=iOS SL_BROWSER=Safari
+    sl_ipad_pro_12: --profile sl_ipad SL_DEVICE="iPad Pro (12.9 inch) (5th generation) Simulator" SL_VERSION="15.0"
     
     
     #==============
     # profiles for remotely hosted web browsers on the TestingBot service
     #==============
     
-    testingbot:         WEB_BROWSER=testingbot TB_USERNAME="<INSERT USER NAME HERE>" TB_AUTHKEY="<INSERT PASSWORD HERE>"
-    tb_desktop:         --profile testingbot <%= desktop %> RESOLUTION="1920x1200"
-    tb_mobile:          --profile testingbot <%= mobile %>
+    testingbot: WEB_BROWSER=testingbot TB_USERNAME="<INSERT USER NAME HERE>" TB_AUTHKEY="<INSERT PASSWORD HERE>"
+    tb_desktop: --profile testingbot <%= desktop %> RESOLUTION="1920x1200"
     
-    # TestingBot OS X desktop browser profiles
-    tb_macos_sierra:    --profile tb_desktop TB_OS="SIERRA"
-    tb_ff_sierra:       --profile tb_macos_sierra TB_BROWSER="firefox"
-    tb_chrome_sierra:   --profile tb_macos_sierra TB_BROWSER="chrome"
-    tb_safari_sierra:   --profile tb_macos_sierra TB_BROWSER="safari" TB_VERSION="10"
-    
-    tb_osx_el_capitan:  --profile tb_desktop TB_OS="CAPITAN"
-    tb_ff_el_cap:       --profile tb_osx_el_capitan TB_BROWSER="firefox"
-    tb_chrome_el_cap:   --profile tb_osx_el_capitan TB_BROWSER="chrome"
-    tb_safari_el_cap:   --profile tb_osx_el_capitan TB_BROWSER="safari" TB_VERSION="9"
-    
-    tb_osx_yosemite:    --profile tb_desktop TB_OS="YOSEMITE"
-    tb_ff_yos:          --profile tb_osx_yosemite TB_BROWSER="firefox"
-    tb_chrome_yos:      --profile tb_osx_yosemite TB_BROWSER="chrome"
-    tb_safari_yos:      --profile tb_osx_yosemite TB_BROWSER="safari" TB_VERSION="8"
+    # TestingBot macOS desktop browser profiles
+    tb_macos_monterey:  --profile tb_desktop TB_OS="MONTEREY"
+    tb_chrome_monterey: --profile tb_macos_monterey TB_BROWSER="chrome" TB_VERSION="latest"
+    tb_edge_monterey:   --profile tb_macos_monterey TB_BROWSER="microsoftedge" TB_VERSION="latest"
     
     # TestingBot Windows desktop browser profiles
-    tb_win8:            --profile tb_desktop TB_OS="WIN8"
-    tb_win10:           --profile tb_desktop TB_OS="WIN10"
-    tb_ff_win8:         --profile tb_win8 TB_BROWSER="firefox"
-    tb_ff_win10:        --profile tb_win10 TB_BROWSER="firefox"
-    tb_chrome_win8:     --profile tb_win8 TB_BROWSER="chrome"
-    tb_chrome_win10:    --profile tb_win10 TB_BROWSER="chrome"
-    
-    tb_ie11_win8:       --profile tb_win8 TB_BROWSER="internet explorer" TB_VERSION="11"
-    tb_ie10_win8:       --profile tb_win8 TB_BROWSER="internet explorer" TB_VERSION="10"
-    tb_ie11_win10:      --profile tb_win10 TB_BROWSER="internet explorer" TB_VERSION="11"
-    tb_edge_win10:      --profile tb_win10 TB_BROWSER="microsoftedge" TB_VERSION="14"
+    tb_win11:      --profile tb_desktop TB_OS="WIN11"
+    tb_edge_win11: --profile tb_win11 TB_BROWSER="microsoftedge" TB_VERSION="latest"
+    tb_win10:      --profile tb_desktop TB_OS="WIN10"
+    tb_ie_win10:   --profile tb_win10 TB_BROWSER="internet explorer" TB_VERSION="11"
 
 
     #==============
     # profiles for remotely hosted web browsers on the LambdaTest service
     #==============
     
-    lambdatest:         WEB_BROWSER=lambdatest LT_USERNAME=<INSERT USER NAME HERE> LT_AUTHKEY=<INSERT PASSWORD HERE>
-    lt_desktop:         --profile lambdatest <%= desktop %> RESOLUTION="1920x1080"
-    lt_firefox:         LT_BROWSER="Firefox" LT_VERSION="67.0"
-    lt_chrome:          LT_BROWSER="Chrome" LT_VERSION="76.0"
-    lt_safari:          LT_BROWSER="Safari" ALLOW_COOKIES="true" ALLOW_POPUPS="true"
+    lambdatest: WEB_BROWSER=lambdatest LT_USERNAME=<INSERT USER NAME HERE> LT_AUTHKEY=<INSERT PASSWORD HERE>
+    lt_desktop: --profile lambdatest <%= desktop %> RESOLUTION="2560x1440"
     
-    # LambdaTest OS X desktop browser profiles
-    lt_macos_mojave:    --profile lt_desktop LT_OS="macOS Mojave"
-    lt_ff_mojave:       --profile lt_macos_mojave --profile lt_firefox
-    lt_chrome_mojave:   --profile lt_macos_mojave --profile lt_chrome
-    lt_safari_mojave:   --profile lt_macos_mojave --profile lt_safari LT_VERSION="12.0"
-    
-    lt_macos_high_sierra:  --profile lt_desktop LT_OS="macOS High Sierra"
-    lt_ff_high_sierra:     --profile lt_macos_high_sierra --profile lt_firefox
-    lt_chrome_high_sierra: --profile lt_macos_high_sierra --profile lt_chrome
-    lt_safari_high_sierra: --profile lt_macos_high_sierra --profile lt_safari LT_VERSION="11.0"
-    
-    lt_macos_sierra:    --profile lt_desktop LT_OS="macOS Sierra"
-    lt_ff_sierra:       --profile lt_macos_sierra --profile lt_firefox
-    lt_chrome_sierra:   --profile lt_macos_sierra --profile lt_chrome
-    lt_safari_sierra:   --profile lt_macos_sierra --profile lt_safari LT_VERSION="10.0"
+    # LambdaTest macOS desktop browser profiles
+    lt_macos_monterey:  --profile lt_desktop LT_OS="MacOS Monterey"
+    lt_chrome_monterey: --profile lt_macos_monterey LT_BROWSER="Chrome" LT_VERSION="98.0"
+    lt_edge_monterey:   --profile lt_macos_monterey LT_BROWSER="MicrosoftEdge" LT_VERSION="97.0"
     
     # LambdaTest Windows desktop browser profiles
-    lt_win10:           --profile lt_desktop LT_OS="Windows 10"
-    lt_ff_win10:        --profile lt_win10 --profile lt_firefox
-    lt_chrome_win10:    --profile lt_win10 --profile lt_chrome
-    lt_ie11_win10:      --profile lt_win10 LT_BROWSER="Internet Explorer" LT_VERSION="11.0"
-    lt_edge_win10:      --profile lt_win10 LT_BROWSER="MicrosoftEdge" LT_VERSION="18.0"
+    lt_win11:      --profile lt_desktop LT_OS="Windows 11"
+    lt_edge_win11: --profile lt_win11 LT_BROWSER="MicrosoftEdge" LT_VERSION="98.0"
+    lt_win10:      --profile lt_desktop LT_OS="Windows 10"
+    lt_i0_win11:   --profile lt_win10 LT_BROWSER="Internet Explorer" LT_VERSION="11.0"
 
 
 To specify a locally hosted target browser using a profile at runtime, you use the flag `--profile` or `-p` followed by the profile name when

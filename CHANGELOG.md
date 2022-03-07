@@ -1,6 +1,13 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+
+## [4.1.2] - 07-MAR-2022
+
+### Changed
+* Updated HTML documentation
+
+
 ## [4.1.1] - 03-MAR-2022
 
 ### Changed
@@ -11,6 +18,9 @@ Grid 4 environments.
 
 
 ## [4.1.0] - 28-FEB-2022
+
+### Removed
+* Support for CrossBrowserTesting and Gridlastic cloud hosted Selenium grids have been removed.
 
 ### Added
 * TestCentricity now supports and integrates with Selenium-Webdriver version 4.1.
@@ -27,9 +37,6 @@ Grid 4 environments.
   called from an `initialize` method for the `PageObject` or `PageSection` where the `checkbox` or `radio` is instantiated.
 * Ruby version 2.7 or greater required.
 * Selenium-Webdriver version 4 or greater required.
-
-### Removed
-* Support for CrossBrowserTesting and Gridlastic cloud hosted Selenium grids have been removed.
 
 
 ## [4.0.3] - 30-DEC-2021

@@ -1,3 +1,0 @@
-def source
-  return
-end
