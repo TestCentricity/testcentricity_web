@@ -300,11 +300,11 @@ A **PageSection Object** is a collection of **UI Elements** that may appear in m
 app. It is a collection of **UI Elements** that represent a conceptual area of functionality, like a navigation bar, a search capability,
 or a menu. **UI Elements** and functional behavior are confined to the scope of a **PageSection Object**.
 
-![Navigation Header](/doc/images/LI_NavHeader.jpg)
+<img src="https://i.imgur.com/BTgi59R.jpg" alt="Navigation Header" title="Navigation Header">
 
-![Navigation Header](/doc/images/LI_NavHeader2.jpg)
+<img src="https://i.imgur.com/dkxloE5.jpg" alt="Navigation Header" title="Navigation Header">
 
-![User Profile Popup](/doc/images/LI_Me.jpg)
+<img src="https://i.imgur.com/Yqgw4sP.jpg" alt="User Profile Popup" title="User Profile Popup">
 
 
 A **PageSection Object** may contain other **PageSection Objects**.
@@ -1645,8 +1645,7 @@ landscape orientation running on the BrowserStack service:
 
 ## Web Test Automation Framework Implementation
 
- ![TestCentricity Web Framework Overview](/doc/images/TC_Web.jpg)
-
+ <img src="https://i.imgur.com/eukmEan.jpg" alt="TestCentricity Web Framework Overview" title="TestCentricity Web Framework Overview">
 
 
 
