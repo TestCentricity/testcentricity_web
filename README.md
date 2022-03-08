@@ -6,8 +6,6 @@
 The TestCentricity™ Web core generic framework for desktop and mobile web browser-based app testing implements a Page Object and Data
 Object Model DSL for use with Cucumber, Capybara (version 3.x), and Selenium-Webdriver (version 4.x).
 
-**An example project that demonstrates the implementation of a page object model framework using Cucumber and TestCentricity™ can be found [here](https://github.com/TestCentricity/tc_web_sample).**
-
 The TestCentricity™ Web gem supports running automated tests against the following web test targets:
 * locally hosted desktop browsers (Firefox, Chrome, Edge, Safari, or IE)
 * locally hosted emulated iOS Mobile Safari, Android, Windows Phone, or Blackberry mobile browsers (running within a local instance of Chrome)
@@ -28,10 +26,13 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 
 A complete history of bug fixes and new features can be found in the {file:CHANGELOG.md CHANGELOG} file.
 
+An example project that demonstrates the implementation of a page object model framework using Cucumber and TestCentricity™
+can be found [here](https://github.com/TestCentricity/tc_web_sample).
+
 
 ## Installation
 
-TestCentricity requires Ruby 2.7 or later. To install the TestCentricity gem, add this line to your automation project's Gemfile:
+TestCentricity version 4.1 and above requires Ruby 2.7 or later. To install the TestCentricity gem, add this line to your automation project's Gemfile:
 
     gem 'testcentricity_web'
 
@@ -78,7 +79,7 @@ And then execute:
     $ bundle
 
 
-## Page Objects
+## PageObjects
 
 The **Page Object Model** is a test automation pattern that aims to create an abstraction of your web app's User Interface that can be used
 in tests. A **Page Object** is an object that represents a single page in your AUT (Application Under Test). **Page Objects** encapsulate the
@@ -87,14 +88,14 @@ implementation details of a web page and expose an API that supports interaction
 **Page Objects** makes it easier to maintain automated tests because changes to page UI elements are updated in only one location - in the
 **Page Object** class definition. By adopting a **Page Object Model**, Cucumber Feature files and step definitions are no longer required to
 hold specific information about a page's UI objects, thus minimizing maintenance requirements. If any element on, or property of a page changes
-(URL path, text field attributes, button captions, etc.), maintenance is performed in the **Page Object** class definition only, typically with
+(URL path, text field attributes, button captions, etc.), maintenance is performed in the `PageObject` class definition only, typically with
 no need to update the affected feature file, scenarios, or step definitions.
 
 
-### Defining a Page Object
+### Defining a PageObject
 
-Your **Page Object** class definitions should be contained within individual `.rb` files in the `features/support/pages` folder of your
-test automation project. You define new **Page Objects** as shown below:
+Your `PageObject` class definitions should be contained within individual `.rb` files in the `features/support/pages` folder of your
+test automation project. You define new `PageObjects` as shown below:
 
     class LoginPage < TestCentricity::PageObject
     end
@@ -108,14 +109,14 @@ test automation project. You define new **Page Objects** as shown below:
     end
 
 
-### Adding Traits to your Page Object
+### Adding Traits to your PageObject
 
 Web pages typically have names and URLs associated with them. Web pages also typically have a unique object or attribute that, when present,
 indicates that the page's contents have fully loaded.
 
-The `page_name` trait is registered with the **PageManager** object, which includes a `find_page` method that takes a page name as a
-parameter and returns an instance of the associated **Page Object**. If you intend to use the **PageManager**, you must define a `page_name`
-trait for each of the **Page Objects** to be registered.
+The `page_name` trait is registered with the `PageManager` object, which includes a `find_page` method that takes a page name as a
+parameter and returns an instance of the associated `Page Object`. If you intend to use the `PageManager`, you must define a `page_name`
+trait for each `PageObject` to be registered.
 
 The `page_name` trait is usually a `String` value that represents the name of the page that will be matched by the `PageManager.findpage` method.
 `page_name` traits are case and white-space sensitive. For pages that may be referenced with multiple names, the `page_name` trait may also be
@@ -133,36 +134,36 @@ for the `page_locator` trait to exist.
 You define your page's **Traits** as shown below:
 
     class LoginPage < TestCentricity::PageObject
-      trait(:page_name)       { 'Login' }
-      trait(:page_url)        { '/sign_in' }
-      trait(:page_locator)    { 'body.login-body' }
+      trait(:page_name)    { 'Login' }
+      trait(:page_url)     { '/sign_in' }
+      trait(:page_locator) { 'body.login-body' }
     end
 
 
     class HomePage < TestCentricity::PageObject
       # this page may be referred to as 'Home' or 'Dashboard' page so page_name trait is an Array of Strings
-      trait(:page_name)       { ['Home', 'Dashboard'] }
-      trait(:page_url)        { '/dashboard' }
-      trait(:page_locator)    { 'body.dashboard' }
+      trait(:page_name)    { ['Home', 'Dashboard'] }
+      trait(:page_url)     { '/dashboard' }
+      trait(:page_locator) { 'body.dashboard' }
     end
 
 
     class RegistrationPage < TestCentricity::PageObject
-      trait(:page_name)       { 'Registration' }
-      trait(:page_url)        { '/register' }
-      trait(:page_locator)    { 'body.registration' }
+      trait(:page_name)    { 'Registration' }
+      trait(:page_url)     { '/register' }
+      trait(:page_locator) { 'body.registration' }
     end
 
 
-### Adding UI Elements to your Page Object
+### Adding UI Elements to your PageObject
 
 Web pages are made up of UI elements like text fields, check boxes, combo boxes, radio buttons, tables, lists, buttons, etc.
-**UI Elements** are added to your **Page Object** class definition as shown below:
+**UI Elements** are added to your `PageObject` class definition as shown below:
 
     class LoginPage < TestCentricity::PageObject
-      trait(:page_name)       { 'Login' }
-      trait(:page_url)        { '/sign_in' }
-      trait(:page_locator)    { 'body.login-body' }
+      trait(:page_name)    { 'Login' }
+      trait(:page_url)     { '/sign_in' }
+      trait(:page_locator) { 'body.login-body' }
     
       # Login page UI elements
       textfield :user_id_field,       'input#userName'
@@ -174,9 +175,9 @@ Web pages are made up of UI elements like text fields, check boxes, combo boxes,
     
 
     class RegistrationPage < TestCentricity::PageObject
-      trait(:page_name)       { 'Registration' }
-      trait(:page_url)        { '/register' }
-      trait(:page_locator)    { 'body.registration' }
+      trait(:page_name)    { 'Registration' }
+      trait(:page_url)     { '/register' }
+      trait(:page_locator) { 'body.registration' }
      
       # Registration page UI elements
       textfields  first_name_field:    'input#firstName',
@@ -196,16 +197,16 @@ Web pages are made up of UI elements like text fields, check boxes, combo boxes,
     end
 
 
-### Adding Methods to your Page Object
+### Adding Methods to your PageObject
 
-It is good practice for your Cucumber step definitions to call high level methods in your your **Page Object** instead of directly accessing
-and interacting with a page object's UI elements. You can add high level methods to your **Page Object** class definition for interacting with
+It is good practice for your Cucumber step definitions to call high level methods in your your `PageObject` instead of directly accessing
+and interacting with a page object's UI elements. You can add high level methods to your `PageObject` class definition for interacting with
 the UI to hide implementation details, as shown below:
 
     class LoginPage < TestCentricity::PageObject
-      trait(:page_name)       { 'Login' }
-      trait(:page_url)        { '/sign_in' }
-      trait(:page_locator)    { 'body.login-body' }
+      trait(:page_name)    { 'Login' }
+      trait(:page_url)     { '/sign_in' }
+      trait(:page_locator) { 'body.login-body' }
     
       # Login page UI elements
       textfield :user_id_field,        'input#userName'
@@ -232,9 +233,9 @@ the UI to hide implementation details, as shown below:
         ui = {
             self                 => { title: 'Login' },
             login_button         => { visible: true, caption: 'LOGIN' },
-            user_id_field        => { visible: true, enabled: true },
+            user_id_field        => { visible: true, enabled: true, value: '', placeholder: 'User name' },
             password_field       => { visible: true, enabled: true, value: '', placeholder: 'Password' },
-            remember_checkbox    => { :exists  => true, enabled: true, checked: false },
+            remember_checkbox    => { exists: true, enabled: true, checked: false },
             forgot_password_link => { visible: true, caption: 'Forgot your password?' },
             error_message_label  => { visible: false }
             }
@@ -244,9 +245,9 @@ the UI to hide implementation details, as shown below:
         
 
     class RegistrationPage < TestCentricity::PageObject
-      trait(:page_name)       { 'Registration' }
-      trait(:page_url)        { '/register' }
-      trait(:page_locator)    { 'body.registration' }
+      trait(:page_name)    { 'Registration' }
+      trait(:page_url)     { '/register' }
+      trait(:page_locator) { 'body.registration' }
      
       # Registration page UI elements
       textfields  first_name_field:    'input#firstName',
@@ -278,7 +279,8 @@ the UI to hide implementation details, as shown below:
                    state_select        => profile.state,
                    post_code_field     => profile.postal_code,
                    password_field      => profile.password,
-                   pword_confirm_field => profile.confirm_password
+                   pword_confirm_field => profile.confirm_password,
+                   email_opt_in_check  => profile.email_opt_in
           }
         populate_data_fields(fields)
         sign_up_button.click
@@ -287,18 +289,18 @@ the UI to hide implementation details, as shown below:
 
 
 
-Once your **Page Objects** have been instantiated, you can call your methods as shown below:
+Once your `PageObjects` have been instantiated, you can call your methods as shown below:
 
     login_page.remember_me(true)
     login_page.login('snicklefritz', 'Pa55w0rd')
     
 
 
-## PageSection Objects
+## PageSections
 
-A **PageSection Object** is a collection of **UI Elements** that may appear in multiple locations on a page, or on multiple pages in a web
+A `PageSection` is a collection of **UI Elements** that may appear in multiple locations on a page, or on multiple pages in a web
 app. It is a collection of **UI Elements** that represent a conceptual area of functionality, like a navigation bar, a search capability,
-or a menu. **UI Elements** and functional behavior are confined to the scope of a **PageSection Object**.
+or a menu. **UI Elements** and functional behavior are confined to the scope of a `PageSection` object.
 
 <img src="https://i.imgur.com/BTgi59R.jpg" alt="Navigation Header" title="Navigation Header">
 
@@ -307,39 +309,39 @@ or a menu. **UI Elements** and functional behavior are confined to the scope of 
 <img src="https://i.imgur.com/Yqgw4sP.jpg" alt="User Profile Popup" title="User Profile Popup">
 
 
-A **PageSection Object** may contain other **PageSection Objects**.
+A `PageSection` may contain other `PageSection` objects.
 
 
-### Defining a PageSection Object
+### Defining a PageSection
 
-Your **PageSection** class definitions should be contained within individual `.rb` files in the `features/support/sections` folder of
-your test automation project. You define new **PageSection Objects** as shown below:
+Your `PageSection` class definitions should be contained within individual `.rb` files in the `features/support/sections` folder of
+your test automation project. You define new `PageSection` as shown below:
 
     class SearchForm < TestCentricity::PageSection
     end
 
 
-### Adding Traits to a PageSection Object
+### Adding Traits to a PageSection
 
-A **PageSection Object** typically has a root node object that encapsulates a collection of **UI Elements**. The `section_locator` trait
+A `PageSection` typically has a root node object that encapsulates a collection of `UIElements`. The `section_locator` trait
 specifies the CSS or Xpath expression that uniquely identifies that root node object.
 
-You define your page section's **Traits** as shown below:
+You define your section's **Traits** as shown below:
 
     class SearchForm < TestCentricity::PageSection
-      trait(:section_locator)   { 'form#gnav-search' }
-      trait(:section_name)      { 'Search widget' }
+      trait(:section_locator) { 'form#gnav-search' }
+      trait(:section_name)    { 'Search widget' }
     end
 
 
-### Adding UI Elements to your PageSection Object
+### Adding UI Elements to your PageSection
 
-Page sections are typically made up of UI elements like text fields, check boxes, combo boxes, radio buttons, tables, lists, buttons, etc.
-**UI Elements** are added to your **PageSection** class definition as shown below:
+`PageSections` are typically made up of UI elements like text fields, check boxes, combo boxes, radio buttons, tables, lists, buttons, etc.
+**UI Elements** are added to your `PageSection` class definition as shown below:
 
     class SearchForm < TestCentricity::PageSection
-      trait(:section_locator)   { 'form#gnav-search' }
-      trait(:section_name)      { 'Search widget' }
+      trait(:section_locator) { 'form#gnav-search' }
+      trait(:section_name)    { 'Search widget' }
         
       # Search Form UI elements
       textfield :search_field,  'input#search-query'
@@ -347,13 +349,13 @@ Page sections are typically made up of UI elements like text fields, check boxes
     end
 
 
-### Adding Methods to your PageSection Object
+### Adding Methods to your PageSection
 
-You can add high level methods to your **PageSection** class definition, as shown below:
+You can add high level methods to your `PageSection` class definition, as shown below:
 
     class SearchForm < TestCentricity::PageSection
-      trait(:section_locator)   { 'form#gnav-search' }
-      trait(:section_name)      { 'Search widget' }
+      trait(:section_locator) { 'form#gnav-search' }
+      trait(:section_name)    { 'Search widget' }
         
       # Search Form UI elements
       textfield :search_field,  'input#search-query'
@@ -366,48 +368,48 @@ You can add high level methods to your **PageSection** class definition, as show
     end
 
 
-### Adding PageSection Objects to your Page Object
+### Adding PageSections to your PageObject
 
-You add a **PageSection Object** to its associated **Page Object** as shown below:
+You add a `PageSection` to its associated `PageObject` as shown below:
 
     class HomePage < TestCentricity::PageObject
-      trait(:page_name)       { 'Home' }
-      trait(:page_url)        { '/dashboard' }
-      trait(:page_locator)    { 'body.dashboard' }
+      trait(:page_name)     { 'Home' }
+      trait(:page_url)      { '/dashboard' }
+      trait(:page_locator)  { 'body.dashboard' }
       
       # Home page Section Objects
       section :search_form, SearchForm
     end
 
-Once your **Page Object** has been instantiated, you can call its **PageSection** methods as shown below:
+Once your `PageObject` has been instantiated, you can call its `PageSection` methods as shown below:
 
     home_page.search_form.search_for('ocarina')
     
     
 
-## UI Elements
+## UIElements
 
-**Page Objects** and **PageSection Objects** are typically made up of **UI Element** like text fields, check boxes, combo boxes, radio buttons,
-tables, lists, buttons, images, HTML5 video objects, HTML5 audio objects, etc. **UI Elements** are declared and instantiated within the class
-definition of the **Page Object** or **PageSection Object** in which they are contained. With TestCentricity Web, all UI elements are based on
-the **UIElement** class.
+`PageObjects` and `PageSections` are typically made up of **UI Element** like text fields, check boxes, select lists (combo boxes),
+radio buttons, tables, ordered and unordered lists, buttons, images, HTML5 video objects, HTML5 audio objects, etc. **UI Elements** are declared
+and instantiated within the class definition of the `PageObject` or `PageSection` in which they are contained. With TestCentricity Web,
+all UI elements are based on the `UIElement` class.
 
 
-### Declaring and Instantiating UI Element
+### Declaring and Instantiating UIElements
 
-Single **UIElement** declarations have the following format:
+Single `UIElement` declarations have the following format:
                                      
     elementType :element Name, locator
 
-* The `element name` is the unique name that you will use to refer to the UI element and is specified as a symbol.
-* The `locator` is the CSS or XPath attribute that uniquely and unambiguously identifies the UI element.
+* The `element name` is the unique name that you will use to refer to the UI element and is specified as a `Symbol`.
+* The `locator` is the CSS or XPath attribute that uniquely and unambiguously identifies the `UIElement`.
 
-Multiple **UIElement** declarations for a collection of elements of the same type can be performed by passing a hash table containing the
+Multiple `UIElement` declarations for a collection of elements of the same type can be performed by passing a hash table containing the
 names and locators of each individual element.
 
-### Example UI Element Declarations
+### Example UIElement Declarations
 
-Supported **UI Element** elementTypes and their declarations have the following format:
+Supported `UIElement` elementTypes and their declarations have the following format:
 
 *Single element declarations:*
 
@@ -469,14 +471,14 @@ Supported **UI Element** elementTypes and their declarations have the following 
     end
 
 
-Refer to the Class List documentation for the **PageObject** and **PageSection** classes for details on the class methods used for declaring
-and instantiating **UI Elements**. Examples of UI element declarations can be found in the ***Adding UI Elements to your Page Object*** and
+Refer to the Class List documentation for the `PageObject` and `PageSection` classes for details on the class methods used for declaring
+and instantiating `UIElements`. Examples of UI element declarations can be found in the ***Adding UI Elements to your Page Object*** and
 ***Adding UI Elements to your PageSection Object*** sections above.
 
 
 ### UIElement Inherited Methods
 
-With TestCentricity, all UI elements are based on the **UIElement** class, and inherit the following methods:
+With TestCentricity, all UI elements are based on the `UIElement` class, and inherit the following methods:
 
 **Action methods:**
 
@@ -600,7 +602,7 @@ for each `UIElement` that requires verification. Depending on the complexity and
 verify the presence of `UIElements` and their correct states can become cumbersome.
 
 The `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods support the verification of multiple properties of multiple
-UI elements on a **Page Object** or **PageSection Object**. The `verify_ui_states` method accepts a hash containing key/hash pairs of UI
+UI elements on a `PageObject` or `PageSection`. The `verify_ui_states` method accepts a hash containing key/hash pairs of UI
 elements and their properties or attributes to be verified.
 
      ui = {
@@ -699,6 +701,8 @@ The `verify_ui_states` method supports the following property/state pairs:
     :preload               String
     :poster                String
 
+#### ARIA accessibility property/state pairs
+
 The `verify_ui_states` method supports the following ARIA accessibility property/state pairs:
 
 **All Objects:**
@@ -734,11 +738,12 @@ The `verify_ui_states` method supports the following ARIA accessibility property
     :aria_multiselectable Boolean
     :content_editable     Boolean
 
+#### Comparison States
 The `verify_ui_states` method supports comparison states using property/comparison state pairs:
 
     object => { property: { comparison_state: value } }
 
-**Comparison States:**
+Comparison States:
 
     :lt or :less_than                  Integer or String
     :lt_eq or :less_than_or_equal      Integer or String
@@ -773,19 +778,19 @@ values appear in the associated text fields after entering data and performing a
     end
 
 
-**I18n Translation Validation**
+#### I18n Translation Validation
 
 The `verify_ui_states` method also supports I18n string translations using property/I18n key name pairs:
 
-    object => { property: { translate_key: I18n key name } }
+    object => { property: { translate_key: 'name of key in I18n compatible .yml file' } }
 
 **I18n Translation Keys:**
 
-    :translate            String (name of key in I18n compatible .yml file)
-    :translate_upcase     String (name of key in I18n compatible .yml file)
-    :translate_downcase   String (name of key in I18n compatible .yml file)
-    :translate_capitalize String (name of key in I18n compatible .yml file)
-    translate_titlecase:  String (name of key in I18n compatible .yml file)
+    :translate            String
+    :translate_upcase     String
+    :translate_downcase   String
+    :translate_capitalize String
+    :translate_titlecase  String
 
 The example below depicts the usage of the `verify_ui_states` method to verify that the captions for menu items are correctly
 translated.
@@ -804,27 +809,46 @@ translated.
       verify_ui_states(ui)
     end
 
-Baseline translation strings are stored in `.yml` files in the `config/locales/` folder. Each supported language/locale combination
-has a corresponding `.yml` file. I18n `.yml` file naming convention uses [ISO-639 language codes and ISO-3166 country codes](https://docs.oracle.com/cd/E13214_01/wli/docs92/xref/xqisocodes.html). For example:
+Each supported language/locale combination has a corresponding `.yml` file. I18n `.yml` file naming convention uses
+[ISO-639 language codes and ISO-3166 country codes](https://docs.oracle.com/cd/E13214_01/wli/docs92/xref/xqisocodes.html). For example:
 
-    English               en.yml
-    English (Canada)      en-CA.yml
-    French (Canada)       fr-CA.yml
-    French                fr.yml
-    Spanish               es.yml
-    German                de.yml
-    Portuguese (Brazil)   pt-BR.yml
-    Portuguese (Portugal) pt-PT.yml
+| Language (Country)    | File name |
+|-----------------------|-----------|
+| English               | en.yml    |
+| English (Canada)      | en-CA.yml |
+| French (Canada)       | fr-CA.yml |
+| French                | fr.yml    |
+| Spanish               | es.yml    |
+| German                | de.yml    |
+| Portuguese (Brazil)   | pt-BR.yml |
+| Portuguese (Portugal) | pt-PT.yml |
 
 I18n `.yml` files contain key/value pairs representing the name of a translated string (key) and the string value.
 
+Baseline translation strings are stored in `.yml` files in the `config/locales/` folder.
+
+    my_automation_project
+        ├── config
+        │   ├── locales
+        │   │   ├── en.yml
+        │   │   ├── es.yml
+        │   │   ├── fr.yml
+        │   │   ├── fr-CA.yml
+        │   │   └── en-AU.yml
+        │   ├── test_data
+        │   └── cucumber.yml
+        ├── downloads
+        ├── features
+        ├── Gemfile
+        └── README.md
 
 
-## Instantiating your Page Objects
 
-Before you can call the methods in your **Page Objects** and **PageSection Objects**, you must instantiate the **Page Objects** of your
-web application, as well as create instance variables which can be used when calling a **Page Objects** methods from your step definitions.
-There are several ways to instantiate your **Page Objects**.
+## Instantiating your PageObjects
+
+Before you can call the methods in your `PageObjects` and `PageSections`, you must instantiate the `PageObjects` of your web
+application, as well as create instance variables which can be used when calling a `PageObject`'s methods from your step definitions.
+There are several ways to instantiate your `PageObjects`.
 
 One common implementation is shown below:
 
@@ -851,14 +875,14 @@ One common implementation is shown below:
 The `WorldPages` module above can be defined in your `env.rb` file, or you can define it in a separate `world_pages.rb` file in the
 `features/support` folder.
 
-While this approach is effective for small web applications with only a few pages (and hence few **Page Objects**), it quickly becomes
-cumbersome to manage if your web application has dozens of **Page Objects** that need to be instantiated and managed.
+While this approach is effective for small web applications with only a few pages (and hence few `PageObjects`), it quickly becomes
+cumbersome to manage if your web application has dozens of `PageObjects` that need to be instantiated and managed.
 
 ### Using the PageManager
 
-The **PageManager** class provides methods for supporting the instantiation and management of **Page Objects**. In the code example below,
-the `page_objects` method contains a hash table of your **Page Object** instances and their associated **Page Object** class names
-to be instantiated by **PageManager**:
+The `PageManager` class provides methods for supporting the instantiation and management of `PageObjects`. In the code example below,
+the `page_objects` method contains a hash table of your `PageObject` instances and their associated `PageObject` class names to be 
+instantiated by `PageManager`:
     
     module WorldPages
       def page_objects
@@ -888,13 +912,13 @@ to be instantiated by **PageManager**:
     
 The `WorldPages` module above should be defined in the `world_pages.rb` file in the `features/support` folder.
 
-Include the code below in your `env.rb` file to ensure that your **Page Objects** are instantiated before your Cucumber scenarios are
+Include the code below in your `env.rb` file to ensure that your `PageObjects` are instantiated before your Cucumber scenarios are
 executed:
     
     include WorldPages
     WorldPages.instantiate_page_objects
     
-**NOTE:** If you intend to use the **PageManager**, you must define a `page_name` trait for each of the **Page Objects** to be registered.
+**NOTE:** If you intend to use the `PageManager`, you must define a `page_name` trait for each of the `PageObjects` to be registered.
 
 
 ### Leveraging the PageManager in your Cucumber tests
@@ -956,14 +980,13 @@ In the above example, the step definitions associated with the 3 steps might be 
       end
 
 
+While this approach may be effective for small web applications with only a few pages (and hence few `PageObjects`), it quickly becomes
+cumbersome to manage if your web application has dozens of `PageObjects` that need to be managed.
 
-While this approach may be effective for small web applications with only a few pages (and hence few **Page Objects**), it quickly becomes
-cumbersome to manage if your web application has dozens of **Page Objects** that need to be managed.
+The `PageManager` class provides a `find_page` method that replaces the cumbersome and difficult to maintain `case` statement used in the
+above example. The `PageManager.current_page` method allows you to set or get an instance of the currently active Page Object.
 
-The **PageManager** class provides a `find_page` method that replaces the cumbersome and difficult to maintain `case` statement used in the
-above example. The **PageManager** `current_page` method allows you to set or get an instance of the currently active Page Object.
-
-To use these **PageManager** methods, include the step definitions and code below in a `page_steps.rb` or `generic_steps.rb` file in the
+To use these `PageManager` methods, include the step definitions and code below in a `page_steps.rb` or `generic_steps.rb` file in the
 `features/step_definitions` folder:
 
     include TestCentricity
@@ -1033,16 +1056,13 @@ To maximize a desktop browser window, you set the `BROWSER_SIZE` Environment Var
 
 #### Testing file downloads with desktop browsers
 
-File download functionality can be tested with locally hosted instances of Chrome or Firefox desktop browsers. Your automation project must include
+File download functionality can be tested with locally hosted instances of Chrome, Edge, or Firefox desktop browsers. Your automation project must include
 a `/downloads` folder at the same level as the `/config` and `/features` folders, as depicted below:
 
     my_automation_project
         ├── config
-        │   └── test_data
         ├── downloads
         ├── features
-        │   ├── step_definitions
-        │   └── support
         ├── Gemfile
         └── README.md
 
@@ -1053,15 +1073,12 @@ test thread. This is to ensure that files downloaded in each test thread are iso
 
     my_automation_project
         ├── config
-        │   └── test_data
         ├── downloads
         │   ├── 1
         │   ├── 2
         │   ├── 3
         │   └── 4
         ├── features
-        │   ├── step_definitions
-        │   └── support
         ├── Gemfile
         └── README.md
 
@@ -1156,8 +1173,6 @@ of the Chrome desktop browser. The user specified device profiles must be locate
         │   └── cucumber.yml
         ├── downloads
         ├── features
-        │   ├── step_definitions
-        │   └── support
         ├── Gemfile
         └── README.md
 
@@ -1197,29 +1212,33 @@ The Appium server must be running prior to invoking Cucumber to run your feature
 
 Once your test environment is properly configured, the following **Environment Variables** must be set as described in the table below.
 
-| **Environment Variable**   | **Description**                                                                                                                                                 |
-|----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `WEB_BROWSER`              | Must be set to `appium`                                                                                                                                         |
-| `APP_PLATFORM_NAME`        | Must be set to `iOS`                                                                                                                                            |
-| `APP_BROWSER`              | Must be set to `Safari`                                                                                                                                         |
-| `APP_VERSION`              | Must be set to `12.2`, `11.4`, `10.3.1`, or which ever iOS version you wish to run within the XCode Simulator                                                   |
-| `APP_DEVICE`               | Set to iOS device name supported by the iOS Simulator (`iPhone 6s Plus`, `iPad Pro (10.5-inch)`, `iPad Air 2`, etc.) or name of physically connected iOS device |
-| `DEVICE_TYPE`              | Must be set to `phone` or `tablet`                                                                                                                              |
-| `APP_UDID`                 | UDID of physically connected iOS device (not used for simulators)                                                                                               |
-| `TEAM_ID`                  | unique 10-character Apple developer team identifier string (not used for simulators)                                                                            |
-| `TEAM_NAME`                | String representing a signing certificate (not used for simulators)                                                                                             |
-| `APP_ALLOW_POPUPS`         | [Optional] Allow javascript to open new windows in Safari. Set to `true` or `false`                                                                             |
-| `APP_IGNORE_FRAUD_WARNING` | [Optional] Prevent Safari from showing a fraudulent website warning. Set to `true` or `false`                                                                   |
-| `APP_NO_RESET`             | [Optional] Don't reset app state after each test. Set to `true` or `false`                                                                                      |
-| `APP_FULL_RESET`           | [Optional] Perform a complete reset. Set to `true` or `false`                                                                                                   |
-| `APP_INITIAL_URL`          | [Optional] Initial URL, default is a local welcome page.  e.g.  `http://www.apple.com`                                                                          |
-| `WDA_LOCAL_PORT`           | [Optional] Used to forward traffic from Mac host to real iOS devices over USB. Default value is same as port number used by WDA on device.                      |
-| `LOCALE`                   | [Optional] Locale to set for the simulator.  e.g.  `fr_CA`                                                                                                      |
-| `LANGUAGE`                 | [Optional] Language to set for the simulator.  e.g.  `fr`                                                                                                       |
-| `ORIENTATION`              | [Optional] Set to `portrait` or `landscape` (only for iOS simulators)                                                                                           |
-| `NEW_COMMAND_TIMEOUT`      | [Optional] Time (in Seconds) that Appium will wait for a new command from the client                                                                            |
-| `SHOW_SIM_KEYBOARD`        | [Optional] Show the simulator keyboard during text entry. Set to `true` or `false`                                                                              |
-| `SHUTDOWN_OTHER_SIMS`      | [Optional] Close any other running simulators. Set to `true` or `false`                                                                                         |
+| **Environment Variable**   | **Description**                                                                                                                                                       |
+|----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `WEB_BROWSER`              | Must be set to `appium`                                                                                                                                               |
+| `APP_PLATFORM_NAME`        | Must be set to `iOS`                                                                                                                                                  |
+| `APP_BROWSER`              | Must be set to `Safari`                                                                                                                                               |
+| `APP_VERSION`              | Must be set to `15.2`, `14.5`, or which ever iOS version you wish to run within the XCode Simulator                                                                   |
+| `APP_DEVICE`               | Set to iOS device name supported by the iOS Simulator (`iPhone 13 Pro Max`, `iPad Pro (12.9-inch) (5th generation)`, etc.) or name of physically connected iOS device |
+| `DEVICE_TYPE`              | Must be set to `phone` or `tablet`                                                                                                                                    |
+| `APP_UDID`                 | UDID of physically connected iOS device (not used for simulators)                                                                                                     |
+| `TEAM_ID`                  | unique 10-character Apple developer team identifier string (not used for simulators)                                                                                  |
+| `TEAM_NAME`                | String representing a signing certificate (not used for simulators)                                                                                                   |
+| `APP_ALLOW_POPUPS`         | [Optional] Allow javascript to open new windows in Safari. Set to `true` or `false`                                                                                   |
+| `APP_IGNORE_FRAUD_WARNING` | [Optional] Prevent Safari from showing a fraudulent website warning. Set to `true` or `false`                                                                         |
+| `APP_NO_RESET`             | [Optional] Don't reset app state after each test. Set to `true` or `false`                                                                                            |
+| `APP_FULL_RESET`           | [Optional] Perform a complete reset. Set to `true` or `false`                                                                                                         |
+| `APP_INITIAL_URL`          | [Optional] Initial URL, default is a local welcome page.  e.g.  `http://www.apple.com`                                                                                |
+| `WDA_LOCAL_PORT`           | [Optional] Used to forward traffic from Mac host to real iOS devices over USB. Default value is same as port number used by WDA on device.                            |
+| `LOCALE`                   | [Optional] Locale to set for the simulator.  e.g.  `fr_CA`                                                                                                            |
+| `LANGUAGE`                 | [Optional] Language to set for the simulator.  e.g.  `fr`                                                                                                             |
+| `ORIENTATION`              | [Optional] Set to `portrait` or `landscape` (only for iOS simulators)                                                                                                 |
+| `NEW_COMMAND_TIMEOUT`      | [Optional] Time (in Seconds) that Appium will wait for a new command from the client                                                                                  |
+| `SHOW_SIM_KEYBOARD`        | [Optional] Show the simulator keyboard during text entry. Set to `true` or `false`                                                                                    |
+| `SHUTDOWN_OTHER_SIMS`      | [Optional] Close any other running simulators. Set to `true` or `false`. See note below.                                                                              |
+
+The `SHUTDOWN_OTHER_SIMS` environment variable can only be set if you are running Appium Server with the `--relaxed-security` or
+`--allow-insecure=shutdown_other_sims` arguments passed when starting it from the command line, or when running the server from the
+Appium Server GUI app. A security violation error will occur without relaxed secutity enabled. 
 
 Refer to **section 8.7 (Using Browser specific Profiles in cucumber.yml)** below.
 
@@ -1487,7 +1506,7 @@ that you intend to connect with.
     # NOTE: Requires installation of XCode, iOS version specific target simulators, Appium, and the appium_capybara gem
     #==============
 
-    appium_ios: WEB_BROWSER=appium AUTOMATION_ENGINE=XCUITest APP_PLATFORM_NAME="ios" APP_BROWSER="Safari" NEW_COMMAND_TIMEOUT=30 SHUTDOWN_OTHER_SIMS=true SHOW_SIM_KEYBOARD=false
+    appium_ios: WEB_BROWSER=appium AUTOMATION_ENGINE=XCUITest APP_PLATFORM_NAME="ios" APP_BROWSER="Safari" NEW_COMMAND_TIMEOUT=30 SHOW_SIM_KEYBOARD=false
     app_ios_15: --profile appium_ios APP_VERSION="15.2"
     ipad_pro_12_9_15_sim: --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (12.9-inch) (5th generation)" <%= desktop %>
     ipad_air_15_sim: --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="iPad Air (4th generation)" <%= desktop %>
@@ -1640,6 +1659,31 @@ The following command specifies that Cucumber will run tests against a remotely 
 landscape orientation running on the BrowserStack service:
 
     $ cucumber -p bs_iphone6_plus -p landscape
+
+
+
+## Recommended Project Organization and Structure
+
+Below is an example of the project structure of a typical Cucumber based test automation framework with a Page Object Model
+architecture. `PageObject` class definitions should be stored in the `/features/support/pages` folder, organized in functional
+area sub-folders as needed. Likewise, `PageSection` class definitions should be stored in the `/features/support/sections` folder.
+
+    my_automation_project
+        ├── config
+        │   ├── locales
+        │   ├── test_data
+        │   └── cucumber.yml
+        ├── downloads
+        ├── features
+        │   ├── step_definitions
+        │   └── support
+        │   │   ├── pages
+        │   │   ├── sections
+        │   │   ├── env.rb
+        │   │   ├── hooks.rb
+        │   │   └── world_pages.rb
+        ├── Gemfile
+        └── README.md
 
 
 

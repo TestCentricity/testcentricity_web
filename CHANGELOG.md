@@ -2,10 +2,19 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.1.3] - 08-MAR-2022
+
+### Fixed
+* Fixed `AppiumServer.start` so that it no longer times out after failing to start Appium.
+
+### Updated
+* Updated docs regarding the `SHUTDOWN_OTHER_SIMS` Environment Variable when testing on iOS Simulators.
+
+
 ## [4.1.2] - 07-MAR-2022
 
 ### Changed
-* Updated HTML documentation
+* Updated HTML documentation.
 
 
 ## [4.1.1] - 03-MAR-2022

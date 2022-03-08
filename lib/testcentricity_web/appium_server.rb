@@ -26,7 +26,7 @@ module TestCentricity
         puts 'Appium Server is starting'
       end
       # start new Appium Server
-      @process = ChildProcess.build
+      @process = ChildProcess.build(*parameters)
       process.start
       # wait until confirmation that Appium Server is running
       wait = Selenium::WebDriver::Wait.new(timeout: 30)
@@ -40,7 +40,7 @@ module TestCentricity
     def running?
       response = nil
       begin
-        response = Net::HTTP.get_response(URI('http://127.0.0.1:4723/wd/hub/sessions'))
+        response = Net::HTTP.get_response(URI('http://0.0.0.0:4723/wd/hub/sessions'))
       rescue
       end
       response && response.code_type == Net::HTTPOK
