@@ -4,11 +4,11 @@
 
 
 The TestCentricity™ Web core generic framework for desktop and mobile web browser-based app testing implements a Page Object and Data
-Object Model DSL for use with Cucumber, Capybara (version 3.x), and Selenium-Webdriver (version 4.x).
+Object Model DSL for use with Cucumber, Capybara (version 3.x), and Selenium-Webdriver (version 4.x). It also facilitates the configuration
+of the appropriate Selenium-Webdriver capabilities required to establish a connection with a local or cloud hosted desktop or mobile web browser.
 
 The TestCentricity™ Web gem supports running automated tests against the following web test targets:
-* locally hosted desktop browsers (Firefox, Chrome, Edge, Safari, or IE)
-* locally hosted emulated iOS Mobile Safari, Android, Windows Phone, or Blackberry mobile browsers (running within a local instance of Chrome)
+* locally hosted desktop browsers (Chrome, Edge, Firefox, Safari, or IE)
 * locally hosted "headless" Chrome, Firefox, or Edge browsers
 * remote desktop and emulated mobile web browsers hosted on Selenium Grid 4 and Dockerized Selenium Grid 4 environments
 * mobile Safari browsers on iOS device simulators or physical iOS devices (using Appium and XCode on OS X)
@@ -20,6 +20,7 @@ The TestCentricity™ Web gem supports running automated tests against the follo
   * [LambdaTest](https://www.lambdatest.com/selenium-automation)
 * web portals utilizing JavaScript front end application frameworks like Ember, React, Angular, and GWT
 * web pages containing HTML5 Video and Audio objects
+* locally hosted emulated iOS Mobile Safari, Android, Windows Phone, or Blackberry mobile browsers (running within a local instance of Chrome)
 
 
 ## What's New
@@ -1040,7 +1041,7 @@ values from the table below:
 | `safari`           | OS X only                                      |
 | `ie`               | Windows only (IE version 10.x or greater only) |
 
-Refer to **section 8.7 (Using Browser specific Profiles in cucumber.yml)** below.
+Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
 
 
 #### Setting desktop browser window size
@@ -1155,7 +1156,7 @@ To change the emulated device's screen orientation from the default setting, set
 To use a local instance of the Chrome desktop browser to host the emulated mobile web browser, you must set the `HOST_BROWSER` Environment Variable
 to `chrome`.
 
-Refer to **section 8.7 (Using Browser specific Profiles in cucumber.yml)** below.
+Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
 
 
 #### User defined mobile device profiles
@@ -1198,10 +1199,12 @@ For remote desktop and emulated mobile web browsers running on Selenium Grid 4 o
 | `SELENIUM`               | Must be set to `remote`                                                                                                                                                       |
 | `REMOTE_ENDPOINT`        | Must be set to the URL of the Grid hub, which is usually `http://localhost:4444/wd/hub`                                                                                       |
 
-Refer to **section 8.7 (Using Browser specific Profiles in cucumber.yml)** below.
+Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
 
 
-### Mobile Safari browser on iOS Simulators or iOS Physical Devices
+### Mobile browsers on Simulators or Physical Devices
+
+#### Mobile Safari browser on iOS Simulators or iOS Physical Devices
 
 You can run your mobile web tests against the mobile Safari browser on simulated iOS devices or physically connected iOS devices using Appium and XCode on
 OS X. You must install Appium, XCode, and the iOS version-specific device simulators for XCode. You must also ensure that the `appium_capybara` gem is
@@ -1238,12 +1241,12 @@ Once your test environment is properly configured, the following **Environment V
 
 The `SHUTDOWN_OTHER_SIMS` environment variable can only be set if you are running Appium Server with the `--relaxed-security` or
 `--allow-insecure=shutdown_other_sims` arguments passed when starting it from the command line, or when running the server from the
-Appium Server GUI app. A security violation error will occur without relaxed secutity enabled. 
+Appium Server GUI app. A security violation error will occur without relaxed security enabled. 
 
-Refer to **section 8.7 (Using Browser specific Profiles in cucumber.yml)** below.
+Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
 
 
-### Mobile Chrome or Android browsers on Android Studio Virtual Device emulators
+#### Mobile Chrome or Android browsers on Android Studio Virtual Device emulators
 
 You can run your mobile web tests against the mobile Chrome or Android browser on emulated Android devices using Appium and Android Studio on OS X. You
 must install Android Studio, the desired Android version-specific virtual device emulators, and Appium. Refer to [this page](http://appium.io/docs/en/drivers/android-uiautomator2/index.html)
@@ -1260,7 +1263,7 @@ Once your test environment is properly configured, the following **Environment V
 | `WEB_BROWSER`             | Must be set to `appium`                                                                                                        |
 | `APP_PLATFORM_NAME`       | Must be set to `Android`                                                                                                       |
 | `APP_BROWSER`             | Must be set to `Chrome` or `Browser`                                                                                           |
-| `APP_VERSION`             | Must be set to `8.0`, `7.0`, or which ever Android OS version you wish to run with the Android Virtual Device                  |
+| `APP_VERSION`             | Must be set to `12.0`, or which ever Android OS version you wish to run with the Android Virtual Device                        |
 | `APP_DEVICE`              | Set to Android Virtual Device ID (`Pixel_2_XL_API_26`, `Nexus_6_API_23`, etc.) found in Advanced Settings of AVD Configuration |
 | `DEVICE_TYPE`             | Must be set to `phone` or `tablet`                                                                                             |
 | `ORIENTATION`             | [Optional] Set to `portrait` or `landscape`                                                                                    |
@@ -1272,16 +1275,47 @@ Once your test environment is properly configured, the following **Environment V
 | `NEW_COMMAND_TIMEOUT`     | [Optional] Time (in Seconds) that Appium will wait for a new command from the client                                           |
 | `CHROMEDRIVER_EXECUTABLE` | [Optional] Absolute local path to webdriver executable                                                                         |
 
-Refer to **section 8.7 (Using Browser specific Profiles in cucumber.yml)** below.
+Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
 
 
-### Remotely hosted desktop and mobile web browsers
+#### Starting and stopping Appium Server
 
-You can run your automated tests against remotely hosted desktop and mobile web browsers using the BrowserStack, SauceLabs, TestingBot, or
+The Appium server must be running prior to invoking Cucumber to run your features/scenarios on mobile simulators or physical
+device. To programmatically control the starting and stopping of Appium server with the execution of your automated tests, place
+the code shown below in your `hooks.rb` file.
+
+    BeforeAll do
+      # start Appium Server if APPIUM_SERVER = 'run' and target browser is a mobile simulator or device
+      if ENV['APPIUM_SERVER'] == 'run' && Environ.driver == :appium
+        $server = TestCentricity::AppiumServer.new
+        $server.start
+      end
+    end
+
+    AfterAll do
+      # terminate Appium Server if APPIUM_SERVER = 'run' and target browser is a mobile simulator or device
+      $server.stop if ENV['APPIUM_SERVER'] == 'run' && Environ.driver == :appium && $server.running?
+      # close driver
+      Capybara.page.driver.quit
+      Capybara.reset_sessions!
+      Environ.session_state = :quit
+    end
+
+
+Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
+
+
+### Remote cloud hosted desktop and mobile web browsers
+
+You can run your automated tests against remote cloud hosted desktop and mobile web browsers using the BrowserStack, SauceLabs, TestingBot, or
 LambdaTest services. If your tests are running against a web site hosted on your local computer (`localhost`), or on a staging server inside
 your LAN, you must set the `TUNNELING` Environment Variable to `true`.
 
-Refer to **section 8.7 (Using Browser specific Profiles in cucumber.yml)** below.
+Due to lack of support for Selenium 4.x and the W3C browser capabilities protocol, support for CrossBrowserTesting and Gridlastic cloud hosted
+Selenium grid services was removed as of version 4.1 of this gem. If your testing requires access to either of those services, or support for
+Selenium version 3.x, you should use earlier versions of this gem.
+
+Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
 
 
 #### Remote desktop browsers on the BrowserStack service
@@ -1290,24 +1324,24 @@ For remotely hosted desktop web browsers on the BrowserStack service, the follow
 the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities?tag=selenium-4)
 for information regarding the specific capabilities.
 
-| **Environment Variable** | **Description**                                                                                                                                                 |
-|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `WEB_BROWSER`            | Must be set to `browserstack`                                                                                                                                   |
-| `BS_USERNAME`            | Must be set to your BrowserStack account user name                                                                                                              |
-| `BS_AUTHKEY`             | Must be set to your BrowserStack account access key                                                                                                             |
-| `BS_OS`                  | Must be set to `OS X` or `Windows`                                                                                                                              |
-| `BS_OS_VERSION`          | Refer to `os_version` capability in chart                                                                                                                       |
-| `BS_BROWSER`             | Refer to `browser` capability in chart                                                                                                                          |
-| `BS_VERSION`             | [Optional] Refer to `browser_version` capability in chart. If not specified, latest stable version of browser will be used.                                     |
-| `TUNNELING`              | Must be `true` if you are testing against internal/local servers (`true` or `false`). If `true`, the BrowserStack Local instance will be automatically started. |
-| `RESOLUTION`             | [Optional] Refer to supported screen `resolution` capability in chart                                                                                           |
-| `RECORD_VIDEO`           | [Optional] Enable screen video recording during test execution (`true` or `false`)                                                                              |
-| `TIME_ZONE`              | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart                                                                       |
-| `IP_GEOLOCATION`         | [Optional] Specify IP Geolocation. Refer to [IP Geolocation](https://www.browserstack.com/ip-geolocation) to select a country code.                             |
-| `ALLOW_POPUPS`           | [Optional] Allow popups (`true` or `false`) - for Safari, IE, and Edge browsers only                                                                            |
-| `ALLOW_COOKIES`          | [Optional] Allow all cookies (`true` or `false`) - for Safari browsers only                                                                                     |
-| `SCREENSHOTS`            | [Optional] Generate screenshots for debugging (`true` or `false`)                                                                                               |
-| `NETWORK_LOGS`           | [Optional] Capture network logs (`true` or `false`)                                                                                                             |
+| **Environment Variable** | **Description**                                                                                                                                                            |
+|--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `WEB_BROWSER`            | Must be set to `browserstack`                                                                                                                                              |
+| `BS_USERNAME`            | Must be set to your BrowserStack account user name                                                                                                                         |
+| `BS_AUTHKEY`             | Must be set to your BrowserStack account access key                                                                                                                        |
+| `BS_OS`                  | Must be set to `OS X` or `Windows`                                                                                                                                         |
+| `BS_OS_VERSION`          | Refer to `os_version` capability in chart                                                                                                                                  |
+| `BS_BROWSER`             | Refer to `browserName` capability in chart                                                                                                                                 |
+| `BS_VERSION`             | [Optional] Refer to `browser_version` capability in chart. If not specified, latest stable version of browser will be used.                                                |
+| `TUNNELING`              | [Optional] Must be `true` if you are testing against internal/local servers (`true` or `false`). If `true`, the BrowserStack Local instance will be automatically started. |
+| `RESOLUTION`             | [Optional] Refer to supported screen `resolution` capability in chart                                                                                                      |
+| `RECORD_VIDEO`           | [Optional] Enable screen video recording during test execution (`true` or `false`)                                                                                         |
+| `TIME_ZONE`              | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart                                                                                  |
+| `IP_GEOLOCATION`         | [Optional] Specify IP Geolocation. Refer to [IP Geolocation](https://www.browserstack.com/ip-geolocation) to select a country code.                                        |
+| `ALLOW_POPUPS`           | [Optional] Allow popups (`true` or `false`) - for Safari, IE, and Edge browsers only                                                                                       |
+| `ALLOW_COOKIES`          | [Optional] Allow all cookies (`true` or `false`) - for Safari browsers only                                                                                                |
+| `SCREENSHOTS`            | [Optional] Generate screenshots for debugging (`true` or `false`)                                                                                                          |
+| `NETWORK_LOGS`           | [Optional] Capture network logs (`true` or `false`)                                                                                                                        |
 
 If the BrowserStack Local instance is running (`TUNNELING` Environment Variable is `true`), call the`TestCentricity::WebDriverConnect.close_tunnel` method
 upon completion of your test suite to stop the Local instance. Place the code shown below in your `env.rb` or `hooks.rb` file.
@@ -1324,43 +1358,43 @@ For remotely hosted mobile web browsers on the BrowserStack service, the followi
 the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities?tag=selenium-4)
 for information regarding the specific capabilities.
 
-| **Environment Variable** | **Description**                                                                                                                                                 |
-|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `WEB_BROWSER`            | Must be set to `browserstack`                                                                                                                                   |
-| `BS_USERNAME`            | Must be set to your BrowserStack account user name                                                                                                              |
-| `BS_AUTHKEY`             | Must be set to your BrowserStack account access key                                                                                                             |
-| `BS_OS`                  | Must be set to `ios` or `android`                                                                                                                               |
-| `BS_BROWSER`             | Must be set to `Safari` (for iOS) or `Chrome` (for Android)                                                                                                     |
-| `BS_DEVICE`              | Refer to `device` capability in chart                                                                                                                           |
-| `BS_REAL_MOBILE`         | Set to `true` if running against a real device                                                                                                                  |
-| `DEVICE_TYPE`            | Must be set to `phone` or `tablet`                                                                                                                              |
-| `TUNNELING`              | Must be `true` if you are testing against internal/local servers (`true` or `false`). If `true`, the BrowserStack Local instance will be automatically started. |
-| `ORIENTATION`            | [Optional] Set to `portrait` or `landscape`                                                                                                                     |
-| `RECORD_VIDEO`           | [Optional] Enable screen video recording during test execution (`true` or `false`)                                                                              |
-| `TIME_ZONE`              | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart                                                                       |
-| `IP_GEOLOCATION`         | [Optional] Specify IP Geolocation. Refer to [IP Geolocation](https://www.browserstack.com/ip-geolocation) to select a country code.                             |
-| `SCREENSHOTS`            | [Optional] Generate screenshots for debugging (`true` or `false`)                                                                                               |
-| `NETWORK_LOGS`           | [Optional] Capture network logs (`true` or `false`)                                                                                                             |
-| `APPIUM_LOGS`            | [Optional] Generate Appium logs (`true` or `false`)                                                                                                             |
+| **Environment Variable** | **Description**                                                                                                                                                            |
+|--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `WEB_BROWSER`            | Must be set to `browserstack`                                                                                                                                              |
+| `BS_USERNAME`            | Must be set to your BrowserStack account user name                                                                                                                         |
+| `BS_AUTHKEY`             | Must be set to your BrowserStack account access key                                                                                                                        |
+| `BS_OS`                  | Must be set to `ios` or `android`                                                                                                                                          |
+| `BS_BROWSER`             | Must be set to `Safari` (for iOS) or `Chrome` (for Android)                                                                                                                |
+| `BS_DEVICE`              | Refer to `deviceName` capability in chart                                                                                                                                  |
+| `BS_REAL_MOBILE`         | Set to `true` if running against a real device                                                                                                                             |
+| `DEVICE_TYPE`            | Must be set to `phone` or `tablet`                                                                                                                                         |
+| `TUNNELING`              | [Optional] Must be `true` if you are testing against internal/local servers (`true` or `false`). If `true`, the BrowserStack Local instance will be automatically started. |
+| `ORIENTATION`            | [Optional] Set to `portrait` or `landscape`                                                                                                                                |
+| `RECORD_VIDEO`           | [Optional] Enable screen video recording during test execution (`true` or `false`)                                                                                         |
+| `TIME_ZONE`              | [Optional] Specify custom time zone. Refer to `browserstack.timezone` capability in chart                                                                                  |
+| `IP_GEOLOCATION`         | [Optional] Specify IP Geolocation. Refer to [IP Geolocation](https://www.browserstack.com/ip-geolocation) to select a country code.                                        |
+| `SCREENSHOTS`            | [Optional] Generate screenshots for debugging (`true` or `false`)                                                                                                          |
+| `NETWORK_LOGS`           | [Optional] Capture network logs (`true` or `false`)                                                                                                                        |
+| `APPIUM_LOGS`            | [Optional] Generate Appium logs (`true` or `false`)                                                                                                                        |
 
 #### Remote desktop browsers on the Sauce Labs service
 
-For remotely hosted desktop web browsers on the Sauce Labs service, the following **Environment Variables** must be set as described in
-the table below. Use the Selenium API on the [Platform Configurator page](https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/) to obtain
-information regarding the specific capabilities.
+For remotely hosted desktop web browsers on the Sauce Labs service, the following **Environment Variables** must be set as described in the
+table below. Use the Selenium 4 selection on the [Platform Configurator page](https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/)
+to obtain information regarding the specific capabilities.
 
-| **Environment Variable** | **Description**                                                                                                        |
-|--------------------------|------------------------------------------------------------------------------------------------------------------------|
-| `WEB_BROWSER`            | Must be set to `saucelabs`                                                                                             |
-| `SL_USERNAME`            | Must be set to your Sauce Labs account user name or email address                                                      |
-| `SL_AUTHKEY`             | Must be set to your Sauce Labs account access key                                                                      |
-| `DATA_CENTER`            | Must be set to your Sauce Labs account Data Center assignment (`us-west-1`, `eu-central-1`, `apac-southeast-1`)        |
-| `SL_OS`                  | Refer to `platform` capability in the Copy Code section of the Platform Configurator page                              |
-| `SL_BROWSER`             | Must be set to `chrome`, `firefox`, `safari`, `internet explorer`, or `edge`                                           |
-| `SL_VERSION`             | Refer to `version` capability in the Copy Code section of the Platform Configurator page                               |
-| `RESOLUTION`             | [Optional] Refer to supported `screenResolution` capability in the Copy Code section of the Platform Configurator page |
-| `BROWSER_SIZE `          | [Optional] Specify width, height of browser window                                                                     |
-| `RECORD_VIDEO`           | [Optional] Enable screen video recording during test execution (`true` or `false`)                                     |
+| **Environment Variable** | **Description**                                                                                                            |
+|--------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| `WEB_BROWSER`            | Must be set to `saucelabs`                                                                                                 |
+| `SL_USERNAME`            | Must be set to your Sauce Labs account user name or email address                                                          |
+| `SL_AUTHKEY`             | Must be set to your Sauce Labs account access key                                                                          |
+| `DATA_CENTER`            | Must be set to your Sauce Labs account Data Center assignment (`us-west-1`, `eu-central-1`, `apac-southeast-1`)            |
+| `SL_OS`                  | Refer to `platformName` capability in the Config Script section of the Platform Configurator page                          |
+| `SL_BROWSER`             | Must be set to `chrome`, `firefox`, `safari`, `internet explorer`, or `MicrosoftEdge`                                      |
+| `SL_VERSION`             | Refer to `browserVersion` capability in the Config Script section of the Platform Configurator page                        |
+| `RESOLUTION`             | [Optional] Refer to supported `screenResolution` capability in the Config Script section of the Platform Configurator page |
+| `BROWSER_SIZE `          | [Optional] Specify width, height of browser window                                                                         |
+| `RECORD_VIDEO`           | [Optional] Enable screen video recording during test execution (`true` or `false`)                                         |
 
 #### Remote desktop browsers on the TestingBot service
 
@@ -1376,24 +1410,24 @@ regarding the specific capabilities.
 | `TB_OS`                  | Refer to `platform` capability in chart                                                                           |
 | `TB_BROWSER`             | Refer to `browserName` capability in chart                                                                        |
 | `TB_VERSION`             | Refer to `version` capability in chart                                                                            |
-| `TUNNELING`              | Must be `true` if you are testing against internal/local servers (`true` or `false`)                              |
+| `TUNNELING`              | [Optional] Must be `true` if you are testing against internal/local servers (`true` or `false`)                   |
 | `RESOLUTION`             | [Optional] Possible values: `800x600`, `1024x768`, `1280x960`, `1280x1024`, `1600x1200`, `1920x1200`, `2560x1440` |
 | `BROWSER_SIZE`           | [Optional] Specify width, height of browser window                                                                |
 
 #### Remote desktop browsers on the LambdaTest service
 
 For remotely hosted desktop web browsers on the LambdaTest service, the following **Environment Variables** must be set as described in the table
-below. Use the Configuration Wizard on the [Selenium Desired Capabilities Generator](https://www.lambdatest.com/capabilities-generator/) to obtain
-information regarding the specific capabilities.
+below. Use the Selenium 4 Configuration Wizard on the [Selenium Desired Capabilities Generator](https://www.lambdatest.com/capabilities-generator/)
+to obtain information regarding the specific capabilities.
 
 | **Environment Variable** | **Description**                                                                          |
 |--------------------------|------------------------------------------------------------------------------------------|
 | `WEB_BROWSER`            | Must be set to `lambdatest`                                                              |
 | `LT_USERNAME`            | Must be set to your LambdaTest account user name or email address                        |
 | `LT_AUTHKEY`             | Must be set to your LambdaTest account access key                                        |
-| `LT_OS`                  | Refer to `platform` capability in the sample script of the Wizard                        |
+| `LT_OS`                  | Refer to `platformName` capability in the sample script of the Wizard                    |
 | `LT_BROWSER`             | Refer to `browserName` capability in the sample script of the Wizard                     |
-| `LT_VERSION`             | Refer to `version` capability in chart                                                   |
+| `LT_VERSION`             | Refer to `browserVersion` capability in chart                                            |
 | `RESOLUTION`             | [Optional] Refer to supported `resolution` capability in the sample script of the Wizard |
 | `BROWSER_SIZE`           | [Optional] Specify width, height of browser window                                       |
 | `RECORD_VIDEO`           | [Optional] Enable screen video recording during test execution (`true` or `false`)       |
@@ -1499,8 +1533,15 @@ that you intend to connect with.
     
     portrait:  ORIENTATION=portrait
     landscape: ORIENTATION=landscape
+
     
+    #==============
+    # profile to start Appium Server prior to running mobile browser tests on iOS or Android simulators or physical devices
+    #==============
     
+    run_appium: APPIUM_SERVER=run
+
+
     #==============
     # profiles for mobile Safari web browsers hosted within XCode iOS simulator
     # NOTE: Requires installation of XCode, iOS version specific target simulators, Appium, and the appium_capybara gem
@@ -1627,38 +1668,37 @@ To specify a locally hosted target browser using a profile at runtime, you use t
 invoking Cucumber in the command line. For instance, the following command invokes Cucumber and specifies that a local instance of Firefox
 will be used as the target web browser:
     
-    $ cucumber -p firefox
+    cucumber -p firefox
 
 
-The following command specifies that Cucumber will run tests against an instance of Chrome hosted within a Dockerized Selenium Grid environment"
+The following command specifies that Cucumber will run tests against an instance of Chrome hosted within a Dockerized Selenium Grid 4
+environment:
     
-    $ cucumber -p chrome -p grid
+    cucumber -p chrome -p grid
 
 
 The following command specifies that Cucumber will run tests against a local instance of Chrome, which will be used to emulate an iPad Pro
 in landscape orientation:
     
-    $ cucumber -p ipad_pro -p landscape
+    cucumber -p ipad_pro -p landscape
 
 
-The following command specifies that Cucumber will run tests against an iPad Pro with iOS version 9.3 in an XCode Simulator
-in landscape orientation:
+The following command specifies that Cucumber will run tests against an iPad Pro (12.9-inch) (5th generation) with iOS version 15.2 in an
+XCode Simulator in landscape orientation:
     
-    $ cucumber -p ipad_pro_93_sim -p landscape
+    cucumber -p ipad_pro_12_9_15_sim -p landscape
     
     NOTE:  Appium must be running prior to executing this command
 
+You can ensure that Appium Server is running by including `-p run_appium` in your command line:
 
-The following command specifies that Cucumber will run tests against a remotely hosted Safari web browser running on an OS X Mojave
+    cucumber -p ipad_pro_12_9_15_sim -p landscape -p run_appium
+
+
+The following command specifies that Cucumber will run tests against a remotely hosted Safari web browser running on a macOS Monterey
 virtual machine on the BrowserStack service:
 
-    cucumber -p bs_safari_mojave
- 
-
-The following command specifies that Cucumber will run tests against a remotely hosted Mobile Safari web browser on an iPhone 6s Plus in
-landscape orientation running on the BrowserStack service:
-
-    $ cucumber -p bs_iphone6_plus -p landscape
+    cucumber -p bs_safari_monterey
 
 
 

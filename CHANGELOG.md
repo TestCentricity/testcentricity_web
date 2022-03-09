@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.1.4] - 09-MAR-2022
+
+### Fixed
+* `Environ.driver` is now correctly set to `:appium` when target test browser is running on iOS or Android simulators or physical devices.
+
+
 ## [4.1.3] - 08-MAR-2022
 
 ### Fixed

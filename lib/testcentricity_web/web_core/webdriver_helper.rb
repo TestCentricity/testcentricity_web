@@ -137,6 +137,7 @@ module TestCentricity
       Environ.device_os_version = ENV['APP_VERSION']
       Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
       Capybara.default_driver = :appium
+      Environ.driver = :appium
       @endpoint = 'http://localhost:4723/wd/hub' if @endpoint.nil?
       desired_capabilities = {
           platformName:    Environ.device_os,
