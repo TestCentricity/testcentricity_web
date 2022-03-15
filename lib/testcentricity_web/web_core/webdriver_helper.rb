@@ -49,7 +49,7 @@ module TestCentricity
       context = case browser.downcase.to_sym
                 when :appium
                   initialize_appium
-                  'mobile device emulator'
+                  'Appium'
                 when :browserstack
                   initialize_browserstack
                   'Browserstack cloud service'
@@ -138,7 +138,6 @@ module TestCentricity
       Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
       Capybara.default_driver = :appium
       Environ.driver = :appium
-      @endpoint = 'http://localhost:4723/wd/hub' if @endpoint.nil?
       desired_capabilities = {
           platformName:    Environ.device_os,
           platformVersion: Environ.device_os_version,
@@ -190,14 +189,13 @@ module TestCentricity
         desired_capabilities[:systemPort]   = ENV['SYSTEM_PORT'] if ENV['SYSTEM_PORT']
       end
 
-      unless @capabilities.nil?
-        desired_capabilities = @capabilities
-      end
+      desired_capabilities = @capabilities unless @capabilities.nil?
+      # specify endpoint url
+      @endpoint = 'http://localhost:4723/wd/hub' if @endpoint.nil?
 
-      Capybara.register_driver :appium do |app|
-        appium_lib_options = { server_url: @endpoint }
+      Capybara.register_driver(:appium) do |app|
         all_options = {
-          appium_lib: appium_lib_options,
+          appium_lib: { server_url: @endpoint },
           caps:       desired_capabilities
         }
         Appium::Capybara::Driver.new(app, all_options)
@@ -233,63 +231,18 @@ module TestCentricity
         when :safari, :ie
           Capybara::Selenium::Driver.new(app, browser: browser)
         when :firefox, :firefox_headless
-          profile = Selenium::WebDriver::Firefox::Profile.new
-          profile['browser.download.dir'] = @downloads_path
-          profile['browser.download.folderList'] = 2
-          profile['browser.download.manager.showWhenStarting'] = false
-          profile['browser.download.manager.closeWhenDone'] = true
-          profile['browser.download.manager.showAlertOnComplete'] = false
-          profile['browser.download.manager.alertOnEXEOpen'] = false
-          profile['browser.download.manager.useWindow'] = false
-          profile['browser.helperApps.alwaysAsk.force'] = false
-          profile['pdfjs.disabled'] = true
-
-          mime_types = ENV['MIME_TYPES'] || 'images/jpeg, application/pdf, application/octet-stream'
-          profile['browser.helperApps.neverAsk.saveToDisk'] = mime_types
-
-          profile['intl.accept_languages'] = ENV['LOCALE'] if ENV['LOCALE']
-          options = Selenium::WebDriver::Firefox::Options.new(profile: profile)
-          options.args << '--headless' if browser == :firefox_headless
+          options = firefox_options(browser)
           Capybara::Selenium::Driver.new(app, browser: :firefox, capabilities: [options])
         when :chrome, :chrome_headless
-          options = Selenium::WebDriver::Chrome::Options.new(options: {'excludeSwitches' => ['enable-automation']})
-          prefs = {
-            prompt_for_download: false,
-            directory_upgrade:   true,
-            default_directory:   @downloads_path
-          }
-          options.add_preference(:download, prefs)
-          options.add_argument('--disable-dev-shm-usage')
-          options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
-          if browser == :chrome_headless
-            options.add_argument('--headless')
-            options.add_argument('--disable-gpu')
-            options.add_argument('--no-sandbox')
-          end
-
+          options = chrome_edge_options(browser)
           Capybara::Selenium::Driver.new(app, browser: :chrome, capabilities: [options])
         when :edge, :edge_headless
-          options = Selenium::WebDriver::Edge::Options.new(options: {'excludeSwitches' => ['enable-automation']})
-          prefs = {
-            prompt_for_download: false,
-            directory_upgrade:   true,
-            default_directory:   @downloads_path
-          }
-          options.add_preference(:download, prefs)
-          options.add_argument('--disable-dev-shm-usage')
-          options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
-          if browser == :edge_headless
-            options.add_argument('--headless')
-            options.add_argument('--disable-gpu')
-            options.add_argument('--no-sandbox')
-          end
-
+          options = chrome_edge_options(browser)
           Capybara::Selenium::Driver.new(app, browser: :edge, capabilities: [options])
         else
           if ENV['HOST_BROWSER'] && ENV['HOST_BROWSER'].downcase.to_sym == :chrome
             user_agent = Browsers.mobile_device_agent(ENV['WEB_BROWSER'])
             options = Selenium::WebDriver::Chrome::Options.new(options: {'excludeSwitches' => ['enable-automation']})
-            options.add_argument('--disable-infobars')
             options.add_argument('--disable-dev-shm-usage')
             options.add_argument("--user-agent='#{user_agent}'")
             options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
@@ -452,74 +405,31 @@ module TestCentricity
       Environ.grid = :selenium_grid
       browser  = ENV['WEB_BROWSER'].downcase.to_sym
       @endpoint = ENV['REMOTE_ENDPOINT'] || 'http://127.0.0.1:4444/wd/hub' if @endpoint.nil?
-      Capybara.register_driver :remote_browser do |app|
-        case browser
-        when :safari
-          options = Selenium::WebDriver::Safari::Options.new
-        when :ie
-          options = Selenium::WebDriver::IE::Options.new
-        when :firefox, :firefox_headless
-          profile = Selenium::WebDriver::Firefox::Profile.new
-          profile['browser.download.dir'] = @downloads_path
-          profile['browser.download.folderList'] = 2
-          profile['browser.download.manager.showWhenStarting'] = false
-          profile['browser.download.manager.closeWhenDone'] = true
-          profile['browser.download.manager.showAlertOnComplete'] = false
-          profile['browser.download.manager.alertOnEXEOpen'] = false
-          profile['browser.download.manager.useWindow'] = false
-          profile['browser.helperApps.alwaysAsk.force'] = false
-          profile['pdfjs.disabled'] = true
 
-          mime_types = ENV['MIME_TYPES'] || 'images/jpeg, application/pdf, application/octet-stream'
-          profile['browser.helperApps.neverAsk.saveToDisk'] = mime_types
-
-          profile['intl.accept_languages'] = ENV['LOCALE'] if ENV['LOCALE']
-          options = Selenium::WebDriver::Firefox::Options.new(profile: profile)
-          options.args << '--headless' if browser == :firefox_headless
-        when :chrome, :chrome_headless
+      case browser
+      when :safari
+        options = Selenium::WebDriver::Safari::Options.new
+      when :ie
+        options = Selenium::WebDriver::IE::Options.new
+      when :firefox, :firefox_headless
+        options = firefox_options(browser)
+      when :chrome, :chrome_headless, :edge, :edge_headless
+        options = chrome_edge_options(browser)
+      else
+        if ENV['HOST_BROWSER'] && ENV['HOST_BROWSER'].downcase.to_sym == :chrome
+          Environ.platform = :mobile
+          Environ.device_name = Browsers.mobile_device_name(ENV['WEB_BROWSER'])
+          user_agent = Browsers.mobile_device_agent(ENV['WEB_BROWSER'])
           options = Selenium::WebDriver::Chrome::Options.new(options: {'excludeSwitches' => ['enable-automation']})
-          prefs = {
-            prompt_for_download: false,
-            directory_upgrade:   true,
-            default_directory:   @downloads_path
-          }
-          options.add_preference(:download, prefs)
           options.add_argument('--disable-dev-shm-usage')
+          options.add_argument("--user-agent='#{user_agent}'")
           options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
-          if browser == :chrome_headless
-            options.add_argument('--headless')
-            options.add_argument('--disable-gpu')
-            options.add_argument('--no-sandbox')
-          end
-        when :edge, :edge_headless
-          options = Selenium::WebDriver::Edge::Options.new(options: {'excludeSwitches' => ['enable-automation']})
-          prefs = {
-            prompt_for_download: false,
-            directory_upgrade:   true,
-            default_directory:   @downloads_path
-          }
-          options.add_preference(:download, prefs)
-          options.add_argument('--disable-dev-shm-usage')
-          options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
-          if browser == :edge_headless
-            options.add_argument('--headless')
-            options.add_argument('--disable-gpu')
-            options.add_argument('--no-sandbox')
-          end
         else
-          if ENV['HOST_BROWSER'] && ENV['HOST_BROWSER'].downcase.to_sym == :chrome
-            Environ.platform = :mobile
-            Environ.device_name = Browsers.mobile_device_name(ENV['WEB_BROWSER'])
-            user_agent = Browsers.mobile_device_agent(ENV['WEB_BROWSER'])
-            options = Selenium::WebDriver::Chrome::Options.new(options: {'excludeSwitches' => ['enable-automation']})
-            options.add_argument('--disable-infobars')
-            options.add_argument('--disable-dev-shm-usage')
-            options.add_argument("--user-agent='#{user_agent}'")
-            options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
-          else
-            raise "Requested browser '#{browser}' is not supported on Selenium Grid"
-          end
+          raise "Requested browser '#{browser}' is not supported on Selenium Grid"
         end
+      end
+
+      Capybara.register_driver :remote_browser do |app|
         Capybara::Selenium::Driver.new(app,
                                        browser: :remote,
                                        url: @endpoint,
@@ -645,6 +555,50 @@ module TestCentricity
       config_file_uploads unless ENV['TB_PLATFORM']
     end
 
+    def self.chrome_edge_options(browser)
+      options = case browser
+                when :chrome, :chrome_headless
+                  Selenium::WebDriver::Chrome::Options.new(options: {'excludeSwitches' => ['enable-automation']})
+                when :edge, :edge_headless
+                  Selenium::WebDriver::Edge::Options.new(options: {'excludeSwitches' => ['enable-automation']})
+                end
+      prefs = {
+        prompt_for_download: false,
+        directory_upgrade:   true,
+        default_directory:   @downloads_path
+      }
+      options.add_preference(:download, prefs)
+      options.add_argument('--disable-dev-shm-usage')
+      options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
+      if browser == :chrome_headless || browser == :edge_headless
+        options.add_argument('--headless')
+        options.add_argument('--disable-gpu')
+        options.add_argument('--no-sandbox')
+      end
+      options
+    end
+
+    def self.firefox_options(browser)
+      profile = Selenium::WebDriver::Firefox::Profile.new
+      profile['browser.download.dir'] = @downloads_path
+      profile['browser.download.folderList'] = 2
+      profile['browser.download.manager.showWhenStarting'] = false
+      profile['browser.download.manager.closeWhenDone'] = true
+      profile['browser.download.manager.showAlertOnComplete'] = false
+      profile['browser.download.manager.alertOnEXEOpen'] = false
+      profile['browser.download.manager.useWindow'] = false
+      profile['browser.helperApps.alwaysAsk.force'] = false
+      profile['pdfjs.disabled'] = true
+
+      mime_types = ENV['MIME_TYPES'] || 'images/jpeg, application/pdf, application/octet-stream'
+      profile['browser.helperApps.neverAsk.saveToDisk'] = mime_types
+
+      profile['intl.accept_languages'] = ENV['LOCALE'] if ENV['LOCALE']
+      options = Selenium::WebDriver::Firefox::Options.new(profile: profile)
+      options.args << '--headless' if browser == :firefox_headless
+      options
+    end
+
     def self.test_context_message
       context_message = if ENV['TEST_CONTEXT']
                           "#{Environ.test_environment.to_s.upcase} - #{ENV['TEST_CONTEXT']}"
@@ -662,7 +616,10 @@ module TestCentricity
     def self.register_remote_driver(driver, browser, options)
       Capybara.register_driver driver do |app|
         capabilities = Selenium::WebDriver::Remote::Capabilities.send(browser.gsub(/\s+/, '_').downcase.to_sym, options)
-        Capybara::Selenium::Driver.new(app, browser: :remote, url: @endpoint, capabilities: capabilities)
+        Capybara::Selenium::Driver.new(app,
+                                       browser: :remote,
+                                       url: @endpoint,
+                                       capabilities: capabilities)
       end
 
       Environ.browser = browser

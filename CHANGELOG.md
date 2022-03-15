@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.1.5] - 15-MAR-2022
+
+### Fixed
+* `SelectList.selected?` now correctly returns selected value for custom `selectlist` controls.
+
+### Updated
+* Updated HTML documentation.
+
+
 ## [4.1.4] - 09-MAR-2022
 
 ### Fixed
@@ -19,7 +28,7 @@ All notable changes to this project will be documented in this file.
 
 ## [4.1.2] - 07-MAR-2022
 
-### Changed
+### Updated
 * Updated HTML documentation.
 
 

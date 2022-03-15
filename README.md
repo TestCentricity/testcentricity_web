@@ -3,9 +3,9 @@
 [![Gem Version](https://badge.fury.io/rb/testcentricity_web.svg)](https://badge.fury.io/rb/testcentricity_web)  [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause)
 
 
-The TestCentricity™ Web core generic framework for desktop and mobile web browser-based app testing implements a Page Object and Data
-Object Model DSL for use with Cucumber, Capybara (version 3.x), and Selenium-Webdriver (version 4.x). It also facilitates the configuration
-of the appropriate Selenium-Webdriver capabilities required to establish a connection with a local or cloud hosted desktop or mobile web browser.
+The TestCentricity™ Web core generic framework for desktop and mobile web browser-based app testing implements a Page Object Model DSL
+for use with Cucumber, Capybara (version 3.x), and Selenium-Webdriver (version 4.x). It also facilitates the configuration of the appropriate
+Selenium-Webdriver capabilities required to establish a connection with a local or cloud hosted desktop or mobile web browser.
 
 The TestCentricity™ Web gem supports running automated tests against the following web test targets:
 * locally hosted desktop browsers (Chrome, Edge, Firefox, Safari, or IE)
@@ -49,7 +49,7 @@ Or install it yourself as:
 ## Setup
 ### Using Cucumber
 
-If you are using Cucumber, you need to require the following in your *env.rb* file:
+If you are using Cucumber, you need to require the following in your `env.rb` file:
 
     require 'capybara/cucumber'
     require 'testcentricity_web'
@@ -57,7 +57,7 @@ If you are using Cucumber, you need to require the following in your *env.rb* fi
 
 ### Using RSpec
 
-If you are using RSpec instead, you need to require the following in your *env.rb* file:
+If you are using RSpec instead, you need to require the following in your `env.rb` file:
 
     require 'capybara'
     require 'capybara/rspec'
@@ -67,7 +67,7 @@ If you are using RSpec instead, you need to require the following in your *env.r
 ### Using Appium
 
 If you will be running your tests on mobile Safari browsers on simulated iOS devices using Appium and XCode Simulators, you need to require
-the following in your *env.rb* file:
+the following in your `env.rb` file:
 
     require 'appium_capybara'
 
@@ -634,6 +634,8 @@ The `verify_ui_states` method supports the following property/state pairs:
     :class             String
     :value or :caption String
     :attribute         Hash
+    :style             String
+    :tabindex          Integer
 
 **Text Fields:**
 
@@ -646,11 +648,16 @@ The `verify_ui_states` method supports the following property/state pairs:
 
 **Checkboxes:**
 
-    :checked Boolean
+    :checked       Boolean
+    :indeterminate Boolean
 
 **Radio Buttons:**
 
     :selected Boolean
+
+**Links:**
+
+    :href String
 
 **Images**
 
@@ -671,6 +678,8 @@ The `verify_ui_states` method supports the following property/state pairs:
     :items or :options         Array of Strings
     :itemcount or :optioncount Integer
     :selected                  String
+    :groupcount                Integer
+    :group_headings            Array of Strings
 
 **Tables**
 
@@ -706,8 +715,6 @@ The `verify_ui_states` method supports the following property/state pairs:
 
 The `verify_ui_states` method supports the following ARIA accessibility property/state pairs:
 
-**All Objects:**
-
     :aria_label           String
     :aria_disabled        Boolean
     :aria_labelledby      String
@@ -738,8 +745,10 @@ The `verify_ui_states` method supports the following ARIA accessibility property
     :aria_multiline       Boolean
     :aria_multiselectable Boolean
     :content_editable     Boolean
+    :role                 String
 
 #### Comparison States
+
 The `verify_ui_states` method supports comparison states using property/comparison state pairs:
 
     object => { property: { comparison_state: value } }
@@ -843,6 +852,126 @@ Baseline translation strings are stored in `.yml` files in the `config/locales/`
         ├── Gemfile
         └── README.md
 
+
+### Working with custom UIElements
+
+Many responsive and touch-enabled web based user interfaces are implemented using front-end JavaScript libraries for building user
+interfaces based on UI components. Popular JS libraries include React, Angular, and Ember.js. These stylized and adorned controls can
+present a challenge when attempting to interact with them using Capybara and Selenium based automated tests.
+
+#### Radio and Checkbox UIElements
+
+Sometimes, radio buttons and checkboxes implemented using JS component libraries cannot be interacted with due to other UI elements
+being overlaid on top of them and the base `input(type='radio')` or `input(type='checkbox')` element not being visible.
+
+In the screenshots below of an airline flight search and booking page, the **Roundtrip** and **One-way** radio buttons are adorned with
+`label` elements that also acts as proxies for their associated `input(type='radio')` elements, and they intercept the `click` actions
+that would normally be handled by the `input(type='radio')` elements.
+
+<img src="https://i.imgur.com/7bW5u4c.jpg" alt="Roundtrip Radio button Input" title="Roundtrip Radio button Input">
+
+
+This screenshot shows the `label` element that is overlaid above the **Roundtrip** `input(type='radio')` element.
+
+<img src="https://i.imgur.com/2stWiyR.jpg" alt="Roundtrip Radio button Label" title="Roundtrip Radio button Label">
+
+
+The checkbox controls in this web UI are also adorned with `label` elements that act as proxies for their associated `input(type='checkbox')`
+elements.
+
+<img src="https://i.imgur.com/JcOANqZ.jpg" alt="One-way Radio button Label" title="One-way Radio button Label">
+
+
+The `Radio.define_custom_elements` and `CheckBox.define_custom_elements` methods provide a way to specify the `proxy` and/or `label`
+elements associated with the `input(type='radio')` or `input(type='checkbox')` elements. The `define_custom_elements` method
+should be called from an `initialize` method for the `PageObject` or `PageSection` where the `radio` or `checkbox` element is instantiated.
+The code snippet below demonstrates the use of the `Radio.define_custom_elements` and `CheckBox.define_custom_elements` methods to
+resolve the testability issues posed by the adorned **Roundtrip** and **One-way** radio buttons and the **Flexible dates** checkbox.
+
+    class FlightBookingPage < TestCentricity::PageObject
+      trait(:page_name)    { 'Flight Booking Home' }
+      trait(:page_locator) { "div[class*='bookerContainer']" }
+      
+      # Flight Booking page UI elements
+      radios   roundtrip_radio: 'input#roundtrip',
+               one_way_radio:   'input#oneway'
+      checkbox :flexible_check, 'input#flexibleDates'
+      
+      def initialize
+        # define the custom element components for the Round Trip radio button
+        radio_spec = { proxy: "label[for='roundtrip']" }
+        roundtrip_radio.define_custom_elements(radio_spec)
+        # define the custom element components for the One Way radio button
+        radio_spec = { proxy: "label[for='oneway']" }
+        one_way_radio.define_custom_elements(radio_spec)
+        # define the custom element components for the Flexible Date checkbox
+        check_spec = { proxy: 'label#flexDatesLabel' }
+        flexible_check.define_custom_elements(check_spec)
+      end
+    end
+
+
+#### SelectList UIElements
+
+The basic HTML `select` element is typically composed of the parent `select` object, and one or more `option` elements representing
+the selectable items in the drop-down list. However, `select` type controls implemented using JS component libraries can be composed
+of multiple elements representing the various components of a drop-down style `selectlist` implementation.
+
+In the screenshots below of an airline flight search and booking page, there are no `select` or `option` elements associated with the
+**Month**, **Day**, and **Cabin Type** drop-down style selectors. An inspection of the **Month** selector reveals that it is a `div`
+element that contains a `button` element (outlined in red) for triggering the drop-down list, a `ul` element (outlined in green) that
+contains the drop-down list, and multiple `li` elements (outlined in blue) that represent the list items or options that can be
+selected. The currently selected item or option can be identified by either the `listBoxOptionSelected` snippet in its `class` name or
+the `aria-selected` attribute (outlined in orange).
+
+Further examination of the **Day** and **Cabin Type** drop-down style selectors reveal that their composition is identical to the
+**Month** selector.
+
+<img src="https://i.imgur.com/LYAC2lh.jpg" alt="Custom SelectList" title="Custom SelectList">
+
+
+The `SelectList.define_list_elements` method provides a means of specifying the various elements that make up the key components of
+a `selectlist` control. The method accepts a hash of element designators (key) and a CSS or Xpath expression (value) that expression
+that uniquely identifies the element. Valid element designators are `list_item:`, `options_list:`, `list_trigger:`, `selected_item:`,
+`text_field:`, `group_heading:`, and `group_item:`.
+
+The code snippet below demonstrates the use of the `SelectList.define_list_elements` method to define the common components that make
+up the **Month**, **Day**, and **Cabin Type** drop-down style selectors. Note the use of the ARIA `role` and `aria-selected` attributes
+as element locators.
+
+    class FlightBookingPage < TestCentricity::PageObject
+      trait(:page_name)    { 'Flight Booking Home' }
+      trait(:page_locator) { "div[class*='bookerContainer']" }
+      
+      # Flight Booking page UI elements
+      selectlists month_select:      "div[class*='expandFlexMonth']",
+                  duration_select:   "div[class*='expandFlexDay']",
+                  cabin_type_select: "div[class*='bookFlightForm__optionField'] > div[class*='app-components-ListBox']"
+
+      def initialize
+        # define the custom list element components for the Month, Duration, and Cabin Type selectlist objects
+        list_spec = {
+          selected_item: "li[aria-selected=true]",
+          options_list:  "ul[role='listbox']",
+          list_item:     "li[role='option']",
+          list_trigger:  "button[role='combobox']"
+        }
+        month_select.define_list_elements(list_spec)
+        duration_select.define_list_elements(list_spec)
+        cabin_type_select.define_list_elements(list_spec)
+      end
+    end
+
+
+#### List UIElements
+
+The basic HTML list is typically composed of the parent `ul` object, and one or more `li` elements representing the items
+in the list. However, list controls implemented using JS component libraries can be composed of multiple elements representing the
+components of a list implementation.
+
+The `List.define_list_elements` method provides a means of specifying the elements that make up the key components of a `list` control.
+The method accepts a hash of element designators (key) and a CSS or Xpath expression (value) that expression that uniquely identifies
+the element. Valid element designators are `list_item:`and `selected_item:`.
 
 
 ## Instantiating your PageObjects
@@ -1220,7 +1349,7 @@ Once your test environment is properly configured, the following **Environment V
 | `WEB_BROWSER`              | Must be set to `appium`                                                                                                                                               |
 | `APP_PLATFORM_NAME`        | Must be set to `iOS`                                                                                                                                                  |
 | `APP_BROWSER`              | Must be set to `Safari`                                                                                                                                               |
-| `APP_VERSION`              | Must be set to `15.2`, `14.5`, or which ever iOS version you wish to run within the XCode Simulator                                                                   |
+| `APP_VERSION`              | Must be set to `15.4`, `14.5`, or which ever iOS version you wish to run within the XCode Simulator                                                                   |
 | `APP_DEVICE`               | Set to iOS device name supported by the iOS Simulator (`iPhone 13 Pro Max`, `iPad Pro (12.9-inch) (5th generation)`, etc.) or name of physically connected iOS device |
 | `DEVICE_TYPE`              | Must be set to `phone` or `tablet`                                                                                                                                    |
 | `APP_UDID`                 | UDID of physically connected iOS device (not used for simulators)                                                                                                     |
@@ -1300,6 +1429,13 @@ the code shown below in your `hooks.rb` file.
       Capybara.reset_sessions!
       Environ.session_state = :quit
     end
+
+
+The `APPIUM_SERVER` environment variable must be set to `run` in order to programmatically start and stop Appium server. This can be
+set by adding the following to your `cucumber.yml` file and including `-p run_appium` in your command line when starting your Cucumber
+test suite(s):
+
+    run_appium: APPIUM_SERVER=run
 
 
 Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
@@ -1548,9 +1684,10 @@ that you intend to connect with.
     #==============
 
     appium_ios: WEB_BROWSER=appium AUTOMATION_ENGINE=XCUITest APP_PLATFORM_NAME="ios" APP_BROWSER="Safari" NEW_COMMAND_TIMEOUT=30 SHOW_SIM_KEYBOARD=false
-    app_ios_15: --profile appium_ios APP_VERSION="15.2"
-    ipad_pro_12_9_15_sim: --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (12.9-inch) (5th generation)" <%= desktop %>
-    ipad_air_15_sim: --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="iPad Air (4th generation)" <%= desktop %>
+    app_ios_15: --profile appium_ios APP_VERSION="15.4"
+    ipad_pro_12_15_sim: --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (12.9-inch) (5th generation)"
+    ipad_air_15_sim:    --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="iPad Air (5th generation)" <%= desktop %>
+    ipad_15_sim:        --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="iPad (9th generation)"
 
 
     #==============
@@ -1686,13 +1823,13 @@ in landscape orientation:
 The following command specifies that Cucumber will run tests against an iPad Pro (12.9-inch) (5th generation) with iOS version 15.2 in an
 XCode Simulator in landscape orientation:
     
-    cucumber -p ipad_pro_12_9_15_sim -p landscape
+    cucumber -p ipad_pro_12_15_sim -p landscape
     
     NOTE:  Appium must be running prior to executing this command
 
 You can ensure that Appium Server is running by including `-p run_appium` in your command line:
 
-    cucumber -p ipad_pro_12_9_15_sim -p landscape -p run_appium
+    cucumber -p ipad_pro_12_15_sim -p landscape -p run_appium
 
 
 The following command specifies that Cucumber will run tests against a remotely hosted Safari web browser running on a macOS Monterey

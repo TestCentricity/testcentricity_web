@@ -246,13 +246,16 @@ module TestCentricity
     def get_selected_option
       @base_object, = find_element
       object_not_found_exception(@base_object, nil)
-      if @base_object.first(:css, @list_item, minimum: 0)
-        @base_object.first(:css, @selected_item).text
-      elsif @base_object.first(:css, @selected_item, minimum: 0)
-        @base_object.first(:css, @selected_item).text
-      else
-        @base_object.first('option[selected]', visible: :all).text
-      end
+      trigger_list
+      selection = if @base_object.first(:css, @list_item, minimum: 0, wait: 1, visible: :all)
+                    @base_object.first(:css, @selected_item, wait: 1, visible: :all).text
+                  elsif @base_object.first(:css, @selected_item, minimum: 0, wait: 1, visible: :all)
+                    @base_object.first(:css, @selected_item, visible: :all).text
+                  else
+                    @base_object.first('option[selected]', visible: :all).text
+                  end
+      trigger_list
+      selection
     end
 
     alias selected? get_selected_option
