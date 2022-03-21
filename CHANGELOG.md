@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 
-## [4.1.6] - 18-MAR-2022
+## [4.1.6] - 21-MAR-2022
 
 ### Fixed
 * `PageObject.verify_page_exists` now works with `page_locator` traits expressed in Xpath format, and no longer fails with a
