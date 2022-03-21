@@ -264,6 +264,19 @@ module TestCentricity
       obj.disabled?
     end
 
+    # Is UI object's required attribute set?
+    #
+    # @return [Boolean]
+    # @example
+    #   first_name_field.required?
+    #
+    def required?
+      obj, type = find_element
+      object_not_found_exception(obj, type)
+      state = get_attribute(:required)
+      state.boolean? ? state : state == 'true'
+    end
+
     # Is UI object obscured (not currently in viewport and not clickable)?
     #
     # @return [Boolean]

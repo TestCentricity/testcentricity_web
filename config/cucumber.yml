@@ -1,0 +1,150 @@
+<% desktop = "--require features BROWSER_TILE=true BROWSER_SIZE=1300,1000 --publish-quiet" %>
+<% tablet  = "--tags @desktop --require features BROWSER_TILE=true --publish-quiet" %>
+<% mobile    = "--tags @mobile  --require features BROWSER_TILE=true --publish-quiet" %>
+<% reports = "--require features --format pretty --format html --out reports/test_results.html --format junit --out reports --format json --out reports/test_results.json" %>
+
+
+#==============
+# generic test context profiles
+#==============
+
+failing: --tags '@failing and not @wip'
+wip:     --tags '@wip and not @failing'
+dev:     --tags '@dev and (not @wip and not @failing)'
+
+
+#==============
+# test reporting profiles
+#==============
+
+report:   <%= reports %> REPORTING=true
+parallel: PARALLEL=true REPORTING=true --require features --format pretty --format html --out reports/test_results<%= ENV['TEST_ENV_NUMBER'] %>.html --format junit --out reports --format json --out reports/test_results<%= ENV['TEST_ENV_NUMBER'] %>.json
+
+
+#==============
+# profiles for locally hosted desktop web browsers
+#==============
+
+chrome:  WEB_BROWSER=chrome <%= desktop %>
+firefox: WEB_BROWSER=firefox <%= desktop %>
+edge:    WEB_BROWSER=edge <%= desktop %>
+safari:  WEB_BROWSER=safari <%= desktop %>
+
+firefox_headless: WEB_BROWSER=firefox_headless <%= desktop %>
+chrome_headless:  WEB_BROWSER=chrome_headless <%= desktop %>
+edge_headless:    WEB_BROWSER=edge_headless <%= desktop %>
+
+
+#==============
+# profile for Selenium Grid and Dockerized Selenium Grid hosted desktop web browsers
+#==============
+grid: SELENIUM=remote REMOTE_ENDPOINT="http://localhost:4444/wd/hub"
+
+
+#==============
+# profiles for mobile device screen orientation
+#==============
+
+landscape: ORIENTATION=landscape
+portrait:  ORIENTATION=portrait
+
+
+#==============
+# profile to start Appium Server prior to running mobile browser tests on iOS or Android simulators or physical devices
+#==============
+run_appium: APPIUM_SERVER=run
+
+
+#==============
+# profiles for mobile Safari web browsers hosted within XCode iOS simulators
+# NOTE: Requires installation of XCode, iOS version specific target simulators, Appium, and the appium_capybara gem
+#==============
+
+appium_ios: WEB_BROWSER=appium AUTOMATION_ENGINE=XCUITest APP_PLATFORM_NAME="ios" APP_BROWSER="Safari" NEW_COMMAND_TIMEOUT=30 SHOW_SIM_KEYBOARD=false <%= desktop %>
+app_ios_15: --profile appium_ios APP_VERSION="15.4"
+
+ipad_pro_12_15_sim: --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (12.9-inch) (5th generation)"
+ipad_air_15_sim:    --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="iPad Air (5th generation)" <%= desktop %>
+
+
+#==============
+# profiles for Android mobile web browsers hosted within Android Studio Android Virtual Device emulators
+# NOTE: Requires installation of Android Studio, Android version specific virtual device simulators, Appium, and the appium_capybara gem
+#==============
+
+appium_android:    WEB_BROWSER=appium APP_PLATFORM_NAME="Android" <%= desktop %>
+app_android_12:    --profile appium_android APP_BROWSER="Chrome" APP_VERSION="12.0"
+pixel_c_api31_sim: --profile app_android_12 DEVICE_TYPE=tablet APP_DEVICE="Pixel_C_API_31"
+
+
+#==============
+# profiles for remotely hosted web browsers on the BrowserStack service
+#==============
+
+browserstack: WEB_BROWSER=browserstack BS_USERNAME="<INSERT USER NAME HERE>" BS_AUTHKEY="<INSERT PASSWORD HERE>" AUTOMATE_PROJECT="TC_Web_Sample - BrowserStack"
+bs_desktop:   --profile browserstack <%= desktop %> RESOLUTION="1920x1080"
+bs_mobile:    --profile browserstack <%= mobile %>
+
+# BrowserStack macOS desktop browser profiles
+bs_macos_monterey:  --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="Monterey"
+bs_chrome_monterey: --profile bs_macos_monterey BS_BROWSER="Chrome" BS_VERSION="latest"
+bs_edge_monterey:   --profile bs_macos_monterey BS_BROWSER="Edge" BS_VERSION="latest"
+bs_safari_monterey: --profile bs_macos_monterey BS_BROWSER="Safari" BS_VERSION="latest"
+
+# BrowserStack iOS mobile browser profiles
+bs_ipad:        --profile bs_mobile BS_OS=ios BS_BROWSER=Safari DEVICE_TYPE=tablet BS_REAL_MOBILE="true"
+bs_ipad_pro_12: --profile bs_ipad BS_DEVICE="iPad Pro 12.9 2018" BS_OS_VERSION="15"
+
+# BrowserStack Android mobile browser profiles
+bs_android:        --profile bs_mobile BS_OS=android BS_BROWSER=Chrome DEVICE_TYPE=tablet BS_REAL_MOBILE="true"
+bs_android_tablet: --profile bs_android BS_DEVICE="Samsung Galaxy Tab S7" BS_OS_VERSION="10.0"
+
+
+#==============
+# profiles for remotely hosted web browsers on the LambdaTest service
+#==============
+
+lambdatest: WEB_BROWSER=lambdatest LT_USERNAME="<INSERT USER NAME HERE>" LT_AUTHKEY="<INSERT PASSWORD HERE>" AUTOMATE_PROJECT="TC_Web_Sample - LambdaTest"
+lt_desktop: --profile lambdatest <%= desktop %> RESOLUTION="2560x1440"
+
+# LambdaTest macOS desktop browser profiles
+lt_macos_monterey:  --profile lt_desktop LT_OS="MacOS Monterey"
+lt_chrome_monterey: --profile lt_macos_monterey LT_BROWSER="Chrome" LT_VERSION="98.0"
+lt_edge_monterey:   --profile lt_macos_monterey LT_BROWSER="MicrosoftEdge" LT_VERSION="97.0"
+
+
+#==============
+# profiles for remotely hosted web browsers on the TestingBot service
+#==============
+
+testingbot: WEB_BROWSER=testingbot TB_USERNAME="<INSERT USER NAME HERE>" TB_AUTHKEY="<INSERT PASSWORD HERE>" AUTOMATE_PROJECT="TC_Web_Sample - TestingBot"
+tb_desktop: --profile testingbot <%= desktop %> RESOLUTION="1920x1200"
+
+# TestingBot macOS desktop browser profiles
+tb_macos_monterey:  --profile tb_desktop TB_OS="MONTEREY"
+tb_chrome_monterey: --profile tb_macos_monterey TB_BROWSER="chrome" TB_VERSION="latest"
+tb_edge_monterey:   --profile tb_macos_monterey TB_BROWSER="microsoftedge" TB_VERSION="latest"
+
+
+#==============
+# profiles for remotely hosted web browsers on the SauceLabs service
+#==============
+
+saucelabs:  WEB_BROWSER=saucelabs SL_USERNAME="<INSERT USER NAME HERE>" SL_AUTHKEY="<INSERT PASSWORD HERE>" DATA_CENTER="us-west-1" AUTOMATE_PROJECT="TC_Web_Sample - SauceLabs"
+sl_desktop: --profile saucelabs <%= desktop %>
+sl_mobile:  --profile saucelabs <%= mobile %>
+
+# SauceLabs macOS desktop browser profiles
+sl_macos_monterey:  --profile sl_desktop SL_OS="macOS 12" RESOLUTION="1920x1440"
+sl_chrome_monterey: --profile sl_macos_monterey SL_BROWSER="chrome" SL_VERSION="latest"
+sl_edge_monterey:   --profile sl_macos_monterey SL_BROWSER="MicrosoftEdge" SL_VERSION="latest"
+sl_firefox_monterey: --profile sl_macos_monterey SL_BROWSER="Firefox" SL_VERSION="latest"
+
+# SauceLabs Windows desktop browser profiles
+sl_windows:    --profile sl_desktop RESOLUTION="1920x1200"
+sl_edge_win11: --profile sl_windows SL_OS="Windows 11" SL_BROWSER="MicrosoftEdge" SL_VERSION="latest"
+sl_ie_win10:   --profile sl_windows SL_OS="Windows 10" SL_BROWSER="internet explorer" SL_VERSION="11"
+
+# SauceLabs iOS mobile browser profiles
+sl_ipad:        --profile sl_mobile DEVICE_TYPE=tablet SL_PLATFORM=iOS SL_BROWSER=Safari
+sl_ipad_pro_12: --profile sl_ipad SL_DEVICE="iPad Pro (12.9 inch) (5th generation) Simulator" SL_VERSION="15.0"

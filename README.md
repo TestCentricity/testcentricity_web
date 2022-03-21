@@ -239,7 +239,7 @@ the UI to hide implementation details, as shown below:
             remember_checkbox    => { exists: true, enabled: true, checked: false },
             forgot_password_link => { visible: true, caption: 'Forgot your password?' },
             error_message_label  => { visible: false }
-            }
+        }
         verify_ui_states(ui)
       end
     end
@@ -282,7 +282,7 @@ the UI to hide implementation details, as shown below:
                    password_field      => profile.password,
                    pword_confirm_field => profile.confirm_password,
                    email_opt_in_check  => profile.email_opt_in
-          }
+        }
         populate_data_fields(fields)
         sign_up_button.click
       end
@@ -503,6 +503,7 @@ With TestCentricity, all UI elements are based on the `UIElement` class, and inh
     element.displayed?
     element.obscured?
     element.focused?
+    element.required?
     element.content_editable?
     element.get_value
     element.count
@@ -569,9 +570,10 @@ interacted with.
 
 The `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods support the entry of test data into a collection of
 `UIElements`. The `populate_data_fields` method accepts a hash containing key/hash pairs of `UIElements` and their associated data to be
-entered. Data values must be in the form of a `String` for `textfield` and `selectlist` controls. For `checkbox` and `radio` controls, data
-must either be a `Boolean` or a `String` that evaluates to a `Boolean` value (Yes, No, 1, 0, true, false). For `section` objects, data values
-must be a `String`, and the `section` object must have a `set` method defined.
+entered. Data values must be in the form of a `String` for `textfield`, `selectlist`, and `filefield` controls. For `checkbox` and `radio`
+controls, data must either be a `Boolean` or a `String` that evaluates to a `Boolean` value (Yes, No, 1, 0, true, false). For `range` controls,
+data must be an `Integer`. For `input(type='color')` color picker controls, which are specified as a `textfield`, data must be in the form
+of a hex color `String`. For `section` objects, data values must be a `String`, and the `section` object must have a `set` method defined.
 
 The `populate_data_fields` method verifies that data attributes associated with each `UIElement` is not `nil` or `empty` before attempting to
 enter data into the `UIElement`.
@@ -636,6 +638,12 @@ The `verify_ui_states` method supports the following property/state pairs:
     :attribute         Hash
     :style             String
     :tabindex          Integer
+    :required          Boolean
+
+**Pages:**
+
+    :secure Boolean
+    :title  String
 
 **Text Fields:**
 
@@ -1820,7 +1828,7 @@ in landscape orientation:
     cucumber -p ipad_pro -p landscape
 
 
-The following command specifies that Cucumber will run tests against an iPad Pro (12.9-inch) (5th generation) with iOS version 15.2 in an
+The following command specifies that Cucumber will run tests against an iPad Pro (12.9-inch) (5th generation) with iOS version 15.4 in an
 XCode Simulator in landscape orientation:
     
     cucumber -p ipad_pro_12_15_sim -p landscape

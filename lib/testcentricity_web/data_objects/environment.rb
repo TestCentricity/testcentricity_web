@@ -328,6 +328,10 @@ module TestCentricity
       @platform = platform
     end
 
+    def self.platform
+      @platform
+    end
+
     def self.is_mobile?
       @platform == :mobile
     end

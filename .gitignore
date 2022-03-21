@@ -18,3 +18,21 @@ Thumbs.db
 
 # rspec failure tracking
 .rspec_status
+
+# Ignore test-reports
+reports/*.html
+reports/*.xml
+reports/*.json
+reports/screenshots/
+test-reports
+capybara-*.html
+debug.log
+
+BrowserStackLocal
+cbttunnel.jar
+
+/.yardoc/
+/local.log
+.run/*.xml
+
+echo coverage >> .gitignore

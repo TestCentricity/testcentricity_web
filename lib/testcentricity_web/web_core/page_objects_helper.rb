@@ -6,6 +6,26 @@ module TestCentricity
     include Capybara::Node::Matchers
     include Test::Unit::Assertions
 
+    attr_accessor :locator_type
+
+    XPATH_SELECTORS = ['//', '[@', '[contains(']
+    CSS_SELECTORS   = ['#', ':nth-child(', ':first-child', ':last-child', ':nth-of-type(', ':first-of-type', ':last-of-type', '^=', '$=', '*=', ':contains(']
+
+    def set_locator_type(locator = nil)
+      locator = @locator if locator.nil?
+      is_xpath = XPATH_SELECTORS.any? { |selector| locator.include?(selector) }
+      is_css = CSS_SELECTORS.any? { |selector| locator.include?(selector) }
+      @locator_type = if is_xpath && !is_css
+                        :xpath
+                      elsif is_css && !is_xpath
+                        :css
+                      elsif !is_css && !is_xpath
+                        :css
+                      else
+                        :css
+                      end
+    end
+
     # Define a trait for this page or section object.
     #
     # @param trait_name [Symbol] name of trait (as a symbol)
@@ -31,6 +51,8 @@ module TestCentricity
                      ui_object.get_attribute(:name)
                    when :title
                      ui_object.title
+                   when :secure
+                     ui_object.secure?
                    when :exists
                      ui_object.exists?
                    when :enabled
@@ -63,6 +85,8 @@ module TestCentricity
                      ui_object.indeterminate?
                    when :value, :caption
                      ui_object.get_value
+                   when :required
+                     ui_object.required?
                    when :maxlength
                      ui_object.get_max_length
                    when :rowcount
@@ -241,8 +265,11 @@ module TestCentricity
     end
 
     # Populate the specified UI elements on this page or section object with the associated data from a Hash passed as an
-    # argument. Data values must be in the form of a String for textfield and selectlist controls. For checkbox and radio
-    # buttons, data must either be a Boolean or a String that evaluates to a Boolean value (Yes, No, 1, 0, true, false).
+    # argument. Data values must be in the form of a String for textfield, selectlist, and filefield controls. For checkbox
+    # and radio buttons, data must either be a Boolean or a String that evaluates to a Boolean value (Yes, No, 1, 0, true,
+    # false). For range controls, data must be an Integer. For input(type='color') color picker controls, which are specified
+    # as a textfield, data must be in the form of a hex color String. For section objects, data values must be a String, and
+    # the section object must have a set method defined.
     #
     # The optional wait_time parameter is used to specify the time (in seconds) to wait for each UI element to become
     # visible before entering the associated data value. This option is useful in situations where entering data, or
@@ -285,14 +312,20 @@ module TestCentricity
               check_state = data_param.is_a?(String) ? data_param.to_bool : data_param
               data_field.set_selected_state(check_state)
             when :textfield
-              data_field.set("#{data_param}\t")
-              if integrity_check && data_field.get_value != data_param
-                data_field.set('')
-                data_field.send_keys(data_param)
-                data_field.send_keys(:tab)
+              if data_field.get_attribute(:type) == 'color'
+                data_field.set(data_param)
+              else
+                data_field.set("#{data_param}\t")
+                if integrity_check && data_field.get_value != data_param
+                  data_field.set('')
+                  data_field.send_keys(data_param)
+                  data_field.send_keys(:tab)
+                end
               end
-            when :section
+            when :section, :range
               data_field.set(data_param)
+            when :filefield
+              data_field.file_upload(data_param)
             end
           end
         end

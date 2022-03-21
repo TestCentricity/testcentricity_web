@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Basic HTML Form</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            font-size: 15px;
+            border-collapse: collapse;
+            width: 85%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+    </style>
+</head>
+    <body>
+        <div class="page-body">
+            <h1>Basic HTML Form Example</h1>
+            <div class="centered">
+                <form name="HTMLFormElements" id="HTMLFormElements">
+                    <table border="1" cellpadding="5">
+                        <tr>
+                            <td>
+                                <table>
+                                    <label id="inputs">Inputs:</label>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label for="username">Username:</label>
+                                                <input type="text" id="username" name="username" placeholder="User name" required>
+                                            </td>
+                                            <td>
+                                                <label for="password">Password:</label>
+                                                <input type="password" id="password" name="password" placeholder="Password" required>
+                                            </td>
+                                            <td>
+                                                <label for="maxlength">Max Length:</label>
+                                                <input type="text" id="maxlength" name="maxlength" placeholder="up to 64 characters" maxlength="64">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label for="readonly">Read Only:</label>
+                                                <input type="text" id="readonly" name="readonly" value="I am a read only text field" readonly>
+                                            </td>
+                                            <td>
+                                                <label for="number-field">Number:</label>
+                                                <input id="number-field" type="number" name="number" min="10" max="1024" step="1" value="41">
+                                            </td>
+                                            <td>
+                                                <label for="color-picker">Color: </label>
+                                                <input id="color-picker" type="color" name="color">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label for="slider">Range: </label>
+                                                <input id="slider" type="range" name="slider" min="0" max="50">
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <label for="comments">TextArea:</label>
+                                <textarea id="comments" name="comments" cols="80" rows="3"></textarea>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label for="filename">Filename:</label>
+                                <input type="file" id="filename" name="filename" size="35">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label id="checkboxes">Checkbox Items:</label>
+                                <input type="checkbox" id="check1" name="checkboxes[]" value="cb1" />Checkbox 1
+                                <input type="checkbox" id="check2" name="checkboxes[]" value="cb2" />Checkbox 2
+                                <input type="checkbox" id="check3" name="checkboxes[]" value="cb3" />Checkbox 3
+                                <input type="checkbox" id="check4" name="checkboxes[]" value="cb4" disabled/>Checkbox 4
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label id="radios">Radio Items:</label>
+                                <input type="radio" id="radio1" name="radioval" value="rd1" />radio 1
+                                <input type="radio" id="radio2" name="radioval" value="rd2" />radio 2
+                                <input type="radio" id="radio3" name="radioval" value="rd3" />radio 3
+                                <input type="radio" id="radio4" name="radioval" value="rd4" disabled/>radio 4
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label for="multipleselect">Multiple Select Values:</label>
+                                <select multiple="multiple" id="multipleselect" name="multipleselect" size="4">
+                                    <option value="ms1">Selection Item 1</option>
+                                    <option value="ms2">Selection Item 2</option>
+                                    <option value="ms3">Selection Item 3</option>
+                                    <option value="ms4">Selection Item 4</option>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label for="dropdown">Dropdown:</label>
+                                <select id="dropdown" name="dropdown">
+                                    <option value="dd1">Drop Down Item 1</option>
+                                    <option value="dd2">Drop Down Item 2</option>
+                                    <option value="dd3">Drop Down Item 3</option>
+                                    <option value="dd4">Drop Down Item 4</option>
+                                    <option value="dd5">Drop Down Item 5</option>
+                                    <option value="dd6">Drop Down Item 6</option>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label for="table">Table:</label>
+                                <table id="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Company</th>
+                                            <th>Contact</th>
+                                            <th>Country</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Alfreds Futterkiste</td>
+                                            <td>Maria Anders</td>
+                                            <td>Germany</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Centro comercial Moctezuma</td>
+                                            <td>Francisco Chang</td>
+                                            <td>Mexico</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ernst Handel</td>
+                                            <td>Roland Mendel</td>
+                                            <td>Austria</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Island Trading</td>
+                                            <td>Helen Bennett</td>
+                                            <td>UK</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table>
+                                    <label id="images">Images:</label>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <img id="image1" src="images/Wilder.jpg" alt="It's alive" style="width:225px;height:225px;">
+                                            </td>
+                                            <td>
+                                                <img id="image2" src="images/You_Betcha.jpg" alt="You Betcha" style="width:225px;height:225px;">
+                                            </td>
+                                            <td>
+                                                <img id="image3" src="wrongname.gif" alt="A broken image" style="width:225px;height:225px;">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+
+
+                        <!--                        <tr>-->
+<!--                            <td>-->
+<!--                                <div class="form-label">-->
+<!--                                    <label for="date-picker">Date: </label>-->
+<!--                                    <input id="date-picker" type="date" name="date">-->
+<!--                                </div>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td>-->
+<!--                                <div class="form-label">-->
+<!--                                    <label for="date-time-picker">Local date time:</label>-->
+<!--                                    <input id="date-time-picker" type="datetime-local" name="datetime" value="2018-01-01T01:01">-->
+<!--                                </div>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td>-->
+<!--                                <div class="form-label">-->
+<!--                                    <label for="email-field">Email: </label>-->
+<!--                                    <input id="email-field" type="email" name="email" value="bob@mailinator.com">-->
+<!--                                </div>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td>-->
+<!--                                <div class="form-label">-->
+<!--                                    <label for="month-field">Month: </label>-->
+<!--                                    <input id="month-field" type="month" name="month">-->
+<!--                                </div>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+
+
+                        <tr>
+                            <td>
+                                <input type="reset" id="cancel" name="cancel" value="Cancel" class="styled-click-button">
+                                <input type="submit" id="submit" name="submit" value="Submit" class="styled-click-button">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

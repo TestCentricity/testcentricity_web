@@ -2,6 +2,20 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.1.6] - 18-MAR-2022
+
+### Fixed
+* `PageObject.verify_page_exists` now works with `page_locator` traits expressed in Xpath format, and no longer fails with a
+`invalid selector: An invalid or illegal selector was specified - Selenium::WebDriver::Error::InvalidSelectorError` error.
+
+### Added
+* `UIElement.required?` method added.
+* `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods now work with the following:
+  * `input(type='color')` color picker controls if they are specified as a `textfield` type element.
+  * `input(type='range')` slider controls if they are specified as a `range` type element.
+  * `input(type='file')` file upload controls if they are specified as a `filefield` type element.
+
+
 ## [4.1.5] - 15-MAR-2022
 
 ### Fixed

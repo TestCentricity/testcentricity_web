@@ -1,5 +1,9 @@
 module TestCentricity
   class PageObject < BasePageSectionObject
+    def initialize
+      set_locator_type(page_locator) if defined?(page_locator)
+    end
+
     # Declare and instantiate a single generic UI Element for this page object.
     #
     # @param element_name [Symbol] name of UI object (as a symbol)
@@ -310,17 +314,20 @@ module TestCentricity
     def open_portal
       environment = Environ.current
       url = environment.hostname.blank? ? "#{environment.base_url}#{environment.append}" : "#{environment.hostname}/#{environment.base_url}#{environment.append}"
-      if environment.user_id.blank? || environment.password.blank?
-        visit "#{environment.protocol}://#{url}"
-      else
-        visit "#{environment.protocol}://#{environment.user_id}:#{environment.password}@#{url}"
-      end
+      full_url = if environment.user_id.blank? || environment.password.blank?
+                   "#{environment.protocol}://#{url}"
+                 else
+                   "#{environment.protocol}://#{environment.user_id}:#{environment.password}@#{url}"
+                 end
+      visit full_url
       Environ.portal_state = :open
     end
 
     def verify_page_exists
       raise "Page object #{self.class.name} does not have a page_locator trait defined" unless defined?(page_locator)
-      unless page.has_selector?(page_locator)
+
+      set_locator_type(page_locator) if @locator_type.blank?
+      unless page.has_selector?(@locator_type, page_locator)
         body_class = find(:xpath, '//body')[:class]
         error_message = %(
           Expected page to have selector '#{page_locator}' but found '#{body_class}' instead.

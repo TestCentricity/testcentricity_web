@@ -5,10 +5,6 @@ module TestCentricity
     attr_accessor :parent
     attr_accessor :parent_list
     attr_accessor :list_index
-    attr_accessor :locator_type
-
-    XPATH_SELECTORS = ['//', '[@', '[contains(']
-    CSS_SELECTORS   = ['#', ':nth-child(', ':first-child', ':last-child', ':nth-of-type(', ':first-of-type', ':last-of-type', '^=', '$=', '*=', ':contains(']
 
     def initialize(name, parent, locator, context)
       @name         = name
@@ -17,18 +13,7 @@ module TestCentricity
       @context      = context
       @parent_list  = nil
       @list_index   = nil
-
-      is_xpath = XPATH_SELECTORS.any? { |selector| @locator.include?(selector) }
-      is_css = CSS_SELECTORS.any? { |selector| @locator.include?(selector) }
-      @locator_type = if is_xpath && !is_css
-                        :xpath
-                      elsif is_css && !is_xpath
-                        :css
-                      elsif !is_css && !is_xpath
-                        :css
-                      else
-                        :css
-                      end
+      set_locator_type
     end
 
     def get_locator
