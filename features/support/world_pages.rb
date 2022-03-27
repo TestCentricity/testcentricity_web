@@ -7,6 +7,9 @@ module WorldPages
     {
       basic_css_test_page:   BasicCSSTestPage,
       basic_xpath_test_page: BasicXpathTestPage,
+      media_test_page:       MediaTestPage,
+      indexed_sections_page: IndexedSectionsPage,
+      custom_controls_page:  CustomControlsPage
     }
   end
 end

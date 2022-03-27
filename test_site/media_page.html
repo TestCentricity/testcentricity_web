@@ -15,19 +15,72 @@
                 text-align: left;
                 padding: 8px;
             }
+            body {
+                margin: 0;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            .topnav {
+                overflow: hidden;
+                background-color: #333;
+            }
+            .topnav a {
+                float: left;
+                color: #f2f2f2;
+                text-align: center;
+                padding: 12px 14px;
+                text-decoration: none;
+                font-size: 15px;
+            }
+            .topnav a:hover {
+                background-color: #ddd;
+                color: black;
+            }
+            .topnav a.active {
+                background-color: #04AA6D;
+                color: white;
+            }
         </style>
     </head>
     <body>
         <div class="media-page-body">
-            <h1>Media Page</h1>
-            <video id="video_player" width="400" controls>
-                <source src="media/MP4_small.mp4" type="video/mp4">
-            </video>
+            <h2>Media Page</h2>
 
-            <audio id="audio_player" controls>
-                <source src="media/MPS_sample.mp3" type="audio/mp3">
-            </audio>
+            <div id="nav_bar" class="topnav">
+                <a id="form_link" href="basic_test_page.html">Basic HTML Form</a>
+                <a id="media_link" class="active" href="#">Media</a>
+                <a id="indexed_sections_link" href="indexed_sections_page.html">Indexed Sections</a>
+                <a id="custom_controls_link" href="custom_controls_page.html">Custom Controls</a>
+            </div>
 
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <label id="video">Video:</label>
+                            <video id="video_player" width="400" controls>
+                                <source src="media/count_and_bars.mp4" type="video/mp4">
+                            </video>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label id="audio">Audio:</label>
+                            <audio id="audio_player" controls>
+                                <source src="media/MPS_sample.mp3" type="audio/mp3">
+                            </audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label id="video2">Video with Captions:</label>
+                            <video id="video_player2" width="400" controls>
+                                <source src="media/MIB2.mp4" type="video/mp4">
+                                <track src="media/MIB2-subtitles-pt-BR.vtt" kind="subtitles" srclang="pt" label="Portuguese" default>
+                            </video>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </body>
 </html>

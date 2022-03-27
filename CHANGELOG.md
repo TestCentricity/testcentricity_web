@@ -2,6 +2,25 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.1.7] - 28-MAR-2022
+
+### Fixed
+* `CheckBox.set_checkbox_state` and `Radio.set_selected_state` work on iOS simulators again.
+
+### Changes
+* `Audio.playback_rate` and `Video.playback_rate` now return value as a `Float` instead of a `String`.
+* `Audio.default_playback_rate` and `Video.default_playback_rate` now return value as a `Float` instead of a `String`.
+* `Audio.current_time` and `Video.current_time` now return value as a `Float` rounded to two decimal places.
+* `Audio.duration` and `Video.duration` now return value as a `Float` rounded to two decimal places.
+
+### Added
+* `Audio.mute` and `Video.mute` methods added.
+* `Audio.unmute` and `Video.unmute` methods added.
+* `Audio.playback_rate` and `Video.playback_rate` now accept a `Float` value as an input for setting the playback rate
+  of media.
+* `Audio.volume` and `Video.volume` now accept a `Float` value between 0 and 1 as an input for setting the volume of media.
+
+
 ## [4.1.6] - 21-MAR-2022
 
 ### Fixed

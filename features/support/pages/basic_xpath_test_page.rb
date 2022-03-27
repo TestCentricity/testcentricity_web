@@ -12,8 +12,8 @@ class BasicXpathTestPage < BasicTestPage
               number_field:      "//input[@id='number-field']",
               comments_field:    "//textarea[@id='comments']",
               color_picker:      "//input[@id='color-picker']"
-  range       :slider,           "//input[@id='slider']"
-  filefield   :upload_file,      "//input[@id='filename']"
+  ranges      slider:            "//input[@id='slider']"
+  filefields  upload_file:       "//input[@id='filename']"
   checkboxes  check_1:           "//input[@id='check1']",
               check_2:           "//input[@id='check2']",
               check_3:           "//input[@id='check3']",
@@ -24,13 +24,16 @@ class BasicXpathTestPage < BasicTestPage
               radio_4:           "//input[@id='radio4']"
   selectlists multi_select:      "//select[@id='multipleselect']",
               drop_down_select:  "//select[@id='dropdown']"
-  table       :static_table,     "//table[@id='table']"
+  links       link_1:            "//a[@id='link1']",
+              link_2:            "//a[@id='link2']",
+              link_3:            "//a[@id='link3']"
+  tables      static_table:      "//table[@id='table']"
   images      image_1:           "//img[@id='image1']",
               image_2:           "//img[@id='image2']",
               image_3:           "//img[@id='image3']"
   buttons     cancel_button:     "//input[@id='cancel']",
               submit_button:     "//input[@id='submit']"
-  labels      header_label:      '//h1',
+  labels      header_label:      '//h2',
               username_label:    "//label[@for='username']",
               password_label:    "//label[@for='password']",
               max_length_label:  "//label[@for='maxlength']",
@@ -44,6 +47,7 @@ class BasicXpathTestPage < BasicTestPage
               radios_label:      "//label[@id='radios']",
               multiselect_label: "//label[@for='multipleselect']",
               dropdown_label:    "//label[@for='dropdown']",
+              link_label:        "//label[@id='links']",
               table_label:       "//label[@for='table']",
               images_label:      "//label[@id='images']"
 end

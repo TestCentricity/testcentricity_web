@@ -35,3 +35,10 @@ end
 Then(/^I expect the tab order to be correct$/) do
   PageManager.current_page.verify_tab_order
 end
+
+
+When(/^I click the (.*) navigation (?:tab|link)$/) do |page_name|
+  # find and navigate to the specified target page
+  target_page = PageManager.find_page(page_name)
+  target_page.navigate_to
+end

@@ -71,6 +71,7 @@ module TestCentricity
     @screen_shots = []
 
     attr_accessor :test_environment
+    attr_accessor :app_host
     attr_accessor :browser
     attr_accessor :browser_size
     attr_accessor :headless
@@ -133,7 +134,18 @@ module TestCentricity
       @db_username   = data['DB_USERNAME']
       @db_password   = data['DB_PASSWORD']
 
+      url = @hostname.blank? ? "#{@base_url}#{@append}" : "#{@hostname}/#{@base_url}#{@append}"
+      @app_host = if @user_id.blank? || @password.blank?
+                    "#{@protocol}://#{url}"
+                  else
+                    "#{@protocol}://#{@user_id}:#{@password}@#{url}"
+                  end
+
       super
+    end
+
+    def self.app_host
+      @app_host
     end
 
     def self.session_code

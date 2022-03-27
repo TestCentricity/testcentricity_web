@@ -12,8 +12,8 @@ class BasicCSSTestPage < BasicTestPage
               number_field:      'input#number-field',
               color_picker:      'input#color-picker',
               comments_field:    'textarea#comments'
-  range       :slider,           'input#slider'
-  filefield   :upload_file,      'input#filename'
+  ranges      slider:            'input#slider'
+  filefields  upload_file:       'input#filename'
   checkboxes  check_1:           'input#check1',
               check_2:           'input#check2',
               check_3:           'input#check3',
@@ -24,14 +24,16 @@ class BasicCSSTestPage < BasicTestPage
               radio_4:           'input#radio4'
   selectlists multi_select:      'select#multipleselect',
               drop_down_select:  'select#dropdown'
-  table       :static_table,     'table#table'
+  links       link_1:            'a#link1',
+              link_2:            'a#link2',
+              link_3:            'a#link3'
+  tables      static_table:      'table#table'
   images      image_1:           'img#image1',
               image_2:           'img#image2',
               image_3:           'img#image3'
   buttons     cancel_button:     'input#cancel',
               submit_button:     'input#submit'
-  labels      header_label:      'h1',
-              username_label:    "label[for='username']",
+  labels      username_label:    "label[for='username']",
               password_label:    "label[for='password']",
               max_length_label:  "label[for='maxlength']",
               read_only_label:   "label[for='readonly']",
@@ -44,6 +46,7 @@ class BasicCSSTestPage < BasicTestPage
               radios_label:      'label#radios',
               multiselect_label: "label[for='multipleselect']",
               dropdown_label:    "label[for='dropdown']",
+              link_label:        'label#links',
               table_label:       "label[for='table']",
               images_label:      'label#images'
 end

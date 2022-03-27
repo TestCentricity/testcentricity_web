@@ -112,11 +112,10 @@ module TestCentricity
       object_not_found_exception(obj, 'Checkbox')
       invalid_object_type_exception(obj, 'checkbox')
       if @proxy.nil?
-        if obj.native.attribute('ot') == 'JCheckBox'
-          expected = state.to_bool
-          obj.click unless expected == obj.checked?
-        else
+        begin
           obj.set(state)
+        rescue
+          obj.click unless state == obj.checked?
         end
       else
         page.find(:css, @proxy).click unless state == obj.checked?

@@ -15,11 +15,44 @@
             text-align: left;
             padding: 8px;
         }
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+        }
+        .topnav a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 12px 14px;
+            text-decoration: none;
+            font-size: 15px;
+        }
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .topnav a.active {
+            background-color: #04AA6D;
+            color: white;
+        }
     </style>
 </head>
     <body>
         <div class="page-body">
-            <h1>Basic HTML Form Example</h1>
+            <h2>Basic HTML Form Example</h2>
+
+            <div id="nav_bar" class="topnav">
+                <a id="form_link" class="active" href="#">Basic HTML Form</a>
+                <a id="media_link" href="media_page.html">Media</a>
+                <a id="indexed_sections_link" href="indexed_sections_page.html">Indexed Sections</a>
+                <a id="custom_controls_link" href="custom_controls_page.html">Custom Controls</a>
+            </div>
+
+
             <div class="centered">
                 <form name="HTMLFormElements" id="HTMLFormElements">
                     <table border="1" cellpadding="5">
@@ -129,6 +162,23 @@
                                     <option value="dd5">Drop Down Item 5</option>
                                     <option value="dd6">Drop Down Item 6</option>
                                 </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label id="links">Links:</label>
+                                <ul>
+                                    <li>
+                                        <a id="link1" href="media_page.html">Open Media Page in same window/tab</a>
+                                    </li>
+                                    <li>
+                                        <a id="link2" href="media_page.html" target="_blank">Open Media Page in a new window/tab</a>
+                                    </li>
+                                    <li>
+                                        <a id="link3" role="link" aria-disabled="true">Disabled Link</a>
+                                    </li>
+                                </ul>
                             </td>
                         </tr>
 

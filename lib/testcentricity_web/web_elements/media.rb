@@ -125,7 +125,7 @@ module TestCentricity
     def current_time
       obj, = find_element(visible = :all)
       object_not_found_exception(obj, @type)
-      obj.native.attribute('currentTime').to_f
+      obj.native.attribute('currentTime').to_f.round(2)
     end
 
     # Return media defaultPlaybackRate property
@@ -137,7 +137,7 @@ module TestCentricity
     def default_playback_rate
       obj, = find_element(visible = :all)
       object_not_found_exception(obj, @type)
-      obj.native.attribute('defaultPlaybackRate')
+      obj.native.attribute('defaultPlaybackRate').to_f
     end
 
     # Return media duration property
@@ -149,7 +149,7 @@ module TestCentricity
     def duration
       obj, = find_element(visible = :all)
       object_not_found_exception(obj, @type)
-      obj.native.attribute('duration').to_f
+      obj.native.attribute('duration').to_f.round(2)
     end
 
     # Return media playbackRate property
@@ -161,7 +161,7 @@ module TestCentricity
     def playback_rate
       obj, = find_element(visible = :all)
       object_not_found_exception(obj, @type)
-      obj.native.attribute('playbackRate')
+      obj.native.attribute('playbackRate').to_f
     end
 
     # Return media readyState property
@@ -245,6 +245,52 @@ module TestCentricity
       obj, = find_element(visible = :all)
       object_not_found_exception(obj, @type)
       page.execute_script('arguments[0].pause()', obj)
+    end
+
+    # Mute the media's audio
+    #
+    # @example
+    #   media_player.mute
+    #
+    def mute
+      obj, = find_element(visible = :all)
+      object_not_found_exception(obj, @type)
+      page.execute_script('arguments[0].muted = true;', obj)
+    end
+
+    # Unmute the media's audio
+    #
+    # @example
+    #   media_player.unmute
+    #
+    def unmute
+      obj, = find_element(visible = :all)
+      object_not_found_exception(obj, @type)
+      page.execute_script('arguments[0].muted = false;', obj)
+    end
+
+    # Set the media playbackRate property
+    #
+    # @param value [Float]
+    # @example
+    #   media_player.playback_rate = 1.5
+    #
+    def playback_rate=(value)
+      obj, = find_element(visible = :all)
+      object_not_found_exception(obj, @type)
+      page.execute_script('arguments[0].playbackRate = arguments[1]', obj, value)
+    end
+
+    # Set the media volume property
+    #
+    # @param value [Float] between 0 and 1
+    # @example
+    #   media_player.volume = 0.5
+    #
+    def volume=(value)
+      obj, = find_element(visible = :all)
+      object_not_found_exception(obj, @type)
+      page.execute_script('arguments[0].volume = arguments[1]', obj, value)
     end
 
     # Return media crossorigin property

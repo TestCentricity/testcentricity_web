@@ -101,7 +101,11 @@ module TestCentricity
       object_not_found_exception(obj, 'Radio')
       invalid_object_type_exception(obj, 'radio')
       if @proxy.nil?
-        obj.set(state)
+        begin
+          obj.set(state)
+        rescue
+          obj.click unless state == obj.checked?
+        end
       else
         page.find(:css, @proxy).click unless state == obj.checked?
       end

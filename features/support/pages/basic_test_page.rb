@@ -1,8 +1,40 @@
 # Page Object class definition for Basic HTML Test page
 
-class BasicTestPage < TestCentricity::PageObject
+class BasicTestPage < BaseTestPage
   trait(:page_url)         { '/basic_test_page.html' }
+  trait(:navigator)        { header_nav.open_form_page }
   trait(:tab_order)        {
+    [
+      header_nav.form_link,
+      header_nav.media_link,
+      header_nav.indexed_sections_link,
+      header_nav.custom_controls_link,
+      username_field,
+      password_field,
+      max_length_field,
+      read_only_field,
+      number_field,
+      color_picker,
+      slider,
+      comments_field,
+      upload_file,
+      check_1,
+      check_2,
+      check_3,
+      radio_1,
+      [
+        radio_2,
+        radio_3
+      ],
+      multi_select,
+      drop_down_select,
+      link_1,
+      link_2,
+      cancel_button,
+      submit_button
+    ]
+  }
+  trait(:firefox_order)    {
     [
       username_field,
       password_field,
@@ -112,6 +144,22 @@ class BasicTestPage < TestCentricity::PageObject
         options: ['Drop Down Item 1', 'Drop Down Item 2', 'Drop Down Item 3', 'Drop Down Item 4', 'Drop Down Item 5', 'Drop Down Item 6'],
         selected: 'Drop Down Item 1'
       },
+      link_label        => { visible: true, caption: 'Links:' },
+      link_1            => {
+        visible: true,
+        href: { ends_with: 'media_page.html' },
+        caption: 'Open Media Page in same window/tab'
+      },
+      link_2            => {
+        visible: true,
+        href: { ends_with: 'media_page.html' },
+        caption: 'Open Media Page in a new window/tab'
+      },
+      link_3            => {
+        visible: true,
+        aria_disabled: true,
+        caption: 'Disabled Link'
+      },
       table_label       => { visible: true, caption: 'Table:' },
       static_table      => {
         visible: true,
@@ -149,22 +197,30 @@ class BasicTestPage < TestCentricity::PageObject
   end
 
   def form_data
-    file_path = Environ.platform == :mobile ? nil : "#{Dir.pwd}/test_site/images/Wilder.jpg"
+    if Environ.platform == :mobile
+      file_path = nil
+      file_name = ''
+      color_value = '#000000'
+    else
+      file_path = "#{Dir.pwd}/test_site/images/Wilder.jpg"
+      file_name = 'Wilder.jpg'
+      color_value = Faker::Color.hex_color
+    end
     {
       username:     Faker::Name.name,
       password:     'T0p_Sekrit',
       maxlength:    Faker::Marketing.buzzwords,
       number:       Faker::Number.between(from: 10, to: 1024),
-      color:        Faker::Color.hex_color,
-      slider:       45,
+      color:        color_value,
+      slider:       50,
       comments:     Faker::Hipster.paragraph,
       filepath:     file_path,
-      filename:     "Wilder.jpg",
+      filename:     file_name,
       check1:       true,
       check2:       true,
       check3:       false,
-      radio1:       true,
-      radio2:       false,
+      radio1:       false,
+      radio2:       true,
       radio3:       false,
       multi_select: 'Selection Item 2',
       drop_select:  'Drop Down Item 5'
@@ -228,8 +284,11 @@ class BasicTestPage < TestCentricity::PageObject
   end
 
   def verify_tab_order
-    order = if Environ.browser == :safari
+    order = case Environ.browser
+            when :safari
               safari_tab_order
+            when :firefox
+              firefox_order
             else
               tab_order
             end

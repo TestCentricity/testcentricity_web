@@ -1,0 +1,12 @@
+{
+  "Environments": {
+    "LOCAL": {
+      "PROTOCOL": "file",
+      "BASE_URL": "/../../test_site"
+    },
+    "REMOTE": {
+      "PROTOCOL": "http",
+      "BASE_URL": "192.168.1.129/test_site"
+    }
+  }
+}

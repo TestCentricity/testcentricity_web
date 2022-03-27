@@ -22,3 +22,14 @@ Feature: Basic HTML Test Page using CSS locators
     Then I expect the form fields to be correctly populated
     When I cancel my changes
     Then I expect the Basic CSS Test page to be correctly displayed
+
+
+  Scenario Outline:  Verify functionality of navigation tabs
+    When I click the <target_page> navigation tab
+    Then I expect the <target_page> page to be correctly displayed
+
+    Examples:
+      |target_page      |
+      |Media Test       |
+      |Indexed Sections |
+      |Custom Controls  |

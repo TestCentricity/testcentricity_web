@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    testcentricity_web (4.1.6)
+    testcentricity_web (4.1.7)
       appium_lib
       browserstack-local
       capybara (>= 3.1, < 4)
@@ -50,7 +50,7 @@ GEM
     chronic (0.10.2)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
-    concurrent-ruby (1.1.9)
+    concurrent-ruby (1.1.10)
     cucumber (7.1.0)
       builder (~> 3.2, >= 3.2.4)
       cucumber-core (~> 10.1, >= 10.1.0)
