@@ -2,12 +2,23 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.1.8] - 31-MAR-2022
+
+### Fixed
+* `Image.loaded?` now correctly returns a `Boolean` value instead of a `String`.
+* `Video.video_height` and `Video.video_width` now correctly returns an `Integer` value instead of a `String`.
+* `UIElement.scroll_to` now works for all supported browsers.
+
+### Changed
+* `UIElement.crossorigin` is no longer limited to `Audio` and `Video` objects.
+
+
 ## [4.1.7] - 28-MAR-2022
 
 ### Fixed
 * `CheckBox.set_checkbox_state` and `Radio.set_selected_state` work on iOS simulators again.
 
-### Changes
+### Changed
 * `Audio.playback_rate` and `Video.playback_rate` now return value as a `Float` instead of a `String`.
 * `Audio.default_playback_rate` and `Video.default_playback_rate` now return value as a `Float` instead of a `String`.
 * `Audio.current_time` and `Video.current_time` now return value as a `Float` rounded to two decimal places.

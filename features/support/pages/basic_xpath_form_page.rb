@@ -1,7 +1,7 @@
-# Page Object class definition for Basic HTML Test page with Xpath locators
+# Page Object class definition for Basic HTML Form page with Xpath locators
 
-class BasicXpathTestPage < BasicTestPage
-  trait(:page_name)    { 'Basic Xpath Test' }
+class BasicXpathFormPage < BasicFormPage
+  trait(:page_name)    { 'Basic Xpath Form' }
   trait(:page_locator) { "//form[@id='HTMLFormElements']" }
 
   # Basic HTML Test page UI elements

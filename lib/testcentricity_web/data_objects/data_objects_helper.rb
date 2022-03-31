@@ -52,6 +52,7 @@ module TestCentricity
       @current = current
     end
 
+# :nocov:
     def to_hash(node_name = nil)
       data = {}
       if node_name.nil?
@@ -79,9 +80,12 @@ module TestCentricity
     def write_json_data(file_name, mode, node_name = nil)
       File.open(file_name, mode) { |file| file.write(to_json(node_name)) }
     end
+
+# :nocov:
   end
 
 
+# :nocov:
   class DataSource
     attr_accessor :file_path
     attr_accessor :node
@@ -135,6 +139,7 @@ module TestCentricity
       result.to_s
     end
   end
+# :nocov:
 
 
   class ExcelDataSource < TestCentricity::DataSource
@@ -159,6 +164,7 @@ module TestCentricity
       ExcelData.read_row_data(pick_excel_data_source(sheet, @row_spec), sheet, @row_spec)
     end
 
+    # :nocov:
     def read_excel_pool_data(sheet, row_name, parallel = false)
       @row_spec = parallel == :parallel && ENV['PARALLEL'] ? "#{row_name}#{ENV['TEST_ENV_NUMBER']}" : row_name
       ExcelData.read_row_from_pool(pick_excel_data_source(sheet, row_name), sheet, @row_spec)
@@ -173,6 +179,7 @@ module TestCentricity
       @row_spec = parallel == :parallel && ENV['PARALLEL'] ? "#{row_name}#{ENV['TEST_ENV_NUMBER']}" : row_name
       ExcelData.write_row_data(pick_excel_data_source(sheet, @row_spec), sheet, @row_spec, row_data)
     end
+    # :nocov:
   end
 end
 

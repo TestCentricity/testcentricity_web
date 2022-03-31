@@ -42,3 +42,68 @@ When(/^I click the (.*) navigation (?:tab|link)$/) do |page_name|
   target_page = PageManager.find_page(page_name)
   target_page.navigate_to
 end
+
+
+Then(/^I should (?:see|be on) the (.*) page$/) do |page_name|
+  # find and verify that the specified target page is loaded
+  target_page = PageManager.find_page(page_name)
+  target_page.verify_page_exists
+end
+
+
+Then(/^I expect the (.*) page to be correctly displayed in a new browser tab$/) do |page_name|
+  Browsers.switch_to_new_browser_instance
+  Environ.set_external_page(true)
+  TestCentricity::WebDriverConnect.initialize_browser_size if Environ.headless
+  # find and verify that the specified target page is loaded
+  target_page = PageManager.find_page(page_name)
+  target_page.verify_page_exists
+  # verify that target page is correctly displayed
+  target_page.verify_page_ui
+end
+
+
+When(/^I (?:access|switch to) the new browser tab$/) do
+  Browsers.switch_to_new_browser_instance
+end
+
+
+When(/^I close the current browser window$/) do
+  Browsers.close_current_browser_window
+  # intercept and accept any JavaScript system or browser modals that may appear
+  begin
+    page.driver.browser.switch_to.alert.accept
+    switch_to_new_browser_instance
+  rescue
+  end
+end
+
+
+When(/^I close the previous browser window$/) do
+  Browsers.close_old_browser_instance
+end
+
+
+When(/^I refresh the current page$/) do
+  Browsers.refresh_browser unless Environ.driver == :appium
+end
+
+
+When(/^I navigate back$/) do
+  Browsers.navigate_back
+end
+
+
+When(/^I navigate forward$/) do
+  Browsers.navigate_forward
+end
+
+
+When(/^I delete all cookies$/) do
+  Browsers.delete_all_cookies
+end
+
+
+When(/^I set device orientation to (.*)$/) do |orientation|
+  Browsers.set_device_orientation(orientation.downcase.to_sym)
+end

@@ -18,10 +18,12 @@ module TestCentricity
     def start
       # terminate any currently running Appium Server
       if running?
+        # :nocov:
         system('killall -9 node')
         puts 'Terminating existing Appium Server'
         sleep(5)
         puts 'Appium Server is being restarted'
+        # :nocov:
       else
         puts 'Appium Server is starting'
       end
@@ -56,6 +58,7 @@ module TestCentricity
 
     private
 
+    # :nocov:
     def parameters
       cmd = ['appium']
       @params.each do |key, value|
@@ -64,5 +67,7 @@ module TestCentricity
       end
       cmd
     end
+    # :nocov:
   end
 end
+

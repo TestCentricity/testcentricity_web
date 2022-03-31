@@ -1,7 +1,7 @@
-# Page Object class definition for Basic HTML Test page with CSS locators
+# Page Object class definition for Basic HTML Form page with CSS locators
 
-class BasicCSSTestPage < BasicTestPage
-  trait(:page_name)    { 'Basic CSS Test' }
+class BasicCSSFormPage < BasicFormPage
+  trait(:page_name)    { 'Basic CSS Form' }
   trait(:page_locator) { 'form#HTMLFormElements' }
 
   # Basic HTML Test page UI elements

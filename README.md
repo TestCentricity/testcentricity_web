@@ -505,6 +505,7 @@ With TestCentricity, all UI elements are based on the `UIElement` class, and inh
     element.focused?
     element.required?
     element.content_editable?
+    element.crossorigin
     element.get_value
     element.count
     element.style
@@ -629,6 +630,7 @@ The `verify_ui_states` method supports the following property/state pairs:
     :visible           Boolean
     :hidden            Boolean
     :displayed         Boolean
+    :obscured          Boolean
     :width             Integer
     :height            Integer
     :x                 Integer
@@ -639,6 +641,7 @@ The `verify_ui_states` method supports the following property/state pairs:
     :style             String
     :tabindex          Integer
     :required          Boolean
+    :crossorigin       String
 
 **Pages:**
 
@@ -715,7 +718,6 @@ The `verify_ui_states` method supports the following property/state pairs:
     :playback_rate         Float
     :ready_state           Integer
     :volume                Float
-    :crossorigin           String
     :preload               String
     :poster                String
 

@@ -5,8 +5,8 @@ module WorldPages
   #
   def page_objects
     {
-      basic_css_test_page:   BasicCSSTestPage,
-      basic_xpath_test_page: BasicXpathTestPage,
+      basic_css_form_page:   BasicCSSFormPage,
+      basic_xpath_form_page: BasicXpathFormPage,
       media_test_page:       MediaTestPage,
       indexed_sections_page: IndexedSectionsPage,
       custom_controls_page:  CustomControlsPage

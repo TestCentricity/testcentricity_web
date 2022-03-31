@@ -49,12 +49,38 @@ namespace :features do
     t.profile = 'ios_remote'
   end
 
+  Cucumber::Rake::Task.new(:emulated_mobile) do |t|
+    t.profile = 'ipad_pro_12_local'
+  end
 
-  task :required => [:edge_local, :edge_headless, :chrome_local, :chrome_headless, :safari_local]
 
-  task :grid => [:edge_grid, :chrome_grid]
+  task :required => [
+    :edge_local,
+    :edge_headless,
+    :chrome_local,
+    :chrome_headless,
+    :firefox_local,
+    :firefox_headless,
+    :safari_local,
+    :emulated_mobile,
+  ]
+
+  task :grid => [:edge_grid, :chrome_grid, :firefox_grid]
 
   task :mobile => [:ios_remote]
 
-  task :all => [:edge_local, :edge_headless, :chrome_local, :chrome_headless, :safari_local, :edge_grid, :chrome_grid]
+  task :all => [
+    :edge_local,
+    :edge_headless,
+    :chrome_local,
+    :chrome_headless,
+    :firefox_local,
+    :firefox_headless,
+    :safari_local,
+    :edge_grid,
+    :chrome_grid,
+    :firefox_grid,
+    :emulated_mobile,
+    :ios_remote
+  ]
 end

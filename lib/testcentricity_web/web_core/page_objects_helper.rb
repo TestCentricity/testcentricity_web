@@ -65,6 +65,8 @@ module TestCentricity
                      ui_object.hidden?
                    when :displayed
                      ui_object.displayed?
+                   when :obscured
+                     ui_object.obscured?
                    when :focused
                      ui_object.focused?
                    when :width
@@ -312,7 +314,7 @@ module TestCentricity
               check_state = data_param.is_a?(String) ? data_param.to_bool : data_param
               data_field.set_selected_state(check_state)
             when :textfield
-              if data_field.get_attribute(:type) == 'color'
+              if %w[color number].include?(data_field.get_attribute(:type))
                 data_field.set(data_param)
               else
                 data_field.set("#{data_param}\t")

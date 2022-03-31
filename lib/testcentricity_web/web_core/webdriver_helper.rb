@@ -29,10 +29,12 @@ module TestCentricity
       # set downloads folder path
       @downloads_path = "#{Dir.pwd}/downloads"
       if ENV['PARALLEL']
+        # :nocov:
         Environ.parallel = true
         Environ.process_num = ENV['TEST_ENV_NUMBER']
         @downloads_path = "#{@downloads_path}/#{ENV['TEST_ENV_NUMBER']}"
         Dir.mkdir(@downloads_path) unless Dir.exist?(@downloads_path)
+        # :nocov:
       else
         Environ.parallel = false
       end
@@ -50,6 +52,7 @@ module TestCentricity
                 when :appium
                   initialize_appium
                   'Appium'
+                # :nocov:
                 when :browserstack
                   initialize_browserstack
                   'Browserstack cloud service'
@@ -62,6 +65,7 @@ module TestCentricity
                 when :testingbot
                   initialize_testingbot
                   'TestingBot cloud service'
+                # :nocov:
                 else
                   if ENV['SELENIUM'] == 'remote'
                     initialize_remote
@@ -91,11 +95,13 @@ module TestCentricity
     def self.initialize_browser_size
       # tile browser windows if running in multiple parallel threads and BROWSER_TILE environment variable is true
       if ENV['PARALLEL'] && ENV['BROWSER_TILE']
+        # :nocov:
         thread = ENV['TEST_ENV_NUMBER'].to_i
         if thread > 1
           Browsers.set_browser_window_position(100 * thread - 1, 100 * thread - 1)
           sleep(1)
         end
+        # :nocov:
       else
         Browsers.set_browser_window_position(10, 10)
         sleep(1)
@@ -116,6 +122,7 @@ module TestCentricity
       Environ.session_state = :running
     end
 
+    # :nocov:
     def self.close_tunnel
       unless @bs_local.nil?
         @bs_local.stop
@@ -126,6 +133,7 @@ module TestCentricity
         end
       end
     end
+    # :nocov:
 
     private
 
@@ -147,10 +155,12 @@ module TestCentricity
       desired_capabilities[:avd] = ENV['APP_DEVICE'] if Environ.device_os == :android
       desired_capabilities[:automationName] = ENV['AUTOMATION_ENGINE'] if ENV['AUTOMATION_ENGINE']
       if ENV['UDID']
+        # :nocov:
         Environ.device = :device
         desired_capabilities[:udid] = ENV['UDID']
         desired_capabilities[:xcodeOrgId] = ENV['TEAM_ID'] if ENV['TEAM_ID']
         desired_capabilities[:xcodeSigningId] = ENV['TEAM_NAME'] if ENV['TEAM_NAME']
+        # :nocov:
       else
         Environ.device = :simulator
         desired_capabilities[:orientation] = Environ.device_orientation.upcase if Environ.device_orientation
@@ -179,11 +189,13 @@ module TestCentricity
       desired_capabilities[:chromedriverExecutable] = ENV['CHROMEDRIVER_EXECUTABLE'] if ENV['CHROMEDRIVER_EXECUTABLE']
       # set wdaLocalPort (iOS) or systemPort (Android) if PARALLEL_PORT is true
       if ENV['PARALLEL'] && ENV['PARALLEL_PORT']
+        # :nocov:
         if Environ.device_os == :ios
           desired_capabilities[:wdaLocalPort] = 8100 + ENV['TEST_ENV_NUMBER'].to_i
         else
           desired_capabilities[:systemPort] = 8200 + ENV['TEST_ENV_NUMBER'].to_i
         end
+        # :nocov:
       else
         desired_capabilities[:wdaLocalPort] = ENV['WDA_LOCAL_PORT'] if ENV['WDA_LOCAL_PORT']
         desired_capabilities[:systemPort]   = ENV['SYSTEM_PORT'] if ENV['SYSTEM_PORT']
@@ -255,6 +267,7 @@ module TestCentricity
       Capybara.default_driver = :selenium
     end
 
+    # :nocov:
     def self.initialize_browserstack
       browser = ENV['BS_BROWSER']
       Environ.grid = :browserstack
@@ -554,6 +567,7 @@ module TestCentricity
       # configure file_detector for remote uploads if target is desktop web browser
       config_file_uploads unless ENV['TB_PLATFORM']
     end
+    # :nocov:
 
     def self.chrome_edge_options(browser)
       options = case browser
@@ -599,6 +613,7 @@ module TestCentricity
       options
     end
 
+    # :nocov:
     def self.test_context_message
       context_message = if ENV['TEST_CONTEXT']
                           "#{Environ.test_environment.to_s.upcase} - #{ENV['TEST_CONTEXT']}"
@@ -636,5 +651,6 @@ module TestCentricity
         str if File.exist?(str)
       end
     end
+    # :nocov:
   end
 end

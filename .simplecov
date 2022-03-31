@@ -2,4 +2,8 @@
 
 require 'simplecov'
 
-SimpleCov.start
+SimpleCov.start do
+  add_filter '/features/'
+  add_filter '/spec/'
+  merge_timeout 3600
+end

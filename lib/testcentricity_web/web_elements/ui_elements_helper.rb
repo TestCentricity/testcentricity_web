@@ -168,7 +168,7 @@ module TestCentricity
     def scroll_to(position)
       obj, type = find_element
       object_not_found_exception(obj, type)
-      obj.scroll_to(position)
+      page.scroll_to(obj, align: position)
     end
 
     def set(value)
@@ -521,12 +521,13 @@ module TestCentricity
     def get_value(visible = true)
       obj, type = find_element(visible)
       object_not_found_exception(obj, type)
-      case obj.tag_name.downcase
-      when 'input', 'select', 'textarea'
-        obj.value
-      else
-        obj.text
-      end
+      text = case obj.tag_name.downcase
+             when 'input', 'select', 'textarea'
+               obj.value
+             else
+               obj.text
+             end
+      text.gsub(/[[:space:]]+/, ' ').strip
     end
 
     alias get_caption get_value
@@ -996,6 +997,18 @@ module TestCentricity
     def content_editable?
       state = get_attribute('contenteditable')
       state.boolean? ? state : state == 'true'
+    end
+
+    # Return crossorigin property
+    #
+    # @return crossorigin value
+    # @example
+    #   with_creds = media_player.crossorigin == 'use-credentials'
+    #
+    def crossorigin
+      obj, = find_element
+      object_not_found_exception(obj, @type)
+      obj.native.attribute('crossorigin')
     end
 
     def get_attribute(attrib)

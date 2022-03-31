@@ -1,0 +1,11 @@
+Form_data:
+  primary:
+    username: "Ignatius von Snicklefritz"
+    password: "T0p_Sekrit"
+    image_filename: "Wilder.jpg"
+    multi_select: "Selection Item 2"
+    drop_down_item: "Drop Down Item 5"
+    check1: true
+    check2: true
+    check3: false
+    radio_select: 2

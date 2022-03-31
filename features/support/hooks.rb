@@ -182,7 +182,27 @@ end
 
 Around('@!mobile') do |scenario, block|
   if Environ.platform == :mobile
-    log "Scenario '#{scenario.name}' can not be executed on mobile devices or simulators."
+    log "Scenario '#{scenario.name}' is not executed on mobile devices or simulators."
+    skip_this_scenario
+  else
+    block.call
+  end
+end
+
+
+Around('@!headless') do |scenario, block|
+  if Environ.headless
+    log "Scenario '#{scenario.name}' is not executed on headless browsers."
+    skip_this_scenario
+  else
+    block.call
+  end
+end
+
+
+Around('@!firefox_headless') do |scenario, block|
+  if Environ.browser == :firefox_headless
+    log "Scenario '#{scenario.name}' can not be executed on headless Firefox browsers."
     skip_this_scenario
   else
     block.call

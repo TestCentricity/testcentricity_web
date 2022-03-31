@@ -5,25 +5,29 @@ class MediaTestPage < BaseTestPage
   trait(:page_locator) { 'div.media-page-body' }
   trait(:page_url)     { '/media_page.html' }
   trait(:navigator)    { header_nav.open_media_page }
+  trait(:page_title)   { 'Media Page'}
 
   # Media Test page UI elements
-  videos video_player: 'video#video_player'
+  videos video_player_1: 'video#video_player1'
   audios audio_player: 'audio#audio_player'
 
   def verify_page_ui
+    super
+
     preload = case
-            when Environ.browser == :safari || Environ.device_os == :ios
-              'auto'
-            when Environ.browser == :firefox
-              ''
-            else
-              'metadata'
-            end
-    video_player.wait_until_ready_state_is(4, 10)
+              when Environ.browser == :safari
+                'auto'
+              when Environ.device_os == :ios && Environ.driver != :webdriver
+                'auto'
+              when %i[firefox firefox_headless].include?(Environ.browser)
+                ''
+              else
+                'metadata'
+              end
+    video_player_1.wait_until_ready_state_is(4, 10)
+    audio_player.wait_until_ready_state_is(4, 10)
     ui = {
-      self         => { exists: true, secure: false, title: 'Media Page' },
-      header_label => { visible: true, caption: 'Media Page' },
-      video_player => {
+      video_player_1 => {
         visible: true,
         paused: true,
         autoplay: false,
@@ -64,6 +68,14 @@ class MediaTestPage < BaseTestPage
       }
     }
     verify_ui_states(ui)
+    unless Environ.browser == :safari
+      ui = { video_player_1 => {
+          width: video_player_1.video_width,
+          height: video_player_1.video_height
+        }
+      }
+      verify_ui_states(ui)
+    end
   end
 
   def perform_action(media_type, action)
@@ -72,7 +84,7 @@ class MediaTestPage < BaseTestPage
     when :play
       player.play
       player.send_keys(:enter) if player.paused?
-      player.click if player.paused?
+      player.click_at(25, 25) if player.paused?
     when :pause
       player.pause
     when :mute
@@ -175,7 +187,7 @@ class MediaTestPage < BaseTestPage
   def dispatch_player(media_type)
     player = case media_type.downcase.to_sym
              when :video
-               video_player
+               video_player_1
              when :audio
                audio_player
              else
@@ -190,6 +202,7 @@ class MediaTestPage < BaseTestPage
     player.current_time = 0
     player.play
     player.send_keys(:enter) if player.paused?
+    player.click_at(25, 25) if player.paused?
     sleep(1)
   end
 end

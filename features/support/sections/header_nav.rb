@@ -25,4 +25,15 @@ class NavHeader < TestCentricity::PageSection
   def open_custom_controls_page
     custom_controls_link.click
   end
+
+  def verify_nav_bar
+    ui = {
+      self => { exists: true, visible: true, class: 'topnav' },
+      form_link => { visible: true, caption: 'Basic HTML Form' },
+      media_link => { visible: true, caption: 'Media' },
+      indexed_sections_link => { visible: true, caption: 'Indexed Sections' },
+      custom_controls_link => { visible: true, caption: 'Custom Controls' },
+    }
+    verify_ui_states(ui)
+  end
 end

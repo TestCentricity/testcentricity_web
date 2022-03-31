@@ -195,7 +195,7 @@ module TestCentricity
       wait.until { ready_state == value }
     rescue StandardError
       if post_exception
-        raise "Ready state of Audio #{object_ref_message} failed to equal '#{value}' after #{timeout} seconds" unless get_value == value
+        raise "Ready state of media #{object_ref_message} failed to equal '#{value}' after #{timeout} seconds" unless get_value == value
       else
         ready_state == value
       end
@@ -291,18 +291,6 @@ module TestCentricity
       obj, = find_element(visible = :all)
       object_not_found_exception(obj, @type)
       page.execute_script('arguments[0].volume = arguments[1]', obj, value)
-    end
-
-    # Return media crossorigin property
-    #
-    # @return crossorigin value
-    # @example
-    #   with_creds = media_player.crossorigin == 'use-credentials'
-    #
-    def crossorigin
-      obj, = find_element
-      object_not_found_exception(obj, @type)
-      obj.native.attribute('crossorigin')
     end
 
     # Return media preload property

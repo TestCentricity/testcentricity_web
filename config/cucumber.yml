@@ -1,6 +1,5 @@
 <% desktop = "--require features BROWSER_TILE=true BROWSER_SIZE=1300,1000 --publish-quiet" %>
-<% tablet  = "--tags @desktop --require features BROWSER_TILE=true --publish-quiet" %>
-<% mobile    = "--tags @mobile  --require features BROWSER_TILE=true --publish-quiet" %>
+<% mobile  = "--require features BROWSER_TILE=true --publish-quiet" %>
 <% reports = "--require features --format pretty --format html --out reports/test_results.html --format junit --out reports --format json --out reports/test_results.json" %>
 
 
@@ -59,6 +58,14 @@ portrait:  ORIENTATION=portrait
 
 
 #==============
+# profiles for locally hosted mobile web browsers (emulated locally in Chrome browser)
+#==============
+
+ipad_pro_11_local: --profile local WEB_BROWSER=ipad_pro_11 HOST_BROWSER=chrome --profile portrait <%= mobile %>
+ipad_pro_12_local: --profile local WEB_BROWSER=ipad_pro_12_9 HOST_BROWSER=chrome --profile portrait <%= mobile %>
+
+
+#==============
 # profile to start Appium Server prior to running mobile browser tests on iOS or Android simulators or physical devices
 #==============
 run_appium: APPIUM_SERVER=run
@@ -69,7 +76,7 @@ run_appium: APPIUM_SERVER=run
 # NOTE: Requires installation of XCode, iOS version specific target simulators, Appium, and the appium_capybara gem
 #==============
 
-appium_ios: WEB_BROWSER=appium AUTOMATION_ENGINE=XCUITest APP_PLATFORM_NAME="ios" APP_BROWSER="Safari" NEW_COMMAND_TIMEOUT=30 SHOW_SIM_KEYBOARD=false <%= desktop %>
+appium_ios: WEB_BROWSER=appium AUTOMATION_ENGINE=XCUITest APP_PLATFORM_NAME="ios" APP_BROWSER="Safari" NEW_COMMAND_TIMEOUT=30 SHOW_SIM_KEYBOARD=false <%= mobile %>
 app_ios_15: --profile appium_ios APP_VERSION="15.4"
 
 ipad_pro_12_15_sim: --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (12.9-inch) (5th generation)"
@@ -83,7 +90,7 @@ ios_remote: --profile ipad_pro_12_15_sim --profile run_appium ORIENTATION=portra
 # NOTE: Requires installation of Android Studio, Android version specific virtual device simulators, Appium, and the appium_capybara gem
 #==============
 
-appium_android:    WEB_BROWSER=appium APP_PLATFORM_NAME="Android" <%= desktop %>
+appium_android:    WEB_BROWSER=appium APP_PLATFORM_NAME="Android" <%= mobile %>
 app_android_12:    --profile appium_android APP_BROWSER="Chrome" APP_VERSION="12.0"
 pixel_c_api31_sim: --profile app_android_12 DEVICE_TYPE=tablet APP_DEVICE="Pixel_C_API_31"
 

@@ -9,10 +9,10 @@ include TestCentricity
 
 SimpleCov.command_name("features-#{ENV['WEB_BROWSER']}-#{ENV['SELENIUM']}" + (ENV['TEST_ENV_NUMBER'] || ''))
 
-# require_relative 'world_data'
+require_relative 'world_data'
 require_relative 'world_pages'
 
-# require_rel 'data'
+require_rel 'data'
 require_rel 'sections'
 require_rel 'pages'
 
@@ -32,7 +32,7 @@ Faker::Config.locale = ENV['LOCALE']
 include WorldData
 ENV['DATA_SOURCE'] = 'yaml' unless ENV['DATA_SOURCE']
 environs.find_environ(ENV['TEST_ENVIRONMENT'], ENV['DATA_SOURCE'].downcase.to_sym)
-# WorldData.instantiate_data_objects
+WorldData.instantiate_data_objects
 
 # instantiate all page objects
 include WorldPages

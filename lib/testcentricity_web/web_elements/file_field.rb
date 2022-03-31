@@ -5,15 +5,17 @@ module TestCentricity
       @type = :filefield
     end
 
+    def file_upload(file_path)
+      obj, = find_element(visible = false)
+      obj.send_keys(file_path)
+    end
+
+    # :nocov:
+
     def file_attach(file_path)
       Capybara.ignore_hidden_elements = false
       page.attach_file(@locator, file_path)
       Capybara.ignore_hidden_elements = true
-    end
-
-    def file_upload(file_path)
-      obj, = find_element(visible = false)
-      obj.send_keys(file_path)
     end
 
     def drop_files(files)
@@ -41,5 +43,7 @@ module TestCentricity
       # trigger the fake drop event
       page.execute_script(js_script)
     end
+
+    # :nocov:
   end
 end

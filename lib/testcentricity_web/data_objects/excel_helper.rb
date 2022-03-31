@@ -52,6 +52,65 @@ module TestCentricity
       exists
     end
 
+    def self.read_row_data(file, sheet, row_spec, columns = nil)
+      raise "File #{file} does not exists" unless File.exist?(file)
+      work_book  = Spreadsheet.open(file)
+      work_sheet = work_book.worksheet(sheet)
+      # get column headings from row 0 of worksheet
+      headings = work_sheet.row(0)
+      # if row_spec is a string then we have to find a matching row name
+      if row_spec.is_a? String
+        column_number = 0
+        found = false
+        headings.each do |heading|
+          if heading == 'ROW_NAME'
+            found = true
+            break
+          end
+          column_number += 1
+        end
+        raise "Could not find a column named ROW_NAME in worksheet #{sheet}" unless found
+        # find first cell in ROW_NAME column containing a string that matches the row_spec parameter
+        found = false
+        row_number = 0
+        work_sheet.each do |row|
+          if row[column_number] == row_spec
+            found = true
+            break
+          end
+          row_number += 1
+        end
+        raise "Could not find a row named '#{row_spec}' in worksheet #{sheet}" unless found
+        data = work_sheet.row(row_number)
+        # if row_spec is a number then ensure that it doesn't exceed the number of available rows
+      elsif row_spec.is_a? Numeric
+        raise "Row # #{row_spec} is greater than number of rows in worksheet #{sheet}" if row_spec > work_sheet.last_row_index
+        data = work_sheet.row(row_spec)
+      end
+
+      # if no columns have been specified, return all columns
+      columns = headings if columns.nil?
+      # create results hash table
+      result = Hash.new
+      columns.each do |column|
+        column_number = 0
+        found = false
+        headings.each do |heading|
+          if column == heading
+            value = data[column_number].to_s
+            value = calculate_dynamic_value(value) if value.start_with? 'eval!'
+            result[column] = value
+            found = true
+            break
+          end
+          column_number += 1
+        end
+        raise "Could not find a column named '#{column}' in worksheet #{sheet}" unless found
+      end
+      result
+    end
+
+    # :nocov:
     def self.read_row_from_pool(file, sheet, row_spec, columns = nil)
       raise "File #{file} does not exists" unless File.exist?(file)
       work_book  = Spreadsheet.open(file)
@@ -116,64 +175,6 @@ module TestCentricity
       @mru[pool_spec_key] = pool_spec
 
       read_row_data(file, sheet, new_row, columns)
-    end
-
-    def self.read_row_data(file, sheet, row_spec, columns = nil)
-      raise "File #{file} does not exists" unless File.exist?(file)
-      work_book  = Spreadsheet.open(file)
-      work_sheet = work_book.worksheet(sheet)
-      # get column headings from row 0 of worksheet
-      headings = work_sheet.row(0)
-      # if row_spec is a string then we have to find a matching row name
-      if row_spec.is_a? String
-        column_number = 0
-        found = false
-        headings.each do |heading|
-          if heading == 'ROW_NAME'
-            found = true
-            break
-          end
-          column_number += 1
-        end
-        raise "Could not find a column named ROW_NAME in worksheet #{sheet}" unless found
-        # find first cell in ROW_NAME column containing a string that matches the row_spec parameter
-        found = false
-        row_number = 0
-        work_sheet.each do |row|
-          if row[column_number] == row_spec
-            found = true
-            break
-          end
-          row_number += 1
-        end
-        raise "Could not find a row named '#{row_spec}' in worksheet #{sheet}" unless found
-        data = work_sheet.row(row_number)
-        # if row_spec is a number then ensure that it doesn't exceed the number of available rows
-      elsif row_spec.is_a? Numeric
-        raise "Row # #{row_spec} is greater than number of rows in worksheet #{sheet}" if row_spec > work_sheet.last_row_index
-        data = work_sheet.row(row_spec)
-      end
-
-      # if no columns have been specified, return all columns
-      columns = headings if columns.nil?
-      # create results hash table
-      result = Hash.new
-      columns.each do |column|
-        column_number = 0
-        found = false
-        headings.each do |heading|
-          if column == heading
-            value = data[column_number].to_s
-            value = calculate_dynamic_value(value) if value.start_with? 'eval!'
-            result[column] = value
-            found = true
-            break
-          end
-          column_number += 1
-        end
-        raise "Could not find a column named '#{column}' in worksheet #{sheet}" unless found
-      end
-      result
     end
 
     def self.read_range_data(file, sheet, range_spec)
@@ -270,6 +271,6 @@ module TestCentricity
       # rename new Excel document, replacing the original
       File.rename(outfile, file)
     end
+    # :nocov:
   end
 end
-

@@ -4,7 +4,7 @@ module WorldData
   #  by the TestCentricity™ DataManager. Data Object class definitions are contained in the features/support/data folder.
   #
   def data_objects
-    {}
+    { form_data_source: FormDataSource }
   end
 end
 

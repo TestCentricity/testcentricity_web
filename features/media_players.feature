@@ -1,10 +1,7 @@
-
-
-
-Feature: Basic HTML Test Page using CSS locators
-  In order to xxx
-  As a xxxx
-  I expect to xxxx
+Feature: HTML5 Audio/Video Test Page using CSS locators
+  In order to ensure comprehensive support for HTML5 Audio and Video media elements
+  As a developer of the TestCentricity web gem
+  I expect to validate the interaction and verification capabilities of media UI elements
 
 
   Background:

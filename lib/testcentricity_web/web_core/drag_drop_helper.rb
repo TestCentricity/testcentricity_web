@@ -1,3 +1,5 @@
+# :nocov:
+
 module CapybaraExtension
   def drag_by(right_by, down_by)
     base.drag_by(right_by, down_by)
@@ -10,6 +12,8 @@ module CapybaraSeleniumExtension
     driver.browser.action.drag_and_drop_by(native, right_by, down_by).perform
   end
 end
+
+# :nocov:
 
 ::Capybara::Selenium::Node.send :include, CapybaraSeleniumExtension
 ::Capybara::Node::Element.send :include, CapybaraExtension

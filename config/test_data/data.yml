@@ -1,7 +1,3 @@
-# -------------------------------------------------------------
-# This is the generic test data required to run the UAL Flight Booking test suites against the QA and PROD test environments.
-# -------------------------------------------------------------
-
 # This section is populated with Environment data required to execute automated test suites on all supported environments
 Environments:
   LOCAL:
@@ -10,3 +6,15 @@ Environments:
   REMOTE:
     PROTOCOL: "http"
     BASE_URL: "192.168.1.129/test_site"
+
+Form_data:
+  primary:
+    username: "Xavier Snicklefritz"
+    password: "Pa55W0rd"
+    image_filename: "Wilder.jpg"
+    multi_select: "Selection Item 1"
+    drop_down_item: "Drop Down Item 2"
+    check1: true
+    check2: true
+    check3: true
+    radio_select: 3

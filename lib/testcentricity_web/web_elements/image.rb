@@ -14,7 +14,8 @@ module TestCentricity
     def loaded?
       obj, = find_element
       object_not_found_exception(obj, nil)
-      obj.native.attribute('complete')
+      state = obj.native.attribute('complete')
+      state.boolean? ? state : state == 'true'
     end
 
     alias is_loaded? loaded?

@@ -8,4 +8,15 @@ class BaseTestPage < TestCentricity::PageObject
   def navigate_to
     navigator
   end
+
+  def verify_page_ui
+    # verify page title and header
+    ui = {
+      self         => { exists: true, secure: false, title: page_title },
+      header_label => { visible: true, caption: page_title }
+    }
+    verify_ui_states(ui)
+    # verify header navigation bar
+    header_nav.verify_nav_bar
+  end
 end

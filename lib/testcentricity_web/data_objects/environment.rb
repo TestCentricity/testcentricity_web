@@ -396,6 +396,7 @@ module TestCentricity
       @screen_shots = []
     end
 
+    # :nocov:
     def self.report_header
       report_header = "\n<b><u>TEST ENVIRONMENT</u>:</b> #{ENV['TEST_ENVIRONMENT']}\n"\
       "  <b>Browser:</b>\t #{Environ.browser.capitalize}\n"
@@ -411,6 +412,7 @@ module TestCentricity
       report_header = "#{report_header}  <b>WCAG Accessibility Standard:</b>\t #{ENV['ACCESSIBILITY_STANDARD']}\n" if ENV['ACCESSIBILITY_STANDARD']
       "#{report_header}\n\n"
     end
+    # :nocov:
   end
 end
 

@@ -14,7 +14,7 @@ module TestCentricity
     def video_height
       obj, = find_element
       object_not_found_exception(obj, :video)
-      obj.native.attribute('videoHeight')
+      obj.native.attribute('videoHeight').to_i
     end
 
     # Return video Width property
@@ -26,7 +26,7 @@ module TestCentricity
     def video_width
       obj, = find_element
       object_not_found_exception(obj, :video)
-      obj.native.attribute('videoWidth')
+      obj.native.attribute('videoWidth').to_i
     end
 
     # Return video poster property

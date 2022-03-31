@@ -5,12 +5,9 @@ class CustomControlsPage < BaseTestPage
   trait(:page_locator) { 'div.custom-controls-page-body' }
   trait(:page_url)     { '/custom_controls_page.html' }
   trait(:navigator)    { header_nav.open_custom_controls_page }
+  trait(:page_title)   { 'Custom Controls Page'}
 
   def verify_page_ui
-    ui = {
-      self         => { exists: true, secure: false, title: 'Custom Controls Page' },
-      header_label => { visible: true, caption: 'Custom Controls Page' }
-    }
-    verify_ui_states(ui)
+    super
   end
 end

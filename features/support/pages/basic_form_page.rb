@@ -1,8 +1,9 @@
-# Page Object class definition for Basic HTML Test page
+# Page Object class definition for Basic HTML Form page
 
-class BasicTestPage < BaseTestPage
+class BasicFormPage < BaseTestPage
   trait(:page_url)         { '/basic_test_page.html' }
   trait(:navigator)        { header_nav.open_form_page }
+  trait(:page_title)       { 'Basic HTML Form'}
   trait(:tab_order)        {
     [
       header_nav.form_link,
@@ -73,17 +74,44 @@ class BasicTestPage < BaseTestPage
   }
 
   def verify_page_ui
+    super
+
+    verify_page_contains(page_title)
+    image_1.wait_until_loaded(5)
+    username_field.scroll_to(:center) if username_field.obscured?
     ui = {
-      self              => { exists: true, secure: false, title: 'Basic HTML Form' },
-      header_label      => { visible: true, caption: 'Basic HTML Form Example' },
       username_label    => { visible: true, caption: 'Username:' },
-      username_field    => { visible: true, enabled: true, required: true, value: '', placeholder: 'User name' },
+      username_field    => {
+        name: 'username',
+        exists: true,
+        displayed: true,
+        obscured: false,
+        visible: true,
+        hidden: false,
+        enabled: true,
+        disabled: false,
+        required: true,
+        value: '',
+        placeholder: 'User name'
+      },
       password_label    => { visible: true, caption: 'Password:' },
-      password_field    => { visible: true, enabled: true, required: true, value: '', placeholder: 'Password' },
+      password_field    => {
+        name: 'password',
+        visible: true,
+        displayed: true,
+        obscured: false,
+        focused: false,
+        enabled: true,
+        required: true,
+        value: '',
+        placeholder: 'Password'
+      },
       max_length_label  => { visible: true, caption: 'Max Length:' },
       max_length_field  => {
         visible: true,
+        obscured: false,
         enabled: true,
+        focused: false,
         placeholder: 'up to 64 characters',
         value: '',
         maxlength: 64
@@ -119,15 +147,75 @@ class BasicTestPage < BaseTestPage
       filename_label    => { visible: true, caption: 'Filename:' },
       upload_file       => { visible: true, enabled: true, value: '' },
       checkboxes_label  => { visible: true, caption: 'Checkbox Items:' },
-      check_1           => { visible: true, enabled: true, checked: false },
-      check_2           => { visible: true, enabled: true, checked: false },
-      check_3           => { visible: true, enabled: true, checked: false },
-      check_4           => { visible: true, enabled: false, checked: false },
+      check_1           => {
+        exists: true,
+        visible: true,
+        hidden: false,
+        enabled: true,
+        disabled: false,
+        checked: false,
+        indeterminate: false
+      },
+      check_2           => {
+        exists: true,
+        visible: true,
+        hidden: false,
+        enabled: true,
+        disabled: false,
+        checked: false,
+        indeterminate: false
+      },
+      check_3           => {
+        exists: true,
+        visible: true,
+        hidden: false,
+        enabled: true,
+        disabled: false,
+        checked: false,
+        indeterminate: false
+      },
+      check_4           => {
+        exists: true,
+        visible: true,
+        hidden: false,
+        enabled: false,
+        disabled: true,
+        checked: false,
+        indeterminate: false
+      },
       radios_label      => { visible: true, caption: 'Radio Items:' },
-      radio_1           => { visible: true, enabled: true, selected: false },
-      radio_2           => { visible: true, enabled: true, selected: false },
-      radio_3           => { visible: true, enabled: true, selected: false },
-      radio_4           => { visible: true, enabled: false, selected: false },
+      radio_1           => {
+        exists: true,
+        visible: true,
+        hidden: false,
+        enabled: true,
+        disabled: false,
+        selected: false
+      },
+      radio_2           => {
+        exists: true,
+        visible: true,
+        hidden: false,
+        enabled: true,
+        disabled: false,
+        selected: false
+      },
+      radio_3           => {
+        exists: true,
+        visible: true,
+        hidden: false,
+        enabled: true,
+        disabled: false,
+        selected: false
+      },
+      radio_4           => {
+        exists: true,
+        visible: true,
+        hidden: false,
+        enabled: false,
+        disabled: true,
+        selected: false
+      },
       multiselect_label => { visible: true, caption: 'Multiple Select Values:' },
       multi_select      => {
         visible: true,
@@ -158,6 +246,7 @@ class BasicTestPage < BaseTestPage
       link_3            => {
         visible: true,
         aria_disabled: true,
+        role: 'link',
         caption: 'Disabled Link'
       },
       table_label       => { visible: true, caption: 'Table:' },
@@ -169,17 +258,22 @@ class BasicTestPage < BaseTestPage
         { row: 1 } => [['Alfreds Futterkiste', 'Maria Anders', 'Germany']],
         { row: 2 } => [['Centro comercial Moctezuma', 'Francisco Chang', 'Mexico']],
         { row: 3 } => [['Ernst Handel', 'Roland Mendel', 'Austria']],
-        { row: 4 } => [['Island Trading', 'Helen Bennett', 'UK']]
+        { row: 4 } => [['Island Trading', 'Helen Bennett', 'UK']],
+        { cell: [1, 3] } => ['Germany'],
+        { cell: [2, 3] } => ['Mexico'],
+        { column: 3 } => [['Germany', 'Mexico', 'Austria', 'UK']]
       },
       images_label      => { visible: true, caption: 'Images:' },
       image_1           => {
         visible: true,
+        loaded: true,
         broken: false,
         src: { ends_with: 'images/Wilder.jpg' },
         alt: "It's alive"
       },
       image_2           => {
         visible: true,
+        loaded: true,
         broken: false,
         src: { ends_with: 'images/You_Betcha.jpg' },
         alt: 'You Betcha'
@@ -197,18 +291,20 @@ class BasicTestPage < BaseTestPage
   end
 
   def form_data
+    data = form_data_source.read_form_data
+
     if Environ.platform == :mobile
       file_path = nil
       file_name = ''
       color_value = '#000000'
     else
-      file_path = "#{Dir.pwd}/test_site/images/Wilder.jpg"
-      file_name = 'Wilder.jpg'
+      file_path = "#{Dir.pwd}/test_site/images/#{data.image_filename}"
+      file_name = data.image_filename
       color_value = Faker::Color.hex_color
     end
     {
-      username:     Faker::Name.name,
-      password:     'T0p_Sekrit',
+      username:     data.username,
+      password:     data.password,
       maxlength:    Faker::Marketing.buzzwords,
       number:       Faker::Number.between(from: 10, to: 1024),
       color:        color_value,
@@ -216,14 +312,14 @@ class BasicTestPage < BaseTestPage
       comments:     Faker::Hipster.paragraph,
       filepath:     file_path,
       filename:     file_name,
-      check1:       true,
-      check2:       true,
-      check3:       false,
+      check1:       data.check1,
+      check2:       data.check2,
+      check3:       data.check3,
       radio1:       false,
       radio2:       true,
       radio3:       false,
-      multi_select: 'Selection Item 2',
-      drop_select:  'Drop Down Item 5'
+      multi_select: data.multi_select,
+      drop_select:  data.drop_down_item
     }
   end
 
