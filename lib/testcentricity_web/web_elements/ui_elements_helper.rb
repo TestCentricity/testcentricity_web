@@ -527,7 +527,7 @@ module TestCentricity
              else
                obj.text
              end
-      text.gsub(/[[:space:]]+/, ' ').strip
+      text.gsub(/[[:space:]]+/, ' ').strip unless text.nil?
     end
 
     alias get_caption get_value

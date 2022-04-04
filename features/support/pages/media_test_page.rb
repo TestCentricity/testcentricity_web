@@ -9,7 +9,7 @@ class MediaTestPage < BaseTestPage
 
   # Media Test page UI elements
   videos video_player_1: 'video#video_player1'
-  audios audio_player: 'audio#audio_player'
+  audios audio_player:   'audio#audio_player'
 
   def verify_page_ui
     super
@@ -24,7 +24,7 @@ class MediaTestPage < BaseTestPage
               else
                 'metadata'
               end
-    video_player_1.wait_until_ready_state_is(4, 10)
+    video_player_1.wait_until_ready_state_is(4, 20)
     audio_player.wait_until_ready_state_is(4, 10)
     ui = {
       video_player_1 => {
@@ -63,8 +63,7 @@ class MediaTestPage < BaseTestPage
         muted: false,
         volume: 1,
         preload: preload,
-        src: '',
-        duration: 3.45
+        src: ''
       }
     }
     verify_ui_states(ui)
@@ -154,8 +153,8 @@ class MediaTestPage < BaseTestPage
         playback_rate: rate.to_f,
         visible: true,
         paused: false,
-        current_time: { greater_than: 0 },
-        seeking: false
+        seeking: false,
+        current_time: { greater_than: 0 }
       }
     }
     verify_ui_states(ui)
@@ -175,8 +174,8 @@ class MediaTestPage < BaseTestPage
         visible: true,
         muted: false,
         paused: false,
-        current_time: { greater_than: 0 },
-        seeking: false
+        seeking: false,
+        current_time: { greater_than: 0 }
       }
     }
     verify_ui_states(ui)
@@ -193,7 +192,7 @@ class MediaTestPage < BaseTestPage
              else
                raise "#{media_type} is not a valid selector"
              end
-    player.wait_until_ready_state_is(4, 10)
+    player.wait_until_ready_state_is(4, 20)
     player
   end
 
@@ -203,6 +202,6 @@ class MediaTestPage < BaseTestPage
     player.play
     player.send_keys(:enter) if player.paused?
     player.click_at(25, 25) if player.paused?
-    sleep(1)
+    sleep(2)
   end
 end

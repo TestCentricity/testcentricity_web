@@ -10,15 +10,16 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.7.5'
   spec.authors       = ['A.J. Mrozinski']
   spec.email         = ['testcentricity@gmail.com']
-  spec.summary       = 'A Page Object and Data Object Model Framework for desktop and mobile web testing'
+  spec.summary       = 'A Page Object Model Framework for desktop and mobile web testing'
   spec.description   = '
-    The TestCentricity™ Web core generic framework for desktop and mobile web browser-based app testing implements
-    a Page Object Model DSL for use with Cucumber, Capybara, and Selenium-Webdriver v4.x. The gem provides support for running
-    automated tests against locally hosted desktop browsers, locally hosted emulated mobile browsers (iOS, Android, Windows
-    Phone, Blackberry, Kindle Fire) running within a local instance of Chrome, mobile Safari browsers on iOS device simulators
-    or physical iOS devices, mobile Chrome or Android browsers on Android Studio virtual device emulators, or cloud hosted
-    desktop or mobile web browsers (using the BrowserStack, Sauce Labs, TestingBot, or LambdaTest services).'
-  spec.homepage      = ''
+    The TestCentricity™ Web core framework for desktop and mobile web browser-based app testing implements a Page Object
+    Model DSL for use with Cucumber, Capybara, and Selenium-Webdriver v4.x. The gem also facilitates the configuration of
+    the appropriate Selenium-Webdriver capabilities required to establish a connection with locally hosted desktop browsers,
+    locally hosted emulated mobile browsers (iOS, Android, etc.) running within a local instance of Chrome, mobile Safari
+    browsers on iOS device simulators or physical iOS devices, mobile Chrome or Android browsers on Android Studio virtual
+    device emulators, or cloud hosted desktop or mobile web browsers (using BrowserStack, Sauce Labs, TestingBot, or
+    LambdaTest services).'
+  spec.homepage      = 'https://www.rubydoc.info/gems/testcentricity_web/'
   spec.license       = 'BSD-3-Clause'
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -30,9 +31,12 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'cucumber'
+  spec.add_development_dependency 'cuke_modeler', '~> 3.0'
+  spec.add_development_dependency 'docker-compose'
   spec.add_development_dependency 'appium_capybara'
   spec.add_development_dependency 'parallel_tests'
   spec.add_development_dependency 'require_all'
+  spec.add_development_dependency 'rspec', '~> 3.10'
   spec.add_development_dependency 'simplecov', ['~> 0.18']
 
   spec.add_runtime_dependency 'appium_lib'

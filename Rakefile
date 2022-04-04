@@ -1,86 +1,45 @@
 require 'rubygems'
 require 'cucumber'
 require 'cucumber/rake/task'
+require 'docker/compose'
+require 'parallel_tests'
 require 'rake'
 
 
 namespace :features do
-  Cucumber::Rake::Task.new(:edge_local) do |t|
-    t.profile = 'edge_local'
-  end
-
-  Cucumber::Rake::Task.new(:chrome_local) do |t|
-    t.profile = 'chrome_local'
-  end
-
-  Cucumber::Rake::Task.new(:edge_headless) do |t|
-    t.profile = 'edge_headless'
-  end
-
-  Cucumber::Rake::Task.new(:chrome_headless) do |t|
-    t.profile = 'chrome_headless'
-  end
-
   Cucumber::Rake::Task.new(:safari_local) do |t|
     t.profile = 'safari_local'
-  end
-
-  Cucumber::Rake::Task.new(:firefox_local) do |t|
-    t.profile = 'firefox_local'
-  end
-
-  Cucumber::Rake::Task.new(:firefox_headless) do |t|
-    t.profile = 'firefox_headless'
-  end
-
-  Cucumber::Rake::Task.new(:edge_grid) do |t|
-    t.profile = 'edge_grid'
-  end
-
-  Cucumber::Rake::Task.new(:chrome_grid) do |t|
-    t.profile = 'chrome_grid'
-  end
-
-  Cucumber::Rake::Task.new(:firefox_grid) do |t|
-    t.profile = 'firefox_grid'
   end
 
   Cucumber::Rake::Task.new(:ios_remote) do |t|
     t.profile = 'ios_remote'
   end
 
-  Cucumber::Rake::Task.new(:emulated_mobile) do |t|
-    t.profile = 'ipad_pro_12_local'
+  task :required do
+    %w[chrome_local chrome_headless firefox_local firefox_headless edge_local edge_headless ipad_pro_12_local].each do |profile|
+      system "parallel_cucumber features/ -o '-p #{profile}' -n 6 --group-by scenarios"
+    end
   end
 
-
-  task :required => [
-    :edge_local,
-    :edge_headless,
-    :chrome_local,
-    :chrome_headless,
-    :firefox_local,
-    :firefox_headless,
-    :safari_local,
-    :emulated_mobile,
-  ]
-
-  task :grid => [:edge_grid, :chrome_grid, :firefox_grid]
+  task :grid do
+    # start up Selenium Grid
+    compose = Docker::Compose.new
+    compose.version
+    compose.up(detached: true)
+    # run grid features
+    %w[chrome_grid firefox_grid edge_grid ipad_pro_12_grid].each do |profile|
+      system "parallel_cucumber features/ -o '-p #{profile}' -n 4"
+    end
+    # shut down Selenium Grid
+    compose.down(remove_volumes: true)
+  end
 
   task :mobile => [:ios_remote]
 
   task :all => [
-    :edge_local,
-    :edge_headless,
-    :chrome_local,
-    :chrome_headless,
-    :firefox_local,
-    :firefox_headless,
+    :required,
+    :grid,
     :safari_local,
-    :edge_grid,
-    :chrome_grid,
-    :firefox_grid,
-    :emulated_mobile,
-    :ios_remote
+    :mobile
   ]
 end

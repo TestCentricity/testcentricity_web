@@ -104,6 +104,11 @@ Around('@!firefox') do |scenario, block|
 end
 
 
+Around('@!firefox_headless') do |scenario, block|
+  qualify_browser(:firefox_headless, 'Firefox headless', scenario, block)
+end
+
+
 # block feature/scenario execution if running against iPad mobile browser
 Around('@!ipad') do |scenario, block|
   qualify_device('ipad', scenario, block)
@@ -200,9 +205,9 @@ Around('@!headless') do |scenario, block|
 end
 
 
-Around('@!firefox_headless') do |scenario, block|
-  if Environ.browser == :firefox_headless
-    log "Scenario '#{scenario.name}' can not be executed on headless Firefox browsers."
+Around('@!firefox_grid') do |scenario, block|
+  if Environ.browser == :firefox && Environ.grid
+    log "Scenario '#{scenario.name}' can not be executed on grid hosted Firefox browsers."
     skip_this_scenario
   else
     block.call

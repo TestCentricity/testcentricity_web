@@ -49,18 +49,8 @@ Feature: HTML5 Audio/Video Test Page using CSS locators
   Scenario:  Verify video playback speed settings
     When I play the video with a playback speed of 2x
     Then the video should play at 2x speed
-    When I play the video with a playback speed of 0.25x
-    Then the video should play at 0.25x speed
-    When I play the video with a playback speed of 1.75x
-    Then the video should play at 1.75x speed
     When I play the video with a playback speed of 0.5x
     Then the video should play at 0.5x speed
-    When I play the video with a playback speed of 1.5x
-    Then the video should play at 1.5x speed
-    When I play the video with a playback speed of 0.75x
-    Then the video should play at 0.75x speed
-    When I play the video with a playback speed of 1.25x
-    Then the video should play at 1.25x speed
     When I play the video with a playback speed of 1x
     Then the video should play at 1x speed
 
@@ -68,17 +58,7 @@ Feature: HTML5 Audio/Video Test Page using CSS locators
   Scenario:  Verify audio playback speed settings
     When I play the audio with a playback speed of 2x
     Then the audio should play at 2x speed
-    When I play the audio with a playback speed of 0.25x
-    Then the audio should play at 0.25x speed
-    When I play the audio with a playback speed of 1.75x
-    Then the audio should play at 1.75x speed
     When I play the audio with a playback speed of 0.5x
     Then the audio should play at 0.5x speed
-    When I play the audio with a playback speed of 1.5x
-    Then the audio should play at 1.5x speed
-    When I play the audio with a playback speed of 0.75x
-    Then the audio should play at 0.75x speed
-    When I play the audio with a playback speed of 1.25x
-    Then the audio should play at 1.25x speed
     When I play the audio with a playback speed of 1x
     Then the audio should play at 1x speed

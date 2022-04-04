@@ -178,7 +178,7 @@ module TestCentricity
     def ready_state
       obj, = find_element(visible = :all)
       object_not_found_exception(obj, @type)
-      obj.native.attribute('readyState').to_i
+      page.execute_script('return arguments[0].readyState', obj)
     end
 
     # Wait until the media object's readyState value equals the specified value, or until the specified wait time has expired. If the wait
