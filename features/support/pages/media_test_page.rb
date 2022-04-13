@@ -8,8 +8,8 @@ class MediaTestPage < BaseTestPage
   trait(:page_title)   { 'Media Page'}
 
   # Media Test page UI elements
-  videos video_player_1: 'video#video_player1'
-  audios audio_player:   'audio#audio_player'
+  videos  video_player_1: 'video#video_player1'
+  audios  audio_player:   'audio#audio_player'
 
   def verify_page_ui
     super

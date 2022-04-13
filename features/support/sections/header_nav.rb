@@ -27,8 +27,17 @@ class NavHeader < TestCentricity::PageSection
   end
 
   def verify_nav_bar
+    self.wait_until_visible(5)
     ui = {
-      self => { exists: true, visible: true, class: 'topnav' },
+      self => {
+        exists: true,
+        visible: true,
+        hidden: false,
+        displayed: true,
+        enabled: true,
+        disabled: false,
+        class: 'topnav'
+      },
       form_link => { visible: true, caption: 'Basic HTML Form' },
       media_link => { visible: true, caption: 'Media' },
       indexed_sections_link => { visible: true, caption: 'Indexed Sections' },

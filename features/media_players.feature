@@ -1,3 +1,6 @@
+@!grid @!mobile
+
+
 Feature: HTML5 Audio/Video Test Page using CSS locators
   In order to ensure comprehensive support for HTML5 Audio and Video media elements
   As a developer of the TestCentricity web gem

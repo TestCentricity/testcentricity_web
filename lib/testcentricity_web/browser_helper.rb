@@ -95,12 +95,6 @@ module TestCentricity
       Capybara.page.driver.browser.switch_to.window(Capybara.page.driver.browser.window_handles.last)
     end
 
-    def self.close_named_browser_instance(name)
-      Capybara.page.driver.browser.switch_to.window(Capybara.page.driver.find_window(name))
-      Capybara.page.driver.browser.close
-      Capybara.page.driver.browser.switch_to.window(Capybara.page.driver.browser.window_handles.last)
-    end
-
     def self.suppress_js_alerts
       Capybara.page.execute_script('window.alert = function() {}')
     end

@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.1.9] - 11-APR-2022
+
+### Fixed
+* `PageSection.radio` no longer returns `wrong number of arguments` error.
+
+
 ## [4.1.8] - 31-MAR-2022
 
 ### Fixed

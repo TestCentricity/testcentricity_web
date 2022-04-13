@@ -35,9 +35,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'docker-compose'
   spec.add_development_dependency 'appium_capybara'
   spec.add_development_dependency 'parallel_tests'
+  spec.add_development_dependency 'httparty'
   spec.add_development_dependency 'require_all'
   spec.add_development_dependency 'rspec', '~> 3.10'
   spec.add_development_dependency 'simplecov', ['~> 0.18']
+  spec.add_development_dependency 'yard', ['>= 0.9.0']
 
   spec.add_runtime_dependency 'appium_lib'
   spec.add_runtime_dependency 'browserstack-local'

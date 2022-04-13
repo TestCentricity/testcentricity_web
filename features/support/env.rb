@@ -7,7 +7,8 @@ require 'testcentricity_web'
 
 include TestCentricity
 
-SimpleCov.command_name("features-#{ENV['WEB_BROWSER']}-#{ENV['SELENIUM']}" + (ENV['TEST_ENV_NUMBER'] || ''))
+coverage_report_name = "Features-#{ENV['WEB_BROWSER']}-#{ENV['SELENIUM']}" + (ENV['TEST_ENV_NUMBER'] || '')
+SimpleCov.command_name("#{coverage_report_name}-#{Time.now.strftime('%Y%m%d%H%M%S%L')}")
 
 require_relative 'world_data'
 require_relative 'world_pages'
@@ -42,7 +43,7 @@ WorldPages.instantiate_page_objects
 Webdrivers.cache_time = 86_400
 
 
-url = if ENV['TEST_ENVIRONMENT'].downcase == 'local'
+url = if Environ.test_environment == :local
         "file://#{File.dirname(__FILE__)}/../../test_site"
       else
         Environ.current.app_host

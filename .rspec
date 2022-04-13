@@ -1,3 +1,4 @@
---format documentation
+# General configuration options
 --color
 --require spec_helper
+--format documentation

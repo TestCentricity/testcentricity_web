@@ -234,7 +234,7 @@ module TestCentricity
     #   radio :accept_terms_radio,  "//input[@id='Accept_Terms']"
     #   radio :decline_terms_radio, 'input#decline_terms_conditions'
     #
-    def self.radio(element_name, locator, proxy = nil)
+    def self.radio(element_name, locator)
       define_element(element_name, TestCentricity::Radio, locator)
     end
 
