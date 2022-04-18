@@ -2,11 +2,13 @@ module TestCentricity
   class CheckBox < UIElement
     attr_accessor :proxy
     attr_accessor :label
+    attr_accessor :input
 
     def initialize(name, parent, locator, context)
       super
       @type = :checkbox
       check_spec = {
+        input: nil,
         proxy: nil,
         label: nil
       }
@@ -16,6 +18,8 @@ module TestCentricity
     def define_custom_elements(element_spec)
       element_spec.each do |element, value|
         case element
+        when :input
+          @input = value
         when :proxy
           @proxy = value
         when :label
@@ -44,9 +48,14 @@ module TestCentricity
     #   remember_me_checkbox.checked?
     #
     def checked?
-      obj, = find_element(:all)
-      object_not_found_exception(obj, 'Checkbox')
-      obj.checked?
+      @base_object, = find_element(:all)
+      object_not_found_exception(@base_object, 'Checkbox')
+      chk = if @input.nil?
+              @base_object
+            else
+              find_component(@input, 'checkbox')
+            end
+      chk.checked?
     end
 
     # Is checkbox state indeterminate?
@@ -67,7 +76,14 @@ module TestCentricity
     #   remember_me_checkbox.visible?
     #
     def visible?
-      @proxy.nil? ? super : page.find(:css, @proxy).visible?
+      if @proxy.nil?
+        super
+      else
+        @base_object, = find_element(:all)
+        object_not_found_exception(@base_object, 'Checkbox')
+        proxy = find_component(@proxy, 'checkbox proxy')
+        proxy.visible?
+      end
     end
 
     # Is checkbox disabled (not enabled)?
@@ -77,10 +93,14 @@ module TestCentricity
     #   remember_me_checkbox.disabled?
     #
     def disabled?
-      visibility = @proxy.nil? ? true : :all
-      obj, type = find_element(visibility)
-      object_not_found_exception(obj, type)
-      obj.disabled?
+      if @input.nil?
+        super
+      else
+        @base_object, = find_element(:all)
+        object_not_found_exception(@base_object, 'Checkbox')
+        chk = find_component(@input, 'checkbox')
+        chk.disabled?
+      end
     end
 
     # Return checkbox caption
@@ -91,9 +111,15 @@ module TestCentricity
     #
     def get_value
       if @label.nil?
-        @proxy.nil? ? super : page.find(:css, @proxy).text
+        if @proxy.nil?
+          super
+        else
+          proxy = find_component(@proxy, 'checkbox proxy')
+          proxy.text
+        end
       else
-        page.find(:css, @label).text
+        label = find_component(@label, 'checkbox label')
+        label.text
       end
     end
 
@@ -108,17 +134,22 @@ module TestCentricity
     #   remember_me_checkbox.set_checkbox_state(true)
     #
     def set_checkbox_state(state)
-      obj, = find_element(:all)
-      object_not_found_exception(obj, 'Checkbox')
-      invalid_object_type_exception(obj, 'checkbox')
-      if @proxy.nil?
-        begin
-          obj.set(state)
-        rescue
-          obj.click unless state == obj.checked?
+      @base_object, = find_element(:all)
+      object_not_found_exception(@base_object, 'Checkbox')
+      proxy = find_component(@proxy, 'checkbox proxy') unless @proxy.nil?
+      chk = find_component(@input, 'checkbox') unless @input.nil?
+      if @input.nil?
+        if @proxy.nil?
+          @base_object.click unless state == @base_object.checked?
+        else
+          proxy.click unless state == @base_object.checked?
         end
       else
-        page.find(:css, @proxy).click unless state == obj.checked?
+        if @proxy.nil?
+          @base_object.click unless state == chk.checked?
+        else
+          proxy.click unless state == chk.checked?
+        end
       end
     end
 

@@ -10,4 +10,9 @@ describe TestCentricity::Label, required: true do
   it 'registers with type label' do
     expect(css_label.get_object_type).to eql :label
   end
+
+  it 'returns caption' do
+    allow(css_label).to receive(:caption).and_return('caption')
+    expect(css_label.caption).to eql 'caption'
+  end
 end

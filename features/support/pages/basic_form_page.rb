@@ -233,6 +233,12 @@ class BasicFormPage < BaseTestPage
         selected: 'Drop Down Item 1'
       },
       link_label        => { visible: true, caption: 'Links:' },
+      links_list        => {
+        visible: true,
+        enabled: true,
+        itemcount: 3,
+        items: ['Open Media Page in same window/tab', 'Open Media Page in a new window/tab', 'Disabled Link']
+      },
       link_1            => {
         visible: true,
         href: { ends_with: 'media_page.html' },
@@ -315,15 +321,21 @@ class BasicFormPage < BaseTestPage
       check1:       data.check1,
       check2:       data.check2,
       check3:       data.check3,
-      radio1:       false,
-      radio2:       true,
-      radio3:       false,
+      radio_select: data.radio_select,
       multi_select: data.multi_select,
       drop_select:  data.drop_down_item
     }
   end
 
   def populate_form
+    # toggle checks and radios and verify
+    check_2.check
+    check_2.verify_check_state(true)
+    check_2.uncheck
+    check_2.verify_check_state(false)
+    radio_2.select
+    radio_2.unselect
+    # populate fields and controls with externally sourced data
     @data = form_data
     fields = {
       username_field   => @data[:username],
@@ -337,9 +349,9 @@ class BasicFormPage < BaseTestPage
       check_1          => @data[:check1],
       check_2          => @data[:check2],
       check_3          => @data[:check3],
-      radio_1          => @data[:radio1],
-      radio_2          => @data[:radio2],
-      radio_3          => @data[:radio3],
+      radio_1          => @data[:radio_select] == 1,
+      radio_2          => @data[:radio_select] == 2,
+      radio_3          => @data[:radio_select] == 3,
       multi_select     => @data[:multi_select],
       drop_down_select => @data[:drop_select]
     }
@@ -359,9 +371,9 @@ class BasicFormPage < BaseTestPage
       check_1          => { checked: @data[:check1] },
       check_2          => { checked: @data[:check2] },
       check_3          => { checked: @data[:check3] },
-      radio_1          => { selected: @data[:radio1] },
-      radio_2          => { selected: @data[:radio2] },
-      radio_3          => { selected: @data[:radio3] },
+      radio_1          => { selected: @data[:radio_select] == 1 },
+      radio_2          => { selected: @data[:radio_select] == 2 },
+      radio_3          => { selected: @data[:radio_select] == 3 },
       multi_select     => { selected: @data[:multi_select] },
       drop_down_select => { selected: @data[:drop_select] }
     }
@@ -389,5 +401,29 @@ class BasicFormPage < BaseTestPage
               tab_order
             end
     verify_focus_order(order)
+  end
+
+  def choose_options_by(method)
+    case method.downcase.to_sym
+    when :index
+      multi_select.choose_option(index: 2)
+      drop_down_select.choose_option(index: 3)
+    when :value
+      multi_select.choose_option(value: 'ms2')
+      drop_down_select.choose_option(value: 'dd3')
+    when :text
+      multi_select.choose_option(text: 'Selection Item 2')
+      drop_down_select.choose_option(text: 'Drop Down Item 3')
+    else
+      raise "#{method} is not a valid selector"
+    end
+  end
+
+  def verify_chosen_options
+    ui = {
+      multi_select     => { selected: 'Selection Item 2' },
+      drop_down_select => { selected: 'Drop Down Item 3' }
+    }
+    verify_ui_states(ui)
   end
 end

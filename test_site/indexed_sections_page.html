@@ -3,6 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <title>Indexed Sections Page</title>
+
+        <!-- Font Awesome Icon Library -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <style>
             table {
                 font-family: arial, sans-serif;
@@ -39,11 +42,87 @@
                 background-color: #04AA6D;
                 color: white;
             }
+
+
+            /* Float four columns side by side */
+            .column {
+                float: left;
+                width: 20%;
+                padding: 0 10px;
+            }
+            /* Remove extra left and right margins, due to padding */
+            .row {margin: 0 -5px;}
+            /* Clear floats after the columns */
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+            /* Responsive columns */
+            @media screen and (max-width: 600px) {
+                .column {
+                    width: 100%;
+                    display: block;
+                    margin-bottom: 20px;
+                }
+            }
+
+            .card {
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                max-width: 300px;
+                margin: auto;
+                padding: 16px;
+                text-align: center;
+                font-family: arial;
+                transition: 0.3s;
+                width: 80%;
+                border-radius: 5px;
+
+            }
+            .price {
+                color: grey;
+                font-size: 22px;
+            }
+            .card button {
+                border: none;
+                outline: 0;
+                padding: 12px;
+                color: white;
+                background-color: #000;
+                text-align: center;
+                cursor: pointer;
+                width: 100%;
+                font-size: 18px;
+            }
+            .card button:hover {
+                opacity: 0.7;
+            }
+            .card:hover {
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            .card:not(:hover) {
+                opacity: 0.6;
+            }
+            .card:active {
+                border: 2px solid #0071c5;
+            }
+            img {
+                border-radius: 5px 5px 0 0;
+            }
+            .container {
+                padding: 2px 16px;
+            }
+            .checked {
+                color: orange;
+            }
         </style>
     </head>
+
     <body>
         <div class="indexed-sections-page-body">
-            <h2>Indexed Sections Page</h2>
+            <h2 id="header">Indexed Sections Page</h2>
 
             <div id="nav_bar" class="topnav">
                 <a id="form_link" href="basic_test_page.html">Basic HTML Form</a>
@@ -52,7 +131,85 @@
                 <a id="custom_controls_link" href="custom_controls_page.html">Custom Controls</a>
             </div>
 
+            <h3 style="text-align:center">Product Card</h3>
 
+            <div id="product_list" class="row">
+                <div class="column">
+                    <div data-test-id="product_card" class="card">
+                        <img data-test-id="product_image" src="images/jeans3.jpg" alt="Denim Jeans" style="width:100%">
+                        <div class="container">
+                            <h1 data-test-id="product_name">Tailored Jeans</h1>
+                            <p data-test-id="price" class="price">$59.99</p>
+                            <p data-test-id="description">Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum.</p>
+                            <div data-test-id="rating">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star"></span>
+                                <span class="fa fa-star"></span>
+                            </div>
+                            <p><button data-test-id="add_to_cart">Add to Cart</button></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div data-test-id="product_card" class="card">
+                        <img data-test-id="product_image" src="images/T-shirt.jpg" alt="Faded Short Sleeve T-shirts" style="width:100%">
+                        <div class="container">
+                            <h1 data-test-id="product_name">Faded Short Sleeve T-shirts</h1>
+                            <p data-test-id="price" class="price">$19.99</p>
+                            <p data-test-id="description">Faded short sleeve t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you're ready for summer!</p>
+                            <div data-test-id="rating">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star"></span>
+                            </div>
+                            <p><button data-test-id="add_to_cart">Add to Cart</button></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div data-test-id="product_card" class="card">
+                        <img data-test-id="product_image" src="images/Printed_Dress.jpg" alt="Print Dress" style="width:100%">
+                        <div class="container">
+                            <h1 data-test-id="product_name">Print Dress</h1>
+                            <p data-test-id="price" class="price">$69.99</p>
+                            <p data-test-id="description">Printed evening dress with straight sleeves with black thin waist belt and ruffled linings.</p>
+                            <div data-test-id="rating">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star"></span>
+                                <span class="fa fa-star"></span>
+                                <span class="fa fa-star"></span>
+                            </div>
+                            <p><button data-test-id="add_to_cart">Add to Cart</button></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div data-test-id="product_card" class="card">
+                        <img data-test-id="product_image" src="images/Blouse_Black.jpg" alt="Black Blouse" style="width:100%">
+                        <div class="container">
+                            <h1 data-test-id="product_name">Blouse</h1>
+                            <p data-test-id="price" class="price">$27.99</p>
+                            <p data-test-id="description">Short sleeved blouse with feminine draped sleeve detail.</p>
+                            <div data-test-id="rating">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                            </div>
+                            <p><button data-test-id="add_to_cart">Add to Cart</button></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>

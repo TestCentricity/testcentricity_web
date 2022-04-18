@@ -42,6 +42,7 @@ describe TestCentricity::WebDriverConnect, required: true do
       WebDriverConnect.initialize_web_driver
       Browsers.set_device_orientation('landscape')
       verify_local_browser(browser = :ipad_pro_12_9, platform = :mobile, headless = false)
+      expect(Environ.browser_size).to eq([1366, 1024])
     end
   end
 
@@ -80,5 +81,6 @@ describe TestCentricity::WebDriverConnect, required: true do
     expect(Environ.session_state).to eq(:running)
     expect(Environ.driver).to eq(:webdriver)
     expect(Environ.device).to eq(:web)
+    expect(Environ.is_web?).to eq(true)
   end
 end

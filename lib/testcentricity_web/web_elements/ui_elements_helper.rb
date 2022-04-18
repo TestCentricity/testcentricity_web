@@ -1096,10 +1096,10 @@ module TestCentricity
 
     def find_component(component, component_name)
       begin
-        element = @base_object.find(:css, component, minimum: 0, wait: 1)
+        element = @base_object.find(:css, component, visible: :all, minimum: 0, wait: 1)
       rescue
         begin
-          element = page.find(:css, component, minimum: 0, wait: 5)
+          element = page.find(:css, component, visible: :all, minimum: 0, wait: 2)
         rescue
           raise "Component #{component_name} (#{component}) for #{@type} named '#{@name}' (#{locator}) not found"
         end

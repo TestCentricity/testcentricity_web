@@ -298,7 +298,7 @@ module TestCentricity
     def populate_data_fields(data, wait_time = nil, integrity_check = false)
       timeout = wait_time.nil? ? 5 : wait_time
       data.each do |data_field, data_param|
-        unless data_param.blank?
+        unless data_param != false && data_param.blank?
           # make sure the intended UI target element is visible before trying to set its value
           data_field.wait_until_visible(timeout)
           if data_param == '!DELETE'

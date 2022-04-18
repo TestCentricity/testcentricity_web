@@ -24,6 +24,7 @@ class BasicXpathFormPage < BasicFormPage
               radio_4:           "//input[@id='radio4']"
   selectlists multi_select:      "//select[@id='multipleselect']",
               drop_down_select:  "//select[@id='dropdown']"
+  lists       links_list:        "//ul[@id='links_list']"
   links       link_1:            "//a[@id='link1']",
               link_2:            "//a[@id='link2']",
               link_3:            "//a[@id='link3']"

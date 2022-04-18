@@ -61,7 +61,7 @@ module TestCentricity
     #
     def choose_option(option)
       @base_object, = find_element
-      object_not_found_exception(@base_object, nil)
+      object_not_found_exception(@base_object, 'SelectList')
 
       trigger_list
 
@@ -75,9 +75,9 @@ module TestCentricity
           end
         else
           if option.is_a?(Hash)
-            page.find(:css, "#{@list_item}:nth-of-type(#{option[:index]})").click if option.key?(:index)
-            page.find(:css, "#{@list_item}:nth-of-type(#{option[:value]})").click if option.key?(:value)
-            page.find(:css, "#{@list_item}:nth-of-type(#{option[:text]})").click if option.key?(:text)
+            @base_object.first(:css, "#{@list_item}:nth-of-type(#{option[:index]})").click if option.key?(:index)
+            @base_object.first(:css, "#{@list_item}:nth-of-type(#{option[:value]})").click if option.key?(:value)
+            @base_object.first(:css, "#{@list_item}:nth-of-type(#{option[:text]})").click if option.key?(:text)
           else
             options = @base_object.all(@list_item).collect(&:text)
             sleep(2) unless options.include?(option)
@@ -117,10 +117,10 @@ module TestCentricity
     def set(text)
       raise "A 'text_field' list element must be defined before calling the 'set' method on a selectlist object" if @text_field.nil?
       @base_object, = find_element
-      object_not_found_exception(@base_object, nil)
+      object_not_found_exception(@base_object, 'SelectList')
       trigger_list
-
-      page.find(:css, @text_field, wait: 2).set(text)
+      input = find_component(@text_field, 'text field')
+      input.set("#{text}\n")
     end
 
     # Return array of strings of all options in a select box object.
@@ -132,7 +132,7 @@ module TestCentricity
     #
     def get_options
       @base_object, = find_element
-      object_not_found_exception(@base_object, nil)
+      object_not_found_exception(@base_object, 'SelectList')
       if @options_list.nil?
         if @base_object.first(:css, @list_item, minimum: 0, wait: 2)
           @base_object.all(@list_item).collect(&:text)
@@ -159,7 +159,7 @@ module TestCentricity
     #
     def get_option_count
       @base_object, = find_element
-      object_not_found_exception(@base_object, nil)
+      object_not_found_exception(@base_object, 'SelectList')
       if @options_list.nil?
         if @base_object.first(:css, @list_item, minimum: 0, wait: 2)
           @base_object.all(@list_item).count
@@ -186,7 +186,7 @@ module TestCentricity
     #
     def get_group_headings
       @base_object, = find_element
-      object_not_found_exception(@base_object, nil)
+      object_not_found_exception(@base_object, 'SelectList')
       if @options_list.nil?
         if @base_object.first(:css, @group_heading, minimum: 0, wait: 2)
           @base_object.all(@group_heading).collect(&:text)
@@ -211,7 +211,7 @@ module TestCentricity
     #
     def get_group_count
       @base_object, = find_element
-      object_not_found_exception(@base_object, nil)
+      object_not_found_exception(@base_object, 'SelectList')
       if @options_list.nil?
         if @base_object.first(:css, @group_item, minimum: 0, wait: 2)
           @base_object.all(@group_item).count
@@ -245,7 +245,7 @@ module TestCentricity
     #
     def get_selected_option
       @base_object, = find_element
-      object_not_found_exception(@base_object, nil)
+      object_not_found_exception(@base_object, 'SelectList')
       trigger_list unless @options_list.nil?
       selection = if @base_object.first(:css, @list_item, minimum: 0, wait: 1, visible: :all)
                     @base_object.first(:css, @selected_item, wait: 1, visible: :all).text

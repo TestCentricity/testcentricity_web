@@ -2,7 +2,7 @@
 
 class BaseTestPage < TestCentricity::PageObject
   # Base Test page UI elements
-  label    :header_label, 'h2'
+  label    :header_label, 'h2#header'
   sections header_nav:    NavHeader
 
   def navigate_to

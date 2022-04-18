@@ -24,6 +24,7 @@ class BasicCSSFormPage < BasicFormPage
               radio_4:           'input#radio4'
   selectlists multi_select:      'select#multipleselect',
               drop_down_select:  'select#dropdown'
+  lists       links_list:        'ul#links_list'
   links       link_1:            'a#link1',
               link_2:            'a#link2',
               link_3:            'a#link3'

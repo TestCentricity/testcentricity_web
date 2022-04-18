@@ -24,6 +24,21 @@ Feature: Basic HTML Form Test Page using CSS locators
     Then I expect the Basic CSS Form page to be correctly displayed
 
 
+  Scenario Outline:  Choose selectlist options by index, value, and text
+    When I choose selectlist options by <method>
+    Then I expect the selected option to be displayed
+
+    Examples:
+      |method |
+      |index  |
+      |text   |
+
+@!safari @!firefox @!firefox_headless
+    Examples:
+      |method |
+      |value  |
+
+
   Scenario Outline:  Verify functionality of navigation tabs and browser back/forward
     When I click the <target_page> navigation tab
     Then I expect the <target_page> page to be correctly displayed

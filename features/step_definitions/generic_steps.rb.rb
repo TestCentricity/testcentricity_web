@@ -107,3 +107,18 @@ end
 When(/^I set device orientation to (.*)$/) do |orientation|
   Browsers.set_device_orientation(orientation.downcase.to_sym)
 end
+
+
+When(/^I choose custom select options by typing$/) do
+  custom_controls_page.set_select_options
+end
+
+
+When(/^I choose selectlist options by (.*)$/) do |method|
+  PageManager.current_page.choose_options_by(method)
+end
+
+
+Then(/^I expect the selected option to be displayed$/) do
+  PageManager.current_page.verify_chosen_options
+end

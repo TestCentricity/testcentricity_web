@@ -874,7 +874,7 @@ present a challenge when attempting to interact with them using Capybara and Sel
 Sometimes, radio buttons and checkboxes implemented using JS component libraries cannot be interacted with due to other UI elements
 being overlaid on top of them and the base `input(type='radio')` or `input(type='checkbox')` element not being visible.
 
-In the screenshots below of an airline flight search and booking page, the **Roundtrip** and **One-way** radio buttons are adorned with
+In the screenshots below of an airline flight search and booking page, the **Roundtrip** and **One-way** radio buttons are adorned by
 `label` elements that also acts as proxies for their associated `input(type='radio')` elements, and they intercept the `click` actions
 that would normally be handled by the `input(type='radio')` elements.
 
@@ -892,27 +892,26 @@ elements.
 <img src="https://i.imgur.com/JcOANqZ.jpg" alt="One-way Radio button Label" title="One-way Radio button Label">
 
 
-The `Radio.define_custom_elements` and `CheckBox.define_custom_elements` methods provide a way to specify the `proxy` and/or `label`
-elements associated with the `input(type='radio')` or `input(type='checkbox')` elements. The `define_custom_elements` method
-should be called from an `initialize` method for the `PageObject` or `PageSection` where the `radio` or `checkbox` element is instantiated.
-The code snippet below demonstrates the use of the `Radio.define_custom_elements` and `CheckBox.define_custom_elements` methods to
-resolve the testability issues posed by the adorned **Roundtrip** and **One-way** radio buttons and the **Flexible dates** checkbox.
+The `Radio.define_custom_elements` and `CheckBox.define_custom_elements` methods provide a way to specify the `input`, `proxy`
+and/or `label` elements associated with the `input(type='radio')` or `input(type='checkbox')` elements. The `define_custom_elements`
+method should be called from an `initialize` method for the `PageObject` or `PageSection` where the `radio` or `checkbox` element is
+instantiated. The code snippet below demonstrates the use of the `Radio.define_custom_elements` and `CheckBox.define_custom_elements`
+methods to resolve the testability issues posed by the adorned **Roundtrip** and **One-way** radio buttons and the **Flexible dates**
+checkbox.
 
     class FlightBookingPage < TestCentricity::PageObject
       trait(:page_name)    { 'Flight Booking Home' }
       trait(:page_locator) { "div[class*='bookerContainer']" }
       
       # Flight Booking page UI elements
-      radios   roundtrip_radio: 'input#roundtrip',
-               one_way_radio:   'input#oneway'
+      radios   roundtrip_radio: "label[for='roundtrip']",
+               one_way_radio:   "label[for='oneway']"
       checkbox :flexible_check, 'input#flexibleDates'
       
       def initialize
-        # define the custom element components for the Round Trip radio button
-        radio_spec = { proxy: "label[for='roundtrip']" }
+        # define the custom element components for the Round Trip and One Way radio buttons
+        radio_spec = { input: "input[type='radio']" }
         roundtrip_radio.define_custom_elements(radio_spec)
-        # define the custom element components for the One Way radio button
-        radio_spec = { proxy: "label[for='oneway']" }
         one_way_radio.define_custom_elements(radio_spec)
         # define the custom element components for the Flexible Date checkbox
         check_spec = { proxy: 'label#flexDatesLabel' }

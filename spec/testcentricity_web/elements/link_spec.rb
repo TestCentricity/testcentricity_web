@@ -15,4 +15,9 @@ describe TestCentricity::Link, required: true do
     allow(css_link).to receive(:href).and_return('href')
     expect(css_link.href).to eql 'href'
   end
+
+  it 'should click the link' do
+    expect(css_link).to receive(:click)
+    css_link.click
+  end
 end

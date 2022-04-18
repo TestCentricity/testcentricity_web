@@ -31,6 +31,7 @@ describe TestCentricity::WebDriverConnect, mobile: true do
       expect(Environ.device_os).to eq(:ios)
       expect(Environ.device_type).to eq(:tablet)
       expect(Environ.device_os_version).to eq('15.4')
+      expect(Environ.is_ios?).to eq(true)
     end
 
     it 'connects to Android Simulator' do
@@ -49,6 +50,7 @@ describe TestCentricity::WebDriverConnect, mobile: true do
       expect(Environ.device_os).to eq(:android)
       expect(Environ.device_type).to eq(:tablet)
       expect(Environ.device_os_version).to eq('12.0')
+      expect(Environ.is_android?).to eq(true)
     end
   end
 

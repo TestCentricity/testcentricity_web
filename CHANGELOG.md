@@ -2,10 +2,17 @@
 All notable changes to this project will be documented in this file.
 
 
-## [4.1.9] - 11-APR-2022
+## [4.1.9] - 18-APR-2022
 
 ### Fixed
 * `PageSection.radio` no longer returns `wrong number of arguments` error.
+* `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods no longer skip setting checkboxes or
+radio buttons to the unchecked state.
+
+### Added
+
+* `CheckBox.define_custom_elements` and `Radio.define_custom_elements` methods now support specifying a child `input` component
+contained by a top level `label` element.
 
 
 ## [4.1.8] - 31-MAR-2022
