@@ -15,6 +15,53 @@ class BasicFormPage < BaseTestPage
       max_length_field,
       read_only_field,
       number_field,
+      date_field,
+      date_time_field,
+      email_field,
+      month_field,
+      color_picker,
+      slider,
+      comments_field,
+      upload_file,
+      check_1,
+      check_2,
+      check_3,
+      radio_1,
+      [
+        radio_2,
+        radio_3
+      ],
+      multi_select,
+      drop_down_select,
+      link_1,
+      link_2,
+      cancel_button,
+      submit_button
+    ]
+  }
+  trait(:chrome_tab_order) {
+    [
+      header_nav.form_link,
+      header_nav.media_link,
+      header_nav.indexed_sections_link,
+      header_nav.custom_controls_link,
+      username_field,
+      password_field,
+      max_length_field,
+      read_only_field,
+      number_field,
+      date_field,
+      date_field,
+      date_field,
+      date_time_field,
+      date_time_field,
+      date_time_field,
+      date_time_field,
+      date_time_field,
+      date_time_field,
+      email_field,
+      month_field,
+      month_field,
       color_picker,
       slider,
       comments_field,
@@ -42,6 +89,17 @@ class BasicFormPage < BaseTestPage
       max_length_field,
       read_only_field,
       number_field,
+      date_field,
+      date_field,
+      date_field,
+      date_time_field,
+      date_time_field,
+      date_time_field,
+      date_time_field,
+      date_time_field,
+      date_time_field,
+      email_field,
+      month_field,
       color_picker,
       slider,
       comments_field,
@@ -67,6 +125,17 @@ class BasicFormPage < BaseTestPage
       max_length_field,
       read_only_field,
       number_field,
+      date_field,
+      date_field,
+      date_field,
+      date_time_field,
+      date_time_field,
+      date_time_field,
+      date_time_field,
+      date_time_field,
+      date_time_field,
+      email_field,
+      month_field,
       comments_field,
       multi_select,
       drop_down_select
@@ -393,6 +462,8 @@ class BasicFormPage < BaseTestPage
 
   def verify_tab_order
     order = case Environ.browser
+            when :chrome, :chrome_headless
+              chrome_tab_order
             when :safari
               safari_tab_order
             when :firefox

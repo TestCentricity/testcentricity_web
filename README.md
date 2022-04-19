@@ -27,6 +27,8 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 
 A complete history of bug fixes and new features can be found in the {file:CHANGELOG.md CHANGELOG} file.
 
+The RubyDocs for this gem can be found [here](https://www.rubydoc.info/gems/testcentricity_web).
+
 An example project that demonstrates the implementation of a page object model framework using Cucumber and TestCentricity™
 can be found [here](https://github.com/TestCentricity/tc_web_sample).
 

@@ -1,6 +1,8 @@
-require 'require_all'
+# frozen_string_literal: true
+
 require 'capybara/rspec'
 require 'httparty'
+require 'require_all'
 require 'simplecov'
 require 'testcentricity_web'
 
