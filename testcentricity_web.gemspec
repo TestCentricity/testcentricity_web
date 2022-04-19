@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
     browsers on iOS device simulators or physical iOS devices, mobile Chrome or Android browsers on Android Studio virtual
     device emulators, or cloud hosted desktop or mobile web browsers (using BrowserStack, Sauce Labs, TestingBot, or
     LambdaTest services).'
-  spec.homepage      = 'https://www.rubydoc.info/gems/testcentricity_web/'
+  spec.homepage      = 'https://github.com/TestCentricity/testcentricity_web'
   spec.license       = 'BSD-3-Clause'
 
   spec.files         = `git ls-files -z`.split("\x0")
