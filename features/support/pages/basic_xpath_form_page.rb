@@ -10,6 +10,10 @@ class BasicXpathFormPage < BasicFormPage
               max_length_field:  "//input[@id='maxlength']",
               read_only_field:   "//input[@id='readonly']",
               number_field:      "//input[@id='number-field']",
+              date_field:        "//input[@id='date-picker']",
+              date_time_field:   "//input[@id='date-time-picker']",
+              email_field:       "//input[@id='email-field']",
+              month_field:       "//input[@id='month-field']",
               comments_field:    "//textarea[@id='comments']",
               color_picker:      "//input[@id='color-picker']"
   ranges      slider:            "//input[@id='slider']"

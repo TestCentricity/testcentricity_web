@@ -1,5 +1,7 @@
-# coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
+# frozen_string_literal: true
+
+lib = File.expand_path('lib', __dir__)
+
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'testcentricity_web/version'
 
@@ -28,15 +30,15 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.requirements  << 'Capybara, Selenium-WebDriver'
 
+  spec.add_development_dependency 'appium_capybara'
   spec.add_development_dependency 'bundler'
-  spec.add_development_dependency 'rake'
   spec.add_development_dependency 'cucumber'
   spec.add_development_dependency 'cuke_modeler', '~> 3.0'
   spec.add_development_dependency 'docker-compose'
-  spec.add_development_dependency 'appium_capybara'
-  spec.add_development_dependency 'parallel_tests'
   spec.add_development_dependency 'httparty'
-  spec.add_development_dependency 'require_all'
+  spec.add_development_dependency 'parallel_tests'
+  spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'require_all', '=1.5.0'
   spec.add_development_dependency 'rspec', '~> 3.10'
   spec.add_development_dependency 'simplecov', ['~> 0.18']
   spec.add_development_dependency 'yard', ['>= 0.9.0']
@@ -52,6 +54,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'selenium-webdriver', '>= 4.0', '< 5'
   spec.add_runtime_dependency 'spreadsheet', '1.1.7'
   spec.add_runtime_dependency 'test-unit'
-  spec.add_runtime_dependency 'webdrivers', '~> 5.0'
   spec.add_runtime_dependency 'virtus'
+  spec.add_runtime_dependency 'webdrivers', '~> 5.0'
 end

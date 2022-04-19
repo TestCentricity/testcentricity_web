@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
+require 'appium_capybara'
 require 'capybara/cucumber'
 require 'parallel_tests'
-require 'appium_capybara'
 require 'require_all'
 require 'simplecov'
 require 'testcentricity_web'

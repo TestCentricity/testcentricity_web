@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.1.10] - 19-APR-2022
+
+### Fixed
+* `PageObject.set_verify_focus` and `PageSection.set_verify_focus` methods now correctly return the `id` of the UI element
+that unexpectedly has focus during an exception.
+* Rolled back `require_all` gem version to 1.5.0 in gemspec development dependencies due to `RequireAll::LoadError` when
+running gem test specs and features.
+
+
 ## [4.1.9] - 18-APR-2022
 
 ### Fixed

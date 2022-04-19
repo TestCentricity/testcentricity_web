@@ -10,6 +10,10 @@ class BasicCSSFormPage < BasicFormPage
               max_length_field:  'input#maxlength',
               read_only_field:   'input#readonly',
               number_field:      'input#number-field',
+              date_field:        'input#date-picker',
+              date_time_field:   'input#date-time-picker',
+              email_field:       'input#email-field',
+              month_field:       'input#month-field',
               color_picker:      'input#color-picker',
               comments_field:    'textarea#comments'
   ranges      slider:            'input#slider'
