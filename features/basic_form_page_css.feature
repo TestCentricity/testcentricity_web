@@ -24,6 +24,20 @@ Feature: Basic HTML Form Test Page using CSS locators
     Then I expect the Basic CSS Form page to be correctly displayed
 
 
+  Scenario Outline: Verify text field constraint validation
+    When I populate the form fields with <reason>
+    And I submit my changes
+    Then I expect an error to be displayed due to <reason>
+
+    Examples:
+      |reason          |
+      |blank username  |
+      |blank password  |
+      |number too low  |
+      |number too high |
+      |invalid email   |
+
+
   Scenario Outline:  Choose selectlist options by index, value, and text
     When I choose selectlist options by <method>
     Then I expect the selected option to be displayed

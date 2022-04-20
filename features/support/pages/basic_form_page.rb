@@ -149,8 +149,8 @@ class BasicFormPage < BaseTestPage
     image_1.wait_until_loaded(5)
     username_field.scroll_to(:center) if username_field.obscured?
     ui = {
-      username_label    => { visible: true, caption: 'Username:' },
-      username_field    => {
+      username_label => { visible: true, caption: 'Username:' },
+      username_field => {
         name: 'username',
         exists: true,
         displayed: true,
@@ -161,10 +161,21 @@ class BasicFormPage < BaseTestPage
         disabled: false,
         required: true,
         value: '',
-        placeholder: 'User name'
+        placeholder: 'User name',
+        badInput: false,
+        customError: false,
+        patternMismatch: false,
+        rangeOverflow: false,
+        rangeUnderflow: false,
+        stepMismatch: false,
+        tooLong: false,
+        tooShort: false,
+        typeMismatch: false,
+        valid: false,
+        valueMissing: true
       },
-      password_label    => { visible: true, caption: 'Password:' },
-      password_field    => {
+      password_label => { visible: true, caption: 'Password:' },
+      password_field => {
         name: 'password',
         visible: true,
         displayed: true,
@@ -175,8 +186,8 @@ class BasicFormPage < BaseTestPage
         value: '',
         placeholder: 'Password'
       },
-      max_length_label  => { visible: true, caption: 'Max Length:' },
-      max_length_field  => {
+      max_length_label => { visible: true, caption: 'Max Length:' },
+      max_length_field => {
         visible: true,
         obscured: false,
         enabled: true,
@@ -185,38 +196,39 @@ class BasicFormPage < BaseTestPage
         value: '',
         maxlength: 64
       },
-      read_only_label   => { visible: true, caption: 'Read Only:' },
-      read_only_field   => {
+      read_only_label => { visible: true, caption: 'Read Only:' },
+      read_only_field => {
         visible: true,
         enabled: true,
         readonly: true,
         value: 'I am a read only text field'
       },
-      number_label      => { visible: true, caption: 'Number:' },
-      number_field      => {
+      number_label => { visible: true, caption: 'Number:' },
+      number_field => {
         visible: true,
         enabled: true,
         value: '41',
         min: 10,
         max: 1024,
-        step: 1
+        step: 1,
+        validation_message: ''
       },
-      color_label       => { visible: true, caption: 'Color:' },
-      color_picker      => { visible: true, enabled: true, value: '#000000' },
-      slider_label      => { visible: true, caption: 'Range:' },
-      slider            => {
+      color_label => { visible: true, caption: 'Color:' },
+      color_picker => { visible: true, enabled: true, value: '#000000' },
+      slider_label => { visible: true, caption: 'Range:' },
+      slider => {
         visible: true,
         enabled: true,
         value: 25,
         min: 0,
         max: 50,
       },
-      comments_label    => { visible: true, caption: 'TextArea:' },
-      comments_field    => { visible: true, enabled: true, value: '' },
-      filename_label    => { visible: true, caption: 'Filename:' },
-      upload_file       => { visible: true, enabled: true, value: '' },
-      checkboxes_label  => { visible: true, caption: 'Checkbox Items:' },
-      check_1           => {
+      comments_label => { visible: true, caption: 'TextArea:' },
+      comments_field => { visible: true, enabled: true, value: '' },
+      filename_label => { visible: true, caption: 'Filename:' },
+      upload_file => { visible: true, enabled: true, value: '' },
+      checkboxes_label => { visible: true, caption: 'Checkbox Items:' },
+      check_1 => {
         exists: true,
         visible: true,
         hidden: false,
@@ -225,7 +237,7 @@ class BasicFormPage < BaseTestPage
         checked: false,
         indeterminate: false
       },
-      check_2           => {
+      check_2 => {
         exists: true,
         visible: true,
         hidden: false,
@@ -234,7 +246,7 @@ class BasicFormPage < BaseTestPage
         checked: false,
         indeterminate: false
       },
-      check_3           => {
+      check_3 => {
         exists: true,
         visible: true,
         hidden: false,
@@ -243,7 +255,7 @@ class BasicFormPage < BaseTestPage
         checked: false,
         indeterminate: false
       },
-      check_4           => {
+      check_4 => {
         exists: true,
         visible: true,
         hidden: false,
@@ -252,8 +264,8 @@ class BasicFormPage < BaseTestPage
         checked: false,
         indeterminate: false
       },
-      radios_label      => { visible: true, caption: 'Radio Items:' },
-      radio_1           => {
+      radios_label => { visible: true, caption: 'Radio Items:' },
+      radio_1 => {
         exists: true,
         visible: true,
         hidden: false,
@@ -261,7 +273,7 @@ class BasicFormPage < BaseTestPage
         disabled: false,
         selected: false
       },
-      radio_2           => {
+      radio_2 => {
         exists: true,
         visible: true,
         hidden: false,
@@ -269,7 +281,7 @@ class BasicFormPage < BaseTestPage
         disabled: false,
         selected: false
       },
-      radio_3           => {
+      radio_3 => {
         exists: true,
         visible: true,
         hidden: false,
@@ -277,7 +289,7 @@ class BasicFormPage < BaseTestPage
         disabled: false,
         selected: false
       },
-      radio_4           => {
+      radio_4 => {
         exists: true,
         visible: true,
         hidden: false,
@@ -286,46 +298,46 @@ class BasicFormPage < BaseTestPage
         selected: false
       },
       multiselect_label => { visible: true, caption: 'Multiple Select Values:' },
-      multi_select      => {
+      multi_select => {
         visible: true,
         enabled: true,
         optioncount: 4,
         options: ['Selection Item 1', 'Selection Item 2', 'Selection Item 3', 'Selection Item 4'],
         selected: ''
       },
-      dropdown_label    => { visible: true, caption: 'Dropdown:' },
-      drop_down_select  => {
+      dropdown_label => { visible: true, caption: 'Dropdown:' },
+      drop_down_select => {
         visible: true,
         enabled: true,
         optioncount: 6,
         options: ['Drop Down Item 1', 'Drop Down Item 2', 'Drop Down Item 3', 'Drop Down Item 4', 'Drop Down Item 5', 'Drop Down Item 6'],
         selected: 'Drop Down Item 1'
       },
-      link_label        => { visible: true, caption: 'Links:' },
-      links_list        => {
+      link_label => { visible: true, caption: 'Links:' },
+      links_list => {
         visible: true,
         enabled: true,
         itemcount: 3,
         items: ['Open Media Page in same window/tab', 'Open Media Page in a new window/tab', 'Disabled Link']
       },
-      link_1            => {
+      link_1 => {
         visible: true,
         href: { ends_with: 'media_page.html' },
         caption: 'Open Media Page in same window/tab'
       },
-      link_2            => {
+      link_2 => {
         visible: true,
         href: { ends_with: 'media_page.html' },
         caption: 'Open Media Page in a new window/tab'
       },
-      link_3            => {
+      link_3 => {
         visible: true,
         aria_disabled: true,
         role: 'link',
         caption: 'Disabled Link'
       },
-      table_label       => { visible: true, caption: 'Table:' },
-      static_table      => {
+      table_label => { visible: true, caption: 'Table:' },
+      static_table => {
         visible: true,
         columncount: 3,
         rowcount: 4,
@@ -338,29 +350,29 @@ class BasicFormPage < BaseTestPage
         { cell: [2, 3] } => ['Mexico'],
         { column: 3 } => [['Germany', 'Mexico', 'Austria', 'UK']]
       },
-      images_label      => { visible: true, caption: 'Images:' },
-      image_1           => {
+      images_label => { visible: true, caption: 'Images:' },
+      image_1 => {
         visible: true,
         loaded: true,
         broken: false,
         src: { ends_with: 'images/Wilder.jpg' },
         alt: "It's alive"
       },
-      image_2           => {
+      image_2 => {
         visible: true,
         loaded: true,
         broken: false,
         src: { ends_with: 'images/You_Betcha.jpg' },
         alt: 'You Betcha'
       },
-      image_3           => {
+      image_3 => {
         visible: true,
         broken: true,
         src: { ends_with: 'wrongname.gif' },
         alt: 'A broken image'
       },
-      cancel_button     => { visible: true, enabled: true, caption: 'Cancel' },
-      submit_button     => { visible: true, enabled: true, caption: 'Submit' }
+      cancel_button => { visible: true, enabled: true, caption: 'Cancel' },
+      submit_button => { visible: true, enabled: true, caption: 'Submit' }
     }
     verify_ui_states(ui)
   end
@@ -495,6 +507,51 @@ class BasicFormPage < BaseTestPage
       multi_select     => { selected: 'Selection Item 2' },
       drop_down_select => { selected: 'Drop Down Item 3' }
     }
+    verify_ui_states(ui)
+  end
+
+  def invalid_data_entry(reason)
+    # populate fields and controls with externally sourced data
+    @data = form_data
+    fields = {
+      username_field => @data[:username],
+      password_field => @data[:password],
+      number_field => @data[:number]
+    }
+    populate_data_fields(fields)
+
+    case reason.gsub(/\s+/, '_').downcase.to_sym
+    when :blank_username
+      username_field.clear
+    when :blank_password
+      password_field.clear
+    when :number_too_low
+      number_field.set(3)
+    when :number_too_high
+      number_field.set(4132)
+    when :invalid_email
+      email_field.set('bob')
+    else
+      raise "#{reason} is not a valid selector"
+    end
+  end
+
+  def verify_entry_error(reason)
+    ui = case reason.gsub(/\s+/, '_').downcase.to_sym
+         when :blank_username
+           { username_field => { valid: false, valueMissing: true } }
+         when :blank_password
+           { password_field => { valid: false, valueMissing: true } }
+         when :number_too_low
+           { number_field => { valid: false, rangeUnderflow: true } }
+         when :number_too_high
+           { number_field => { valid: false, rangeOverflow: true } }
+         when :invalid_email
+           { email_field => { valid: false, typeMismatch: true } }
+         else
+           raise "#{reason} is not a valid selector"
+         end
+    # verify correct error message is displayed
     verify_ui_states(ui)
   end
 end

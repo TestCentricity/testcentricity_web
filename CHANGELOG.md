@@ -2,6 +2,25 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.2.0] - 20-APR-2022
+
+### Added
+* `TextField.validation_message` and `TextField.validity?` methods added.
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of the following
+`TextField.validity?` properties:
+  * `:badInput`
+  * `:customError`
+  * `:patternMismatch`
+  * `:rangeOverflow`
+  * `:rangeUnderflow`
+  * `:stepMismatch`
+  * `:tooLong`
+  * `:tooShort`
+  * `:typeMismatch`
+  * `:valid`
+  * `:valueMissing`
+
+
 ## [4.1.10] - 19-APR-2022
 
 ### Fixed

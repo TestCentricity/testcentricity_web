@@ -23,6 +23,10 @@ Gem::Specification.new do |spec|
     LambdaTest services).'
   spec.homepage      = 'https://github.com/TestCentricity/testcentricity_web'
   spec.license       = 'BSD-3-Clause'
+  spec.metadata = {
+    'changelog_uri' => 'https://github.com/TestCentricity/testcentricity_web/blob/main/CHANGELOG.md',
+    'documentation_uri' => 'https://www.rubydoc.info/gems/testcentricity_web'
+  }
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }

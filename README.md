@@ -35,7 +35,7 @@ can be found [here](https://github.com/TestCentricity/tc_web_sample).
 
 ## Installation
 
-TestCentricity version 4.1 and above requires Ruby 2.7 or later. To install the TestCentricity gem, add this line to your automation project's Gemfile:
+TestCentricity version 4.1 and above requires Ruby 2.7.5 or later. To install the TestCentricity gem, add this line to your automation project's Gemfile:
 
     gem 'testcentricity_web'
 
@@ -658,6 +658,22 @@ The `verify_ui_states` method supports the following property/state pairs:
     :min         Integer
     :max         Integer
     :step        Integer
+
+  Text Field Constraint validation
+
+    :validation_message String
+    :badInput           Boolean
+    :customError        Boolean
+    :patternMismatch    Boolean
+    :rangeOverflow      Boolean
+    :rangeUnderflow     Boolean
+    :stepMismatch       Boolean
+    :tooLong            Boolean
+    :tooShort           Boolean
+    :typeMismatch       Boolean
+    :valid              Boolean
+    :valueMissing       Boolean
+
 
 **Checkboxes:**
 
