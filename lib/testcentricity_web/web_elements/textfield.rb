@@ -42,6 +42,34 @@ module TestCentricity
       obj.native.attribute('placeholder')
     end
 
+    # Return validationMessage property of a textfield, which is the message the browser displays to the user when a textfield's
+    # validity is checked and fails. Note that each web browser provides a default localized message for this property, and message
+    # strings can vary between different browsers (Chrome/Edge vs Firefox vs Safari).
+    #
+    # @return [String]
+    # @example
+    #   message = username_field.validation_message
+    #
+    def validation_message
+      obj, = find_element
+      object_not_found_exception(obj, nil)
+      obj.native.attribute('validationMessage')
+    end
+
+    # Return Boolean value representing
+    #
+    # @param validity_state [Symbol] property to verify
+    # @return [Boolean]
+    # @example
+    #   username_field.validity?(:valid)
+    #   username_field.validity?(:valueMissing)
+    #
+    def validity?(validity_state)
+      obj, = find_element
+      object_not_found_exception(obj, nil)
+      page.execute_script("return arguments[0].validity.#{validity_state}", obj)
+    end
+
     # Return min attribute of a number type text field.
     #
     # @return [Integer]

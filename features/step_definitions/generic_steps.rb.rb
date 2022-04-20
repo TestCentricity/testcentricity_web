@@ -122,3 +122,13 @@ end
 Then(/^I expect the selected option to be displayed$/) do
   PageManager.current_page.verify_chosen_options
 end
+
+
+When(/^I populate the form fields with (.*)$/) do |reason|
+  PageManager.current_page.invalid_data_entry(reason)
+end
+
+
+Then(/^I expect an error to be displayed due to (.*)$/) do |reason|
+  PageManager.current_page.verify_entry_error(reason)
+end

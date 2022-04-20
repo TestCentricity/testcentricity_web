@@ -3,7 +3,7 @@
 Thumbs.db
 
 #IDE project files
-/.idea
+.idea/
 .settings
 .project
 

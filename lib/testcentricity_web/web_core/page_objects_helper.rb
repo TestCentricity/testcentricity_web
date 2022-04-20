@@ -231,6 +231,30 @@ module TestCentricity
                      ui_object.aria_multiselectable?
                    when :content_editable
                      ui_object.content_editable?
+                   when :validation_message
+                     ui_object.validation_message
+                   when :badInput
+                     ui_object.validity?(:badInput)
+                   when :customError
+                     ui_object.validity?(:customError)
+                   when :patternMismatch
+                     ui_object.validity?(:patternMismatch)
+                   when :rangeOverflow
+                     ui_object.validity?(:rangeOverflow)
+                   when :rangeUnderflow
+                     ui_object.validity?(:rangeUnderflow)
+                   when :stepMismatch
+                     ui_object.validity?(:stepMismatch)
+                   when :tooLong
+                     ui_object.validity?(:tooLong)
+                   when :tooShort
+                     ui_object.validity?(:tooShort)
+                   when :typeMismatch
+                     ui_object.validity?(:typeMismatch)
+                   when :valid
+                     ui_object.validity?(:valid)
+                   when :valueMissing
+                     ui_object.validity?(:valueMissing)
                    else
                      if property.is_a?(Hash)
                        property.map do |key, value|
