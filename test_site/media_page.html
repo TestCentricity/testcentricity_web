@@ -56,27 +56,27 @@
                 <tbody>
                     <tr>
                         <td>
-                            <label id="video1">Video:</label>
+                            <h3 id="video1">Video:</h3>
                             <video id="video_player1" width="480" height="360" controls>
                                 <source src="media/count_and_bars.mp4" type="video/mp4">
                             </video>
                         </td>
-                    </tr>
-                    <tr>
                         <td>
-                            <label id="audio">Audio:</label>
-                            <audio id="audio_player" controls>
-                                <source src="media/bbc_scotland_report.mp3" type="audio/mp3">
-                            </audio>
+                            <h3 id="video2">Video with Captions:</h3>
+                            <video id="video_player2" width="520" controls>
+                                <source src="media/sintel-short.mp4" type="video/mp4">
+                                <track src="subtitles/sintel-en.vtt" kind="subtitles" srclang="en" label="English" default>
+                                <track src="subtitles/sintel-es.vtt" kind="subtitles" srclang="es" label="Spanish">
+                                <track src="subtitles/sintel-de.vtt" kind="subtitles" srclang="de" label="German">
+                            </video>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label id="video2">Video with Captions:</label>
-                            <video id="video_player2" width="400" controls>
-                                <source src="media/MIB2.mp4" type="video/mp4">
-                                <track src="media/MIB2-subtitles-pt-BR.vtt" kind="subtitles" srclang="pt" label="Portuguese" default>
-                            </video>
+                            <h3 id="audio">Audio:</h3>
+                            <audio id="audio_player" controls>
+                                <source src="media/bbc_scotland_report.mp3" type="audio/mp3">
+                            </audio>
                         </td>
                     </tr>
                 </tbody>

@@ -1,6 +1,7 @@
 # TestCentricity™ Web
 
 [![Gem Version](https://badge.fury.io/rb/testcentricity_web.svg)](https://badge.fury.io/rb/testcentricity_web)  [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause)
+![Gem Downloads](https://img.shields.io/gem/dt/testcentricity_web) ![Maintained](https://img.shields.io/maintenance/yes/2022)
 
 
 The TestCentricity™ Web core generic framework for desktop and mobile web browser-based app testing implements a Page Object Model DSL
@@ -738,6 +739,13 @@ The `verify_ui_states` method supports the following property/state pairs:
     :volume                Float
     :preload               String
     :poster                String
+    :track_count           Integer
+    :active_track          Integer
+    :active_track_data     Hash
+    :all_tracks_data       Array of Hash
+    :track_data            Hash
+    :active_track_source   String
+    :track_source          String
 
 #### ARIA accessibility property/state pairs
 

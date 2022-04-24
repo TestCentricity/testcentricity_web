@@ -213,6 +213,114 @@ module TestCentricity
       obj.native.attribute('volume').to_f
     end
 
+    # Return number of text tracks of associated media
+    #
+    # @return [Integer] number of text tracks
+    # @example
+    #   num_tracks = media_player.track_count
+    #
+    def track_count
+      obj, = find_element(visible = :all)
+      object_not_found_exception(obj, @type)
+      page.execute_script('return arguments[0].textTracks.length', obj)
+    end
+
+    # Return index of active text track of associated media
+    #
+    # @return [Integer] number of active text track
+    # @example
+    #   track_num = media_player.active_track
+    #
+    def active_track
+      num_tracks = track_count
+      return 0 if num_tracks.zero?
+
+      obj, = find_element(visible = :all)
+      object_not_found_exception(obj, @type)
+      (0..num_tracks).each do |track|
+        track_info = page.execute_script("return arguments[0].textTracks[#{track}].mode", obj)
+        return track + 1 if track_info == 'showing'
+      end
+      0
+    end
+
+    # Return properties of active text track of associated media
+    #
+    # @return [Hash] properties of active text track (:kind, :label, :language, :mode)
+    # @example
+    #   track_info = media_player.active_track_data
+    #
+    def active_track_data
+      active = active_track
+      return nil if active.zero?
+
+      track_data(active)
+    end
+
+    # Return properties of all text tracks of associated media
+    #
+    # @return [Array of Hash] properties of active text track (:kind, :label, :language, :mode)
+    # @example
+    #   all_track_info = media_player.all_tracks_data
+    #
+    def all_tracks_data
+      num_tracks = track_count
+      return 0 if num_tracks.zero?
+
+      all_data = []
+      (1..num_tracks).each do |track|
+        all_data.push( { track => track_data(track) })
+      end
+      all_data
+    end
+
+    # Return properties of specified text track of associated media
+    #
+    # @param track [Integer] index of requested track
+    # @return [Hash] properties of requested text track (:kind, :label, :language, :mode)
+    # @example
+    #   track_info = media_player.track_data(1)
+    #
+    def track_data(track)
+      obj, = find_element(visible = :all)
+      object_not_found_exception(obj, @type)
+      track_mode = page.execute_script("return arguments[0].textTracks[#{track - 1}].mode", obj)
+      track_obj = obj.find(:css, "track:nth-of-type(#{track})", visible: :all, wait: 1)
+      {
+        kind: track_obj[:kind],
+        label: track_obj[:label],
+        language: track_obj[:srclang],
+        mode: track_mode
+      }
+    end
+
+    # Return src property of active text track of associated media
+    #
+    # @return [String] src property of active text track
+    # @example
+    #   track_src = media_player.active_track_source
+    #
+    def active_track_source
+      active = active_track
+      return nil if active.zero?
+
+      track_source(active)
+    end
+
+    # Return srv property of specified text track of associated media
+    #
+    # @param track [Integer] index of requested track
+    # @return [String] src property of requested text track
+    # @example
+    #   track_src = media_player.track_source(2)
+    #
+    def track_source(track)
+      obj, = find_element(visible = :all)
+      object_not_found_exception(obj, @type)
+      track_obj = obj.find(:css, "track:nth-of-type(#{track})", visible: :all, wait: 1)
+      track_obj[:src]
+    end
+
     # Set the media currentTime property
     #
     # @param value [Float] time in seconds
