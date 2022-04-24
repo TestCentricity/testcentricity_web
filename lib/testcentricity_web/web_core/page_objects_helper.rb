@@ -139,6 +139,16 @@ module TestCentricity
                      ui_object.ready_state
                    when :volume
                      ui_object.volume
+                   when :track_count
+                     ui_object.track_count
+                   when :active_track
+                     ui_object.active_track
+                   when :active_track_data
+                     ui_object.active_track_data
+                   when :active_track_source
+                     ui_object.active_track_source
+                   when :all_tracks_data
+                     ui_object.all_tracks_data
                    when :crossorigin
                      ui_object.crossorigin
                    when :preload

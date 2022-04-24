@@ -2,6 +2,29 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.2.1] - 23-APR-2022
+
+### Added
+* Added the following `Audio`, `Media`, and `Video` methods to support verification of media text tracks (subtitles, captions,
+chapters, descriptions, or metadata):
+  * `track_count`
+  * `active_track`
+  * `active_track_data`
+  * `all_tracks_data`
+  * `track_data`
+  * `active_track_source`
+  * `track_source`
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of the following
+  `Media` properties:
+  * `:track_count`
+  * `:active_track`
+  * `:active_track_data`
+  * `:all_tracks_data`
+  * `:track_data`
+  * `:active_track_source`
+  * `:track_source`
+
+
 ## [4.2.0] - 20-APR-2022
 
 ### Added

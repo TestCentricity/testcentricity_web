@@ -8,7 +8,8 @@ class MediaTestPage < BaseTestPage
   trait(:page_title)   { 'Media Page'}
 
   # Media Test page UI elements
-  videos  video_player_1: 'video#video_player1'
+  videos  video_player_1: 'video#video_player1',
+          video_player_2: 'video#video_player2'
   audios  audio_player:   'audio#audio_player'
 
   def verify_page_ui
@@ -45,7 +46,43 @@ class MediaTestPage < BaseTestPage
         preload: preload,
         poster: '',
         src: '',
-        duration: 17.6
+        duration: 17.6,
+        track_count: 0,
+        active_track: 0
+      },
+      video_player_2 => {
+        visible: true,
+        paused: true,
+        autoplay: false,
+        loop: false,
+        ended: false,
+        controls: true,
+        current_time: 0,
+        ready_state: 4,
+        default_playback_rate: 1,
+        playback_rate: 1,
+        seeking: false,
+        default_muted: false,
+        muted: false,
+        volume: 1,
+        preload: preload,
+        poster: '',
+        src: '',
+        duration: 120,
+        track_count: 3,
+        active_track: 1,
+        active_track_data: {
+          kind: 'subtitles',
+          label: 'English',
+          language: 'en',
+          mode: 'showing'
+        },
+        active_track_source: { ends_with: 'subtitles/sintel-en.vtt' },
+        all_tracks_data: [
+          { 1 => { kind: 'subtitles', label: 'English', language: 'en', mode: 'showing' } },
+          { 2 => { kind: 'subtitles', label: 'Spanish', language: 'es', mode: 'disabled' } },
+          { 3 => { kind: 'subtitles', label: 'German', language: 'de', mode: 'disabled' } }
+        ]
       },
       audio_player => {
         visible: true,
@@ -63,7 +100,8 @@ class MediaTestPage < BaseTestPage
         muted: false,
         volume: 1,
         preload: preload,
-        src: ''
+        src: '',
+        track_count: 0
       }
     }
     verify_ui_states(ui)

@@ -16,6 +16,7 @@ Thumbs.db
 /spec/reports/
 /tmp/
 Gemfile*.lock
+*gem
 
 # rspec failure tracking
 .rspec_status
