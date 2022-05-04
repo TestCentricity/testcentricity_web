@@ -28,11 +28,6 @@ describe TestCentricity::PageObject, required: true do
       expect(@test_page.title).to eql 'I am the title of a page'
     end
 
-    it 'determines if page is secure' do
-      allow(@test_page).to receive(:secure?).and_return(false)
-      expect(@test_page.secure?).to eq(false)
-    end
-
     it 'responds to open_portal' do
       expect(@test_page).to respond_to(:open_portal)
     end

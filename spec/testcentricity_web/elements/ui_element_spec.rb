@@ -78,7 +78,7 @@ describe TestCentricity::UIElement, required: true do
     expect(css_element.exists?).to be true
   end
 
-  it 'should know if element is disabled' do
+  it 'should know if element is enabled' do
     allow(css_element).to receive(:enabled?).and_return(true)
     expect(css_element.enabled?).to eq(true)
   end

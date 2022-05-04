@@ -415,4 +415,3 @@ module TestCentricity
     # :nocov:
   end
 end
-

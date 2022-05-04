@@ -390,5 +390,6 @@ module TestCentricity
       raise "Expected element '#{expected_element.get_name}' to have focus but found '#{focused_obj[:id]} is focused instead'" unless focused_obj == expected_obj.native
 
       puts "Element '#{expected_element.get_name}' is focused as expected"
-    end  end
+      end
+  end
 end

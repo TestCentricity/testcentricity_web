@@ -54,11 +54,14 @@ task :grid_cukes do
   compose.version
   compose.up(detached: true)
   # run grid features
-  %w[chrome_grid firefox_grid edge_grid ipad_pro_12_grid].each do |profile|
-    system "parallel_cucumber features/ -o '-p #{profile}' -n 4 --group-by scenarios"
+  begin
+    %w[chrome_grid firefox_grid edge_grid ipad_pro_12_grid].each do |profile|
+      system "parallel_cucumber features/ -o '-p #{profile}' -n 4 --group-by scenarios"
+    end
+  ensure
+    # shut down Selenium Grid
+    compose.down(remove_volumes: true)
   end
-  # shut down Selenium Grid
-  compose.down(remove_volumes: true)
 end
 
 
@@ -69,9 +72,12 @@ task :docker_grid_specs do
   compose.version
   compose.up(detached: true)
   # run grid specs
-  Rake::Task[:grid_specs].invoke
-  # shut down Selenium Grid
-  compose.down(remove_volumes: true)
+  begin
+    Rake::Task[:grid_specs].invoke
+  ensure
+    # shut down Selenium Grid
+    compose.down(remove_volumes: true)
+  end
 end
 
 
