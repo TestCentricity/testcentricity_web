@@ -4,8 +4,8 @@
 ![Gem Downloads](https://img.shields.io/gem/dt/testcentricity_web) ![Maintained](https://img.shields.io/maintenance/yes/2022)
 
 
-The TestCentricity™ Web core generic framework for desktop and mobile web browser-based app testing implements a Page Object Model DSL
-for use with Cucumber, Capybara (version 3.x), and Selenium-Webdriver (version 4.x). It also facilitates the configuration of the appropriate
+The TestCentricity™ Web core framework for desktop and mobile web browser-based app testing implements a Page Object Model DSL for use
+with Cucumber, Capybara (version 3.x), and Selenium-Webdriver (version 4.x). It also facilitates the configuration of the appropriate
 Selenium-Webdriver capabilities required to establish a connection with a local or cloud hosted desktop or mobile web browser.
 
 The TestCentricity™ Web gem supports running automated tests against the following web test targets:
@@ -30,13 +30,14 @@ A complete history of bug fixes and new features can be found in the {file:CHANG
 
 The RubyDocs for this gem can be found [here](https://www.rubydoc.info/gems/testcentricity_web).
 
-An example project that demonstrates the implementation of a page object model framework using Cucumber and TestCentricity™
+An example project that demonstrates the implementation of a page object model framework using Cucumber and TestCentricity™ Web
 can be found [here](https://github.com/TestCentricity/tc_web_sample).
 
 
 ## Installation
 
-TestCentricity version 4.1 and above requires Ruby 2.7.5 or later. To install the TestCentricity gem, add this line to your automation project's Gemfile:
+TestCentricity Web version 4.1 and above requires Ruby 2.7.5 or later. To install the TestCentricity Web gem, add this line to your
+automation project's Gemfile:
 
     gem 'testcentricity_web'
 
@@ -60,7 +61,7 @@ If you are using Cucumber, you need to require the following in your `env.rb` fi
 
 ### Using RSpec
 
-If you are using RSpec instead, you need to require the following in your `env.rb` file:
+If you are using RSpec instead, you need to require the following in your `spec_helper.rb` file:
 
     require 'capybara'
     require 'capybara/rspec'
@@ -119,21 +120,21 @@ Web pages typically have names and URLs associated with them. Web pages also typ
 indicates that the page's contents have fully loaded.
 
 The `page_name` trait is registered with the `PageManager` object, which includes a `find_page` method that takes a page name as a
-parameter and returns an instance of the associated `Page Object`. If you intend to use the `PageManager`, you must define a `page_name`
+parameter and returns an instance of the associated `PageObject`. If you intend to use the `PageManager`, you must define a `page_name`
 trait for each `PageObject` to be registered.
 
 The `page_name` trait is usually a `String` value that represents the name of the page that will be matched by the `PageManager.findpage` method.
 `page_name` traits are case and white-space sensitive. For pages that may be referenced with multiple names, the `page_name` trait may also be
 an `Array` of `String` values representing those page names.
 
+A `page_locator` trait is defined if a page has a unique object or attribute that exists once the page's contents have fully loaded. The
+`page_locator` trait is a CSS or Xpath expression that uniquely identifies the object or attribute. The `verify_page_exists` method waits
+for the `page_locator` trait to exist.
+
 A `page_url` trait should be defined if a page can be directly loaded using a URL. If you set Capybara's `app_host`, or specify a base URL
 when calling the `WebDriverConnect.initialize_web_driver` method, then your `page_url` trait can be the relative URL slug that will
 be appended to the base URL specified in `app_host`. Specifying a `page_url` trait is optional, as not all web pages can be directly loaded
 via a URL.
-
-A `page_locator` trait is defined if a page has a unique object or attribute that exists once the page's contents have fully loaded. The
-`page_locator` trait is a CSS or Xpath expression that uniquely identifies the object or attribute. The `verify_page_exists` method waits
-for the `page_locator` trait to exist.
 
 You define your page's **Traits** as shown below:
 
@@ -388,8 +389,7 @@ You add a `PageSection` to its associated `PageObject` as shown below:
 Once your `PageObject` has been instantiated, you can call its `PageSection` methods as shown below:
 
     home_page.search_form.search_for('ocarina')
-    
-    
+
 
 ## UIElements
 
@@ -403,9 +403,9 @@ all UI elements are based on the `UIElement` class.
 
 Single `UIElement` declarations have the following format:
                                      
-    elementType :element Name, locator
+    elementType :elementName, locator
 
-* The `element name` is the unique name that you will use to refer to the UI element and is specified as a `Symbol`.
+* The `elementName` is the unique name that you will use to refer to the UI element and is specified as a `Symbol`.
 * The `locator` is the CSS or XPath attribute that uniquely and unambiguously identifies the `UIElement`.
 
 Multiple `UIElement` declarations for a collection of elements of the same type can be performed by passing a hash table containing the
@@ -476,8 +476,8 @@ Supported `UIElement` elementTypes and their declarations have the following for
 
 
 Refer to the Class List documentation for the `PageObject` and `PageSection` classes for details on the class methods used for declaring
-and instantiating `UIElements`. Examples of UI element declarations can be found in the ***Adding UI Elements to your Page Object*** and
-***Adding UI Elements to your PageSection Object*** sections above.
+and instantiating `UIElements`. Examples of UI element declarations can be found in the ***Adding UI Elements to your PageObject*** and
+***Adding UI Elements to your PageSection*** sections above.
 
 
 ### UIElement Inherited Methods
@@ -582,7 +582,7 @@ of a hex color `String`. For `section` objects, data values must be a `String`, 
 The `populate_data_fields` method verifies that data attributes associated with each `UIElement` is not `nil` or `empty` before attempting to
 enter data into the `UIElement`.
 
-The optional `wait_time` parameter is used to specify the time (in seconds) to wait for each `UIElement` to become become viable for data entry
+The optional `wait_time` parameter is used to specify the time (in seconds) to wait for each `UIElement` to become viable for data entry
 (the `UIElement` must be visible and enabled) before entering the associated data value. This option is useful in situations where entering data,
 or setting the state of a `UIElement` might cause other `UIElements` to become visible or active. Specifying a wait_time value ensures that the
 subsequent `UIElements` will be ready to be interacted with as states are changed. If the wait time is `nil`, then the wait time will be 5 seconds.
@@ -674,7 +674,6 @@ The `verify_ui_states` method supports the following property/state pairs:
     :typeMismatch       Boolean
     :valid              Boolean
     :valueMissing       Boolean
-
 
 **Checkboxes:**
 
@@ -1046,7 +1045,7 @@ cumbersome to manage if your web application has dozens of `PageObjects` that ne
 ### Using the PageManager
 
 The `PageManager` class provides methods for supporting the instantiation and management of `PageObjects`. In the code example below,
-the `page_objects` method contains a hash table of your `PageObject` instances and their associated `PageObject` class names to be 
+the `page_objects` method contains a hash table of your `PageObject` instances and their associated `PageObject` classes to be 
 instantiated by `PageManager`:
     
     module WorldPages
@@ -1901,7 +1900,7 @@ area sub-folders as needed. Likewise, `PageSection` class definitions should be 
 
 ## Web Test Automation Framework Implementation
 
- <img src="https://i.imgur.com/eukmEan.jpg" alt="TestCentricity Web Framework Overview" title="TestCentricity Web Framework Overview">
+ <img src="https://i.imgur.com/lCT9HbK.jpg" alt="TestCentricity Web Framework Overview" title="TestCentricity Web Framework Overview">
 
 
 
