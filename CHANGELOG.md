@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.2.2] - 21-MAY-2022
+
+### Changed
+* Update default version of Appium used when running tests on Sauce Labs service.
+* Refactored capabilities definition when running with locally hosted Appium instance.
+
+
 ## [4.2.1] - 23-APR-2022
 
 ### Added
@@ -61,7 +68,6 @@ running gem test specs and features.
 radio buttons to the unchecked state.
 
 ### Added
-
 * `CheckBox.define_custom_elements` and `Radio.define_custom_elements` methods now support specifying a child `input` component
 contained by a top level `label` element.
 
