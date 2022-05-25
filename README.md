@@ -71,7 +71,7 @@ If you are using RSpec instead, you need to require the following in your `spec_
 ### Using Appium
 
 If you will be running your tests on mobile Safari browsers on simulated iOS devices using Appium and XCode Simulators, you need to require
-the following in your `env.rb` file:
+the following in your `env.rb` and/or `spec_helper.rb` file:
 
     require 'appium_capybara'
 
