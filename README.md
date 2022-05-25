@@ -12,8 +12,8 @@ The TestCentricity™ Web gem supports running automated tests against the follo
 * locally hosted desktop browsers (Chrome, Edge, Firefox, Safari, or IE)
 * locally hosted "headless" Chrome, Firefox, or Edge browsers
 * remote desktop and emulated mobile web browsers hosted on Selenium Grid 4 and Dockerized Selenium Grid 4 environments
-* mobile Safari browsers on iOS device simulators or physical iOS devices (using Appium and XCode on OS X)
-* mobile Chrome or Android browsers on Android Studio virtual device emulators (using Appium and Android Studio on OS X)
+* mobile Safari browsers on iOS device simulators or physical iOS devices (using Appium and XCode on macOS)
+* mobile Chrome or Android browsers on Android Studio virtual device emulators (using Appium and Android Studio on macOS)
 * cloud hosted desktop (Firefox, Chrome, Safari, IE, or Edge) or mobile (iOS Mobile Safari or Android) web browsers using the following service:
   * [Browserstack](https://www.browserstack.com/list-of-browsers-and-platforms?product=automate)
   * [Sauce Labs](https://saucelabs.com/open-source#automated-testing-platform)
@@ -1190,18 +1190,18 @@ the connection.
 
 ### Locally hosted desktop web browser
 
-For locally hosted desktop web browsers running on macOS (OS X) or Windows platforms, the `WEB_BROWSER` Environment Variable must be set to one of the
+For locally hosted desktop web browsers running on macOS or Windows platforms, the `WEB_BROWSER` Environment Variable must be set to one of the
 values from the table below: 
 
 | `WEB_BROWSER`      | **Desktop Platform**                           |
 |--------------------|------------------------------------------------|
-| `chrome`           | OS X or Windows                                |
-| `chrome_headless`  | OS X or Windows (headless - no visible UI)     |
-| `firefox`          | OS X or Windows |
-| `firefox_headless` | OS X or Windows (headless - no visible UI)     |
-| `edge`             | OS X or Windows                                |
-| `edge_headless`    | OS X or Windows (headless - no visible UI)     |
-| `safari`           | OS X only                                      |
+| `chrome`           | macOS or Windows                               |
+| `chrome_headless`  | macOS or Windows (headless - no visible UI)    |
+| `firefox`          | macOS or Windows                               |
+| `firefox_headless` | macOS or Windows (headless - no visible UI)    |
+| `edge`             | macOS or Windows                               |
+| `edge_headless`    | macOS or Windows (headless - no visible UI)    |
+| `safari`           | macOS only                                     |
 | `ie`               | Windows only (IE version 10.x or greater only) |
 
 Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
@@ -1259,7 +1259,7 @@ A detailed list of file MIME types can be found [here](https://www.freeformatter
 
 ### Locally hosted emulated mobile web browser
 
-You can run your tests against mobile device browsers that are emulated within a locally hosted instance of a Chrome desktop browser on OS X or
+You can run your tests against mobile device browsers that are emulated within a locally hosted instance of a Chrome desktop browser on macOS or
 Windows. The specified mobile browser's user agent, CSS screen dimensions, and default screen orientation will be automatically set within the
 local Chrome browser instance. You may even specify the emulated device's screen orientation. For locally hosted emulated mobile web browsers,
 the `WEB_BROWSER` Environment Variable must be set to one of the values from the table below: 
@@ -1370,7 +1370,7 @@ Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below
 #### Mobile Safari browser on iOS Simulators or iOS Physical Devices
 
 You can run your mobile web tests against the mobile Safari browser on simulated iOS devices or physically connected iOS devices using Appium and XCode on
-OS X. You must install Appium, XCode, and the iOS version-specific device simulators for XCode. You must also ensure that the `appium_capybara` gem is
+macOS. You must install Appium, XCode, and the iOS version-specific device simulators for XCode. You must also ensure that the `appium_capybara` gem is
 installed and required as described in **section 3.3 (Setup - Using Appium)** above.
 
 Information about Appium setup and configuration requirements for testing on physically connected iOS devices can be found on [this page](https://github.com/appium/appium/blob/master/docs/en/drivers/ios-xcuitest-real-devices.md).
@@ -1411,7 +1411,7 @@ Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below
 
 #### Mobile Chrome or Android browsers on Android Studio Virtual Device emulators
 
-You can run your mobile web tests against the mobile Chrome or Android browser on emulated Android devices using Appium and Android Studio on OS X. You
+You can run your mobile web tests against the mobile Chrome or Android browser on emulated Android devices using Appium and Android Studio on macOS. You
 must install Android Studio, the desired Android version-specific virtual device emulators, and Appium. Refer to [this page](http://appium.io/docs/en/drivers/android-uiautomator2/index.html)
 for information on configuring Appium to work with the Android SDK. You must also ensure that the `appium_capybara` gem is installed and required as
 described in **section 3.3 (Setup - Using Appium)** above.
