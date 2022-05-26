@@ -5,7 +5,7 @@
 
 
 The TestCentricity™ Web core framework for desktop and mobile web browser-based app testing implements a Page Object Model DSL for use
-with Cucumber, Capybara (version 3.x), and Selenium-Webdriver (version 4.x). It also facilitates the configuration of the appropriate
+with Cucumber (version 7.x or greater), Capybara (version 3.x), and Selenium-Webdriver (version 4.x). It also facilitates the configuration of the appropriate
 Selenium-Webdriver capabilities required to establish a connection with a local or cloud hosted desktop or mobile web browser.
 
 The TestCentricity™ Web gem supports running automated tests against the following web test targets:
@@ -1184,8 +1184,8 @@ The `TestCentricity::WebDriverConnect.initialize_web_driver` method configures t
 establish a connection with a target web browser, and sets the base host URL of the web site you are running your tests against.
 
 The `TestCentricity::WebDriverConnect.initialize_web_driver` method accepts a single optional parameter - the base host URL. Cucumber
-**Environment Variables** are used to specify the target local or remote web browser, and the various webdriver capability parameters required to configure
-the connection.
+**Environment Variables** are used to specify the target local or remote web browser, and the various webdriver capability parameters required
+to configure the connection.
 
 
 ### Locally hosted desktop web browser
@@ -1547,6 +1547,7 @@ for information regarding the specific capabilities.
 | `NETWORK_LOGS`           | [Optional] Capture network logs (`true` or `false`)                                                                                                                        |
 | `APPIUM_LOGS`            | [Optional] Generate Appium logs (`true` or `false`)                                                                                                                        |
 
+
 #### Remote desktop browsers on the Sauce Labs service
 
 For remotely hosted desktop web browsers on the Sauce Labs service, the following **Environment Variables** must be set as described in the
@@ -1566,6 +1567,7 @@ to obtain information regarding the specific capabilities.
 | `BROWSER_SIZE `          | [Optional] Specify width, height of browser window                                                                         |
 | `RECORD_VIDEO`           | [Optional] Enable screen video recording during test execution (`true` or `false`)                                         |
 
+
 #### Remote desktop browsers on the TestingBot service
 
 For remotely hosted desktop web browsers on the TestingBot service, the following **Environment Variables** must be set as described in
@@ -1583,6 +1585,7 @@ regarding the specific capabilities.
 | `TUNNELING`              | [Optional] Must be `true` if you are testing against internal/local servers (`true` or `false`)                   |
 | `RESOLUTION`             | [Optional] Possible values: `800x600`, `1024x768`, `1280x960`, `1280x1024`, `1600x1200`, `1920x1200`, `2560x1440` |
 | `BROWSER_SIZE`           | [Optional] Specify width, height of browser window                                                                |
+
 
 #### Remote desktop browsers on the LambdaTest service
 
@@ -1604,6 +1607,7 @@ to obtain information regarding the specific capabilities.
 | `ALLOW_POPUPS`           | [Optional] Allow popups (`true` or `false`) - for Safari, IE, and Edge browsers only     |
 | `ALLOW_COOKIES`          | [Optional] Allow all cookies (`true` or `false`) - for Safari browsers only              |
 | `CONSOLE_LOGS`           | [Optional] Used to capture browser console logs.                                         |
+
 
 ### Using Browser specific Profiles in cucumber.yml
 
@@ -1745,6 +1749,8 @@ that you intend to connect with.
     
     #==============
     # profiles for remotely hosted web browsers on the BrowserStack service
+    # WARNING: Credentials should not be stored as text in your cucumber.yml file where it can be exposed by anyone with access
+    #          to your version control system
     #==============
     
     browserstack: WEB_BROWSER=browserstack BS_USERNAME="<INSERT USER NAME HERE>" BS_AUTHKEY="<INSERT PASSWORD HERE>"
@@ -1775,6 +1781,8 @@ that you intend to connect with.
     
     #==============
     # profiles for remotely hosted web browsers on the SauceLabs service
+    # WARNING: Credentials should not be stored as text in your cucumber.yml file where it can be exposed by anyone with access
+    #          to your version control system
     #==============
     
     saucelabs:  WEB_BROWSER=saucelabs SL_USERNAME="<INSERT USER NAME HERE>" SL_AUTHKEY="<INSERT PASSWORD HERE>" DATA_CENTER="<INSERT DATA CENTER HERE"
@@ -1799,6 +1807,8 @@ that you intend to connect with.
     
     #==============
     # profiles for remotely hosted web browsers on the TestingBot service
+    # WARNING: Credentials should not be stored as text in your cucumber.yml file where it can be exposed by anyone with access
+    #          to your version control system
     #==============
     
     testingbot: WEB_BROWSER=testingbot TB_USERNAME="<INSERT USER NAME HERE>" TB_AUTHKEY="<INSERT PASSWORD HERE>"
@@ -1818,6 +1828,8 @@ that you intend to connect with.
 
     #==============
     # profiles for remotely hosted web browsers on the LambdaTest service
+    # WARNING: Credentials should not be stored as text in your cucumber.yml file where it can be exposed by anyone with access
+    #          to your version control system
     #==============
     
     lambdatest: WEB_BROWSER=lambdatest LT_USERNAME=<INSERT USER NAME HERE> LT_AUTHKEY=<INSERT PASSWORD HERE>
