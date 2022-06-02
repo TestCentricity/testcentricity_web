@@ -527,6 +527,7 @@ With TestCentricity, all UI elements are based on the `UIElement` class, and inh
     element.wait_until_gone(seconds)
     element.wait_until_visible(seconds)
     element.wait_until_hidden(seconds)
+    element.wait_until_enabled(seconds)
     element.wait_until_value_is(value, seconds)
     element.wait_until_value_changes(seconds)
     element.wait_while_busy(seconds)
