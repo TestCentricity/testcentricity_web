@@ -390,6 +390,25 @@ module TestCentricity
       end
     end
 
+    # Wait until the object is enabled, or until the specified wait time has expired. If the wait time is nil, then the
+    # wait time will be Capybara.default_max_wait_time.
+    #
+    # @param seconds [Integer or Float] wait time in seconds
+    # @example
+    #   run_button.wait_until_enabled(10)
+    #
+    def wait_until_enabled(seconds = nil, post_exception = true)
+      timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
+      wait = Selenium::WebDriver::Wait.new(timeout: timeout)
+      wait.until { enabled? }
+    rescue StandardError
+      if post_exception
+        raise "UI #{object_ref_message} remained disabled after #{timeout} seconds" unless enabled?
+      else
+        enabled?
+      end
+    end
+
     # Wait until the object is no longer in a busy state, or until the specified wait time has expired. If the wait time
     # is nil, then the wait time will be Capybara.default_max_wait_time.
     #

@@ -2,7 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 
-## [4.2.3] - 02-JUNE-2022
+## [4.2.4] - 02-JUNE-2022
+
+### Added
+* Added `UIElement.wait_until_enabled` method
+
+
+## [4.2.3] - 01-JUNE-2022
 
 ### Added
 * Added `UIElement.wait_while_busy` method
