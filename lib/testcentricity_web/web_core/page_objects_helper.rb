@@ -9,7 +9,7 @@ module TestCentricity
     attr_accessor :locator_type
 
     XPATH_SELECTORS = ['//', '[@', '[contains(']
-    CSS_SELECTORS   = ['#', ':nth-child(', ':first-child', ':last-child', ':nth-of-type(', ':first-of-type', ':last-of-type', '^=', '$=', '*=', ':contains(']
+    CSS_SELECTORS   = %w[# :nth-child( :first-child :last-child :nth-of-type( :first-of-type :last-of-type ^= $= *= :contains(]
 
     def set_locator_type(locator = nil)
       locator = @locator if locator.nil?
@@ -191,6 +191,8 @@ module TestCentricity
                      ui_object.aria_describedby
                    when :aria_live
                      ui_object.aria_live
+                   when :aria_busy
+                     ui_object.aria_busy?
                    when :aria_selected
                      ui_object.aria_selected?
                    when :aria_hidden

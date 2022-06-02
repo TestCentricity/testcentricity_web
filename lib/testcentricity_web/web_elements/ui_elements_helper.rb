@@ -47,7 +47,7 @@ module TestCentricity
     attr_accessor :base_object
 
     XPATH_SELECTORS = ['//', '[@', '[contains(']
-    CSS_SELECTORS   = ['#', ':nth-child(', ':first-child', ':last-child', ':nth-of-type(', ':first-of-type', ':last-of-type', '^=', '$=', '*=', ':contains(']
+    CSS_SELECTORS   = %w[# :nth-child( :first-child :last-child :nth-of-type( :first-of-type :last-of-type ^= $= *= :contains(]
 
     def initialize(name, parent, locator, context)
       @name           = name
@@ -387,6 +387,25 @@ module TestCentricity
         raise "UI #{object_ref_message} remained visible after #{timeout} seconds" if visible?
       else
         visible?
+      end
+    end
+
+    # Wait until the object is no longer in a busy state, or until the specified wait time has expired. If the wait time
+    # is nil, then the wait time will be Capybara.default_max_wait_time.
+    #
+    # @param seconds [Integer or Float] wait time in seconds
+    # @example
+    #   login_button.wait_while_busy(10)
+    #
+    def wait_while_busy(seconds = nil, post_exception = true)
+      timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
+      wait = Selenium::WebDriver::Wait.new(timeout: timeout)
+      wait.until { aria_busy? }
+    rescue StandardError
+      if post_exception
+        raise "UI #{object_ref_message} remained in busy state after #{timeout} seconds" if aria_busy?
+      else
+        aria_busy?
       end
     end
 
