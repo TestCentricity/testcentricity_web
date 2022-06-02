@@ -529,6 +529,7 @@ With TestCentricity, all UI elements are based on the `UIElement` class, and inh
     element.wait_until_hidden(seconds)
     element.wait_until_value_is(value, seconds)
     element.wait_until_value_changes(seconds)
+    element.wait_while_busy(seconds)
 
 **WAI-ARIA Object Accessibility (A11y) methods:**
 
@@ -763,6 +764,7 @@ The `verify_ui_states` method supports the following ARIA accessibility property
     :aria_checked         Boolean
     :aria_readonly        Boolean
     :aria_pressed         Boolean
+    :aria_busy            Boolean
     :aria_haspopup        Boolean
     :aria_sort            String
     :aria_rowcount        String

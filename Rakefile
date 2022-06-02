@@ -110,7 +110,7 @@ end
 desc 'Build and release new version'
 task :release do
   version = TestCentricityWeb::VERSION
-  puts "Releasing #{version}, y/n?"
+  puts "Releasing version #{version} of TestCentricityWeb gem, y/n?"
   exit(1) unless $stdin.gets.chomp == 'y'
   sh 'gem build testcentricity_web.gemspec && ' \
      "gem push testcentricity_web-#{version}.gem"
