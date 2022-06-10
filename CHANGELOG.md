@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.2.5] - 10-JUNE-2022
+
+### Fixed
+*`WebDriverConnect.initialize_web_driver` method no longer raises `No such file or directory @ dir_s_mkdir` error due to
+missing `Downloads` folder when running tests in parallel.
+
+
 ## [4.2.4] - 02-JUNE-2022
 
 ### Added
