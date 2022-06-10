@@ -32,8 +32,10 @@ module TestCentricity
         # :nocov:
         Environ.parallel = true
         Environ.process_num = ENV['TEST_ENV_NUMBER']
-        @downloads_path = "#{@downloads_path}/#{ENV['TEST_ENV_NUMBER']}"
-        Dir.mkdir(@downloads_path) unless Dir.exist?(@downloads_path)
+        if Dir.exist?(@downloads_path)
+          @downloads_path = "#{@downloads_path}/#{ENV['TEST_ENV_NUMBER']}"
+          Dir.mkdir(@downloads_path) unless Dir.exist?(@downloads_path)
+        end
         # :nocov:
       else
         Environ.parallel = false
