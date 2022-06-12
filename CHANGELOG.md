@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.2.6] - 12-JUNE-2022
+
+### Fixed
+* Fix `gemspec` to no longer include specs and cuke tests as part of deployment package for gem.
+
+
 ## [4.2.5] - 10-JUNE-2022
 
 ### Fixed
