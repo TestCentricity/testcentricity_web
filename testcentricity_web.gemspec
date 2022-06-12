@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
     'documentation_uri' => 'https://www.rubydoc.info/gems/testcentricity_web'
   }
 
-  spec.files         = Dir.glob('lib/**/*') + %w[README.md CHANGELOG.md LICENSE.txt .yardopts]
+  spec.files         = Dir.glob('lib/**/*') + %w[README.md CHANGELOG.md LICENSE.md .yardopts]
   spec.require_paths = ['lib']
   spec.requirements  << 'Capybara, Selenium-WebDriver'
 
