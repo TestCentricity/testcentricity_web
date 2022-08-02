@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe TestCentricity::FileField, required: true do
+RSpec.describe TestCentricity::FileField, required: true do
   subject(:css_filefield) { described_class.new(:test_filefield, self, 'input#css_filefield', :page) }
 
   it 'returns class' do

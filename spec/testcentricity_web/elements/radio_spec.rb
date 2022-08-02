@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe TestCentricity::Radio, required: true do
+RSpec.describe TestCentricity::Radio, required: true do
   subject(:css_radio) { described_class.new(:test_radio, self, 'input#css_radio', :page) }
 
   it 'returns class' do

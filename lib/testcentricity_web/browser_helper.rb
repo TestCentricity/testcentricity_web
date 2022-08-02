@@ -173,7 +173,8 @@ module TestCentricity
           @devices = @devices.merge(ext_devices)
         end
       end
-      @devices[device.gsub(/\s+/, '').downcase.to_sym]
+      device = device.gsub(/\s+/, '').downcase.to_sym if device.is_a?(String)
+      @devices[device]
     end
   end
 end

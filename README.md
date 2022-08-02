@@ -5,7 +5,7 @@
 
 
 The TestCentricity™ Web core framework for desktop and mobile web browser-based app testing implements a Page Object Model DSL for use
-with Cucumber (version 7.x or greater), Capybara (version 3.x), and Selenium-Webdriver (version 4.x). It also facilitates the configuration of the appropriate
+with Cucumber (version 7.x or greater), Capybara (version 3.37), and Selenium-Webdriver (version 4.3). It also facilitates the configuration of the appropriate
 Selenium-Webdriver capabilities required to establish a connection with a local or cloud hosted desktop or mobile web browser.
 
 The TestCentricity™ Web gem supports running automated tests against the following web test targets:
@@ -1383,7 +1383,7 @@ Once your test environment is properly configured, the following **Environment V
 
 | **Environment Variable**   | **Description**                                                                                                                                                       |
 |----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `WEB_BROWSER`              | Must be set to `appium`                                                                                                                                               |
+| `DRIVER`                   | Must be set to `appium`                                                                                                                                               |
 | `APP_PLATFORM_NAME`        | Must be set to `iOS`                                                                                                                                                  |
 | `APP_BROWSER`              | Must be set to `Safari`                                                                                                                                               |
 | `APP_VERSION`              | Must be set to `15.4`, `14.5`, or which ever iOS version you wish to run within the XCode Simulator                                                                   |
@@ -1426,7 +1426,7 @@ Once your test environment is properly configured, the following **Environment V
 
 | **Environment Variable**  | **Description**                                                                                                                |
 |---------------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| `WEB_BROWSER`             | Must be set to `appium`                                                                                                        |
+| `DRIVER`                  | Must be set to `appium`                                                                                                        |
 | `APP_PLATFORM_NAME`       | Must be set to `Android`                                                                                                       |
 | `APP_BROWSER`             | Must be set to `Chrome` or `Browser`                                                                                           |
 | `APP_VERSION`             | Must be set to `12.0`, or which ever Android OS version you wish to run with the Android Virtual Device                        |
@@ -1499,7 +1499,7 @@ for information regarding the specific capabilities.
 
 | **Environment Variable** | **Description**                                                                                                                                                            |
 |--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `WEB_BROWSER`            | Must be set to `browserstack`                                                                                                                                              |
+| `DRIVER`                 | Must be set to `browserstack`                                                                                                                                              |
 | `BS_USERNAME`            | Must be set to your BrowserStack account user name                                                                                                                         |
 | `BS_AUTHKEY`             | Must be set to your BrowserStack account access key                                                                                                                        |
 | `BS_OS`                  | Must be set to `OS X` or `Windows`                                                                                                                                         |
@@ -1533,7 +1533,7 @@ for information regarding the specific capabilities.
 
 | **Environment Variable** | **Description**                                                                                                                                                            |
 |--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `WEB_BROWSER`            | Must be set to `browserstack`                                                                                                                                              |
+| `DRIVER`                 | Must be set to `browserstack`                                                                                                                                              |
 | `BS_USERNAME`            | Must be set to your BrowserStack account user name                                                                                                                         |
 | `BS_AUTHKEY`             | Must be set to your BrowserStack account access key                                                                                                                        |
 | `BS_OS`                  | Must be set to `ios` or `android`                                                                                                                                          |
@@ -1559,7 +1559,7 @@ to obtain information regarding the specific capabilities.
 
 | **Environment Variable** | **Description**                                                                                                            |
 |--------------------------|----------------------------------------------------------------------------------------------------------------------------|
-| `WEB_BROWSER`            | Must be set to `saucelabs`                                                                                                 |
+| `DRIVER`                 | Must be set to `saucelabs`                                                                                                 |
 | `SL_USERNAME`            | Must be set to your Sauce Labs account user name or email address                                                          |
 | `SL_AUTHKEY`             | Must be set to your Sauce Labs account access key                                                                          |
 | `DATA_CENTER`            | Must be set to your Sauce Labs account Data Center assignment (`us-west-1`, `eu-central-1`, `apac-southeast-1`)            |
@@ -1579,7 +1579,7 @@ regarding the specific capabilities.
 
 | **Environment Variable** | **Description**                                                                                                   |
 |--------------------------|-------------------------------------------------------------------------------------------------------------------|
-| `WEB_BROWSER`            | Must be set to `testingbot`                                                                                       |
+| `DRIVER`                 | Must be set to `testingbot`                                                                                       |
 | `TB_USERNAME`            | Must be set to your TestingBot account user name                                                                  |
 | `TB_AUTHKEY`             | Must be set to your TestingBot account access key                                                                 |
 | `TB_OS`                  | Refer to `platform` capability in chart                                                                           |
@@ -1598,7 +1598,7 @@ to obtain information regarding the specific capabilities.
 
 | **Environment Variable** | **Description**                                                                          |
 |--------------------------|------------------------------------------------------------------------------------------|
-| `WEB_BROWSER`            | Must be set to `lambdatest`                                                              |
+| `DRIVER`                 | Must be set to `lambdatest`                                                              |
 | `LT_USERNAME`            | Must be set to your LambdaTest account user name or email address                        |
 | `LT_AUTHKEY`             | Must be set to your LambdaTest account access key                                        |
 | `LT_OS`                  | Refer to `platformName` capability in the sample script of the Wizard                    |
@@ -1724,7 +1724,7 @@ that you intend to connect with.
     # NOTE: Requires installation of XCode, iOS version specific target simulators, Appium, and the appium_capybara gem
     #==============
 
-    appium_ios: WEB_BROWSER=appium AUTOMATION_ENGINE=XCUITest APP_PLATFORM_NAME="ios" APP_BROWSER="Safari" NEW_COMMAND_TIMEOUT=30 SHOW_SIM_KEYBOARD=false
+    appium_ios: DRIVER=appium AUTOMATION_ENGINE=XCUITest APP_PLATFORM_NAME="ios" APP_BROWSER="Safari" NEW_COMMAND_TIMEOUT=30 SHOW_SIM_KEYBOARD=false
     app_ios_15: --profile appium_ios APP_VERSION="15.4"
     ipad_pro_12_15_sim: --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (12.9-inch) (5th generation)"
     ipad_air_15_sim:    --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="iPad Air (5th generation)" <%= desktop %>
@@ -1745,7 +1745,7 @@ that you intend to connect with.
     # NOTE: Requires installation of Android Studio, Android version specific virtual device simulators, Appium, and the appium_capybara gem
     #==============
 
-    appium_android:    WEB_BROWSER=appium APP_PLATFORM_NAME="Android" <%= mobile %>
+    appium_android:    DRIVER=appium APP_PLATFORM_NAME="Android" <%= mobile %>
     app_android_12:    --profile appium_android APP_BROWSER="Chrome" APP_VERSION="12.0"
     pixel_c_api31_sim: --profile app_android_12 DEVICE_TYPE=tablet APP_DEVICE="Pixel_C_API_31"
 
@@ -1756,7 +1756,7 @@ that you intend to connect with.
     #          to your version control system
     #==============
     
-    browserstack: WEB_BROWSER=browserstack BS_USERNAME="<INSERT USER NAME HERE>" BS_AUTHKEY="<INSERT PASSWORD HERE>"
+    browserstack: DRIVER=browserstack BS_USERNAME="<INSERT USER NAME HERE>" BS_AUTHKEY="<INSERT PASSWORD HERE>"
     bs_desktop:   --profile browserstack <%= desktop %> RESOLUTION="1920x1080"
     bs_mobile:    --profile browserstack <%= mobile %>
     
@@ -1788,7 +1788,7 @@ that you intend to connect with.
     #          to your version control system
     #==============
     
-    saucelabs:  WEB_BROWSER=saucelabs SL_USERNAME="<INSERT USER NAME HERE>" SL_AUTHKEY="<INSERT PASSWORD HERE>" DATA_CENTER="<INSERT DATA CENTER HERE"
+    saucelabs:  DRIVER=saucelabs SL_USERNAME="<INSERT USER NAME HERE>" SL_AUTHKEY="<INSERT PASSWORD HERE>" DATA_CENTER="<INSERT DATA CENTER HERE"
     sl_desktop: --profile saucelabs <%= desktop %>
     sl_mobile:  --profile saucelabs <%= mobile %>
     
@@ -1814,7 +1814,7 @@ that you intend to connect with.
     #          to your version control system
     #==============
     
-    testingbot: WEB_BROWSER=testingbot TB_USERNAME="<INSERT USER NAME HERE>" TB_AUTHKEY="<INSERT PASSWORD HERE>"
+    testingbot: DRIVER=testingbot TB_USERNAME="<INSERT USER NAME HERE>" TB_AUTHKEY="<INSERT PASSWORD HERE>"
     tb_desktop: --profile testingbot <%= desktop %> RESOLUTION="1920x1200"
     
     # TestingBot macOS desktop browser profiles
@@ -1835,7 +1835,7 @@ that you intend to connect with.
     #          to your version control system
     #==============
     
-    lambdatest: WEB_BROWSER=lambdatest LT_USERNAME=<INSERT USER NAME HERE> LT_AUTHKEY=<INSERT PASSWORD HERE>
+    lambdatest: DRIVER=lambdatest LT_USERNAME=<INSERT USER NAME HERE> LT_AUTHKEY=<INSERT PASSWORD HERE>
     lt_desktop: --profile lambdatest <%= desktop %> RESOLUTION="2560x1440"
     
     # LambdaTest macOS desktop browser profiles

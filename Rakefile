@@ -27,6 +27,18 @@ RSpec::Core::RakeTask.new(:mobile_specs) do |t|
 end
 
 
+desc 'Run BrowserStack specs'
+RSpec::Core::RakeTask.new(:browserstack_specs) do |t|
+  t.rspec_opts = '--tag browserstack'
+end
+
+
+desc 'Run TestingBot specs'
+RSpec::Core::RakeTask.new(:testingbot_specs) do |t|
+  t.rspec_opts = '--tag testingbot'
+end
+
+
 desc 'Run Cucumber features on local Safari browser'
 Cucumber::Rake::Task.new(:safari_local) do |t|
   t.profile = 'safari_local'
@@ -94,7 +106,7 @@ task grid: [:docker_grid_specs, :grid_cukes]
 
 
 desc 'Run all specs'
-task all_specs: [:required_specs, :docker_grid_specs, :mobile_specs]
+task all_specs: [:required_specs, :docker_grid_specs, :mobile_specs, :browserstack_specs]
 
 
 desc 'Run all specs and Cucumber features'

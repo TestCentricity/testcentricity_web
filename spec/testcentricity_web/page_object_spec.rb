@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe TestCentricity::PageObject, required: true do
+RSpec.describe TestCentricity::PageObject, required: true do
   before :context do
     @test_page = TestPage.new
   end

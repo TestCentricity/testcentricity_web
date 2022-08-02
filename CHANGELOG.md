@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.3.0] - 01-AUGUST-2022
+
+### Added
+* The `DRIVER` Environment Variable is now used to specify the `appium`, `browserstack`, `saucelabs`, `testingbot`,
+  or `lambdatest` driver.
+
+* ### Changed
+* The `WEB_BROWSER` Environment Variable is no longer used to specify the `appium`, `browserstack`, `saucelabs`, `testingbot`,
+or `lambdatest` driver.
+* TestCentricity now supports and integrates with Selenium-Webdriver version 4.3.
+
+
 ## [4.2.6] - 12-JUNE-2022
 
 ### Fixed

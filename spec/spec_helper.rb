@@ -7,6 +7,7 @@ require 'simplecov'
 require 'testcentricity_web'
 
 require_rel 'fixtures'
+require_rel 'support'
 
 include TestCentricity
 

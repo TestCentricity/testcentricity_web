@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe TestCentricity::CheckBox, required: true do
+RSpec.describe TestCentricity::CheckBox, required: true do
   subject(:css_check) { described_class.new(:test_check, self, 'input#css_check', :page) }
 
   it 'returns class' do

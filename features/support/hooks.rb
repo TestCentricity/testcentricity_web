@@ -1,4 +1,10 @@
 
+def run_first_once
+  # HTML report header information if reporting is enabled
+  log Environ.report_header if ENV['REPORTING']
+end
+
+
 BeforeAll do
   # start Appium Server if command line option was specified and target browser is mobile simulator or device
   if ENV['APPIUM_SERVER'] == 'run' && Environ.driver == :appium
@@ -9,12 +15,12 @@ end
 
 
 AfterAll do
+  # close driver
+  terminate_session
   # terminate Appium Server if command line option was specified and target browser is mobile simulator or device
   if ENV['APPIUM_SERVER'] == 'run' && Environ.driver == :appium && $server.running?
     $server.stop
   end
-  # close driver
-  terminate_session
 end
 
 
@@ -26,8 +32,8 @@ Before do |scenario|
   unless $initialized
     $initialized = true
     $test_start_time = Time.now
-    # HTML report header information if reporting is enabled
-    log Environ.report_header if ENV['REPORTING']
+    # if a run first/run once method is defined, call it
+    run_first_once if defined? run_first_once
   end
 end
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe TestCentricity::Image, required: true do
+RSpec.describe TestCentricity::Image, required: true do
   subject(:css_image) { described_class.new(:test_image, self, 'img#css_image', :page) }
 
   it 'returns class' do

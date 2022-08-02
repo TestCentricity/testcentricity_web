@@ -77,7 +77,7 @@ run_appium: APPIUM_SERVER=run
 # NOTE: Requires installation of XCode, iOS version specific target simulators, Appium, and the appium_capybara gem
 #==============
 
-appium_ios: WEB_BROWSER=appium AUTOMATION_ENGINE=XCUITest APP_PLATFORM_NAME="ios" APP_BROWSER="Safari" NEW_COMMAND_TIMEOUT=30 SHOW_SIM_KEYBOARD=false <%= mobile %>
+appium_ios: DRIVER=appium AUTOMATION_ENGINE=XCUITest APP_PLATFORM_NAME="ios" APP_BROWSER="Safari" NEW_COMMAND_TIMEOUT=30 SHOW_SIM_KEYBOARD=false <%= mobile %>
 app_ios_15: --profile appium_ios APP_VERSION="15.4"
 
 ipad_pro_12_15_sim: --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (12.9-inch) (5th generation)"
@@ -91,7 +91,7 @@ ios_remote: --profile ipad_pro_12_15_sim --profile run_appium ORIENTATION=portra
 # NOTE: Requires installation of Android Studio, Android version specific virtual device simulators, Appium, and the appium_capybara gem
 #==============
 
-appium_android:    WEB_BROWSER=appium APP_PLATFORM_NAME="Android" <%= mobile %>
+appium_android:    DRIVER=appium APP_PLATFORM_NAME="Android" <%= mobile %>
 app_android_12:    --profile appium_android APP_BROWSER="Chrome" APP_VERSION="12.0"
 pixel_c_api31_sim: --profile app_android_12 DEVICE_TYPE=tablet APP_DEVICE="Pixel_C_API_31"
 
@@ -102,7 +102,7 @@ android_remote: --profile pixel_c_api31_sim --profile run_appium ORIENTATION=por
 # profiles for remotely hosted web browsers on the BrowserStack service
 #==============
 
-browserstack: WEB_BROWSER=browserstack BS_USERNAME="<INSERT USER NAME HERE>" BS_AUTHKEY="<INSERT PASSWORD HERE>" AUTOMATE_PROJECT="TC_Web_Sample - BrowserStack"
+browserstack: DRIVER=browserstack TEST_CONTEXT="TestCentricity Web - BrowserStack"
 bs_desktop:   --profile browserstack <%= desktop %> RESOLUTION="1920x1080"
 bs_mobile:    --profile browserstack <%= mobile %>
 
@@ -125,7 +125,7 @@ bs_android_tablet: --profile bs_android BS_DEVICE="Samsung Galaxy Tab S7" BS_OS_
 # profiles for remotely hosted web browsers on the LambdaTest service
 #==============
 
-lambdatest: WEB_BROWSER=lambdatest LT_USERNAME="<INSERT USER NAME HERE>" LT_AUTHKEY="<INSERT PASSWORD HERE>" AUTOMATE_PROJECT="TC_Web_Sample - LambdaTest"
+lambdatest: DRIVER=lambdatest AUTOMATE_PROJECT="TestCentricity Web - LambdaTest"
 lt_desktop: --profile lambdatest <%= desktop %> RESOLUTION="2560x1440"
 
 # LambdaTest macOS desktop browser profiles
@@ -138,7 +138,7 @@ lt_edge_monterey:   --profile lt_macos_monterey LT_BROWSER="MicrosoftEdge" LT_VE
 # profiles for remotely hosted web browsers on the TestingBot service
 #==============
 
-testingbot: WEB_BROWSER=testingbot TB_USERNAME="<INSERT USER NAME HERE>" TB_AUTHKEY="<INSERT PASSWORD HERE>" AUTOMATE_PROJECT="TC_Web_Sample - TestingBot"
+testingbot: DRIVER=testingbot AUTOMATE_PROJECT="TestCentricity Web - TestingBot"
 tb_desktop: --profile testingbot <%= desktop %> RESOLUTION="1920x1200"
 
 # TestingBot macOS desktop browser profiles
@@ -151,7 +151,7 @@ tb_edge_monterey:   --profile tb_macos_monterey TB_BROWSER="microsoftedge" TB_VE
 # profiles for remotely hosted web browsers on the SauceLabs service
 #==============
 
-saucelabs:  WEB_BROWSER=saucelabs SL_USERNAME="<INSERT USER NAME HERE>" SL_AUTHKEY="<INSERT PASSWORD HERE>" DATA_CENTER="us-west-1" AUTOMATE_PROJECT="TC_Web_Sample - SauceLabs"
+saucelabs:  DRIVER=saucelabs DATA_CENTER="us-west-1" AUTOMATE_PROJECT="TestCentricity Web - SauceLabs"
 sl_desktop: --profile saucelabs <%= desktop %>
 sl_mobile:  --profile saucelabs <%= mobile %>
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe String, required: true do
+RSpec.describe String, required: true do
   it 'returns string between' do
     expect('The rain in Spain'.string_between('The ', ' Spain')).to eql 'rain in'
   end

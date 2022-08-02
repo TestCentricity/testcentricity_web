@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Object, required: true do
+RSpec.describe Object, required: true do
   it 'returns true when blank' do
     [nil, {}, ''].each do |value|
       expect(value.blank?).to eql true

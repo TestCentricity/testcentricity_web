@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe TestCentricity::Browsers, required: true do
+RSpec.describe TestCentricity::Browsers, required: true do
   before(:context) do
     # instantiate local test environment
     @environs ||= EnvironData
