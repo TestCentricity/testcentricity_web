@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe TestCentricity::Link, required: true do
+RSpec.describe TestCentricity::Link, required: true do
   subject(:css_link) { described_class.new(:test_label, self, 'a#css_label', :page) }
 
   it 'returns class' do

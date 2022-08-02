@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe TestCentricity::Audio, required: true do
+RSpec.describe TestCentricity::Audio, required: true do
   subject(:css_audio) { described_class.new(:test_audio, self, 'audio#css_audio', :page) }
 
   it 'returns class' do

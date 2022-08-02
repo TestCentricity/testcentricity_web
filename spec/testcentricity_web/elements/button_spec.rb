@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe TestCentricity::Button, required: true do
+RSpec.describe TestCentricity::Button, required: true do
   subject(:css_button) { described_class.new(:test_button, self, 'button#css_button', :page) }
 
   it 'returns class' do

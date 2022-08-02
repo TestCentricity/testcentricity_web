@@ -24,8 +24,13 @@ module TestCentricity
         @endpoint = options[:endpoint] if options.key?(:endpoint)
         @capabilities = options[:desired_capabilities] if options.key?(:desired_capabilities)
       end
-
-      browser = ENV['WEB_BROWSER']
+      # determine browser type and driver
+      Environ.browser = ENV['WEB_BROWSER'] if ENV['WEB_BROWSER']
+      Environ.driver = if ENV['DRIVER']
+                         ENV['DRIVER'].downcase.to_sym
+                       else
+                         :webdriver
+                       end
       # set downloads folder path
       @downloads_path = "#{Dir.pwd}/downloads"
       if ENV['PARALLEL']
@@ -43,18 +48,16 @@ module TestCentricity
       @downloads_path = @downloads_path.tr('/', "\\") if OS.windows?
 
       # assume that we're testing within a local desktop web browser
-      Environ.driver      = :webdriver
       Environ.platform    = :desktop
-      Environ.browser     = browser
       Environ.headless    = false
       Environ.device      = :web
       Environ.device_name = 'browser'
 
-      context = case browser.downcase.to_sym
+      context = case Environ.driver
                 when :appium
                   initialize_appium
                   'Appium'
-                # :nocov:
+                  # :nocov:
                 when :browserstack
                   initialize_browserstack
                   'Browserstack cloud service'
@@ -67,8 +70,7 @@ module TestCentricity
                 when :testingbot
                   initialize_testingbot
                   'TestingBot cloud service'
-                # :nocov:
-                else
+                when :webdriver
                   if ENV['SELENIUM'] == 'remote'
                     initialize_remote
                     'Selenium Grid'
@@ -142,6 +144,7 @@ module TestCentricity
     def self.initialize_appium
       Environ.platform = :mobile
       Environ.device = :simulator
+      Environ.browser = ENV['APP_BROWSER']
       Environ.device_name = ENV['APP_DEVICE']
       Environ.device_os = ENV['APP_PLATFORM_NAME'].downcase.to_sym
       Environ.device_type = ENV['DEVICE_TYPE'] if ENV['DEVICE_TYPE']
@@ -154,7 +157,7 @@ module TestCentricity
                                desired_capabilities = {
                                  platformName: Environ.device_os,
                                  platformVersion: Environ.device_os_version,
-                                 browserName: ENV['APP_BROWSER'],
+                                 browserName: Environ.browser,
                                  deviceName: Environ.device_name
                                }
                                desired_capabilities[:avd] = ENV['APP_DEVICE'] if Environ.device_os == :android
@@ -231,7 +234,7 @@ module TestCentricity
                    else
                      'unknown'
                    end
-      browser = ENV['WEB_BROWSER'].downcase.to_sym
+      browser = Environ.browser.downcase.to_sym
 
       case browser
       when :firefox, :chrome, :ie, :safari, :edge
@@ -241,7 +244,7 @@ module TestCentricity
         Environ.headless = true
       else
         Environ.platform = :mobile
-        Environ.device_name = Browsers.mobile_device_name(ENV['WEB_BROWSER'])
+        Environ.device_name = Browsers.mobile_device_name(Environ.browser)
       end
 
       Capybara.register_driver :selenium do |app|
@@ -259,8 +262,8 @@ module TestCentricity
           Capybara::Selenium::Driver.new(app, browser: :edge, capabilities: [options])
         else
           if ENV['HOST_BROWSER'] && ENV['HOST_BROWSER'].downcase.to_sym == :chrome
-            user_agent = Browsers.mobile_device_agent(ENV['WEB_BROWSER'])
-            options = Selenium::WebDriver::Chrome::Options.new(options: {'excludeSwitches' => ['enable-automation']})
+            user_agent = Browsers.mobile_device_agent(Environ.browser)
+            options = Selenium::WebDriver::Chrome::Options.new
             options.add_argument('--disable-dev-shm-usage')
             options.add_argument("--user-agent='#{user_agent}'")
             options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
@@ -275,7 +278,7 @@ module TestCentricity
 
     def self.initialize_remote
       Environ.grid = :selenium_grid
-      browser  = ENV['WEB_BROWSER'].downcase.to_sym
+      browser  = Environ.browser.downcase.to_sym
       @endpoint = ENV['REMOTE_ENDPOINT'] || 'http://127.0.0.1:4444/wd/hub' if @endpoint.nil?
 
       case browser
@@ -290,9 +293,9 @@ module TestCentricity
       else
         if ENV['HOST_BROWSER'] && ENV['HOST_BROWSER'].downcase.to_sym == :chrome
           Environ.platform = :mobile
-          Environ.device_name = Browsers.mobile_device_name(ENV['WEB_BROWSER'])
-          user_agent = Browsers.mobile_device_agent(ENV['WEB_BROWSER'])
-          options = Selenium::WebDriver::Chrome::Options.new(options: {'excludeSwitches' => ['enable-automation']})
+          Environ.device_name = Browsers.mobile_device_name(Environ.browser)
+          user_agent = Browsers.mobile_device_agent(Environ.browser)
+          options = Selenium::WebDriver::Chrome::Options.new
           options.add_argument('--disable-dev-shm-usage')
           options.add_argument("--user-agent='#{user_agent}'")
           options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
@@ -396,7 +399,7 @@ module TestCentricity
                   else
                     # define desktop browser options
                     bs_options[:resolution] = ENV['RESOLUTION'] if ENV['RESOLUTION']
-                    bs_options[:seleniumVersion] = '4.1.0'
+                    bs_options[:seleniumVersion] = '4.3.0'
                     {
                       browserName: browser,
                       browserVersion: ENV['BS_VERSION'],
@@ -578,9 +581,9 @@ module TestCentricity
     def self.chrome_edge_options(browser)
       options = case browser
                 when :chrome, :chrome_headless
-                  Selenium::WebDriver::Chrome::Options.new(options: {'excludeSwitches' => ['enable-automation']})
+                  Selenium::WebDriver::Chrome::Options.new
                 when :edge, :edge_headless
-                  Selenium::WebDriver::Edge::Options.new(options: {'excludeSwitches' => ['enable-automation']})
+                  Selenium::WebDriver::Edge::Options.new
                 end
       prefs = {
         prompt_for_download: false,

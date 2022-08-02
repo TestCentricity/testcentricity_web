@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe TestCentricity::WebDriverConnect, required: true do
+RSpec.describe TestCentricity::WebDriverConnect, required: true do
   before(:context) do
     # instantiate local test environment
     @environs ||= EnvironData
