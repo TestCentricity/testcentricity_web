@@ -21,11 +21,7 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
       ENV['APP_VERSION'] = '15.4'
       ENV['APP_DEVICE'] = 'iPad Pro (12.9-inch) (5th generation)'
       WebDriverConnect.initialize_web_driver
-      verify_mobile_browser(browser = :safari)
-      expect(Environ.device_name).to eq('iPad Pro (12.9-inch) (5th generation)')
-      expect(Environ.device_os).to eq(:ios)
-      expect(Environ.device_os_version).to eq('15.4')
-      expect(Environ.is_ios?).to eq(true)
+      verify_mobile_browser(browser = :safari, device_os = :ios)
     end
 
     it 'connects to iOS Simulator - desired_capabilities hash' do
@@ -36,19 +32,15 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
 
       caps = {
         desired_capabilities: {
-          platformName: 'ios',
-          platformVersion: '15.4',
-          browserName: 'Safari',
-          deviceName: 'iPad Pro (12.9-inch) (5th generation)',
+          platformName: ENV['APP_PLATFORM_NAME'],
+          platformVersion: ENV['APP_VERSION'],
+          browserName: ENV['APP_BROWSER'],
+          deviceName: ENV['APP_DEVICE'],
           automationName: 'XCUITest'
         }
       }
       WebDriverConnect.initialize_web_driver(caps)
-      verify_mobile_browser(browser = :safari)
-      expect(Environ.device_name).to eq('iPad Pro (12.9-inch) (5th generation)')
-      expect(Environ.device_os).to eq(:ios)
-      expect(Environ.device_os_version).to eq('15.4')
-      expect(Environ.is_ios?).to eq(true)
+      verify_mobile_browser(browser = :safari, device_os = :ios)
     end
 
     it 'connects to Android Simulator - environment variables' do
@@ -57,11 +49,7 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
       ENV['APP_VERSION'] = '12.0'
       ENV['APP_DEVICE'] = 'Pixel_C_API_31'
       WebDriverConnect.initialize_web_driver
-      verify_mobile_browser(browser = :chrome)
-      expect(Environ.device_name).to eq('Pixel_C_API_31')
-      expect(Environ.device_os).to eq(:android)
-      expect(Environ.device_os_version).to eq('12.0')
-      expect(Environ.is_android?).to eq(true)
+      verify_mobile_browser(browser = :chrome, device_os = :android)
     end
 
     it 'connects to Android Simulator - desired_capabilities hash' do
@@ -72,24 +60,21 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
 
       caps = {
         desired_capabilities: {
-          platformName: 'Android',
-          platformVersion: '12.0',
-          browserName: 'Chrome',
-          deviceName: 'Pixel_C_API_31',
+          platformName: ENV['APP_PLATFORM_NAME'],
+          platformVersion: ENV['APP_VERSION'],
+          browserName: ENV['APP_BROWSER'],
+          deviceName: ENV['APP_DEVICE'],
           automationName: 'Android'
         }
       }
       WebDriverConnect.initialize_web_driver(caps)
-      verify_mobile_browser(browser = :chrome)
-      expect(Environ.device_name).to eq('Pixel_C_API_31')
-      expect(Environ.device_os).to eq(:android)
-      expect(Environ.device_os_version).to eq('12.0')
-      expect(Environ.is_android?).to eq(true)
+      verify_mobile_browser(browser = :chrome, device_os = :android)
     end
   end
 
-  def verify_mobile_browser(browser)
+  def verify_mobile_browser(browser, device_os)
     expect(Environ.browser).to eq(browser)
+    expect(Environ.device_os).to eq(device_os)
     expect(Environ.platform).to eq(:mobile)
     expect(Environ.headless).to eq(false)
     expect(Environ.session_state).to eq(:running)
@@ -97,6 +82,13 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
     expect(Environ.device).to eq(:simulator)
     expect(Environ.device_type).to eq(:tablet)
     expect(Environ.is_web?).to eq(false)
+    expect(Environ.device_name).to eq(ENV['APP_DEVICE'])
+    expect(Environ.device_os_version).to eq(ENV['APP_VERSION'])
+    if device_os == :ios
+      expect(Environ.is_ios?).to eq(true)
+    else
+      expect(Environ.is_android?).to eq(true)
+    end
   end
 
   after(:each) do

@@ -1,6 +1,11 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## [4.3.1] - 19-AUGUST-2022
+
+### Added
+* Added support for connecting to remote mobile browsers on iOS simulators and Android emulators on the TestingBot service.
+
 
 ## [4.3.0] - 01-AUGUST-2022
 

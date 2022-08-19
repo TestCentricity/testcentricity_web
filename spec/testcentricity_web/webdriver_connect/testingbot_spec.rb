@@ -13,10 +13,10 @@ RSpec.describe TestCentricity::WebDriverConnect, testingbot: true do
     ENV['SELENIUM'] = ''
     ENV['DRIVER'] = 'testingbot'
     ENV['TB_VERSION'] = 'latest'
-    ENV['TB_OS'] = 'OS X'
-    ENV['RESOLUTION'] = '1920x1200'
-    ENV['TEST_CONTEXT'] = 'TestCentricity Web - TestingBot'
-    ENV['AUTOMATE_BUILD'] = 'RSpec - Environment Variables'
+    ENV['TB_OS'] = 'BIGSUR'
+    ENV['AUTOMATE_PROJECT'] = 'TestCentricity Web - TestingBot'
+    ENV['TEST_CONTEXT'] = 'RSpec - Environment Variables'
+    ENV['RECORD_VIDEO'] = 'true'
   end
 
   let(:desired_caps_hash)  {
@@ -24,21 +24,18 @@ RSpec.describe TestCentricity::WebDriverConnect, testingbot: true do
       desired_capabilities: {
         browserName: ENV['TB_BROWSER'],
         browserVersion: ENV['TB_VERSION'],
-        'bstack:options': {
-          userName: ENV['TB_USERNAME'],
-          accessKey: ENV['TB_AUTHKEY'],
-          projectName: ENV['TEST_CONTEXT'],
-          buildName: 'RSpec - DesiredCaps Hash',
-          os: ENV['TB_OS'],
-          osVersion: ENV['TB_OS_VERSION'],
-          resolution: ENV['RESOLUTION'],
-          seleniumVersion: '4.3.0'
+        platformName: ENV['TB_OS'],
+        'tb:options': {
+          name: ENV['AUTOMATE_PROJECT'],
+          build: 'RSpec - DesiredCaps Hash',
+          'screen-resolution': ENV['RESOLUTION'],
+          'selenium-version': '4.3.0'
         }
       }
     }
   }
 
-  context 'Connect to TestingBot hosted web browsers using environment variables' do
+  context 'Connect to TestingBot hosted desktop web browsers using environment variables' do
     it 'connects to an Edge browser on TestingBot' do
       ENV['TB_BROWSER'] = 'microsoftedge'
       WebDriverConnect.initialize_web_driver
@@ -55,16 +52,10 @@ RSpec.describe TestCentricity::WebDriverConnect, testingbot: true do
       ENV['TB_BROWSER'] = 'chrome'
       WebDriverConnect.initialize_web_driver
       verify_cloud_browser(browser = :chrome, platform = :desktop)
-    end
-
-    it 'connects to a Firefox browser on TestingBot' do
-      ENV['TB_BROWSER'] = 'firefox'
-      WebDriverConnect.initialize_web_driver
-      verify_cloud_browser(browser = :firefox, platform = :desktop)
     end
   end
 
-  context 'Connect to TestingBot hosted web browsers using desired_capabilities hash' do
+  context 'Connect to TestingBot hosted desktop web browsers using desired_capabilities hash' do
     it 'connects to an Edge browser on TestingBot' do
       ENV['TB_BROWSER'] = 'microsoftedge'
       WebDriverConnect.initialize_web_driver(desired_caps_hash)
@@ -82,11 +73,31 @@ RSpec.describe TestCentricity::WebDriverConnect, testingbot: true do
       WebDriverConnect.initialize_web_driver(desired_caps_hash)
       verify_cloud_browser(browser = :chrome, platform = :desktop)
     end
+  end
 
-    it 'connects to a Firefox browser on TestingBot' do
-      ENV['TB_BROWSER'] = 'firefox'
-      WebDriverConnect.initialize_web_driver(desired_caps_hash)
-      verify_cloud_browser(browser = :firefox, platform = :desktop)
+  context 'Connect to TestingBot hosted mobile web browsers using environment variables' do
+    # it 'connects to a mobile Safari browser on an iPad on TestingBot' do
+    #   ENV['TB_BROWSER'] = 'safari'
+    #   ENV['TB_OS'] = 'iOS'
+    #   ENV['TB_PLATFORM'] = 'iOS'
+    #   ENV['TB_VERSION'] = '15.4'
+    #   ENV['DEVICE_TYPE'] = 'tablet'
+    #   ENV['TB_DEVICE'] = 'iPad Pro (12.9-inch) (5th generation)'
+    #   ENV['ORIENTATION'] = 'landscape'
+    #   WebDriverConnect.initialize_web_driver
+    #   verify_cloud_browser(browser = :safari, platform = :mobile, device = true)
+    # end
+
+    it 'connects to a mobile Chrome browser on an Android tablet on TestingBot' do
+      ENV['TB_BROWSER'] = 'Chrome'
+      ENV['TB_OS'] = 'Android'
+      ENV['TB_PLATFORM'] = 'Android'
+      ENV['TB_VERSION'] = '12.0'
+      ENV['DEVICE_TYPE'] = 'tablet'
+      ENV['TB_DEVICE'] = 'Galaxy Tab S7'
+      ENV['ORIENTATION'] = 'landscape'
+      WebDriverConnect.initialize_web_driver
+      verify_cloud_browser(browser = :chrome, platform = :mobile, device = true)
     end
   end
 
@@ -97,13 +108,28 @@ RSpec.describe TestCentricity::WebDriverConnect, testingbot: true do
     Environ.session_state = :quit
   end
 
-  def verify_cloud_browser(browser, platform)
+  def verify_cloud_browser(browser, platform, device = nil)
+    # load Apple web site
+    Capybara.page.driver.browser.navigate.to('https://www.apple.com')
+    Capybara.page.find(:css, 'nav#ac-globalnav', wait: 10, visible: true)
+    # verify Environs are correctly set
     expect(Environ.browser).to eq(browser)
     expect(Environ.platform).to eq(platform)
     expect(Environ.session_state).to eq(:running)
     expect(Environ.driver).to eq(:testingbot)
-    expect(Environ.device).to eq(:web)
-    expect(Environ.is_web?).to eq(true)
+    expect(Environ.grid).to eq(:testingbot)
     expect(Environ.os).to eq(ENV['TB_OS'])
+    if device
+      expect(Environ.is_device?).to eq(true)
+      expect(Environ.is_web?).to eq(false)
+      expect(Environ.device_name).to eq(ENV['TB_DEVICE'])
+      expect(Environ.device).to eq(:device)
+      expect(Environ.device_type).to eq(:tablet)
+      expect(Environ.device_orientation).to eq(:landscape)
+    else
+      expect(Environ.device).to eq(:web)
+      expect(Environ.is_web?).to eq(true)
+      expect(Environ.is_device?).to eq(false)
+    end
   end
 end

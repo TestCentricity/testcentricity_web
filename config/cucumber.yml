@@ -43,7 +43,8 @@ edge_headless:    --profile local WEB_BROWSER=edge_headless <%= desktop %>
 #==============
 # profile for Selenium Grid and Dockerized Selenium Grid hosted desktop web browsers
 #==============
-grid:         SELENIUM=remote TEST_ENVIRONMENT=REMOTE REMOTE_ENDPOINT="http://localhost:4444/wd/hub"
+remote:       TEST_ENVIRONMENT=REMOTE
+grid:         SELENIUM=remote --profile remote REMOTE_ENDPOINT="http://localhost:4444/wd/hub"
 chrome_grid:  --profile grid --profile chrome
 edge_grid:    --profile grid --profile edge
 firefox_grid: --profile grid --profile firefox
@@ -102,7 +103,7 @@ android_remote: --profile pixel_c_api31_sim --profile run_appium ORIENTATION=por
 # profiles for remotely hosted web browsers on the BrowserStack service
 #==============
 
-browserstack: DRIVER=browserstack TEST_CONTEXT="TestCentricity Web - BrowserStack"
+browserstack: DRIVER=browserstack TEST_CONTEXT="TestCentricity Web - BrowserStack" TUNNELING=true TEST_ENVIRONMENT=REMOTE
 bs_desktop:   --profile browserstack <%= desktop %> RESOLUTION="1920x1080"
 bs_mobile:    --profile browserstack <%= mobile %>
 

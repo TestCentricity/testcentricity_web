@@ -4,13 +4,15 @@
 ![Gem Downloads](https://img.shields.io/gem/dt/testcentricity_web) ![Maintained](https://img.shields.io/maintenance/yes/2022)
 
 
-The TestCentricity™ Web core framework for desktop and mobile web browser-based app testing implements a Page Object Model DSL for use
-with Cucumber (version 7.x or greater), Capybara (version 3.37), and Selenium-Webdriver (version 4.3). It also facilitates the configuration of the appropriate
-Selenium-Webdriver capabilities required to establish a connection with a local or cloud hosted desktop or mobile web browser.
+The TestCentricity™ Web core framework for desktop and mobile web browser-based app testing implements a Page Object Model
+DSL for use with Cucumber (version 7.x or greater), Capybara (version 3.37), and Selenium-Webdriver (version 4.3). It also
+facilitates the configuration of the appropriate Selenium-Webdriver capabilities required to establish a connection with a
+local or cloud hosted desktop or mobile web browser.
 
 The TestCentricity™ Web gem supports running automated tests against the following web test targets:
 * locally hosted desktop browsers (Chrome, Edge, Firefox, Safari, or IE)
 * locally hosted "headless" Chrome, Firefox, or Edge browsers
+* 
 * remote desktop and emulated mobile web browsers hosted on Selenium Grid 4 and Dockerized Selenium Grid 4 environments
 * mobile Safari browsers on iOS device simulators or physical iOS devices (using Appium and XCode on macOS)
 * mobile Chrome or Android browsers on Android Studio virtual device emulators (using Appium and Android Studio on macOS)
@@ -36,8 +38,8 @@ can be found [here](https://github.com/TestCentricity/tc_web_sample).
 
 ## Installation
 
-TestCentricity Web version 4.1 and above requires Ruby 2.7.5 or later. To install the TestCentricity Web gem, add this line to your
-automation project's Gemfile:
+TestCentricity Web version 4.1 and above requires Ruby 2.7.5 or later. To install the TestCentricity Web gem, add this line
+to your automation project's Gemfile:
 
     gem 'testcentricity_web'
 
@@ -70,8 +72,8 @@ If you are using RSpec instead, you need to require the following in your `spec_
 
 ### Using Appium
 
-If you will be running your tests on mobile Safari browsers on simulated iOS devices using Appium and XCode Simulators, you need to require
-the following in your `env.rb` and/or `spec_helper.rb` file:
+If you will be running your tests on mobile Safari browsers on simulated iOS devices using Appium and XCode Simulators, you
+need to require the following in your `env.rb` and/or `spec_helper.rb` file:
 
     require 'appium_capybara'
 
@@ -86,21 +88,23 @@ And then execute:
 
 ## PageObjects
 
-The **Page Object Model** is a test automation pattern that aims to create an abstraction of your web app's User Interface that can be used
-in tests. A **Page Object** is an object that represents a single page in your AUT (Application Under Test). **Page Objects** encapsulate the
-implementation details of a web page and expose an API that supports interaction with, and validation of the UI elements on the page.
+The **Page Object Model** is a test automation pattern that aims to create an abstraction of your web app's User Interface
+that can be used in tests. A **Page Object** represents a single page in your AUT (Application Under Test). **Page Objects**
+encapsulate the implementation details of a web page and expose an API that supports interaction with, and validation of
+the UI elements on the page.
 
-**Page Objects** makes it easier to maintain automated tests because changes to page UI elements are updated in only one location - in the
-**Page Object** class definition. By adopting a **Page Object Model**, Cucumber Feature files and step definitions are no longer required to
-hold specific information about a page's UI objects, thus minimizing maintenance requirements. If any element on, or property of a page changes
-(URL path, text field attributes, button captions, etc.), maintenance is performed in the `PageObject` class definition only, typically with
-no need to update the affected feature file, scenarios, or step definitions.
+**Page Objects** makes it easier to maintain automated tests because changes to page UI elements are updated in only one
+location - in the **Page Object** class definition. By adopting a **Page Object Model**, Cucumber Feature files and step
+definitions are no longer required to hold specific information about a page's UI objects, thus minimizing maintenance
+requirements. If any element on, or property of a page changes (URL path, text field attributes, button captions, etc.),
+maintenance is performed in the `PageObject` class definition only, typically with no need to update the affected feature
+file, scenarios, or step definitions.
 
 
 ### Defining a PageObject
 
-Your `PageObject` class definitions should be contained within individual `.rb` files in the `features/support/pages` folder of your
-test automation project. You define new `PageObjects` as shown below:
+Your `PageObject` class definitions should be contained within individual `.rb` files in the `features/support/pages` folder
+of your test automation project. You define new `PageObjects` as shown below:
 
     class LoginPage < TestCentricity::PageObject
     end
@@ -116,25 +120,25 @@ test automation project. You define new `PageObjects` as shown below:
 
 ### Adding Traits to your PageObject
 
-Web pages typically have names and URLs associated with them. Web pages also typically have a unique object or attribute that, when present,
-indicates that the page's contents have fully loaded.
+Web pages typically have names and URLs associated with them. Web pages also typically have a unique object or attribute
+that, when present, indicates that the page's contents have fully loaded.
 
-The `page_name` trait is registered with the `PageManager` object, which includes a `find_page` method that takes a page name as a
-parameter and returns an instance of the associated `PageObject`. If you intend to use the `PageManager`, you must define a `page_name`
-trait for each `PageObject` to be registered.
+The `page_name` trait is registered with the `PageManager` object, which includes a `find_page` method that takes a page
+name as a parameter and returns an instance of the associated `PageObject`. If you intend to use the `PageManager`, you
+must define a `page_name` trait for each `PageObject` to be registered.
 
-The `page_name` trait is usually a `String` value that represents the name of the page that will be matched by the `PageManager.findpage` method.
-`page_name` traits are case and white-space sensitive. For pages that may be referenced with multiple names, the `page_name` trait may also be
-an `Array` of `String` values representing those page names.
+The `page_name` trait is usually a `String` value that represents the name of the page that will be matched by the `PageManager.findpage`
+method. `page_name` traits are case and white-space sensitive. For pages that may be referenced with multiple names, the
+`page_name` trait may also be an `Array` of `String` values representing those page names.
 
-A `page_locator` trait is defined if a page has a unique object or attribute that exists once the page's contents have fully loaded. The
-`page_locator` trait is a CSS or Xpath expression that uniquely identifies the object or attribute. The `verify_page_exists` method waits
-for the `page_locator` trait to exist.
+A `page_locator` trait is defined if a page has a unique object or attribute that exists once the page's contents have fully
+loaded. The `page_locator` trait is a CSS or Xpath expression that uniquely identifies the object or attribute. The
+`verify_page_exists` method waits for the `page_locator` trait to exist.
 
-A `page_url` trait should be defined if a page can be directly loaded using a URL. If you set Capybara's `app_host`, or specify a base URL
-when calling the `WebDriverConnect.initialize_web_driver` method, then your `page_url` trait can be the relative URL slug that will
-be appended to the base URL specified in `app_host`. Specifying a `page_url` trait is optional, as not all web pages can be directly loaded
-via a URL.
+A `page_url` trait should be defined if a page can be directly loaded using a URL. If you set Capybara's `app_host`, or
+specify a base URL when calling the `WebDriverConnect.initialize_web_driver` method, then your `page_url` trait can be the
+relative URL slug that will be appended to the base URL specified in `app_host`. Specifying a `page_url` trait is optional,
+as not all web pages can be directly loaded via a URL.
 
 You define your page's **Traits** as shown below:
 
@@ -204,9 +208,9 @@ Web pages are made up of UI elements like text fields, check boxes, combo boxes,
 
 ### Adding Methods to your PageObject
 
-It is good practice for your Cucumber step definitions to call high level methods in your your `PageObject` instead of directly accessing
-and interacting with a page object's UI elements. You can add high level methods to your `PageObject` class definition for interacting with
-the UI to hide implementation details, as shown below:
+It is good practice for your Cucumber step definitions to call high level methods in your your `PageObject` instead of
+directly accessing and interacting with a page object's UI elements. You can add high level methods to your `PageObject`
+class definition for interacting with the UI to hide implementation details, as shown below:
 
     class LoginPage < TestCentricity::PageObject
       trait(:page_name)    { 'Login' }
@@ -303,9 +307,10 @@ Once your `PageObjects` have been instantiated, you can call your methods as sho
 
 ## PageSections
 
-A `PageSection` is a collection of **UI Elements** that may appear in multiple locations on a page, or on multiple pages in a web
-app. It is a collection of **UI Elements** that represent a conceptual area of functionality, like a navigation bar, a search capability,
-or a menu. **UI Elements** and functional behavior are confined to the scope of a `PageSection` object.
+A `PageSection` is a collection of **UI Elements** that may appear in multiple locations on a page, or on multiple pages
+in a web app. It is a collection of **UI Elements** that represent a conceptual area of functionality, like a navigation
+bar, a search capability, or a menu. **UI Elements** and functional behavior are confined to the scope of a `PageSection`
+object.
 
 <img src="https://i.imgur.com/BTgi59R.jpg" alt="Navigation Header" title="Navigation Header">
 
@@ -319,8 +324,8 @@ A `PageSection` may contain other `PageSection` objects.
 
 ### Defining a PageSection
 
-Your `PageSection` class definitions should be contained within individual `.rb` files in the `features/support/sections` folder of
-your test automation project. You define new `PageSection` as shown below:
+Your `PageSection` class definitions should be contained within individual `.rb` files in the `features/support/sections`
+folder of your test automation project. You define new `PageSection` as shown below:
 
     class SearchForm < TestCentricity::PageSection
     end
@@ -341,8 +346,8 @@ You define your section's **Traits** as shown below:
 
 ### Adding UI Elements to your PageSection
 
-`PageSections` are typically made up of UI elements like text fields, check boxes, combo boxes, radio buttons, tables, lists, buttons, etc.
-**UI Elements** are added to your `PageSection` class definition as shown below:
+`PageSections` are typically made up of UI elements like text fields, check boxes, combo boxes, radio buttons, tables, lists,
+buttons, etc. **UI Elements** are added to your `PageSection` class definition as shown below:
 
     class SearchForm < TestCentricity::PageSection
       trait(:section_locator) { 'form#gnav-search' }
@@ -393,10 +398,10 @@ Once your `PageObject` has been instantiated, you can call its `PageSection` met
 
 ## UIElements
 
-`PageObjects` and `PageSections` are typically made up of **UI Element** like text fields, check boxes, select lists (combo boxes),
-radio buttons, tables, ordered and unordered lists, buttons, images, HTML5 video objects, HTML5 audio objects, etc. **UI Elements** are declared
-and instantiated within the class definition of the `PageObject` or `PageSection` in which they are contained. With TestCentricity Web,
-all UI elements are based on the `UIElement` class.
+`PageObjects` and `PageSections` are typically made up of **UI Element** like text fields, check boxes, select lists (combo
+boxes), radio buttons, tables, ordered and unordered lists, buttons, images, HTML5 video objects, HTML5 audio objects, etc.
+**UI Elements** are declared and instantiated within the class definition of the `PageObject` or `PageSection` in which they
+are contained. With TestCentricity Web, all UI elements are based on the `UIElement` class.
 
 
 ### Declaring and Instantiating UIElements
@@ -408,8 +413,8 @@ Single `UIElement` declarations have the following format:
 * The `elementName` is the unique name that you will use to refer to the UI element and is specified as a `Symbol`.
 * The `locator` is the CSS or XPath attribute that uniquely and unambiguously identifies the `UIElement`.
 
-Multiple `UIElement` declarations for a collection of elements of the same type can be performed by passing a hash table containing the
-names and locators of each individual element.
+Multiple `UIElement` declarations for a collection of elements of the same type can be performed by passing a hash table
+containing the names and locators of each individual element.
 
 ### Example UIElement Declarations
 
@@ -475,8 +480,9 @@ Supported `UIElement` elementTypes and their declarations have the following for
     end
 
 
-Refer to the Class List documentation for the `PageObject` and `PageSection` classes for details on the class methods used for declaring
-and instantiating `UIElements`. Examples of UI element declarations can be found in the ***Adding UI Elements to your PageObject*** and
+Refer to the Class List documentation for the `PageObject` and `PageSection` classes for details on the class methods used
+for declaring and instantiating `UIElements`. Examples of UI element declarations can be found in the ***Adding UI Elements
+to your PageObject*** and
 ***Adding UI Elements to your PageSection*** sections above.
 
 
@@ -570,24 +576,26 @@ With TestCentricity, all UI elements are based on the `UIElement` class, and inh
 
 ### Populating your PageObject or PageSection with data
 
-A typical automated test may be required to perform the entry of test data by interacting with various `UIElements` on your `PageObject` or
-`PageSection`. This data entry can be performed using the various object action methods (listed above) for each `UIElement` that needs to be
-interacted with.
+A typical automated test may be required to perform the entry of test data by interacting with various `UIElements` on your
+`PageObject` or `PageSection`. This data entry can be performed using the various object action methods (listed above) for
+each `UIElement` that needs to be interacted with.
 
-The `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods support the entry of test data into a collection of
-`UIElements`. The `populate_data_fields` method accepts a hash containing key/hash pairs of `UIElements` and their associated data to be
-entered. Data values must be in the form of a `String` for `textfield`, `selectlist`, and `filefield` controls. For `checkbox` and `radio`
-controls, data must either be a `Boolean` or a `String` that evaluates to a `Boolean` value (Yes, No, 1, 0, true, false). For `range` controls,
-data must be an `Integer`. For `input(type='color')` color picker controls, which are specified as a `textfield`, data must be in the form
-of a hex color `String`. For `section` objects, data values must be a `String`, and the `section` object must have a `set` method defined.
+The `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods support the entry of test data into a
+collection of `UIElements`. The `populate_data_fields` method accepts a hash containing key/hash pairs of `UIElements` and
+their associated data to be entered. Data values must be in the form of a `String` for `textfield`, `selectlist`, and `filefield`
+controls. For `checkbox` and `radio` controls, data must either be a `Boolean` or a `String` that evaluates to a `Boolean`
+value (Yes, No, 1, 0, true, false). For `range` controls, data must be an `Integer`. For `input(type='color')` color picker
+controls, which are specified as a `textfield`, data must be in the form of a hex color `String`. For `section` objects, data
+values must be a `String`, and the `section` object must have a `set` method defined.
 
-The `populate_data_fields` method verifies that data attributes associated with each `UIElement` is not `nil` or `empty` before attempting to
-enter data into the `UIElement`.
+The `populate_data_fields` method verifies that data attributes associated with each `UIElement` is not `nil` or `empty`
+before attempting to enter data into the `UIElement`.
 
-The optional `wait_time` parameter is used to specify the time (in seconds) to wait for each `UIElement` to become viable for data entry
-(the `UIElement` must be visible and enabled) before entering the associated data value. This option is useful in situations where entering data,
-or setting the state of a `UIElement` might cause other `UIElements` to become visible or active. Specifying a wait_time value ensures that the
-subsequent `UIElements` will be ready to be interacted with as states are changed. If the wait time is `nil`, then the wait time will be 5 seconds.
+The optional `wait_time` parameter is used to specify the time (in seconds) to wait for each `UIElement` to become viable
+for data entry (the `UIElement` must be visible and enabled) before entering the associated data value. This option is useful
+in situations where entering data, or setting the state of a `UIElement` might cause other `UIElements` to become visible
+or active. Specifying a wait_time value ensures that the subsequent `UIElements` will be ready to be interacted with as
+states are changed. If the wait time is `nil`, then the wait time will be 5 seconds.
 
     def enter_data(user_data)
       fields = {
@@ -605,14 +613,14 @@ subsequent `UIElements` will be ready to be interacted with as states are change
 
 ### Verifying UIElements on your PageObject or PageSection
 
-A typical automated test executes one or more interactions with the user interface, and then performs a validation to verify whether
-the expected state of the UI has been achieved. This verification can be performed using the various object state methods (listed above)
-for each `UIElement` that requires verification. Depending on the complexity and number of `UIElements` to be verified, the code required to
-verify the presence of `UIElements` and their correct states can become cumbersome.
+A typical automated test executes one or more interactions with the user interface, and then performs a validation to verify
+whether the expected state of the UI has been achieved. This verification can be performed using the various object state
+methods (listed above) for each `UIElement` that requires verification. Depending on the complexity and number of `UIElements`
+to be verified, the code required to verify the presence of `UIElements` and their correct states can become cumbersome.
 
-The `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods support the verification of multiple properties of multiple
-UI elements on a `PageObject` or `PageSection`. The `verify_ui_states` method accepts a hash containing key/hash pairs of UI
-elements and their properties or attributes to be verified.
+The `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods support the verification of multiple properties
+of multiple UI elements on a `PageObject` or `PageSection`. The `verify_ui_states` method accepts a hash containing key/hash
+pairs of UI elements and their properties or attributes to be verified.
 
      ui = {
        object1 => { property: state },
@@ -621,9 +629,9 @@ elements and their properties or attributes to be verified.
      }
      verify_ui_states(ui)
 
-The `verify_ui_states` method queues up any exceptions that occur while verifying each object's properties until all `UIElements` and their
-properties have been checked, and then posts any exceptions encountered upon completion. Posted exceptions include a screenshot with a red
-dashed highlight around the UI element that did not match the expected results.
+The `verify_ui_states` method queues up any exceptions that occur while verifying each object's properties until all `UIElements`
+and their properties have been checked, and then posts any exceptions encountered upon completion. Posted exceptions include
+a screenshot with a red dashed highlight around the UI element that did not match the expected results.
 
 The `verify_ui_states` method supports the following property/state pairs:
 
@@ -893,18 +901,18 @@ Baseline translation strings are stored in `.yml` files in the `config/locales/`
 
 ### Working with custom UIElements
 
-Many responsive and touch-enabled web based user interfaces are implemented using front-end JavaScript libraries for building user
-interfaces based on UI components. Popular JS libraries include React, Angular, and Ember.js. These stylized and adorned controls can
-present a challenge when attempting to interact with them using Capybara and Selenium based automated tests.
+Many responsive and touch-enabled web based user interfaces are implemented using front-end JavaScript libraries for building
+user interfaces based on UI components. Popular JS libraries include React, Angular, and Ember.js. These stylized and adorned
+controls can present a challenge when attempting to interact with them using Capybara and Selenium based automated tests.
 
 #### Radio and Checkbox UIElements
 
-Sometimes, radio buttons and checkboxes implemented using JS component libraries cannot be interacted with due to other UI elements
-being overlaid on top of them and the base `input(type='radio')` or `input(type='checkbox')` element not being visible.
+Sometimes, radio buttons and checkboxes implemented using JS component libraries cannot be interacted with due to other UI
+elements being overlaid on top of them and the base `input(type='radio')` or `input(type='checkbox')` element not being visible.
 
-In the screenshots below of an airline flight search and booking page, the **Roundtrip** and **One-way** radio buttons are adorned by
-`label` elements that also acts as proxies for their associated `input(type='radio')` elements, and they intercept the `click` actions
-that would normally be handled by the `input(type='radio')` elements.
+In the screenshots below of an airline flight search and booking page, the **Roundtrip** and **One-way** radio buttons are
+adorned by `label` elements that also acts as proxies for their associated `input(type='radio')` elements, and they intercept
+the `click` actions that would normally be handled by the `input(type='radio')` elements.
 
 <img src="https://i.imgur.com/7bW5u4c.jpg" alt="Roundtrip Radio button Input" title="Roundtrip Radio button Input">
 
@@ -1003,19 +1011,19 @@ as element locators.
 #### List UIElements
 
 The basic HTML list is typically composed of the parent `ul` object, and one or more `li` elements representing the items
-in the list. However, list controls implemented using JS component libraries can be composed of multiple elements representing the
-components of a list implementation.
+in the list. However, list controls implemented using JS component libraries can be composed of multiple elements representing
+the components of a list implementation.
 
-The `List.define_list_elements` method provides a means of specifying the elements that make up the key components of a `list` control.
-The method accepts a hash of element designators (key) and a CSS or Xpath expression (value) that expression that uniquely identifies
-the element. Valid element designators are `list_item:`and `selected_item:`.
+The `List.define_list_elements` method provides a means of specifying the elements that make up the key components of a `list`
+control. The method accepts a hash of element designators (key) and a CSS or Xpath expression (value) that expression that
+uniquely identifies the element. Valid element designators are `list_item:`and `selected_item:`.
 
 
 ## Instantiating your PageObjects
 
 Before you can call the methods in your `PageObjects` and `PageSections`, you must instantiate the `PageObjects` of your web
-application, as well as create instance variables which can be used when calling a `PageObject`'s methods from your step definitions.
-There are several ways to instantiate your `PageObjects`.
+application, as well as create instance variables which can be used when calling a `PageObject`'s methods from your step
+definitions. There are several ways to instantiate your `PageObjects`.
 
 One common implementation is shown below:
 
@@ -1039,17 +1047,17 @@ One common implementation is shown below:
         
     World(WorldPages)
 
-The `WorldPages` module above can be defined in your `env.rb` file, or you can define it in a separate `world_pages.rb` file in the
-`features/support` folder.
+The `WorldPages` module above can be defined in your `env.rb` file, or you can define it in a separate `world_pages.rb` file
+in the `features/support` folder.
 
-While this approach is effective for small web applications with only a few pages (and hence few `PageObjects`), it quickly becomes
-cumbersome to manage if your web application has dozens of `PageObjects` that need to be instantiated and managed.
+While this approach is effective for small web applications with only a few pages (and hence few `PageObjects`), it quickly
+becomes cumbersome to manage if your web application has dozens of `PageObjects` that need to be instantiated and managed.
 
 ### Using the PageManager
 
-The `PageManager` class provides methods for supporting the instantiation and management of `PageObjects`. In the code example below,
-the `page_objects` method contains a hash table of your `PageObject` instances and their associated `PageObject` classes to be 
-instantiated by `PageManager`:
+The `PageManager` class provides methods for supporting the instantiation and management of `PageObjects`. In the code example
+below, the `page_objects` method contains a hash table of your `PageObject` instances and their associated `PageObject` classes
+to be instantiated by `PageManager`:
     
     module WorldPages
       def page_objects
@@ -1079,8 +1087,8 @@ instantiated by `PageManager`:
     
 The `WorldPages` module above should be defined in the `world_pages.rb` file in the `features/support` folder.
 
-Include the code below in your `env.rb` file to ensure that your `PageObjects` are instantiated before your Cucumber scenarios are
-executed:
+Include the code below in your `env.rb` file to ensure that your `PageObjects` are instantiated before your Cucumber scenarios
+are executed:
     
     include WorldPages
     WorldPages.instantiate_page_objects
@@ -1090,8 +1098,8 @@ executed:
 
 ### Leveraging the PageManager in your Cucumber tests
 
-Many Cucumber based automated tests suites include scenarios that verify that web pages are correctly loaded, displayed, or can be
-navigated to by clicking associated links. One such Cucumber navigation scenario is displayed below:
+Many Cucumber based automated tests suites include scenarios that verify that web pages are correctly loaded, displayed, or
+can be navigated to by clicking associated links. One such Cucumber navigation scenario is displayed below:
 
     Scenario Outline:  Verify Home page navigation links
       Given I am on the Home page
@@ -1107,8 +1115,8 @@ navigated to by clicking associated links. One such Cucumber navigation scenario
         |FAQs               |
         |Contact Us         |
 
-In the above example, the step definitions associated with the 3 steps might be implemented using a `page_dispatcher` method using a
-`case` statement to parse the `page` parameter as in the example below:
+In the above example, the step definitions associated with the 3 steps might be implemented using a `page_dispatcher` method
+using a `case` statement to parse the `page` parameter as in the example below:
 
     Given(/^I am on the (.*) page$/) do |page_name|
       target_page = page_dispatcher(page_name)
@@ -1147,14 +1155,15 @@ In the above example, the step definitions associated with the 3 steps might be 
       end
 
 
-While this approach may be effective for small web applications with only a few pages (and hence few `PageObjects`), it quickly becomes
-cumbersome to manage if your web application has dozens of `PageObjects` that need to be managed.
+While this approach may be effective for small web applications with only a few pages (and hence few `PageObjects`), it quickly
+becomes cumbersome to manage if your web application has dozens of `PageObjects` that need to be managed.
 
-The `PageManager` class provides a `find_page` method that replaces the cumbersome and difficult to maintain `case` statement used in the
-above example. The `PageManager.current_page` method allows you to set or get an instance of the currently active Page Object.
+The `PageManager` class provides a `find_page` method that replaces the cumbersome and difficult to maintain `case` statement
+used in the above example. The `PageManager.current_page` method allows you to set or get an instance of the currently active
+Page Object.
 
-To use these `PageManager` methods, include the step definitions and code below in a `page_steps.rb` or `generic_steps.rb` file in the
-`features/step_definitions` folder:
+To use these `PageManager` methods, include the step definitions and code below in a `page_steps.rb` or `generic_steps.rb` file
+in the `features/step_definitions` folder:
 
     include TestCentricity
     
@@ -1183,18 +1192,19 @@ To use these `PageManager` methods, include the step definitions and code below 
 
 ## Connecting to a Web Browser
 
-The `TestCentricity::WebDriverConnect.initialize_web_driver` method configures the appropriate Selenium-Webdriver capabilities required to
-establish a connection with a target web browser, and sets the base host URL of the web site you are running your tests against.
+The `TestCentricity::WebDriverConnect.initialize_web_driver` method configures the appropriate Selenium-Webdriver capabilities
+required to establish a connection with a target web browser, and sets the base host URL of the web site you are running your
+tests against.
 
-The `TestCentricity::WebDriverConnect.initialize_web_driver` method accepts a single optional parameter - the base host URL. Cucumber
-**Environment Variables** are used to specify the target local or remote web browser, and the various webdriver capability parameters required
-to configure the connection.
+The `TestCentricity::WebDriverConnect.initialize_web_driver` method accepts a single optional parameter - the base host URL.
+Cucumber **Environment Variables** are used to specify the target local or remote web browser, and the various webdriver
+capability parameters required to configure the connection.
 
 
 ### Locally hosted desktop web browser
 
-For locally hosted desktop web browsers running on macOS or Windows platforms, the `WEB_BROWSER` Environment Variable must be set to one of the
-values from the table below: 
+For locally hosted desktop web browsers running on macOS or Windows platforms, the `WEB_BROWSER` Environment Variable must
+be set to one of the values from the table below: 
 
 | `WEB_BROWSER`      | **Desktop Platform**                           |
 |--------------------|------------------------------------------------|
@@ -1212,7 +1222,8 @@ Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below
 
 #### Setting desktop browser window size
 
-To set the size of a desktop browser window, you set the `BROWSER_SIZE` Environment Variable to the desired width and height in pixels as shown below:
+To set the size of a desktop browser window, you set the `BROWSER_SIZE` Environment Variable to the desired width and height
+in pixels as shown below:
                                                                                                                                
     BROWSER_SIZE=1600,1000
 
@@ -1223,8 +1234,9 @@ To maximize a desktop browser window, you set the `BROWSER_SIZE` Environment Var
 
 #### Testing file downloads with desktop browsers
 
-File download functionality can be tested with locally hosted instances of Chrome, Edge, or Firefox desktop browsers. Your automation project must include
-a `/downloads` folder at the same level as the `/config` and `/features` folders, as depicted below:
+File download functionality can be tested with locally hosted instances of Chrome, Edge, or Firefox desktop browsers. Your
+automation project must include a `/downloads` folder at the same level as the `/config` and `/features` folders, as depicted
+below:
 
     my_automation_project
         ├── config
@@ -1234,9 +1246,9 @@ a `/downloads` folder at the same level as the `/config` and `/features` folders
         └── README.md
 
 
-When running tests in multiple concurrent threads using the `parallel_tests` gem, a new folder will be created within the `/downloads` folder for each
-test thread. This is to ensure that files downloaded in each test thread are isolated from tests running in other parallel threads. An example of the
-`/downloads` folder structure for 4 parallel threads is depicted below:
+When running tests in multiple concurrent threads using the `parallel_tests` gem, a new folder will be created within the
+`/downloads` folder for each test thread. This is to ensure that files downloaded in each test thread are isolated from tests
+running in other parallel threads. An example of the`/downloads` folder structure for 4 parallel threads is depicted below:
 
     my_automation_project
         ├── config
@@ -1250,10 +1262,10 @@ test thread. This is to ensure that files downloaded in each test thread are iso
         └── README.md
 
 
-When testing file downloads using a local instance of Firefox, you will need to specify the MIME types of the various file types that your tests will
-be downloading. This is accomplished by setting the `MIME_TYPES` Environment Variable to a comma-delimited string containing the list of MIME types to
-be accepted. This list is required as it will prevent Firefox from displaying the File Download modal dialog, which will halt your automated tests. An
-example of a list of MIME types is depicted below:
+When testing file downloads using a local instance of Firefox, you will need to specify the MIME types of the various file types
+that your tests will be downloading. This is accomplished by setting the `MIME_TYPES` Environment Variable to a comma-delimited
+string containing the list of MIME types to be accepted. This list is required as it will prevent Firefox from displaying the
+File Download modal dialog, which will halt your automated tests. An example of a list of MIME types is depicted below:
 
     MIME_TYPES='images/jpeg, application/pdf, application/octet-stream'
 
@@ -1262,10 +1274,11 @@ A detailed list of file MIME types can be found [here](https://www.freeformatter
 
 ### Locally hosted emulated mobile web browser
 
-You can run your tests against mobile device browsers that are emulated within a locally hosted instance of a Chrome desktop browser on macOS or
-Windows. The specified mobile browser's user agent, CSS screen dimensions, and default screen orientation will be automatically set within the
-local Chrome browser instance. You may even specify the emulated device's screen orientation. For locally hosted emulated mobile web browsers,
-the `WEB_BROWSER` Environment Variable must be set to one of the values from the table below: 
+You can run your tests against mobile device browsers that are emulated within a locally hosted instance of a Chrome desktop
+browser on macOS or Windows. The specified mobile browser's user agent, CSS screen dimensions, and default screen orientation
+will be automatically set within the local Chrome browser instance. You may even specify the emulated device's screen orientation.
+For locally hosted emulated mobile web browsers, the `WEB_BROWSER` Environment Variable must be set to one of the values from
+the table below: 
 
 | `WEB_BROWSER`         | `HOST_BROWSER` | **CSS Screen Dimensions** | **Default Orientation** | **OS Version**                            |
 |-----------------------|----------------|---------------------------|-------------------------|-------------------------------------------|
@@ -1317,18 +1330,20 @@ the `WEB_BROWSER` Environment Variable must be set to one of the values from the
 | `blackberry_leap`     | `chrome`       | 360 x 640                 | portrait                | BlackBerry 10 OS                          |
 | `blackberry_passport` | `chrome`       | 504 x 504                 | square                  | BlackBerry 10 OS                          |
 
-To change the emulated device's screen orientation from the default setting, set the `ORIENTATION` Environment Variable to either `portrait` or `landscape`.
+To change the emulated device's screen orientation from the default setting, set the `ORIENTATION` Environment Variable to
+either `portrait` or `landscape`.
 
-To use a local instance of the Chrome desktop browser to host the emulated mobile web browser, you must set the `HOST_BROWSER` Environment Variable
-to `chrome`.
+To use a local instance of the Chrome desktop browser to host the emulated mobile web browser, you must set the `HOST_BROWSER`
+Environment Variable to `chrome`.
 
 Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
 
 
 #### User defined mobile device profiles
 
-User defined mobile device profiles can be specified in a `device.yml` file for testing locally hosted emulated mobile web browsers running in an instance
-of the Chrome desktop browser. The user specified device profiles must be located at `config/data/devices/devices.yml` as depicted below:
+User defined mobile device profiles can be specified in a `device.yml` file for testing locally hosted emulated mobile web
+browsers running in an instance of the Chrome desktop browser. The user specified device profiles must be located at
+`config/data/devices/devices.yml` as depicted below:
 
     my_automation_project
         ├── config
@@ -1357,7 +1372,8 @@ The format for a new device profile is:
 
 ### Selenium Grid 4 and Dockerized Selenium Grid 4 hosted desktop and emulated mobile web browsers
 
-For remote desktop and emulated mobile web browsers running on Selenium Grid 4 or Dockerized Selenium Grid 4 environments as described in the table below.
+For remote desktop and emulated mobile web browsers running on Selenium Grid 4 or Dockerized Selenium Grid 4 environments
+as described in the table below.
 
 | **Environment Variable** | **Description**                                                                                                                                                               |
 |--------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -1372,12 +1388,13 @@ Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below
 
 #### Mobile Safari browser on iOS Simulators or iOS Physical Devices
 
-You can run your mobile web tests against the mobile Safari browser on simulated iOS devices or physically connected iOS devices using Appium and XCode on
-macOS. You must install Appium, XCode, and the iOS version-specific device simulators for XCode. You must also ensure that the `appium_capybara` gem is
-installed and required as described in **section 3.3 (Setup - Using Appium)** above.
+You can run your mobile web tests against the mobile Safari browser on simulated iOS devices or physically connected iOS devices
+using Appium and XCode on macOS. You must install Appium, XCode, and the iOS version-specific device simulators for XCode. You
+must also ensure that the `appium_capybara` gem is installed and required as described in **section 3.3 (Setup - Using Appium)** above.
 
-Information about Appium setup and configuration requirements for testing on physically connected iOS devices can be found on [this page](https://github.com/appium/appium/blob/master/docs/en/drivers/ios-xcuitest-real-devices.md).
-The Appium server must be running prior to invoking Cucumber to run your features/scenarios.
+Information about Appium setup and configuration requirements for testing on physically connected iOS devices can be found
+on [this page](https://github.com/appium/appium/blob/master/docs/en/drivers/ios-xcuitest-real-devices.md). The Appium server
+must be running prior to invoking Cucumber to run your features/scenarios.
 
 Once your test environment is properly configured, the following **Environment Variables** must be set as described in the table below.
 
@@ -1414,13 +1431,15 @@ Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below
 
 #### Mobile Chrome or Android browsers on Android Studio Virtual Device emulators
 
-You can run your mobile web tests against the mobile Chrome or Android browser on emulated Android devices using Appium and Android Studio on macOS. You
-must install Android Studio, the desired Android version-specific virtual device emulators, and Appium. Refer to [this page](http://appium.io/docs/en/drivers/android-uiautomator2/index.html)
-for information on configuring Appium to work with the Android SDK. You must also ensure that the `appium_capybara` gem is installed and required as
-described in **section 3.3 (Setup - Using Appium)** above.
+You can run your mobile web tests against the mobile Chrome or Android browser on emulated Android devices using Appium and
+Android Studio on macOS. You must install Android Studio, the desired Android version-specific virtual device emulators, and
+Appium. Refer to [this page](http://appium.io/docs/en/drivers/android-uiautomator2/index.html) for information on configuring
+Appium to work with the Android SDK. You must also ensure that the `appium_capybara` gem is installed and required as described
+in **section 3.3 (Setup - Using Appium)** above.
 
 The Appium server must be running prior to invoking Cucumber to run your features/scenarios. Refer to [this page](https://appium.io/docs/en/writing-running-appium/web/chromedriver/index.html)
-for information on configuring Appium to use the correct version of Chromedriver required to work with the web browser supported by each Android OS version.
+for information on configuring Appium to use the correct version of Chromedriver required to work with the web browser supported
+by each Android OS version.
 
 Once your test environment is properly configured, the following **Environment Variables** must be set as described in the table below.
 
@@ -1447,8 +1466,8 @@ Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below
 #### Starting and stopping Appium Server
 
 The Appium server must be running prior to invoking Cucumber to run your features/scenarios on mobile simulators or physical
-device. To programmatically control the starting and stopping of Appium server with the execution of your automated tests, place
-the code shown below in your `hooks.rb` file.
+device. To programmatically control the starting and stopping of Appium server with the execution of your automated tests,
+place the code shown below in your `hooks.rb` file.
 
     BeforeAll do
       # start Appium Server if APPIUM_SERVER = 'run' and target browser is a mobile simulator or device
@@ -1468,9 +1487,9 @@ the code shown below in your `hooks.rb` file.
     end
 
 
-The `APPIUM_SERVER` environment variable must be set to `run` in order to programmatically start and stop Appium server. This can be
-set by adding the following to your `cucumber.yml` file and including `-p run_appium` in your command line when starting your Cucumber
-test suite(s):
+The `APPIUM_SERVER` environment variable must be set to `run` in order to programmatically start and stop Appium server. This
+can be set by adding the following to your `cucumber.yml` file and including `-p run_appium` in your command line when starting
+your Cucumber test suite(s):
 
     run_appium: APPIUM_SERVER=run
 
@@ -1480,21 +1499,21 @@ Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below
 
 ### Remote cloud hosted desktop and mobile web browsers
 
-You can run your automated tests against remote cloud hosted desktop and mobile web browsers using the BrowserStack, SauceLabs, TestingBot, or
-LambdaTest services. If your tests are running against a web site hosted on your local computer (`localhost`), or on a staging server inside
-your LAN, you must set the `TUNNELING` Environment Variable to `true`.
+You can run your automated tests against remote cloud hosted desktop and mobile web browsers using the BrowserStack, SauceLabs,
+TestingBot, or LambdaTest services. If your tests are running against a web site hosted on your local computer (`localhost`),
+or on a staging server inside your LAN, you must set the `TUNNELING` Environment Variable to `true`.
 
-Due to lack of support for Selenium 4.x and the W3C browser capabilities protocol, support for CrossBrowserTesting and Gridlastic cloud hosted
-Selenium grid services was removed as of version 4.1 of this gem. If your testing requires access to either of those services, or support for
-Selenium version 3.x, you should use earlier versions of this gem.
+Due to lack of support for Selenium 4.x and the W3C browser capabilities protocol, support for CrossBrowserTesting and Gridlastic
+cloud hosted Selenium grid services was removed as of version 4.1 of this gem. If your testing requires access to either of those
+services, or support for Selenium version 3.x, you should use earlier versions of this gem.
 
 Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
 
 
 #### Remote desktop browsers on the BrowserStack service
 
-For remotely hosted desktop web browsers on the BrowserStack service, the following **Environment Variables** must be set as described in
-the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities?tag=selenium-4)
+For remotely hosted desktop web browsers on the BrowserStack service, the following **Environment Variables** must be set as
+described in the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities?tag=selenium-4)
 for information regarding the specific capabilities.
 
 | **Environment Variable** | **Description**                                                                                                                                                            |
@@ -1590,6 +1609,26 @@ regarding the specific capabilities.
 | `BROWSER_SIZE`           | [Optional] Specify width, height of browser window                                                                |
 
 
+#### Remote mobile browsers on the TestingBot service
+
+For remotely hosted mobile web browsers iOS simulators and Android emulators on the TestingBot service, the following Environment
+Variables must be set as described in the table below.
+
+| **Environment Variable** | **Description**                                                                                 |
+|--------------------------|-------------------------------------------------------------------------------------------------|
+| `DRIVER`                 | Must be set to `testingbot`                                                                     |
+| `TB_USERNAME`            | Must be set to your TestingBot account user name                                                |
+| `TB_AUTHKEY`             | Must be set to your TestingBot account access key                                               |
+| `TB_PLATFORM`            | Must be set to `iOS` or `ANDROID`                                                               |
+| `TB_OS`                  | Must be set to `iOS` or `ANDROID`                                                               |
+| `TB_BROWSER`             | Must be set to `safari` (for iOS) or `chrome` (for Android)                                     |
+| `TB_VERSION`             | Refer to `version` capability in chart                                                          |
+| `TB_DEVICE`              | Refer to `deviceName` capability in chart                                                       |
+| `DEVICE_TYPE`            | Must be set to `phone` or `tablet`                                                              |
+| `TUNNELING`              | [Optional] Must be `true` if you are testing against internal/local servers (`true` or `false`) |
+| `ORIENTATION`            | [Optional] Set to `portrait` or `landscape`                                                     |
+
+
 #### Remote desktop browsers on the LambdaTest service
 
 For remotely hosted desktop web browsers on the LambdaTest service, the following **Environment Variables** must be set as described in the table
@@ -1614,14 +1653,15 @@ to obtain information regarding the specific capabilities.
 
 ### Using Browser specific Profiles in cucumber.yml
 
-While you can set **Environment Variables** in the command line when invoking Cucumber, a preferred method of specifying and managing
-target web browsers is to create browser specific **Profiles** that set the appropriate **Environment Variables** for each target browser
-in your `cucumber.yml` file.
+While you can set **Environment Variables** in the command line when invoking Cucumber, a preferred method of specifying and
+managing target web browsers is to create browser specific **Profiles** that set the appropriate **Environment Variables** for
+each target browser in your `cucumber.yml` file.
 
-Below is a list of Cucumber **Profiles** for supported locally and remotely hosted desktop and mobile web browsers (put these in in your
-`cucumber.yml` file). Before you can use the BrowserStack, SauceLabs, TestingBot or LambdaTest services, you will need to replace the
-*INSERT USER NAME HERE* and *INSERT PASSWORD HERE* placeholder text with your user account and authorization code for the cloud service(s)
-that you intend to connect with.
+Below is a list of Cucumber **Profiles** for supported locally and remotely hosted desktop and mobile web browsers (put these
+in in your`cucumber.yml` file). Before you can use the BrowserStack, SauceLabs, TestingBot or LambdaTest services, you will
+need to replace the*INSERT USER NAME HERE* and *INSERT PASSWORD HERE* placeholder text with your user account and authorization
+code for the cloud service(s) that you intend to connect with. However, cloud service credentials should not be stored as text
+in your `cucumber.yml` file where it can be exposed by anyone with access to your version control system
 
 
     <% desktop = "--tags @desktop --require features BROWSER_TILE=true BROWSER_SIZE=1500,1000" %>
@@ -1850,27 +1890,27 @@ that you intend to connect with.
     lt_i0_win11:   --profile lt_win10 LT_BROWSER="Internet Explorer" LT_VERSION="11.0"
 
 
-To specify a locally hosted target browser using a profile at runtime, you use the flag `--profile` or `-p` followed by the profile name when
-invoking Cucumber in the command line. For instance, the following command invokes Cucumber and specifies that a local instance of Firefox
-will be used as the target web browser:
+To specify a locally hosted target browser using a profile at runtime, you use the flag `--profile` or `-p` followed by the
+profile name when invoking Cucumber in the command line. For instance, the following command invokes Cucumber and specifies
+that a local instance of Firefox will be used as the target web browser:
     
     cucumber -p firefox
 
 
-The following command specifies that Cucumber will run tests against an instance of Chrome hosted within a Dockerized Selenium Grid 4
-environment:
+The following command specifies that Cucumber will run tests against an instance of Chrome hosted within a Dockerized Selenium
+Grid 4 environment:
     
     cucumber -p chrome -p grid
 
 
-The following command specifies that Cucumber will run tests against a local instance of Chrome, which will be used to emulate an iPad Pro
-in landscape orientation:
+The following command specifies that Cucumber will run tests against a local instance of Chrome, which will be used to emulate
+an iPad Pro in landscape orientation:
     
     cucumber -p ipad_pro -p landscape
 
 
-The following command specifies that Cucumber will run tests against an iPad Pro (12.9-inch) (5th generation) with iOS version 15.4 in an
-XCode Simulator in landscape orientation:
+The following command specifies that Cucumber will run tests against an iPad Pro (12.9-inch) (5th generation) with iOS version
+15.4 in an XCode Simulator in landscape orientation:
     
     cucumber -p ipad_pro_12_15_sim -p landscape
     
@@ -1881,8 +1921,8 @@ You can ensure that Appium Server is running by including `-p run_appium` in you
     cucumber -p ipad_pro_12_15_sim -p landscape -p run_appium
 
 
-The following command specifies that Cucumber will run tests against a remotely hosted Safari web browser running on a macOS Monterey
-virtual machine on the BrowserStack service:
+The following command specifies that Cucumber will run tests against a remotely hosted Safari web browser running on a macOS
+Monterey virtual machine on the BrowserStack service:
 
     cucumber -p bs_safari_monterey
 
@@ -1924,27 +1964,20 @@ area sub-folders as needed. Likewise, `PageSection` class definitions should be 
 TestCentricity™ Framework is Copyright (c) 2014-2022, Tony Mrozinski.
 All rights reserved.
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following
+conditions are met:
 
-1. Redistributions of source code must retain the above copyright notice,
-this list of conditions and the following disclaimer.
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
 
-2. Redistributions in binary form must reproduce the above copyright
-notice, this list of conditions and the following disclaimer in the
-documentation and/or other materials provided with the distribution.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer
+in the documentation and/or other materials provided with the distribution.
 
-3. Neither the name of the copyright holder nor the names of its contributors
-may be used to endorse or promote products derived from this software without
-specific prior written permission.
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived
+from this software without specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
-OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-POSSIBILITY OF SUCH DAMAGE.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE)ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

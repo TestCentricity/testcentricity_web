@@ -6,7 +6,7 @@
     },
     "REMOTE": {
       "PROTOCOL": "http",
-      "BASE_URL": "192.168.1.129/test_site"
+      "BASE_URL": "eval!ENV['BASE_URL']"
     }
   },
   "Form_data": {

@@ -11,6 +11,7 @@ include TestCentricity
 
 coverage_report_name = "Features-#{ENV['WEB_BROWSER']}-#{ENV['SELENIUM']}" + (ENV['TEST_ENV_NUMBER'] || '')
 SimpleCov.command_name("#{coverage_report_name}-#{Time.now.strftime('%Y%m%d%H%M%S%L')}")
+SimpleCov.merge_timeout 3600
 
 require_relative 'world_data'
 require_relative 'world_pages'
@@ -18,6 +19,7 @@ require_relative 'world_pages'
 require_rel 'data'
 require_rel 'sections'
 require_rel 'pages'
+require_rel 'cloud_credentials'
 
 $LOAD_PATH << './lib'
 
@@ -31,6 +33,8 @@ I18n.default_locale = ENV['LOCALE']
 I18n.locale = ENV['LOCALE']
 Faker::Config.locale = ENV['LOCALE']
 
+# load cloud services credentials into environment variables
+load_cloud_credentials
 # instantiate all data objects and target test environment
 include WorldData
 ENV['DATA_SOURCE'] = 'yaml' unless ENV['DATA_SOURCE']
