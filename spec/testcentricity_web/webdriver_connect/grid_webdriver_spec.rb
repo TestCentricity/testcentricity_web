@@ -4,7 +4,7 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
   before(:context) do
     # instantiate remote test environment
     @environs ||= EnvironData
-    @environs.find_environ('REMOTE', :yaml)
+    @environs.find_environ('LOCAL', :yaml)
     ENV['SELENIUM'] = 'remote'
     endpoint = 'http://localhost:4444/wd/hub'
     ENV['REMOTE_ENDPOINT'] = endpoint
@@ -61,6 +61,10 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
   end
 
   def verify_grid_browser(browser, platform)
+    # load Apple web site
+    Capybara.page.driver.browser.navigate.to('https://www.apple.com')
+    Capybara.page.find(:css, 'nav#ac-globalnav', wait: 10, visible: true)
+    # verify Environs are correctly set
     expect(Environ.browser).to eq(browser)
     expect(Environ.platform).to eq(platform)
     expect(Environ.headless).to eq(false)

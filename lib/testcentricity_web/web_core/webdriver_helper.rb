@@ -34,14 +34,12 @@ module TestCentricity
       # set downloads folder path
       @downloads_path = "#{Dir.pwd}/downloads"
       if ENV['PARALLEL']
-        # :nocov:
         Environ.parallel = true
         Environ.process_num = ENV['TEST_ENV_NUMBER']
         if Dir.exist?(@downloads_path)
           @downloads_path = "#{@downloads_path}/#{ENV['TEST_ENV_NUMBER']}"
           Dir.mkdir(@downloads_path) unless Dir.exist?(@downloads_path)
         end
-        # :nocov:
       else
         Environ.parallel = false
       end
@@ -57,19 +55,6 @@ module TestCentricity
                 when :appium
                   initialize_appium
                   'Appium'
-                  # :nocov:
-                when :browserstack
-                  initialize_browserstack
-                  'Browserstack cloud service'
-                when :lambdatest
-                  initialize_lambdatest
-                  'LambdaTest cloud service'
-                when :saucelabs
-                  initialize_saucelabs
-                  'Sauce Labs cloud service'
-                when :testingbot
-                  initialize_testingbot
-                  'TestingBot cloud service'
                 when :webdriver
                   if ENV['SELENIUM'] == 'remote'
                     initialize_remote
@@ -78,6 +63,20 @@ module TestCentricity
                     initialize_local_browser
                     'local browser instance'
                   end
+                when :browserstack
+                  initialize_browserstack
+                  'Browserstack cloud service'
+                when :testingbot
+                  initialize_testingbot
+                  'TestingBot cloud service'
+                  # :nocov:
+                when :lambdatest
+                  initialize_lambdatest
+                  'LambdaTest cloud service'
+                when :saucelabs
+                  initialize_saucelabs
+                  'Sauce Labs cloud service'
+                  # :nocov:
                 end
 
       # set browser window size only if testing with a desktop web browser
@@ -227,12 +226,14 @@ module TestCentricity
       Environ.os = case
                    when OS.osx?
                      'OS X'
+                     # :nocov:
                    when OS.windows?
                      'Windows'
                    when OS.linux?
                      'Linux'
                    else
                      'unknown'
+                     # :nocov:
                    end
       browser = Environ.browser.downcase.to_sym
 
@@ -282,10 +283,12 @@ module TestCentricity
       @endpoint = ENV['REMOTE_ENDPOINT'] || 'http://127.0.0.1:4444/wd/hub' if @endpoint.nil?
 
       case browser
+        # :nocov:
       when :safari
         options = Selenium::WebDriver::Safari::Options.new
       when :ie
         options = Selenium::WebDriver::IE::Options.new
+        # :nocov:
       when :firefox, :firefox_headless
         options = firefox_options(browser)
       when :chrome, :chrome_headless, :edge, :edge_headless
@@ -320,11 +323,10 @@ module TestCentricity
       Capybara.default_driver = :remote_browser
     end
 
-    # :nocov:
     def self.initialize_browserstack
       browser = ENV['BS_BROWSER']
       Environ.grid = :browserstack
-
+      Environ.os = "#{ENV['BS_OS']} #{ENV['BS_OS_VERSION']}"
       if ENV['BS_REAL_MOBILE'] || ENV['BS_DEVICE']
         Environ.platform    = :mobile
         Environ.device_name = ENV['BS_DEVICE']
@@ -335,11 +337,10 @@ module TestCentricity
                          else
                            :simulator
                          end
-      elsif ENV['BS_OS']
-        Environ.os = "#{ENV['BS_OS']} #{ENV['BS_OS_VERSION']}"
       end
       # specify endpoint url
       @endpoint = "http://#{ENV['BS_USERNAME']}:#{ENV['BS_AUTHKEY']}@hub-cloud.browserstack.com/wd/hub" if @endpoint.nil?
+      # :nocov:
       # enable tunneling if specified
       if ENV['TUNNELING']
         @bs_local = BrowserStack::Local.new
@@ -351,6 +352,7 @@ module TestCentricity
           puts 'BrowserStack Local instance failed to start'
         end
       end
+      # :nocov:
       # define BrowserStack options
       options = if @capabilities.nil?
                   browser_options = {}
@@ -416,6 +418,61 @@ module TestCentricity
       Environ.device_type = ENV['DEVICE_TYPE'] if ENV['DEVICE_TYPE']
     end
 
+    def self.initialize_testingbot
+      browser = ENV['TB_BROWSER']
+      Environ.grid = :testingbot
+
+      Environ.os = ENV['TB_OS']
+      if ENV['TB_PLATFORM']
+        Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
+        Environ.device_os   = ENV['TB_PLATFORM']
+        Environ.device_name = ENV['TB_DEVICE']
+        Environ.device      = :device
+        Environ.platform    = :mobile
+        Environ.device_type = ENV['DEVICE_TYPE'] if ENV['DEVICE_TYPE']
+      else
+        Environ.platform = :desktop
+      end
+      # specify endpoint url
+      if @endpoint.nil?
+        url = ENV['TUNNELING'] ? '@localhost:4445/wd/hub' : '@hub.testingbot.com/wd/hub'
+        @endpoint = "http://#{ENV['TB_USERNAME']}:#{ENV['TB_AUTHKEY']}#{url}"
+      end
+      # define TestingBot options
+      options = if @capabilities.nil?
+                  # define the required set of TestingBot options
+                  tb_options = { build: test_context_message }
+                  # define the optional TestingBot options
+                  tb_options[:name] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
+                  tb_options['timeZone'] = ENV['TIME_ZONE'] if ENV['TIME_ZONE']
+                  tb_options['testingbot.geoCountryCode'] = ENV['GEO_LOCATION'] if ENV['GEO_LOCATION']
+                  tb_options[:screenrecorder] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
+                  tb_options[:screenshot] = ENV['SCREENSHOTS'] if ENV['SCREENSHOTS']
+                  # define mobile device options
+                  if ENV['TB_PLATFORM']
+                    tb_options[:platform] = ENV['TB_PLATFORM']
+                    tb_options[:orientation] = ENV['ORIENTATION'].upcase if ENV['ORIENTATION']
+                    tb_options[:deviceName] = ENV['TB_DEVICE'] if ENV['TB_DEVICE']
+                  else
+                    # define desktop browser options
+                    tb_options['screen-resolution'] = ENV['RESOLUTION'] if ENV['RESOLUTION']
+                    tb_options['selenium-version'] = '4.3.0'
+                  end
+                  {
+                    browserName: browser,
+                    browserVersion: ENV['TB_VERSION'],
+                    platformName: ENV['TB_OS'],
+                    'tb:options': tb_options
+                  }
+                else
+                  @capabilities
+                end
+      register_remote_driver(:testingbot, browser, options)
+      # configure file_detector for remote uploads if target is desktop web browser
+      config_file_uploads unless ENV['TB_PLATFORM']
+    end
+
+    # :nocov:
     def self.initialize_lambdatest
       browser = ENV['LT_BROWSER']
       Environ.grid = :lambdatest
@@ -522,60 +579,6 @@ module TestCentricity
       # configure file_detector for remote uploads
       config_file_uploads
     end
-
-    def self.initialize_testingbot
-      browser = ENV['TB_BROWSER']
-      Environ.grid = :testingbot
-
-      Environ.os = ENV['TB_OS']
-      if ENV['TB_PLATFORM']
-        Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
-        Environ.device_os   = ENV['TB_PLATFORM']
-        Environ.device_name = ENV['TB_DEVICE']
-        Environ.device      = :device
-        Environ.platform    = :mobile
-        Environ.device_type = ENV['DEVICE_TYPE'] if ENV['DEVICE_TYPE']
-      else
-        Environ.platform = :desktop
-      end
-      # specify endpoint url
-      if @endpoint.nil?
-        url = ENV['TUNNELING'] ? '@localhost:4445/wd/hub' : '@hub.testingbot.com/wd/hub'
-        @endpoint = "http://#{ENV['TB_USERNAME']}:#{ENV['TB_AUTHKEY']}#{url}"
-      end
-      # define TestingBot options
-      options = if @capabilities.nil?
-                  # define the required set of TestingBot options
-                  tb_options = { build: test_context_message }
-                  # define the optional TestingBot options
-                  tb_options[:name] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
-                  tb_options[:timeZone] = ENV['TIME_ZONE'] if ENV['TIME_ZONE']
-                  tb_options['testingbot.geoCountryCode'] = ENV['GEO_LOCATION'] if ENV['GEO_LOCATION']
-                  tb_options[:screenrecorder] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
-                  tb_options[:screenshot] = ENV['SCREENSHOTS'] if ENV['SCREENSHOTS']
-                  # define mobile device options
-                  if ENV['TB_PLATFORM']
-                    tb_options[:platform] = ENV['TB_PLATFORM']
-                    tb_options[:orientation] = ENV['ORIENTATION'].upcase if ENV['ORIENTATION']
-                    tb_options[:deviceName] = ENV['TB_DEVICE'] if ENV['TB_DEVICE']
-                  else
-                    # define desktop browser options
-                    tb_options['screen-resolution'] = ENV['RESOLUTION'] if ENV['RESOLUTION']
-                    tb_options['selenium-version'] = '4.1.0'
-                  end
-                  {
-                    browserName: browser,
-                    browserVersion: ENV['TB_VERSION'],
-                    platformName: ENV['TB_OS'],
-                    'tb:options': tb_options
-                  }
-                else
-                  @capabilities
-                end
-      register_remote_driver(:testingbot, browser, options)
-      # configure file_detector for remote uploads if target is desktop web browser
-      config_file_uploads unless ENV['TB_PLATFORM']
-    end
     # :nocov:
 
     def self.chrome_edge_options(browser)
@@ -622,7 +625,6 @@ module TestCentricity
       options
     end
 
-    # :nocov:
     def self.test_context_message
       context_message = if ENV['TEST_CONTEXT']
                           "#{Environ.test_environment.to_s.upcase} - #{ENV['TEST_CONTEXT']}"
@@ -660,6 +662,5 @@ module TestCentricity
         str if File.exist?(str)
       end
     end
-    # :nocov:
   end
 end

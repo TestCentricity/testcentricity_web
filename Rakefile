@@ -54,7 +54,7 @@ end
 desc 'Run required Cucumber features on local web browsers'
 task :required_cukes do
   %w[chrome_local chrome_headless firefox_local firefox_headless edge_local edge_headless ipad_pro_12_local].each do |profile|
-    system "parallel_cucumber features/ -o '-p #{profile}' -n 6 --group-by scenarios"
+    system "parallel_cucumber features/ -o '-p #{profile} -p parallel' -n 6 --group-by scenarios"
   end
 end
 
@@ -68,7 +68,7 @@ task :grid_cukes do
   # run grid features
   begin
     %w[chrome_grid firefox_grid edge_grid ipad_pro_12_grid].each do |profile|
-      system "parallel_cucumber features/ -o '-p #{profile}' -n 4 --group-by scenarios"
+      system "parallel_cucumber features/ -o '-p #{profile} -p parallel' -n 4 --group-by scenarios"
     end
   ensure
     # shut down Selenium Grid
@@ -106,11 +106,11 @@ task grid: [:docker_grid_specs, :grid_cukes]
 
 
 desc 'Run all specs'
-task all_specs: [:required_specs, :docker_grid_specs, :mobile_specs, :browserstack_specs]
+task all_specs: [:required_specs, :docker_grid_specs, :mobile_specs, :browserstack_specs, :testingbot_specs]
 
 
 desc 'Run all specs and Cucumber features'
-task all: [:required, :safari_local, :grid, :mobile]
+task all: [:required, :browserstack_specs, :testingbot_specs, :safari_local, :grid, :mobile]
 
 
 desc 'Update HTML docs'
