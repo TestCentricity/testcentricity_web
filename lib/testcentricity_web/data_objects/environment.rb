@@ -249,7 +249,8 @@ module TestCentricity
     end
 
     def self.device_type=(type)
-      @device_type = type.downcase.to_sym
+      type = type.downcase.to_sym if type.is_a?(String)
+      @device_type = type
     end
 
     def self.device_type

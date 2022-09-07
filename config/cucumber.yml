@@ -92,7 +92,7 @@ ios_remote: --profile ipad_pro_12_15_sim --profile run_appium ORIENTATION=portra
 # NOTE: Requires installation of Android Studio, Android version specific virtual device simulators, Appium, and the appium_capybara gem
 #==============
 
-appium_android:    DRIVER=appium APP_PLATFORM_NAME="Android" <%= mobile %>
+appium_android:    DRIVER=appium AUTOMATION_ENGINE=UiAutomator2 APP_PLATFORM_NAME="Android" <%= mobile %>
 app_android_12:    --profile appium_android APP_BROWSER="Chrome" APP_VERSION="12.0"
 pixel_c_api31_sim: --profile app_android_12 DEVICE_TYPE=tablet APP_DEVICE="Pixel_C_API_31"
 

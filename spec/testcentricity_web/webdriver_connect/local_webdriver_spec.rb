@@ -2,71 +2,150 @@
 
 RSpec.describe TestCentricity::WebDriverConnect, required: true do
   before(:context) do
-    # instantiate local test environment
-    @environs ||= EnvironData
-    @environs.find_environ('LOCAL', :yaml)
     ENV['SELENIUM'] = ''
   end
 
-  context 'local web browser instances' do
-    it 'connects to a local Firefox browser' do
-      ENV['WEB_BROWSER'] = 'firefox'
-      WebDriverConnect.initialize_web_driver
-      verify_local_browser(browser = :firefox, platform = :desktop, headless = false)
+  context 'Connect to locally hosted desktop web browsers using desired_capabilities hash' do
+    context 'local web browser instances' do
+      it 'connects to a local Firefox browser' do
+        caps = {
+          desired_capabilities: { browserName: :firefox },
+          driver: :webdriver
+        }
+        WebDriverConnect.initialize_web_driver(caps)
+        verify_local_browser(browser = :firefox, platform = :desktop, headless = false)
+      end
+
+      it 'connects to a local Safari browser' do
+        caps = {
+          desired_capabilities: { browserName: :safari },
+          driver: :webdriver
+        }
+        WebDriverConnect.initialize_web_driver(caps)
+        verify_local_browser(browser = :safari, platform = :desktop, headless = false)
+      end
+
+      it 'connects to a local Chrome browser' do
+        caps = {
+          desired_capabilities: { browserName: :chrome },
+          driver: :webdriver
+        }
+        WebDriverConnect.initialize_web_driver(caps)
+        verify_local_browser(browser = :chrome, platform = :desktop, headless = false)
+      end
+
+      it 'connects to a local Edge browser' do
+        caps = {
+          desired_capabilities: { browserName: :edge },
+          driver: :webdriver
+        }
+        WebDriverConnect.initialize_web_driver(caps)
+        verify_local_browser(browser = :edge, platform = :desktop, headless = false)
+      end
+
+      it 'connects to a local emulated mobile web browser' do
+        ENV['HOST_BROWSER'] = 'chrome'
+        caps = {
+          desired_capabilities: { browserName: :ipad_pro_12_9 },
+          driver: :webdriver
+        }
+        WebDriverConnect.initialize_web_driver(caps)
+        verify_local_browser(browser = :ipad_pro_12_9, platform = :mobile, headless = false)
+        expect(Environ.browser_size).to eq([1366, 1024])
+      end
     end
 
-    it 'connects to a local Safari browser' do
-      ENV['WEB_BROWSER'] = 'safari'
-      WebDriverConnect.initialize_web_driver
-      verify_local_browser(browser = :safari, platform = :desktop, headless = false)
-    end
+    context 'local headless browser instances' do
+      it 'connects to a local headless Chrome browser' do
+        caps = {
+          desired_capabilities: { browserName: :chrome_headless },
+          driver: :webdriver
+        }
+        WebDriverConnect.initialize_web_driver(caps)
+        verify_local_browser(browser = :chrome_headless, platform = :desktop, headless = true)
+      end
 
-    it 'connects to a local Chrome browser' do
-      ENV['WEB_BROWSER'] = 'chrome'
-      ENV['BROWSER_SIZE'] = 'max'
-      WebDriverConnect.initialize_web_driver
-      Browsers.suppress_js_leave_page_modal
-      verify_local_browser(browser = :chrome, platform = :desktop, headless = false)
-    end
+      it 'connects to a local headless Edge browser' do
+        caps = {
+          desired_capabilities: { browserName: :edge_headless },
+          driver: :webdriver
+        }
+        WebDriverConnect.initialize_web_driver(caps)
+        verify_local_browser(browser = :edge_headless, platform = :desktop, headless = true)
+      end
 
-    it 'connects to a local Edge browser' do
-      ENV['WEB_BROWSER'] = 'edge'
-      WebDriverConnect.initialize_web_driver
-      Browsers.suppress_js_alerts
-      verify_local_browser(browser = :edge, platform = :desktop, headless = false)
-    end
-
-    it 'connects to a local emulated mobile web browser' do
-      ENV['WEB_BROWSER'] = 'ipad_pro_12_9'
-      ENV['HOST_BROWSER'] = 'chrome'
-      ENV['ORIENTATION'] = 'portrait'
-      WebDriverConnect.initialize_web_driver
-      Browsers.set_device_orientation('landscape')
-      verify_local_browser(browser = :ipad_pro_12_9, platform = :mobile, headless = false)
-      expect(Environ.browser_size).to eq([1366, 1024])
+      it 'connects to a local headless Firefox browser' do
+        caps = {
+          desired_capabilities: { browserName: :firefox_headless },
+          driver: :webdriver
+        }
+        WebDriverConnect.initialize_web_driver(caps)
+        verify_local_browser(browser = :firefox_headless, platform = :desktop, headless = true)
+      end
     end
   end
 
-  context 'local headless browser instances' do
-    it 'connects to a local headless Chrome browser' do
-      ENV['WEB_BROWSER'] = 'chrome_headless'
-      WebDriverConnect.initialize_web_driver
-      Browsers.maximize_browser
-      verify_local_browser(browser = :chrome_headless, platform = :desktop, headless = true)
+  context 'Connect to locally hosted desktop web browsers using environment variables' do
+    context 'local web browser instances' do
+      it 'connects to a local Firefox browser' do
+        ENV['WEB_BROWSER'] = 'firefox'
+        WebDriverConnect.initialize_web_driver
+        verify_local_browser(browser = :firefox, platform = :desktop, headless = false)
+      end
+
+      it 'connects to a local Safari browser' do
+        ENV['WEB_BROWSER'] = 'safari'
+        WebDriverConnect.initialize_web_driver
+        verify_local_browser(browser = :safari, platform = :desktop, headless = false)
+      end
+
+      it 'connects to a local Chrome browser' do
+        ENV['WEB_BROWSER'] = 'chrome'
+        ENV['BROWSER_SIZE'] = 'max'
+        WebDriverConnect.initialize_web_driver
+        Browsers.suppress_js_leave_page_modal
+        verify_local_browser(browser = :chrome, platform = :desktop, headless = false)
+      end
+
+      it 'connects to a local Edge browser' do
+        ENV['WEB_BROWSER'] = 'edge'
+        WebDriverConnect.initialize_web_driver
+        Browsers.suppress_js_alerts
+        verify_local_browser(browser = :edge, platform = :desktop, headless = false)
+      end
+
+      it 'connects to a local emulated mobile web browser' do
+        ENV['WEB_BROWSER'] = 'ipad_pro_12_9'
+        ENV['HOST_BROWSER'] = 'chrome'
+        ENV['ORIENTATION'] = 'portrait'
+        WebDriverConnect.initialize_web_driver
+        Browsers.set_device_orientation('landscape')
+        verify_local_browser(browser = :ipad_pro_12_9, platform = :mobile, headless = false)
+        expect(Environ.browser_size).to eq([1366, 1024])
+      end
     end
 
-    it 'connects to a local headless Edge browser' do
-      ENV['WEB_BROWSER'] = 'edge_headless'
-      WebDriverConnect.initialize_web_driver
-      Browsers.refresh_browser
-      verify_local_browser(browser = :edge_headless, platform = :desktop, headless = true)
-    end
+    context 'local headless browser instances' do
+      it 'connects to a local headless Chrome browser' do
+        ENV['WEB_BROWSER'] = 'chrome_headless'
+        WebDriverConnect.initialize_web_driver
+        Browsers.maximize_browser
+        verify_local_browser(browser = :chrome_headless, platform = :desktop, headless = true)
+      end
 
-    it 'connects to a local headless Firefox browser' do
-      ENV['WEB_BROWSER'] = 'firefox_headless'
-      WebDriverConnect.initialize_web_driver
-      Browsers.delete_all_cookies
-      verify_local_browser(browser = :firefox_headless, platform = :desktop, headless = true)
+      it 'connects to a local headless Edge browser' do
+        ENV['WEB_BROWSER'] = 'edge_headless'
+        WebDriverConnect.initialize_web_driver
+        Browsers.refresh_browser
+        verify_local_browser(browser = :edge_headless, platform = :desktop, headless = true)
+      end
+
+      it 'connects to a local headless Firefox browser' do
+        ENV['WEB_BROWSER'] = 'firefox_headless'
+        WebDriverConnect.initialize_web_driver
+        Browsers.delete_all_cookies
+        verify_local_browser(browser = :firefox_headless, platform = :desktop, headless = true)
+      end
     end
   end
 

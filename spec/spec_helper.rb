@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'appium_capybara'
 require 'capybara/rspec'
 require 'httparty'
 require 'require_all'

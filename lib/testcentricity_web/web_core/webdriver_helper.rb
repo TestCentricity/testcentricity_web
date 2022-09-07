@@ -23,14 +23,18 @@ module TestCentricity
         Capybara.app_host = options[:app_host] if options.key?(:app_host)
         @endpoint = options[:endpoint] if options.key?(:endpoint)
         @capabilities = options[:desired_capabilities] if options.key?(:desired_capabilities)
+        Environ.driver = options[:driver] if options.key?(:driver)
+        Environ.device_type = options[:device_type] if options.key?(:device_type)
       end
       # determine browser type and driver
-      Environ.browser = ENV['WEB_BROWSER'] if ENV['WEB_BROWSER']
-      Environ.driver = if ENV['DRIVER']
-                         ENV['DRIVER'].downcase.to_sym
-                       else
-                         :webdriver
-                       end
+      if @capabilities.nil?
+        Environ.driver = ENV['DRIVER'].downcase.to_sym if ENV['DRIVER']
+        Environ.browser = ENV['WEB_BROWSER'] if ENV['WEB_BROWSER']
+      else
+        Environ.browser = @capabilities[:browserName]
+      end
+      Environ.driver = :webdriver if Environ.driver.nil?
+      Environ.device_type = ENV['DEVICE_TYPE'] if ENV['DEVICE_TYPE']
       # set downloads folder path
       @downloads_path = "#{Dir.pwd}/downloads"
       if ENV['PARALLEL']
@@ -98,13 +102,11 @@ module TestCentricity
     def self.initialize_browser_size
       # tile browser windows if running in multiple parallel threads and BROWSER_TILE environment variable is true
       if ENV['PARALLEL'] && ENV['BROWSER_TILE']
-        # :nocov:
         thread = ENV['TEST_ENV_NUMBER'].to_i
         if thread > 1
           Browsers.set_browser_window_position(100 * thread - 1, 100 * thread - 1)
           sleep(1)
         end
-        # :nocov:
       else
         Browsers.set_browser_window_position(10, 10)
         sleep(1)
@@ -143,16 +145,14 @@ module TestCentricity
     def self.initialize_appium
       Environ.platform = :mobile
       Environ.device = :simulator
-      Environ.browser = ENV['APP_BROWSER']
-      Environ.device_name = ENV['APP_DEVICE']
-      Environ.device_os = ENV['APP_PLATFORM_NAME'].downcase.to_sym
-      Environ.device_type = ENV['DEVICE_TYPE'] if ENV['DEVICE_TYPE']
-      Environ.device_os_version = ENV['APP_VERSION']
-      Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
       Capybara.default_driver = :appium
-      Environ.driver = :appium
-      # define capabilites
+      # define capabilities
       desired_capabilities = if @capabilities.nil?
+                               Environ.browser = ENV['APP_BROWSER']
+                               Environ.device_name = ENV['APP_DEVICE']
+                               Environ.device_os = ENV['APP_PLATFORM_NAME'].downcase.to_sym
+                               Environ.device_os_version = ENV['APP_VERSION']
+                               Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
                                desired_capabilities = {
                                  platformName: Environ.device_os,
                                  platformVersion: Environ.device_os_version,
@@ -208,6 +208,11 @@ module TestCentricity
                                end
                                desired_capabilities
                              else
+                               Environ.browser = @capabilities[:browserName]
+                               Environ.device_os = @capabilities[:platformName]
+                               Environ.device_os_version = @capabilities[:platformVersion]
+                               Environ.device_name = @capabilities[:deviceName]
+                               Environ.device_orientation = @capabilities[:orientation] if @capabilities[:orientation]
                                @capabilities
                              end
       # specify endpoint url
@@ -235,14 +240,11 @@ module TestCentricity
                      'unknown'
                      # :nocov:
                    end
-      browser = Environ.browser.downcase.to_sym
-
+      browser = Environ.browser
+      browser = browser.downcase.to_sym if browser.is_a?(String)
       case browser
-      when :firefox, :chrome, :ie, :safari, :edge
+      when :firefox, :chrome, :ie, :safari, :edge, :chrome_headless, :firefox_headless, :edge_headless
         Environ.platform = :desktop
-      when :chrome_headless, :firefox_headless, :edge_headless
-        Environ.platform = :desktop
-        Environ.headless = true
       else
         Environ.platform = :mobile
         Environ.device_name = Browsers.mobile_device_name(Environ.browser)
@@ -279,7 +281,8 @@ module TestCentricity
 
     def self.initialize_remote
       Environ.grid = :selenium_grid
-      browser  = Environ.browser.downcase.to_sym
+      browser = Environ.browser
+      browser = browser.downcase.to_sym if browser.is_a?(String)
       @endpoint = ENV['REMOTE_ENDPOINT'] || 'http://127.0.0.1:4444/wd/hub' if @endpoint.nil?
 
       case browser
@@ -324,7 +327,13 @@ module TestCentricity
     end
 
     def self.initialize_browserstack
-      browser = ENV['BS_BROWSER']
+      # determine browser type
+      Environ.browser = if @capabilities.nil?
+                          ENV['BS_BROWSER'] if ENV['BS_BROWSER']
+                        else
+                          @capabilities[:browserName]
+                        end
+      browser = Environ.browser
       Environ.grid = :browserstack
       Environ.os = "#{ENV['BS_OS']} #{ENV['BS_OS_VERSION']}"
       if ENV['BS_REAL_MOBILE'] || ENV['BS_DEVICE']
@@ -409,27 +418,42 @@ module TestCentricity
                     }
                   end
                 else
+                  bs_options = @capabilities[:'bstack:options']
+                  if bs_options.key?(:deviceName)
+                    Environ.platform = :mobile
+                    Environ.device_name = bs_options[:deviceName]
+                    Environ.device_os = bs_options[:osVersion]
+                    Environ.device = if bs_options.key?(:realMobile)
+                                       :device
+                                     else
+                                       :simulator
+                                     end
+                    Environ.device_orientation = bs_options[:deviceOrientation] if bs_options.key?(:deviceOrientation)
+                  end
                   @capabilities
                 end
       register_remote_driver(:browserstack, browser, options)
-      # configure file_detector for remote uploads
-      config_file_uploads
+      # configure file_detector for remote uploads if target is desktop web browser
+      config_file_uploads if Environ.platform == :desktop
       Environ.tunneling = ENV['TUNNELING'] if ENV['TUNNELING']
-      Environ.device_type = ENV['DEVICE_TYPE'] if ENV['DEVICE_TYPE']
     end
 
     def self.initialize_testingbot
-      browser = ENV['TB_BROWSER']
+      # determine browser type
+      Environ.browser = if @capabilities.nil?
+                          ENV['TB_BROWSER'] if ENV['TB_BROWSER']
+                        else
+                          @capabilities[:browserName]
+                        end
+      browser = Environ.browser
       Environ.grid = :testingbot
-
       Environ.os = ENV['TB_OS']
       if ENV['TB_PLATFORM']
         Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
-        Environ.device_os   = ENV['TB_PLATFORM']
+        Environ.device_os = ENV['TB_PLATFORM']
         Environ.device_name = ENV['TB_DEVICE']
-        Environ.device      = :device
-        Environ.platform    = :mobile
-        Environ.device_type = ENV['DEVICE_TYPE'] if ENV['DEVICE_TYPE']
+        Environ.platform = :mobile
+        Environ.device = :simulator
       else
         Environ.platform = :desktop
       end
@@ -444,7 +468,7 @@ module TestCentricity
                   tb_options = { build: test_context_message }
                   # define the optional TestingBot options
                   tb_options[:name] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
-                  tb_options['timeZone'] = ENV['TIME_ZONE'] if ENV['TIME_ZONE']
+                  tb_options[:timeZone] = ENV['TIME_ZONE'] if ENV['TIME_ZONE']
                   tb_options['testingbot.geoCountryCode'] = ENV['GEO_LOCATION'] if ENV['GEO_LOCATION']
                   tb_options[:screenrecorder] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
                   tb_options[:screenshot] = ENV['SCREENSHOTS'] if ENV['SCREENSHOTS']
@@ -465,16 +489,30 @@ module TestCentricity
                     'tb:options': tb_options
                   }
                 else
+                  tb_options = @capabilities[:'tb:options']
+                  if tb_options.key?(:deviceName)
+                    Environ.platform = :mobile
+                    Environ.device_name = tb_options[:deviceName]
+                    Environ.device_os = @capabilities[:browserVersion]
+                    Environ.device_orientation = tb_options[:orientation] if tb_options.key?(:orientation)
+                    Environ.device = :simulator
+                  end
                   @capabilities
                 end
       register_remote_driver(:testingbot, browser, options)
       # configure file_detector for remote uploads if target is desktop web browser
-      config_file_uploads unless ENV['TB_PLATFORM']
+      config_file_uploads if Environ.platform == :desktop
     end
 
     # :nocov:
     def self.initialize_lambdatest
-      browser = ENV['LT_BROWSER']
+      # determine browser type
+      Environ.browser = if @capabilities.nil?
+                          ENV['LT_BROWSER'] if ENV['LT_BROWSER']
+                        else
+                          @capabilities[:browserName]
+                        end
+      browser = Environ.browser
       Environ.grid = :lambdatest
       Environ.os = ENV['LT_OS']
       Environ.platform = :desktop
@@ -521,11 +559,17 @@ module TestCentricity
                 end
       register_remote_driver(:lambdatest, browser, options)
       # configure file_detector for remote uploads
-      config_file_uploads
+      config_file_uploads if Environ.platform == :desktop
     end
 
     def self.initialize_saucelabs
-      browser = ENV['SL_BROWSER']
+      # determine browser type
+      Environ.browser = if @capabilities.nil?
+                          ENV['SL_BROWSER'] if ENV['SL_BROWSER']
+                        else
+                          @capabilities[:browserName]
+                        end
+      browser = Environ.browser
       Environ.grid = :saucelabs
 
       if ENV['SL_OS']
@@ -577,7 +621,7 @@ module TestCentricity
                 end
       register_remote_driver(:saucelabs, browser, options)
       # configure file_detector for remote uploads
-      config_file_uploads
+      config_file_uploads if Environ.platform == :desktop
     end
     # :nocov:
 
@@ -597,6 +641,7 @@ module TestCentricity
       options.add_argument('--disable-dev-shm-usage')
       options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
       if browser == :chrome_headless || browser == :edge_headless
+        Environ.headless = true
         options.add_argument('--headless')
         options.add_argument('--disable-gpu')
         options.add_argument('--no-sandbox')
@@ -621,7 +666,10 @@ module TestCentricity
 
       profile['intl.accept_languages'] = ENV['LOCALE'] if ENV['LOCALE']
       options = Selenium::WebDriver::Firefox::Options.new(profile: profile)
-      options.args << '--headless' if browser == :firefox_headless
+      if browser == :firefox_headless
+        Environ.headless = true
+        options.args << '--headless'
+      end
       options
     end
 
@@ -641,7 +689,8 @@ module TestCentricity
 
     def self.register_remote_driver(driver, browser, options)
       Capybara.register_driver driver do |app|
-        capabilities = Selenium::WebDriver::Remote::Capabilities.send(browser.gsub(/\s+/, '_').downcase.to_sym, options)
+        browser = browser.gsub(/\s+/, '_').downcase.to_sym if browser.is_a?(String)
+        capabilities = Selenium::WebDriver::Remote::Capabilities.send(browser, options)
         Capybara::Selenium::Driver.new(app,
                                        browser: :remote,
                                        url: @endpoint,

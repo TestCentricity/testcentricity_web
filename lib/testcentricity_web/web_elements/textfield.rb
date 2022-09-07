@@ -139,12 +139,14 @@ module TestCentricity
     #   first_name_field.clear
     #
     def clear
-      case get_native_attribute('tagName').downcase.to_sym
+      field_type = get_native_attribute('tagName')
+      field_type = field_type.downcase.to_sym unless field_type.nil?
+      case field_type
       when :textarea
         set('')
         sleep(0.5)
         send_keys(:tab)
-      when :div
+      when :div, nil
         set('')
       else
         length = get_value.length

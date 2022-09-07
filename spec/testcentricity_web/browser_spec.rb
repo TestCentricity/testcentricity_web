@@ -2,9 +2,6 @@
 
 RSpec.describe TestCentricity::Browsers, required: true do
   before(:context) do
-    # instantiate local test environment
-    @environs ||= EnvironData
-    @environs.find_environ('LOCAL', :yaml)
     ENV['WEB_BROWSER'] = 'chrome_headless'
   end
 

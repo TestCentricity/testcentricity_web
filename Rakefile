@@ -110,7 +110,7 @@ task all_specs: [:required_specs, :docker_grid_specs, :mobile_specs, :browsersta
 
 
 desc 'Run all specs and Cucumber features'
-task all: [:required, :browserstack_specs, :testingbot_specs, :safari_local, :grid, :mobile]
+task all: [:required, :browserstack_specs, :safari_local, :grid, :mobile]
 
 
 desc 'Update HTML docs'
