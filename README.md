@@ -9,10 +9,9 @@ DSL for use with Cucumber (version 7.x or greater), Capybara (version 3.37), and
 facilitates the configuration of the appropriate Selenium-Webdriver capabilities required to establish a connection with a
 local or cloud hosted desktop or mobile web browser.
 
-The TestCentricity™ Web gem supports running automated tests against the following web test targets:
+The TestCentricity™ Web gem supports connecting to, and running automated tests against the following target web browsers:
 * locally hosted desktop browsers (Chrome, Edge, Firefox, Safari, or IE)
 * locally hosted "headless" Chrome, Firefox, or Edge browsers
-* 
 * remote desktop and emulated mobile web browsers hosted on Selenium Grid 4 and Dockerized Selenium Grid 4 environments
 * mobile Safari browsers on iOS device simulators or physical iOS devices (using Appium and XCode on macOS)
 * mobile Chrome or Android browsers on Android Studio virtual device emulators (using Appium and Android Studio on macOS)
@@ -1280,61 +1279,58 @@ will be automatically set within the local Chrome browser instance. You may even
 For locally hosted emulated mobile web browsers, the `WEB_BROWSER` Environment Variable must be set to one of the values from
 the table below: 
 
-| `WEB_BROWSER`         | `HOST_BROWSER` | **CSS Screen Dimensions** | **Default Orientation** | **OS Version**                            |
-|-----------------------|----------------|---------------------------|-------------------------|-------------------------------------------|
-| `ipad`                | `chrome`       | 1024 x 768                | landscape               | iOS 12                                    |
-| `ipad_pro`            | `chrome`       | 1366 x 1024               | landscape               | iOS 12                                    |
-| `ipad_pro_10_5`       | `chrome`       | 1112 x 834                | landscape               | iOS 12.2                                  |
-| `ipad_pro_11`         | `chrome`       | 1194 x 834                | landscape               | iOS 12.2                                  |
-| `ipad_pro_12_9`       | `chrome`       | 1366 x 1024               | landscape               | iOS 13.1                                  |
-| `ipad_chrome`         | `chrome`       | 1024 x 768                | landscape               | iOS 12.2 - Mobile Chrome browser for iOS  |
-| `ipad_firefox`        | `chrome`       | 1024 x 768                | landscape               | iOS 12.2 - Mobile Firefox browser for iOS |
-| `ipad_edge`           | `chrome`       | 1024 x 768                | landscape               | iOS 12.2 - Mobile Edge browser for iOS    |
-| `kindle_fire`         | `chrome`       | 1024 x 600                | landscape               |                                           |
-| `kindle_firehd7`      | `chrome`       | 800 x 480                 | landscape               | Fire OS 3                                 |
-| `kindle_firehd8`      | `chrome`       | 1280 x 800                | landscape               | Fire OS 5                                 |
-| `kindle_firehd10`     | `chrome`       | 1920 x 1200               | landscape               | Fire OS 5                                 |
-| `surface`             | `chrome`       | 1366 x 768                | landscape               |                                           |
-| `blackberry_playbook` | `chrome`       | 1024 x 600                | landscape               | BlackBerry Tablet OS                      |
-| `samsung_galaxy_tab`  | `chrome`       | 1280 x 800                | landscape               | Android 4.0.4                             |
-| `google_nexus7`       | `chrome`       | 960 x 600                 | landscape               | Android 4.4.4                             |
-| `google_nexus9`       | `chrome`       | 1024 x 768                | landscape               | Android 5.1                               |
-| `google_nexus10`      | `chrome`       | 1280 x 800                | landscape               | Android 5.1                               |
-| `iphone6`             | `chrome`       | 375 x 667                 | portrait                | iOS 12                                    |
-| `iphone6_plus`        | `chrome`       | 414 x 736                 | portrait                | iOS 12                                    |
-| `iphone7`             | `chrome`       | 375 x 667                 | portrait                | iOS 12                                    |
-| `iphone7_plus`        | `chrome`       | 414 x 736                 | portrait                | iOS 12                                    |
-| `iphone7_chrome`      | `chrome`       | 375 x 667                 | portrait                | iOS 12.2 - Mobile Chrome browser for iOS  |
-| `iphone7_firefox`     | `chrome`       | 375 x 667                 | portrait                | iOS 12.2 - Mobile Firefox browser for iOS |
-| `iphone7_edge`        | `chrome`       | 375 x 667                 | portrait                | iOS 12.2 - Microsoft Edge browser for iOS |
-| `iphone8`             | `chrome`       | 375 x 667                 | portrait                | iOS 12                                    |
-| `iphone8_plus`        | `chrome`       | 414 x 736                 | portrait                | iOS 12                                    |
-| `iphone_x`            | `chrome`       | 375 x 812                 | portrait                | iOS 12.2                                  |
-| `iphone_xr`           | `chrome`       | 414 x 896                 | portrait                | iOS 12.2                                  |
-| `iphone_xs`           | `chrome`       | 375 x 812                 | portrait                | iOS 12.2                                  |
-| `iphone_xs_max`       | `chrome`       | 414 x 896                 | portrait                | iOS 12.2                                  |
-| `iphone_11`           | `chrome`       | 414 x 896                 | portrait                | iOS 13.1                                  |
-| `iphone_11_pro`       | `chrome`       | 375 x 812                 | portrait                | iOS 13.1                                  |
-| `iphone_11_pro_max`   | `chrome`       | 414 x 896                 | portrait                | iOS 13.1                                  |
-| `nexus6`              | `chrome`       | 411 x 731                 | portrait                | Android 6                                 |
-| `pixel`               | `chrome`       | 411 x 731                 | portrait                | Android 8                                 |
-| `pixel_xl`            | `chrome`       | 411 x 731                 | portrait                | Android 8                                 |
-| `samsung_galaxy_s4`   | `chrome`       | 360 x 640                 | portrait                | Android 5.0.1                             |
-| `samsung_galaxy_s5`   | `chrome`       | 360 x 640                 | portrait                | Android 6.0.1                             |
-| `samsung_galaxy_s6`   | `chrome`       | 360 x 640                 | portrait                | Android 6.0.1                             |
-| `windows_phone7`      | `chrome`       | 320 x 480                 | portrait                | Windows Phone OS 7.5                      |
-| `windows_phone8`      | `chrome`       | 320 x 480                 | portrait                | Windows Phone OS 8.0                      |
-| `lumia_950_xl`        | `chrome`       | 360 x 640                 | portrait                | Windows Phone OS 10                       |
-| `blackberry_z10`      | `chrome`       | 384 x 640                 | portrait                | BlackBerry 10 OS                          |
-| `blackberry_z30`      | `chrome`       | 360 x 640                 | portrait                | BlackBerry 10 OS                          |
-| `blackberry_leap`     | `chrome`       | 360 x 640                 | portrait                | BlackBerry 10 OS                          |
-| `blackberry_passport` | `chrome`       | 504 x 504                 | square                  | BlackBerry 10 OS                          |
+| `WEB_BROWSER`         | **CSS Screen Dimensions** | **Default Orientation** | **OS Version**                               |
+|-----------------------|---------------------------|-------------------------|----------------------------------------------|
+| `ipad`                | 1024 x 768                | landscape               | iOS 12                                       |
+| `ipad_pro`            | 1366 x 1024               | landscape               | iOS 12                                       |
+| `ipad_pro_10_5`       | 1112 x 834                | landscape               | iOS 12.2                                     |
+| `ipad_pro_11`         | 1194 x 834                | landscape               | iOS 12.2                                     |
+| `ipad_pro_12_9`       | 1366 x 1024               | landscape               | iOS 13.1                                     |
+| `ipad_chrome`         | 1024 x 768                | landscape               | iOS 12.2 - Mobile Chrome browser for iOS     |
+| `ipad_firefox`        | 1024 x 768                | landscape               | iOS 12.2 - Mobile Firefox browser for iOS    |
+| `ipad_edge`           | 1024 x 768                | landscape               | iOS 12.2 - Mobile Edge browser for iOS       |
+| `kindle_fire`         | 1024 x 600                | landscape               |                                              |
+| `kindle_firehd7`      | 800 x 480                 | landscape               | Fire OS 3                                    |
+| `kindle_firehd8`      | 1280 x 800                | landscape               | Fire OS 5                                    |
+| `kindle_firehd10`     | 1920 x 1200               | landscape               | Fire OS 5                                    |
+| `surface`             | 1366 x 768                | landscape               |                                              |
+| `blackberry_playbook` | 1024 x 600                | landscape               | BlackBerry Tablet OS                         |
+| `samsung_galaxy_tab`  | 1280 x 800                | landscape               | Android 4.0.4                                |
+| `google_nexus7`       | 960 x 600                 | landscape               | Android 4.4.4                                |
+| `google_nexus9`       | 1024 x 768                | landscape               | Android 5.1                                  |
+| `google_nexus10`      | 1280 x 800                | landscape               | Android 5.1                                  |
+| `iphone6`             | 375 x 667                 | portrait                | iOS 12                                       |
+| `iphone6_plus`        | 414 x 736                 | portrait                | iOS 12                                       |
+| `iphone7`             | 375 x 667                 | portrait                | iOS 12                                       |
+| `iphone7_plus`        | 414 x 736                 | portrait                | iOS 12                                       |
+| `iphone7_chrome`      | 375 x 667                 | portrait                | iOS 12.2 - Mobile Chrome browser for iOS     |
+| `iphone7_firefox`     | 375 x 667                 | portrait                | iOS 12.2 - Mobile Firefox browser for iOS    |
+| `iphone7_edge`        | 375 x 667                 | portrait                | iOS 12.2 - Microsoft Edge browser for iOS    |
+| `iphone8`             | 375 x 667                 | portrait                | iOS 12                                       |
+| `iphone8_plus`        | 414 x 736                 | portrait                | iOS 12                                       |
+| `iphone_x`            | 375 x 812                 | portrait                | iOS 12.2                                     |
+| `iphone_xr`           | 414 x 896                 | portrait                | iOS 12.2                                     |
+| `iphone_xs`           | 375 x 812                 | portrait                | iOS 12.2                                     |
+| `iphone_xs_max`       | 414 x 896                 | portrait                | iOS 12.2                                     |
+| `iphone_11`           | 414 x 896                 | portrait                | iOS 13.1                                     |
+| `iphone_11_pro`       | 375 x 812                 | portrait                | iOS 13.1                                     |
+| `iphone_11_pro_max`   | 414 x 896                 | portrait                | iOS 13.1                                     |
+| `nexus6`              | 411 x 731                 | portrait                | Android 6                                    |
+| `pixel`               | 411 x 731                 | portrait                | Android 8                                    |
+| `pixel_xl`            | 411 x 731                 | portrait                | Android 8                                    |
+| `samsung_galaxy_s4`   | 360 x 640                 | portrait                | Android 5.0.1                                |
+| `samsung_galaxy_s5`   | 360 x 640                 | portrait                | Android 6.0.1                                |
+| `samsung_galaxy_s6`   | 360 x 640                 | portrait                | Android 6.0.1                                |
+| `windows_phone7`      | 320 x 480                 | portrait                | Windows Phone OS 7.5                         |
+| `windows_phone8`      | 320 x 480                 | portrait                | Windows Phone OS 8.0                         |
+| `lumia_950_xl`        | 360 x 640                 | portrait                | Windows Phone OS 10                          |
+| `blackberry_z10`      | 384 x 640                 | portrait                | BlackBerry 10 OS                             |
+| `blackberry_z30`      | 360 x 640                 | portrait                | BlackBerry 10 OS                             |
+| `blackberry_leap`     | 360 x 640                 | portrait                | BlackBerry 10 OS                             |
+| `blackberry_passport` | 504 x 504                 | square                  | BlackBerry 10 OS                             |
 
 To change the emulated device's screen orientation from the default setting, set the `ORIENTATION` Environment Variable to
 either `portrait` or `landscape`.
-
-To use a local instance of the Chrome desktop browser to host the emulated mobile web browser, you must set the `HOST_BROWSER`
-Environment Variable to `chrome`.
 
 Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
 
@@ -1692,56 +1688,56 @@ in your `cucumber.yml` file where it can be exposed by anyone with access to you
     # profiles for locally hosted mobile web browsers (emulated locally in Chrome browser)
     #==============
     
-    ipad:                WEB_BROWSER=ipad                HOST_BROWSER=chrome <%= tablet %>
-    ipad_pro:            WEB_BROWSER=ipad_pro            HOST_BROWSER=chrome <%= tablet %>
-    ipad_pro_10_5:       WEB_BROWSER=ipad_pro_10_5       HOST_BROWSER=chrome <%= tablet %>
-    ipad_pro_11:         WEB_BROWSER=ipad_pro_11         HOST_BROWSER=chrome <%= tablet %>
-    ipad_pro_12_9:       WEB_BROWSER=ipad_pro_12_9       HOST_BROWSER=chrome <%= tablet %>
-    ipad_chrome:         WEB_BROWSER=ipad_chrome         HOST_BROWSER=chrome <%= tablet %>
-    ipad_firefox:        WEB_BROWSER=ipad_firefox        HOST_BROWSER=chrome <%= tablet %>
-    ipad_edge:           WEB_BROWSER=ipad_edge           HOST_BROWSER=chrome <%= tablet %>
-    iphone6:             WEB_BROWSER=iphone6             HOST_BROWSER=chrome <%= mobile %>
-    iphone6_plus:        WEB_BROWSER=iphone6_plus        HOST_BROWSER=chrome <%= mobile %>
-    iphone7:             WEB_BROWSER=iphone7             HOST_BROWSER=chrome <%= mobile %>
-    iphone7_plus:        WEB_BROWSER=iphone7_plus        HOST_BROWSER=chrome <%= mobile %>
-    iphone7_chrome:      WEB_BROWSER=iphone7_chrome      HOST_BROWSER=chrome <%= mobile %>
-    iphone7_firefox:     WEB_BROWSER=iphone7_firefox     HOST_BROWSER=chrome <%= mobile %>
-    iphone7_edge:        WEB_BROWSER=iphone7_edge        HOST_BROWSER=chrome <%= mobile %>
-    iphone8:             WEB_BROWSER=iphone8             HOST_BROWSER=chrome <%= mobile %>
-    iphone8_plus:        WEB_BROWSER=iphone8_plus        HOST_BROWSER=chrome <%= mobile %>
-    iphone_x:            WEB_BROWSER=iphone_x            HOST_BROWSER=chrome <%= mobile %>
-    iphone_xr:           WEB_BROWSER=iphone_xr           HOST_BROWSER=chrome <%= mobile %>
-    iphone_xr_chrome:    WEB_BROWSER=iphone_xr_chrome    HOST_BROWSER=chrome <%= mobile %>
-    iphone_xr_firefox:   WEB_BROWSER=iphone_xr_firefox   HOST_BROWSER=chrome <%= mobile %>
-    iphone_xr_edge:      WEB_BROWSER=iphone_xr_edge      HOST_BROWSER=chrome <%= mobile %>
-    iphone_xs:           WEB_BROWSER=iphone_xs           HOST_BROWSER=chrome <%= mobile %>
-    iphone_xs_max:       WEB_BROWSER=iphone_xs_max       HOST_BROWSER=chrome <%= mobile %>
-    iphone_11:           WEB_BROWSER=iphone_11           HOST_BROWSER=chrome <%= mobile %>
-    iphone_11_pro:       WEB_BROWSER=iphone_11_pro       HOST_BROWSER=chrome <%= mobile %>
-    iphone_11_pro_max:   WEB_BROWSER=iphone_11_pro_max   HOST_BROWSER=chrome <%= mobile %>
-    nexus6:              WEB_BROWSER=nexus6              HOST_BROWSER=chrome <%= mobile %>
-    kindle_fire:         WEB_BROWSER=kindle_fire         HOST_BROWSER=chrome <%= tablet %>
-    kindle_firehd7:      WEB_BROWSER=kindle_firehd7      HOST_BROWSER=chrome <%= tablet %>
-    kindle_firehd8:      WEB_BROWSER=kindle_firehd8      HOST_BROWSER=chrome <%= tablet %>
-    kindle_firehd10:     WEB_BROWSER=kindle_firehd10     HOST_BROWSER=chrome <%= tablet %>
-    surface:             WEB_BROWSER=surface             HOST_BROWSER=chrome <%= tablet %>
-    blackberry_playbook: WEB_BROWSER=blackberry_playbook HOST_BROWSER=chrome <%= tablet %>
-    samsung_galaxy_tab:  WEB_BROWSER=samsung_galaxy_tab  HOST_BROWSER=chrome <%= tablet %>
-    google_nexus7:       WEB_BROWSER=google_nexus7       HOST_BROWSER=chrome <%= tablet %>
-    google_nexus9:       WEB_BROWSER=google_nexus9       HOST_BROWSER=chrome <%= tablet %>
-    google_nexus10:      WEB_BROWSER=google_nexus10      HOST_BROWSER=chrome <%= tablet %>
-    samsung_galaxy_s4:   WEB_BROWSER=samsung_galaxy_s4   HOST_BROWSER=chrome <%= mobile %>
-    samsung_galaxy_s5:   WEB_BROWSER=samsung_galaxy_s5   HOST_BROWSER=chrome <%= mobile %>
-    samsung_galaxy_s6:   WEB_BROWSER=samsung_galaxy_s6   HOST_BROWSER=chrome <%= mobile %>
-    pixel:               WEB_BROWSER=pixel               HOST_BROWSER=chrome <%= mobile %>
-    pixel_xl:            WEB_BROWSER=pixel_xl            HOST_BROWSER=chrome <%= mobile %>
-    windows_phone7:      WEB_BROWSER=windows_phone7      HOST_BROWSER=chrome <%= mobile %>
-    windows_phone8:      WEB_BROWSER=windows_phone8      HOST_BROWSER=chrome <%= mobile %>
-    lumia_950_xl:        WEB_BROWSER=lumia_950_xl        HOST_BROWSER=chrome <%= mobile %>
-    blackberry_z10:      WEB_BROWSER=blackberry_z10      HOST_BROWSER=chrome <%= mobile %>
-    blackberry_z30:      WEB_BROWSER=blackberry_z30      HOST_BROWSER=chrome <%= mobile %>
-    blackberry_leap:     WEB_BROWSER=blackberry_leap     HOST_BROWSER=chrome <%= mobile %>
-    blackberry_passport: WEB_BROWSER=blackberry_passport HOST_BROWSER=chrome <%= mobile %>
+    ipad:                WEB_BROWSER=ipad                <%= tablet %>
+    ipad_pro:            WEB_BROWSER=ipad_pro            <%= tablet %>
+    ipad_pro_10_5:       WEB_BROWSER=ipad_pro_10_5       <%= tablet %>
+    ipad_pro_11:         WEB_BROWSER=ipad_pro_11         <%= tablet %>
+    ipad_pro_12_9:       WEB_BROWSER=ipad_pro_12_9       <%= tablet %>
+    ipad_chrome:         WEB_BROWSER=ipad_chrome         <%= tablet %>
+    ipad_firefox:        WEB_BROWSER=ipad_firefox        <%= tablet %>
+    ipad_edge:           WEB_BROWSER=ipad_edge           <%= tablet %>
+    iphone6:             WEB_BROWSER=iphone6             <%= mobile %>
+    iphone6_plus:        WEB_BROWSER=iphone6_plus        <%= mobile %>
+    iphone7:             WEB_BROWSER=iphone7             <%= mobile %>
+    iphone7_plus:        WEB_BROWSER=iphone7_plus        <%= mobile %>
+    iphone7_chrome:      WEB_BROWSER=iphone7_chrome      <%= mobile %>
+    iphone7_firefox:     WEB_BROWSER=iphone7_firefox     <%= mobile %>
+    iphone7_edge:        WEB_BROWSER=iphone7_edge        <%= mobile %>
+    iphone8:             WEB_BROWSER=iphone8             <%= mobile %>
+    iphone8_plus:        WEB_BROWSER=iphone8_plus        <%= mobile %>
+    iphone_x:            WEB_BROWSER=iphone_x            <%= mobile %>
+    iphone_xr:           WEB_BROWSER=iphone_xr           <%= mobile %>
+    iphone_xr_chrome:    WEB_BROWSER=iphone_xr_chrome    <%= mobile %>
+    iphone_xr_firefox:   WEB_BROWSER=iphone_xr_firefox   <%= mobile %>
+    iphone_xr_edge:      WEB_BROWSER=iphone_xr_edge      <%= mobile %>
+    iphone_xs:           WEB_BROWSER=iphone_xs           <%= mobile %>
+    iphone_xs_max:       WEB_BROWSER=iphone_xs_max       <%= mobile %>
+    iphone_11:           WEB_BROWSER=iphone_11           <%= mobile %>
+    iphone_11_pro:       WEB_BROWSER=iphone_11_pro       <%= mobile %>
+    iphone_11_pro_max:   WEB_BROWSER=iphone_11_pro_max   <%= mobile %>
+    nexus6:              WEB_BROWSER=nexus6              <%= mobile %>
+    kindle_fire:         WEB_BROWSER=kindle_fire         <%= tablet %>
+    kindle_firehd7:      WEB_BROWSER=kindle_firehd7      <%= tablet %>
+    kindle_firehd8:      WEB_BROWSER=kindle_firehd8      <%= tablet %>
+    kindle_firehd10:     WEB_BROWSER=kindle_firehd10     <%= tablet %>
+    surface:             WEB_BROWSER=surface             <%= tablet %>
+    blackberry_playbook: WEB_BROWSER=blackberry_playbook <%= tablet %>
+    samsung_galaxy_tab:  WEB_BROWSER=samsung_galaxy_tab  <%= tablet %>
+    google_nexus7:       WEB_BROWSER=google_nexus7       <%= tablet %>
+    google_nexus9:       WEB_BROWSER=google_nexus9       <%= tablet %>
+    google_nexus10:      WEB_BROWSER=google_nexus10      <%= tablet %>
+    samsung_galaxy_s4:   WEB_BROWSER=samsung_galaxy_s4   <%= mobile %>
+    samsung_galaxy_s5:   WEB_BROWSER=samsung_galaxy_s5   <%= mobile %>
+    samsung_galaxy_s6:   WEB_BROWSER=samsung_galaxy_s6   <%= mobile %>
+    pixel:               WEB_BROWSER=pixel               <%= mobile %>
+    pixel_xl:            WEB_BROWSER=pixel_xl            <%= mobile %>
+    windows_phone7:      WEB_BROWSER=windows_phone7      <%= mobile %>
+    windows_phone8:      WEB_BROWSER=windows_phone8      <%= mobile %>
+    lumia_950_xl:        WEB_BROWSER=lumia_950_xl        <%= mobile %>
+    blackberry_z10:      WEB_BROWSER=blackberry_z10      <%= mobile %>
+    blackberry_z30:      WEB_BROWSER=blackberry_z30      <%= mobile %>
+    blackberry_leap:     WEB_BROWSER=blackberry_leap     <%= mobile %>
+    blackberry_passport: WEB_BROWSER=blackberry_passport <%= mobile %>
 
     
     #==============

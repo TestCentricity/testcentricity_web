@@ -27,6 +27,7 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
       verify_mobile_browser(browser = :safari, device_os = :ios)
       expect(Environ.device_name).to eq('iPad Pro (12.9-inch) (5th generation)')
       expect(Environ.device_os_version).to eq('15.4')
+      expect(Environ.device_orientation).to eq(:landscape)
     end
 
     it 'connects to Android Simulator - desired_capabilities hash' do
@@ -46,6 +47,49 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
       verify_mobile_browser(browser = :chrome, device_os = :android)
       expect(Environ.device_name).to eq('Pixel_C_API_31')
       expect(Environ.device_os_version).to eq('12.0')
+      expect(Environ.device_orientation).to eq(:portrait)
+    end
+
+    it 'connects to iOS Simulator with a user-defined driver name (String)' do
+      caps = {
+        driver: :appium,
+        driver_name: 'my_custom_ios_driver',
+        endpoint: 'http://localhost:4723/wd/hub',
+        desired_capabilities: {
+          platformName: 'ios',
+          platformVersion: '15.4',
+          browserName: 'Safari',
+          deviceName: 'iPad Pro (12.9-inch) (5th generation)',
+          automationName: 'XCUITest',
+          orientation: 'LANDSCAPE'
+        }
+      }
+      WebDriverConnect.initialize_web_driver(caps)
+      verify_mobile_browser(browser = :safari, device_os = :ios, driver_name = :my_custom_ios_driver)
+      expect(Environ.device_name).to eq('iPad Pro (12.9-inch) (5th generation)')
+      expect(Environ.device_os_version).to eq('15.4')
+      expect(Environ.device_orientation).to eq(:landscape)
+    end
+
+    it 'connects to Android Simulator with a user-defined driver name (String)' do
+      caps = {
+        driver: :appium,
+        driver_name: :my_custom_android_driver,
+        desired_capabilities: {
+          platformName: 'Android',
+          platformVersion: '12.0',
+          browserName: 'Chrome',
+          deviceName: 'Pixel_C_API_31',
+          avd: 'Pixel_C_API_31',
+          automationName: 'UiAutomator2',
+          orientation: 'PORTRAIT'
+        }
+      }
+      WebDriverConnect.initialize_web_driver(caps)
+      verify_mobile_browser(browser = :chrome, device_os = :android, driver_name = :my_custom_android_driver)
+      expect(Environ.device_name).to eq('Pixel_C_API_31')
+      expect(Environ.device_os_version).to eq('12.0')
+      expect(Environ.device_orientation).to eq(:portrait)
     end
   end
 
@@ -62,6 +106,7 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
       verify_mobile_browser(browser = :safari, device_os = :ios)
       expect(Environ.device_name).to eq(ENV['APP_DEVICE'])
       expect(Environ.device_os_version).to eq(ENV['APP_VERSION'])
+      expect(Environ.device_orientation).to eq(:portrait)
     end
 
     it 'connects to Android Simulator - environment variables' do
@@ -76,10 +121,11 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
       verify_mobile_browser(browser = :chrome, device_os = :android)
       expect(Environ.device_name).to eq(ENV['APP_DEVICE'])
       expect(Environ.device_os_version).to eq(ENV['APP_VERSION'])
+      expect(Environ.device_orientation).to eq(:landscape)
     end
   end
 
-  def verify_mobile_browser(browser, device_os)
+  def verify_mobile_browser(browser, device_os, driver_name = nil)
     # load Apple web site
     Capybara.page.driver.browser.navigate.to('https://www.apple.com')
     Capybara.page.find(:css, 'nav#ac-globalnav', wait: 10, visible: true)
@@ -98,6 +144,8 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
     else
       expect(Environ.is_android?).to eq(true)
     end
+    driver_name = "appium_#{Environ.browser}".downcase.to_sym if driver_name.nil?
+    expect(Capybara.current_driver).to eq(driver_name)
   end
 
   after(:each) do

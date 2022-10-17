@@ -62,9 +62,9 @@ portrait:  ORIENTATION=portrait
 # profiles for locally hosted mobile web browsers (emulated locally in Chrome browser)
 #==============
 
-ipad_pro_11_local: --profile local WEB_BROWSER=ipad_pro_11 HOST_BROWSER=chrome --profile portrait <%= mobile %>
-ipad_pro_12_local: --profile local WEB_BROWSER=ipad_pro_12_9 HOST_BROWSER=chrome --profile portrait <%= mobile %>
-ipad_pro_12_grid: --profile grid WEB_BROWSER=ipad_pro_12_9 HOST_BROWSER=chrome --profile portrait <%= mobile %>
+ipad_pro_11_local: --profile local WEB_BROWSER=ipad_pro_11 --profile portrait <%= mobile %>
+ipad_pro_12_local: --profile local WEB_BROWSER=ipad_pro_12_9 --profile portrait <%= mobile %>
+ipad_pro_12_grid: --profile grid WEB_BROWSER=ipad_pro_12_9 --profile portrait <%= mobile %>
 
 
 #==============

@@ -224,7 +224,7 @@ end
 # supporting methods
 
 def qualify_browser(browser_type, browser_name, scenario, block)
-  if Environ.browser != browser_type && ENV['HOST_BROWSER'] != browser_name.downcase
+  if Environ.browser != browser_type
     block.call
   else
     log "Scenario '#{scenario.name}' cannot be executed with the #{browser_name} browser."
@@ -246,9 +246,7 @@ def qualify_device(device, scenario, block)
 end
 
 def terminate_session
-  Capybara.page.driver.quit
-  Capybara.reset_sessions!
-  Environ.session_state = :quit
+  WebDriverConnect.close_all_drivers
   $driver_scenario_count = 0
 end
 

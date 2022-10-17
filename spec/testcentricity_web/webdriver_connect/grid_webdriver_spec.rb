@@ -50,7 +50,6 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
       end
 
       it 'connects to a grid hosted emulated mobile web browser' do
-        ENV['HOST_BROWSER'] = 'chrome'
         caps = {
           desired_capabilities: { browserName: :ipad_pro_12_9 },
           driver: :webdriver
@@ -58,6 +57,26 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
         WebDriverConnect.initialize_web_driver(caps)
         verify_grid_browser(browser = :ipad_pro_12_9, platform = :mobile, headless = false)
         expect(Environ.browser_size).to eq([1366, 1024])
+      end
+
+      it 'connects to a grid hosted Chrome browser with a user-defined driver name (String)' do
+        caps = {
+          desired_capabilities: { browserName: :chrome },
+          driver: :webdriver,
+          driver_name: 'my_custom_chrome_driver'
+        }
+        WebDriverConnect.initialize_web_driver(caps)
+        verify_grid_browser(browser = :chrome, platform = :desktop, headless = false, driver_name = :my_custom_chrome_driver)
+      end
+
+      it 'connects to a grid hosted Firefox browser with a user-defined driver name (Symbol)' do
+        caps = {
+          desired_capabilities: { browserName: :firefox },
+          driver: :webdriver,
+          driver_name: :my_custom_firefox_driver
+        }
+        WebDriverConnect.initialize_web_driver(caps)
+        verify_grid_browser(browser = :firefox, platform = :desktop, headless = false, driver_name = :my_custom_firefox_driver)
       end
     end
 
@@ -115,11 +134,11 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
 
       it 'connects to a grid hosted emulated mobile web browser' do
         ENV['WEB_BROWSER'] = 'ipad_pro_12_9'
-        ENV['HOST_BROWSER'] = 'chrome'
         ENV['ORIENTATION'] = 'portrait'
         WebDriverConnect.initialize_web_driver
         Browsers.set_device_orientation('landscape')
         verify_grid_browser(browser = :ipad_pro_12_9, platform = :mobile, headless = false)
+        expect(Environ.device_orientation).to eq(:landscape)
       end
     end
 
@@ -148,12 +167,11 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
   end
 
   after(:each) do
-    $server.stop if Environ.driver == :appium && $server.running?
     Capybara.current_session.quit
     Environ.session_state = :quit
   end
 
-  def verify_grid_browser(browser, platform, headless)
+  def verify_grid_browser(browser, platform, headless, driver_name = nil)
     # load Apple web site
     Capybara.page.driver.browser.navigate.to('https://www.apple.com')
     Capybara.page.find(:css, 'nav#ac-globalnav', wait: 10, visible: true)
@@ -165,5 +183,7 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
     expect(Environ.driver).to eq(:webdriver)
     expect(Environ.device).to eq(:web)
     expect(Environ.grid).to eq(:selenium_grid)
+    driver_name = "remote_#{Environ.browser}".downcase.to_sym if driver_name.nil?
+    expect(Capybara.current_driver).to eq(driver_name)
   end
 end

@@ -11,7 +11,7 @@ include TestCentricity
 
 coverage_report_name = "Features-#{ENV['WEB_BROWSER']}-#{ENV['SELENIUM']}" + (ENV['TEST_ENV_NUMBER'] || '')
 SimpleCov.command_name("#{coverage_report_name}-#{Time.now.strftime('%Y%m%d%H%M%S%L')}")
-SimpleCov.merge_timeout 3600
+SimpleCov.merge_timeout 7200
 
 require_relative 'world_data'
 require_relative 'world_pages'

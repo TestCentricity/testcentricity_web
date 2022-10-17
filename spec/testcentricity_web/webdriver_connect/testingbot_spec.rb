@@ -148,10 +148,7 @@ RSpec.describe TestCentricity::WebDriverConnect, testingbot: true do
   end
 
   after(:each) do
-    Capybara.page.driver.quit
-    Capybara.current_session.quit
-    Capybara.reset_sessions!
-    Environ.session_state = :quit
+    WebDriverConnect.close_all_drivers
   end
 
   def verify_cloud_browser(browser, platform, device = nil)
@@ -177,5 +174,6 @@ RSpec.describe TestCentricity::WebDriverConnect, testingbot: true do
       expect(Environ.is_web?).to eq(true)
       expect(Environ.is_device?).to eq(false)
     end
+    expect(Capybara.current_driver).to eq("testingbot_#{browser}".downcase.to_sym)
   end
 end

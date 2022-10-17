@@ -1,4 +1,5 @@
 require 'yaml'
+require 'selenium-webdriver'
 
 
 module TestCentricity
@@ -6,6 +7,31 @@ module TestCentricity
     include Capybara::DSL
 
     @devices = {}
+
+    def self.set_geolocation(latitude:, longitude:, accuracy: 100)
+      grant_permissions('geolocation')
+      set_geolocation_override(
+        latitude: latitude,
+        longitude: longitude,
+        accuracy: accuracy
+      )
+    end
+
+    def self.grant_permissions(*permissions, origin: nil)
+      origin ||= Capybara.page.server_url
+      Capybara.page.driver.browser.execute_cdp(
+        'Browser.grantPermissions',
+        origin: origin,
+        permissions: permissions
+      )
+    end
+
+    def self.set_geolocation_override(coordinates)
+      Capybara.page.driver.browser.execute_cdp(
+        'Emulation.setGeolocationOverride',
+        **coordinates
+      )
+    end
 
     # Sets the size of the browser window.
     #
@@ -131,6 +157,7 @@ module TestCentricity
 
     def self.mobile_device_name(browser)
       device = get_device(browser)
+      raise "Device '#{browser}' is not defined" unless device
       name = device[:name]
       raise "Device '#{device}' is not defined" unless name
       Environ.device_os = device[:os]
@@ -146,7 +173,7 @@ module TestCentricity
         default_orientation = device[:default_orientation].to_sym
         if orientation
           Environ.device_orientation = orientation
-          size = if orientation.downcase.to_sym == default_orientation
+          size = if orientation == default_orientation
                    [width, height]
                  else
                    [height, width]

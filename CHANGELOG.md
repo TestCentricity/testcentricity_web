@@ -2,11 +2,19 @@
 All notable changes to this project will be documented in this file.
 
 
-## [4.4.0] - 08-SEP-2022
+## [4.4.0] - 15-SEP-2022
+
+### Added
+* Added support for connecting to, and switching between multiple WebDriver connected desktop and/or mobile web browsers
+by utilizing the following new methods:
+  * `WebDriverConnect.initialize_driver`
+  * `WebDriverConnect.active_driver`
+  * `WebDriverConnect.close_all_drivers`
 
 ### Changed
-*`WebDriverConnect.initialize_web_driver` method now accepts an optional `options` hash for specifying desired capabilities
-(using W3C protocol), driver, endpoint, app host, and device type information.
+* `WebDriverConnect.initialize_web_driver` method now accepts an optional `options` hash for specifying desired capabilities
+(using W3C protocol), driver, driver name, endpoint, app host, and device type information.
+* The `HOST_BROWSER` Environment Variable is no longer required to support emulated mobile web browsers.
 
 
 ## [4.3.1] - 19-AUGUST-2022

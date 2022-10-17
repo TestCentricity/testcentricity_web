@@ -53,9 +53,9 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'faker'
   spec.add_runtime_dependency 'i18n'
   spec.add_runtime_dependency 'os', '~> 1.0'
-  spec.add_runtime_dependency 'selenium-webdriver', '>= 4.3.0', '< 5'
+  spec.add_runtime_dependency 'selenium-webdriver', '>= 4.5.0', '< 5'
   spec.add_runtime_dependency 'spreadsheet', '1.1.7'
   spec.add_runtime_dependency 'test-unit'
   spec.add_runtime_dependency 'virtus'
-  spec.add_runtime_dependency 'webdrivers', '~> 5.0'
+  spec.add_runtime_dependency 'webdrivers', '~> 5.2.0'
 end

@@ -39,6 +39,12 @@ RSpec::Core::RakeTask.new(:testingbot_specs) do |t|
 end
 
 
+desc 'Run Multiple Driver specs'
+RSpec::Core::RakeTask.new(:multi_driver_spec) do |t|
+  t.rspec_opts = '--tag multi_driver_spec'
+end
+
+
 desc 'Run Cucumber features on local Safari browser'
 Cucumber::Rake::Task.new(:safari_local) do |t|
   t.profile = 'safari_local'
@@ -106,11 +112,11 @@ task grid: [:docker_grid_specs, :grid_cukes]
 
 
 desc 'Run all specs'
-task all_specs: [:required_specs, :docker_grid_specs, :mobile_specs, :browserstack_specs, :testingbot_specs]
+task all_specs: [:required_specs, :multi_driver_spec, :docker_grid_specs, :mobile_specs, :browserstack_specs, :testingbot_specs]
 
 
 desc 'Run all specs and Cucumber features'
-task all: [:required, :browserstack_specs, :safari_local, :grid, :mobile]
+task all: [:required, :multi_driver_spec, :browserstack_specs, :safari_local, :grid, :mobile]
 
 
 desc 'Update HTML docs'
