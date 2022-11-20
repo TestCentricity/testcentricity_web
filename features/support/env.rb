@@ -48,7 +48,6 @@ WorldPages.instantiate_page_objects
 # establish connection to WebDriver and target web browser
 Webdrivers.cache_time = 86_400
 
-
 url = if Environ.test_environment == :local
         "file://#{File.dirname(__FILE__)}/../../test_site"
       else

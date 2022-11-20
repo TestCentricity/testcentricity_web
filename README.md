@@ -1223,7 +1223,7 @@ Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below
 
 To set the size of a desktop browser window, you set the `BROWSER_SIZE` Environment Variable to the desired width and height
 in pixels as shown below:
-                                                                                                                               
+
     BROWSER_SIZE=1600,1000
 
 To maximize a desktop browser window, you set the `BROWSER_SIZE` Environment Variable to 'max' as shown below:

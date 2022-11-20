@@ -22,8 +22,9 @@ module TestCentricity
       if ENV['PARALLEL']
         Environ.parallel = true
         Environ.process_num = ENV['TEST_ENV_NUMBER']
+        Environ.process_num = '1' if Environ.process_num.blank?
         if Dir.exist?(@downloads_path)
-          @downloads_path = "#{@downloads_path}/#{ENV['TEST_ENV_NUMBER']}"
+          @downloads_path = "#{@downloads_path}/#{Environ.process_num}"
           Dir.mkdir(@downloads_path) unless Dir.exist?(@downloads_path)
         end
       else
@@ -53,10 +54,15 @@ module TestCentricity
       if @capabilities.nil?
         Environ.driver = ENV['DRIVER'].downcase.to_sym if ENV['DRIVER']
         Environ.browser = ENV['WEB_BROWSER'] if ENV['WEB_BROWSER']
+        Environ.browser_size = ENV['BROWSER_SIZE'] if ENV['BROWSER_SIZE']
         Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
       else
         Environ.browser = @capabilities[:browserName]
         Environ.device_orientation = @capabilities[:orientation] if @capabilities[:orientation]
+        if @capabilities[:browser_size]
+          Environ.browser_size = @capabilities[:browser_size]
+          @capabilities.delete(:browser_size)
+        end
       end
       Environ.browser = Environ.browser.downcase.to_sym if Environ.browser.is_a?(String)
       Environ.driver = :webdriver if Environ.driver.nil?
@@ -82,10 +88,10 @@ module TestCentricity
                 when :browserstack
                   initialize_browserstack
                   'Browserstack cloud service'
+                  # :nocov:
                 when :testingbot
                   initialize_testingbot
                   'TestingBot cloud service'
-                  # :nocov:
                 when :lambdatest
                   initialize_lambdatest
                   'LambdaTest cloud service'
@@ -147,10 +153,15 @@ module TestCentricity
 
       browser = Environ.browser.to_s
       if Environ.is_desktop?
-        if ENV['BROWSER_SIZE'] == 'max'
+        case
+        when ENV['BROWSER_SIZE'] == 'max'
           Browsers.maximize_browser
-        elsif ENV['BROWSER_SIZE']
+        when ENV['BROWSER_SIZE']
           Browsers.set_browser_window_size(ENV['BROWSER_SIZE'])
+        when Environ.browser_size == 'max'
+          Browsers.maximize_browser
+        when Environ.browser_size
+          Browsers.set_browser_window_size(Environ.browser_size)
         else
           Browsers.set_browser_window_size(Browsers.browser_size(browser, Environ.device_orientation))
         end
@@ -457,6 +468,7 @@ module TestCentricity
       Environ.tunneling = ENV['TUNNELING'] if ENV['TUNNELING']
     end
 
+    # :nocov:
     def self.initialize_testingbot
       # determine browser type
       Environ.browser = if @capabilities.nil?
@@ -522,7 +534,6 @@ module TestCentricity
       config_file_uploads if Environ.platform == :desktop
     end
 
-    # :nocov:
     def self.initialize_lambdatest
       # determine browser type
       Environ.browser = if @capabilities.nil?

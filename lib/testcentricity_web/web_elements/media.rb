@@ -192,7 +192,10 @@ module TestCentricity
     def wait_until_ready_state_is(value, seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
-      wait.until { ready_state == value }
+      wait.until do
+        reset_mru_cache
+        ready_state == value
+      end
     rescue StandardError
       if post_exception
         raise "Ready state of media #{object_ref_message} failed to equal '#{value}' after #{timeout} seconds" unless get_value == value

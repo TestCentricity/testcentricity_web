@@ -416,6 +416,9 @@ class BasicFormPage < BaseTestPage
     check_2.verify_check_state(false)
     radio_2.select
     radio_2.unselect
+    # clear text fields
+    username_field.clear
+    comments_field.clear
     # populate fields and controls with externally sourced data
     @data = form_data
     fields = {

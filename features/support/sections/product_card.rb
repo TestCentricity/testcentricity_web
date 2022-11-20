@@ -29,11 +29,12 @@ class ProductCard < TestCentricity::PageSection
       name_label         => { visible: true, caption: card_data[:product_name] },
       price_label        => { visible: true, caption: card_data[:price] },
       description_label  => { visible: true, caption: card_data[:description] },
-      checked_star       => { count: card_data[:rating] },
       add_to_cart_button => { visible: true, enabled: true, caption: 'Add to Cart' }
     }
+    verify_ui_states(ui)
+    # verify the product rating
     within(self.get_locator) do
-      verify_ui_states(ui)
+      verify_ui_states(checked_star => { count: card_data[:rating] })
     end
   end
 end

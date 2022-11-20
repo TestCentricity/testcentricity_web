@@ -125,11 +125,7 @@ module TestCentricity
         @mru_ui_element = @active_ui_element
       end
       # take screenshot
-      if Environ.driver == :appium
-        AppiumConnect.take_screenshot(path)
-      else
-        Capybara.save_screenshot path
-      end
+      Capybara.save_screenshot path
       # unhighlight the active UI element
       @mru_ui_element.unhighlight unless @mru_ui_element.blank?
       # add screenshot to queue

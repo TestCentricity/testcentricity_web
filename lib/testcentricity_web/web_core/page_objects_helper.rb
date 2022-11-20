@@ -388,8 +388,11 @@ module TestCentricity
       page.driver.browser.action.send_keys(key).perform
       sleep(0.5)
       focused_obj = page.driver.browser.switch_to.active_element
+      expected_element.reset_mru_cache
       expected_obj, = expected_element.find_element(visible = :all)
-      raise "Expected element '#{expected_element.get_name}' to have focus but found '#{focused_obj[:id]} is focused instead'" unless focused_obj == expected_obj.native
+      unless focused_obj == expected_obj.native
+        raise "Expected element '#{expected_element.get_name}' to have focus but found '#{focused_obj[:id]} is focused instead'"
+      end
 
       puts "Element '#{expected_element.get_name}' is focused as expected"
       end

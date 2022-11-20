@@ -8,29 +8,31 @@ module TestCentricity
 
     @devices = {}
 
-    def self.set_geolocation(latitude:, longitude:, accuracy: 100)
-      grant_permissions('geolocation')
-      set_geolocation_override(
-        latitude: latitude,
-        longitude: longitude,
-        accuracy: accuracy
-      )
+    # Scroll to bottom of page
+    #
+    # @example
+    #   editor_page.scroll_to_bottom
+    #
+    def self.scroll_to_bottom
+      Capybara.page.execute_script "window.scrollTo(0, document.body.scrollHeight)"
     end
 
-    def self.grant_permissions(*permissions, origin: nil)
-      origin ||= Capybara.page.server_url
-      Capybara.page.driver.browser.execute_cdp(
-        'Browser.grantPermissions',
-        origin: origin,
-        permissions: permissions
-      )
+    # Scroll to top of page
+    #
+    # @example
+    #   editor_page.scroll_to_top
+    #
+    def self.scroll_to_top
+      Capybara.page.execute_script "window.scrollTo(0, -document.body.scrollHeight)"
     end
 
-    def self.set_geolocation_override(coordinates)
-      Capybara.page.driver.browser.execute_cdp(
-        'Emulation.setGeolocationOverride',
-        **coordinates
-      )
+    # Scroll to location
+    #
+    # @example
+    #   editor_page.scroll_to(200, 400)
+    #
+    def self.scroll_to(x_loc, y_loc)
+      Capybara.page.execute_script "window.scrollBy(#{x_loc},#{y_loc})"
     end
 
     # Sets the size of the browser window.

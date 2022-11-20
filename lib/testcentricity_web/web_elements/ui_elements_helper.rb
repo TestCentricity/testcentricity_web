@@ -45,6 +45,7 @@ module TestCentricity
     attr_reader   :parent, :locator, :context, :type, :name
     attr_accessor :alt_locator, :locator_type, :original_style
     attr_accessor :base_object
+    attr_accessor :mru_object, :mru_locator, :mru_parent
 
     XPATH_SELECTORS = ['//', '[@', '[contains(']
     CSS_SELECTORS   = %w[# :nth-child( :first-child :last-child :nth-of-type( :first-of-type :last-of-type ^= $= *= :contains(]
@@ -57,7 +58,14 @@ module TestCentricity
       @type           = nil
       @alt_locator    = nil
       @original_style = nil
+      reset_mru_cache
       set_locator_type
+    end
+
+    def reset_mru_cache
+      @mru_object = nil
+      @mru_locator = nil
+      @mru_parent = nil
     end
 
     def set_locator_type(locator = nil)
@@ -207,29 +215,10 @@ module TestCentricity
     #   remember_me_checkbox.visible?
     #
     def visible?
-      obj, type = find_element
+      obj, = find_element
       exists = obj
-      invisible = false
-      if type == :css
-        Capybara.using_wait_time 0.1 do
-          # is object itself hidden with .ui-helper-hidden class?
-          self_hidden = page.has_css?("#{@locator}.ui-helper-hidden")
-          # is parent of object hidden, thus hiding the object?
-          parent_hidden = page.has_css?(".ui-helper-hidden > #{@locator}")
-          # is grandparent of object, or any other ancestor, hidden?
-          other_ancestor_hidden = page.has_css?(".ui-helper-hidden * #{@locator}")
-          # if any of the above conditions are true, then object is invisible
-          invisible = self_hidden || parent_hidden || other_ancestor_hidden
-        end
-      else
-        invisible = !obj.visible? if exists
-      end
       # the object is visible if it exists and it is not invisible
-      if exists && !invisible
-        true
-      else
-        false
-      end
+      exists && obj.visible?
     end
 
     # Is UI object hidden (not visible)?
@@ -324,7 +313,10 @@ module TestCentricity
     def wait_until_exists(seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
-      wait.until { exists? }
+      wait.until do
+        reset_mru_cache
+        exists?
+      end
     rescue StandardError
       if post_exception
         raise "Could not find UI #{object_ref_message} after #{timeout} seconds" unless exists?
@@ -343,7 +335,10 @@ module TestCentricity
     def wait_until_gone(seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
-      wait.until { !exists? }
+      wait.until do
+        reset_mru_cache
+        !exists?
+      end
     rescue StandardError
       if post_exception
         raise "UI #{object_ref_message} remained visible after #{timeout} seconds" if exists?
@@ -362,7 +357,10 @@ module TestCentricity
     def wait_until_visible(seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
-      wait.until { visible? }
+      wait.until do
+        reset_mru_cache
+        visible?
+      end
     rescue StandardError
       if post_exception
         raise "Could not find UI #{object_ref_message} after #{timeout} seconds" unless visible?
@@ -381,7 +379,10 @@ module TestCentricity
     def wait_until_hidden(seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
-      wait.until { hidden? }
+      wait.until do
+        reset_mru_cache
+        hidden?
+      end
     rescue StandardError
       if post_exception
         raise "UI #{object_ref_message} remained visible after #{timeout} seconds" if visible?
@@ -400,7 +401,10 @@ module TestCentricity
     def wait_until_enabled(seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
-      wait.until { enabled? }
+      wait.until do
+        reset_mru_cache
+        enabled?
+      end
     rescue StandardError
       if post_exception
         raise "UI #{object_ref_message} remained disabled after #{timeout} seconds" unless enabled?
@@ -419,7 +423,10 @@ module TestCentricity
     def wait_while_busy(seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
-      wait.until { aria_busy? }
+      wait.until do
+        reset_mru_cache
+        aria_busy?
+      end
     rescue StandardError
       if post_exception
         raise "UI #{object_ref_message} remained in busy state after #{timeout} seconds" if aria_busy?
@@ -441,7 +448,10 @@ module TestCentricity
     def wait_until_value_is(value, seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
-      wait.until { compare(value, get_value) }
+      wait.until do
+        reset_mru_cache
+        compare(value, get_value)
+      end
     rescue StandardError
       if post_exception
         raise "Value of UI #{object_ref_message} failed to equal '#{value}' after #{timeout} seconds" unless get_value == value
@@ -461,7 +471,10 @@ module TestCentricity
       value = get_value
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
-      wait.until { get_value != value }
+      wait.until do
+        reset_mru_cache
+        get_value != value
+      end
     rescue StandardError
       if post_exception
         raise "Value of UI #{object_ref_message} failed to change from '#{value}' after #{timeout} seconds" if get_value == value
@@ -1056,6 +1069,7 @@ module TestCentricity
     end
 
     def get_native_attribute(attrib)
+      reset_mru_cache
       obj, type = find_element(visible = false)
       object_not_found_exception(obj, type)
       obj.native.attribute(attrib)
@@ -1075,11 +1089,30 @@ module TestCentricity
       if parent_section && tries == 2
         parent_locator = @parent.get_locator
         parent_locator = parent_locator.tr('|', ' ')
+        if @mru_locator == obj_locator && @mru_parent == parent_locator && !@mru_object.nil?
+          return [@mru_object, @locator_type]
+        end
+
         parent_locator_type = @parent.get_locator_type
-        obj = page.find(parent_locator_type, parent_locator, visible: :all, wait: 0.01).find(@locator_type, obj_locator, wait: 0.01, visible: visible)
+        obj = page.find(
+          parent_locator_type,
+          parent_locator,
+          visible: :all,
+          wait: 0.01
+        ).find(
+          @locator_type,
+          obj_locator,
+          wait: 0.01,
+          visible: visible
+        )
       else
+        return [@mru_object, @locator_type] if @mru_locator == obj_locator && !@mru_object.nil?
+
         obj = page.find(@locator_type, obj_locator, wait: 0.01, visible: visible)
       end
+      @mru_object = obj
+      @mru_locator = obj_locator
+      @mru_parent = parent_locator
       [obj, @locator_type]
     rescue StandardError
       retry if (tries -= 1).positive?
@@ -1134,10 +1167,10 @@ module TestCentricity
 
     def find_component(component, component_name)
       begin
-        element = @base_object.find(:css, component, visible: :all, minimum: 0, wait: 1)
+        element = @base_object.find(:css, component, visible: :all, wait: 1)
       rescue
         begin
-          element = page.find(:css, component, visible: :all, minimum: 0, wait: 2)
+          element = page.find(:css, component, visible: :all, wait: 2)
         rescue
           raise "Component #{component_name} (#{component}) for #{@type} named '#{@name}' (#{locator}) not found"
         end

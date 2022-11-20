@@ -38,7 +38,7 @@ module TestCentricity
       obj, = find_element
       object_not_found_exception(obj, nil)
       if item.is_a?(Integer)
-        obj.find(:css, "#{@list_item}:nth-of-type(#{item})", visible: true, minimum: 0, wait: 2).click
+        obj.find(:css, "#{@list_item}:nth-of-type(#{item})", visible: true, wait: 2).click
       elsif item.is_a?(String)
         items = obj.all(@list_item).collect(&:text)
         sleep(2) unless items.include?(item)
@@ -57,7 +57,7 @@ module TestCentricity
       obj, = find_element
       object_not_found_exception(obj, nil)
       if item.is_a?(Integer)
-        obj.find(:css, "#{@list_item}:nth-of-type(#{item})", visible: true, minimum: 0, wait: 2).hover
+        obj.find(:css, "#{@list_item}:nth-of-type(#{item})", visible: true, wait: 2).hover
       elsif item.is_a?(String)
         items = obj.all(@list_item).collect(&:text)
         sleep(2) unless items.include?(item)

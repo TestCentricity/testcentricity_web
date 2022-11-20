@@ -44,7 +44,10 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
     it 'connects to multiple desktop and mobile browsers' do
       # instantiate a locally hosted desktop Chrome browser
       caps = {
-        desired_capabilities: { browserName: :chrome },
+        desired_capabilities: {
+          browserName: :chrome,
+          browser_size: [1100, 900]
+        },
         driver_name: :my_chrome,
         driver: :webdriver
       }
@@ -68,7 +71,10 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
 
       # instantiate a locally hosted desktop Edge browser
       caps = {
-        desired_capabilities: { browserName: :edge },
+        desired_capabilities: {
+          browserName: :edge,
+          browser_size: [1000, 800]
+        },
         driver_name: :my_edge,
         driver: :webdriver
       }

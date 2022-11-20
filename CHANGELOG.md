@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 
-## [4.4.0] - 15-SEP-2022
+## [4.4.0] - 21-NOV-2022
 
 ### Added
 * Added support for connecting to, and switching between multiple WebDriver connected desktop and/or mobile web browsers
@@ -10,6 +10,10 @@ by utilizing the following new methods:
   * `WebDriverConnect.initialize_driver`
   * `WebDriverConnect.active_driver`
   * `WebDriverConnect.close_all_drivers`
+* Added support for web page scrolling by utilizing the following methods:
+  * `Browsers.scroll_to_bottom`
+  * `Browsers.scroll_to_top`
+  * `Browsers.scroll_to`
 
 ### Changed
 * `WebDriverConnect.initialize_web_driver` method now accepts an optional `options` hash for specifying desired capabilities

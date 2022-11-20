@@ -9,6 +9,12 @@ require 'simplecov'
 require 'yard'
 
 
+desc 'Run WIP specs'
+RSpec::Core::RakeTask.new(:wip_specs) do |t|
+  t.rspec_opts = '--tag wip'
+end
+
+
 desc 'Run required specs'
 RSpec::Core::RakeTask.new(:required_specs) do |t|
   t.rspec_opts = '--tag required'

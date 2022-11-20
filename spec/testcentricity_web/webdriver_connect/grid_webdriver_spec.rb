@@ -33,7 +33,10 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
 
       it 'connects to a grid hosted Chrome browser' do
         caps = {
-          desired_capabilities: { browserName: :chrome },
+          desired_capabilities: {
+            browserName: :chrome,
+            browser_size: 'max'
+          },
           driver: :webdriver
         }
         WebDriverConnect.initialize_web_driver(caps)
@@ -42,11 +45,15 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
 
       it 'connects to a grid hosted Edge browser' do
         caps = {
-          desired_capabilities: { browserName: :edge },
+          desired_capabilities: {
+            browserName: :edge,
+            browser_size: [1100, 900]
+          },
           driver: :webdriver
         }
         WebDriverConnect.initialize_web_driver(caps)
         verify_grid_browser(browser = :edge, platform = :desktop, headless = false)
+        expect(Environ.browser_size).to eq([1100, 900])
       end
 
       it 'connects to a grid hosted emulated mobile web browser' do
@@ -120,6 +127,7 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
 
       it 'connects to a grid hosted Chrome browser' do
         ENV['WEB_BROWSER'] = 'chrome'
+        ENV['BROWSER_SIZE'] = 'max'
         WebDriverConnect.initialize_web_driver
         Browsers.suppress_js_leave_page_modal
         verify_grid_browser(browser = :chrome, platform = :desktop, headless = false)
@@ -127,9 +135,11 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
 
       it 'connects to a grid hosted Edge browser' do
         ENV['WEB_BROWSER'] = 'edge'
+        ENV['BROWSER_SIZE'] = '1300, 1000'
         WebDriverConnect.initialize_web_driver
         Browsers.suppress_js_alerts
         verify_grid_browser(browser = :edge, platform = :desktop, headless = false)
+        expect(Environ.browser_size).to eq([1300, 1000])
       end
 
       it 'connects to a grid hosted emulated mobile web browser' do

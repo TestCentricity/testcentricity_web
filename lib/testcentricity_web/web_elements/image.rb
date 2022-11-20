@@ -45,7 +45,10 @@ module TestCentricity
     def wait_until_loaded(seconds = nil, post_exception = true)
       timeout = seconds.nil? ? Capybara.default_max_wait_time : seconds
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
-      wait.until { is_loaded? }
+      wait.until do
+        reset_mru_cache
+        is_loaded?
+      end
     rescue
       if post_exception
         raise "Image #{object_ref_message} failed to load within #{timeout} seconds" unless loaded?
