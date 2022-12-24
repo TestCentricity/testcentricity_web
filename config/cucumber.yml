@@ -93,7 +93,7 @@ ios_remote: --profile ipad_pro_12_15_sim --profile run_appium ORIENTATION=portra
 #==============
 
 appium_android:    DRIVER=appium AUTOMATION_ENGINE=UiAutomator2 APP_PLATFORM_NAME="Android" <%= mobile %>
-app_android_12:    --profile appium_android APP_BROWSER="Chrome" APP_VERSION="12.0"
+app_android_12:    --profile appium_android APP_BROWSER="Chrome" APP_VERSION="12.0" CHROMEDRIVER_EXECUTABLE="/Users/Shared/config/webdrivers/chromedriver"
 pixel_c_api31_sim: --profile app_android_12 DEVICE_TYPE=tablet APP_DEVICE="Pixel_C_API_31"
 
 android_remote: --profile pixel_c_api31_sim --profile run_appium ORIENTATION=portrait TEST_ENVIRONMENT=REMOTE

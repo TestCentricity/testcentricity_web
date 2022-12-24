@@ -21,7 +21,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
     ENV['BS_OS_VERSION'] = 'Monterey'
   end
 
-  context 'Connect to BrowserStack hosted desktop web browsers using desired_capabilities hash' do
+  context 'Connect to BrowserStack hosted desktop web browsers using W3C desired_capabilities hash' do
     let(:desktop_caps_hash)  {
       {
         driver: :browserstack,

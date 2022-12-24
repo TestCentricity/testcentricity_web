@@ -22,6 +22,7 @@ class IndexedSectionsPage < BaseTestPage
   def verify_page_ui
     super
 
+    product_card.wait_until_visible(5)
     ui = {
       product_list => {
         exists: true,

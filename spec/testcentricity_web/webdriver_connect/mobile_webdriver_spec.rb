@@ -4,23 +4,24 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
   before(:context) do
     ENV['SELENIUM'] = ''
     ENV['DEVICE_TYPE'] = 'tablet'
+    ENV['CHROMEDRIVER_EXECUTABLE'] = '/Users/Shared/config/webdrivers/chromedriver'
     # start Appium server
     $server = TestCentricity::AppiumServer.new
     $server.start
   end
 
-  context 'Connect to locally hosted mobile device simulator using desired_capabilities hash' do
+  context 'Connect to locally hosted mobile device simulator using W3C desired_capabilities hash' do
     it 'connects to iOS Simulator - desired_capabilities hash' do
       caps = {
         driver: :appium,
         endpoint: 'http://localhost:4723/wd/hub',
         desired_capabilities: {
           platformName: 'ios',
-          platformVersion: '15.4',
           browserName: 'Safari',
-          deviceName: 'iPad Pro (12.9-inch) (5th generation)',
-          automationName: 'XCUITest',
-          orientation: 'LANDSCAPE'
+          'appium:platformVersion': '15.4',
+          'appium:deviceName': 'iPad Pro (12.9-inch) (5th generation)',
+          'appium:automationName': 'XCUITest',
+          'appium:orientation': 'LANDSCAPE'
         }
       }
       WebDriverConnect.initialize_web_driver(caps)
@@ -35,12 +36,13 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
         driver: :appium,
         desired_capabilities: {
           platformName: 'Android',
-          platformVersion: '12.0',
           browserName: 'Chrome',
-          deviceName: 'Pixel_C_API_31',
-          avd: 'Pixel_C_API_31',
-          automationName: 'UiAutomator2',
-          orientation: 'PORTRAIT'
+          'appium:platformVersion': '12.0',
+          'appium:deviceName': 'Pixel_C_API_31',
+          'appium:avd': 'Pixel_C_API_31',
+          'appium:automationName': 'UiAutomator2',
+          'appium:orientation': 'PORTRAIT',
+          'appium:chromedriverExecutable': ENV['CHROMEDRIVER_EXECUTABLE']
         }
       }
       WebDriverConnect.initialize_web_driver(caps)
@@ -57,11 +59,11 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
         endpoint: 'http://localhost:4723/wd/hub',
         desired_capabilities: {
           platformName: 'ios',
-          platformVersion: '15.4',
           browserName: 'Safari',
-          deviceName: 'iPad Pro (12.9-inch) (5th generation)',
-          automationName: 'XCUITest',
-          orientation: 'LANDSCAPE'
+          'appium:platformVersion': '15.4',
+          'appium:deviceName': 'iPad Pro (12.9-inch) (5th generation)',
+          'appium:automationName': 'XCUITest',
+          'appium:orientation': 'LANDSCAPE'
         }
       }
       WebDriverConnect.initialize_web_driver(caps)
@@ -77,12 +79,13 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
         driver_name: :my_custom_android_driver,
         desired_capabilities: {
           platformName: 'Android',
-          platformVersion: '12.0',
           browserName: 'Chrome',
-          deviceName: 'Pixel_C_API_31',
-          avd: 'Pixel_C_API_31',
-          automationName: 'UiAutomator2',
-          orientation: 'PORTRAIT'
+          'appium:platformVersion': '12.0',
+          'appium:deviceName': 'Pixel_C_API_31',
+          'appium:avd': 'Pixel_C_API_31',
+          'appium:automationName': 'UiAutomator2',
+          'appium:orientation': 'PORTRAIT',
+          'appium:chromedriverExecutable': ENV['CHROMEDRIVER_EXECUTABLE']
         }
       }
       WebDriverConnect.initialize_web_driver(caps)

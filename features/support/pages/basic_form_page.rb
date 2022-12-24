@@ -162,6 +162,7 @@ class BasicFormPage < BaseTestPage
         required: true,
         value: '',
         placeholder: 'User name',
+        title: 'User Name',
         badInput: false,
         customError: false,
         patternMismatch: false,
@@ -184,7 +185,8 @@ class BasicFormPage < BaseTestPage
         enabled: true,
         required: true,
         value: '',
-        placeholder: 'Password'
+        placeholder: 'Password',
+        title: 'Password'
       },
       max_length_label => { visible: true, caption: 'Max Length:' },
       max_length_field => {

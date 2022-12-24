@@ -17,7 +17,7 @@ RSpec.describe TestCentricity::WebDriverConnect, testingbot: true do
     ENV['TIME_ZONE'] = 'America/Los_Angeles'
   end
 
-  context 'Connect to TestingBot hosted desktop web browsers using desired_capabilities hash' do
+  context 'Connect to TestingBot hosted desktop web browsers using W3C desired_capabilities hash' do
     let(:desired_caps_hash)  {
       {
         driver: :testingbot,

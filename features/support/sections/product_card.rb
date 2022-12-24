@@ -5,13 +5,13 @@ class ProductCard < TestCentricity::PageSection
   trait(:section_name)    { 'Product Card' }
 
   # Product Card UI elements
-  image    :product_image,      "img[data-test-id='product_image']"
-  labels   name_label:          "h1[data-test-id='product_name']",
-           price_label:         "p[data-test-id='price']",
-           description_label:   "p[data-test-id='description']"
-  elements ratings:             "div[data-test-id='rating']",
+  image    :product_image,      'img[data-test-id="product_image"]'
+  labels   name_label:          'h1[data-test-id="product_name"]',
+           price_label:         'p[data-test-id="price"]',
+           description_label:   'p[data-test-id="description"]'
+  elements ratings:             'div[data-test-id="rating"]',
            checked_star:        'span.fa.fa-star.checked'
-  button   :add_to_cart_button, "button[data-test-id='add_to_cart']"
+  button   :add_to_cart_button, 'button[data-test-id="add_to_cart"]'
 
   def get_value
     name_label.get_caption

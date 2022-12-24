@@ -55,15 +55,16 @@ class CustomControlsPage < BaseTestPage
   # Custom Controls page UI elements
   selectlists country_select: 'div#country_chosen',
               team_select:    'div#team_chosen'
-  checkboxes  pork_check:     "label[for='check1']",
-              beef_check:     "label[for='check2']",
-              chicken_check:  "label[for='check3']",
-              shrimp_check:   "label[for='check4']"
-  radios      mild_radio:     "label[for='radio1']",
-              spicey_radio:   "label[for='radio2']",
-              hot_radio:      "label[for='radio3']",
-              flaming_radio:  "label[for='radio4']"
+  checkboxes  pork_check:     'label[for="check1"]',
+              beef_check:     'label[for="check2"]',
+              chicken_check:  'label[for="check3"]',
+              shrimp_check:   'label[for="check4"]'
+  radios      mild_radio:     'label[for="radio1"]',
+              spicey_radio:   'label[for="radio2"]',
+              hot_radio:      'label[for="radio3"]',
+              flaming_radio:  'label[for="radio4"]'
   tables      custom_table:   'div#resp-table'
+  section     :weather_embed, WeatherEmbed
 
   attr_accessor :selected_country
   attr_accessor :selected_team
@@ -74,8 +75,8 @@ class CustomControlsPage < BaseTestPage
     super
     # define the custom list element components for the Country and Team Chosen selectlists
     list_spec = {
-      selected_item: "li[class*='result-selected']",
-      list_item:     "li[class*='active-result']",
+      selected_item: 'li[class*="result-selected"]',
+      list_item:     'li[class*="active-result"]',
       text_field:    'input.chosen-search-input',
       options_list:  'ul.chosen-results',
       group_item:    'li.group-result',
@@ -84,13 +85,13 @@ class CustomControlsPage < BaseTestPage
     country_select.define_list_elements(list_spec)
     team_select.define_list_elements(list_spec)
     # define the custom element components for the checkboxes
-    check_spec = { input: "input[type='checkbox']" }
+    check_spec = { input: 'input[type="checkbox"]' }
     pork_check.define_custom_elements(check_spec)
     beef_check.define_custom_elements(check_spec)
     chicken_check.define_custom_elements(check_spec)
     shrimp_check.define_custom_elements(check_spec)
     # define the custom element components for the radios
-    radio_spec = { input: "input[type='radio']" }
+    radio_spec = { input: 'input[type="radio"]' }
     mild_radio.define_custom_elements(radio_spec)
     spicey_radio.define_custom_elements(radio_spec)
     hot_radio.define_custom_elements(radio_spec)
@@ -195,6 +196,8 @@ class CustomControlsPage < BaseTestPage
     }
     verify_ui_states(ui)
     team_select.verify_options(teams)
+    weather_embed.wait_until_visible(5)
+    weather_embed.verify_embed unless Environ.device_os == :ios
   end
 
   def populate_form

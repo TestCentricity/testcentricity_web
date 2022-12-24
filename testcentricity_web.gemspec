@@ -16,10 +16,10 @@ Gem::Specification.new do |spec|
   spec.description   = '
     The TestCentricity™ Web core framework for desktop and mobile web browser-based app testing implements a Page Object
     Model DSL for use with Cucumber, Capybara, and Selenium-Webdriver v4.x. The gem also facilitates the configuration of
-    the appropriate Selenium-Webdriver capabilities required to establish a connection with locally hosted desktop browsers,
+    the appropriate Selenium-Webdriver capabilities required to establish connections to locally hosted desktop browsers,
     locally hosted emulated mobile browsers (iOS, Android, etc.) running within a local instance of Chrome, mobile Safari
-    browsers on iOS device simulators or physical iOS devices, mobile Chrome or Android browsers on Android Studio virtual
-    device emulators, or cloud hosted desktop or mobile web browsers (using BrowserStack, Sauce Labs, TestingBot, or
+    browsers on iOS device simulators or physical iOS devices, mobile Chrome browsers on Android Studio virtual device
+    emulators, or cloud hosted desktop or mobile web browsers (using BrowserStack, Sauce Labs, TestingBot, or
     LambdaTest services).'
   spec.homepage      = 'https://github.com/TestCentricity/testcentricity_web'
   spec.license       = 'BSD-3-Clause'
@@ -47,13 +47,13 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'appium_lib'
   spec.add_runtime_dependency 'browserstack-local'
-  spec.add_runtime_dependency 'capybara', '3.37.1'
+  spec.add_runtime_dependency 'capybara', '~> 3.38.0'
   spec.add_runtime_dependency 'childprocess'
   spec.add_runtime_dependency 'chronic', '0.10.2'
   spec.add_runtime_dependency 'faker'
   spec.add_runtime_dependency 'i18n'
   spec.add_runtime_dependency 'os', '~> 1.0'
-  spec.add_runtime_dependency 'selenium-webdriver', '4.5.0'
+  spec.add_runtime_dependency 'selenium-webdriver', '~> 4.7.1'
   spec.add_runtime_dependency 'spreadsheet', '1.1.7'
   spec.add_runtime_dependency 'test-unit'
   spec.add_runtime_dependency 'virtus'

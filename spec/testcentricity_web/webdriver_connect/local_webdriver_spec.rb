@@ -5,7 +5,7 @@ RSpec.describe TestCentricity::WebDriverConnect, required: true do
     ENV['SELENIUM'] = ''
   end
 
-  context 'Connect to locally hosted desktop web browsers using desired_capabilities hash' do
+  context 'Connect to locally hosted desktop web browsers using W3C desired_capabilities hash' do
     context 'local web browser instances' do
       it 'connects to a local Firefox browser' do
         caps = {

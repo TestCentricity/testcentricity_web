@@ -59,6 +59,7 @@ module TestCentricity
       else
         Environ.browser = @capabilities[:browserName]
         Environ.device_orientation = @capabilities[:orientation] if @capabilities[:orientation]
+        Environ.device_orientation = @capabilities[:'appium:orientation'] if @capabilities[:'appium:orientation']
         if @capabilities[:browser_size]
           Environ.browser_size = @capabilities[:browser_size]
           @capabilities.delete(:browser_size)
@@ -197,73 +198,74 @@ module TestCentricity
                                Environ.device_os_version = ENV['APP_VERSION']
                                desired_capabilities = {
                                  platformName: Environ.device_os,
-                                 platformVersion: Environ.device_os_version,
                                  browserName: Environ.browser,
-                                 deviceName: Environ.device_name
+                                 'appium:platformVersion': Environ.device_os_version,
+                                 'appium:deviceName': Environ.device_name
                                }
-                               desired_capabilities[:avd] = ENV['APP_DEVICE'] if Environ.device_os == :android
-                               desired_capabilities[:automationName] = ENV['AUTOMATION_ENGINE'] if ENV['AUTOMATION_ENGINE']
+                               desired_capabilities[:'appium:avd'] = ENV['APP_DEVICE'] if Environ.device_os == :android
+                               desired_capabilities[:'appium:automationName'] = ENV['AUTOMATION_ENGINE'] if ENV['AUTOMATION_ENGINE']
                                if ENV['UDID']
                                  # :nocov:
                                  Environ.device = :device
-                                 desired_capabilities[:udid] = ENV['UDID']
-                                 desired_capabilities[:xcodeOrgId] = ENV['TEAM_ID'] if ENV['TEAM_ID']
-                                 desired_capabilities[:xcodeSigningId] = ENV['TEAM_NAME'] if ENV['TEAM_NAME']
+                                 desired_capabilities[:'appium:udid'] = ENV['UDID']
+                                 desired_capabilities[:'appium:xcodeOrgId'] = ENV['TEAM_ID'] if ENV['TEAM_ID']
+                                 desired_capabilities[:'appium:xcodeSigningId'] = ENV['TEAM_NAME'] if ENV['TEAM_NAME']
                                  # :nocov:
                                else
-                                 desired_capabilities[:orientation] = Environ.device_orientation.upcase if Environ.device_orientation
+                                 desired_capabilities[:'appium:orientation'] = Environ.device_orientation.upcase if Environ.device_orientation
                                  if Environ.device_os == :ios
-                                   desired_capabilities[:language] = Environ.language if Environ.language
-                                   desired_capabilities[:locale] = Environ.locale.gsub('-', '_') if Environ.locale
+                                   desired_capabilities[:'appium:language'] = Environ.language if Environ.language
+                                   desired_capabilities[:'appium:locale'] = Environ.locale.gsub('-', '_') if Environ.locale
                                  end
                                end
-                               desired_capabilities[:safariIgnoreFraudWarning] = ENV['APP_IGNORE_FRAUD_WARNING'] if ENV['APP_IGNORE_FRAUD_WARNING']
-                               desired_capabilities[:safariInitialUrl] = ENV['APP_INITIAL_URL'] if ENV['APP_INITIAL_URL']
-                               desired_capabilities[:safariAllowPopups] = ENV['APP_ALLOW_POPUPS'] if ENV['APP_ALLOW_POPUPS']
-                               desired_capabilities[:shutdownOtherSimulators] = ENV['SHUTDOWN_OTHER_SIMS'] if ENV['SHUTDOWN_OTHER_SIMS']
-                               desired_capabilities[:forceSimulatorSoftwareKeyboardPresence] = ENV['SHOW_SIM_KEYBOARD'] if ENV['SHOW_SIM_KEYBOARD']
+                               desired_capabilities[:'appium:safariIgnoreFraudWarning'] = ENV['APP_IGNORE_FRAUD_WARNING'] if ENV['APP_IGNORE_FRAUD_WARNING']
+                               desired_capabilities[:'appium:safariInitialUrl'] = ENV['APP_INITIAL_URL'] if ENV['APP_INITIAL_URL']
+                               desired_capabilities[:'appium:safariAllowPopups'] = ENV['APP_ALLOW_POPUPS'] if ENV['APP_ALLOW_POPUPS']
+                               desired_capabilities[:'appium:shutdownOtherSimulators'] = ENV['SHUTDOWN_OTHER_SIMS'] if ENV['SHUTDOWN_OTHER_SIMS']
+                               desired_capabilities[:'appium:forceSimulatorSoftwareKeyboardPresence'] = ENV['SHOW_SIM_KEYBOARD'] if ENV['SHOW_SIM_KEYBOARD']
 
-                               desired_capabilities[:autoAcceptAlerts] = ENV['AUTO_ACCEPT_ALERTS'] if ENV['AUTO_ACCEPT_ALERTS']
-                               desired_capabilities[:autoDismissAlerts] = ENV['AUTO_DISMISS_ALERTS'] if ENV['AUTO_DISMISS_ALERTS']
-                               desired_capabilities[:isHeadless] = ENV['HEADLESS'] if ENV['HEADLESS']
+                               desired_capabilities[:'appium:autoAcceptAlerts'] = ENV['AUTO_ACCEPT_ALERTS'] if ENV['AUTO_ACCEPT_ALERTS']
+                               desired_capabilities[:'appium:autoDismissAlerts'] = ENV['AUTO_DISMISS_ALERTS'] if ENV['AUTO_DISMISS_ALERTS']
+                               desired_capabilities[:'appium:isHeadless'] = ENV['HEADLESS'] if ENV['HEADLESS']
 
-                               desired_capabilities[:newCommandTimeout] = ENV['NEW_COMMAND_TIMEOUT'] if ENV['NEW_COMMAND_TIMEOUT']
-                               desired_capabilities[:noReset] = ENV['APP_NO_RESET'] if ENV['APP_NO_RESET']
-                               desired_capabilities[:fullReset] = ENV['APP_FULL_RESET'] if ENV['APP_FULL_RESET']
-                               desired_capabilities[:webkitDebugProxyPort] = ENV['WEBKIT_DEBUG_PROXY_PORT'] if ENV['WEBKIT_DEBUG_PROXY_PORT']
-                               desired_capabilities[:webDriverAgentUrl] = ENV['WEBDRIVER_AGENT_URL'] if ENV['WEBDRIVER_AGENT_URL']
-                               desired_capabilities[:usePrebuiltWDA] = ENV['USE_PREBUILT_WDA'] if ENV['USE_PREBUILT_WDA']
-                               desired_capabilities[:useNewWDA] = ENV['USE_NEW_WDA'] if ENV['USE_NEW_WDA']
-                               desired_capabilities[:chromedriverExecutable] = ENV['CHROMEDRIVER_EXECUTABLE'] if ENV['CHROMEDRIVER_EXECUTABLE']
+                               desired_capabilities[:'appium:newCommandTimeout'] = ENV['NEW_COMMAND_TIMEOUT'] if ENV['NEW_COMMAND_TIMEOUT']
+                               desired_capabilities[:'appium:noReset'] = ENV['APP_NO_RESET'] if ENV['APP_NO_RESET']
+                               desired_capabilities[:'appium:fullReset'] = ENV['APP_FULL_RESET'] if ENV['APP_FULL_RESET']
+                               desired_capabilities[:'appium:webkitDebugProxyPort'] = ENV['WEBKIT_DEBUG_PROXY_PORT'] if ENV['WEBKIT_DEBUG_PROXY_PORT']
+                               desired_capabilities[:'appium:webDriverAgentUrl'] = ENV['WEBDRIVER_AGENT_URL'] if ENV['WEBDRIVER_AGENT_URL']
+                               desired_capabilities[:'appium:usePrebuiltWDA'] = ENV['USE_PREBUILT_WDA'] if ENV['USE_PREBUILT_WDA']
+                               desired_capabilities[:'appium:useNewWDA'] = ENV['USE_NEW_WDA'] if ENV['USE_NEW_WDA']
+                               desired_capabilities[:'appium:chromedriverExecutable'] = ENV['CHROMEDRIVER_EXECUTABLE'] if ENV['CHROMEDRIVER_EXECUTABLE']
                                # set wdaLocalPort (iOS) or systemPort (Android) if PARALLEL_PORT is true
                                if ENV['PARALLEL'] && ENV['PARALLEL_PORT']
                                  # :nocov:
                                  if Environ.device_os == :ios
-                                   desired_capabilities[:wdaLocalPort] = 8100 + ENV['TEST_ENV_NUMBER'].to_i
+                                   desired_capabilities[:'appium:wdaLocalPort'] = 8100 + ENV['TEST_ENV_NUMBER'].to_i
                                  else
-                                   desired_capabilities[:systemPort] = 8200 + ENV['TEST_ENV_NUMBER'].to_i
+                                   desired_capabilities[:'appium:systemPort'] = 8200 + ENV['TEST_ENV_NUMBER'].to_i
                                  end
                                  # :nocov:
                                else
-                                 desired_capabilities[:wdaLocalPort] = ENV['WDA_LOCAL_PORT'] if ENV['WDA_LOCAL_PORT']
-                                 desired_capabilities[:systemPort]   = ENV['SYSTEM_PORT'] if ENV['SYSTEM_PORT']
+                                 desired_capabilities[:'appium:wdaLocalPort'] = ENV['WDA_LOCAL_PORT'] if ENV['WDA_LOCAL_PORT']
+                                 desired_capabilities[:'appium:systemPort']   = ENV['SYSTEM_PORT'] if ENV['SYSTEM_PORT']
                                end
                                desired_capabilities
                              else
                                Environ.device_os = @capabilities[:platformName]
-                               Environ.device_os_version = @capabilities[:platformVersion]
-                               Environ.device_name = @capabilities[:deviceName]
+                               Environ.device_os_version = @capabilities[:'appium:platformVersion']
+                               Environ.device_name = @capabilities[:'appium:deviceName']
                                @capabilities
                              end
       # specify endpoint url
       @endpoint = 'http://localhost:4723/wd/hub' if @endpoint.nil?
 
-      Capybara.register_driver driver_name do |app|
-        all_options = {
+      Capybara.register_driver(driver_name) do |app|
+        Appium::Capybara::Driver.new(
+          app,
+          capabilities: desired_capabilities,
           appium_lib: { server_url: @endpoint },
-          caps:       desired_capabilities
-        }
-        Appium::Capybara::Driver.new(app, all_options)
+          global_driver: false
+        )
       end
       Capybara.default_driver = Environ.driver_name
     end

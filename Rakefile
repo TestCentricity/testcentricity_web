@@ -63,6 +63,12 @@ Cucumber::Rake::Task.new(:ios_remote) do |t|
 end
 
 
+desc 'Run Cucumber features on Android simulator'
+Cucumber::Rake::Task.new(:android_remote) do |t|
+  t.profile = 'android_remote'
+end
+
+
 desc 'Run required Cucumber features on local web browsers'
 task :required_cukes do
   %w[chrome_local chrome_headless firefox_local firefox_headless edge_local edge_headless ipad_pro_12_local].each do |profile|
@@ -122,7 +128,7 @@ task all_specs: [:required_specs, :multi_driver_spec, :docker_grid_specs, :mobil
 
 
 desc 'Run all specs and Cucumber features'
-task all: [:required, :multi_driver_spec, :browserstack_specs, :safari_local, :grid, :mobile]
+task all: [:required, :multi_driver_spec, :browserstack_specs, :safari_local, :docker_grid_specs, :mobile]
 
 
 desc 'Update HTML docs'

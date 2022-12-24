@@ -20,7 +20,7 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
     end
   end
 
-  context 'Connect to Selenium Grid hosted desktop web browsers using desired_capabilities hash' do
+  context 'Connect to Selenium Grid hosted desktop web browsers using W3C desired_capabilities hash' do
     context 'grid web browser instances' do
       it 'connects to a grid hosted Firefox browser' do
         caps = {

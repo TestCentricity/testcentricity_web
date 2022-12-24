@@ -5,9 +5,9 @@
 
 
 The TestCentricity™ Web core framework for desktop and mobile web browser-based app testing implements a Page Object Model
-DSL for use with Cucumber (version 7.x or greater), Capybara (version 3.37), and Selenium-Webdriver (version 4.3). It also
-facilitates the configuration of the appropriate Selenium-Webdriver capabilities required to establish a connection with a
-local or cloud hosted desktop or mobile web browser.
+DSL for use with Cucumber (version 7.x or greater), Capybara (version 3.38), and Selenium-Webdriver (version 4.7). It also
+facilitates the configuration of the appropriate Selenium-Webdriver capabilities required to establish connections with
+local or cloud hosted desktop or mobile web browsers.
 
 The TestCentricity™ Web gem supports connecting to, and running automated tests against the following target web browsers:
 * locally hosted desktop browsers (Chrome, Edge, Firefox, Safari, or IE)
@@ -15,7 +15,7 @@ The TestCentricity™ Web gem supports connecting to, and running automated test
 * remote desktop and emulated mobile web browsers hosted on Selenium Grid 4 and Dockerized Selenium Grid 4 environments
 * mobile Safari browsers on iOS device simulators or physical iOS devices (using Appium and XCode on macOS)
 * mobile Chrome or Android browsers on Android Studio virtual device emulators (using Appium and Android Studio on macOS)
-* cloud hosted desktop (Firefox, Chrome, Safari, IE, or Edge) or mobile (iOS Mobile Safari or Android) web browsers using the following service:
+* cloud hosted desktop (Firefox, Chrome, Safari, IE, or Edge) or mobile (iOS Mobile Safari or Android Chrome) web browsers using the following service:
   * [Browserstack](https://www.browserstack.com/list-of-browsers-and-platforms?product=automate)
   * [Sauce Labs](https://saucelabs.com/open-source#automated-testing-platform)
   * [TestingBot](https://testingbot.com/features)
@@ -37,8 +37,8 @@ can be found [here](https://github.com/TestCentricity/tc_web_sample).
 
 ## Installation
 
-TestCentricity Web version 4.1 and above requires Ruby 2.7.5 or later. To install the TestCentricity Web gem, add this line
-to your automation project's Gemfile:
+TestCentricity Web version 4.1 and above requires Ruby 2.7.5 or later. TestCentricity Web is built and tested to support
+Ruby 2.7.5 to 3.0.0. To install the TestCentricity Web gem, add this line to your automation project's Gemfile:
 
     gem 'testcentricity_web'
 
@@ -71,7 +71,7 @@ If you are using RSpec instead, you need to require the following in your `spec_
 
 ### Using Appium
 
-If you will be running your tests on mobile Safari browsers on simulated iOS devices using Appium and XCode Simulators, you
+If you will be running your tests on mobile web browsers on simulated or physical iOS or Android devices using Appium, you
 need to require the following in your `env.rb` and/or `spec_helper.rb` file:
 
     require 'appium_capybara'
@@ -311,12 +311,14 @@ in a web app. It is a collection of **UI Elements** that represent a conceptual 
 bar, a search capability, or a menu. **UI Elements** and functional behavior are confined to the scope of a `PageSection`
 object.
 
-<img src="https://i.imgur.com/BTgi59R.jpg" alt="Navigation Header" title="Navigation Header">
+![Navigation Header](./images/NavBar1.jpg "Navigation Header")
+ -
 
-<img src="https://i.imgur.com/dkxloE5.jpg" alt="Navigation Header" title="Navigation Header">
+![Navigation Header](./images/NavBar2.jpg "Navigation Header")
+ -
 
-<img src="https://i.imgur.com/Yqgw4sP.jpg" alt="User Profile Popup" title="User Profile Popup">
-
+![User Profile Popup](./images/UserProfilePopup.jpg "User Profile Popup")
+ -
 
 A `PageSection` may contain other `PageSection` objects.
 
@@ -934,75 +936,82 @@ instantiated. The code snippet below demonstrates the use of the `Radio.define_c
 methods to resolve the testability issues posed by the adorned **Roundtrip** and **One-way** radio buttons and the **Flexible dates**
 checkbox.
 
-    class FlightBookingPage < TestCentricity::PageObject
-      trait(:page_name)    { 'Flight Booking Home' }
-      trait(:page_locator) { "div[class*='bookerContainer']" }
-      
-      # Flight Booking page UI elements
-      radios   roundtrip_radio: "label[for='roundtrip']",
-               one_way_radio:   "label[for='oneway']"
-      checkbox :flexible_check, 'input#flexibleDates'
-      
+    class CustomControlsPage < TestCentricity::PageObject
+      trait(:page_name)    { 'Custom Controls' }
+      trait(:page_locator) { 'div.custom-controls-page-body' }
+
+      # Custom Controls page UI elements
+        checkboxes pork_check:    'label[for="check1"]',
+                   beef_check:    'label[for="check2"]',
+                   chicken_check: 'label[for="check3"]',
+                   shrimp_check:  'label[for="check4"]'
+        radios     mild_radio:    'label[for="radio1"]',
+                   spicey_radio:  'label[for="radio2"]',
+                   hot_radio:     'label[for="radio3"]',
+                   flaming_radio: 'label[for="radio4"]'
+
       def initialize
-        # define the custom element components for the Round Trip and One Way radio buttons
-        radio_spec = { input: "input[type='radio']" }
-        roundtrip_radio.define_custom_elements(radio_spec)
-        one_way_radio.define_custom_elements(radio_spec)
-        # define the custom element components for the Flexible Date checkbox
-        check_spec = { proxy: 'label#flexDatesLabel' }
-        flexible_check.define_custom_elements(check_spec)
+        # define the custom element components for the checkboxes
+        check_spec = { input: 'input[type="checkbox"]' }
+        pork_check.define_custom_elements(check_spec)
+        beef_check.define_custom_elements(check_spec)
+        chicken_check.define_custom_elements(check_spec)
+        shrimp_check.define_custom_elements(check_spec)
+        # define the custom element components for the radios
+        radio_spec = { input: 'input[type="radio"]' }
+        mild_radio.define_custom_elements(radio_spec)
+        spicey_radio.define_custom_elements(radio_spec)
+        hot_radio.define_custom_elements(radio_spec)
+        flaming_radio.define_custom_elements(radio_spec)
       end
     end
 
 
 #### SelectList UIElements
 
-The basic HTML `select` element is typically composed of the parent `select` object, and one or more `option` elements representing
-the selectable items in the drop-down list. However, `select` type controls implemented using JS component libraries can be composed
-of multiple elements representing the various components of a drop-down style `selectlist` implementation.
+The basic HTML `select` element is typically composed of the parent `select` object, and one or more `option` elements
+representing the selectable items in the drop-down list. However, `select` type controls implemented using JS component
+libraries (React.js, Chosen, GWT, etc.) can be composed of multiple elements representing the various components of a
+drop-down style `selectlist` implementation.
 
-In the screenshots below of an airline flight search and booking page, there are no `select` or `option` elements associated with the
-**Month**, **Day**, and **Cabin Type** drop-down style selectors. An inspection of the **Month** selector reveals that it is a `div`
-element that contains a `button` element (outlined in red) for triggering the drop-down list, a `ul` element (outlined in green) that
-contains the drop-down list, and multiple `li` elements (outlined in blue) that represent the list items or options that can be
-selected. The currently selected item or option can be identified by either the `listBoxOptionSelected` snippet in its `class` name or
-the `aria-selected` attribute (outlined in orange).
-
-Further examination of the **Day** and **Cabin Type** drop-down style selectors reveal that their composition is identical to the
-**Month** selector.
-
-<img src="https://i.imgur.com/LYAC2lh.jpg" alt="Custom SelectList" title="Custom SelectList">
+In the screenshots below, an inspection of the **Teams** selector reveals that it is a `div` element that contains a
+`textfield` element (outlined in purple) for inputting a selection by typing, a `ul` element (outlined in blue) that
+contains the drop-down list, and multiple `li` elements with the `active-result` snippet in their `class` names (outlined
+in orange) that represent the list items or options that can be selected. The currently selected item or option can be
+identified by an `li` with the `result-selected` snippet in its `class` name. Group headings and items in the drop-down
+list are represented by `li` elements with a `class` name of `group-result` (outlined in green).
 
 
-The `SelectList.define_list_elements` method provides a means of specifying the various elements that make up the key components of
-a `selectlist` control. The method accepts a hash of element designators (key) and a CSS or Xpath expression (value) that expression
-that uniquely identifies the element. Valid element designators are `list_item:`, `options_list:`, `list_trigger:`, `selected_item:`,
-`text_field:`, `group_heading:`, and `group_item:`.
+![Custom SelectList](./images/CustomSelectList.jpg "Custom SelectList")
 
-The code snippet below demonstrates the use of the `SelectList.define_list_elements` method to define the common components that make
-up the **Month**, **Day**, and **Cabin Type** drop-down style selectors. Note the use of the ARIA `role` and `aria-selected` attributes
-as element locators.
 
-    class FlightBookingPage < TestCentricity::PageObject
-      trait(:page_name)    { 'Flight Booking Home' }
-      trait(:page_locator) { "div[class*='bookerContainer']" }
-      
-      # Flight Booking page UI elements
-      selectlists month_select:      "div[class*='expandFlexMonth']",
-                  duration_select:   "div[class*='expandFlexDay']",
-                  cabin_type_select: "div[class*='bookFlightForm__optionField'] > div[class*='app-components-ListBox']"
+The `SelectList.define_list_elements` method provides a means of specifying the various elements that make up the key
+components of a `selectlist` control. The method accepts a hash of element designators (key) and a CSS or Xpath expression
+(value) that uniquely identifies the element. Valid element designators are `:list_item`, `:options_list`, `:list_trigger`,
+`:selected_item`, `:text_field`, `:group_heading`, and `:group_item`.
+
+The code snippet below demonstrates the use of the `SelectList.define_list_elements` method to define the common components
+that make up the **Teams** drop-down style selector.
+
+    class CustomControlsPage < TestCentricity::PageObject
+      trait(:page_name)    { 'Custom Controls' }
+      trait(:page_locator) { 'div.custom-controls-page-body' }
+
+      # Custom Controls page UI elements
+      selectlist :team_select, 'div#team_chosen'
 
       def initialize
-        # define the custom list element components for the Month, Duration, and Cabin Type selectlist objects
+        super
+        # define the custom list element components for the Team Chosen selectlists
         list_spec = {
-          selected_item: "li[aria-selected=true]",
-          options_list:  "ul[role='listbox']",
-          list_item:     "li[role='option']",
-          list_trigger:  "button[role='combobox']"
+          selected_item: 'li[class*="result-selected"]',
+          list_item:     'li[class*="active-result"]',
+          text_field:    'input.chosen-search-input',
+          options_list:  'ul.chosen-results',
+          group_item:    'li.group-result',
+          group_heading: 'li.group-result'
         }
-        month_select.define_list_elements(list_spec)
-        duration_select.define_list_elements(list_spec)
-        cabin_type_select.define_list_elements(list_spec)
+        team_select.define_list_elements(list_spec)
       end
     end
 
@@ -1013,16 +1022,16 @@ The basic HTML list is typically composed of the parent `ul` object, and one or 
 in the list. However, list controls implemented using JS component libraries can be composed of multiple elements representing
 the components of a list implementation.
 
-The `List.define_list_elements` method provides a means of specifying the elements that make up the key components of a `list`
-control. The method accepts a hash of element designators (key) and a CSS or Xpath expression (value) that expression that
-uniquely identifies the element. Valid element designators are `list_item:`and `selected_item:`.
+The `List.define_list_elements` method provides a means of specifying the elements that make up the key components of a
+`list` control. The method accepts a hash of element designators (key) and a CSS or Xpath expression (value) that expression
+that uniquely identifies the element. Valid element designators are `:list_item`and `:selected_item`.
 
 
 ## Instantiating your PageObjects
 
-Before you can call the methods in your `PageObjects` and `PageSections`, you must instantiate the `PageObjects` of your web
-application, as well as create instance variables which can be used when calling a `PageObject`'s methods from your step
-definitions. There are several ways to instantiate your `PageObjects`.
+Before you can call the methods in your `PageObjects` and `PageSections`, you must instantiate the `PageObjects` of your
+web application, as well as create instance variables which can be used when calling a `PageObject`'s methods from your
+step definitions. There are several ways to instantiate your `PageObjects`.
 
 One common implementation is shown below:
 
@@ -1030,34 +1039,34 @@ One common implementation is shown below:
       def login_page
         @login_page ||= LoginPage.new
       end
-    
+
       def home_page
         @home_page ||= HomePage.new
       end
-    
+
       def registration_page
         @registration_page ||= RegistrationPage.new
       end
-    
+
       def search_results_page
         @search_results_page ||= SearchResultsPage.new
       end
     end
-        
+
     World(WorldPages)
 
-The `WorldPages` module above can be defined in your `env.rb` file, or you can define it in a separate `world_pages.rb` file
-in the `features/support` folder.
+The `WorldPages` module above can be defined in your `env.rb` file, or you can define it in a separate `world_pages.rb`
+file in the `features/support` folder.
 
 While this approach is effective for small web applications with only a few pages (and hence few `PageObjects`), it quickly
 becomes cumbersome to manage if your web application has dozens of `PageObjects` that need to be instantiated and managed.
 
 ### Using the PageManager
 
-The `PageManager` class provides methods for supporting the instantiation and management of `PageObjects`. In the code example
-below, the `page_objects` method contains a hash table of your `PageObject` instances and their associated `PageObject` classes
-to be instantiated by `PageManager`:
-    
+The `PageManager` class provides methods for supporting the instantiation and management of `PageObjects`. In the code
+example below, the `page_objects` method contains a hash table of your `PageObject` instances and their associated
+`PageObject` classes to be instantiated by `PageManager`:
+
     module WorldPages
       def page_objects
         {
@@ -1080,25 +1089,26 @@ to be instantiated by `PageManager`:
         }
       end
     end
-    
+
     World(WorldPages)
 
     
 The `WorldPages` module above should be defined in the `world_pages.rb` file in the `features/support` folder.
 
-Include the code below in your `env.rb` file to ensure that your `PageObjects` are instantiated before your Cucumber scenarios
-are executed:
-    
+Include the code below in your `env.rb` file to ensure that your `PageObjects` are instantiated before your Cucumber
+scenarios are executed:
+
     include WorldPages
     WorldPages.instantiate_page_objects
-    
-**NOTE:** If you intend to use the `PageManager`, you must define a `page_name` trait for each of the `PageObjects` to be registered.
+
+**NOTE:** If you intend to use the `PageManager`, you must define a `page_name` trait for each of the `PageObjects` to
+be registered.
 
 
 ### Leveraging the PageManager in your Cucumber tests
 
-Many Cucumber based automated tests suites include scenarios that verify that web pages are correctly loaded, displayed, or
-can be navigated to by clicking associated links. One such Cucumber navigation scenario is displayed below:
+Many Cucumber based automated tests suites include scenarios that verify that web pages are correctly loaded, displayed,
+or can be navigated to by clicking associated links. One such Cucumber navigation scenario is displayed below:
 
     Scenario Outline:  Verify Home page navigation links
       Given I am on the Home page
@@ -1114,8 +1124,8 @@ can be navigated to by clicking associated links. One such Cucumber navigation s
         |FAQs               |
         |Contact Us         |
 
-In the above example, the step definitions associated with the 3 steps might be implemented using a `page_dispatcher` method
-using a `case` statement to parse the `page` parameter as in the example below:
+In the above example, the step definitions associated with the 3 steps might be implemented using a `page_dispatcher`
+method using a `case` statement to parse the `page` parameter as in the example below:
 
     Given(/^I am on the (.*) page$/) do |page_name|
       target_page = page_dispatcher(page_name)
@@ -1154,15 +1164,15 @@ using a `case` statement to parse the `page` parameter as in the example below:
       end
 
 
-While this approach may be effective for small web applications with only a few pages (and hence few `PageObjects`), it quickly
-becomes cumbersome to manage if your web application has dozens of `PageObjects` that need to be managed.
+While this approach may be effective for small web applications with only a few pages (and hence few `PageObjects`), it
+quickly becomes cumbersome to manage if your web application has dozens of `PageObjects` that need to be managed.
 
-The `PageManager` class provides a `find_page` method that replaces the cumbersome and difficult to maintain `case` statement
-used in the above example. The `PageManager.current_page` method allows you to set or get an instance of the currently active
-Page Object.
+The `PageManager` class provides a `find_page` method that replaces the cumbersome and difficult to maintain `case`
+statement used in the above example. The `PageManager.current_page` method allows you to set or get an instance of the
+currently active Page Object.
 
-To use these `PageManager` methods, include the step definitions and code below in a `page_steps.rb` or `generic_steps.rb` file
-in the `features/step_definitions` folder:
+To use these `PageManager` methods, include the step definitions and code below in a `page_steps.rb` or `generic_steps.rb`
+file in the `features/step_definitions` folder:
 
     include TestCentricity
     
@@ -1192,8 +1202,8 @@ in the `features/step_definitions` folder:
 ## Connecting to a Web Browser
 
 The `TestCentricity::WebDriverConnect.initialize_web_driver` method configures the appropriate Selenium-Webdriver capabilities
-required to establish a connection with a target web browser, and sets the base host URL of the web site you are running your
-tests against.
+required to establish a connection with a single target web browser, and sets the base host URL of the web site you are running
+your tests against.
 
 The `TestCentricity::WebDriverConnect.initialize_web_driver` method accepts a single optional parameter - the base host URL.
 Cucumber **Environment Variables** are used to specify the target local or remote web browser, and the various webdriver
@@ -1335,10 +1345,10 @@ either `portrait` or `landscape`.
 Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
 
 
-#### User defined mobile device profiles
+#### User defined emulated mobile browser profiles
 
-User defined mobile device profiles can be specified in a `device.yml` file for testing locally hosted emulated mobile web
-browsers running in an instance of the Chrome desktop browser. The user specified device profiles must be located at
+User defined mobile browser profiles can be specified in a `device.yml` file for testing locally hosted emulated mobile web
+browsers running in an instance of the Chrome desktop browser. The user specified browser profiles must be located at
 `config/data/devices/devices.yml` as depicted below:
 
     my_automation_project
@@ -1354,7 +1364,7 @@ browsers running in an instance of the Chrome desktop browser. The user specifie
         ├── Gemfile
         └── README.md
 
-The format for a new device profile is:
+The format for a new mobile browser profile is:
 ```
   :new_device_profile:
     :name: "New Device Name"
@@ -1951,7 +1961,7 @@ area sub-folders as needed. Likewise, `PageSection` class definitions should be 
 
 ## Web Test Automation Framework Implementation
 
- <img src="https://i.imgur.com/lCT9HbK.jpg" alt="TestCentricity Web Framework Overview" title="TestCentricity Web Framework Overview">
+![TestCentricity Web Framework Overview](./images/tc_overview.jpg "TestCentricity Web Framework Overview")
 
 
 
