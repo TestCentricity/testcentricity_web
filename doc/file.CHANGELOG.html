@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: CHANGELOG
+  
+    &mdash; Documentation by YARD 0.9.28
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "CHANGELOG";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: CHANGELOG</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="changelog">CHANGELOG</h1>
+
+<p>All notable changes to this project will be documented in this file.</p>
+
+<h2 id="4-4-0-18-jan-2023">[4.4.0] - 18-JAN-2023</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added support for connecting to, and switching between multiple WebDriver or Appium connected desktop and/or mobile web
+browsers by utilizing the following new methods:
+
+<ul>
+<li><code>WebDriverConnect.initialize_driver</code></li>
+<li><code>WebDriverConnect.active_driver</code></li>
+<li><code>WebDriverConnect.close_all_drivers</code></li>
+</ul></li>
+<li>Added support for web page scrolling by utilizing the following methods:
+
+<ul>
+<li><code>Browsers.scroll_to_bottom</code></li>
+<li><code>Browsers.scroll_to_top</code></li>
+<li><code>Browsers.scroll_to</code></li>
+</ul></li>
+</ul>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>WebDriverConnect.initialize_web_driver</code> method now accepts an optional <code>options</code> hash for specifying desired capabilities
+(using W3C protocol), driver, driver name, endpoint, app host, device type, and browser window size information.</li>
+<li>The <code>HOST_BROWSER</code> Environment Variable is no longer required to support emulated mobile web browsers.</li>
+<li>TestCentricity now supports and integrates with Selenium-Webdriver version 4.7 and Capybara version 3.38.</li>
+</ul>
+
+<h2 id="4-3-1-19-august-2022">[4.3.1] - 19-AUGUST-2022</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added support for connecting to remote mobile browsers on iOS simulators and Android emulators on the TestingBot service.</li>
+</ul>
+
+<h2 id="4-3-0-01-august-2022">[4.3.0] - 01-AUGUST-2022</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li><p>The <code>DRIVER</code> Environment Variable is now used to specify the <code>appium</code>, <code>browserstack</code>, <code>saucelabs</code>, <code>testingbot</code>,
+or <code>lambdatest</code> driver.</p></li>
+<li><h3 id="changed">Changed</h3></li>
+<li><p>The <code>WEB_BROWSER</code> Environment Variable is no longer used to specify the <code>appium</code>, <code>browserstack</code>, <code>saucelabs</code>, <code>testingbot</code>,
+or <code>lambdatest</code> driver.</p></li>
+<li><p>TestCentricity now supports and integrates with Selenium-Webdriver version 4.3.</p></li>
+</ul>
+
+<h2 id="4-2-6-12-june-2022">[4.2.6] - 12-JUNE-2022</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>Fix <code>gemspec</code> to no longer include specs and cuke tests as part of deployment package for gem.</li>
+</ul>
+
+<h2 id="4-2-5-10-june-2022">[4.2.5] - 10-JUNE-2022</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<p>*<code>WebDriverConnect.initialize_web_driver</code> method no longer raises <code>No such file or directory @ dir_s_mkdir</code> error due to
+missing <code>Downloads</code> folder when running tests in parallel.</p>
+
+<h2 id="4-2-4-02-june-2022">[4.2.4] - 02-JUNE-2022</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>UIElement.wait_until_enabled</code> method</li>
+</ul>
+
+<h2 id="4-2-3-01-june-2022">[4.2.3] - 01-JUNE-2022</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>UIElement.wait_while_busy</code> method</li>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to support verification of <code>aria_busy</code> attribute.</li>
+</ul>
+
+<h2 id="4-2-2-21-may-2022">[4.2.2] - 21-MAY-2022</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>Update default version of Appium used when running tests on Sauce Labs service.</li>
+<li>Refactored capabilities definition when running with locally hosted Appium instance.</li>
+</ul>
+
+<h2 id="4-2-1-23-apr-2022">[4.2.1] - 23-APR-2022</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added the following <code>Audio</code>, <code>Media</code>, and <code>Video</code> methods to support verification of media text tracks (subtitles, captions,
+chapters, descriptions, or metadata):
+
+<ul>
+<li><code>track_count</code></li>
+<li><code>active_track</code></li>
+<li><code>active_track_data</code></li>
+<li><code>all_tracks_data</code></li>
+<li><code>track_data</code></li>
+<li><code>active_track_source</code></li>
+<li><code>track_source</code></li>
+</ul></li>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to support verification of the following
+<code>Media</code> properties:
+
+<ul>
+<li><code>:track_count</code></li>
+<li><code>:active_track</code></li>
+<li><code>:active_track_data</code></li>
+<li><code>:all_tracks_data</code></li>
+<li><code>:track_data</code></li>
+<li><code>:active_track_source</code></li>
+<li><code>:track_source</code></li>
+</ul></li>
+</ul>
+
+<h2 id="4-2-0-20-apr-2022">[4.2.0] - 20-APR-2022</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li><code>TextField.validation_message</code> and <code>TextField.validity?</code> methods added.</li>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to support verification of the following
+<code>TextField.validity?</code> properties:
+
+<ul>
+<li><code>:badInput</code></li>
+<li><code>:customError</code></li>
+<li><code>:patternMismatch</code></li>
+<li><code>:rangeOverflow</code></li>
+<li><code>:rangeUnderflow</code></li>
+<li><code>:stepMismatch</code></li>
+<li><code>:tooLong</code></li>
+<li><code>:tooShort</code></li>
+<li><code>:typeMismatch</code></li>
+<li><code>:valid</code></li>
+<li><code>:valueMissing</code></li>
+</ul></li>
+</ul>
+
+<h2 id="4-1-10-19-apr-2022">[4.1.10] - 19-APR-2022</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li><code>PageObject.set_verify_focus</code> and <code>PageSection.set_verify_focus</code> methods now correctly return the <code>id</code> of the UI element
+that unexpectedly has focus during an exception.</li>
+<li>Rolled back <code>require_all</code> gem version to 1.5.0 in gemspec development dependencies due to <code>RequireAll::LoadError</code> when
+running gem test specs and features.</li>
+</ul>
+
+<h2 id="4-1-9-18-apr-2022">[4.1.9] - 18-APR-2022</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li><code>PageSection.radio</code> no longer returns <code>wrong number of arguments</code> error.</li>
+<li><code>PageObject.populate_data_fields</code> and <code>PageSection.populate_data_fields</code> methods no longer skip setting checkboxes or
+radio buttons to the unchecked state.</li>
+</ul>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li><code>CheckBox.define_custom_elements</code> and <code>Radio.define_custom_elements</code> methods now support specifying a child <code>input</code> component
+contained by a top level <code>label</code> element.</li>
+</ul>
+
+<h2 id="4-1-8-31-mar-2022">[4.1.8] - 31-MAR-2022</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li><code>Image.loaded?</code> now correctly returns a <code>Boolean</code> value instead of a <code>String</code>.</li>
+<li><code>Video.video_height</code> and <code>Video.video_width</code> now correctly returns an <code>Integer</code> value instead of a <code>String</code>.</li>
+<li><code>UIElement.scroll_to</code> now works for all supported browsers.</li>
+</ul>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>UIElement.crossorigin</code> is no longer limited to <code>Audio</code> and <code>Video</code> objects.</li>
+</ul>
+
+<h2 id="4-1-7-28-mar-2022">[4.1.7] - 28-MAR-2022</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li><code>CheckBox.set_checkbox_state</code> and <code>Radio.set_selected_state</code> work on iOS simulators again.</li>
+</ul>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>Audio.playback_rate</code> and <code>Video.playback_rate</code> now return value as a <code>Float</code> instead of a <code>String</code>.</li>
+<li><code>Audio.default_playback_rate</code> and <code>Video.default_playback_rate</code> now return value as a <code>Float</code> instead of a <code>String</code>.</li>
+<li><code>Audio.current_time</code> and <code>Video.current_time</code> now return value as a <code>Float</code> rounded to two decimal places.</li>
+<li><code>Audio.duration</code> and <code>Video.duration</code> now return value as a <code>Float</code> rounded to two decimal places.</li>
+</ul>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li><code>Audio.mute</code> and <code>Video.mute</code> methods added.</li>
+<li><code>Audio.unmute</code> and <code>Video.unmute</code> methods added.</li>
+<li><code>Audio.playback_rate</code> and <code>Video.playback_rate</code> now accept a <code>Float</code> value as an input for setting the playback rate
+of media.</li>
+<li><code>Audio.volume</code> and <code>Video.volume</code> now accept a <code>Float</code> value between 0 and 1 as an input for setting the volume of media.</li>
+</ul>
+
+<h2 id="4-1-6-21-mar-2022">[4.1.6] - 21-MAR-2022</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li><code>PageObject.verify_page_exists</code> now works with <code>page_locator</code> traits expressed in Xpath format, and no longer fails with a
+<code>invalid selector: An invalid or illegal selector was specified - Selenium::WebDriver::Error::InvalidSelectorError</code> error.</li>
+</ul>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li><code>UIElement.required?</code> method added.</li>
+<li><code>PageObject.populate_data_fields</code> and <code>PageSection.populate_data_fields</code> methods now work with the following:
+
+<ul>
+<li><code>input(type=&#39;color&#39;)</code> color picker controls if they are specified as a <code>textfield</code> type element.</li>
+<li><code>input(type=&#39;range&#39;)</code> slider controls if they are specified as a <code>range</code> type element.</li>
+<li><code>input(type=&#39;file&#39;)</code> file upload controls if they are specified as a <code>filefield</code> type element.</li>
+</ul></li>
+</ul>
+
+<h2 id="4-1-5-15-mar-2022">[4.1.5] - 15-MAR-2022</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li><code>SelectList.selected?</code> now correctly returns selected value for custom <code>selectlist</code> controls.</li>
+</ul>
+
+<h3 id="updated">Updated</h3>
+
+<ul>
+<li>Updated HTML documentation.</li>
+</ul>
+
+<h2 id="4-1-4-09-mar-2022">[4.1.4] - 09-MAR-2022</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li><code>Environ.driver</code> is now correctly set to <code>:appium</code> when target test browser is running on iOS or Android simulators or physical devices.</li>
+</ul>
+
+<h2 id="4-1-3-08-mar-2022">[4.1.3] - 08-MAR-2022</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>Fixed <code>AppiumServer.start</code> so that it no longer times out after failing to start Appium.</li>
+</ul>
+
+<h3 id="updated">Updated</h3>
+
+<ul>
+<li>Updated docs regarding the <code>SHUTDOWN_OTHER_SIMS</code> Environment Variable when testing on iOS Simulators.</li>
+</ul>
+
+<h2 id="4-1-2-07-mar-2022">[4.1.2] - 07-MAR-2022</h2>
+
+<h3 id="updated">Updated</h3>
+
+<ul>
+<li>Updated HTML documentation.</li>
+</ul>
+
+<h2 id="4-1-1-03-mar-2022">[4.1.1] - 03-MAR-2022</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>W3C WebDriver-compliant sessions using Selenium version 4.x are now supported when using the BrowserStack, LambdaTest, TestingBot,
+and SauceLabs services.</li>
+<li>W3C WebDriver-compliant sessions are now supported when running against remote browsers hosted on Selenium Grid 4 and Dockerized Selenium 
+Grid 4 environments.</li>
+</ul>
+
+<h2 id="4-1-0-28-feb-2022">[4.1.0] - 28-FEB-2022</h2>
+
+<h3 id="removed">Removed</h3>
+
+<ul>
+<li>Support for CrossBrowserTesting and Gridlastic cloud hosted Selenium grids have been removed.</li>
+</ul>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>TestCentricity now supports and integrates with Selenium-Webdriver version 4.1.</li>
+<li>Added support for locally hosted Microsoft Edge desktop web browsers, including in <code>headless</code> mode.</li>
+<li>Added <code>CheckBox.define_custom_elements</code> and <code>Radio.define_custom_elements</code> methods to support abstracted UI implementations
+where the <code>input type=&quot;checkbox&quot;</code> or <code>input type=&quot;radio&quot;</code> object is hidden or obscured by a proxy object, typically a <code>label</code>.</li>
+<li>Added support for <code>shutdownOtherSimulators</code> and <code>forceSimulatorSoftwareKeyboardPresence</code> capabilities for iOS simulators
+when testing with Mobile Safari browser on iOS Simulators.</li>
+</ul>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>checkbox</code> and <code>radio</code> methods no longer accept an optional <code>proxy</code>. Calling the <code>checkbox</code> or <code>radio</code> methods with a <code>proxy</code>
+parameter will result in a <code>wrong number of arguments (given 3, expected 2) (ArgumentError)</code> exception. Use the <code>define_custom_elements</code>
+method to specify the locator for an associated <code>proxy</code> and/or <code>label</code> element. The <code>define_custom_elements</code> method can be
+called from an <code>initialize</code> method for the <code>PageObject</code> or <code>PageSection</code> where the <code>checkbox</code> or <code>radio</code> is instantiated.</li>
+<li>Ruby version 2.7 or greater required.</li>
+<li>Selenium-Webdriver version 4 or greater required.</li>
+</ul>
+
+<h2 id="4-0-3-30-dec-2021">[4.0.3] - 30-DEC-2021</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>Primary test data path has been changed from <code>features/test_data/</code> to <code>config/test_data/</code>.</li>
+</ul>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>No longer throws a <code>NoMethodError: undefined method &#39;World&#39; for main:Object</code> error when using RSpec.</li>
+</ul>
+
+<h2 id="4-0-0-18-apr-2021">[4.0.0] - 18-APR-2021</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>WebDriverConnect.initialize_web_driver</code> method now accepts an <code>options</code> hash as an optional parameter, which can be used to
+specify an optional base host URL and/or the desired Selenium-Webdriver capabilities required to establish a connection with
+a cloud hosted target web browser.</li>
+<li>User defined mobile device profiles can be specified in a <code>device.yml</code> file for testing locally hosted emulated mobile
+web browsers running in an instance of the Chrome desktop browser. The user specified device profiles must be located at 
+<code>config/data/devices/devices.yml</code>. Refer to the <strong>User defined mobile device profiles</strong> section of the <a href="index.html" title="README">README</a> file.</li>
+</ul>
+
+<h3 id="removed">Removed</h3>
+
+<ul>
+<li>Removed support for the following legacy UI elements:
+
+<ul>
+<li><code>CellElement</code></li>
+<li><code>CellButton</code></li>
+<li><code>CellCheckBox</code></li>
+<li><code>CellRadio</code></li>
+<li><code>CellImage</code></li>
+<li><code>ListElement</code></li>
+<li><code>ListButton</code></li>
+<li><code>ListCheckBox</code></li>
+</ul></li>
+<li>Removed support for Siebel Open UI objects. This includes removal of the following legacy methods:
+
+<ul>
+<li><code>CheckBox.set_siebel_checkbox_state</code></li>
+<li><code>SelectList.choose_siebel_option</code></li>
+<li><code>SelectList.get_siebel_options</code></li>
+<li><code>SelectList.verify_siebel_options</code></li>
+<li><code>SelectList.read_only?</code></li>
+<li><code>UIElement.invoke_siebel_dialog</code></li>
+<li><code>UIElement.invoke_siebel_popup</code></li>
+<li><code>UIElement.get_siebel_object_type</code></li>
+</ul></li>
+</ul>
+
+<h2 id="3-3-0-14-mar-2021">[3.3.0] - 14-MAR-2021</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li><code>WebDriverConnect.initialize_web_driver</code> method now correctly sets local Chrome browser Download directory when running
+with headless Chrome.</li>
+</ul>
+
+<h2 id="3-2-25-11-mar-2021">[3.2.25] - 11-MAR-2021</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>String.titlecase</code> method.</li>
+</ul>
+
+<h2 id="3-2-23-11-feb-2021">[3.2.23] - 11-FEB-2021</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to allow <code>:translate_upcase</code>,
+<code>:translate_downcase</code>, <code>:translate_capitalize</code>, and <code>:translate_titlecase</code> conversions to fall back to <code>:en</code> default
+locale if translated strings are missing from the current locale specified in <code>I18n.locale</code>.</li>
+</ul>
+
+<h2 id="3-2-22-09-feb-2021">[3.2.22] - 09-FEB-2021</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to correctly handle <code>:translate_upcase</code>,
+<code>:translate_downcase</code>, <code>:translate_capitalize</code>, and <code>:translate_titlecase</code> conversions for Arrays of <code>String</code>.</li>
+</ul>
+
+<h2 id="3-2-21-04-feb-2021">[3.2.21] - 04-FEB-2021</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>UIElement.hover_at</code> method now accepts an optional <code>visible</code> parameter to allow hovering over UI elements that are not
+visible.</li>
+</ul>
+
+<h2 id="3-2-20-21-jan-2021">[3.2.20] - 21-JAN-2021</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>UIElement.hover</code> method now accepts an optional <code>visible</code> parameter to allow hovering over UI elements that are not
+visible.</li>
+</ul>
+
+<h2 id="3-2-19-05-jan-2021">[3.2.19] - 05-JAN-2021</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li><code>SelectList.choose_option</code> and <code>SelectList.get_options</code> methods now wait up to 5 seconds for list drop menu to appear.</li>
+</ul>
+
+<h2 id="3-2-18-12-aug-2020">[3.2.18] - 12-AUG-2020</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to correctly handle <code>:row</code>, <code>:column</code>,
+<code>:cell</code>, <code>:item</code>, and <code>:attribute</code> properties.</li>
+</ul>
+
+<h2 id="3-2-17-19-june-2020">[3.2.17] - 19-JUNE-2020</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>Updated <code>Table.define_table_elements</code> method to accept value for <code>:row_header</code> element.</li>
+<li>Updated <code>Table.get_row_count</code>, <code>Table.get_column_count</code>, and <code>Table.get_table_cell_locator</code> methods to support tables
+with row headers in row #1.</li>
+</ul>
+
+<h2 id="3-2-16-13-may-2020">[3.2.16] - 13-MAY-2020</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>WebDriverConnect.initialize_web_driver</code> method now sets local Chrome and Firefox browser Download directory to separate
+folders for each parallel test thread when using <code>parallel_tests</code> gem to run tests in concurrent threads.</li>
+</ul>
+
+<h2 id="3-2-15-06-apr-2020">[3.2.15] - 06-APR-2020</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li><code>PageObject.populate_data_fields</code> and <code>PageSection.populate_data_fields</code> methods accept <code>String</code> or <code>Boolean</code> values
+for checkboxes and radio buttons.</li>
+</ul>
+
+<h2 id="3-2-14-06-apr-2020">[3.2.14] - 06-APR-2020</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>UIElement.scroll_to</code> method.</li>
+</ul>
+
+<h2 id="3-2-13-24-mar-2020">[3.2.13] - 24-MAR-2020</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>PageObject.send_keys</code> method.</li>
+</ul>
+
+<h2 id="3-2-12-11-mar-2020">[3.2.12] - 11-MAR-2020</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>UIElement.focused?</code> method.</li>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to support verification of the
+<code>focused</code> property.</li>
+</ul>
+
+<h2 id="3-2-11-10-mar-2020">[3.2.11] - 10-MAR-2020</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>PageSection.verify_focus_order</code> method.</li>
+</ul>
+
+<h2 id="3-2-10-09-mar-2020">[3.2.10] - 09-MAR-2020</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>PageObject.verify_focus_order</code> method.</li>
+</ul>
+
+<h2 id="3-2-9-12-feb-2020">[3.2.9] - 12-FEB-2020</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>Fixed <code>UIElement.wait_until_value_is</code>, <code>List.wait_until_item_count_is</code>, and <code>Table.wait_until_row_count_is</code>&#39; methods.</li>
+</ul>
+
+<h2 id="3-2-8-08-feb-2020">[3.2.8] - 08-FEB-2020</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>Fixed <code>UIElement.visible?</code> method that was broken in release 3.2.7.</li>
+</ul>
+
+<h2 id="3-2-7-05-feb-2020">[3.2.7] - 05-FEB-2020</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>Audio.crossorigin</code> and <code>Video.crossorigin</code> methods.</li>
+<li>Added <code>Audio.preload</code> and <code>Video.preload</code> methods.</li>
+<li>Added <code>Video.poster</code> method.</li>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to support verification of the
+<code>crossorigin</code>, <code>preload</code>, and <code>poster</code> properties.</li>
+</ul>
+
+<h2 id="3-2-6-31-jan-2020">[3.2.6] - 31-JAN-2020</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>Audio.volume</code> and <code>Video.volume</code> methods now return a <code>Float</code>.</li>
+</ul>
+
+<h2 id="3-2-5-25-jan-2020">[3.2.5] - 25-JAN-2020</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>UIElement.content_editable?</code> method.</li>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to support verification of the
+<code>content_editable</code> property.</li>
+</ul>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>Fixed <code>UIElement.aria_multiselectable?</code> method.</li>
+</ul>
+
+<h2 id="3-2-4-16-jan-2020">[3.2.4] - 16-JAN-2020</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>Range</code> type <code>UIElement</code> to support interaction with and verification of HTML5 Input Range Slider Objects.</li>
+</ul>
+
+<h2 id="3-2-3-29-dec-2019">[3.2.3] - 29-DEC-2019</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Additional methods to support WCAG 2.x accessibility testing and verification:
+
+<ul>
+<li><code>UIElement.aria_valuemax</code> method</li>
+<li><code>UIElement.aria_valuemin</code> method</li>
+<li><code>UIElement.aria_valuenow</code> method</li>
+<li><code>UIElement.aria_valuetext</code> method</li>
+<li><code>UIElement.aria_orientation</code> method</li>
+<li><code>UIElement.aria_keyshortcuts</code> method</li>
+<li><code>UIElement.aria_roledescription</code> method</li>
+<li><code>UIElement.aria_autocomplete</code> method</li>
+<li><code>UIElement.aria_modal?</code> method</li>
+<li><code>UIElement.aria_busy?</code> method</li>
+<li><code>UIElement.aria_multiline?</code> method</li>
+<li><code>UIElement.aria_multiselectable?</code> method</li>
+<li><code>UIElement.aria_controls</code> method</li>
+</ul></li>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to support verification of the following
+properties:
+
+<ul>
+<li><code>aria_valuemax</code></li>
+<li><code>aria_valuemin</code></li>
+<li><code>aria_valuenow</code></li>
+<li><code>aria_valuetext</code></li>
+<li><code>aria_orientation</code></li>
+<li><code>aria_roledescription</code></li>
+<li><code>aria_autocomplete</code></li>
+<li><code>aria_modal</code></li>
+<li><code>aria_keyshortcuts</code></li>
+<li><code>aria_multiline</code></li>
+<li><code>aria_multiselectable</code></li>
+<li><code>aria_controls</code></li>
+</ul></li>
+</ul>
+
+<h2 id="3-2-2-16-oct-2019">[3.2.2] - 16-OCT-2019</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added device profiles for iPhone 11, 11 Pro, and 11 Pro Max (iOS 13.1) with Mobile Safari browser.</li>
+<li>Added <code>Table.wait_until_row_count_is</code> and <code>Table.wait_until_row_count_changes</code> methods.</li>
+<li>Added <code>CheckBox.indeterminate?</code> method.</li>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to support verification of <code>indeterminate</code> property.</li>
+<li>Updated device profiles for iPad Pro 12.9&quot; 3rd Generation (iOS 13.1) with Mobile Safari browser.</li>
+</ul>
+
+<h2 id="3-2-1-03-oct-2019">[3.2.1] - 03-OCT-2019</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>CheckBox.visible?</code>, <code>CheckBox.disabled?</code>, and <code>CheckBox.get_value</code> methods now work with React and Ember checkboxes with
+proxy elements.</li>
+<li><code>Radio.visible?</code>, <code>Radio.disabled?</code>, and <code>Radio.get_value</code> methods now work with React and Ember radio buttons with
+proxy elements.</li>
+</ul>
+
+<h2 id="3-2-0-28-july-2019">[3.2.0] - 28-JULY-2019</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added support for connecting to and running your tests on cloud hosted browsers on the LambdaTest cloud platform.</li>
+<li>Added <code>UIElement.obscured?</code> and <code>UIElement.inspect</code> methods.</li>
+<li>Added <code>Video.wait_until_ready_state_is</code> and <code>Audio.wait_until_ready_state_is</code> methods.</li>
+</ul>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>Video.ready_state</code> and <code>Audio.ready_state</code> methods now return an Integer result.</li>
+</ul>
+
+<h2 id="3-1-11-20-june-2019">[3.1.11] - 20-JUNE-2019</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>SelectList.get_group_count</code> and <code>SelectList.get_group_headings</code> methods.</li>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to support verification of <code>groupcount</code>
+and <code>group_headings</code> properties of <code>SelectList</code> objects.</li>
+</ul>
+
+<h2 id="3-1-10-21-may-2019">[3.1.10] - 21-MAY-2019</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>Improved compatibility with React and Chosen select lists.</li>
+</ul>
+
+<h2 id="3-1-9-16-may-2019">[3.1.9] - 16-MAY-2019</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added support for enabling popups when testing on BrowserStack cloud hosted Safari, IE, and Edge browsers.</li>
+<li>Added support for enabling all cookies when testing on BrowserStack cloud hosted Safari browsers.</li>
+</ul>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>List.get_list_items</code> and <code>List.get_list_item</code> methods now strip leading and trailing whitespace from returned values.</li>
+</ul>
+
+<h2 id="3-1-8-08-may-2019">[3.1.8] - 08-MAY-2019</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>Link.href</code> method.</li>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to support verification of <code>href</code> property.</li>
+</ul>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>Updated device profiles for iPhone 7 (iOS 12.2) with Mobile Firefox browser and iPad (iOS 12.2) with Mobile Firefox browser.</li>
+<li>Updated device profiles for iPhone 7 (iOS 12.2) with Mobile Edge browser and iPad (iOS 12.2) with Mobile Edge browser.</li>
+<li>Updated device profiles for iPhone 7 (iOS 12.2) with Mobile Chrome browser and iPad (iOS 12.2) with Mobile Chrome browser.</li>
+</ul>
+
+<h2 id="3-1-7-01-feb-2019">[3.1.7] - 01-FEB-2019</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>UIElement.title</code> and <code>PageObject.title</code> methods.</li>
+<li>Added <code>Video.video_height</code>, and <code>Video.video_width</code> methods.</li>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to support verification of <code>title</code> property.</li>
+</ul>
+
+<h2 id="3-1-6-20-jan-2019">[3.1.6] - 20-JAN-2019</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to support verification of <code>name</code> property.</li>
+</ul>
+
+<h2 id="3-1-5-06-jan-2019">[3.1.5] - 06-JAN-2019</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Additional methods to support WCAG 2.x accessibility testing and verification:
+
+<ul>
+<li><code>UIElement.aria_rowcount</code> method.</li>
+<li><code>UIElement.aria_colcount</code> method.</li>
+<li><code>UIElement.aria_sort</code> method.</li>
+<li><code>UIElement.aria_haspopup?</code> method.</li>
+<li><code>UIElement.aria_pressed?</code> method.</li>
+</ul></li>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to support verification of <code>aria_rowcount</code>, <code>aria_colcount</code>,
+<code>aria_sort</code>, <code>aria_pressed</code>, and <code>aria_haspopup</code> properties.</li>
+</ul>
+
+<h2 id="3-1-4-2018-12-12">[3.1.4] - 2018-12-12</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li><code>PageObject.audio</code>, <code>PageObject.audios</code>, <code>PageObject.video</code>, and <code>PageObject.videos</code> methods now correctly instantiate HTML 5 Audio and
+Video objects at the page level.</li>
+</ul>
+
+<h2 id="3-1-3-2018-12-08">[3.1.3] - 2018-12-08</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Additional methods to support WCAG 2.x accessibility testing and verification:
+
+<ul>
+<li><code>UIElement.aria_invalid?</code> method.</li>
+<li><code>UIElement.aria_checked?</code> method.</li>
+<li><code>UIElement.aria_readonly?</code> method.</li>
+</ul></li>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to support verification of <code>aria_invalid</code>, <code>aria_checked</code>,
+and <code>aria_readonly</code> properties.</li>
+</ul>
+
+<h2 id="3-1-2-2018-12-03">[3.1.2] - 2018-12-03</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>Audio.current_time</code> (setter), <code>Audio.play</code>, and <code>Audio.pause</code> methods.</li>
+<li>Added <code>Video.current_time</code> (setter), <code>Video.play</code>, and <code>Video.pause</code> methods.</li>
+</ul>
+
+<h2 id="3-1-1-2018-11-30">[3.1.1] - 2018-11-30</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added device profiles for iPhone XR, XS, and XS Max (iOS 12.1) with Mobile Safari browser.</li>
+<li>Added device profiles for iPad Pro 11&quot; and iPad Pro 12.9&quot; 3rd Generation (iOS 12.1) with Mobile Safari browser.</li>
+</ul>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>Updated device profiles for iPhone 7 (iOS 12) with Mobile Firefox browser and iPad (iOS 12) with Mobile Firefox browser.</li>
+<li>Updated device profiles for iPhone 7 (iOS 12) with Mobile Edge browser and iPad (iOS 12) with Mobile Edge browser.</li>
+<li>Updated device profiles for iPhone 7 (iOS 12) with Mobile Chrome browser and iPad (iOS 12) with Mobile Chrome browser.</li>
+</ul>
+
+<h2 id="3-1-0-2018-11-10">[3.1.0] - 2018-11-10</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Adding greater support for WCAG 2.x accessibility testing and verification:
+
+<ul>
+<li><code>UIElement.role</code> method.</li>
+<li><code>UIElement.tabindex</code> method.</li>
+<li><code>UIElement.aria_labelledby</code> method.</li>
+<li><code>UIElement.aria_describedby</code> method.</li>
+<li><code>UIElement.aria_live</code> method.</li>
+<li><code>UIElement.aria_selected?</code> method.</li>
+<li><code>UIElement.aria_hidden?</code> method.</li>
+<li><code>UIElement.aria_expanded?</code> method.</li>
+<li><code>UIElement.aria_required?</code> method.</li>
+</ul></li>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to support verification of the following
+properties:
+
+<ul>
+<li><code>role</code></li>
+<li><code>tabindex</code></li>
+<li><code>aria-labelledby</code></li>
+<li><code>aria-describedby</code></li>
+<li><code>aria-live</code></li>
+<li><code>aria-selected</code></li>
+<li><code>aria-hidden</code></li>
+<li><code>aria-expanded</code></li>
+<li><code>aria-required</code></li>
+</ul></li>
+</ul>
+
+<h2 id="3-0-20-2018-11-08">[3.0.20] - 2018-11-08</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods now ignore case and whitespace when verifying text
+captions and values when running tests against Microsoft Edge browsers to accommodate known Edge WebDriver <a href="https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/11322543/">Issue #11322543</a>.</li>
+<li>Updated <code>PageObject.populate_data_fields</code> and <code>PageSection.populate_data_fields</code> methods to accept optional <code>integrity_check</code> parameter.</li>
+</ul>
+
+<h2 id="3-0-19-2018-10-10">[3.0.19] - 2018-10-10</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added support for testing file downloads with locally hosted instances of Chrome or Firefox desktop browsers.</li>
+</ul>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>Audio.current_time</code>, <code>Audio.duration</code>, <code>Video.current_time</code>, and <code>Video.duration</code> methods now return a <code>Float</code>.</li>
+</ul>
+
+<h3 id="removed">Removed</h3>
+
+<ul>
+<li>Removed support for legacy Firefox version 47.0.1.</li>
+<li>Removed deprecated <code>TestCentricity::WebDriverConnect.set_webdriver_path</code> method.</li>
+</ul>
+
+<h2 id="3-0-18-2018-10-02">[3.0.18] - 2018-10-02</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li><code>UIElement.style</code> method.</li>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to support verification of <code>style</code> property.</li>
+</ul>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>Updated device profiles for iPhone 7 (iOS 12) with Mobile Firefox browser and iPad (iOS 12) with Mobile Firefox browser.</li>
+<li>Updated device profiles for iPhone 7 (iOS 12) with Mobile Edge browser and iPad (iOS 12) with Mobile Edge browser.</li>
+<li>Updated device profiles for iPhone 7 (iOS 12) with Mobile Chrome browser and iPad (iOS 12) with Mobile Chrome browser.</li>
+</ul>
+
+<h3 id="removed">Removed</h3>
+
+<ul>
+<li>Removed <code>iPhone</code>, <code>iPhone4</code>, and <code>iPhone5</code> device profiles.</li>
+</ul>
+
+<h2 id="3-0-17-2018-10-01">[3.0.17] - 2018-10-01</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li><code>UIElement.aria_disabled?</code> and <code>UIElement.aria_label</code> methods.</li>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to support verification of <code>aria-label</code> and <code>aria-disabled</code> properties.</li>
+</ul>
+
+<h2 id="3-0-16-2018-09-21">[3.0.16] - 2018-09-21</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li><code>Image.src</code> and <code>Image.alt</code> method.</li>
+<li>Added <code>Video</code> and <code>Audio</code> type <code>UIElement</code> to support verification of HTML5 Video and Audio Objects.</li>
+</ul>
+
+<h2 id="3-0-15-2018-09-19">[3.0.15] - 2018-09-19</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li><code>UIElement.hover_at</code> method.</li>
+<li>Added support for specifying IP Geolocation when testing on BrowserStack cloud hosted browsers.</li>
+</ul>
+
+<h2 id="3-0-14-2018-09-17">[3.0.14] - 2018-09-17</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added support for testing file uploads in browsers running on remote cloud hosted services as well as in Selenium Grid and Dockerized Selenium
+Grid environments.</li>
+</ul>
+
+<h2 id="3-0-13-2018-08-10">[3.0.13] - 2018-08-10</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>Improved response times of <code>List.get_item_count</code> and <code>List.get_list_items</code> methods by shortening <code>wait</code> time.</li>
+</ul>
+
+<h2 id="3-0-12-2018-08-09">[3.0.12] - 2018-08-09</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li><code>PageSection.hover</code> method.</li>
+<li><code>List.hover_item</code> method.</li>
+</ul>
+
+<h2 id="3-0-11-2018-08-05">[3.0.11] - 2018-08-05</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li><code>UIElement.count</code> method.</li>
+</ul>
+
+<h2 id="3-0-10-2018-07-20">[3.0.10] - 2018-07-20</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li><code>Image.broken?</code> method.</li>
+<li><code>UIElement.highlight</code> and <code>UIElement.unhighlight</code> methods.</li>
+</ul>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods now takes screenshots that display a red dashed rectangular highlight around
+any UI element with property states that do not match expected results.</li>
+</ul>
+
+<h3 id="removed">Removed</h3>
+
+<ul>
+<li>Removed deprecated <code>DataObject.set_current</code> method.</li>
+</ul>
+
+<h2 id="3-0-9-2018-07-05">[3.0.9] - 2018-07-05</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>List.choose_item</code> and <code>List.get_selected_item</code> methods.</li>
+<li>Added <code>SelectList.set</code> method.</li>
+</ul>
+
+<h2 id="3-0-8-2018-06-28">[3.0.8] - 2018-06-28</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>PageObject.wait_for_ajax</code> method.</li>
+</ul>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods now accept optional <code>fail_message</code> string parameter to add context to error
+messages when UI verifications raise an exception.</li>
+</ul>
+
+<h2 id="3-0-7-2018-06-21">[3.0.7] - 2018-06-21</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added support for connecting to and running your tests in desktop and emulated mobile web browsers hosted on Selenium Grid and Dockerized Selenium
+Grid environments.</li>
+<li>Added <code>Environ.report_header</code> method that can be used to provide formatted test environment information in HTML test results.</li>
+</ul>
+
+<h3 id="deprecated">Deprecated</h3>
+
+<ul>
+<li>Deprecated <code>TestCentricity::WebDriverConnect.set_webdriver_path</code> method because the correct WebDriver is now automatically set.</li>
+</ul>
+
+<h2 id="3-0-6-2018-06-14">[3.0.6] - 2018-06-14</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added support for connecting to and running your tests on cloud hosted browsers on the Gridlastic cloud platform.</li>
+<li>Added support for specifying Selenium WebDriver version, browser-specific WebDriver version (for Firefox, IE, and Safari), and browser console
+logs when running tests on BrowserStack hosted browsers. Refer to <strong>section 8.5.1 (Remote desktop browsers on the BrowserStack service)</strong> in the README.</li>
+</ul>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>Updated device profiles for iPhone 7 (iOS 11) with Mobile Firefox browser and iPad (iOS 11) with Mobile Firefox browser.</li>
+<li>Updated device profiles for iPhone 7 (iOS 11) with Mobile Edge browser and iPad (iOS 11) with Mobile Edge browser.</li>
+<li>Updated device profiles for iPhone 7 (iOS 11) with Mobile Chrome browser and iPad (iOS 11) with Mobile Chrome browser.</li>
+</ul>
+
+<h2 id="3-0-5-2018-05-17">[3.0.5] - 2018-05-17</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>Environ.headless</code> method. Will return <code>true</code> if testing against a <em>headless</em> instance of Chrome or Firefox.</li>
+</ul>
+
+<h2 id="3-0-4-2018-05-12">[3.0.4] - 2018-05-12</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>Refactored <code>SelectList</code> methods to work with Capybara version 3.x.</li>
+</ul>
+
+<h2 id="3-0-3-2018-05-09">[3.0.3] - 2018-05-09</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>Pinning to Capybara version 2.18.0 because Capybara 3.x breaks several <code>SelectList</code> methods.</li>
+</ul>
+
+<h2 id="3-0-2-2018-05-09">[3.0.2] - 2018-05-09</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>PageManager.find_page</code> method now raises an exception if the requested page object has not been defined and instantiated.</li>
+</ul>
+
+<h2 id="3-0-1-2018-04-28">[3.0.1] - 2018-04-28</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>Updated device profiles for iPhone 7 (iOS 11) with Mobile Firefox browser and iPad (iOS 10) with Mobile Firefox browser.</li>
+<li>Updated device profiles for iPhone 7 (iOS 11) with Mobile Edge browser and iPad (iOS 10) with Mobile Edge browser.</li>
+<li>Updated device profiles for iPhone 7 (iOS 11) with Mobile Chrome browser and iPad (iOS 10) with Mobile Chrome browser.</li>
+</ul>
+
+<h2 id="3-0-0-2018-04-25">[3.0.0] - 2018-04-25</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>The TestCentricity™ Web gem now works with Selenium-WebDriver version 3.11 and <strong>geckodriver</strong> version 0.20.1 (or later) to support testing of the latest versions
+of Firefox web browsers.</li>
+<li>Support for testing on locally hosted &quot;headless&quot; Chrome or Firefox browsers has been added.</li>
+<li>Support for headless browser testing using Poltergeist and PhantomJS has been removed.</li>
+<li>Support for Legacy FirefoxDriver (used in Firefox versions &lt; 48) has been added.</li>
+</ul>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li><code>TestCentricity::WebDriverConnect.set_webdriver_path</code> method now sets the path to the appropriate <strong>geckodriver</strong> file for OS X or Windows when testing on
+locally hosted Firefox browsers.</li>
+</ul>
+
+<h2 id="2-4-3-2018-04-11">[2.4.3] - 2018-04-11</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>Updated device profiles for iPhone 7 (iOS 11) with Mobile Firefox browser and iPad (iOS 10) with Mobile Firefox browser.</li>
+</ul>
+
+<h2 id="2-4-1-2018-03-27">[2.4.1] - 2018-03-27</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added device profiles for iPad (iOS 10) with MS Edge browser.</li>
+</ul>
+
+<h2 id="2-4-0-2018-03-25">[2.4.0] - 2018-03-25</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>Updated <code>TestCentricity::WebDriverConnect.initialize_web_driver</code> method to read the <code>APP_FULL_RESET</code>, <code>APP_NO_RESET</code>, and <code>NEW_COMMAND_TIMEOUT</code> Environment
+Variables and set the corresponding <code>fullReset</code>, <code>noReset</code>, and <code>newCommandTimeout</code> Appium capabilities for iOS and Android physical devices and simulators.
+Also reads the <code>WDA_LOCAL_PORT</code> Environment Variable and sets the <code>wdaLocalPort</code> Appium capability for iOS physical devices only.</li>
+</ul>
+
+<h2 id="2-3-19-2018-03-14">[2.3.19] - 2018-03-14</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>Fixed device profile for <code>android_phone</code> - Generic Android Phone.</li>
+</ul>
+
+<h2 id="2-3-18-2018-03-11">[2.3.18] - 2018-03-11</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>Updated <code>SelectList.define_list_elements</code> method to accept value for <code>:list_trigger</code> element.</li>
+<li>Updated <code>SelectList.choose_option</code> to respect <code>:list_item</code> value and to click on <code>:list_trigger</code> element, if one is specified.</li>
+<li>Updated <code>PageSection</code> and <code>PageObject</code> UI element object declaration methods to no longer use <code>class_eval</code> pattern.</li>
+<li>Updated device profiles for iPhone 7 (iOS 10) with Chrome browser and iPad (iOS 10) with Chrome browser.</li>
+</ul>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>Fixed <code>SelectList.choose_option</code> to also accept <code>:text</code>, <code>:value</code>, and <code>:index</code> option hashes across all types of select list objects.</li>
+</ul>
+
+<h2 id="2-3-17-2018-03-08">[2.3.17] - 2018-03-08</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>List.wait_until_item_count_is</code> and <code>List.wait_until_item_count_changes</code> methods.</li>
+</ul>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>UIElement.wait_until_value_is</code> and <code>List.wait_until_item_count_is</code> methods now accept comparison hash.</li>
+</ul>
+
+<h2 id="2-3-16-2018-03-04">[2.3.16] - 2018-03-04</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>PageSection.double_click</code>, <code>PageObject.right_click</code>, and <code>PageObject.send_keys</code> methods.</li>
+</ul>
+
+<h2 id="2-3-15-2018-03-02">[2.3.15] - 2018-03-02</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>PageObject.wait_until_exists</code> and <code>PageObject.wait_until_gone</code> methods.</li>
+</ul>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>Fixed bug in <code>UIElement.get_object_type</code> method that could result in a <code>NoMethodError obj not defined</code> error.</li>
+<li>Fixed bug in <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods that failed to enqueue errors when UI elements could not be found.</li>
+</ul>
+
+<h2 id="2-3-14-2018-02-28">[2.3.14] - 2018-02-28</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>Updated device profiles for iPhone 7 (iOS 10) with MS Edge browser.</li>
+</ul>
+
+<h2 id="2-3-13-2018-02-09">[2.3.13] - 2018-02-09</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>AppiumServer.start</code>, <code>AppiumServer.running?</code>, and <code>AppiumServer.stop</code> methods for starting and stopping the Appium Server prior to executing tests on
+iOS physical devices or simulators, or Android virtual device emulators.</li>
+</ul>
+
+<h2 id="2-3-12-2018-02-07">[2.3.12] - 2018-02-07</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>Environ.is_simulator?</code> and <code>Environ.is_web?</code> methods.</li>
+</ul>
+
+<h2 id="2-3-11-2018-02-02">[2.3.11] - 2018-02-02</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added support for running tests in Mobile Safari browser on physical iOS devices.</li>
+</ul>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>Updated device profiles for iPhone 7 (iOS 10) with Mobile Firefox browser and iPad (iOS 10) with Mobile Firefox browser.</li>
+</ul>
+
+<h2 id="2-3-10-2018-01-31">[2.3.10] - 2018-01-31</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added support for running tests in mobile Chrome or Android browsers on Android Studio virtual device emulators.</li>
+<li>Added <code>displayed?</code>, <code>get_all_items_count</code>, and <code>get_all_list_items</code> methods to <code>PageSection</code> class.</li>
+<li>Added <code>get_all_items_count</code>, and <code>get_all_list_items</code> methods to <code>List</code> class.</li>
+</ul>
+
+<h2 id="2-3-9-2018-01-27">[2.3.9] - 2018-01-27</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>Updated <code>PageObject.populate_data_fields</code> and <code>PageSection.populate_data_fields</code> methods to accept optional <code>wait_time</code> parameter.</li>
+<li>Updated device profiles for iPhone 7 (iOS 10) with MS Edge browser, iPhone 7 (iOS 10) with Chrome browser, and iPhone 7 (iOS 10) with Firefox browser.</li>
+<li>Updated device profiles for iPad (iOS 10) with Chrome browser and iPad (iOS 10) with Firefox browser.</li>
+</ul>
+
+<h2 id="2-3-8-2018-01-23">[2.3.8] - 2018-01-23</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>Fixed locator resolution for <strong>Indexed PageSection Objects</strong>.</li>
+</ul>
+
+<h2 id="2-3-7-2018-01-18">[2.3.7] - 2018-01-18</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>width</code>, <code>height</code>, <code>x</code>, <code>y</code>, and <code>displayed?</code> methods to <code>UIElement</code> class.</li>
+</ul>
+
+<h2 id="2-3-6-2017-12-21">[2.3.6] - 2017-12-21</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>TextField.clear</code> method for deleting the contents of text fields. This method should trigger the <code>onchange</code> event for the associated text field.</li>
+</ul>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>TextField.clear</code> method now works with most <code>number</code> type fields.</li>
+</ul>
+
+<h2 id="2-3-5-2017-12-19">[2.3.5] - 2017-12-19</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>Updated <code>PageObject.populate_data_fields</code> and <code>PageSection.populate_data_fields</code> methods to be compatible with Redactor editor fields.</li>
+<li>Updated device profiles for iPhone 7 (iOS 10) with MS Edge browser, iPhone 7 (iOS 10) with Chrome browser, and iPhone 7 (iOS 10) with Firefox browser.</li>
+</ul>
+
+<h2 id="2-3-4-2017-12-12">[2.3.4] - 2017-12-12</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>Fixed bug in <code>PageObject.populate_data_fields</code> and <code>PageSection.populate_data_fields</code> methods that prevented deletion of data in number type textfields
+and textarea controls.</li>
+</ul>
+
+<h2 id="2-3-3-2017-12-09">[2.3.3] - 2017-12-09</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added device profile for iPhone 7 (iOS 10) with MS Edge browser.</li>
+</ul>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>Corrected device profiles for iPad (iOS 10) with Mobile Chrome browser and iPad (iOS 10) with Mobile Firefox browser.</li>
+</ul>
+
+<h2 id="2-3-1-2017-12-07">[2.3.1] - 2017-12-07</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>When testing using remotely hosted browsers on the BrowserStack service, the BrowserStack Local instance is automatically started if the <code>TUNNELING</code>
+Environment Variable is set to <code>true</code>. <code>Environ.tunneling</code> will be set to true if the BrowserStack Local instance is succesfully started.</li>
+<li>Added <code>TestCentricity::WebDriverConnect.close_tunnel</code> method to close BrowserStack Local instance when Local testing is enabled. Refer to the
+<strong>Remotely hosted desktop and mobile web browsers</strong> section for information on usage.</li>
+</ul>
+
+<h2 id="2-2-1-2017-11-29">[2.2.1] - 2017-11-29</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li><code>SelectList.choose_option</code> method now accepts index values for Chosen list objects.</li>
+</ul>
+
+<h2 id="2-2-0-2017-11-29">[2.2.0] - 2017-11-29</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>CSS selectors or XPath expressions may be used as locators for all types of <strong>UI Elements</strong>, including tables.</li>
+</ul>
+
+<h2 id="2-1-10-2017-11-14">[2.1.10] - 2017-11-14</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added device profiles for iPhone 7 (iOS 10) with Mobile Firefox browser and iPad (iOS 10) with Mobile Firefox browser.</li>
+</ul>
+
+<h2 id="2-1-9-2017-11-13">[2.1.9] - 2017-11-13</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>Fixed bug in <code>SelectList.choose_option</code>, <code>SelectList.get_options</code>, <code>SelectList.get_option_count</code>, and <code>SelectList.get_selected_option</code> methods which
+did not recognize grouped option in Chosen list objects.</li>
+</ul>
+
+<h2 id="2-1-8-2017-11-09">[2.1.8] - 2017-11-09</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>PageSection.verify_list_items</code> method for <strong>Indexed PageSection Objects</strong>.</li>
+</ul>
+
+<h2 id="2-1-7-2017-11-07">[2.1.7] - 2017-11-07</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>Updated <code>PageObject.populate_data_fields</code> and <code>PageSection.populate_data_fields</code> methods to use backspace characters to delete contents of a textfield
+instead of using <code>clear</code>, which was preventing <code>onchange</code> JavaScript events from being triggered in some browsers.</li>
+</ul>
+
+<h2 id="2-1-6-2017-10-31">[2.1.6] - 2017-10-31</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>Fixed bug in <code>TestCentricity::WebDriverConnect.set_webdriver_path</code> method that was failing to set the path to the appropriate <strong>chromedriver</strong> file for OS X
+and Windows.</li>
+</ul>
+
+<h2 id="2-1-5-2017-10-28">[2.1.5] - 2017-10-28</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added <code>get_min</code>, <code>get_max</code>, and <code>get_step</code> methods to <code>TextField</code> class.</li>
+<li>Updated <code>PageObject.verify_ui_states</code> and <code>PageSection.verify_ui_states</code> methods to support verification of <code>min</code>, <code>max</code>, and <code>step</code> attributes
+for textfields.</li>
+</ul>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>Fixed Chrome and Firefox support for setting browser language via the <code>LOCALE</code> Environment Variable. This capability now works for emulated mobile
+browsers hosted in a local instance of Chrome or Firefox.</li>
+</ul>
+
+<h2 id="2-1-4-2017-10-24">[2.1.4] - 2017-10-24</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added suppression of the Info Bar that displays &quot;Chrome is being controlled by automated test software&quot; on locally hosted instances of the Chrome browser.</li>
+</ul>
+
+<h2 id="2-1-3-2017-10-17">[2.1.3] - 2017-10-17</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added support for &quot;tiling&quot; or cascading multiple browser windows when the <code>BROWSER_TILE</code> and <code>PARALLEL</code> Environment Variables are set to true. For each
+concurrent parallel thread being executed, the position of each browser will be offset by 100 pixels right and 100 pixels down. For parallel test execution,
+use the <a href="https://rubygems.org/gems/parallel_tests">parallel_tests gem</a> to decrease overall test execution time.</li>
+</ul>
+
+<h2 id="2-1-2-2017-10-01">[2.1.2] - 2017-10-01</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added device profiles for Microsoft Lumia 950, Blackberry Leap, Blackberry Passport, and Kindle Fire HD 10</li>
+<li>Added ability to set browser language support via the <code>LOCALE</code> Environment Variable for local instances of Chrome browsers</li>
+</ul>
+
+<h2 id="2-1-0-2017-09-23">[2.1.0] - 2017-09-23</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+<li>Added device profiles for iPhone 8, iPhone 8 Plus, iPhone X devices running iOS 11</li>
+<li>Added device profile for iPad Pro 10.5&quot; with iOS 11</li>
+</ul>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+<li>Updated iPhone 7 and iPhone 7 Plus profiles to iOS 10</li>
+<li>Updated Google Pixel and Google Pixel XL profiles to Android 8</li>
+<li>Added device profiles for iPhone 7 (iOS 10) with Mobile Chrome browser and iPad (iOS 10) with Mobile Chrome browser</li>
+<li>The <code>TestCentricity::WebDriverConnect.initialize_web_driver</code> method now sets the <code>Environ</code> object to the correct device connection states for local and
+cloud hosted browsers.</li>
+</ul>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+<li>The <code>TestCentricity::WebDriverConnect.initialize_web_driver</code> method no longer calls <code>initialize_browser_size</code> when running tests against cloud hosted
+mobile web browser, which was resulting in Appium throwing exceptions for unsupported method calls.</li>
+<li>The <code>TestCentricity::WebDriverConnect.set_webdriver_path</code> method now correctly sets the path for Chrome webDrivers when the <code>HOST_BROWSER</code> Environment
+Variable is set to <code>chrome</code>. Tests against locally hosted emulated mobile web browser running on a local instance of Chrome will now work correctly.</li>
+</ul>
+</div></div>
+
+      <div id="footer">
+  Generated on Tue Jan 17 15:44:31 2023 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.28 (ruby-2.7.5).
+</div>
+
+    </div>
+  </body>
+</html>

@@ -112,7 +112,7 @@ end
 
 
 desc 'Run mobile web specs and Cucumber features'
-task mobile: [:mobile_specs, :ios_remote]
+task mobile: [:ios_remote, :mobile_specs]
 
 
 desc 'Run required specs and Cucumber features'
@@ -128,7 +128,7 @@ task all_specs: [:required_specs, :multi_driver_spec, :docker_grid_specs, :mobil
 
 
 desc 'Run all specs and Cucumber features'
-task all: [:required, :multi_driver_spec, :browserstack_specs, :safari_local, :docker_grid_specs, :mobile]
+task all: [:mobile, :required, :multi_driver_spec, :browserstack_specs, :safari_local, :docker_grid_specs]
 
 
 desc 'Update HTML docs'
@@ -140,7 +140,7 @@ end
 desc 'Build and release new version'
 task :release do
   version = TestCentricityWeb::VERSION
-  puts "Releasing version #{version} of TestCentricityWeb gem, y/n?"
+  puts "Releasing version #{version} of TestCentricity Web gem, y/n?"
   exit(1) unless $stdin.gets.chomp == 'y'
   sh 'gem build testcentricity_web.gemspec && ' \
      "gem push testcentricity_web-#{version}.gem"

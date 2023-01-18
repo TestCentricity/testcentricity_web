@@ -1,3 +1,4 @@
+require 'appium_capybara'
 require 'selenium-webdriver'
 require 'os'
 require 'browserstack/local'
@@ -140,9 +141,13 @@ module TestCentricity
     end
 
     def self.initialize_browser_size
-      # tile browser windows if running in multiple parallel threads and BROWSER_TILE environment variable is true
-      if ENV['PARALLEL'] && ENV['BROWSER_TILE']
-        thread = ENV['TEST_ENV_NUMBER'].to_i
+      # tile browser windows if BROWSER_TILE environment variable is true and running in multiple parallel threads
+      if ENV['BROWSER_TILE'] && (ENV['PARALLEL'] || @drivers.length > 1)
+        thread = if ENV['PARALLEL']
+                   ENV['TEST_ENV_NUMBER'].to_i
+                 else
+                   @drivers.length
+                 end
         if thread > 1
           Browsers.set_browser_window_position(100 * thread - 1, 100 * thread - 1)
           sleep(1)

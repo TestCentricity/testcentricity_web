@@ -98,11 +98,12 @@ class CustomControlsPage < BaseTestPage
     flaming_radio.define_custom_elements(radio_spec)
     # define the custom element components for the table
     table_spec = {
-      table_body:    'div#resp-table-body',
+      table_header:  'div.resp-table-header',
+      header_row:    'div.resp-table-row',
+      header_column: 'div.table-header-cell',
+      table_body:    'div.resp-table-body',
       table_row:     'div.resp-table-row',
-      table_column:  'div.table-body-cell',
-      table_header:  'div#resp-table-header',
-      header_column: 'div.table-header-cell'
+      table_column:  'div.table-body-cell'
     }
     custom_table.define_table_elements(table_spec)
   end
@@ -186,6 +187,7 @@ class CustomControlsPage < BaseTestPage
         visible: true,
         columncount: 4,
         rowcount: 3,
+        column_headers: ['Header 1', 'Header 2', 'Header 3', 'Header 4'],
         { row: 1 } => [['Cell 1–1', 'Cell 1–2', 'Cell 1–3', 'Cell 1–4']],
         { row: 2 } => [['Cell 2–1', 'Cell 2–2', 'Cell 2–3', 'Cell 2–4']],
         { row: 3 } => [['Cell 3–1', 'Cell 3–2', 'Cell 3–3', 'Cell 3–4']],

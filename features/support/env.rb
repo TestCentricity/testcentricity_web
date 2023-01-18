@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'appium_capybara'
 require 'capybara/cucumber'
 require 'parallel_tests'
 require 'require_all'

@@ -3,28 +3,63 @@
 RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
   before(:context) do
     ENV['SELENIUM'] = ''
+    ENV['BROWSER_TILE'] = 'true'
     # start Appium server
     $server = TestCentricity::AppiumServer.new
     $server.start
   end
 
   context 'Connect to multiple locally hosted desktop and mobile web browsers' do
-    it 'connects to multiple emulated mobile browsers' do
-      # instantiate a locally hosted emulated iPhone browser
-      caps = {
-        desired_capabilities: { browserName: :iphone_11_pro_max },
-        driver_name: :emulated_iphone,
-        driver: :webdriver
-      }
-      WebDriverConnect.initialize_web_driver(caps)
-
+    it 'connects to multiple desktop and emulated mobile browsers' do
       # instantiate a locally hosted emulated iPad browser
       caps = {
         desired_capabilities: { browserName: :ipad_pro_12_9 },
         driver_name: :emulated_ipad,
         driver: :webdriver
       }
+      WebDriverConnect.initialize_web_driver(caps)
+
+      # instantiate a locally hosted desktop Firefox browser
+      caps = {
+        desired_capabilities: {
+          browserName: :firefox,
+          browser_size: [1100, 900]
+        },
+        driver: :webdriver
+      }
       WebDriverConnect.initialize_driver(caps)
+
+      # instantiate a locally hosted desktop Edge browser
+      caps = {
+        desired_capabilities: {
+          browserName: :edge,
+          browser_size: [1000, 800]
+        },
+        driver: :webdriver
+      }
+      WebDriverConnect.initialize_driver(caps)
+
+      # instantiate a locally hosted desktop Safari browser
+      caps = {
+        desired_capabilities: {
+          browserName: :safari,
+          browser_size: [800, 700]
+        },
+        driver: :webdriver
+      }
+      WebDriverConnect.initialize_driver(caps)
+
+      # instantiate a locally hosted emulated iPhone browser
+      caps = {
+        desired_capabilities: { browserName: :iphone_11_pro_max },
+        driver_name: :emulated_iphone,
+        driver: :webdriver
+      }
+      WebDriverConnect.initialize_driver(caps)
+
+      # activate and verify the local Firefox desktop browser instance
+      WebDriverConnect.active_driver(:local_firefox)
+      verify_local_browser(browser = :firefox, platform = :desktop, headless = false)
 
       # activate and verify the local emulated iPhone browser instance
       WebDriverConnect.active_driver(:emulated_iphone)
@@ -32,11 +67,19 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
       expect(Environ.device_orientation).to eq(:portrait)
       expect(Environ.browser_size).to eq([414, 869])
 
+      # activate and verify the local Safari desktop browser instance
+      WebDriverConnect.active_driver(:local_safari)
+      verify_local_browser(browser = :safari, platform = :desktop, headless = false)
+
       # activate and verify the local emulated iPad browser instance
       WebDriverConnect.active_driver(:emulated_ipad)
       verify_local_browser(browser = :ipad_pro_12_9, platform = :mobile, headless = false, driver_name = :emulated_ipad)
       expect(Environ.device_orientation).to eq(:landscape)
       expect(Environ.browser_size).to eq([1366, 1024])
+
+      # activate and verify the local Edge desktop browser instance
+      WebDriverConnect.active_driver(:local_edge)
+      verify_local_browser(browser = :edge, platform = :desktop, headless = false)
     end
 
     it 'connects to multiple desktop and mobile browsers' do

@@ -102,6 +102,8 @@ module TestCentricity
                          "#{expected.split.each{ |expected| expected.capitalize! }.join(' ')}"
                        end
             enqueue_assert_equal(expected, actual, error_msg)
+          else
+            raise "#{key} is not a valid comparison key"
           end
         end
       else

@@ -1,23 +1,25 @@
 # TestCentricity™ Web
 
-[![Gem Version](https://badge.fury.io/rb/testcentricity_web.svg)](https://badge.fury.io/rb/testcentricity_web)  [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause)
-![Gem Downloads](https://img.shields.io/gem/dt/testcentricity_web) ![Maintained](https://img.shields.io/maintenance/yes/2022)
+[![Gem Version](https://badge.fury.io/rb/testcentricity_web.svg)](https://badge.fury.io/rb/testcentricity_web)
+[![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause)
+![Gem Downloads](https://img.shields.io/gem/dt/testcentricity_web)
+![Maintained](https://img.shields.io/maintenance/yes/2022)
 
 
 The TestCentricity™ Web core framework for desktop and mobile web browser-based app testing implements a Page Object Model
-DSL for use with Cucumber (version 7.x or greater), Capybara (version 3.38), and Selenium-Webdriver (version 4.7). It also
-facilitates the configuration of the appropriate Selenium-Webdriver capabilities required to establish connections with
-local or cloud hosted desktop or mobile web browsers.
+DSL for use with Cucumber (version 7.x or greater) or RSpec, and Selenium-Webdriver (version 4.7). It also facilitates the
+configuration of the appropriate Selenium-Webdriver capabilities required to establish connections with one or more local
+or cloud hosted desktop or mobile web browsers.
 
 The TestCentricity™ Web gem supports connecting to, and running automated tests against the following target web browsers:
 * locally hosted desktop browsers (Chrome, Edge, Firefox, Safari, or IE)
 * locally hosted "headless" Chrome, Firefox, or Edge browsers
 * remote desktop and emulated mobile web browsers hosted on Selenium Grid 4 and Dockerized Selenium Grid 4 environments
 * mobile Safari browsers on iOS device simulators or physical iOS devices (using Appium and XCode on macOS)
-* mobile Chrome or Android browsers on Android Studio virtual device emulators (using Appium and Android Studio on macOS)
+* mobile Chrome or Android browsers on Android Studio virtual device emulators (using Appium and Android Studio)
 * cloud hosted desktop (Firefox, Chrome, Safari, IE, or Edge) or mobile (iOS Mobile Safari or Android Chrome) web browsers using the following service:
   * [Browserstack](https://www.browserstack.com/list-of-browsers-and-platforms?product=automate)
-  * [Sauce Labs](https://saucelabs.com/open-source#automated-testing-platform)
+  * [Sauce Labs](https://saucelabs.com/platform/cross-browser-testing)
   * [TestingBot](https://testingbot.com/features)
   * [LambdaTest](https://www.lambdatest.com/selenium-automation)
 * web portals utilizing JavaScript front end application frameworks like Ember, React, Angular, and GWT
@@ -64,27 +66,11 @@ If you are using Cucumber, you need to require the following in your `env.rb` fi
 
 If you are using RSpec instead, you need to require the following in your `spec_helper.rb` file:
 
-    require 'capybara'
     require 'capybara/rspec'
     require 'testcentricity_web'
 
 
-### Using Appium
-
-If you will be running your tests on mobile web browsers on simulated or physical iOS or Android devices using Appium, you
-need to require the following in your `env.rb` and/or `spec_helper.rb` file:
-
-    require 'appium_capybara'
-
-You also need to add this line to your automation project's Gemfile:
-
-    gem 'appium_capybara'
-
-And then execute:
-
-    $ bundle
-
-
+---
 ## PageObjects
 
 The **Page Object Model** is a test automation pattern that aims to create an abstraction of your web app's User Interface
@@ -172,7 +158,7 @@ Web pages are made up of UI elements like text fields, check boxes, combo boxes,
       trait(:page_name)    { 'Login' }
       trait(:page_url)     { '/sign_in' }
       trait(:page_locator) { 'body.login-body' }
-    
+
       # Login page UI elements
       textfield :user_id_field,       'input#userName'
       textfield :password_field,      'input#password'
@@ -186,7 +172,7 @@ Web pages are made up of UI elements like text fields, check boxes, combo boxes,
       trait(:page_name)    { 'Registration' }
       trait(:page_url)     { '/register' }
       trait(:page_locator) { 'body.registration' }
-     
+ 
       # Registration page UI elements
       textfields  first_name_field:    'input#firstName',
                   last_name_field:     'input#lastName',
@@ -215,7 +201,7 @@ class definition for interacting with the UI to hide implementation details, as 
       trait(:page_name)    { 'Login' }
       trait(:page_url)     { '/sign_in' }
       trait(:page_locator) { 'body.login-body' }
-    
+
       # Login page UI elements
       textfield :user_id_field,        'input#userName'
       textfield :password_field,       'input#password'
@@ -223,7 +209,7 @@ class definition for interacting with the UI to hide implementation details, as 
       checkbox  :remember_checkbox,    'input#rememberUser'
       label     :error_message_label,  'div#statusBar.login-error'
       link      :forgot_password_link, 'a.forgotPassword'
-    
+
       # log in to web app
       def login(user_id, password)
         user_id_field.set(user_id)
@@ -239,13 +225,33 @@ class definition for interacting with the UI to hide implementation details, as 
       # verify Login page default UI state
       def verify_page_ui
         ui = {
-            self                 => { title: 'Login' },
-            login_button         => { visible: true, caption: 'LOGIN' },
-            user_id_field        => { visible: true, enabled: true, value: '', placeholder: 'User name' },
-            password_field       => { visible: true, enabled: true, value: '', placeholder: 'Password' },
-            remember_checkbox    => { exists: true, enabled: true, checked: false },
-            forgot_password_link => { visible: true, caption: 'Forgot your password?' },
-            error_message_label  => { visible: false }
+            self => { title: 'Login' },
+            login_button => {
+              visible: true,
+              caption: 'LOGIN'
+            },
+            user_id_field => {
+              visible: true,
+              enabled: true,
+              value: '',
+              placeholder: 'User name'
+            },
+            password_field => {
+              visible: true,
+              enabled: true,
+              value: '',
+              placeholder: 'Password'
+            },
+            remember_checkbox => {
+              exists: true,
+              enabled: true,
+              checked: false
+            },
+            forgot_password_link => {
+              visible: true,
+              caption: 'Forgot your password?'
+            },
+            error_message_label => { visible: false }
         }
         verify_ui_states(ui)
       end
@@ -256,7 +262,7 @@ class definition for interacting with the UI to hide implementation details, as 
       trait(:page_name)    { 'Registration' }
       trait(:page_url)     { '/register' }
       trait(:page_locator) { 'body.registration' }
-     
+
       # Registration page UI elements
       textfields  first_name_field:    'input#firstName',
                   last_name_field:     'input#lastName',
@@ -273,7 +279,7 @@ class definition for interacting with the UI to hide implementation details, as 
       checkbox    :email_opt_in_check, 'input#marketingEmailsOptIn'
       buttons     sign_up_button:      'button#registrationSignUp',
                   cancel_button:       'button#registrationCancel'
-      
+
       # populate Registration page fields with profile data
       def enter_profile_data(profile)
         fields = { title_select        => profile.title,
@@ -303,22 +309,25 @@ Once your `PageObjects` have been instantiated, you can call your methods as sho
     login_page.login('snicklefritz', 'Pa55w0rd')
     
 
-
+---
 ## PageSections
 
 A `PageSection` is a collection of **UI Elements** that may appear in multiple locations on a page, or on multiple pages
 in a web app. It is a collection of **UI Elements** that represent a conceptual area of functionality, like a navigation
-bar, a search capability, or a menu. **UI Elements** and functional behavior are confined to the scope of a `PageSection`
-object.
+bar, a search capability, a menu, or a pop-up panel. **UI Elements** and functional behavior are confined to the scope of
+a `PageSection` object.
 
-![Navigation Header](./images/NavBar1.jpg "Navigation Header")
+![Navigation Header](./images/NavBar1.png "Navigation Header")
+
  -
 
-![Navigation Header](./images/NavBar2.jpg "Navigation Header")
- -
+![Navigation Header](./images/NavBar2.png "Navigation Header")
 
-![User Profile Popup](./images/UserProfilePopup.jpg "User Profile Popup")
- -
+A header navigation bar feature that is common to multiple pages
+
+![Shopping Bag Popup](./images/ShoppingBagPopUp.png "Shopping Bag Popup")
+
+A popup Shopping Bag panel associated with a header navigation bar
 
 A `PageSection` may contain other `PageSection` objects.
 
@@ -339,9 +348,9 @@ specifies the CSS or Xpath expression that uniquely identifies that root node ob
 
 You define your section's **Traits** as shown below:
 
-    class SearchForm < TestCentricity::PageSection
-      trait(:section_locator) { 'form#gnav-search' }
-      trait(:section_name)    { 'Search widget' }
+    class BagViewPopup < TestCentricity::PageSection
+      trait(:section_locator) { 'aside.ac-gn-bagview' }
+      trait(:section_name)    { 'Shopping Bag Popup' }
     end
 
 
@@ -350,13 +359,15 @@ You define your section's **Traits** as shown below:
 `PageSections` are typically made up of UI elements like text fields, check boxes, combo boxes, radio buttons, tables, lists,
 buttons, etc. **UI Elements** are added to your `PageSection` class definition as shown below:
 
-    class SearchForm < TestCentricity::PageSection
-      trait(:section_locator) { 'form#gnav-search' }
-      trait(:section_name)    { 'Search widget' }
-        
-      # Search Form UI elements
-      textfield :search_field,  'input#search-query'
-      button    :search_button, 'button[type=submit]'
+    class BagViewPopup < TestCentricity::PageSection
+      trait(:section_locator) { 'aside.ac-gn-bagview' }
+      trait(:section_name)    { 'Shopping Bag Popup' }
+
+      # Shopping Bag Popup UI elements
+      label  :bag_message,     'p[class*="ac-gn-bagview-message"]'
+      lists  bag_items_list:   'ul[class*="ac-gn-bagview-bag"]',
+             bag_nav_list:     'ul.ac-gn-bagview-nav-list '
+      button :checkout_button, 'a[class*="ac-gn-bagview-button-checkout"]'
     end
 
 
@@ -364,17 +375,37 @@ buttons, etc. **UI Elements** are added to your `PageSection` class definition a
 
 You can add high level methods to your `PageSection` class definition, as shown below:
 
-    class SearchForm < TestCentricity::PageSection
-      trait(:section_locator) { 'form#gnav-search' }
-      trait(:section_name)    { 'Search widget' }
-        
-      # Search Form UI elements
-      textfield :search_field,  'input#search-query'
-      button    :search_button, 'button[type=submit]'
+    class BagViewPopup < TestCentricity::PageSection
+      trait(:section_locator) { 'aside.ac-gn-bagview' }
+      trait(:section_name)    { 'Shopping Bag Popup' }
 
-      def search_for(value)
-        search_field.set(value)
-        search_button.click
+      # Shopping Bag Popup UI elements
+      label  :bag_message,     'p[class*="ac-gn-bagview-message"]'
+      lists  bag_items_list:   'ul[class*="ac-gn-bagview-bag"]',
+             bag_nav_list:     'ul.ac-gn-bagview-nav-list '
+      button :checkout_button, 'a[class*="ac-gn-bagview-button-checkout"]'
+
+      def item_count
+        bag_items_list.visible? ? bag_items_list.item_count : 0
+      end
+
+      def perform_action(action)
+        case action.gsub(/\s+/, '_').downcase.to_sym
+        when :check_out
+          checkout_button.click
+        when :view_bag
+          bag_nav_list.choose_item(1)
+        when :saved_items
+          bag_nav_list.choose_item(2)
+        when :orders
+          bag_nav_list.choose_item(3)
+        when :account
+          bag_nav_list.choose_item(4)
+        when :sign_in, :sign_out
+          bag_nav_list.choose_item(5)
+        else
+          raise "#{action} is not a valid selector"
+        end
       end
     end
 
@@ -384,10 +415,10 @@ You can add high level methods to your `PageSection` class definition, as shown 
 You add a `PageSection` to its associated `PageObject` as shown below:
 
     class HomePage < TestCentricity::PageObject
-      trait(:page_name)     { 'Home' }
-      trait(:page_url)      { '/dashboard' }
-      trait(:page_locator)  { 'body.dashboard' }
-      
+      trait(:page_name)    { 'Home' }
+      trait(:page_url)     { '/dashboard' }
+      trait(:page_locator) { 'body.dashboard' }
+
       # Home page Section Objects
       section :search_form, SearchForm
     end
@@ -397,6 +428,7 @@ Once your `PageObject` has been instantiated, you can call its `PageSection` met
     home_page.search_form.search_for('ocarina')
 
 
+---
 ## UIElements
 
 `PageObjects` and `PageSections` are typically made up of **UI Element** like text fields, check boxes, select lists (combo
@@ -425,58 +457,58 @@ Supported `UIElement` elementTypes and their declarations have the following for
 
     class SamplePage < TestCentricity::PageObject
 
-      button      :button_name, locator
-      textfield   :field_name, locator
-      checkbox    :checkbox_name, locator
-      radio       :radio_button_name, locator
-      label       :label_name, locator
-      link        :link_name, locator
-      selectlist  :select_name, locator
-      list        :list_name, locator
-      table       :table_name, locator
-      range       :range_name, locator
-      image       :image_name, locator
-      video       :video_name, locator
-      audio       :audio_name, locator
-      filefield   :filefield_name, locator
-      
+      button     :button_name, locator
+      textfield  :field_name, locator
+      checkbox   :checkbox_name, locator
+      radio      :radio_button_name, locator
+      label      :label_name, locator
+      link       :link_name, locator
+      selectlist :select_name, locator
+      list       :list_name, locator
+      table      :table_name, locator
+      range      :range_name, locator
+      image      :image_name, locator
+      video      :video_name, locator
+      audio      :audio_name, locator
+      filefield  :filefield_name, locator
+
     end
  
 *Multiple element declarations:*
 
     class SamplePage < TestCentricity::PageObject
-  
-      buttons      button_1_name: locator,
-                   button_2_name: locator,
-                   button_X_name: locator
-      textfields   field_1_name: locator,
-                   field_2_name: locator,
-                   field_X_name: locator
-      checkboxes   check_1_name: locator,
-                   check_2_name: locator,
-                   check_X_name: locator
-      radios       radio_1_name: locator,
-                   radio_X_name: locator
-      labels       label_1_name: locator,
-                   label_X_name: locator
-      links        link_1_name: locator,
-                   link_X_name: locator
-      selectlists  selectlist_1_name: locator,
-                   selectlist_X_name: locator
-      lists        list_1_name: locator,
-                   list_X_name: locator
-      tables       table_1_name: locator,
-                   table_X_name: locator
-      ranges       range_1_name: locator,
-                   range_X_name: locator
-      images       image_1_name: locator,
-                   image_X_name: locator
-      videos       video_1_name: locator,
-                   video_X_name: locator
-      audios       audio_1_name: locator,
-                   audio_X_name: locator
-      filefields   filefield_1_name: locator,
-                   filefield_X_name: locator
+
+      buttons     button_1_name: locator,
+                  button_2_name: locator,
+                  button_X_name: locator
+      textfields  field_1_name: locator,
+                  field_2_name: locator,
+                  field_X_name: locator
+      checkboxes  check_1_name: locator,
+                  check_2_name: locator,
+                  check_X_name: locator
+      radios      radio_1_name: locator,
+                  radio_X_name: locator
+      labels      label_1_name: locator,
+                  label_X_name: locator
+      links       link_1_name: locator,
+                  link_X_name: locator
+      selectlists selectlist_1_name: locator,
+                  selectlist_X_name: locator
+      lists       list_1_name: locator,
+                  list_X_name: locator
+      tables      table_1_name: locator,
+                  table_X_name: locator
+      ranges      range_1_name: locator,
+                  range_X_name: locator
+      images      image_1_name: locator,
+                  image_X_name: locator
+      videos      video_1_name: locator,
+                  video_X_name: locator
+      audios      audio_1_name: locator,
+                  audio_X_name: locator
+      filefields  filefield_1_name: locator,
+                  filefield_X_name: locator
 
     end
 
@@ -818,14 +850,42 @@ values appear in the associated text fields after entering data and performing a
     def verify_changes_saved
       # verify saved user data is correctly displayed
       ui = {
-        first_name_field    => { visible: true, aria_invalid: false, value: User.current.first_name },
-        last_name_field     => { visible: true, aria_invalid: false, value: User.current.last_name },
-        email_field         => { visible: true, aria_invalid: false, value: User.current.email },
-        phone_number_field  => { visible: true, aria_invalid: false, value: User.current.phone_number },
-        time_zone_select    => { visible: true, aria_invalid: false, value: User.current.time_zone },
-        language_select     => { visible: true, aria_invalid: false, value: User.current.language },
-        avatar_container    => { visible: true },
-        avatar_image        => { visible: true, broken: false, src: { contains: User.current.avatar_file_name } },
+        first_name_field => {
+          visible: true,
+          aria_invalid: false,
+          value: User.current.first_name
+        },
+        last_name_field => {
+          visible: true,
+          aria_invalid: false,
+          value: User.current.last_name
+        },
+        email_field => {
+          visible: true,
+          aria_invalid: false,
+          value: User.current.email
+        },
+        phone_number_field => {
+          visible: true,
+          aria_invalid: false,
+          value: User.current.phone_number
+        },
+        time_zone_select => {
+          visible: true,
+          aria_invalid: false,
+          value: User.current.time_zone
+        },
+        language_select => {
+          visible: true,
+          aria_invalid: false,
+          value: User.current.language
+        },
+        avatar_container => { visible: true },
+        avatar_image => {
+          visible: true,
+          broken: false,
+          src: { contains: User.current.avatar_file_name }
+        },
         error_message_label => { visible: false }
       }
       verify_ui_states(ui)
@@ -849,22 +909,85 @@ The `verify_ui_states` method also supports I18n string translations using prope
     :translate_capitalize String
     :translate_titlecase  String
 
-The example below depicts the usage of the `verify_ui_states` method to verify that the captions for menu items are correctly
-translated.
+The example below depicts the usage of the `verify_ui_states` method to verify that the captions for a popup Shopping Bag
+panel are correctly translated.
 
-    def verify_menu
-      ui = {
-        account_settings_item => { visible: true, caption: { translate: 'Header.settings.account' } },
-        help_item             => { visible: true, caption: { translate: 'Header.settings.help' } },
-        feedback_item         => { visible: true, caption: { translate: 'Header.settings.feedback' } },
-        legal_item            => { visible: true, caption: { translate: 'Header.settings.legal' } },
-        institution_item      => { visible: true, caption: { translate: 'Header.settings.institution' } },
-        configurations_item   => { visible: true, caption: { translate: 'Header.settings.configurations' } },
-        contact_us_item       => { visible: true, caption: { translate: 'Header.settings.contact' } },
-        downloads_item        => { visible: true, caption: { translate: 'Header.settings.downloads' } }
-      }
-      verify_ui_states(ui)
+![Localized UI](./images/LocalizedUI.png "Localized UI")
+
+    class BagViewPopup < TestCentricity::PageSection
+      trait(:section_locator) { 'aside.ac-gn-bagview' }
+      trait(:section_name)    { 'Shopping Bag Popup' }
+
+      # Shopping Bag Popup UI elements
+      label  :bag_message,     'p[class*="ac-gn-bagview-message"]'
+      lists  bag_items_list:   'ul[class*="ac-gn-bagview-bag"]',
+             bag_nav_list:     'ul.ac-gn-bagview-nav-list '
+      button :checkout_button, 'a[class*="ac-gn-bagview-button-checkout"]'
+
+      def verify_empty_bag_ui
+        nav_items = %w[
+          BagViewPopup.bag
+          BagViewPopup.saved_items
+          BagViewPopup.orders
+          BagViewPopup.account
+          BagViewPopup.sign_in
+        ]
+        ui = {
+          bag_message => {
+            visible: true,
+            caption: { translate: 'BagViewPopup.bag_is_empty' }
+          },
+          bag_nav_list => {
+            visible: true,
+            itemcount: 5,
+            items: { translate: nav_items }
+          },
+          bag_items_list => { visible: false },
+          checkout_button => { visible: false }
+        }
+        verify_ui_states(ui)
+      end
     end
+
+I18n `.yml` files contain key/value pairs representing the name of a translated string (key) and the string value. For the
+popup Shopping Bag panel example above, the translated strings for English, Spanish, and French are represented in below:
+
+English - `en.yml`
+
+    en:
+      BagViewPopup:
+        bag_is_empty: 'Your Bag is empty.'
+        bag: 'Bag'
+        saved_items: 'Saved Items'
+        orders: 'Orders'
+        account: 'Account'
+        sign_in: 'Sign in'
+        sign_out: 'Sign out'
+
+Spanish - `es.yml`
+
+    es:
+      BagViewPopup:
+        bag_is_empty: 'Tu bolsa está vacía.'
+        bag: 'Bolsa'
+        saved_items: 'Artículos guardados'
+        orders: 'Pedidos'
+        account: 'Cuenta'
+        sign_in: 'Iniciar sesión'
+        sign_out: 'Cerrar sesión'
+
+French - `fr.yml`
+
+    fr:
+      BagViewPopup:
+        bag_is_empty: 'Votre sac est vide.'
+        bag: 'Sac'
+        saved_items: 'Articles enregistrés'
+        orders: 'Commandes'
+        account: 'Compte'
+        sign_in: 'Ouvrir une session'
+        sign_out: 'Fermer la session'
+
 
 Each supported language/locale combination has a corresponding `.yml` file. I18n `.yml` file naming convention uses
 [ISO-639 language codes and ISO-3166 country codes](https://docs.oracle.com/cd/E13214_01/wli/docs92/xref/xqisocodes.html). For example:
@@ -880,89 +1003,123 @@ Each supported language/locale combination has a corresponding `.yml` file. I18n
 | Portuguese (Brazil)   | pt-BR.yml |
 | Portuguese (Portugal) | pt-PT.yml |
 
-I18n `.yml` files contain key/value pairs representing the name of a translated string (key) and the string value.
-
 Baseline translation strings are stored in `.yml` files in the `config/locales/` folder.
 
-    my_automation_project
-        ├── config
-        │   ├── locales
-        │   │   ├── en.yml
-        │   │   ├── es.yml
-        │   │   ├── fr.yml
-        │   │   ├── fr-CA.yml
-        │   │   └── en-AU.yml
-        │   ├── test_data
-        │   └── cucumber.yml
-        ├── downloads
-        ├── features
-        ├── Gemfile
-        └── README.md
+       📁 my_automation_project/
+        ├── 📁 config/
+        │   ├── 📁 locales/
+        │   │   ├── 📄 en.yml
+        │   │   ├── 📄 es.yml
+        │   │   ├── 📄 fr.yml
+        │   │   ├── 📄 fr-CA.yml
+        │   │   └── 📄 en-AU.yml
+        │   ├── 📁 test_data/
+        │   └── 📄 cucumber.yml
+        ├── 📁 downloads/
+        ├── 📁 features/
+        ├── 📄 Gemfile
+        └── 📄 README.md
 
 
 ### Working with custom UIElements
 
 Many responsive and touch-enabled web based user interfaces are implemented using front-end JavaScript libraries for building
-user interfaces based on UI components. Popular JS libraries include React, Angular, and Ember.js. These stylized and adorned
-controls can present a challenge when attempting to interact with them using Capybara and Selenium based automated tests.
+user interfaces based on multiple composite UI components. Popular JS libraries include React, Angular, and Ember.js. These
+stylized and adorned controls can present a challenge when attempting to interact with them using Capybara and Selenium based
+automated tests.
 
 #### Radio and Checkbox UIElements
 
 Sometimes, radio buttons and checkboxes implemented using JS component libraries cannot be interacted with due to other UI
-elements being overlaid on top of them and the base `input(type='radio')` or `input(type='checkbox')` element not being visible.
+elements being overlaid on top of them, causing the base `input(type='radio')` or `input(type='checkbox')` element to not
+receive click actions.
 
-In the screenshots below of an airline flight search and booking page, the **Roundtrip** and **One-way** radio buttons are
-adorned by `label` elements that also acts as proxies for their associated `input(type='radio')` elements, and they intercept
-the `click` actions that would normally be handled by the `input(type='radio')` elements.
+In the screenshot below of an airline flight search and booking page, the **Round-trip**, **One-way**, and **Multi-city**
+radio buttons are overlaid with `div` elements that also acts as proxies for their associated `input(type='radio')` elements,
+and that intercept the `click` actions that would normally be handled by the `input(type='radio')` elements.
 
-<img src="https://i.imgur.com/7bW5u4c.jpg" alt="Roundtrip Radio button Input" title="Roundtrip Radio button Input">
+![Custom Radio buttons](./images/CustomRadios.png "Custom Radio buttons")
 
+The checkbox controls on the airline flight search and booking page are also overlaid with `div` elements that intercept
+the `click` actions that would normally be handled by the `input(type='checkbox')` elements.
 
-This screenshot shows the `label` element that is overlaid above the **Roundtrip** `input(type='radio')` element.
-
-<img src="https://i.imgur.com/2stWiyR.jpg" alt="Roundtrip Radio button Label" title="Roundtrip Radio button Label">
-
-
-The checkbox controls in this web UI are also adorned with `label` elements that act as proxies for their associated `input(type='checkbox')`
-elements.
-
-<img src="https://i.imgur.com/JcOANqZ.jpg" alt="One-way Radio button Label" title="One-way Radio button Label">
+![Custom Checkbox controls](./images/CustomCheckbox.png "Custom Checkbox controls")
 
 
-The `Radio.define_custom_elements` and `CheckBox.define_custom_elements` methods provide a way to specify the `input`, `proxy`
-and/or `label` elements associated with the `input(type='radio')` or `input(type='checkbox')` elements. The `define_custom_elements`
-method should be called from an `initialize` method for the `PageObject` or `PageSection` where the `radio` or `checkbox` element is
-instantiated. The code snippet below demonstrates the use of the `Radio.define_custom_elements` and `CheckBox.define_custom_elements`
-methods to resolve the testability issues posed by the adorned **Roundtrip** and **One-way** radio buttons and the **Flexible dates**
-checkbox.
+The `Radio.define_custom_elements` and `CheckBox.define_custom_elements` methods provide a way to specify the `input`,
+`proxy`, and/or `label` elements associated with the `input(type='radio')` and `input(type='checkbox')` elements. The
+`define_custom_elements` method should be called from an `initialize` method for the `PageObject` or `PageSection` where
+the `radio` or `checkbox` elements are instantiated.
 
-    class CustomControlsPage < TestCentricity::PageObject
-      trait(:page_name)    { 'Custom Controls' }
-      trait(:page_locator) { 'div.custom-controls-page-body' }
+The code snippet below demonstrates the use of the `Radio.define_custom_elements` and `CheckBox.define_custom_elements`
+methods to define the multiple UI elements that comprise each radio button and checkbox.
 
-      # Custom Controls page UI elements
-        checkboxes pork_check:    'label[for="check1"]',
-                   beef_check:    'label[for="check2"]',
-                   chicken_check: 'label[for="check3"]',
-                   shrimp_check:  'label[for="check4"]'
-        radios     mild_radio:    'label[for="radio1"]',
-                   spicey_radio:  'label[for="radio2"]',
-                   hot_radio:     'label[for="radio3"]',
-                   flaming_radio: 'label[for="radio4"]'
+    class FlightBookingPage < TestCentricity::PageObject
+      trait(:page_name)    { 'Flight Booking Home' }
+      trait(:page_locator) { 'div[class*="bookerContainer"]' }
+
+      # Flight Booking page UI elements
+      radios     roundtrip_radio:  'div[role="radiogroup"] > div.ftRadio:nth-of-type(1)',
+                 one_way_radio:    'div[role="radiogroup"] > div.ftRadio:nth-of-type(2)',
+                 multi_city_radio: 'div[role="radiogroup"] > div.ftRadio:nth-of-type(3)'
+      checkboxes use_miles_check:  'div#divAwardReservation',
+                 flex_dates_check: 'div#divLowFareCalendar > div.left',
+                 near_from_check:  'div#divIncludeNearbyDepartureAirports',
+                 near_to_check:    'div#divIncludeNearbyArrivalAirports'
 
       def initialize
+        # define the custom element components for the Round Trip, One Way, and Multi-City radio buttons
+        radio_spec = {
+          input: 'input[type="radio"]',
+          label: 'label.normal'
+        }
+        roundtrip_radio.define_custom_elements(radio_spec)
+        one_way_radio.define_custom_elements(radio_spec)
+        multi_city_radio.define_custom_elements(radio_spec)
+
         # define the custom element components for the checkboxes
-        check_spec = { input: 'input[type="checkbox"]' }
-        pork_check.define_custom_elements(check_spec)
-        beef_check.define_custom_elements(check_spec)
-        chicken_check.define_custom_elements(check_spec)
-        shrimp_check.define_custom_elements(check_spec)
-        # define the custom element components for the radios
-        radio_spec = { input: 'input[type="radio"]' }
-        mild_radio.define_custom_elements(radio_spec)
-        spicey_radio.define_custom_elements(radio_spec)
-        hot_radio.define_custom_elements(radio_spec)
-        flaming_radio.define_custom_elements(radio_spec)
+        check_spec = {
+          input: 'input[type="checkbox"]',
+          label: 'label.normal'
+        }
+        use_miles_check.define_custom_elements(check_spec)
+        flex_dates_check.define_custom_elements(check_spec)
+        near_from_check.define_custom_elements(check_spec)
+        near_to_check.define_custom_elements(check_spec)
+      end
+    end
+
+#### List UIElements
+
+The basic HTML `list` element is typically composed of the parent `ul` or `ol` object, and one or more `li` elements
+representing the items in the list. However, list controls implemented using JS component libraries can be composed of
+multiple elements representing the components of a list implementation.
+
+In the screenshots below, an inspection of the **Menu Groups** horizontal scrolling list on a **Restaurant Detail** page
+reveals that it is a `div` element that contains multiple `button` elements with `data-testid` attributes of `menu-group`
+that represent the list items that can be selected.
+
+![Custom List](./images/CustomList.png "Custom List")
+
+The `List.define_list_elements` method provides a means of specifying the elements that make up the key components of a
+`list` control. The method accepts a hash of element designators (key) and a CSS or Xpath expression (value) that expression
+that uniquely identifies the element. Valid element designators are `:list_item`and `:selected_item`.
+
+The `RestaurantPage` page object's `initialize` method in the code snippet below demonstrates the use of the `List.define_list_elements`
+method to define the common components that make up the **Menu Groups** horizontal scrolling list.
+
+    class RestaurantPage < TestCentricity::PageObject
+      trait(:page_name)    { 'Restaurant Detail' }
+      trait(:page_locator) { 'div.restaurant-menus-container' }
+
+      # Restaurant Detail page UI elements
+      list :menu_groups_list, 'div[class*="menus-and-groups-selector__SliderItems"]'
+
+      def initialize
+        super
+        # define the custom list element components for the Menu Groupslists
+        list_spec = { list_item: 'button[data-testid="menu-group"]' }
+        menu_groups_list.define_list_elements(list_spec)
       end
     end
 
@@ -974,31 +1131,33 @@ representing the selectable items in the drop-down list. However, `select` type 
 libraries (React.js, Chosen, GWT, etc.) can be composed of multiple elements representing the various components of a
 drop-down style `selectlist` implementation.
 
-In the screenshots below, an inspection of the **Teams** selector reveals that it is a `div` element that contains a
-`textfield` element (outlined in purple) for inputting a selection by typing, a `ul` element (outlined in blue) that
+![Custom SelectList](./images/CustomSelectList1.png "Custom SelectList")
+
+
+In the screenshots below, an inspection of the **Football Teams** selector reveals that it is a `div` element that contains
+a `textfield` element (outlined in purple) for inputting a selection by typing, a `ul` element (outlined in blue) that
 contains the drop-down list, and multiple `li` elements with the `active-result` snippet in their `class` names (outlined
 in orange) that represent the list items or options that can be selected. The currently selected item or option can be
 identified by an `li` with the `result-selected` snippet in its `class` name. Group headings and items in the drop-down
 list are represented by `li` elements with a `class` name of `group-result` (outlined in green).
 
-
 ![Custom SelectList](./images/CustomSelectList.jpg "Custom SelectList")
-
 
 The `SelectList.define_list_elements` method provides a means of specifying the various elements that make up the key
 components of a `selectlist` control. The method accepts a hash of element designators (key) and a CSS or Xpath expression
 (value) that uniquely identifies the element. Valid element designators are `:list_item`, `:options_list`, `:list_trigger`,
 `:selected_item`, `:text_field`, `:group_heading`, and `:group_item`.
 
-The code snippet below demonstrates the use of the `SelectList.define_list_elements` method to define the common components
-that make up the **Teams** drop-down style selector.
+The `CustomControlsPage` page object's `initialize` method in the code snippet below demonstrates the use of the
+`SelectList.define_list_elements` method to define the common components that make up the **Teams** drop-down style selector.
 
     class CustomControlsPage < TestCentricity::PageObject
       trait(:page_name)    { 'Custom Controls' }
       trait(:page_locator) { 'div.custom-controls-page-body' }
 
       # Custom Controls page UI elements
-      selectlist :team_select, 'div#team_chosen'
+      selectlists country_select: 'div#country_chosen',
+                  team_select:    'div#team_chosen'
 
       def initialize
         super
@@ -1011,22 +1170,56 @@ that make up the **Teams** drop-down style selector.
           group_item:    'li.group-result',
           group_heading: 'li.group-result'
         }
+        country_select.define_list_elements(list_spec)
         team_select.define_list_elements(list_spec)
       end
     end
 
 
-#### List UIElements
+#### Table UIElements
 
-The basic HTML list is typically composed of the parent `ul` object, and one or more `li` elements representing the items
-in the list. However, list controls implemented using JS component libraries can be composed of multiple elements representing
-the components of a list implementation.
+The basic HTML `table` element is typically composed of the parent `table` object, a body (`tbody`) containing one or
+more rows (`tr`), with each row containing one or more columns (`td`). Tables can also include an optional header (`thead`)
+with a header row (`tr`) containing one or more header columns (`th`).
 
-The `List.define_list_elements` method provides a means of specifying the elements that make up the key components of a
-`list` control. The method accepts a hash of element designators (key) and a CSS or Xpath expression (value) that expression
-that uniquely identifies the element. Valid element designators are `:list_item`and `:selected_item`.
+However, custom tables can be implemented using elements other than the standard table components described above. In the
+screenshot below, an inspection of the table reveals that it is comprised of `div` elements representing the table, body,
+rows, columns, header, header row, and header columns.
+
+![Custom Table](./images/CustomTable.png "Custom Table")
+
+The `Table.define_table_elements` method provides a means of specifying the various elements that make up the key
+components of a `table`. The method accepts a hash of element designators (key) and a CSS or Xpath expression (value)
+that uniquely identifies the element. Valid element designators are `:table_header`, `:header_row`, `:header_column`,
+`:table_body`, `:table_row`, and `:table_column`.
+
+The `CustomControlsPage` page object's `initialize` method in the code snippet below demonstrates the use of the
+`Table.define_table_elements` method to define the components that make up the responsive `table`.
+
+    class CustomControlsPage < TestCentricity::PageObject
+      trait(:page_name)    { 'Custom Controls' }
+      trait(:page_locator) { 'div.custom-controls-page-body' }
+
+      # Custom Controls page UI elements
+      table :custom_table, 'div#resp-table'
+
+      def initialize
+        super
+        # define the custom element components for the table
+        table_spec = {
+          table_header:  'div.resp-table-header',
+          header_row:    'div.resp-table-row',
+          header_column: 'div.table-header-cell',
+          table_body:    'div.resp-table-body',
+          table_row:     'div.resp-table-row',
+          table_column:  'div.table-body-cell'
+        }
+        custom_table.define_table_elements(table_spec)
+      end
+    end
 
 
+---
 ## Instantiating your PageObjects
 
 Before you can call the methods in your `PageObjects` and `PageSections`, you must instantiate the `PageObjects` of your
@@ -1070,22 +1263,22 @@ example below, the `page_objects` method contains a hash table of your `PageObje
     module WorldPages
       def page_objects
         {
-            login_page:                LoginPage,
-            home_page:                 HomePage,
-            registration_page:         RegistrationPage,
-            search_results_page:       SearchResultsPage,
-            products_grid_page:        ProductsCollectionPage,
-            product_detail_page:       ProductDetailPage,
-            shopping_basket_page:      ShoppingBasketPage,
-            payment_method_page:       PaymentMethodPage,
-            confirm_purchase_page:     PurchaseConfirmationPage,
-            my_account_page:           MyAccountPage,
-            my_order_history_page:     MyOrderHistoryPage,
-            my_ship_to_addresses_page: MyShipToAddressesPage,
-            terms_conditions_page:     TermsConditionsPage,
-            privacy_policy_page:       PrivacyPolicyPage,
-            faqs_page:                 FAQsPage,
-            contact_us_page:           ContactUsPage
+          login_page:                LoginPage,
+          home_page:                 HomePage,
+          registration_page:         RegistrationPage,
+          search_results_page:       SearchResultsPage,
+          products_grid_page:        ProductsCollectionPage,
+          product_detail_page:       ProductDetailPage,
+          shopping_basket_page:      ShoppingBasketPage,
+          payment_method_page:       PaymentMethodPage,
+          confirm_purchase_page:     PurchaseConfirmationPage,
+          my_account_page:           MyAccountPage,
+          my_order_history_page:     MyOrderHistoryPage,
+          my_ship_to_addresses_page: MyShipToAddressesPage,
+          terms_conditions_page:     TermsConditionsPage,
+          privacy_policy_page:       PrivacyPolicyPage,
+          faqs_page:                 FAQsPage,
+          contact_us_page:           ContactUsPage
         }
       end
     end
@@ -1114,7 +1307,7 @@ or can be navigated to by clicking associated links. One such Cucumber navigatio
       Given I am on the Home page
       When I click the <page name> navigation link
       Then I expect the <page name> page to be correctly displayed
-    
+
       Examples:
         |page name          |
         |Registration       |
@@ -1131,18 +1324,18 @@ method using a `case` statement to parse the `page` parameter as in the example 
       target_page = page_dispatcher(page_name)
       target_page.load_page
     end
-    
+
     When(/^I click the (.*) navigation link$/) do |link_name|
       target_page = page_dispatcher(link_name)
       target_page.navigate_to
     end
-    
+
     Then(/^I expect the (.*) page to be correctly displayed$/) do |page_name|
       target_page = page_dispatcher(page_name)
       target_page.verify_page_exists
       target_page.verify_page_ui
     end
-    
+
     # this method takes a page name as a parameter and returns an instance of the associated Page Object
       def page_dispatcher(page_name)
         page = case page_name
@@ -1175,22 +1368,22 @@ To use these `PageManager` methods, include the step definitions and code below 
 file in the `features/step_definitions` folder:
 
     include TestCentricity
-    
+
     Given(/^I am on the (.*) page$/) do |page_name|
       target_page = PageManager.find_page(page_name)
       target_page.load_page
     end
-    
+
     When(/^I click the (.*) navigation link$/) do |page_name|
       target_page = PageManager.find_page(page_name)
       target_page.navigate_to
     end
-    
+
     Then(/^I expect to see the (.*) page$/) do |page_name|
       target_page = PageManager.find_page(page_name)
       target_page.verify_page_exists
     end
-    
+
     Then(/^I expect the (.*) page to be correctly displayed$/) do |page_name|
       target_page = PageManager.find_page(page_name)
       target_page.verify_page_exists
@@ -1198,7 +1391,7 @@ file in the `features/step_definitions` folder:
     end
 
 
-
+---
 ## Connecting to a Web Browser
 
 The `TestCentricity::WebDriverConnect.initialize_web_driver` method configures the appropriate Selenium-Webdriver capabilities
@@ -1247,34 +1440,35 @@ File download functionality can be tested with locally hosted instances of Chrom
 automation project must include a `/downloads` folder at the same level as the `/config` and `/features` folders, as depicted
 below:
 
-    my_automation_project
-        ├── config
-        ├── downloads
-        ├── features
-        ├── Gemfile
-        └── README.md
+        📁 my_automation_project/
+        ├── 📁 config/
+        ├── 📁 downloads/
+        ├── 📁 features/
+        ├── 📄 Gemfile
+        └── 📄 README.md
 
 
 When running tests in multiple concurrent threads using the `parallel_tests` gem, a new folder will be created within the
 `/downloads` folder for each test thread. This is to ensure that files downloaded in each test thread are isolated from tests
 running in other parallel threads. An example of the`/downloads` folder structure for 4 parallel threads is depicted below:
 
-    my_automation_project
-        ├── config
-        ├── downloads
-        │   ├── 1
-        │   ├── 2
-        │   ├── 3
-        │   └── 4
-        ├── features
-        ├── Gemfile
-        └── README.md
+        📁 my_automation_project/
+        ├── 📁 config/
+        ├── 📁 downloads/
+        │   ├── 📁 1/
+        │   ├── 📁 2/
+        │   ├── 📁 3/
+        │   └── 📁 4/
+        ├── 📁 features/
+        ├── 📄 Gemfile
+        └── 📄 README.md
 
 
-When testing file downloads using a local instance of Firefox, you will need to specify the MIME types of the various file types
-that your tests will be downloading. This is accomplished by setting the `MIME_TYPES` Environment Variable to a comma-delimited
-string containing the list of MIME types to be accepted. This list is required as it will prevent Firefox from displaying the
-File Download modal dialog, which will halt your automated tests. An example of a list of MIME types is depicted below:
+When testing file downloads using a local instance of Firefox, you will need to specify the MIME types of the various file
+types that your tests will be downloading. This is accomplished by setting the `MIME_TYPES` Environment Variable to a
+comma-delimited string containing the list of MIME types to be accepted. This list is required as it will prevent Firefox
+from displaying the File Download modal dialog, which will halt your automated tests. An example of a list of MIME types
+is depicted below:
 
     MIME_TYPES='images/jpeg, application/pdf, application/octet-stream'
 
@@ -1351,18 +1545,18 @@ User defined mobile browser profiles can be specified in a `device.yml` file for
 browsers running in an instance of the Chrome desktop browser. The user specified browser profiles must be located at
 `config/data/devices/devices.yml` as depicted below:
 
-    my_automation_project
-        ├── config
-        │   ├── data
-        │   │   └── devices
-        │   │       └── devices.yml
-        │   ├── locales
-        │   ├── test_data
-        │   └── cucumber.yml
-        ├── downloads
-        ├── features
-        ├── Gemfile
-        └── README.md
+        📁 my_automation_project/
+        ├── 📁 config/
+        │   ├── 📁 data/
+        │   │   └── 📁 devices/
+        │   │       └── 📄devices.yml
+        │   ├── 📁 locales/
+        │   ├── 📁 test_data/
+        │   └── 📄 cucumber.yml
+        ├── 📁 downloads/
+        ├── 📁 features/
+        ├── 📄 Gemfile
+        └── 📄 README.md
 
 The format for a new mobile browser profile is:
 ```
@@ -1395,8 +1589,7 @@ Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below
 #### Mobile Safari browser on iOS Simulators or iOS Physical Devices
 
 You can run your mobile web tests against the mobile Safari browser on simulated iOS devices or physically connected iOS devices
-using Appium and XCode on macOS. You must install Appium, XCode, and the iOS version-specific device simulators for XCode. You
-must also ensure that the `appium_capybara` gem is installed and required as described in **section 3.3 (Setup - Using Appium)** above.
+using Appium and XCode on macOS. You must install Appium, XCode, and the iOS version-specific device simulators for XCode.
 
 Information about Appium setup and configuration requirements for testing on physically connected iOS devices can be found
 on [this page](https://github.com/appium/appium/blob/master/docs/en/drivers/ios-xcuitest-real-devices.md). The Appium server
@@ -1933,41 +2126,41 @@ Monterey virtual machine on the BrowserStack service:
     cucumber -p bs_safari_monterey
 
 
-
+---
 ## Recommended Project Organization and Structure
 
 Below is an example of the project structure of a typical Cucumber based test automation framework with a Page Object Model
 architecture. `PageObject` class definitions should be stored in the `/features/support/pages` folder, organized in functional
 area sub-folders as needed. Likewise, `PageSection` class definitions should be stored in the `/features/support/sections` folder.
 
-    my_automation_project
-        ├── config
-        │   ├── locales
-        │   ├── test_data
-        │   └── cucumber.yml
-        ├── downloads
-        ├── features
-        │   ├── step_definitions
-        │   └── support
-        │   │   ├── pages
-        │   │   ├── sections
-        │   │   ├── env.rb
-        │   │   ├── hooks.rb
-        │   │   └── world_pages.rb
-        ├── Gemfile
-        └── README.md
+        📁 my_automation_project/
+        ├── 📁 config/
+        │   ├── 📁 locales/
+        │   ├── 📁 test_data/
+        │   └── 📄 cucumber.yml
+        ├── 📁 downloads/
+        ├── 📁 features/
+        │   ├── 📁 step_definitions/
+        │   └── 📁 support/
+        │   │   ├── 📁 pages/
+        │   │   ├── 📁 sections/
+        │   │   ├── 📄 env.rb
+        │   │   ├── 📄 hooks.rb
+        │   │   └── 📄 world_pages.rb
+        ├── 📄 Gemfile
+        └── 📄 README.md
 
 
-
+---
 ## Web Test Automation Framework Implementation
 
 ![TestCentricity Web Framework Overview](./images/tc_overview.jpg "TestCentricity Web Framework Overview")
 
 
-
+---
 ## Copyright and License
 
-TestCentricity™ Framework is Copyright (c) 2014-2022, Tony Mrozinski.
+TestCentricity™ Framework is Copyright (c) 2014-2023, Tony Mrozinski.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following

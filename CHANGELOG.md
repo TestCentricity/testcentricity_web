@@ -2,11 +2,11 @@
 All notable changes to this project will be documented in this file.
 
 
-## [4.4.0] - 08-DEC-2022
+## [4.4.0] - 18-JAN-2023
 
 ### Added
-* Added support for connecting to, and switching between multiple WebDriver connected desktop and/or mobile web browsers
-by utilizing the following new methods:
+* Added support for connecting to, and switching between multiple WebDriver or Appium connected desktop and/or mobile web
+browsers by utilizing the following new methods:
   * `WebDriverConnect.initialize_driver`
   * `WebDriverConnect.active_driver`
   * `WebDriverConnect.close_all_drivers`
@@ -17,7 +17,7 @@ by utilizing the following new methods:
 
 ### Changed
 * `WebDriverConnect.initialize_web_driver` method now accepts an optional `options` hash for specifying desired capabilities
-(using W3C protocol), driver, driver name, endpoint, app host, and device type information.
+(using W3C protocol), driver, driver name, endpoint, app host, device type, and browser window size information.
 * The `HOST_BROWSER` Environment Variable is no longer required to support emulated mobile web browsers.
 * TestCentricity now supports and integrates with Selenium-Webdriver version 4.7 and Capybara version 3.38.
 

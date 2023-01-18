@@ -51,12 +51,12 @@ module TestCentricity
     CSS_SELECTORS   = %w[# :nth-child( :first-child :last-child :nth-of-type( :first-of-type :last-of-type ^= $= *= :contains(]
 
     def initialize(name, parent, locator, context)
-      @name           = name
-      @parent         = parent
-      @locator        = locator
-      @context        = context
-      @type           = nil
-      @alt_locator    = nil
+      @name = name
+      @parent = parent
+      @locator = locator
+      @context = context
+      @type = nil
+      @alt_locator = nil
       @original_style = nil
       reset_mru_cache
       set_locator_type

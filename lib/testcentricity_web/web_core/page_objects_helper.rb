@@ -283,8 +283,12 @@ module TestCentricity
                            ui_object.get_attribute(value)
                          when :native_attribute
                            ui_object.get_native_attribute(value)
+                         else
+                           raise "#{key} is not a valid property key"
                          end
                        end
+                     else
+                       raise "#{property} is not a valid property"
                      end
                    end
           error_msg = if ui_object.respond_to?(:get_name)
@@ -295,8 +299,8 @@ module TestCentricity
           ExceptionQueue.enqueue_comparison(ui_object, state, actual, error_msg)
         end
       end
-    rescue ObjectNotFoundError => e
-      ExceptionQueue.enqueue_exception(e.message)
+    rescue ObjectNotFoundError => error
+      ExceptionQueue.enqueue_exception(error.message)
     ensure
       error_msg = "#{fail_message}\nPage URL = #{URI.parse(current_url)}"
       ExceptionQueue.post_exceptions(error_msg)

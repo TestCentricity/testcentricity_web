@@ -1,0 +1,4066 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: TestCentricity::PageObject
+  
+    &mdash; Documentation by YARD 0.9.28
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "TestCentricity::PageObject";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (P)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../TestCentricity.html" title="TestCentricity (module)">TestCentricity</a></span></span>
+     &raquo; 
+    <span class="title">PageObject</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: TestCentricity::PageObject
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="BasePageSectionObject.html" title="TestCentricity::BasePageSectionObject (class)">BasePageSectionObject</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="BasePageSectionObject.html" title="TestCentricity::BasePageSectionObject (class)">BasePageSectionObject</a></span></li>
+          
+            <li class="next">TestCentricity::PageObject</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/testcentricity_web/web_core/page_object.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+
+  <h2>Constant Summary</h2>
+  
+  <h3 class="inherited">Constants inherited
+     from <span class='object_link'><a href="BasePageSectionObject.html" title="TestCentricity::BasePageSectionObject (class)">BasePageSectionObject</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="BasePageSectionObject.html#CSS_SELECTORS-constant" title="TestCentricity::BasePageSectionObject::CSS_SELECTORS (constant)">BasePageSectionObject::CSS_SELECTORS</a></span>, <span class='object_link'><a href="BasePageSectionObject.html#XPATH_SELECTORS-constant" title="TestCentricity::BasePageSectionObject::XPATH_SELECTORS (constant)">BasePageSectionObject::XPATH_SELECTORS</a></span></p>
+
+
+
+
+  <h2>Instance Attribute Summary</h2>
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="BasePageSectionObject.html" title="TestCentricity::BasePageSectionObject (class)">BasePageSectionObject</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="BasePageSectionObject.html#locator_type-instance_method" title="TestCentricity::BasePageSectionObject#locator_type (method)">#locator_type</a></span></p>
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#audio-class_method" title="audio (class method)">.<strong>audio</strong>(element_name, locator)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a single HTML5 audio UI Element for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#audios-class_method" title="audios (class method)">.<strong>audios</strong>(element_hash)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#button-class_method" title="button (class method)">.<strong>button</strong>(element_name, locator)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a single button UI Element for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#buttons-class_method" title="buttons (class method)">.<strong>buttons</strong>(element_hash)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a collection of buttons for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#checkbox-class_method" title="checkbox (class method)">.<strong>checkbox</strong>(element_name, locator)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a single checkbox UI Element for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#checkboxes-class_method" title="checkboxes (class method)">.<strong>checkboxes</strong>(element_hash)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a collection of checkboxes for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#element-class_method" title="element (class method)">.<strong>element</strong>(element_name, locator)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a single generic UI Element for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#elements-class_method" title="elements (class method)">.<strong>elements</strong>(element_hash)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a collection of generic UI Elements for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#filefield-class_method" title="filefield (class method)">.<strong>filefield</strong>(element_name, locator)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a single File Field UI Element for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#filefields-class_method" title="filefields (class method)">.<strong>filefields</strong>(element_hash)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#image-class_method" title="image (class method)">.<strong>image</strong>(element_name, locator)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate an single image UI Element for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#images-class_method" title="images (class method)">.<strong>images</strong>(element_hash)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#label-class_method" title="label (class method)">.<strong>label</strong>(element_name, locator)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a single label UI Element for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#labels-class_method" title="labels (class method)">.<strong>labels</strong>(element_hash)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#link-class_method" title="link (class method)">.<strong>link</strong>(element_name, locator)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a single link UI Element for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#links-class_method" title="links (class method)">.<strong>links</strong>(element_hash)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#list-class_method" title="list (class method)">.<strong>list</strong>(element_name, locator)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a single list UI Element for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#lists-class_method" title="lists (class method)">.<strong>lists</strong>(element_hash)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#radio-class_method" title="radio (class method)">.<strong>radio</strong>(element_name, locator)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a single radio button UI Element for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#radios-class_method" title="radios (class method)">.<strong>radios</strong>(element_hash)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a collection of radio buttons for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#range-class_method" title="range (class method)">.<strong>range</strong>(element_name, locator)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a single range input UI Element for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ranges-class_method" title="ranges (class method)">.<strong>ranges</strong>(element_hash)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a collection of range inputs for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#section-class_method" title="section (class method)">.<strong>section</strong>(section_name, obj, locator = nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Instantiate a single PageSection object for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sections-class_method" title="sections (class method)">.<strong>sections</strong>(section_hash)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#selectlist-class_method" title="selectlist (class method)">.<strong>selectlist</strong>(element_name, locator)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a single select list UI Element for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#selectlists-class_method" title="selectlists (class method)">.<strong>selectlists</strong>(element_hash)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#table-class_method" title="table (class method)">.<strong>table</strong>(element_name, locator)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a single table UI Element for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#tables-class_method" title="tables (class method)">.<strong>tables</strong>(element_hash)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#textfield-class_method" title="textfield (class method)">.<strong>textfield</strong>(element_name, locator)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a single text field UI Element for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#textfields-class_method" title="textfields (class method)">.<strong>textfields</strong>(element_hash)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a collection of text fields for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#video-class_method" title="video (class method)">.<strong>video</strong>(element_name, locator)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Declare and instantiate a single HTML5 video UI Element for this page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#videos-class_method" title="videos (class method)">.<strong>videos</strong>(element_hash)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#exists%3F-instance_method" title="#exists? (instance method)">#<strong>exists?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Does Page object exists?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>  &#x21d2; PageObject </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of PageObject.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_page-instance_method" title="#load_page (instance method)">#<strong>load_page</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#navigate_to-instance_method" title="#navigate_to (instance method)">#<strong>navigate_to</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#open_portal-instance_method" title="#open_portal (instance method)">#<strong>open_portal</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#secure%3F-instance_method" title="#secure? (instance method)">#<strong>secure?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Is current Page object URL secure?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#send_keys-instance_method" title="#send_keys (instance method)">#<strong>send_keys</strong>(*keys)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Send keystrokes to the focused element on a Page object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#title-instance_method" title="#title (instance method)">#<strong>title</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Return page title.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#verify_page_contains-instance_method" title="#verify_page_contains (instance method)">#<strong>verify_page_contains</strong>(content)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#verify_page_exists-instance_method" title="#verify_page_exists (instance method)">#<strong>verify_page_exists</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#verify_page_ui-instance_method" title="#verify_page_ui (instance method)">#<strong>verify_page_ui</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#wait_for_ajax-instance_method" title="#wait_for_ajax (instance method)">#<strong>wait_for_ajax</strong>(seconds = nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Wait until all AJAX requests have completed, or until the specified wait time has expired.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#wait_until_exists-instance_method" title="#wait_until_exists (instance method)">#<strong>wait_until_exists</strong>(seconds = nil, post_exception = true)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Wait until the page object exists, or until the specified wait time has expired.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#wait_until_gone-instance_method" title="#wait_until_gone (instance method)">#<strong>wait_until_gone</strong>(seconds = nil, post_exception = true)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Wait until the page object no longer exists, or until the specified wait time has expired.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="BasePageSectionObject.html" title="TestCentricity::BasePageSectionObject (class)">BasePageSectionObject</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="BasePageSectionObject.html#populate_data_fields-instance_method" title="TestCentricity::BasePageSectionObject#populate_data_fields (method)">#populate_data_fields</a></span>, <span class='object_link'><a href="BasePageSectionObject.html#set_locator_type-instance_method" title="TestCentricity::BasePageSectionObject#set_locator_type (method)">#set_locator_type</a></span>, <span class='object_link'><a href="BasePageSectionObject.html#trait-class_method" title="TestCentricity::BasePageSectionObject.trait (method)">trait</a></span>, <span class='object_link'><a href="BasePageSectionObject.html#verify_focus_order-instance_method" title="TestCentricity::BasePageSectionObject#verify_focus_order (method)">#verify_focus_order</a></span>, <span class='object_link'><a href="BasePageSectionObject.html#verify_ui_states-instance_method" title="TestCentricity::BasePageSectionObject#verify_ui_states (method)">#verify_ui_states</a></span></p>
+
+  
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="TestCentricity::PageObject (class)">PageObject</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns a new instance of PageObject.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+3
+4
+5</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 3</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span>
+  <span class='id identifier rubyid_set_locator_type'>set_locator_type</span><span class='lparen'>(</span><span class='id identifier rubyid_page_locator'>page_locator</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='id identifier rubyid_page_locator'>page_locator</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="audio-class_method">
+  
+    .<strong>audio</strong>(element_name, locator)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a single HTML5 audio UI Element for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_audio'>audio</span> <span class='symbol'>:audio_player</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>audio#my_audio_player</span><span class='tstring_end'>&#39;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of an HTML5 audio object (as a symbol)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>locator</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>CSS selector or XPath expression that uniquely identifies object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+269
+270
+271</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 269</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_audio'>audio</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_define_page_element'>define_page_element</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../TestCentricity.html" title="TestCentricity (module)">TestCentricity</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Audio.html" title="TestCentricity::Audio (class)">Audio</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="audios-class_method">
+  
+    .<strong>audios</strong>(element_hash)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+273
+274
+275</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 273</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_audios'>audios</span><span class='lparen'>(</span><span class='id identifier rubyid_element_hash'>element_hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_element_hash'>element_hash</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='op'>|</span> <span class='id identifier rubyid_audio'>audio</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="button-class_method">
+  
+    .<strong>button</strong>(element_name, locator)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a single button UI Element for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_button'>button</span> <span class='symbol'>:checkout_button</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>button.checkout_button</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_button'>button</span> <span class='symbol'>:login_button</span><span class='comma'>,</span>    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>//input[@id=&#39;submit_button&#39;]</span><span class='tstring_end'>&quot;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of button object (as a symbol)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>locator</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>CSS selector or XPath expression that uniquely identifies object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+38
+39
+40</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 38</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_button'>button</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_define_page_element'>define_page_element</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../TestCentricity.html" title="TestCentricity (module)">TestCentricity</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Button.html" title="TestCentricity::Button (class)">Button</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="buttons-class_method">
+  
+    .<strong>buttons</strong>(element_hash)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a collection of buttons for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_buttons'>buttons</span> <span class='label'>new_account_button:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>button#new-account</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+        <span class='label'>save_button:</span>        <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>button#save</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+        <span class='label'>cancel_button:</span>      <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>button#cancel</span><span class='tstring_end'>&#39;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_hash</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>names of buttons (as a symbol) and CSS selectors or XPath expressions that uniquely identifies buttons</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+50
+51
+52</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 50</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_buttons'>buttons</span><span class='lparen'>(</span><span class='id identifier rubyid_element_hash'>element_hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_element_hash'>element_hash</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='op'>|</span> <span class='id identifier rubyid_button'>button</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="checkbox-class_method">
+  
+    .<strong>checkbox</strong>(element_name, locator)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a single checkbox UI Element for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_checkbox'>checkbox</span> <span class='symbol'>:remember_checkbox</span><span class='comma'>,</span>     <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>//input[@id=&#39;RememberUser&#39;]</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_checkbox'>checkbox</span> <span class='symbol'>:accept_terms_checkbox</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>input#accept_terms_conditions</span><span class='tstring_end'>&#39;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of checkbox object (as a symbol)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>locator</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>CSS selector or XPath expression that uniquely identifies object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+111
+112
+113</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 111</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_checkbox'>checkbox</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_define_page_element'>define_page_element</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../TestCentricity.html" title="TestCentricity (module)">TestCentricity</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="CheckBox.html" title="TestCentricity::CheckBox (class)">CheckBox</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="checkboxes-class_method">
+  
+    .<strong>checkboxes</strong>(element_hash)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a collection of checkboxes for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_checkboxes'>checkboxes</span>  <span class='label'>hazmat_certified_check:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>input#hazmatCertified</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+            <span class='label'>epa_certified_check:</span>    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>input#epaCertified</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+            <span class='label'>dhs_certified_check:</span>    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>input#homelandSecurityCertified</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+            <span class='label'>carb_compliant_check:</span>   <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>input#carbCompliant</span><span class='tstring_end'>&#39;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_hash</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>names of checkboxes (as a symbol) and CSS selectors or XPath expressions that uniquely identifies checkboxes</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+124
+125
+126</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 124</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_checkboxes'>checkboxes</span><span class='lparen'>(</span><span class='id identifier rubyid_element_hash'>element_hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_element_hash'>element_hash</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='op'>|</span> <span class='id identifier rubyid_checkbox'>checkbox</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="element-class_method">
+  
+    .<strong>element</strong>(element_name, locator)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a single generic UI Element for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_element'>element</span> <span class='symbol'>:settings_item</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>a#userPreferencesTrigger</span><span class='tstring_end'>&#39;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of UI object (as a symbol)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>locator</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>CSS selector or XPath expression that uniquely identifies object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+14
+15
+16</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 14</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_element'>element</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_define_page_element'>define_page_element</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../TestCentricity.html" title="TestCentricity (module)">TestCentricity</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UIElement.html" title="TestCentricity::UIElement (class)">UIElement</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="elements-class_method">
+  
+    .<strong>elements</strong>(element_hash)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a collection of generic UI Elements for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_elements'>elements</span>  <span class='label'>profile_item:</span>  <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>a#profile</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+          <span class='label'>settings_item:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>a#userPreferencesTrigger</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+          <span class='label'>log_out_item:</span>  <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>a#logout</span><span class='tstring_end'>&#39;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_hash</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>names of UI objects (as a symbol) and CSS selectors or XPath expressions that uniquely identifies objects</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+26
+27
+28</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 26</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_elements'>elements</span><span class='lparen'>(</span><span class='id identifier rubyid_element_hash'>element_hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_element_hash'>element_hash</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='op'>|</span> <span class='id identifier rubyid_element'>element</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="filefield-class_method">
+  
+    .<strong>filefield</strong>(element_name, locator)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a single File Field UI Element for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_filefield'>filefield</span> <span class='symbol'>:attach_file</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>s_SweFileName</span><span class='tstring_end'>&#39;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of file field object (as a symbol)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>locator</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>CSS selector or XPath expression that uniquely identifies object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+284
+285
+286</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 284</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_filefield'>filefield</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_define_page_element'>define_page_element</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../TestCentricity.html" title="TestCentricity (module)">TestCentricity</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FileField.html" title="TestCentricity::FileField (class)">FileField</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="filefields-class_method">
+  
+    .<strong>filefields</strong>(element_hash)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+288
+289
+290</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 288</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_filefields'>filefields</span><span class='lparen'>(</span><span class='id identifier rubyid_element_hash'>element_hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_element_hash'>element_hash</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='op'>|</span> <span class='id identifier rubyid_filefield'>filefield</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="image-class_method">
+  
+    .<strong>image</strong>(element_name, locator)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate an single image UI Element for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_image'>image</span> <span class='symbol'>:basket_item_image</span><span class='comma'>,</span>    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>div.product_image</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_image'>image</span> <span class='symbol'>:corporate_logo_image</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>//img[@alt=&#39;MyCompany_logo&#39;]</span><span class='tstring_end'>&quot;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of image object (as a symbol)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>locator</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>CSS selector or XPath expression that uniquely identifies object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+239
+240
+241</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 239</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_image'>image</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_define_page_element'>define_page_element</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../TestCentricity.html" title="TestCentricity (module)">TestCentricity</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Image.html" title="TestCentricity::Image (class)">Image</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="images-class_method">
+  
+    .<strong>images</strong>(element_hash)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+243
+244
+245</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 243</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_images'>images</span><span class='lparen'>(</span><span class='id identifier rubyid_element_hash'>element_hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_element_hash'>element_hash</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='op'>|</span> <span class='id identifier rubyid_image'>image</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="label-class_method">
+  
+    .<strong>label</strong>(element_name, locator)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a single label UI Element for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_label'>label</span> <span class='symbol'>:welcome_label</span><span class='comma'>,</span>      <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>div.Welcome</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_label'>label</span> <span class='symbol'>:rollup_price_label</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>//div[contains(@id, &#39;Rollup Item Price&#39;)]</span><span class='tstring_end'>&quot;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of label object (as a symbol)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>locator</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>CSS selector or XPath expression that uniquely identifies object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+161
+162
+163</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 161</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_define_page_element'>define_page_element</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../TestCentricity.html" title="TestCentricity (module)">TestCentricity</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Label.html" title="TestCentricity::Label (class)">Label</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="labels-class_method">
+  
+    .<strong>labels</strong>(element_hash)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+165
+166
+167</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 165</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_labels'>labels</span><span class='lparen'>(</span><span class='id identifier rubyid_element_hash'>element_hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_element_hash'>element_hash</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='op'>|</span> <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="link-class_method">
+  
+    .<strong>link</strong>(element_name, locator)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a single link UI Element for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_link'>link</span> <span class='symbol'>:registration_link</span><span class='comma'>,</span>    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>a.account-nav__link.register</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_link'>link</span> <span class='symbol'>:shopping_basket_link</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>//a[@href=&#39;shopping_basket&#39;]</span><span class='tstring_end'>&quot;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of link object (as a symbol)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>locator</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>CSS selector or XPath expression that uniquely identifies object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+177
+178
+179</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 177</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_link'>link</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_define_page_element'>define_page_element</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../TestCentricity.html" title="TestCentricity (module)">TestCentricity</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Link.html" title="TestCentricity::Link (class)">Link</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="links-class_method">
+  
+    .<strong>links</strong>(element_hash)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+181
+182
+183</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 181</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_links'>links</span><span class='lparen'>(</span><span class='id identifier rubyid_element_hash'>element_hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_element_hash'>element_hash</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='op'>|</span> <span class='id identifier rubyid_link'>link</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="list-class_method">
+  
+    .<strong>list</strong>(element_name, locator)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a single list UI Element for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_list'>list</span> <span class='symbol'>:x_axis_list</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>g.x-axis</span><span class='tstring_end'>&#39;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of list object (as a symbol)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>locator</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>CSS selector or XPath expression that uniquely identifies object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+223
+224
+225</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 223</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_list'>list</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_define_page_element'>define_page_element</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../TestCentricity.html" title="TestCentricity (module)">TestCentricity</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="List.html" title="TestCentricity::List (class)">List</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="lists-class_method">
+  
+    .<strong>lists</strong>(element_hash)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+227
+228
+229</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 227</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_lists'>lists</span><span class='lparen'>(</span><span class='id identifier rubyid_element_hash'>element_hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_element_hash'>element_hash</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='op'>|</span> <span class='id identifier rubyid_list'>list</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="radio-class_method">
+  
+    .<strong>radio</strong>(element_name, locator)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a single radio button UI Element for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_radio'>radio</span> <span class='symbol'>:accept_terms_radio</span><span class='comma'>,</span>  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>//input[@id=&#39;Accept_Terms&#39;]</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_radio'>radio</span> <span class='symbol'>:decline_terms_radio</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>#decline_terms_conditions</span><span class='tstring_end'>&#39;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of radio object (as a symbol)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>locator</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>CSS selector or XPath expression that uniquely identifies object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+136
+137
+138</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 136</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_radio'>radio</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_define_page_element'>define_page_element</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../TestCentricity.html" title="TestCentricity (module)">TestCentricity</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Radio.html" title="TestCentricity::Radio (class)">Radio</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="radios-class_method">
+  
+    .<strong>radios</strong>(element_hash)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a collection of radio buttons for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_radios'>radios</span>  <span class='label'>visa_radio:</span>       <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>input#payWithVisa</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+        <span class='label'>mastercard_radio:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>input#payWithMastercard</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+        <span class='label'>discover_radio:</span>   <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>input#payWithDiscover</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+        <span class='label'>amex_radio:</span>       <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>input#payWithAmEx</span><span class='tstring_end'>&#39;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_hash</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>names of radio buttons (as a symbol) and CSS selectors or XPath expressions that uniquely identifies radio buttons</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+149
+150
+151</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 149</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_radios'>radios</span><span class='lparen'>(</span><span class='id identifier rubyid_element_hash'>element_hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_element_hash'>element_hash</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='op'>|</span> <span class='id identifier rubyid_radio'>radio</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="range-class_method">
+  
+    .<strong>range</strong>(element_name, locator)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a single range input UI Element for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_range'>range</span> <span class='symbol'>:volume_level</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>//input[@id=&#39;volume_slider&#39;]</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_range'>range</span> <span class='symbol'>:points_slider</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>input#points</span><span class='tstring_end'>&#39;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of range input object (as a symbol)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>locator</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>CSS selector or XPath expression that uniquely identifies object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 88</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_range'>range</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_define_page_element'>define_page_element</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../TestCentricity.html" title="TestCentricity (module)">TestCentricity</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Range.html" title="TestCentricity::Range (class)">Range</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ranges-class_method">
+  
+    .<strong>ranges</strong>(element_hash)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a collection of range inputs for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_ranges'>ranges</span> <span class='label'>points_slider:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>input#points</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+       <span class='label'>risk_slider:</span>   <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>input#risk_percentage</span><span class='tstring_end'>&#39;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_hash</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>names of ranges (as a symbol) and CSS selectors or XPath expressions that uniquely identifies the ranges</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+99
+100
+101</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 99</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_ranges'>ranges</span><span class='lparen'>(</span><span class='id identifier rubyid_element_hash'>element_hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_element_hash'>element_hash</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='op'>|</span> <span class='id identifier rubyid_range'>range</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="section-class_method">
+  
+    .<strong>section</strong>(section_name, obj, locator = nil)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Instantiate a single PageSection object for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_section'>section</span> <span class='symbol'>:search_form</span><span class='comma'>,</span> <span class='const'>SearchForm</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>section_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of PageSection object (as a symbol)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>class_name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Class name of PageSection object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+299
+300
+301
+302
+303
+304
+305
+306</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 299</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_section'>section</span><span class='lparen'>(</span><span class='id identifier rubyid_section_name'>section_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_define_method'>define_method</span><span class='lparen'>(</span><span class='id identifier rubyid_section_name'>section_name</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_ivar_name'>ivar_name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>@</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_section_name'>section_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_ivar'>ivar</span> <span class='op'>=</span> <span class='id identifier rubyid_instance_variable_get'>instance_variable_get</span><span class='lparen'>(</span><span class='id identifier rubyid_ivar_name'>ivar_name</span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_ivar'>ivar</span> <span class='kw'>if</span> <span class='id identifier rubyid_ivar'>ivar</span>
+    <span class='id identifier rubyid_instance_variable_set'>instance_variable_set</span><span class='lparen'>(</span><span class='id identifier rubyid_ivar_name'>ivar_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_section_name'>section_name</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_locator'>locator</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:page</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sections-class_method">
+  
+    .<strong>sections</strong>(section_hash)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+308
+309
+310</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 308</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_sections'>sections</span><span class='lparen'>(</span><span class='id identifier rubyid_section_hash'>section_hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_section_hash'>section_hash</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_section_name'>section_name</span><span class='comma'>,</span> <span class='id identifier rubyid_class_name'>class_name</span><span class='op'>|</span> <span class='id identifier rubyid_section'>section</span><span class='lparen'>(</span><span class='id identifier rubyid_section_name'>section_name</span><span class='comma'>,</span> <span class='id identifier rubyid_class_name'>class_name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="selectlist-class_method">
+  
+    .<strong>selectlist</strong>(element_name, locator)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a single select list UI Element for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_selectlist'>selectlist</span> <span class='symbol'>:category_selector</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>select#search_form_category_chosen</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_selectlist'>selectlist</span> <span class='symbol'>:gender_select</span><span class='comma'>,</span>     <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>//select[@id=&#39;customer_gender&#39;]</span><span class='tstring_end'>&quot;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of select list object (as a symbol)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>locator</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>CSS selector or XPath expression that uniquely identifies object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+208
+209
+210</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 208</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_selectlist'>selectlist</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_define_page_element'>define_page_element</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../TestCentricity.html" title="TestCentricity (module)">TestCentricity</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="SelectList.html" title="TestCentricity::SelectList (class)">SelectList</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="selectlists-class_method">
+  
+    .<strong>selectlists</strong>(element_hash)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+212
+213
+214</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 212</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_selectlists'>selectlists</span><span class='lparen'>(</span><span class='id identifier rubyid_element_hash'>element_hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_element_hash'>element_hash</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='op'>|</span> <span class='id identifier rubyid_selectlist'>selectlist</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="table-class_method">
+  
+    .<strong>table</strong>(element_name, locator)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a single table UI Element for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_table'>table</span> <span class='symbol'>:payments_table</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>//table[@class=&#39;payments_table&#39;]</span><span class='tstring_end'>&quot;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of table object (as a symbol)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>locator</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>XPath expression that uniquely identifies object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+192
+193
+194</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 192</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_table'>table</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_define_page_element'>define_page_element</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../TestCentricity.html" title="TestCentricity (module)">TestCentricity</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Table.html" title="TestCentricity::Table (class)">Table</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="tables-class_method">
+  
+    .<strong>tables</strong>(element_hash)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+196
+197
+198</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 196</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_tables'>tables</span><span class='lparen'>(</span><span class='id identifier rubyid_element_hash'>element_hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_element_hash'>element_hash</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='op'>|</span> <span class='id identifier rubyid_table'>table</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="textfield-class_method">
+  
+    .<strong>textfield</strong>(element_name, locator)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a single text field UI Element for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_textfield'>textfield</span> <span class='symbol'>:user_id_field</span><span class='comma'>,</span>  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>//input[@id=&#39;UserName&#39;]</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_textfield'>textfield</span> <span class='symbol'>:password_field</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>input#consumer_password</span><span class='tstring_end'>&#39;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of text field object (as a symbol)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>locator</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>CSS selector or XPath expression that uniquely identifies object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+62
+63
+64</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 62</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_textfield'>textfield</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_define_page_element'>define_page_element</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../TestCentricity.html" title="TestCentricity (module)">TestCentricity</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="TextField.html" title="TestCentricity::TextField (class)">TextField</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="textfields-class_method">
+  
+    .<strong>textfields</strong>(element_hash)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a collection of text fields for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_textfields'>textfields</span>  <span class='label'>name_field:</span>  <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>input#Name</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+            <span class='label'>title_field:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>input#Title</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+            <span class='label'>phone_field:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>input#PhoneNumber</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+            <span class='label'>fax_field:</span>   <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>input#FaxNumber</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+            <span class='label'>email_field:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>input#Email</span><span class='tstring_end'>&#39;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_hash</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>names of text fields (as a symbol) and CSS selectors or XPath expressions that uniquely identifies text fields</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+76
+77
+78</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 76</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_textfields'>textfields</span><span class='lparen'>(</span><span class='id identifier rubyid_element_hash'>element_hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_element_hash'>element_hash</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='op'>|</span> <span class='id identifier rubyid_textfield'>textfield</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="video-class_method">
+  
+    .<strong>video</strong>(element_name, locator)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Declare and instantiate a single HTML5 video UI Element for this page object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_video'>video</span> <span class='symbol'>:video_player</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>video#my_video_player</span><span class='tstring_end'>&#39;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of an HTML5 video object (as a symbol)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>locator</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>CSS selector or XPath expression that uniquely identifies object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+254
+255
+256</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 254</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_video'>video</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_define_page_element'>define_page_element</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../TestCentricity.html" title="TestCentricity (module)">TestCentricity</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Video.html" title="TestCentricity::Video (class)">Video</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="videos-class_method">
+  
+    .<strong>videos</strong>(element_hash)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+258
+259
+260</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 258</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_videos'>videos</span><span class='lparen'>(</span><span class='id identifier rubyid_element_hash'>element_hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_element_hash'>element_hash</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='op'>|</span> <span class='id identifier rubyid_video'>video</span><span class='lparen'>(</span><span class='id identifier rubyid_element_name'>element_name</span><span class='comma'>,</span> <span class='id identifier rubyid_locator'>locator</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="exists?-instance_method">
+  
+    #<strong>exists?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Does Page object exists?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_home_page'>home_page</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 361</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_exists?'>exists?</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Page object </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> does not have a page_locator trait defined</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='id identifier rubyid_page_locator'>page_locator</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_saved_wait_time'>saved_wait_time</span> <span class='op'>=</span> <span class='const'>Capybara</span><span class='period'>.</span><span class='id identifier rubyid_default_max_wait_time'>default_max_wait_time</span>
+  <span class='const'>Capybara</span><span class='period'>.</span><span class='id identifier rubyid_default_max_wait_time'>default_max_wait_time</span> <span class='op'>=</span> <span class='float'>0.1</span>
+  <span class='id identifier rubyid_tries'>tries</span> <span class='op'>||=</span> <span class='int'>2</span>
+  <span class='id identifier rubyid_attributes'>attributes</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:css</span><span class='comma'>,</span> <span class='symbol'>:xpath</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='id identifier rubyid_attributes'>attributes</span><span class='lbracket'>[</span><span class='id identifier rubyid_tries'>tries</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_obj'>obj</span> <span class='op'>=</span> <span class='id identifier rubyid_page'>page</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_page_locator'>page_locator</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_obj'>obj</span> <span class='op'>!=</span> <span class='kw'>nil</span>
+<span class='kw'>rescue</span>
+  <span class='const'>Capybara</span><span class='period'>.</span><span class='id identifier rubyid_default_max_wait_time'>default_max_wait_time</span> <span class='op'>=</span> <span class='id identifier rubyid_saved_wait_time'>saved_wait_time</span>
+  <span class='kw'>retry</span> <span class='kw'>if</span> <span class='lparen'>(</span><span class='id identifier rubyid_tries'>tries</span> <span class='op'>-=</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='op'>&gt;</span> <span class='int'>0</span>
+  <span class='kw'>false</span>
+<span class='kw'>ensure</span>
+  <span class='const'>Capybara</span><span class='period'>.</span><span class='id identifier rubyid_default_max_wait_time'>default_max_wait_time</span> <span class='op'>=</span> <span class='id identifier rubyid_saved_wait_time'>saved_wait_time</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_page-instance_method">
+  
+    #<strong>load_page</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 337</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_page'>load_page</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='id identifier rubyid_exists?'>exists?</span>
+  <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='id identifier rubyid_page_url'>page_url</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_page_url'>page_url</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_visit'>visit</span> <span class='id identifier rubyid_page_url'>page_url</span>
+    <span class='kw'>begin</span>
+      <span class='id identifier rubyid_page'>page</span><span class='period'>.</span><span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_browser'>browser</span><span class='period'>.</span><span class='id identifier rubyid_switch_to'>switch_to</span><span class='period'>.</span><span class='id identifier rubyid_alert'>alert</span><span class='period'>.</span><span class='id identifier rubyid_accept'>accept</span>
+    <span class='kw'>rescue</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='kw'>end</span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="Environ.html" title="TestCentricity::Environ (class)">Environ</a></span></span><span class='period'>.</span><span class='id identifier rubyid_browser'><span class='object_link'><a href="Environ.html#browser-class_method" title="TestCentricity::Environ.browser (method)">browser</a></span></span> <span class='op'>==</span> <span class='symbol'>:safari</span> <span class='op'>||</span> <span class='const'><span class='object_link'><a href="Environ.html" title="TestCentricity::Environ (class)">Environ</a></span></span><span class='period'>.</span><span class='id identifier rubyid_browser'><span class='object_link'><a href="Environ.html#browser-class_method" title="TestCentricity::Environ.browser (method)">browser</a></span></span> <span class='op'>==</span> <span class='symbol'>:ie</span> <span class='op'>||</span> <span class='const'><span class='object_link'><a href="Environ.html" title="TestCentricity::Environ (class)">Environ</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_device?'><span class='object_link'><a href="Environ.html#is_device%3F-class_method" title="TestCentricity::Environ.is_device? (method)">is_device?</a></span></span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_navigate_to'>navigate_to</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_verify_page_exists'>verify_page_exists</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="navigate_to-instance_method">
+  
+    #<strong>navigate_to</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+333</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 333</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_navigate_to'>navigate_to</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="open_portal-instance_method">
+  
+    #<strong>open_portal</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+312
+313
+314
+315</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 312</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_open_portal'>open_portal</span>
+  <span class='id identifier rubyid_visit'>visit</span> <span class='const'><span class='object_link'><a href="Environ.html" title="TestCentricity::Environ (class)">Environ</a></span></span><span class='period'>.</span><span class='id identifier rubyid_current'><span class='object_link'><a href="DataObject.html#current-class_method" title="TestCentricity::DataObject.current (method)">current</a></span></span><span class='period'>.</span><span class='id identifier rubyid_app_host'>app_host</span>
+  <span class='const'><span class='object_link'><a href="Environ.html" title="TestCentricity::Environ (class)">Environ</a></span></span><span class='period'>.</span><span class='id identifier rubyid_portal_state'><span class='object_link'><a href="Environ.html#portal_state-class_method" title="TestCentricity::Environ.portal_state (method)">portal_state</a></span></span> <span class='op'>=</span> <span class='symbol'>:open</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="secure?-instance_method">
+  
+    #<strong>secure?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Is current Page object URL secure?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_home_page'>home_page</span><span class='period'>.</span><span class='id identifier rubyid_secure?'>secure?</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+460
+461
+462</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 460</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_secure?'>secure?</span>
+  <span class='id identifier rubyid_current_url'>current_url</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="send_keys-instance_method">
+  
+    #<strong>send_keys</strong>(*keys)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Send keystrokes to the focused element on a Page object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_editor_page'>editor_page</span><span class='period'>.</span><span class='id identifier rubyid_send_keys'>send_keys</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:control</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>keys</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>keys</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+394
+395
+396
+397</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 394</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_send_keys'>send_keys</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_keys'>keys</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_focused_obj'>focused_obj</span> <span class='op'>=</span> <span class='id identifier rubyid_page'>page</span><span class='period'>.</span><span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_browser'>browser</span><span class='period'>.</span><span class='id identifier rubyid_switch_to'>switch_to</span><span class='period'>.</span><span class='id identifier rubyid_active_element'>active_element</span>
+  <span class='id identifier rubyid_focused_obj'>focused_obj</span><span class='period'>.</span><span class='id identifier rubyid_send_keys'>send_keys</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_keys'>keys</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="title-instance_method">
+  
+    #<strong>title</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Return page title</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_home_page'>home_page</span><span class='period'>.</span><span class='id identifier rubyid_title'>title</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+384
+385
+386</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 384</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_title'>title</span>
+  <span class='id identifier rubyid_page'>page</span><span class='period'>.</span><span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_browser'>browser</span><span class='period'>.</span><span class='id identifier rubyid_title'>title</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="verify_page_contains-instance_method">
+  
+    #<strong>verify_page_contains</strong>(content)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+351
+352
+353</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 351</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_verify_page_contains'>verify_page_contains</span><span class='lparen'>(</span><span class='id identifier rubyid_content'>content</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Expected page to have content &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_content'>content</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_page'>page</span><span class='period'>.</span><span class='id identifier rubyid_has_content?'>has_content?</span><span class='lparen'>(</span><span class='symbol'>:visible</span><span class='comma'>,</span> <span class='id identifier rubyid_content'>content</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="verify_page_exists-instance_method">
+  
+    #<strong>verify_page_exists</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 317</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_verify_page_exists'>verify_page_exists</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Page object </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> does not have a page_locator trait defined</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='id identifier rubyid_page_locator'>page_locator</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_set_locator_type'>set_locator_type</span><span class='lparen'>(</span><span class='id identifier rubyid_page_locator'>page_locator</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@locator_type</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_page'>page</span><span class='period'>.</span><span class='id identifier rubyid_has_selector?'>has_selector?</span><span class='lparen'>(</span><span class='ivar'>@locator_type</span><span class='comma'>,</span> <span class='id identifier rubyid_page_locator'>page_locator</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_body_class'>body_class</span> <span class='op'>=</span> <span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='symbol'>:xpath</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>//body</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='symbol'>:class</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_error_message'>error_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>%(</span><span class='tstring_content'>
+      Expected page to have selector &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_page_locator'>page_locator</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; but found &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_body_class'>body_class</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; instead.
+      Actual URL of page loaded = </span><span class='embexpr_beg'>#{</span><span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_current_url'>current_url</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>.
+      </span><span class='tstring_end'>)</span></span>
+    <span class='id identifier rubyid_error_message'>error_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_error_message'>error_message</span><span class='embexpr_end'>}</span><span class='tstring_content'>\nExpected URL of page was </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_page_url'>page_url</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='id identifier rubyid_page_url'>page_url</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='id identifier rubyid_error_message'>error_message</span>
+  <span class='kw'>end</span>
+  <span class='const'><span class='object_link'><a href="PageManager.html" title="TestCentricity::PageManager (class)">PageManager</a></span></span><span class='period'>.</span><span class='id identifier rubyid_current_page'><span class='object_link'><a href="PageManager.html#current_page-class_method" title="TestCentricity::PageManager.current_page (method)">current_page</a></span></span> <span class='op'>=</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="verify_page_ui-instance_method">
+  
+    #<strong>verify_page_ui</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+335</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 335</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_verify_page_ui'>verify_page_ui</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="wait_for_ajax-instance_method">
+  
+    #<strong>wait_for_ajax</strong>(seconds = nil)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Wait until all AJAX requests have completed, or until the specified wait time has expired. If the wait time is nil, then
+the wait time will be Capybara.default_max_wait_time.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_shopping_basket_page'>shopping_basket_page</span><span class='period'>.</span><span class='id identifier rubyid_wait_for_ajax'>wait_for_ajax</span><span class='lparen'>(</span><span class='int'>15</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>seconds</span>
+      
+      
+        <span class='type'>(<tt>Integer or Float</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>wait time in seconds</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+444
+445
+446
+447
+448
+449
+450
+451
+452</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 444</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_wait_for_ajax'>wait_for_ajax</span><span class='lparen'>(</span><span class='id identifier rubyid_seconds'>seconds</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_wait_time'>wait_time</span> <span class='op'>=</span> <span class='id identifier rubyid_seconds'>seconds</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='const'>Capybara</span><span class='period'>.</span><span class='id identifier rubyid_default_max_wait_time'>default_max_wait_time</span> <span class='op'>:</span> <span class='id identifier rubyid_seconds'>seconds</span>
+  <span class='const'>Timeout</span><span class='period'>.</span><span class='id identifier rubyid_timeout'>timeout</span><span class='lparen'>(</span><span class='id identifier rubyid_wait_time'>wait_time</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_loop'>loop</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_active'>active</span> <span class='op'>=</span> <span class='id identifier rubyid_page'>page</span><span class='period'>.</span><span class='id identifier rubyid_evaluate_script'>evaluate_script</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>jQuery.active</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+      <span class='kw'>break</span> <span class='kw'>if</span> <span class='id identifier rubyid_active'>active</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="wait_until_exists-instance_method">
+  
+    #<strong>wait_until_exists</strong>(seconds = nil, post_exception = true)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Wait until the page object exists, or until the specified wait time has expired. If the wait time is nil, then the wait
+time will be Capybara.default_max_wait_time.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_home_page'>home_page</span><span class='period'>.</span><span class='id identifier rubyid_wait_until_exists'>wait_until_exists</span><span class='lparen'>(</span><span class='int'>15</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>seconds</span>
+      
+      
+        <span class='type'>(<tt>Integer or Float</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>wait time in seconds</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 406</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_wait_until_exists'>wait_until_exists</span><span class='lparen'>(</span><span class='id identifier rubyid_seconds'>seconds</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_post_exception'>post_exception</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_timeout'>timeout</span> <span class='op'>=</span> <span class='id identifier rubyid_seconds'>seconds</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='const'>Capybara</span><span class='period'>.</span><span class='id identifier rubyid_default_max_wait_time'>default_max_wait_time</span> <span class='op'>:</span> <span class='id identifier rubyid_seconds'>seconds</span>
+  <span class='id identifier rubyid_wait'>wait</span> <span class='op'>=</span> <span class='const'>Selenium</span><span class='op'>::</span><span class='const'>WebDriver</span><span class='op'>::</span><span class='const'>Wait</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>timeout:</span> <span class='id identifier rubyid_timeout'>timeout</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_wait'>wait</span><span class='period'>.</span><span class='id identifier rubyid_until'>until</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_exists?'>exists?</span> <span class='rbrace'>}</span>
+<span class='kw'>rescue</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_post_exception'>post_exception</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Page object </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> not found after </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_timeout'>timeout</span><span class='embexpr_end'>}</span><span class='tstring_content'> seconds</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_exists?'>exists?</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_exists?'>exists?</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="wait_until_gone-instance_method">
+  
+    #<strong>wait_until_gone</strong>(seconds = nil, post_exception = true)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Wait until the page object no longer exists, or until the specified wait time has expired. If the wait time is nil, then
+the wait time will be Capybara.default_max_wait_time.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_payment_processing_page'>payment_processing_page</span><span class='period'>.</span><span class='id identifier rubyid_wait_until_gone'>wait_until_gone</span><span class='lparen'>(</span><span class='int'>15</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>seconds</span>
+      
+      
+        <span class='type'>(<tt>Integer or Float</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>wait time in seconds</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/testcentricity_web/web_core/page_object.rb', line 425</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_wait_until_gone'>wait_until_gone</span><span class='lparen'>(</span><span class='id identifier rubyid_seconds'>seconds</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_post_exception'>post_exception</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_timeout'>timeout</span> <span class='op'>=</span> <span class='id identifier rubyid_seconds'>seconds</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='const'>Capybara</span><span class='period'>.</span><span class='id identifier rubyid_default_max_wait_time'>default_max_wait_time</span> <span class='op'>:</span> <span class='id identifier rubyid_seconds'>seconds</span>
+  <span class='id identifier rubyid_wait'>wait</span> <span class='op'>=</span> <span class='const'>Selenium</span><span class='op'>::</span><span class='const'>WebDriver</span><span class='op'>::</span><span class='const'>Wait</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>timeout:</span> <span class='id identifier rubyid_timeout'>timeout</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_wait'>wait</span><span class='period'>.</span><span class='id identifier rubyid_until'>until</span> <span class='lbrace'>{</span> <span class='op'>!</span><span class='id identifier rubyid_exists?'>exists?</span> <span class='rbrace'>}</span>
+<span class='kw'>rescue</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_post_exception'>post_exception</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Page object </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> remained visible after </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_timeout'>timeout</span><span class='embexpr_end'>}</span><span class='tstring_content'> seconds</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_exists?'>exists?</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_exists?'>exists?</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Tue Jan 17 15:44:34 2023 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.28 (ruby-2.7.5).
+</div>
+
+    </div>
+  </body>
+</html>
