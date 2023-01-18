@@ -17,9 +17,5 @@ Code of Conduct may be removed from the project team.
 Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by opening an issue or contacting one
 or more of the project maintainers.
 
-<<<<<<<< HEAD:CODE_OF_CONDUCT.md
 This Code of Conduct is adapted from the [Contributor Covenant](http://contributor-covenant.org), version 1.0.0, available
 at [http://contributor-covenant.org/version/1/0/0/](http://contributor-covenant.org/version/1/0/0/)
-========
-This Code of Conduct is adapted from the [Contributor Covenant](http://contributor-covenant.org), version 1.0.0, available at [http://contributor-covenant.org/version/1/0/0/](http://contributor-covenant.org/version/1/0/0/)
->>>>>>>> main:.github/CODE_OF_CONDUCT.md
