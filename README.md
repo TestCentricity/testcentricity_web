@@ -317,15 +317,15 @@ in a web app. It is a collection of **UI Elements** that represent a conceptual 
 bar, a search capability, a menu, or a pop-up panel. **UI Elements** and functional behavior are confined to the scope of
 a `PageSection` object.
 
-![Navigation Header](doc/images/NavBar1.png "Navigation Header")
+![Navigation Header](.github/images/NavBar1.png "Navigation Header")
 
  -
 
-![Navigation Header](doc/images/NavBar2.png "Navigation Header")
+![Navigation Header](.github/images/NavBar2.png "Navigation Header")
 
 A header navigation bar feature that is common to multiple pages
 
-![Shopping Bag Popup](doc/images/ShoppingBagPopUp.png "Shopping Bag Popup")
+![Shopping Bag Popup](.github/images/ShoppingBagPopUp.png "Shopping Bag Popup")
 
 A popup Shopping Bag panel associated with a header navigation bar
 
@@ -912,7 +912,7 @@ The `verify_ui_states` method also supports I18n string translations using prope
 The example below depicts the usage of the `verify_ui_states` method to verify that the captions for a popup Shopping Bag
 panel are correctly translated.
 
-![Localized UI](doc/images/LocalizedUI.png "Localized UI")
+![Localized UI](.github/images/LocalizedUI.png "Localized UI")
 
     class BagViewPopup < TestCentricity::PageSection
       trait(:section_locator) { 'aside.ac-gn-bagview' }
@@ -1038,12 +1038,12 @@ In the screenshot below of an airline flight search and booking page, the **Roun
 radio buttons are overlaid with `div` elements that also acts as proxies for their associated `input(type='radio')` elements,
 and that intercept the `click` actions that would normally be handled by the `input(type='radio')` elements.
 
-![Custom Radio buttons](doc/images/CustomRadios.png "Custom Radio buttons")
+![Custom Radio buttons](.github/images/CustomRadios.png "Custom Radio buttons")
 
 The checkbox controls on the airline flight search and booking page are also overlaid with `div` elements that intercept
 the `click` actions that would normally be handled by the `input(type='checkbox')` elements.
 
-![Custom Checkbox controls](doc/images/CustomCheckbox.png "Custom Checkbox controls")
+![Custom Checkbox controls](.github/images/CustomCheckbox.png "Custom Checkbox controls")
 
 
 The `Radio.define_custom_elements` and `CheckBox.define_custom_elements` methods provide a way to specify the `input`,
@@ -1099,7 +1099,7 @@ In the screenshots below, an inspection of the **Menu Groups** horizontal scroll
 reveals that it is a `div` element that contains multiple `button` elements with `data-testid` attributes of `menu-group`
 that represent the list items that can be selected.
 
-![Custom List](doc/images/CustomList.png "Custom List")
+![Custom List](.github/images/CustomList.png "Custom List")
 
 The `List.define_list_elements` method provides a means of specifying the elements that make up the key components of a
 `list` control. The method accepts a hash of element designators (key) and a CSS or Xpath expression (value) that expression
@@ -1131,7 +1131,7 @@ representing the selectable items in the drop-down list. However, `select` type 
 libraries (React.js, Chosen, GWT, etc.) can be composed of multiple elements representing the various components of a
 drop-down style `selectlist` implementation.
 
-![Custom SelectList](doc/images/CustomSelectList1.png "Custom SelectList")
+![Custom SelectList](.github/images/CustomSelectList1.png "Custom SelectList")
 
 
 In the screenshots below, an inspection of the **Football Teams** selector reveals that it is a `div` element that contains
@@ -1141,7 +1141,7 @@ in orange) that represent the list items or options that can be selected. The cu
 identified by an `li` with the `result-selected` snippet in its `class` name. Group headings and items in the drop-down
 list are represented by `li` elements with a `class` name of `group-result` (outlined in green).
 
-![Custom SelectList](doc/images/CustomSelectList.jpg "Custom SelectList")
+![Custom SelectList](.github/images/CustomSelectList.jpg "Custom SelectList")
 
 The `SelectList.define_list_elements` method provides a means of specifying the various elements that make up the key
 components of a `selectlist` control. The method accepts a hash of element designators (key) and a CSS or Xpath expression
@@ -1186,7 +1186,7 @@ However, custom tables can be implemented using elements other than the standard
 screenshot below, an inspection of the table reveals that it is comprised of `div` elements representing the table, body,
 rows, columns, header, header row, and header columns.
 
-![Custom Table](doc/images/CustomTable.png "Custom Table")
+![Custom Table](.github/images/CustomTable.png "Custom Table")
 
 The `Table.define_table_elements` method provides a means of specifying the various elements that make up the key
 components of a `table`. The method accepts a hash of element designators (key) and a CSS or Xpath expression (value)
@@ -2154,7 +2154,7 @@ area sub-folders as needed. Likewise, `PageSection` class definitions should be 
 ---
 ## Web Test Automation Framework Implementation
 
-![TestCentricity Web Framework Overview](doc/images/tc_overview.jpg "TestCentricity Web Framework Overview")
+![TestCentricity Web Framework Overview](.github/images/tc_overview.jpg "TestCentricity Web Framework Overview")
 
 
 ---
