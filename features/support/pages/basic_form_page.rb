@@ -14,11 +14,12 @@ class BasicFormPage < BaseTestPage
       password_field,
       max_length_field,
       read_only_field,
-      number_field,
+      number_int_field,
+      number_flt_field,
       date_field,
       date_time_field,
-      email_field,
       month_field,
+      email_field,
       color_picker,
       slider,
       comments_field,
@@ -49,7 +50,8 @@ class BasicFormPage < BaseTestPage
       password_field,
       max_length_field,
       read_only_field,
-      number_field,
+      number_int_field,
+      number_flt_field,
       date_field,
       date_field,
       date_field,
@@ -59,9 +61,9 @@ class BasicFormPage < BaseTestPage
       date_time_field,
       date_time_field,
       date_time_field,
+      month_field,
+      month_field,
       email_field,
-      month_field,
-      month_field,
       color_picker,
       slider,
       comments_field,
@@ -88,18 +90,21 @@ class BasicFormPage < BaseTestPage
       password_field,
       max_length_field,
       read_only_field,
-      number_field,
+      number_int_field,
+      number_flt_field,
       date_field,
       date_field,
       date_field,
+      date_field,
       date_time_field,
       date_time_field,
       date_time_field,
       date_time_field,
       date_time_field,
       date_time_field,
-      email_field,
+      date_time_field,
       month_field,
+      email_field,
       color_picker,
       slider,
       comments_field,
@@ -124,7 +129,8 @@ class BasicFormPage < BaseTestPage
       password_field,
       max_length_field,
       read_only_field,
-      number_field,
+      number_int_field,
+      number_flt_field,
       date_field,
       date_field,
       date_field,
@@ -134,8 +140,8 @@ class BasicFormPage < BaseTestPage
       date_time_field,
       date_time_field,
       date_time_field,
-      email_field,
       month_field,
+      email_field,
       comments_field,
       multi_select,
       drop_down_select
@@ -205,14 +211,24 @@ class BasicFormPage < BaseTestPage
         readonly: true,
         value: 'I am a read only text field'
       },
-      number_label => { visible: true, caption: 'Number:' },
-      number_field => {
+      number_int_label => { visible: true, caption: 'Number (Integer):' },
+      number_int_field => {
         visible: true,
         enabled: true,
         value: '41',
         min: 10,
         max: 1024,
         step: 1,
+        validation_message: ''
+      },
+      number_flt_label => { visible: true, caption: 'Number (Float):' },
+      number_flt_field => {
+        visible: true,
+        enabled: true,
+        value: '3.5',
+        min: 0.5,
+        max: 10.5,
+        step: 0.25,
         validation_message: ''
       },
       color_label => { visible: true, caption: 'Color:' },
@@ -358,7 +374,9 @@ class BasicFormPage < BaseTestPage
         loaded: true,
         broken: false,
         src: { ends_with: 'images/Wilder.jpg' },
-        alt: "It's alive"
+        alt: "It's alive",
+        width: 225,
+        height: 225
       },
       image_2 => {
         visible: true,
@@ -372,6 +390,14 @@ class BasicFormPage < BaseTestPage
         broken: true,
         src: { ends_with: 'wrongname.gif' },
         alt: 'A broken image'
+      },
+      image_4 => {
+        visible: true,
+        loaded: true,
+        broken: false,
+        src: { ends_with: 'images/TinyViolin.png' },
+        alt: 'Tiny Violin',
+        style: { contains: 'border-radius: 50%;'}
       },
       cancel_button => { visible: true, enabled: true, caption: 'Cancel' },
       submit_button => { visible: true, enabled: true, caption: 'Submit' }
@@ -395,7 +421,8 @@ class BasicFormPage < BaseTestPage
       username:     data.username,
       password:     data.password,
       maxlength:    Faker::Marketing.buzzwords,
-      number:       Faker::Number.between(from: 10, to: 1024),
+      number_int:   Faker::Number.between(from: 10, to: 1024),
+      number_flt:   Faker::Number.between(from: 1.25, to: 9.75),
       color:        color_value,
       slider:       50,
       comments:     Faker::Hipster.paragraph,
@@ -421,13 +448,15 @@ class BasicFormPage < BaseTestPage
     # clear text fields
     username_field.clear
     comments_field.clear
+    number_int_field.clear
     # populate fields and controls with externally sourced data
     @data = form_data
     fields = {
       username_field   => @data[:username],
       password_field   => @data[:password],
       max_length_field => @data[:maxlength],
-      number_field     => @data[:number],
+      number_int_field => @data[:number_int],
+      number_flt_field => @data[:number_flt],
       color_picker     => @data[:color],
       slider           => @data[:slider],
       comments_field   => @data[:comments],
@@ -449,7 +478,8 @@ class BasicFormPage < BaseTestPage
       username_field   => { value: @data[:username] },
       password_field   => { value: @data[:password] },
       max_length_field => { value: @data[:maxlength] },
-      number_field     => { value: @data[:number].to_s },
+      number_int_field => { value: @data[:number_int].to_s },
+      number_flt_field => { value: @data[:number_flt].to_s },
       color_picker     => { value: @data[:color] },
       slider           => { value: @data[:slider] },
       comments_field   => { value: @data[:comments] },
@@ -463,7 +493,18 @@ class BasicFormPage < BaseTestPage
       multi_select     => { selected: @data[:multi_select] },
       drop_down_select => { selected: @data[:drop_select] }
     }
-    verify_ui_states(ui)
+    upload_ui = if Environ.platform == :mobile
+                  { image_upload => { exists: false} }
+                else
+                  {
+                    image_upload => {
+                      visible: true,
+                      loaded: true,
+                      broken: false
+                    }
+                  }
+                end
+    verify_ui_states(upload_ui.merge(ui))
   end
 
   def perform_action(action)
@@ -483,7 +524,7 @@ class BasicFormPage < BaseTestPage
               chrome_tab_order
             when :safari
               safari_tab_order
-            when :firefox
+            when :firefox, :firefox_headless
               firefox_order
             else
               tab_order
@@ -519,9 +560,9 @@ class BasicFormPage < BaseTestPage
     # populate fields and controls with externally sourced data
     @data = form_data
     fields = {
-      username_field => @data[:username],
-      password_field => @data[:password],
-      number_field => @data[:number]
+      username_field   => @data[:username],
+      password_field   => @data[:password],
+      number_int_field => @data[:number_int]
     }
     populate_data_fields(fields)
 
@@ -531,9 +572,9 @@ class BasicFormPage < BaseTestPage
     when :blank_password
       password_field.clear
     when :number_too_low
-      number_field.set(3)
+      number_int_field.set(3)
     when :number_too_high
-      number_field.set(4132)
+      number_int_field.set(4132)
     when :invalid_email
       email_field.set('bob')
     else
@@ -548,9 +589,9 @@ class BasicFormPage < BaseTestPage
          when :blank_password
            { password_field => { valid: false, valueMissing: true } }
          when :number_too_low
-           { number_field => { valid: false, rangeUnderflow: true } }
+           { number_int_field => { valid: false, rangeUnderflow: true } }
          when :number_too_high
-           { number_field => { valid: false, rangeOverflow: true } }
+           { number_int_field => { valid: false, rangeOverflow: true } }
          when :invalid_email
            { email_field => { valid: false, typeMismatch: true } }
          else

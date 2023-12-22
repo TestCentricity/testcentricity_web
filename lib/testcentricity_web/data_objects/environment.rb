@@ -329,7 +329,8 @@ module TestCentricity
     end
 
     def self.device_os=(os)
-      @device_os = os.downcase.to_sym
+      os = os.downcase.to_sym if os.is_a?(String)
+      @device_os = os
     end
 
     def self.device_os

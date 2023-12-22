@@ -121,8 +121,9 @@ module TestCentricity
       timestamp = Time.now.strftime('%Y%m%d%H%M%S%L')
       filename = "Screenshot-#{timestamp}.png"
       path = File.join Dir.pwd, 'reports/screenshots/', filename
-      # highlight the active UI element prior to taking a screenshot
+      # scroll into view and highlight the active UI element prior to taking a screenshot
       unless @active_ui_element.nil? || @mru_ui_element == @active_ui_element
+        @active_ui_element.scroll_to(:bottom)
         @active_ui_element.highlight(0)
         @mru_ui_element = @active_ui_element
       end

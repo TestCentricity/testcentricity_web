@@ -223,6 +223,8 @@ class CustomControlsPage < BaseTestPage
   end
 
   def set_select_options
+    @selected_checks = [:pork]
+    @selected_radio = 1
     @selected_country = countries.sample
     @selected_team = teams.sample
     country_select.set(@selected_country)

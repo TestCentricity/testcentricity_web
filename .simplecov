@@ -2,8 +2,10 @@
 
 require 'simplecov'
 
-SimpleCov.start do
-  add_filter '/features/'
-  add_filter '/spec/'
-  merge_timeout 3600
+if ENV['COVERAGE']
+  SimpleCov.start do
+    add_filter '/features/'
+    add_filter '/spec/'
+    merge_timeout 7200
+  end
 end

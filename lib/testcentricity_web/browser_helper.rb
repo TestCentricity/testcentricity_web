@@ -43,7 +43,7 @@ module TestCentricity
     #
     def self.set_browser_window_size(resolution)
       resolution = resolution.split(',') if resolution.is_a?(String)
-      window = Capybara.current_session.driver.browser.manage.window
+      window = Capybara.page.driver.browser.manage.window
       window.resize_to(resolution[0], resolution[1])
       Environ.browser_size = [resolution[0].to_i, resolution[1].to_i]
     end
@@ -54,7 +54,7 @@ module TestCentricity
     #   Browsers.maximize_browser
     #
     def self.maximize_browser
-      window = Capybara.current_session.driver.browser.manage.window
+      window = Capybara.page.driver.browser.manage.window
       window.maximize
     end
 
@@ -66,7 +66,7 @@ module TestCentricity
     #   Browsers.set_browser_window_position([100, 300])
     #
     def self.set_browser_window_position(x, y)
-      window = Capybara.current_session.driver.browser.manage.window
+      window = Capybara.page.driver.browser.manage.window
       window.move_to(x, y)
     end
 

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-RSpec.describe TestCentricity::Label, required: true do
+RSpec.describe TestCentricity::Elements::Label, required: true do
   subject(:css_label) { described_class.new(:test_label, self, 'label#css_label', :page) }
 
   it 'returns class' do
-    expect(css_label.class).to eql TestCentricity::Label
+    expect(css_label.class).to eql TestCentricity::Elements::Label
   end
 
   it 'registers with type label' do

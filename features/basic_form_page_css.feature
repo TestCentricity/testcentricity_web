@@ -12,7 +12,7 @@ Feature: Basic HTML Form Test Page using CSS locators
     Then I expect the Basic CSS Form page to be correctly displayed
 
 
-@!mobile @!firefox_headless @!firefox_grid
+@!mobile @!firefox_grid
   Scenario: Validate verify_focus_order method
     Then I expect the tab order to be correct
 

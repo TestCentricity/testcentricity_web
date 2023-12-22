@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
 RSpec.describe TestCentricity::WebDriverConnect, required: true do
-  before(:context) do
-    ENV['SELENIUM'] = ''
-  end
+  include_context 'test_site'
 
   context 'Connect to locally hosted desktop web browsers using W3C desired_capabilities hash' do
     context 'local web browser instances' do
       it 'connects to a local Firefox browser' do
         caps = {
-          desired_capabilities: { browserName: :firefox },
+          capabilities: { browserName: :firefox },
           driver: :webdriver
         }
         WebDriverConnect.initialize_web_driver(caps)
@@ -18,7 +16,7 @@ RSpec.describe TestCentricity::WebDriverConnect, required: true do
 
       it 'connects to a local Safari browser' do
         caps = {
-          desired_capabilities: { browserName: :safari },
+          capabilities: { browserName: :safari },
           driver: :webdriver
         }
         WebDriverConnect.initialize_web_driver(caps)
@@ -27,11 +25,9 @@ RSpec.describe TestCentricity::WebDriverConnect, required: true do
 
       it 'connects to a local Chrome browser' do
         caps = {
-          desired_capabilities: {
-            browserName: :chrome,
-            browser_size: 'max'
-          },
-          driver: :webdriver
+          capabilities: { browserName: :chrome },
+          driver: :webdriver,
+          browser_size: 'max'
         }
         WebDriverConnect.initialize_web_driver(caps)
         verify_local_browser(browser = :chrome, platform = :desktop, headless = false)
@@ -39,10 +35,8 @@ RSpec.describe TestCentricity::WebDriverConnect, required: true do
 
       it 'connects to a local Edge browser' do
         caps = {
-          desired_capabilities: {
-            browserName: :edge,
-            browser_size: [1100, 900]
-          },
+          capabilities: { browserName: :edge },
+          browser_size: [1100, 900],
           driver: :webdriver
         }
         WebDriverConnect.initialize_web_driver(caps)
@@ -52,7 +46,7 @@ RSpec.describe TestCentricity::WebDriverConnect, required: true do
 
       it 'connects to a local emulated mobile web browser with default orientation' do
         caps = {
-          desired_capabilities: { browserName: :ipad_pro_12_9 },
+          capabilities: { browserName: :ipad_pro_12_9 },
           driver: :webdriver
         }
         WebDriverConnect.initialize_web_driver(caps)
@@ -61,9 +55,20 @@ RSpec.describe TestCentricity::WebDriverConnect, required: true do
         expect(Environ.browser_size).to eq([1366, 1024])
       end
 
+      it 'connects to a user defined local emulated mobile web browser with default orientation' do
+        caps = {
+          capabilities: { browserName: :ipad_mini_os16 },
+          driver: :webdriver
+        }
+        WebDriverConnect.initialize_web_driver(caps)
+        verify_local_browser(browser = :ipad_mini_os16, platform = :mobile, headless = false)
+        expect(Environ.device_orientation).to eq(:landscape)
+        expect(Environ.browser_size).to eq([1133, 744])
+      end
+
       it 'connects to a local emulated mobile web browser with portrait orientation' do
         caps = {
-          desired_capabilities: {
+          capabilities: {
             browserName: :ipad_pro_12_9,
             orientation: :portrait
           },
@@ -75,19 +80,10 @@ RSpec.describe TestCentricity::WebDriverConnect, required: true do
         expect(Environ.browser_size).to eq([1024, 1366])
       end
 
-      it 'connects to a local Chrome browser with a user-defined driver name (String)' do
+      it 'connects to a local Firefox browser with a user-defined driver name' do
         caps = {
-          desired_capabilities: { browserName: :chrome },
-          driver: :webdriver,
-          driver_name: 'my_custom_chrome_driver'
-        }
-        WebDriverConnect.initialize_web_driver(caps)
-        verify_local_browser(browser = :chrome, platform = :desktop, headless = false, driver_name = :my_custom_chrome_driver)
-      end
-
-      it 'connects to a local Firefox browser with a user-defined driver name (Symbol)' do
-        caps = {
-          desired_capabilities: { browserName: :firefox },
+          browser_size: [1100, 900],
+          capabilities: { browserName: :firefox },
           driver: :webdriver,
           driver_name: :my_custom_firefox_driver
         }
@@ -99,7 +95,7 @@ RSpec.describe TestCentricity::WebDriverConnect, required: true do
     context 'local headless browser instances' do
       it 'connects to a local headless Chrome browser' do
         caps = {
-          desired_capabilities: { browserName: :chrome_headless },
+          capabilities: { browserName: :chrome_headless },
           driver: :webdriver
         }
         WebDriverConnect.initialize_web_driver(caps)
@@ -108,7 +104,7 @@ RSpec.describe TestCentricity::WebDriverConnect, required: true do
 
       it 'connects to a local headless Edge browser' do
         caps = {
-          desired_capabilities: { browserName: :edge_headless },
+          capabilities: { browserName: :edge_headless },
           driver: :webdriver
         }
         WebDriverConnect.initialize_web_driver(caps)
@@ -117,7 +113,7 @@ RSpec.describe TestCentricity::WebDriverConnect, required: true do
 
       it 'connects to a local headless Firefox browser' do
         caps = {
-          desired_capabilities: { browserName: :firefox_headless },
+          capabilities: { browserName: :firefox_headless },
           driver: :webdriver
         }
         WebDriverConnect.initialize_web_driver(caps)
@@ -193,14 +189,13 @@ RSpec.describe TestCentricity::WebDriverConnect, required: true do
   end
 
   after(:each) do
-    Capybara.current_session.quit
-    Environ.session_state = :quit
+    WebDriverConnect.close_all_drivers
   end
 
   def verify_local_browser(browser, platform, headless, driver_name = nil)
     # load Apple web site
-    Capybara.page.driver.browser.navigate.to('https://www.apple.com')
-    Capybara.page.find(:css, 'nav#ac-globalnav', wait: 10, visible: true)
+    Capybara.page.driver.browser.navigate.to(test_site_url)
+    Capybara.page.find(:css, test_site_locator, wait: 10, visible: true)
     # verify Environs are correctly set
     expect(Environ.browser).to eq(browser)
     expect(Environ.platform).to eq(platform)

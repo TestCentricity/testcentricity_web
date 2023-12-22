@@ -2,13 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 
-## [4.4.0] - 18-JAN-2023
+## [4.4.0] - 22-DEC-2023
 
 ### Added
 * Added support for connecting to, and switching between multiple WebDriver or Appium connected desktop and/or mobile web
 browsers by utilizing the following new methods:
-  * `WebDriverConnect.initialize_driver`
-  * `WebDriverConnect.active_driver`
+  * `WebDriverConnect.activate_driver`
+  * `WebDriverConnect.num_drivers`
   * `WebDriverConnect.close_all_drivers`
 * Added support for web page scrolling by utilizing the following methods:
   * `Browsers.scroll_to_bottom`
@@ -17,18 +17,24 @@ browsers by utilizing the following new methods:
 
 ### Changed
 * `WebDriverConnect.initialize_web_driver` method now accepts an optional `options` hash for specifying desired capabilities
-(using W3C protocol), driver, driver name, endpoint, app host, device type, and browser window size information.
+(using W3C protocol), driver, driver name, endpoint URL, device type, and desktop browser window size information.
 * The `HOST_BROWSER` Environment Variable is no longer required to support emulated mobile web browsers.
-* TestCentricity now supports and integrates with Selenium-Webdriver version 4.7 and Capybara version 3.38.
+* The `SELENIUM` Environment Variable is no longer used to instantiate a WebDriver connection to a Selenium 4 Grid instance.
+ To establish a connection to browser instances on a Selenium 4 Grid, set the `DRIVER` Environment Variable to `grid`.
+* TestCentricity now supports and integrates with Selenium-Webdriver version 4.14 and Capybara version 3.39.
+* Updated profiles for emulated mobile device browsers.
+* Removed dependency on `appium_capybara` and `webdrivers` gems.
+* Ruby version 3.0.0 or greater is now required.
+* Locally hosted Internet Explorer web browsers are no longer supported.
 
 
-## [4.3.1] - 19-AUGUST-2022
+## [4.3.1] - 19-AUG-2022
 
 ### Added
 * Added support for connecting to remote mobile browsers on iOS simulators and Android emulators on the TestingBot service.
 
 
-## [4.3.0] - 01-AUGUST-2022
+## [4.3.0] - 01-AUG-2022
 
 ### Added
 * The `DRIVER` Environment Variable is now used to specify the `appium`, `browserstack`, `saucelabs`, `testingbot`,
@@ -43,7 +49,7 @@ or `lambdatest` driver.
 ## [4.2.6] - 12-JUNE-2022
 
 ### Fixed
-* Fix `gemspec` to no longer include specs and cuke tests as part of deployment package for gem.
+* Fix `gemspec` to no longer include specs and Cucumber tests as part of deployment package for gem.
 
 
 ## [4.2.5] - 10-JUNE-2022
@@ -63,7 +69,8 @@ missing `Downloads` folder when running tests in parallel.
 
 ### Added
 * Added `UIElement.wait_while_busy` method
-* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `aria_busy` attribute.
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of `aria_busy`
+attribute.
 
 
 ## [4.2.2] - 21-MAY-2022
@@ -132,8 +139,8 @@ running gem test specs and features.
 radio buttons to the unchecked state.
 
 ### Added
-* `CheckBox.define_custom_elements` and `Radio.define_custom_elements` methods now support specifying a child `input` component
-contained by a top level `label` element.
+* `CheckBox.define_custom_elements` and `Radio.define_custom_elements` methods now support specifying a child `input`
+component contained by a top level `label` element.
 
 
 ## [4.1.8] - 31-MAR-2022
@@ -192,7 +199,8 @@ contained by a top level `label` element.
 ## [4.1.4] - 09-MAR-2022
 
 ### Fixed
-* `Environ.driver` is now correctly set to `:appium` when target test browser is running on iOS or Android simulators or physical devices.
+* `Environ.driver` is now correctly set to `:appium` when target test browser is running on iOS or Android simulators or
+physical devices.
 
 
 ## [4.1.3] - 08-MAR-2022
@@ -213,16 +221,17 @@ contained by a top level `label` element.
 ## [4.1.1] - 03-MAR-2022
 
 ### Changed
-* W3C WebDriver-compliant sessions using Selenium version 4.x are now supported when using the BrowserStack, LambdaTest, TestingBot,
-and SauceLabs services.
-* W3C WebDriver-compliant sessions are now supported when running against remote browsers hosted on Selenium Grid 4 and Dockerized Selenium 
-Grid 4 environments.
+* W3C WebDriver-compliant sessions using Selenium version 4.x are now supported when using the BrowserStack, LambdaTest,
+TestingBot, and SauceLabs services.
+* W3C WebDriver-compliant sessions are now supported when running against remote browsers hosted on Selenium Grid 4 and
+Dockerized Selenium Grid 4 environments.
 
 
 ## [4.1.0] - 28-FEB-2022
 
 ### Removed
-* Support for CrossBrowserTesting and Gridlastic cloud hosted Selenium grids have been removed.
+* Support for CrossBrowserTesting and Gridlastic cloud hosted Selenium grids have been removed due to their lack of support
+for Selenium 4.x and the W3C browser capabilities protocol.
 
 ### Added
 * TestCentricity now supports and integrates with Selenium-Webdriver version 4.1.

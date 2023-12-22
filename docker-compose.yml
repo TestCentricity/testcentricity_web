@@ -4,7 +4,7 @@
 version: "3"
 services:
   chrome:
-    image: selenium/node-chrome:4.7.2-20221217
+    image: selenium/node-chrome:4.16.1-20231208
     shm_size: 2gb
     depends_on:
       - selenium-hub
@@ -14,9 +14,11 @@ services:
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
       - SE_NODE_MAX_SESSIONS=4
       - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+    volumes:
+      - ./downloads:/home/seluser/Downloads
 
   edge:
-    image: selenium/node-edge:4.7.2-20221217
+    image: selenium/node-edge:4.16.1-20231208
     shm_size: 2gb
     depends_on:
       - selenium-hub
@@ -26,9 +28,11 @@ services:
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
       - SE_NODE_MAX_SESSIONS=4
       - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+    volumes:
+      - ./downloads:/home/seluser/Downloads
 
   firefox:
-    image: selenium/node-firefox:4.7.2-20221217
+    image: selenium/node-firefox:4.16.1-20231208
     shm_size: 2gb
     depends_on:
       - selenium-hub
@@ -38,9 +42,11 @@ services:
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
       - SE_NODE_MAX_SESSIONS=4
       - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+    volumes:
+      - ./downloads:/home/seluser/Downloads
 
   selenium-hub:
-    image: selenium/hub:4.7.2-20221217
+    image: selenium/hub:4.16.1-20231208
     container_name: selenium-hub
     ports:
       - "4442:4442"

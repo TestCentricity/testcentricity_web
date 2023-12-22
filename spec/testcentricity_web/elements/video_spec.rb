@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-RSpec.describe TestCentricity::Video, required: true do
+RSpec.describe TestCentricity::Elements::Video, required: true do
   subject(:css_video) { described_class.new(:test_video, self, 'video#css_video', :page) }
 
   it 'returns class' do
-    expect(css_video.class).to eql TestCentricity::Video
+    expect(css_video.class).to eql TestCentricity::Elements::Video
   end
 
   it 'registers with type video' do

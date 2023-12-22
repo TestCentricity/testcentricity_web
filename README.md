@@ -3,16 +3,17 @@
 [![Gem Version](https://badge.fury.io/rb/testcentricity_web.svg)](https://badge.fury.io/rb/testcentricity_web)
 [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause)
 ![Gem Downloads](https://img.shields.io/gem/dt/testcentricity_web)
-![Maintained](https://img.shields.io/maintenance/yes/2022)
+![Maintained](https://img.shields.io/maintenance/yes/2023)
+[![Docs](https://img.shields.io/badge/docs-rubydoc-blue.svg)](http://www.rubydoc.info/gems/testcentricity_web)
 
 
 The TestCentricity™ Web core framework for desktop and mobile web browser-based app testing implements a Page Object Model
-DSL for use with Cucumber (version 7.x or greater) or RSpec, and Selenium-Webdriver (version 4.7). It also facilitates the
+DSL for use with Cucumber (version 7.x or greater) or RSpec, and Selenium-Webdriver (version 4.14). It also facilitates the
 configuration of the appropriate Selenium-Webdriver capabilities required to establish connections with one or more local
 or cloud hosted desktop or mobile web browsers.
 
 The TestCentricity™ Web gem supports connecting to, and running automated tests against the following target web browsers:
-* locally hosted desktop browsers (Chrome, Edge, Firefox, Safari, or IE)
+* locally hosted desktop browsers (Chrome, Edge, Firefox, or Safari)
 * locally hosted "headless" Chrome, Firefox, or Edge browsers
 * remote desktop and emulated mobile web browsers hosted on Selenium Grid 4 and Dockerized Selenium Grid 4 environments
 * mobile Safari browsers on iOS device simulators or physical iOS devices (using Appium and XCode on macOS)
@@ -39,8 +40,8 @@ can be found [here](https://github.com/TestCentricity/tc_web_sample).
 
 ## Installation
 
-TestCentricity Web version 4.1 and above requires Ruby 2.7.5 or later. TestCentricity Web is built and tested to support
-Ruby 2.7.5 to 3.0.0. To install the TestCentricity Web gem, add this line to your automation project's Gemfile:
+TestCentricity Web version 4.4 and above requires Ruby version 3.0.0 or later. To install the TestCentricity Web gem, add
+this line to your automation project's `Gemfile`:
 
     gem 'testcentricity_web'
 
@@ -48,7 +49,7 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
+Or install it yourself using:
 
     $ gem install testcentricity_web
 
@@ -83,7 +84,7 @@ location - in the **Page Object** class definition. By adopting a **Page Object 
 definitions are no longer required to hold specific information about a page's UI objects, thus minimizing maintenance
 requirements. If any element on, or property of a page changes (URL path, text field attributes, button captions, etc.),
 maintenance is performed in the `PageObject` class definition only, typically with no need to update the affected feature
-file, scenarios, or step definitions.
+files, scenarios, or step definitions.
 
 
 ### Defining a PageObject
@@ -103,14 +104,19 @@ of your test automation project. You define new `PageObjects` as shown below:
     end
 
 
-### Adding Traits to your PageObject
+    class UserAccountPage < TestCentricity::PageObject
+    end
+
+
+### Adding Traits to a PageObject
 
 Web pages typically have names and URLs associated with them. Web pages also typically have a unique object or attribute
 that, when present, indicates that the page's contents have fully loaded.
 
 The `page_name` trait is registered with the `PageManager` object, which includes a `find_page` method that takes a page
 name as a parameter and returns an instance of the associated `PageObject`. If you intend to use the `PageManager`, you
-must define a `page_name` trait for each `PageObject` to be registered.
+must define a `page_name` trait for each `PageObject` to be registered. Refer to [**section 7 (Instantiating Your PageObjects)**](#instantiating-your-pageobjects).
+
 
 The `page_name` trait is usually a `String` value that represents the name of the page that will be matched by the `PageManager.findpage`
 method. `page_name` traits are case and white-space sensitive. For pages that may be referenced with multiple names, the
@@ -120,8 +126,8 @@ A `page_locator` trait is defined if a page has a unique object or attribute tha
 loaded. The `page_locator` trait is a CSS or Xpath expression that uniquely identifies the object or attribute. The
 `verify_page_exists` method waits for the `page_locator` trait to exist.
 
-A `page_url` trait should be defined if a page can be directly loaded using a URL. If you set Capybara's `app_host`, or
-specify a base URL when calling the `WebDriverConnect.initialize_web_driver` method, then your `page_url` trait can be the
+An optional `page_url` trait should be defined if a page can be directly loaded using a URL. If you set Capybara's `app_host`,
+or specify a base URL when calling the `WebDriverConnect.initialize_web_driver` method, then your `page_url` trait can be the
 relative URL slug that will be appended to the base URL specified in `app_host`. Specifying a `page_url` trait is optional,
 as not all web pages can be directly loaded via a URL.
 
@@ -149,7 +155,14 @@ You define your page's **Traits** as shown below:
     end
 
 
-### Adding UI Elements to your PageObject
+    class UserAccountPage < TestCentricity::PageObject
+      trait(:page_name)    { 'User Account' }
+      trait(:page_url)     { "/user_account/#{User.current.id}" }
+      trait(:page_locator) { 'body.useraccount' }
+    end
+
+
+### Adding UI Elements to a PageObject
 
 Web pages are made up of UI elements like text fields, check boxes, combo boxes, radio buttons, tables, lists, buttons, etc.
 **UI Elements** are added to your `PageObject` class definition as shown below:
@@ -166,13 +179,13 @@ Web pages are made up of UI elements like text fields, check boxes, combo boxes,
       checkbox  :remember_checkbox,   'input#rememberUser'
       label     :error_message_label, 'div#statusBar.login-error'
     end
-    
+
 
     class RegistrationPage < TestCentricity::PageObject
       trait(:page_name)    { 'Registration' }
       trait(:page_url)     { '/register' }
       trait(:page_locator) { 'body.registration' }
- 
+
       # Registration page UI elements
       textfields  first_name_field:    'input#firstName',
                   last_name_field:     'input#lastName',
@@ -191,7 +204,7 @@ Web pages are made up of UI elements like text fields, check boxes, combo boxes,
     end
 
 
-### Adding Methods to your PageObject
+### Adding Methods to a PageObject
 
 It is good practice for your Cucumber step definitions to call high level methods in your your `PageObject` instead of
 directly accessing and interacting with a page object's UI elements. You can add high level methods to your `PageObject`
@@ -225,38 +238,38 @@ class definition for interacting with the UI to hide implementation details, as 
       # verify Login page default UI state
       def verify_page_ui
         ui = {
-            self => { title: 'Login' },
-            login_button => {
-              visible: true,
-              caption: 'LOGIN'
-            },
-            user_id_field => {
-              visible: true,
-              enabled: true,
-              value: '',
-              placeholder: 'User name'
-            },
-            password_field => {
-              visible: true,
-              enabled: true,
-              value: '',
-              placeholder: 'Password'
-            },
-            remember_checkbox => {
-              exists: true,
-              enabled: true,
-              checked: false
-            },
-            forgot_password_link => {
-              visible: true,
-              caption: 'Forgot your password?'
-            },
-            error_message_label => { visible: false }
+          self => { title: 'Login' },
+          login_button => {
+            visible: true,
+            caption: 'LOGIN'
+          },
+          user_id_field => {
+            visible: true,
+            enabled: true,
+            value: '',
+            placeholder: 'User name'
+          },
+          password_field => {
+            visible: true,
+            enabled: true,
+            value: '',
+            placeholder: 'Password'
+          },
+          remember_checkbox => {
+            exists: true,
+            enabled: true,
+            checked: false
+          },
+          forgot_password_link => {
+            visible: true,
+            caption: 'Forgot your password?'
+          },
+          error_message_label => { visible: false }
         }
         verify_ui_states(ui)
       end
     end
-        
+
 
     class RegistrationPage < TestCentricity::PageObject
       trait(:page_name)    { 'Registration' }
@@ -306,8 +319,8 @@ class definition for interacting with the UI to hide implementation details, as 
 Once your `PageObjects` have been instantiated, you can call your methods as shown below:
 
     login_page.remember_me(true)
-    login_page.login('snicklefritz', 'Pa55w0rd')
-    
+    login_page.login(user_id = 'snicklefritz', password = 'Pa55w0rd')
+
 
 ---
 ## PageSections
@@ -317,17 +330,17 @@ in a web app. It is a collection of **UI Elements** that represent a conceptual 
 bar, a search capability, a menu, or a pop-up panel. **UI Elements** and functional behavior are confined to the scope of
 a `PageSection` object.
 
+Below is an example of a header navigation bar feature that is common to multiple pages -
+
 ![Navigation Header](https://raw.githubusercontent.com/TestCentricity/testcentricity_web/main/.github/images/NavBar1.png "Navigation Header")
 
  -
 
 ![Navigation Header](https://raw.githubusercontent.com/TestCentricity/testcentricity_web/main/.github/images/NavBar2.png "Navigation Header")
 
-A header navigation bar feature that is common to multiple pages
+Below is an example of a popup Shopping Bag panel associated with a header navigation bar -
 
 ![Shopping Bag Popup](https://raw.githubusercontent.com/TestCentricity/testcentricity_web/main/.github/images/ShoppingBagPopUp.png "Shopping Bag Popup")
-
-A popup Shopping Bag panel associated with a header navigation bar
 
 A `PageSection` may contain other `PageSection` objects.
 
@@ -337,7 +350,7 @@ A `PageSection` may contain other `PageSection` objects.
 Your `PageSection` class definitions should be contained within individual `.rb` files in the `features/support/sections`
 folder of your test automation project. You define new `PageSection` as shown below:
 
-    class SearchForm < TestCentricity::PageSection
+    class BagViewPopup < TestCentricity::PageSection
     end
 
 
@@ -354,7 +367,7 @@ You define your section's **Traits** as shown below:
     end
 
 
-### Adding UI Elements to your PageSection
+### Adding UI Elements to a PageSection
 
 `PageSections` are typically made up of UI elements like text fields, check boxes, combo boxes, radio buttons, tables, lists,
 buttons, etc. **UI Elements** are added to your `PageSection` class definition as shown below:
@@ -371,7 +384,7 @@ buttons, etc. **UI Elements** are added to your `PageSection` class definition a
     end
 
 
-### Adding Methods to your PageSection
+### Adding Methods to a PageSection
 
 You can add high level methods to your `PageSection` class definition, as shown below:
 
@@ -431,9 +444,9 @@ Once your `PageObject` has been instantiated, you can call its `PageSection` met
 ---
 ## UIElements
 
-`PageObjects` and `PageSections` are typically made up of **UI Element** like text fields, check boxes, select lists (combo
-boxes), radio buttons, tables, ordered and unordered lists, buttons, images, HTML5 video objects, HTML5 audio objects, etc.
-**UI Elements** are declared and instantiated within the class definition of the `PageObject` or `PageSection` in which they
+`PageObjects` and `PageSections` are typically made up of UI elements like text fields, check boxes, select lists (combo
+boxes), radio buttons, tables, ordered and unordered lists, buttons, images, HTML5 video or audio player objects, etc.
+UI elements are declared and instantiated within the class definition of the `PageObject` or `PageSection` in which they
 are contained. With TestCentricity Web, all UI elements are based on the `UIElement` class.
 
 
@@ -558,7 +571,6 @@ With TestCentricity, all UI elements are based on the `UIElement` class, and inh
     element.y
     element.get_attribute(attrib)
     element.get_native_attribute(attrib)
-    element.inspect
 
 **Waiting methods:**
 
@@ -607,7 +619,7 @@ With TestCentricity, all UI elements are based on the `UIElement` class, and inh
     element.aria_busy?
 
 
-### Populating your PageObject or PageSection with data
+### Populating a PageObject or PageSection With Data
 
 A typical automated test may be required to perform the entry of test data by interacting with various `UIElements` on your
 `PageObject` or `PageSection`. This data entry can be performed using the various object action methods (listed above) for
@@ -618,8 +630,8 @@ collection of `UIElements`. The `populate_data_fields` method accepts a hash con
 their associated data to be entered. Data values must be in the form of a `String` for `textfield`, `selectlist`, and `filefield`
 controls. For `checkbox` and `radio` controls, data must either be a `Boolean` or a `String` that evaluates to a `Boolean`
 value (Yes, No, 1, 0, true, false). For `range` controls, data must be an `Integer`. For `input(type='color')` color picker
-controls, which are specified as a `textfield`, data must be in the form of a hex color `String`. For `section` objects, data
-values must be a `String`, and the `section` object must have a `set` method defined.
+controls, which are specified as a `textfield`, data must be in the form of a hex color `String`. For `section` objects,
+data values must be a `String`, and the `section` object must have a `set` method defined.
 
 The `populate_data_fields` method verifies that data attributes associated with each `UIElement` is not `nil` or `empty`
 before attempting to enter data into the `UIElement`.
@@ -644,7 +656,7 @@ states are changed. If the wait time is `nil`, then the wait time will be 5 seco
     end
 
 
-### Verifying UIElements on your PageObject or PageSection
+### Verifying UIElements on a PageObject or PageSection
 
 A typical automated test executes one or more interactions with the user interface, and then performs a validation to verify
 whether the expected state of the UI has been achieved. This verification can be performed using the various object state
@@ -703,7 +715,7 @@ The `verify_ui_states` method supports the following property/state pairs:
     :max         Integer
     :step        Integer
 
-  Text Field Constraint validation
+  Text Field Constraint Validation
 
     :validation_message String
     :badInput           Boolean
@@ -789,7 +801,7 @@ The `verify_ui_states` method supports the following property/state pairs:
     :active_track_source   String
     :track_source          String
 
-#### ARIA accessibility property/state pairs
+#### ARIA Accessibility Property/State Pairs
 
 The `verify_ui_states` method supports the following ARIA accessibility property/state pairs:
 
@@ -884,7 +896,9 @@ values appear in the associated text fields after entering data and performing a
         avatar_image => {
           visible: true,
           broken: false,
-          src: { contains: User.current.avatar_file_name }
+          src: { ends_with: User.current.avatar_file_name },
+          alt: "#{User.current.first_name} #{User.current.last_name}",
+          style: { contains: 'border-radius: 50%;'}
         },
         error_message_label => { visible: false }
       }
@@ -952,7 +966,7 @@ panel are correctly translated.
 I18n `.yml` files contain key/value pairs representing the name of a translated string (key) and the string value. For the
 popup Shopping Bag panel example above, the translated strings for English, Spanish, and French are represented in below:
 
-English - `en.yml`
+**English** - `en.yml`
 
     en:
       BagViewPopup:
@@ -964,7 +978,7 @@ English - `en.yml`
         sign_in: 'Sign in'
         sign_out: 'Sign out'
 
-Spanish - `es.yml`
+**Spanish** - `es.yml`
 
     es:
       BagViewPopup:
@@ -976,7 +990,7 @@ Spanish - `es.yml`
         sign_in: 'Iniciar sesión'
         sign_out: 'Cerrar sesión'
 
-French - `fr.yml`
+**French** - `fr.yml`
 
     fr:
       BagViewPopup:
@@ -990,7 +1004,8 @@ French - `fr.yml`
 
 
 Each supported language/locale combination has a corresponding `.yml` file. I18n `.yml` file naming convention uses
-[ISO-639 language codes and ISO-3166 country codes](https://docs.oracle.com/cd/E13214_01/wli/docs92/xref/xqisocodes.html). For example:
+[ISO-639 language codes](https://docs.oracle.com/cd/E13214_01/wli/docs92/xref/xqisocodes.html#wp1252447) and
+[ISO-3166 country codes](https://docs.oracle.com/cd/E13214_01/wli/docs92/xref/xqisocodes.html#wp1250799). For example:
 
 | Language (Country)    | File name |
 |-----------------------|-----------|
@@ -1009,10 +1024,13 @@ Baseline translation strings are stored in `.yml` files in the `config/locales/`
         ├── 📁 config/
         │   ├── 📁 locales/
         │   │   ├── 📄 en.yml
+        │   │   ├── 📄 en-AU.yml
         │   │   ├── 📄 es.yml
+        │   │   ├── 📄 de.yml
         │   │   ├── 📄 fr.yml
         │   │   ├── 📄 fr-CA.yml
-        │   │   └── 📄 en-AU.yml
+        │   │   ├── 📄 pt-BR.yml
+        │   │   └── 📄 pt-PT.yml
         │   ├── 📁 test_data/
         │   └── 📄 cucumber.yml
         ├── 📁 downloads/
@@ -1021,7 +1039,7 @@ Baseline translation strings are stored in `.yml` files in the `config/locales/`
         └── 📄 README.md
 
 
-### Working with custom UIElements
+### Working With Custom UIElements
 
 Many responsive and touch-enabled web based user interfaces are implemented using front-end JavaScript libraries for building
 user interfaces based on multiple composite UI components. Popular JS libraries include React, Angular, and Ember.js. These
@@ -1220,7 +1238,7 @@ The `CustomControlsPage` page object's `initialize` method in the code snippet b
 
 
 ---
-## Instantiating your PageObjects
+## Instantiating Your PageObjects
 
 Before you can call the methods in your `PageObjects` and `PageSections`, you must instantiate the `PageObjects` of your
 web application, as well as create instance variables which can be used when calling a `PageObject`'s methods from your
@@ -1298,7 +1316,7 @@ scenarios are executed:
 be registered.
 
 
-### Leveraging the PageManager in your Cucumber tests
+### Leveraging the PageManager in Your Cucumber Tests
 
 Many Cucumber based automated tests suites include scenarios that verify that web pages are correctly loaded, displayed,
 or can be navigated to by clicking associated links. One such Cucumber navigation scenario is displayed below:
@@ -1392,52 +1410,204 @@ file in the `features/step_definitions` folder:
 
 
 ---
-## Connecting to a Web Browser
+## Connecting to Web Browsers
 
-The `TestCentricity::WebDriverConnect.initialize_web_driver` method configures the appropriate Selenium-Webdriver capabilities
-required to establish a connection with a single target web browser, and sets the base host URL of the web site you are running
-your tests against.
+Since its inception, TestCentricity has provided support for establishing a single connection to a target desktop or mobile
+web browser by instantiating a WebDriver object. **Environment Variables** are used to specify the local, grid, or remote
+cloud hosted target web browser, and the various WebDriver capability parameters required to configure the driver object.
+The appropriate **Environment Variables** are typically specified in the command line at runtime through the use of profiles
+set in a `cucumber.yml` file (Refer to [**section 8.9 (Using Browser Specific Profiles in `cucumber.yml`)**](#using-browser-specific-profiles-in-cucumber-yml) below).
 
-The `TestCentricity::WebDriverConnect.initialize_web_driver` method accepts a single optional parameter - the base host URL.
-Cucumber **Environment Variables** are used to specify the target local or remote web browser, and the various webdriver
-capability parameters required to configure the connection.
+However, for those use cases requiring the instantiation of multiple WebDriver objects within a test case or test scenario,
+**Environment Variables** are a less effective means of specifying multiple driver capabilities. And even in those use cases
+where only a single WebDriver object is required, there are a growing number of optional Selenium and Appium capabilities
+that are being offered by cloud hosted browser service providers (like BrowserStack, Sauce Labs, TestingBot, or LambdaTest)
+that **Environment Variables** may not effectively address.
 
+Beginning with TestCentricity version 4.4.0, the `TestCentricity::WebDriverConnect.initialize_web_driver` method accepts
+an optional `options` hash for specifying desired capabilities (using the W3C protocol), driver type, driver name, endpoint
+URL, device type, and desktop web browser window size information. TestCentricity also now supports the instantiation of
+multiple WebDriver objects to establish connections with, and coordinate test execution between multiple desktop and/or
+mobile web browser instances.
 
-### Locally hosted desktop web browser
+Some use cases for the verification of real-time multiple user interactions across multiple concurrent browsers or devices are:
+  - Chat, Messaging, or Social Media apps/web portals used by one or more users interacting in real time (posts, reposts, likes)
+  - Ride Hailing/Sharing Services with separate Rider and Driver experience apps/web portals
+  - Food Delivery Services with a Customer app for finding restaurants and ordering food, a Restaurant app for fulfilling
+    the food order and coordinating delivery, and a Driver app for ensuring delivery of the order to the customer
+  - Learning Management/Student Engagement platforms that allow teachers to monitor student engagement and progress on assigned
+    activities and support for remote real-time collaboration between students and teachers
 
-For locally hosted desktop web browsers running on macOS or Windows platforms, the `WEB_BROWSER` Environment Variable must
-be set to one of the values from the table below: 
+If the optional `options` hash is not provided when calling the `TestCentricity::WebDriverConnect.initialize_web_driver` method,
+then **Environment Variables** must be used to specify the target local or remote web browser, and the various webdriver
+capability parameters required to establish a connection with a single target web browser.
 
-| `WEB_BROWSER`      | **Desktop Platform**                           |
-|--------------------|------------------------------------------------|
-| `chrome`           | macOS or Windows                               |
-| `chrome_headless`  | macOS or Windows (headless - no visible UI)    |
-| `firefox`          | macOS or Windows                               |
-| `firefox_headless` | macOS or Windows (headless - no visible UI)    |
-| `edge`             | macOS or Windows                               |
-| `edge_headless`    | macOS or Windows (headless - no visible UI)    |
-| `safari`           | macOS only                                     |
-| `ie`               | Windows only (IE version 10.x or greater only) |
+### Specifying Options and Capabilities in the `options` Hash
 
-Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
+For those test scenarios requiring the instantiation of multiple WebDriver objects, or where cumbersome **Environment
+Variables** are less than ideal, call the `TestCentricity::WebDriverConnect.initialize_web_driver` method with an `options`
+hash that specifies the WebDriver desired capabilities and the driver type, as depicted in the example below:
 
+    options = {
+      capabilities: { browserName: :firefox },
+      driver: :webdriver
+    }
+    WebDriverConnect.initialize_web_driver(options)
 
-#### Setting desktop browser window size
+Additional options that can be specified in an `options` hash include the following:
 
-To set the size of a desktop browser window, you set the `BROWSER_SIZE` Environment Variable to the desired width and height
-in pixels as shown below:
+| Option          | Purpose                                                                                    |
+|-----------------|--------------------------------------------------------------------------------------------|
+| `browser_size:` | optional desktop web browser window size (width and height)                                |
+| `driver_name:`  | optional driver name                                                                       |
+| `endpoint:`     | optional endpoint URL for remote grid or cloud hosted browser service providers            |
+| `device_type:`  | only used for locally or cloud hosted mobile device browser - set to `:phone` or `:tablet` |
+
+Details on specifying desired capabilities, driver type, endpoint URL, and default driver names are provided in each of the
+browser hosting sections below.
+
+#### Specifying the Driver Type
+
+The `driver:` type is a required entry in the `options` hash when instantiating a WebDriver object using the `initialize_web_driver`
+method. Valid `driver:` type values are listed in the table below:
+
+| `driver:`       | **Driver Type**                                                                            |
+|-----------------|--------------------------------------------------------------------------------------------|
+| `:webdriver`    | locally hosted desktop or emulated mobile browser                                          |
+| `:grid`         | Selenium Grid 4 hosted browser                                                             |
+| `:appium`       | locally hosted native iOS/Android mobile browser using device simulator or physical device |
+| `:browserstack` | remote browser hosted on BrowserStack                                                      |
+| `:saucelabs`    | remote browser hosted on Sauce Labs                                                        |
+| `:testingbot`   | remote browser hosted on TestingBot                                                        |
+| `:lambdatest`   | remote browser hosted on LambdaTest                                                        |
+
+#### Specifying a Driver Name
+
+An optional user defined `driver_name:` can be specified in the `options` hash when instantiating a WebDriver object using
+the `TestCentricity::WebDriverConnect.initialize_web_driver` method. If a driver name is not specified, the `initialize_web_driver`
+method will assign a default driver name comprised of the specified driver type (`driver:`) and the `browserName:` specified
+in the `capabilities:` hash. Details on default driver names are provided in each of the browser hosting sections below.
+
+For those test scenarios requiring the instantiation of multiple WebDriver objects, each driver object should be assigned a
+unique driver name, which is used when switching between driver contexts. For instance, when performing end-to-end testing
+of a Food Delivery Service which consists of separate web portals for the Customer Experience (find, order, and pay for food),
+the Restaurant Experience (menu management, order fulfillment, and order delivery dispatch), and the Delivery Driver Experience
+(customer location and tracking), 3 driver objects must be instantiated.
+
+Assigning meaningful unique driver names for the 3 driver objects (`:customer_portal`, `:merchant_portal`, `:delivery_portal`)
+in the `options` hash when calling `TestCentricity::WebDriverConnect.initialize_web_driver` method reduces confusion when
+switching between the driver objects using the `TestCentricity:WebDriverConnect.activate_driver(driver_name)` method, which
+expects a driver name, specified as a `Symbol`.
+
+### Setting Desktop Browser Window Size
+
+#### Using `:browser_size` in the `options` Hash
+
+The size (width and height) of a desktop browser window can be specified in the `options` hash for browsers that are hosted
+locally, in a Selenium Grid, or by a cloud hosted browser service provider. You cannot set the size of a mobile device web
+browser, which is determined by the mobile device's screen size.
+
+To set the size of a desktop browser window in the `options` hash, you specify a `:browser_size` with the desired width and
+height in pixels as shown below:
+
+    options = {
+      browser_size: [1100, 900],
+      capabilities: { browserName: :edge },
+      driver: :webdriver
+    }
+    WebDriverConnect.initialize_web_driver(options)
+
+To maximize a desktop browser window, you specify a `:browser_size` of 'max' as shown below:
+
+    options = {
+      browser_size: 'max',
+      capabilities: { browserName: :chrome },
+      driver: :webdriver
+    }
+    WebDriverConnect.initialize_web_driver(options)
+
+If a `:browser_size` is not specified, then the default size of a desktop browser window will be set to the size specified
+in the `BROWSER_SIZE` Environment Variable (if it has been specified) or to a default width and height of 1650 by 1000 pixels.
+
+#### Using the `BROWSER_SIZE` Environment Variable
+
+To set the size of a desktop browser window without using an `options` hash, you set the `BROWSER_SIZE` Environment Variable
+to the desired width and height in pixels as shown below:
 
     BROWSER_SIZE=1600,1000
 
 To maximize a desktop browser window, you set the `BROWSER_SIZE` Environment Variable to 'max' as shown below:
-                                                                                                                               
+
     BROWSER_SIZE=max
 
+If the `BROWSER_SIZE` Environment Variable is not specified, then the default size of a desktop browser window will be set
+to a width and height of 1650 by 1000 pixels.
 
-#### Testing file downloads with desktop browsers
+
+### Locally Hosted Desktop Web Browsers
+
+For locally hosted desktop web browsers running on macOS, Windows, or Linux platforms, the browser type and driver type
+must be specified when calling the `TestCentricity::WebDriverConnect.initialize_web_driver` method. The table below contains
+the values that can be used to specify the locally hosted desktop web browser to be instantiated when calling the
+`initialize_web_driver` method:
+
+| `browserName:` or `WEB_BROWSER` | **Desktop Platform**                                |
+|---------------------------------|-----------------------------------------------------|
+| `chrome`                        | macOS, Windows, or Linux                            |
+| `chrome_headless`               | macOS, Windows, or Linux (headless - no visible UI) |
+| `firefox`                       | macOS, Windows, or Linux                            |
+| `firefox_headless`              | macOS, Windows, or Linux (headless - no visible UI) |
+| `edge`                          | macOS or Windows                                    |
+| `edge_headless`                 | macOS or Windows (headless - no visible UI)         |
+| `safari`                        | macOS only                                          |
+
+#### Local Desktop Browser using Environment Variables
+
+If the `options` hash is not provided when calling the `TestCentricity::WebDriverConnect.initialize_web_driver` method, then
+the following Environment Variables must be set as described in the table below:
+
+| **Environment Variable** | **Description**                                                   |
+|--------------------------|-------------------------------------------------------------------|
+| `WEB_BROWSER`            | Must be set to one of the values from the table above             |
+| `DRIVER`                 | Must be set to `webdriver`                                        |
+| `BROWSER_SIZE`           | [Optional] Set to _'width in pixels, heigh in pixels'_ or _'max'_ |
+
+Refer to [**section 8.9 (Using Browser Specific Profiles in `cucumber.yml`)**](#using-browser-specific-profiles-in-cucumber-yml) below.
+
+
+#### Local Desktop Browser in the `options` Hash
+
+When using the `options` hash, the following options and capabilities must be specified:
+- `driver:` must be set to `:webdriver`
+- `browserName:` in the `capabilities:` hash must be set to one of the values from the table above
+
+```
+    options = {
+      capabilities: { browserName: value_from_table_above },
+      driver: :webdriver
+    }
+    WebDriverConnect.initialize_web_driver(options)
+```
+ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+`:local_<browserName>` - e.g. `:local_chrome` or `:local_edge_headless`.
+
+Below is an example of an `options` hash for specifying a connection to a locally hosted Firefox desktop web browser. The
+`options` hash includes options for specifying the driver name and setting the browser window size.
+
+    options = {
+      driver: :webdriver,
+      driver_name: :customer_context,
+      browser_size: [1400, 1100],
+      capabilities: { browserName: :firefox }
+    }
+    WebDriverConnect.initialize_web_driver(options)
+
+
+#### Testing File Downloads With Desktop Browsers
 
 File download functionality can be tested with locally hosted instances of Chrome, Edge, or Firefox desktop browsers. Your
-automation project must include a `/downloads` folder at the same level as the `/config` and `/features` folders, as depicted
+automation project must include a `/downloads` folder which is used as the destination for files that are downloaded by
+your automated tests. The `/downloads` folder must be at the same level as the `/config` and `/features` folders, as depicted
 below:
 
         📁 my_automation_project/
@@ -1466,84 +1636,141 @@ running in other parallel threads. An example of the`/downloads` folder structur
 
 When testing file downloads using a local instance of Firefox, you will need to specify the MIME types of the various file
 types that your tests will be downloading. This is accomplished by setting the `MIME_TYPES` Environment Variable to a
-comma-delimited string containing the list of MIME types to be accepted. This list is required as it will prevent Firefox
-from displaying the File Download modal dialog, which will halt your automated tests. An example of a list of MIME types
-is depicted below:
+comma-delimited string containing the list of MIME types to be accepted. The `MIME_TYPES` Environment Variable should be
+set before initializing the Firefox web driver. This list of file types is required as it will prevent Firefox from displaying
+the File Download modal dialog, which will halt your automated tests. An example of a list of MIME types is depicted below:
 
-    MIME_TYPES='images/jpeg, application/pdf, application/octet-stream'
+    # set list of all supported MIME types for testing file downloads with Firefox
+    mime_types = [
+      'application/pdf',
+      'image/png',
+      'image/jpeg',
+      'image/gif',
+      'text/csv',
+      'text/plain'
+    ]
+    ENV['MIME_TYPES'] = mime_types.join(',')
 
-A detailed list of file MIME types can be found [here](https://www.freeformatter.com/mime-types-list.html)
+
+A detailed list of file MIME types can be found [here](https://www.freeformatter.com/mime-types-list.html).
 
 
-### Locally hosted emulated mobile web browser
+### Locally Hosted Emulated Mobile Web Browsers
 
 You can run your tests against mobile device browsers that are emulated within a locally hosted instance of a Chrome desktop
 browser on macOS or Windows. The specified mobile browser's user agent, CSS screen dimensions, and default screen orientation
-will be automatically set within the local Chrome browser instance. You may even specify the emulated device's screen orientation.
-For locally hosted emulated mobile web browsers, the `WEB_BROWSER` Environment Variable must be set to one of the values from
-the table below: 
+will be automatically set within the local Chrome browser instance. You may also specify the emulated device's screen orientation.
 
-| `WEB_BROWSER`         | **CSS Screen Dimensions** | **Default Orientation** | **OS Version**                               |
-|-----------------------|---------------------------|-------------------------|----------------------------------------------|
-| `ipad`                | 1024 x 768                | landscape               | iOS 12                                       |
-| `ipad_pro`            | 1366 x 1024               | landscape               | iOS 12                                       |
-| `ipad_pro_10_5`       | 1112 x 834                | landscape               | iOS 12.2                                     |
-| `ipad_pro_11`         | 1194 x 834                | landscape               | iOS 12.2                                     |
-| `ipad_pro_12_9`       | 1366 x 1024               | landscape               | iOS 13.1                                     |
-| `ipad_chrome`         | 1024 x 768                | landscape               | iOS 12.2 - Mobile Chrome browser for iOS     |
-| `ipad_firefox`        | 1024 x 768                | landscape               | iOS 12.2 - Mobile Firefox browser for iOS    |
-| `ipad_edge`           | 1024 x 768                | landscape               | iOS 12.2 - Mobile Edge browser for iOS       |
-| `kindle_fire`         | 1024 x 600                | landscape               |                                              |
-| `kindle_firehd7`      | 800 x 480                 | landscape               | Fire OS 3                                    |
-| `kindle_firehd8`      | 1280 x 800                | landscape               | Fire OS 5                                    |
-| `kindle_firehd10`     | 1920 x 1200               | landscape               | Fire OS 5                                    |
-| `surface`             | 1366 x 768                | landscape               |                                              |
-| `blackberry_playbook` | 1024 x 600                | landscape               | BlackBerry Tablet OS                         |
-| `samsung_galaxy_tab`  | 1280 x 800                | landscape               | Android 4.0.4                                |
-| `google_nexus7`       | 960 x 600                 | landscape               | Android 4.4.4                                |
-| `google_nexus9`       | 1024 x 768                | landscape               | Android 5.1                                  |
-| `google_nexus10`      | 1280 x 800                | landscape               | Android 5.1                                  |
-| `iphone6`             | 375 x 667                 | portrait                | iOS 12                                       |
-| `iphone6_plus`        | 414 x 736                 | portrait                | iOS 12                                       |
-| `iphone7`             | 375 x 667                 | portrait                | iOS 12                                       |
-| `iphone7_plus`        | 414 x 736                 | portrait                | iOS 12                                       |
-| `iphone7_chrome`      | 375 x 667                 | portrait                | iOS 12.2 - Mobile Chrome browser for iOS     |
-| `iphone7_firefox`     | 375 x 667                 | portrait                | iOS 12.2 - Mobile Firefox browser for iOS    |
-| `iphone7_edge`        | 375 x 667                 | portrait                | iOS 12.2 - Microsoft Edge browser for iOS    |
-| `iphone8`             | 375 x 667                 | portrait                | iOS 12                                       |
-| `iphone8_plus`        | 414 x 736                 | portrait                | iOS 12                                       |
-| `iphone_x`            | 375 x 812                 | portrait                | iOS 12.2                                     |
-| `iphone_xr`           | 414 x 896                 | portrait                | iOS 12.2                                     |
-| `iphone_xs`           | 375 x 812                 | portrait                | iOS 12.2                                     |
-| `iphone_xs_max`       | 414 x 896                 | portrait                | iOS 12.2                                     |
-| `iphone_11`           | 414 x 896                 | portrait                | iOS 13.1                                     |
-| `iphone_11_pro`       | 375 x 812                 | portrait                | iOS 13.1                                     |
-| `iphone_11_pro_max`   | 414 x 896                 | portrait                | iOS 13.1                                     |
-| `nexus6`              | 411 x 731                 | portrait                | Android 6                                    |
-| `pixel`               | 411 x 731                 | portrait                | Android 8                                    |
-| `pixel_xl`            | 411 x 731                 | portrait                | Android 8                                    |
-| `samsung_galaxy_s4`   | 360 x 640                 | portrait                | Android 5.0.1                                |
-| `samsung_galaxy_s5`   | 360 x 640                 | portrait                | Android 6.0.1                                |
-| `samsung_galaxy_s6`   | 360 x 640                 | portrait                | Android 6.0.1                                |
-| `windows_phone7`      | 320 x 480                 | portrait                | Windows Phone OS 7.5                         |
-| `windows_phone8`      | 320 x 480                 | portrait                | Windows Phone OS 8.0                         |
-| `lumia_950_xl`        | 360 x 640                 | portrait                | Windows Phone OS 10                          |
-| `blackberry_z10`      | 384 x 640                 | portrait                | BlackBerry 10 OS                             |
-| `blackberry_z30`      | 360 x 640                 | portrait                | BlackBerry 10 OS                             |
-| `blackberry_leap`     | 360 x 640                 | portrait                | BlackBerry 10 OS                             |
-| `blackberry_passport` | 504 x 504                 | square                  | BlackBerry 10 OS                             |
+⚠️ For best results when testing against mobile web browsers, you should run your tests against iOS and Android simulators
+or physical devices, either hosted locally or via a remotely cloud hosted service.
 
-To change the emulated device's screen orientation from the default setting, set the `ORIENTATION` Environment Variable to
-either `portrait` or `landscape`.
+For locally hosted emulated mobile web browsers, the `WEB_BROWSER` Environment Variable must be set to one of the values
+from the table below:
 
-Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
+| `browserName:` or `WEB_BROWSER` | **CSS Screen Dimensions** | **Default Orientation** | **OS Version**       |
+|---------------------------------|---------------------------|-------------------------|----------------------|
+| `iphone_11`                     | 414 x 896                 | portrait                | iOS 15.5             |
+| `iphone_11_pro`                 | 375 x 812                 | portrait                | iOS 15.5             |
+| `iphone_11_pro_max`             | 414 x 896                 | portrait                | iOS 15.5             |
+| `iphone_12_mini`                | 375 x 812                 | portrait                | iOS 15.5             |
+| `iphone_12`                     | 390 x 844                 | portrait                | iOS 15.5             |
+| `iphone_12_pro`                 | 390 x 844                 | portrait                | iOS 15.5             |
+| `iphone_12_pro_max`             | 428 x 926                 | portrait                | iOS 15.5             |
+| `iphone_13_mini`                | 375 x 812                 | portrait                | iOS 15.5             |
+| `iphone_13`                     | 390 x 844                 | portrait                | iOS 15.5             |
+| `iphone_13_pro`                 | 390 x 844                 | portrait                | iOS 15.5             |
+| `iphone_13_pro_max`             | 428 x 926                 | portrait                | iOS 15.5             |
+| `iphone_se`                     | 375 x 667                 | portrait                | iOS 15.5             |
+| `iphone_14`                     | 390 x 844                 | portrait                | iOS 16.2             |
+| `iphone_14_plus`                | 428 x 926                 | portrait                | iOS 16.2             |
+| `iphone_14_pro`                 | 393 x 852                 | portrait                | iOS 16.2             |
+| `iphone_14_pro_max`             | 430 x 932                 | portrait                | iOS 16.2             |
+| `ipad`                          | 1080 x 810                | landscape               | iOS 15.5             |
+| `ipad_mini`                     | 1133 x 744                | landscape               | iOS 15.5             |
+| `ipad_air`                      | 1180 x 820                | landscape               | iOS 15.5             |
+| `ipad_pro_11`                   | 1194 x 834                | landscape               | iOS 15.5             |
+| `ipad_pro_12_9`                 | 1366 x 1024               | landscape               | iOS 15.5             |
+| `pixel_5`                       | 393 x 851                 | portrait                | Android 12           |
+| `pixel_6`                       | 412 x 915                 | portrait                | Android 12           |
+| `pixel_xl`                      | 412 x 732                 | portrait                | Android 12           |
+| `nexus_10`                      | 1280 x 800                | landscape               | Android 12           |
+| `pixel_c`                       | 1280 x 900                | landscape               | Android 12           |
+| `kindle_fire`                   | 1024 x 600                | landscape               |                      |
+| `kindle_firehd7`                | 800 x 480                 | landscape               | Fire OS 3            |
+| `kindle_firehd8`                | 1280 x 800                | landscape               | Fire OS 5            |
+| `kindle_firehd10`               | 1920 x 1200               | landscape               | Fire OS 5            |
+| `surface`                       | 1366 x 768                | landscape               |                      |
+| `blackberry_playbook`           | 1024 x 600                | landscape               | BlackBerry Tablet OS |
+| `windows_phone7`                | 320 x 480                 | portrait                | Windows Phone OS 7.5 |
+| `windows_phone8`                | 320 x 480                 | portrait                | Windows Phone OS 8.0 |
+| `lumia_950_xl`                  | 360 x 640                 | portrait                | Windows Phone OS 10  |
+| `blackberry_z10`                | 384 x 640                 | portrait                | BlackBerry 10 OS     |
+| `blackberry_z30`                | 360 x 640                 | portrait                | BlackBerry 10 OS     |
+| `blackberry_leap`               | 360 x 640                 | portrait                | BlackBerry 10 OS     |
+| `blackberry_passport`           | 504 x 504                 | square                  | BlackBerry 10 OS     |
+
+#### Local Emulated Mobile Browser using Environment Variables
+
+If the `options` hash is not provided when calling the `TestCentricity::WebDriverConnect.initialize_web_driver` method,
+then the following Environment Variables must be set as described in the table below:
+
+| **Environment Variable** | **Description**                                       |
+|--------------------------|-------------------------------------------------------|
+| `WEB_BROWSER`            | Must be set to one of the values from the table above |
+| `DRIVER`                 | Must be set to `webdriver`                            |
+| `ORIENTATION`            | [Optional] Set to `portrait` or `landscape`           |
+
+Refer to [**section 8.9 (Using Browser Specific Profiles in `cucumber.yml`)**](#using-browser-specific-profiles-in-cucumber-yml) below.
 
 
-#### User defined emulated mobile browser profiles
+#### Local Emulated Mobile Browser in the `options` Hash
 
-User defined mobile browser profiles can be specified in a `device.yml` file for testing locally hosted emulated mobile web
-browsers running in an instance of the Chrome desktop browser. The user specified browser profiles must be located at
-`config/data/devices/devices.yml` as depicted below:
+When using the `options` hash, the following options and capabilities must be specified:
+- `driver:` must be set to `:webdriver`
+- `browserName:` in the `capabilities:` hash must be set to one of the values from the table above
+
+```
+    options = {
+      capabilities: { browserName: value_from_table_above },
+      driver: :webdriver
+    }
+    WebDriverConnect.initialize_web_driver(options)
+```
+To change the emulated device's screen orientation from the default setting, set the optional `orientation:` to either
+`:portrait` or `:landscape` in the `capabilities:` hash as shown in the example below:
+
+    options = {
+      capabilities: {
+        browserName: :ipad_pro_12_9,
+        orientation: :portrait
+      },
+      driver: :webdriver
+    }
+    WebDriverConnect.initialize_web_driver(options)
+
+ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+`:local_<browserName>` - e.g. `:local_ipad_pro_12_9` or `:local_pixel_6`.
+
+Below is an example of an `options` hash for specifying a connection to a locally hosted emulated mobile Safari web browser
+running on an iPhone. The`options` hash includes options for specifying the driver name and setting the browser orientation
+to landscape mode.
+
+    options = {
+      driver: :webdriver,
+      driver_name: :user1,
+      capabilities: {
+        browserName: :iphone_13_pro_max,
+        orientation: :landscape
+      }
+    }
+    WebDriverConnect.initialize_web_driver(options)
+
+
+#### User Defined Emulated Mobile Browser Profiles
+
+User defined mobile browser profiles can be specified in a `device.yml` file for testing locally hosted emulated mobile
+web browsers running in an instance of the Chrome desktop browser. The user specified browser profiles must be located
+at `config/data/devices/devices.yml` as depicted below:
 
         📁 my_automation_project/
         ├── 📁 config/
@@ -1560,49 +1787,109 @@ browsers running in an instance of the Chrome desktop browser. The user specifie
 
 The format for a new mobile browser profile is:
 ```
-  :new_device_profile:
-    :name: "New Device Name"
-    :os: (ios, android, kindle, or blackberry)
-    :type: (phone or tablet)
-    :css_width: css width in pixels
-    :css_height: css height in pixels
-    :default_orientation: (portrait or landscape)
-    :user_agent: "user agent string"
+    :my_device_profile:
+      :name: "My New Device Name"
+      :os: (ios, android, kindle, or blackberry)
+      :type: (phone or tablet)
+      :css_width: css width in pixels
+      :css_height: css height in pixels
+      :default_orientation: (portrait or landscape)
+      :user_agent: "user agent string"
 ```
 
-### Selenium Grid 4 and Dockerized Selenium Grid 4 hosted desktop and emulated mobile web browsers
-
-For remote desktop and emulated mobile web browsers running on Selenium Grid 4 or Dockerized Selenium Grid 4 environments
-as described in the table below.
-
-| **Environment Variable** | **Description**                                                                                                                                                               |
-|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `WEB_BROWSER`            | Must be set to one of the following desktop browsers - `chrome`, `chrome_headless`, `edge`, `edge_headless`, or `firefox`, or any of the mobile web browsers described above. |
-| `SELENIUM`               | Must be set to `remote`                                                                                                                                                       |
-| `REMOTE_ENDPOINT`        | Must be set to the URL of the Grid hub, which is usually `http://localhost:4444/wd/hub`                                                                                       |
-
-Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
+To specify a user defined emulated mobile browser, set `browserName:` or the `WEB_BROWSER` Environment Variable to the
+device's profile name.
 
 
-### Mobile browsers on Simulators or Physical Devices
+### Selenium Grid Hosted Desktop and Emulated Mobile Web Browsers
 
-#### Mobile Safari browser on iOS Simulators or iOS Physical Devices
+For remotely hosted desktop web browsers running on a Selenium 4 Grid, the browser type and driver type must be specified
+when calling the `TestCentricity::WebDriverConnect.initialize_web_driver` method. The table below contains the values that
+can be used to specify the grid hosted desktop web browser to be instantiated when calling the`initialize_web_driver` method:
 
-You can run your mobile web tests against the mobile Safari browser on simulated iOS devices or physically connected iOS devices
-using Appium and XCode on macOS. You must install Appium, XCode, and the iOS version-specific device simulators for XCode.
+| `browserName:` or `WEB_BROWSER` |
+|---------------------------------|
+| `chrome`                        |
+| `chrome_headless`               |
+| `firefox`                       |
+| `firefox_headless`              |
+| `edge`                          |
+| `edge_headless`                 |
 
-Information about Appium setup and configuration requirements for testing on physically connected iOS devices can be found
-on [this page](https://github.com/appium/appium/blob/master/docs/en/drivers/ios-xcuitest-real-devices.md). The Appium server
-must be running prior to invoking Cucumber to run your features/scenarios.
+#### Grid Browsers using Environment Variables
 
-Once your test environment is properly configured, the following **Environment Variables** must be set as described in the table below.
+If the `options` hash is not provided when calling the `TestCentricity::WebDriverConnect.initialize_web_driver` method,
+then the following Environment Variables must be set as described in the table below:
+
+| **Environment Variable** | **Description**                                                                                                                   |
+|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| `WEB_BROWSER`            | Must be set to one of the values from the table above, or any of the emulated mobile web browsers described above in section 8.4. |
+| `DRIVER`                 | Must be set to `grid`                                                                                                             |
+| `REMOTE_ENDPOINT`        | [Optional] Set to the URL of the Grid hub. Set to `http://localhost:4444/wd/hub` if not specified                                 |
+| `BROWSER_SIZE`           | [Optional] Set to _'width in pixels, heigh in pixels'_ or _'max'_                                                                 |
+
+Refer to [**section 8.9 (Using Browser Specific Profiles in `cucumber.yml`)**](#using-browser-specific-profiles-in-cucumber-yml) below.
+
+
+#### Grid Browser in the `options` Hash
+
+When using the `options` hash, the following options and capabilities must be specified:
+- `driver:` must be set to `:grid`
+- `browserName:` in the `capabilities:` hash must be set to one of the values from the table above
+
+```
+    options = {
+      capabilities: { browserName: value_from_table_above },
+      driver: :grid,
+      endpoint: 'http://localhost:4444/wd/hub'
+    }
+    WebDriverConnect.initialize_web_driver(options)
+```
+ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+`:remote_<browserName>` - e.g. `:remote_chrome` or `:remote_edge_headless`.
+
+ℹ️ If an `endpoint:` is not specified in the `options`hash, then the default remote endpoint URL of `http://localhost:4444/wd/hub`
+will be used.
+
+Below is an example of an `options` hash for specifying a connection to a grid hosted Chrome desktop web browser. The
+`options` hash includes options for specifying the driver name and setting the browser window size.
+
+    options = {
+      driver: :grid,
+      driver_name: :admin_user,
+      browser_size: [1400, 1100],
+      capabilities: { browserName: :chrome }
+    }
+    WebDriverConnect.initialize_web_driver(options)
+
+
+### Locally Hosted Mobile Browsers on Simulators or Physical Devices
+
+Refer to [this page](https://appium.io/docs/en/2.2/guides/caps/) for information regarding specifying Appium capabilities.
+
+#### Mobile Safari Browser on iOS Simulators or iOS Physical Devices
+
+You can run your mobile web tests against the mobile Safari browser on iOS device simulators or physically connected iOS
+devices using Appium and XCode on macOS. You must install Appium, XCode, and the iOS version-specific device simulators
+for XCode. Information about Appium setup and configuration requirements with the XCUITest driver for testing on physically
+connected iOS devices can be found on [this page](https://github.com/appium/appium-xcuitest-driver/blob/master/docs/real-device-config.md). Refer to [this page](https://appium.github.io/appium-xcuitest-driver/5.12/capabilities/) for information regarding specifying
+Appium capabilities that are specific to the XCUITest driver.
+
+The Appium server must be running prior to invoking Cucumber to run your features/scenarios. Refer to [**section 8.6.3 (Starting and Stopping Appium Server)**](#starting-and-stopping-appium-server) below.
+
+
+##### Local Mobile Safari Browser using Environment Variables
+
+If the `options` hash is not provided when calling the `TestCentricity::WebDriverConnect.initialize_web_driver` method,
+the following **Environment Variables** must be set as described in the table below.
 
 | **Environment Variable**   | **Description**                                                                                                                                                       |
 |----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `DRIVER`                   | Must be set to `appium`                                                                                                                                               |
+| `AUTOMATION_ENGINE`        | Must be set to `xcuitest`                                                                                                                                             |
 | `APP_PLATFORM_NAME`        | Must be set to `iOS`                                                                                                                                                  |
 | `APP_BROWSER`              | Must be set to `Safari`                                                                                                                                               |
-| `APP_VERSION`              | Must be set to `15.4`, `14.5`, or which ever iOS version you wish to run within the XCode Simulator                                                                   |
+| `APP_VERSION`              | Must be set to which ever iOS version you wish to run within the XCode Simulator                                                                                      |
 | `APP_DEVICE`               | Set to iOS device name supported by the iOS Simulator (`iPhone 13 Pro Max`, `iPad Pro (12.9-inch) (5th generation)`, etc.) or name of physically connected iOS device |
 | `DEVICE_TYPE`              | Must be set to `phone` or `tablet`                                                                                                                                    |
 | `APP_UDID`                 | UDID of physically connected iOS device (not used for simulators)                                                                                                     |
@@ -1614,59 +1901,165 @@ Once your test environment is properly configured, the following **Environment V
 | `APP_FULL_RESET`           | [Optional] Perform a complete reset. Set to `true` or `false`                                                                                                         |
 | `APP_INITIAL_URL`          | [Optional] Initial URL, default is a local welcome page.  e.g.  `http://www.apple.com`                                                                                |
 | `WDA_LOCAL_PORT`           | [Optional] Used to forward traffic from Mac host to real iOS devices over USB. Default value is same as port number used by WDA on device.                            |
-| `LOCALE`                   | [Optional] Locale to set for the simulator.  e.g.  `fr_CA`                                                                                                            |
-| `LANGUAGE`                 | [Optional] Language to set for the simulator.  e.g.  `fr`                                                                                                             |
 | `ORIENTATION`              | [Optional] Set to `portrait` or `landscape` (only for iOS simulators)                                                                                                 |
 | `NEW_COMMAND_TIMEOUT`      | [Optional] Time (in Seconds) that Appium will wait for a new command from the client                                                                                  |
 | `SHOW_SIM_KEYBOARD`        | [Optional] Show the simulator keyboard during text entry. Set to `true` or `false`                                                                                    |
 | `SHUTDOWN_OTHER_SIMS`      | [Optional] Close any other running simulators. Set to `true` or `false`. See note below.                                                                              |
 
-The `SHUTDOWN_OTHER_SIMS` environment variable can only be set if you are running Appium Server with the `--relaxed-security` or
-`--allow-insecure=shutdown_other_sims` arguments passed when starting it from the command line, or when running the server from the
-Appium Server GUI app. A security violation error will occur without relaxed security enabled. 
+The `SHUTDOWN_OTHER_SIMS` environment variable can only be set if you are running Appium Server with the `--relaxed-security`
+or `--allow-insecure=shutdown_other_sims` arguments passed when starting it from the command line, or when running the server
+from the Appium Server GUI app. A security violation error will occur without relaxed security enabled. 
 
-Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
+Refer to [**section 8.9 (Using Browser Specific Profiles in `cucumber.yml`)**](#using-browser-specific-profiles-in-cucumber-yml) below.
 
 
-#### Mobile Chrome or Android browsers on Android Studio Virtual Device emulators
+##### Local Mobile Safari Browser in the `options` Hash
+
+When using the `options` hash, the following options and capabilities must be specified:
+- `driver:` must be set to `:appium`
+- `device_type:` must be set to `:tablet` or `:phone`
+- `browserName:` must be set to 'Safari' in the `capabilities:` hash
+- `platformName:` must be set to 'ios' in the `capabilities:` hash
+- `'appium:automationName':` must be set to 'xcuitest' in the `capabilities:` hash
+- `'appium:platformVersion':` must be set to the version of iOS on the simulator or physical device
+- `'appium:deviceName':` must be set to the name of the iOS simulator or physical device
+
+```
+    options = {
+      driver: :appium,
+      device_type: phone_or_tablet,
+      capabilities: {
+        platformName: 'ios',
+        browserName: 'Safari',
+        'appium:automationName': 'xcuitest',
+        'appium:platformVersion': ios_version,
+        'appium:deviceName': device_or_simulator_name
+      },
+      endpoint: 'http://localhost:4723/wd/hub'
+    }
+    WebDriverConnect.initialize_web_driver(options)
+```
+ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+`appium_safari`.
+
+ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL of `http://localhost:4723/wd/hub`
+will be used.
+
+Below is an example of an `options` hash for specifying a connection to a locally hosted mobile Safari web browser running
+on an iPad simulator. The `options` hash includes options for specifying the driver name and setting the simulated device
+orientation to portrait mode.
+
+      options = {
+        driver: :appium,
+        device_type: :tablet,
+        driver_name: :student_ipad,
+        capabilities: {
+          platformName: 'ios',
+          browserName: 'Safari',
+          'appium:platformVersion': '15.4',
+          'appium:deviceName': 'iPad Pro (12.9-inch) (5th generation)',
+          'appium:automationName': 'xcuitest',
+          'appium:orientation': 'PORTRAIT'
+        }
+      }
+      WebDriverConnect.initialize_web_driver(options)
+
+
+#### Mobile Chrome or Android Browsers on Android Studio Virtual Device Emulators
 
 You can run your mobile web tests against the mobile Chrome or Android browser on emulated Android devices using Appium and
 Android Studio on macOS. You must install Android Studio, the desired Android version-specific virtual device emulators, and
-Appium. Refer to [this page](http://appium.io/docs/en/drivers/android-uiautomator2/index.html) for information on configuring
-Appium to work with the Android SDK. You must also ensure that the `appium_capybara` gem is installed and required as described
-in **section 3.3 (Setup - Using Appium)** above.
+Appium. Refer to [this page](https://appium.io/docs/en/2.2/quickstart/uiauto2-driver/) for information on configuring Appium to work with the Android SDK.
 
-The Appium server must be running prior to invoking Cucumber to run your features/scenarios. Refer to [this page](https://appium.io/docs/en/writing-running-appium/web/chromedriver/index.html)
-for information on configuring Appium to use the correct version of Chromedriver required to work with the web browser supported
-by each Android OS version.
+The Appium server must be running prior to invoking Cucumber to run your features/scenarios. Refer to [**section 8.6.3 (Starting and Stopping Appium Server)**](#starting-and-stopping-appium-server) below.
 
-Once your test environment is properly configured, the following **Environment Variables** must be set as described in the table below.
+
+##### Local Mobile Android Browsers using Environment Variables
+
+If the `options` hash is not provided when calling the `TestCentricity::WebDriverConnect.initialize_web_driver` method,
+the following **Environment Variables** must be set as described in the table below.
 
 | **Environment Variable**  | **Description**                                                                                                                |
 |---------------------------|--------------------------------------------------------------------------------------------------------------------------------|
 | `DRIVER`                  | Must be set to `appium`                                                                                                        |
+| `AUTOMATION_ENGINE`       | Must be set to `UiAutomator2`                                                                                                  |
 | `APP_PLATFORM_NAME`       | Must be set to `Android`                                                                                                       |
 | `APP_BROWSER`             | Must be set to `Chrome` or `Browser`                                                                                           |
-| `APP_VERSION`             | Must be set to `12.0`, or which ever Android OS version you wish to run with the Android Virtual Device                        |
+| `APP_VERSION`             | Must be set to which ever Android OS version you wish to run with the Android Virtual Device                                   |
 | `APP_DEVICE`              | Set to Android Virtual Device ID (`Pixel_2_XL_API_26`, `Nexus_6_API_23`, etc.) found in Advanced Settings of AVD Configuration |
 | `DEVICE_TYPE`             | Must be set to `phone` or `tablet`                                                                                             |
 | `ORIENTATION`             | [Optional] Set to `portrait` or `landscape`                                                                                    |
 | `APP_INITIAL_URL`         | [Optional] Initial URL, default is a local welcome page.  e.g.  `http://www.apple.com`                                         |
 | `APP_NO_RESET`            | [Optional] Don't reset app state after each test. Set to `true` or `false`                                                     |
 | `APP_FULL_RESET`          | [Optional] Perform a complete reset. Set to `true` or `false`                                                                  |
-| `LOCALE`                  | [Optional] Locale to set for the simulator.  e.g.  `fr_CA`                                                                     |
-| `LANGUAGE`                | [Optional] Language to set for the simulator.  e.g.  `fr`                                                                      |
 | `NEW_COMMAND_TIMEOUT`     | [Optional] Time (in Seconds) that Appium will wait for a new command from the client                                           |
-| `CHROMEDRIVER_EXECUTABLE` | [Optional] Absolute local path to webdriver executable                                                                         |
+| `CHROMEDRIVER_EXECUTABLE` | [Optional] Absolute local path to ChromeDriver executable                                                                      |
 
-Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
+Refer to [**section 8.9 (Using Browser Specific Profiles in `cucumber.yml`)**](#using-browser-specific-profiles-in-cucumber-yml) below.
 
 
-#### Starting and stopping Appium Server
+##### Local Mobile Android Browser in the `options` Hash
 
-The Appium server must be running prior to invoking Cucumber to run your features/scenarios on mobile simulators or physical
-device. To programmatically control the starting and stopping of Appium server with the execution of your automated tests,
-place the code shown below in your `hooks.rb` file.
+When using the `options` hash, the following options and capabilities must be specified:
+- `driver:` must be set to `:appium`
+- `device_type:` must be set to `:tablet` or `:phone`
+- `browserName:` must be set to 'Chrome' in the `capabilities:` hash
+- `platformName:` must be set to 'Android' in the `capabilities:` hash
+- `'appium:automationName':` must be set to 'UiAutomator2' in the `capabilities:` hash
+- `'appium:platformVersion':` must be set to the version of Android on the simulator or physical device
+- `'appium:deviceName':` must be set to the Android Virtual Device ID
+
+```
+    options = {
+      driver: :appium,
+      device_type: phone_or_tablet,
+      capabilities: {
+        platformName: 'Android',
+        browserName: 'Chrome',
+        'appium:automationName': 'UiAutomator2',
+        'appium:platformVersion': android_version,
+        'appium:deviceName': simulator_name,
+        'appium:avd': simulator_name
+      },
+      endpoint: 'http://localhost:4723/wd/hub'
+    }
+    WebDriverConnect.initialize_web_driver(options)
+```
+ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+`appium_chrome`.
+
+ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL of `http://localhost:4723/wd/hub`
+will be used.
+
+Below is an example of an `options` hash for specifying a connection to a locally hosted mobile Chrome web browser running
+on an Android phone simulator. The `options` hash includes options for specifying the driver name, setting the simulated
+device orientation to landscape mode, and specifying the path to the ChromeDriver executable.
+
+      options = {
+        driver: :appium,
+        device_type: :phone,
+        driver_name: :student_phone,
+        capabilities: {
+          platformName: 'Android',
+          browserName: 'Chrome',
+          'appium:platformVersion': '12.0',
+          'appium:deviceName': 'Pixel_5_API_31',
+          'appium:avd': 'Pixel_5_API_31',
+          'appium:automationName': 'UiAutomator2',
+          'appium:orientation': 'LANDSCAPE',
+          'appium:chromedriverExecutable': '/Users/Shared/config/webdrivers/chromedriver'
+        }
+      }
+      WebDriverConnect.initialize_web_driver(options)
+
+
+#### Starting and Stopping Appium Server
+
+##### Using Appium Server with Cucumber
+
+The Appium server must be running prior to invoking Cucumber to run your features/scenarios on locally hosted mobile simulators
+or physical devices. To programmatically control the starting and stopping of Appium server with the execution of your automated
+tests, place the code shown below in your `hooks.rb` file.
 
     BeforeAll do
       # start Appium Server if APPIUM_SERVER = 'run' and target browser is a mobile simulator or device
@@ -1677,43 +2070,64 @@ place the code shown below in your `hooks.rb` file.
     end
 
     AfterAll do
+      # terminate all driver instances
+      WebDriverConnect.close_all_drivers
       # terminate Appium Server if APPIUM_SERVER = 'run' and target browser is a mobile simulator or device
       $server.stop if ENV['APPIUM_SERVER'] == 'run' && Environ.driver == :appium && $server.running?
-      # close driver
-      Capybara.page.driver.quit
-      Capybara.reset_sessions!
-      Environ.session_state = :quit
     end
 
-
-The `APPIUM_SERVER` environment variable must be set to `run` in order to programmatically start and stop Appium server. This
-can be set by adding the following to your `cucumber.yml` file and including `-p run_appium` in your command line when starting
-your Cucumber test suite(s):
+The `APPIUM_SERVER` environment variable must be set to `run` in order to programmatically start and stop the Appium server.
+This can be set by adding the following to your `cucumber.yml` file and including `-p run_appium` in your command line when
+starting your Cucumber test suite(s):
 
     run_appium: APPIUM_SERVER=run
 
+Refer to [**section 8.9 (Using Browser Specific Profiles in `cucumber.yml`)**](#using-browser-specific-profiles-in-cucumber-yml) below.
 
-Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
+
+##### Using Appium Server with RSpec
+
+The Appium server must be running prior to executing test specs on locally hosted mobile simulators or physical device. To
+control the starting and stopping of the Appium server with the execution of your specs, place the code shown below in the
+body of an example group:
+
+    before(:context) do
+      # start Appium server before all of the examples in this group
+      $server = TestCentricity::AppiumServer.new
+      $server.start
+    end
+
+    after(:context) do
+      # terminate Appium Server after all of the examples in this group
+      $server.stop if Environ.driver == :appium && $server.running?
+    end
 
 
-### Remote cloud hosted desktop and mobile web browsers
+### Remote Cloud Hosted Desktop and Mobile Web Browsers
 
 You can run your automated tests against remote cloud hosted desktop and mobile web browsers using the BrowserStack, SauceLabs,
 TestingBot, or LambdaTest services. If your tests are running against a web site hosted on your local computer (`localhost`),
 or on a staging server inside your LAN, you must set the `TUNNELING` Environment Variable to `true`.
 
-Due to lack of support for Selenium 4.x and the W3C browser capabilities protocol, support for CrossBrowserTesting and Gridlastic
-cloud hosted Selenium grid services was removed as of version 4.1 of this gem. If your testing requires access to either of those
-services, or support for Selenium version 3.x, you should use earlier versions of this gem.
+If the BrowserStack Local instance is running (`TUNNELING` Environment Variable is `true`), call the`TestCentricity::WebDriverConnect.close_tunnel`
+method upon completion of your test suite to stop the Local instance. Place the code shown below in your `env.rb` or
+`hooks.rb` file:
 
-Refer to **section 8.6 (Using Browser specific Profiles in cucumber.yml)** below.
+    # code to stop BrowserStack Local instance after end of test (if tunneling is enabled)
+    at_exit do
+      TestCentricity::WebDriverConnect.close_tunnel if Environ.tunneling
+    end
 
+#### Remote Desktop Browsers on the BrowserStack Service
 
-#### Remote desktop browsers on the BrowserStack service
+For remotely hosted desktop web browsers on the BrowserStack service, refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities?tag=selenium-4)
+for information regarding the options and capabilities available for the various supported desktop operating systems and
+web browsers.
 
-For remotely hosted desktop web browsers on the BrowserStack service, the following **Environment Variables** must be set as
-described in the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities?tag=selenium-4)
-for information regarding the specific capabilities.
+##### BrowserStack Desktop Browser using Environment Variables
+
+If the `options` hash is not provided when calling the `TestCentricity::WebDriverConnect.initialize_web_driver` method,
+the following **Environment Variables** must be set as described in the table below.
 
 | **Environment Variable** | **Description**                                                                                                                                                            |
 |--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -1734,20 +2148,82 @@ for information regarding the specific capabilities.
 | `SCREENSHOTS`            | [Optional] Generate screenshots for debugging (`true` or `false`)                                                                                                          |
 | `NETWORK_LOGS`           | [Optional] Capture network logs (`true` or `false`)                                                                                                                        |
 
-If the BrowserStack Local instance is running (`TUNNELING` Environment Variable is `true`), call the`TestCentricity::WebDriverConnect.close_tunnel` method
-upon completion of your test suite to stop the Local instance. Place the code shown below in your `env.rb` or `hooks.rb` file.
 
-    # code to stop BrowserStack Local instance after end of test (if tunneling is enabled)
-    at_exit do
-      TestCentricity::WebDriverConnect.close_tunnel if Environ.tunneling
-    end
+##### BrowserStack Desktop Browser in the `options` Hash
+
+When using the `options` hash, the following options and capabilities must be specified:
+- `driver:` must be set to `:browserstack`
+- `browserName:` in the `capabilities:` hash must be set to name from capability in chart
+- `browserVersion:` in the `capabilities:` hash must be set to browser version from capability in chart
+
+```
+    options = {
+      driver: :browserstack,
+      capabilities: {
+        browserName: browser_name_from_chart,
+        browserVersion: browser_version_from_chart,
+        'bstack:options': {
+          userName: bs_account_user_name,
+          accessKey: bs_account_access_key,
+          os: os_name_from_chart,
+          osVersion: os_version_from_chart
+        }
+      }
+    }
+    WebDriverConnect.initialize_web_driver(options)
+```
+ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+`:browserstack_<browserName>` - e.g. `:browserstack_chrome` or `:browserstack_safari`.
+
+ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
+
+`https://#{ENV['BS_USERNAME']}:#{ENV['BS_AUTHKEY']}@hub-cloud.browserstack.com/wd/hub`
+
+This default endpoint requires that the `BS_USERNAME` Environment Variable is set to your BrowserStack account user name and
+the `BS_AUTHKEY` Environment Variable is set to your BrowserStack access key.
+
+Below is an example of an `options` hash for specifying a connection to the latest version of an Edge desktop web browser
+running on macOS Sonoma hosted on BrowserStack. The `options` hash includes options for specifying the driver name, setting
+the browser window size, and capabilities for setting screen resolution, geoLocation, time zone, Selenium version, and various
+test configuration options.
+
+    options = {
+      driver: :browserstack,
+      driver_name: :admin_user,
+      browser_size: [1400, 1100],
+      capabilities: {
+        browserName: 'Edge',
+        browserVersion: 'latest',
+        'bstack:options': {
+          userName: ENV['BS_USERNAME'],
+          accessKey: ENV['BS_AUTHKEY'],
+          projectName: 'ALP AP',
+          buildName: "Test Build {ENV['BUILD_NUM']}",
+          sessionName: 'AU Regression Suite',
+          os: 'OS X',
+          osVersion: 'Sonoma',
+          resolution: '3840x2160',
+          local: 'false',
+          seleniumVersion: '4.15.0',
+          networkLogs: 'true',
+          geoLocation: 'AU',
+          timezone: 'Perth'
+        }
+      }
+    }
+    WebDriverConnect.initialize_web_driver(options)
 
 
-#### Remote mobile browsers on the BrowserStack service
+#### Remote Mobile Browsers on the BrowserStack Service
 
-For remotely hosted mobile web browsers on the BrowserStack service, the following **Environment Variables** must be set as described in
-the table below. Refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities?tag=selenium-4)
-for information regarding the specific capabilities.
+For remotely hosted mobile web browsers on the BrowserStack service, refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities?tag=selenium-4)
+for information regarding the options and capabilities available for the various supported mobile operating systems, devices,
+and web browsers.
+
+##### BrowserStack Mobile Browser using Environment Variables
+
+If the `options` hash is not provided when calling the `TestCentricity::WebDriverConnect.initialize_web_driver` method,
+the following **Environment Variables** must be set as described in the table below.
 
 | **Environment Variable** | **Description**                                                                                                                                                            |
 |--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -1755,6 +2231,7 @@ for information regarding the specific capabilities.
 | `BS_USERNAME`            | Must be set to your BrowserStack account user name                                                                                                                         |
 | `BS_AUTHKEY`             | Must be set to your BrowserStack account access key                                                                                                                        |
 | `BS_OS`                  | Must be set to `ios` or `android`                                                                                                                                          |
+| `BS_OS_VERSION`          | Refer to `osVersion` capability in chart                                                                                                                                   |
 | `BS_BROWSER`             | Must be set to `Safari` (for iOS) or `Chrome` (for Android)                                                                                                                |
 | `BS_DEVICE`              | Refer to `deviceName` capability in chart                                                                                                                                  |
 | `BS_REAL_MOBILE`         | Set to `true` if running against a real device                                                                                                                             |
@@ -1769,11 +2246,81 @@ for information regarding the specific capabilities.
 | `APPIUM_LOGS`            | [Optional] Generate Appium logs (`true` or `false`)                                                                                                                        |
 
 
-#### Remote desktop browsers on the Sauce Labs service
+##### BrowserStack Mobile Browser in the `options` Hash
 
-For remotely hosted desktop web browsers on the Sauce Labs service, the following **Environment Variables** must be set as described in the
-table below. Use the Selenium 4 selection on the [Platform Configurator page](https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/)
-to obtain information regarding the specific capabilities.
+When using the `options` hash, the following options and capabilities must be specified:
+- `driver:` must be set to `:browserstack`
+- `device_type:` must be set to `:tablet` or `:phone`
+- `browserName:` in the `capabilities:` hash must be set to name from capability in chart
+
+```
+    options = {
+      driver: :browserstack,
+      device_type: phone_or_tablet,
+      capabilities: {
+        browserName: browser_name_from_chart,
+        'bstack:options': {
+          userName: bs_account_user_name,
+          accessKey: bs_account_access_key,
+          osVersion: os_version_from_chart,
+          deviceName: device_name_from_chart
+        }
+      }
+    }
+    WebDriverConnect.initialize_web_driver(options)
+```
+ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+`:browserstack_<browserName>` - e.g. `:browserstack_chrome` or `:browserstack_safari`.
+
+ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
+
+`https://#{ENV['BS_USERNAME']}:#{ENV['BS_AUTHKEY']}@hub-cloud.browserstack.com/wd/hub`
+
+This default endpoint requires that the `BS_USERNAME` Environment Variable is set to your BrowserStack account user name and
+the `BS_AUTHKEY` Environment Variable is set to your BrowserStack access key.
+
+Below is an example of an `options` hash for specifying a connection to a mobile Samsung web browser running on an Android
+tablet hosted on BrowserStack. The `options` hash includes options for specifying the driver name, and capabilities for setting
+geoLocation, time zone, Appium version, and various test configuration options.
+
+    options = {
+      driver: :browserstack,
+      driver_name: :admin_tablet,
+      capabilities: {
+        browserName: 'samsung',
+        device_type: :tablet,
+        'bstack:options': {
+          userName: ENV['BS_USERNAME'],
+          accessKey: ENV['BS_AUTHKEY'],
+          projectName: 'ALP AP',
+          buildName: "Test Build {ENV['BUILD_NUM']}",
+          sessionName: 'AU Regression Suite',
+          os: 'android',
+          osVersion: '13.0',
+          deviceName: 'Samsung Galaxy Tab S9',
+          deviceOrientation: 'portrait',
+          appiumVersion: '1.22.0',
+          realMobile: 'true',
+          local: 'false',
+          networkLogs: 'true',
+          geoLocation: 'AU',
+          timezone: 'Perth'
+        }
+      }
+    }
+    WebDriverConnect.initialize_web_driver(options)
+
+
+#### Remote Desktop Browsers on the Sauce Labs Service
+
+For remotely hosted desktop web browsers on the Sauce Labs service, refer to the [Platform Configurator page](https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/)
+for information regarding the options and capabilities available for the various supported desktop operating systems and
+web browsers. Use the **Selenium 4** selection in the Config Script section of the Configurator page.
+
+##### Sauce Labs Desktop Browser using Environment Variables
+
+If the `options` hash is not provided when calling the `TestCentricity::WebDriverConnect.initialize_web_driver` method,
+the following **Environment Variables** must be set as described in the table below.
 
 | **Environment Variable** | **Description**                                                                                                            |
 |--------------------------|----------------------------------------------------------------------------------------------------------------------------|
@@ -1782,36 +2329,254 @@ to obtain information regarding the specific capabilities.
 | `SL_AUTHKEY`             | Must be set to your Sauce Labs account access key                                                                          |
 | `DATA_CENTER`            | Must be set to your Sauce Labs account Data Center assignment (`us-west-1`, `eu-central-1`, `apac-southeast-1`)            |
 | `SL_OS`                  | Refer to `platformName` capability in the Config Script section of the Platform Configurator page                          |
-| `SL_BROWSER`             | Must be set to `chrome`, `firefox`, `safari`, `internet explorer`, or `MicrosoftEdge`                                      |
+| `SL_BROWSER`             | Must be set to `chrome`, `firefox`, `safari`, `internetExplorer`, or `MicrosoftEdge`                                       |
 | `SL_VERSION`             | Refer to `browserVersion` capability in the Config Script section of the Platform Configurator page                        |
 | `RESOLUTION`             | [Optional] Refer to supported `screenResolution` capability in the Config Script section of the Platform Configurator page |
-| `BROWSER_SIZE `          | [Optional] Specify width, height of browser window                                                                         |
+| `BROWSER_SIZE`           | [Optional] Specify width, height of browser window                                                                         |
 | `RECORD_VIDEO`           | [Optional] Enable screen video recording during test execution (`true` or `false`)                                         |
 
 
-#### Remote desktop browsers on the TestingBot service
+##### Sauce Labs Desktop Browser in the `options` Hash
 
-For remotely hosted desktop web browsers on the TestingBot service, the following **Environment Variables** must be set as described in
-the table below. Refer to the [TestingBot List of Available Browsers page](https://testingbot.com/support/getting-started/browsers.html) for information
-regarding the specific capabilities.
+When using the `options` hash, the following options and capabilities must be specified:
+- `driver:` must be set to `:saucelabs`
+- `browserName:` in the `capabilities:` hash must be set to name from capability in chart
+- `browser_version:` in the `capabilities:` hash must be set to browser version from capability in chart
 
-| **Environment Variable** | **Description**                                                                                                   |
-|--------------------------|-------------------------------------------------------------------------------------------------------------------|
-| `DRIVER`                 | Must be set to `testingbot`                                                                                       |
-| `TB_USERNAME`            | Must be set to your TestingBot account user name                                                                  |
-| `TB_AUTHKEY`             | Must be set to your TestingBot account access key                                                                 |
-| `TB_OS`                  | Refer to `platform` capability in chart                                                                           |
-| `TB_BROWSER`             | Refer to `browserName` capability in chart                                                                        |
-| `TB_VERSION`             | Refer to `version` capability in chart                                                                            |
-| `TUNNELING`              | [Optional] Must be `true` if you are testing against internal/local servers (`true` or `false`)                   |
-| `RESOLUTION`             | [Optional] Possible values: `800x600`, `1024x768`, `1280x960`, `1280x1024`, `1600x1200`, `1920x1200`, `2560x1440` |
-| `BROWSER_SIZE`           | [Optional] Specify width, height of browser window                                                                |
+```
+    options = {
+      driver: :saucelabs,
+      capabilities: {
+        browserName: browser_name_from_chart,
+        browser_version: browser_version_from_chart,
+        platform_name: platform_name_from_chart,
+        'sauce:options': {
+          username: sl_account_user_name,
+          access_key: bs_account_access_key
+        }
+      }
+    }
+    WebDriverConnect.initialize_web_driver(options)
+```
+ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+`:saucelabs_<browserName>` - e.g. `:saucelabs_chrome` or `:saucelabs_safari`.
+
+ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
+
+`https://#{ENV['SL_USERNAME']}:#{ENV['SL_AUTHKEY']}@ondemand.#{ENV['DATA_CENTER']}.saucelabs.com:443/wd/hub`
+
+This default endpoint requires that the `SL_USERNAME` Environment Variable is set to your Sauce Labs account user name, the
+`SL_AUTHKEY` Environment Variable is set to your Sauce Labs access key, and the `DATA_CENTER` Environment Variable is set to
+your Sauce Labs account Data Center assignment (`us-west-1`, `eu-central-1`, `apac-southeast-1`).
+
+Below is an example of an `options` hash for specifying a connection to the latest version of an Edge desktop web browser
+running on macOS Ventura hosted on Sauce Labs. The `options` hash includes options for specifying the driver name, setting
+the browser window size, and capabilities for setting screen resolution, time zone, and various test configuration options.
+
+    options = {
+      driver: :saucelabs,
+      driver_name: :admin_user,
+      browser_size: [1400, 1100],
+      capabilities: {
+        browserName: 'MicrosoftEdge',
+        browser_version: 'latest',
+        platform_name: 'macOS 13',
+        'sauce:options': {
+          username: ENV['SL_USERNAME'],
+          access_key: ENV['SL_AUTHKEY'],
+          name: 'ALP AP',
+          build: "Test Build {ENV['BUILD_NUM']}",
+          screenResolution: '2048x1536',
+          timeZone: 'Perth',
+          maxDuration: 2400,
+          idleTimeout: 60
+        }
+      }
+    }
+    WebDriverConnect.initialize_web_driver(options)
 
 
-#### Remote mobile browsers on the TestingBot service
+#### Remote Mobile Browsers on the Sauce Labs Service
 
-For remotely hosted mobile web browsers iOS simulators and Android emulators on the TestingBot service, the following Environment
-Variables must be set as described in the table below.
+For remotely hosted mobile web browsers on the Sauce Labs service, refer to the [Platform Configurator page](https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/)
+for information regarding the options and capabilities available for the various supported mobile operating systems, devices,
+and web browsers.
+
+##### Sauce Labs Mobile Browser using Environment Variables
+
+If the `options` hash is not provided when calling the `TestCentricity::WebDriverConnect.initialize_web_driver` method,
+the following **Environment Variables** must be set as described in the table below.
+
+| **Environment Variable** | **Description**                                                                                                 |
+|--------------------------|-----------------------------------------------------------------------------------------------------------------|
+| `DRIVER`                 | Must be set to `saucelabs`                                                                                      |
+| `AUTOMATION_ENGINE`      | Must be set to `XCUITest` or `UiAutomator2`                                                                     |
+| `SL_PLATFORM`            | Must be set to `iOS` or `Android`                                                                               |
+| `SL_BROWSER`             | Must be set to `Safari` or `Chrome`                                                                             |
+| `SL_VERSION`             | Refer to `platformVersion` capability in the Config Script section of the Platform Configurator page            |
+| `SL_DEVICE`              | Refer to `deviceName` capability in chart                                                                       |
+| `DEVICE_TYPE`            | Must be set to `phone` or `tablet`                                                                              |
+| `SL_USERNAME`            | Must be set to your Sauce Labs account user name or email address                                               |
+| `SL_AUTHKEY`             | Must be set to your Sauce Labs account access key                                                               |
+| `DATA_CENTER`            | Must be set to your Sauce Labs account Data Center assignment (`us-west-1`, `eu-central-1`, `apac-southeast-1`) |
+| `ORIENTATION`            | [Optional] Set to `PORTRAIT` or `LANDSCAPE`                                                                     |
+
+
+##### Sauce Labs Mobile Browser in the `options` Hash
+
+When using the `options` hash, the following options and capabilities must be specified:
+- `driver:` must be set to `:saucelabs`
+- `device_type:` must be set to `:tablet` or `:phone`
+- `browserName:` in the `capabilities:` hash must be set to `browserName` from capability in chart
+- `platform_name:` in the `capabilities:` hash must be set to `platform_name` from capability in chart
+- `'appium:automationName':` must be set to `automationName` from capability in chart
+- `'appium:platformVersion':` must be set to `platformVersion` from capability in chart
+- `'appium:deviceName':` must be set to `deviceName` from capability in chart
+
+```
+    options = {
+      driver: :saucelabs,
+      device_type: phone_or_tablet,
+      capabilities: {
+        browserName: browser_name_from_chart,
+        platform_name: platform_name_from_chart,
+        'appium:automationName': automationName_from_chart,
+        'appium:platformVersion': os_version_from_chart,
+        'appium:deviceName': device_name_from_chart,
+        'sauce:options': {
+          userName: bs_account_user_name,
+          accessKey: bs_account_access_key
+        }
+      }
+    }
+    WebDriverConnect.initialize_web_driver(options)
+```
+ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+`:saucelabs_<browserName>` - e.g. `:saucelabs_chrome` or `:saucelabs_safari`.
+
+ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
+
+`https://#{ENV['SL_USERNAME']}:#{ENV['SL_AUTHKEY']}@ondemand.#{ENV['DATA_CENTER']}.saucelabs.com:443/wd/hub`
+
+This default endpoint requires that the `SL_USERNAME` Environment Variable is set to your Sauce Labs account user name, the
+`SL_AUTHKEY` Environment Variable is set to your Sauce Labs access key, and the `DATA_CENTER` Environment Variable is set to
+your Sauce Labs account Data Center assignment (`us-west-1`, `eu-central-1`, `apac-southeast-1`).
+
+Below is an example of an `options` hash for specifying a connection to a mobile Safari web browser running on an iPad
+tablet hosted on Sauce Labs. The `options` hash includes options for specifying the driver name, and capabilities for setting
+device orientation, Appium version, and various test configuration options.
+
+    options = {
+      driver: :saucelabs,
+      device_type: :tablet,
+      driver_name: :admin_tablet,
+      capabilities: {
+        browserName: 'Safari',
+        platform_name: 'iOS',
+        'appium:automationName': 'XCUITest',
+        'appium:platformVersion': '15.4',
+        'appium:deviceName': 'iPad Pro (12.9 inch) (5th generation) Simulator',
+        'sauce:options': {
+          username: ENV['SL_USERNAME'],
+          access_key: ENV['SL_AUTHKEY'],
+          name: 'ALP AP',
+          build: "Test Build {ENV['BUILD_NUM']}",
+          deviceOrientation: 'PORTRAIT',
+          appiumVersion: '1.22.3'
+        }
+      }
+    }
+    WebDriverConnect.initialize_web_driver(options)
+
+
+#### Remote Desktop Browsers on the TestingBot Service
+
+For remotely hosted desktop web browsers on the TestingBot service, refer to the [TestingBot List of Available Browsers page](https://testingbot.com/support/getting-started/browsers.html)
+and the [TestingBot Automated Test Options page](https://testingbot.com/support/other/test-options) for information regarding the options and capabilities available for
+the various supported desktop operating systems and web browsers.
+
+##### TestingBot Desktop Browser using Environment Variables
+
+If the `options` hash is not provided when calling the `TestCentricity::WebDriverConnect.initialize_web_driver` method,
+the following **Environment Variables** must be set as described in the table below.
+
+| **Environment Variable** | **Description**                                                                                                    |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------|
+| `DRIVER`                 | Must be set to `testingbot`                                                                                        |
+| `TB_USERNAME`            | Must be set to your TestingBot account user name                                                                   |
+| `TB_AUTHKEY`             | Must be set to your TestingBot account access key                                                                  |
+| `TB_OS`                  | Refer to `platform` capability in chart                                                                            |
+| `TB_BROWSER`             | Refer to `browserName` capability in chart                                                                         |
+| `TB_VERSION`             | Refer to `version` capability in chart                                                                             |
+| `TUNNELING`              | [Optional] Must be `true` if you are testing against internal/local servers (`true` or `false`)                    |
+| `RESOLUTION`             | [Optional] Refer to [Change Screen Resolution](https://testingbot.com/support/other/test-options#screenresolution) |
+| `BROWSER_SIZE`           | [Optional] Specify width, height of browser window                                                                 |
+
+
+##### TestingBot Desktop Browser in the `options` Hash
+
+When using the `options` hash, the following options and capabilities must be specified:
+- `driver:` must be set to `:testingbot`
+- `browserName:` in the `capabilities:` hash must be set to name from capability in chart
+- `browser_version:` in the `capabilities:` hash must be set to browser version from capability in chart
+- `platform_name:` in the `capabilities:` hash must be set to platform name from capability in chart
+
+```
+    options = {
+      driver: :testingbot,
+      capabilities: {
+        browserName: browser_name_from_chart,
+        browser_version: browser_version_from_chart,
+        platform_name: platform_name_from_chart
+      }
+    }
+    WebDriverConnect.initialize_web_driver(options)
+```
+ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+`:testingbot_<browserName>` - e.g. `:testingbot_chrome` or `:testingbot_microsoftedge`.
+
+ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
+
+`https://#{ENV['TB_USERNAME']}:#{ENV['TB_AUTHKEY']}@hub.testingbot.com/wd/hub`
+
+This default endpoint requires that the `TB_USERNAME` Environment Variable is set to your TestingBot account user name and
+the `TB_AUTHKEY` Environment Variable is set to your TestingBot access key.
+
+Below is an example of an `options` hash for specifying a connection to the latest version of an Edge desktop web browser
+running on macOS Sonoma hosted on TestingBot. The `options` hash includes options for specifying the driver name, setting
+the browser window size, and capabilities for setting screen resolution, time zone, and various test configuration options.
+
+    options = {
+      driver: :testingbot,
+      driver_name: :admin_user,
+      browser_size: [1400, 1100],
+      capabilities: {
+        browserName: 'microsoftedge',
+        browser_version: 'latest',
+        platform_name: 'SONOMA',
+        'tb:options': {
+          name: 'ALP AP',
+          build: "Test Build {ENV['BUILD_NUM']}",
+          timeZone: 'Australia/Adelaide',
+          'testingbot.geoCountryCode': 'AU',
+          'screen-resolution': '2048x1536',
+          'selenium-version': '4.14.1'
+        }
+      }
+    }
+    WebDriverConnect.initialize_web_driver(options)
+
+
+#### Remote Mobile Browsers on the TestingBot Service
+
+For remotely hosted mobile web browsers on the TestingBot service, refer to the [TestingBot List of Available Browsers page](https://testingbot.com/support/getting-started/browsers.html)
+and the [TestingBot Automated Test Options page](https://testingbot.com/support/other/test-options) for information regarding the options and capabilities available for
+the various supported mobile operating systems, devices, and web browsers.
+
+##### TestingBot Mobile Browser using Environment Variables
+
+If the `options` hash is not provided when calling the `TestCentricity::WebDriverConnect.initialize_web_driver` method,
+the following **Environment Variables** must be set as described in the table below.
 
 | **Environment Variable** | **Description**                                                                                 |
 |--------------------------|-------------------------------------------------------------------------------------------------|
@@ -1828,11 +2593,72 @@ Variables must be set as described in the table below.
 | `ORIENTATION`            | [Optional] Set to `portrait` or `landscape`                                                     |
 
 
-#### Remote desktop browsers on the LambdaTest service
+##### TestingBot Mobile Browser in the `options` Hash
 
-For remotely hosted desktop web browsers on the LambdaTest service, the following **Environment Variables** must be set as described in the table
-below. Use the Selenium 4 Configuration Wizard on the [Selenium Desired Capabilities Generator](https://www.lambdatest.com/capabilities-generator/)
-to obtain information regarding the specific capabilities.
+When using the `options` hash, the following options and capabilities must be specified:
+- `driver:` must be set to `:testingbot`
+- `device_type:` must be set to `:tablet` or `:phone`
+- `browserName:` in the `capabilities:` hash must be set to `browserName` from capability in chart
+- `platform_name:` in the `capabilities:` hash must be set to `platform_name` from capability in chart
+
+```
+    options = {
+      driver: :testingbot,
+      device_type: phone_or_tablet,
+      capabilities: {
+        browserName: browser_name_from_chart,
+        platform_name: platform_name_from_chart,
+        browserVersion: os_version_from_chart,
+        'tb:options': {
+          deviceName: device_name_from_chart
+        }
+      }
+    }
+    WebDriverConnect.initialize_web_driver(options)
+```
+ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+`:testingbot_<browserName>` - e.g. `:testingbot_chrome` or `:testingbot_safari`.
+
+ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
+
+`https://#{ENV['TB_USERNAME']}:#{ENV['TB_AUTHKEY']}@hub.testingbot.com/wd/hub`
+
+This default endpoint requires that the `TB_USERNAME` Environment Variable is set to your TestingBot account user name and
+the `TB_AUTHKEY` Environment Variable is set to your TestingBot access key.
+
+Below is an example of an `options` hash for specifying a connection to a mobile Safari web browser running on an iPad
+tablet hosted on TestingBot. The `options` hash includes options for specifying the driver name, and capabilities for setting
+device orientation, Appium version, and various test configuration options.
+
+    options = {
+      driver: :testingbot,
+      device_type: :tablet,
+      driver_name: :admin_tablet,
+      capabilities: {
+        browserName: 'safari',
+        browserVersion: '15.4',
+        platformName: 'iOS',
+        'tb:options': {
+          deviceName: 'iPad Pro (12.9-inch) (5th generation)',
+          name: 'ALP AP',
+          build: "Test Build {ENV['BUILD_NUM']}",
+          orientation: 'LANDSCAPE'
+        }
+      }
+    }
+    WebDriverConnect.initialize_web_driver(options)
+
+
+#### Remote Desktop Browsers on the LambdaTest Service
+
+For remotely hosted desktop web browsers on the LambdaTest service, refer to the Selenium 4 Configuration Wizard on the
+[Selenium Desired Capabilities Generator](https://www.lambdatest.com/capabilities-generator/) for information regarding the options and capabilities available for the
+various supported desktop operating systems and web browsers.
+
+##### LambdaTest Desktop Browser using Environment Variables
+
+If the `options` hash is not provided when calling the `TestCentricity::WebDriverConnect.initialize_web_driver` method,
+the following **Environment Variables** must be set as described in the table below.
 
 | **Environment Variable** | **Description**                                                                          |
 |--------------------------|------------------------------------------------------------------------------------------|
@@ -1850,89 +2676,153 @@ to obtain information regarding the specific capabilities.
 | `CONSOLE_LOGS`           | [Optional] Used to capture browser console logs.                                         |
 
 
-### Using Browser specific Profiles in cucumber.yml
+##### LambdaTest Desktop Browser in the `options` Hash
+
+When using the `options` hash, the following options and capabilities must be specified:
+- `driver:` must be set to `:lambdatest`
+- `browserName:` in the `capabilities:` hash must be set to name from capability in chart
+- `browserVersion:` in the `capabilities:` hash must be set to browser version from capability in chart
+
+```
+    options = {
+      driver: :lambdatest,
+      capabilities: {
+        browserName: browser_name_from_chart,
+        browserVersion: browser_version_from_chart,
+        'LT:Options': {
+          userName: lt_account_user_name,
+          accessKey: lt_account_access_key,
+          platformName: platformName_from_chart
+        }
+      }
+    }
+    WebDriverConnect.initialize_web_driver(options)
+```
+ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+`:lambdatest_<browserName>` - e.g. `:lambdatest_chrome` or `:lambdatest_safari`.
+
+ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
+
+`https://#{ENV['LT_USERNAME']}:#{ENV['LT_AUTHKEY']}@hub.lambdatest.com/wd/hub`
+
+This default endpoint requires that the `LT_USERNAME` Environment Variable is set to your LambdaTest account user name and
+the `LT_AUTHKEY` Environment Variable is set to your LambdaTest access key.
+
+Below is an example of an `options` hash for specifying a connection to the latest version of an Edge desktop web browser
+running on macOS Sonoma hosted on LambdaTest. The `options` hash includes options for specifying the driver name, setting
+the browser window size, and capabilities for setting screen resolution, geoLocation, time zone, Selenium version, and various
+test configuration options.
+
+    options = {
+      driver: :lambdatest,
+      driver_name: :admin_user,
+      browser_size: [1400, 1100],
+      capabilities: {
+        browserName: 'MicrosoftEdge',
+        browserVersion: '119.0',
+        'LT:Options': {
+          platformName: 'macOS Sonoma',
+          userName: ENV['LT_USERNAME'],
+          accessKey: ENV['LT_AUTHKEY'],
+          project: 'ALP AP',
+          build: "Test Build {ENV['BUILD_NUM']}",
+          resolution: '2560x1440',
+          selenium_version: '4.13.0',
+          networkLogs: 'true',
+          geoLocation: 'AU',
+          timezone: 'Adelaide',
+          console: 'info',
+          network: true
+        }
+      }
+    }
+    WebDriverConnect.initialize_web_driver(options)
+
+
+### Closing Browser and Driver Instances
+
+#### Closing Instances Using Cucumber
+
+To close all browser and driver instances upon completion of your automated Cucumber features, place the code shown below
+in your `hooks.rb` file:
+
+    AfterAll do
+      # terminate all driver instances
+      WebDriverConnect.close_all_drivers
+    end
+
+
+#### Closing Instances Using RSpec
+
+To close all browser and driver instances upon completion of an automated spec, place the code shown below in the body
+of an example group:
+
+    after(:each) do
+      # terminate all driver instances
+      WebDriverConnect.close_all_drivers
+    end
+
+
+### Using Browser Specific Profiles in `cucumber.yml`
 
 While you can set **Environment Variables** in the command line when invoking Cucumber, a preferred method of specifying and
-managing target web browsers is to create browser specific **Profiles** that set the appropriate **Environment Variables** for
-each target browser in your `cucumber.yml` file.
+managing target web browsers is to create browser specific **Profiles** that set the appropriate **Environment Variables**
+for each target browser in your `cucumber.yml` file.
 
-Below is a list of Cucumber **Profiles** for supported locally and remotely hosted desktop and mobile web browsers (put these
-in in your`cucumber.yml` file). Before you can use the BrowserStack, SauceLabs, TestingBot or LambdaTest services, you will
-need to replace the*INSERT USER NAME HERE* and *INSERT PASSWORD HERE* placeholder text with your user account and authorization
-code for the cloud service(s) that you intend to connect with. However, cloud service credentials should not be stored as text
-in your `cucumber.yml` file where it can be exposed by anyone with access to your version control system
+Below is a list of Cucumber **Profiles** for supported locally and remotely hosted desktop and mobile web browsers (put
+these in in your`cucumber.yml` file). Before you can use the BrowserStack, SauceLabs, TestingBot or LambdaTest services,
+you will need to replace the *INSERT USER NAME HERE* and *INSERT PASSWORD HERE* placeholder text with your user account
+and authorization code for the cloud service(s) that you intend to connect with.
+
+⚠️ Cloud service credentials should not be stored as text in your `cucumber.yml` file where it can be exposed by anyone
+with access to your version control system.
 
 
     <% desktop = "--tags @desktop --require features BROWSER_TILE=true BROWSER_SIZE=1500,1000" %>
     <% tablet  = "--tags @desktop --require features BROWSER_TILE=true" %>
     <% mobile  = "--tags @mobile  --require features BROWSER_TILE=true" %>
-    
+
     #==============
     # profiles for locally hosted desktop web browsers
     #==============
-    
+
     firefox: WEB_BROWSER=firefox <%= desktop %>
     chrome:  WEB_BROWSER=chrome <%= desktop %>
     edge:    WEB_BROWSER=edge <%= desktop %>
     safari:  WEB_BROWSER=safari <%= desktop %>
-    ie:      WEB_BROWSER=ie <%= desktop %>
 
     firefox_headless: WEB_BROWSER=firefox_headless <%= desktop %>
     chrome_headless:  WEB_BROWSER=chrome_headless <%= desktop %>
     edge_headless:    WEB_BROWSER=edge_headless <%= desktop %>
 
-    #==============
-    # profile for Selenium Grid and Dockerized Selenium Grid hosted desktop web browsers
-    #==============
-    grid: SELENIUM=remote REMOTE_ENDPOINT="http://localhost:4444/wd/hub"
-
 
     #==============
     # profiles for locally hosted mobile web browsers (emulated locally in Chrome browser)
     #==============
-    
-    ipad:                WEB_BROWSER=ipad                <%= tablet %>
-    ipad_pro:            WEB_BROWSER=ipad_pro            <%= tablet %>
-    ipad_pro_10_5:       WEB_BROWSER=ipad_pro_10_5       <%= tablet %>
-    ipad_pro_11:         WEB_BROWSER=ipad_pro_11         <%= tablet %>
-    ipad_pro_12_9:       WEB_BROWSER=ipad_pro_12_9       <%= tablet %>
-    ipad_chrome:         WEB_BROWSER=ipad_chrome         <%= tablet %>
-    ipad_firefox:        WEB_BROWSER=ipad_firefox        <%= tablet %>
-    ipad_edge:           WEB_BROWSER=ipad_edge           <%= tablet %>
-    iphone6:             WEB_BROWSER=iphone6             <%= mobile %>
-    iphone6_plus:        WEB_BROWSER=iphone6_plus        <%= mobile %>
-    iphone7:             WEB_BROWSER=iphone7             <%= mobile %>
-    iphone7_plus:        WEB_BROWSER=iphone7_plus        <%= mobile %>
-    iphone7_chrome:      WEB_BROWSER=iphone7_chrome      <%= mobile %>
-    iphone7_firefox:     WEB_BROWSER=iphone7_firefox     <%= mobile %>
-    iphone7_edge:        WEB_BROWSER=iphone7_edge        <%= mobile %>
-    iphone8:             WEB_BROWSER=iphone8             <%= mobile %>
-    iphone8_plus:        WEB_BROWSER=iphone8_plus        <%= mobile %>
-    iphone_x:            WEB_BROWSER=iphone_x            <%= mobile %>
-    iphone_xr:           WEB_BROWSER=iphone_xr           <%= mobile %>
-    iphone_xr_chrome:    WEB_BROWSER=iphone_xr_chrome    <%= mobile %>
-    iphone_xr_firefox:   WEB_BROWSER=iphone_xr_firefox   <%= mobile %>
-    iphone_xr_edge:      WEB_BROWSER=iphone_xr_edge      <%= mobile %>
-    iphone_xs:           WEB_BROWSER=iphone_xs           <%= mobile %>
-    iphone_xs_max:       WEB_BROWSER=iphone_xs_max       <%= mobile %>
+
     iphone_11:           WEB_BROWSER=iphone_11           <%= mobile %>
     iphone_11_pro:       WEB_BROWSER=iphone_11_pro       <%= mobile %>
     iphone_11_pro_max:   WEB_BROWSER=iphone_11_pro_max   <%= mobile %>
-    nexus6:              WEB_BROWSER=nexus6              <%= mobile %>
-    kindle_fire:         WEB_BROWSER=kindle_fire         <%= tablet %>
-    kindle_firehd7:      WEB_BROWSER=kindle_firehd7      <%= tablet %>
-    kindle_firehd8:      WEB_BROWSER=kindle_firehd8      <%= tablet %>
-    kindle_firehd10:     WEB_BROWSER=kindle_firehd10     <%= tablet %>
-    surface:             WEB_BROWSER=surface             <%= tablet %>
-    blackberry_playbook: WEB_BROWSER=blackberry_playbook <%= tablet %>
-    samsung_galaxy_tab:  WEB_BROWSER=samsung_galaxy_tab  <%= tablet %>
-    google_nexus7:       WEB_BROWSER=google_nexus7       <%= tablet %>
-    google_nexus9:       WEB_BROWSER=google_nexus9       <%= tablet %>
-    google_nexus10:      WEB_BROWSER=google_nexus10      <%= tablet %>
-    samsung_galaxy_s4:   WEB_BROWSER=samsung_galaxy_s4   <%= mobile %>
-    samsung_galaxy_s5:   WEB_BROWSER=samsung_galaxy_s5   <%= mobile %>
-    samsung_galaxy_s6:   WEB_BROWSER=samsung_galaxy_s6   <%= mobile %>
-    pixel:               WEB_BROWSER=pixel               <%= mobile %>
+    iphone_12_mini:      WEB_BROWSER=iphone_12_mini      <%= mobile %>
+    iphone_12:           WEB_BROWSER=iphone_12           <%= mobile %>
+    iphone_12_pro:       WEB_BROWSER=iphone_12_pro       <%= mobile %>
+    iphone_12_pro_max:   WEB_BROWSER=iphone_12_pro_max   <%= mobile %>
+    iphone_13_mini:      WEB_BROWSER=iphone_13_mini      <%= mobile %>
+    iphone_13:           WEB_BROWSER=iphone_13           <%= mobile %>
+    iphone_13_pro:       WEB_BROWSER=iphone_13_pro       <%= mobile %>
+    iphone_13_pro_max:   WEB_BROWSER=iphone_13_pro_max   <%= mobile %>
+    iphone_se:           WEB_BROWSER=iphone_se           <%= mobile %>
+    iphone_14:           WEB_BROWSER=iphone_14           <%= mobile %>
+    iphone_14_plus:      WEB_BROWSER=iphone_14_plus      <%= mobile %>
+    iphone_14_pro:       WEB_BROWSER=iphone_14_pro       <%= mobile %>
+    iphone_14_pro_max:   WEB_BROWSER=iphone_14_pro_max   <%= mobile %>
+    ipad:                WEB_BROWSER=ipad                <%= tablet %>
+    ipad_mini:           WEB_BROWSER=ipad_mini           <%= tablet %>
+    ipad_air:            WEB_BROWSER=ipad_air            <%= tablet %>
+    ipad_pro_11:         WEB_BROWSER=ipad_pro_11         <%= tablet %>
+    ipad_pro_12_9:       WEB_BROWSER=ipad_pro_12_9       <%= tablet %>
+    pixel_5:             WEB_BROWSER=pixel_5             <%= mobile %>
+    pixel_6:             WEB_BROWSER=pixel_6             <%= mobile %>
     pixel_xl:            WEB_BROWSER=pixel_xl            <%= mobile %>
     windows_phone7:      WEB_BROWSER=windows_phone7      <%= mobile %>
     windows_phone8:      WEB_BROWSER=windows_phone8      <%= mobile %>
@@ -1941,26 +2831,34 @@ in your `cucumber.yml` file where it can be exposed by anyone with access to you
     blackberry_z30:      WEB_BROWSER=blackberry_z30      <%= mobile %>
     blackberry_leap:     WEB_BROWSER=blackberry_leap     <%= mobile %>
     blackberry_passport: WEB_BROWSER=blackberry_passport <%= mobile %>
+    pixel_c:             WEB_BROWSER=pixel_c             <%= tablet %>
+    nexus_10:            WEB_BROWSER=nexus_10            <%= tablet %>
+    kindle_fire:         WEB_BROWSER=kindle_fire         <%= tablet %>
+    kindle_firehd7:      WEB_BROWSER=kindle_firehd7      <%= tablet %>
+    kindle_firehd8:      WEB_BROWSER=kindle_firehd8      <%= tablet %>
+    kindle_firehd10:     WEB_BROWSER=kindle_firehd10     <%= tablet %>
+    surface:             WEB_BROWSER=surface             <%= tablet %>
+    blackberry_playbook: WEB_BROWSER=blackberry_playbook <%= tablet %>
 
-    
+
     #==============
     # profiles for mobile device screen orientation
     #==============
-    
+
     portrait:  ORIENTATION=portrait
     landscape: ORIENTATION=landscape
 
-    
+
     #==============
     # profile to start Appium Server prior to running mobile browser tests on iOS or Android simulators or physical devices
     #==============
-    
+
     run_appium: APPIUM_SERVER=run
 
 
     #==============
     # profiles for mobile Safari web browsers hosted within XCode iOS simulator
-    # NOTE: Requires installation of XCode, iOS version specific target simulators, Appium, and the appium_capybara gem
+    # NOTE: Requires installation of XCode, iOS version specific target simulators, and Appium
     #==============
 
     appium_ios: DRIVER=appium AUTOMATION_ENGINE=XCUITest APP_PLATFORM_NAME="ios" APP_BROWSER="Safari" NEW_COMMAND_TIMEOUT=30 SHOW_SIM_KEYBOARD=false
@@ -1972,7 +2870,7 @@ in your `cucumber.yml` file where it can be exposed by anyone with access to you
 
     #==============
     # profiles for mobile Safari web browsers running on physically connected iOS devices
-    # NOTE: Requires installation of XCode, Appium, and the appium_capybara gem
+    # NOTE: Requires installation of XCode and Appium
     #==============
 
     my_ios_15_iphone: --profile app_ios_15 DEVICE_TYPE=phone APP_DEVICE="My Test iPhoneX" APP_UDID="INSERT YOUR DEVICE UDID"
@@ -1981,30 +2879,30 @@ in your `cucumber.yml` file where it can be exposed by anyone with access to you
 
     #==============
     # profiles for Android mobile web browsers hosted within Android Studio Android Virtual Device emulators
-    # NOTE: Requires installation of Android Studio, Android version specific virtual device simulators, Appium, and the appium_capybara gem
+    # NOTE: Requires installation of Android Studio, Android version specific virtual device simulators, and Appium
     #==============
 
     appium_android:    DRIVER=appium APP_PLATFORM_NAME="Android" <%= mobile %>
     app_android_12:    --profile appium_android APP_BROWSER="Chrome" APP_VERSION="12.0"
     pixel_c_api31_sim: --profile app_android_12 DEVICE_TYPE=tablet APP_DEVICE="Pixel_C_API_31"
 
-    
+
     #==============
     # profiles for remotely hosted web browsers on the BrowserStack service
-    # WARNING: Credentials should not be stored as text in your cucumber.yml file where it can be exposed by anyone with access
-    #          to your version control system
+    # WARNING: Credentials should not be stored as text in your cucumber.yml file where it can be exposed by anyone with
+    #          access to your version control system
     #==============
-    
+
     browserstack: DRIVER=browserstack BS_USERNAME="<INSERT USER NAME HERE>" BS_AUTHKEY="<INSERT PASSWORD HERE>"
-    bs_desktop:   --profile browserstack <%= desktop %> RESOLUTION="1920x1080"
-    bs_mobile:    --profile browserstack <%= mobile %>
-    
+    bs_desktop: --profile browserstack <%= desktop %> RESOLUTION="1920x1080"
+    bs_mobile:  --profile browserstack <%= mobile %>
+
     # BrowserStack macOS desktop browser profiles
-    bs_macos_monterey:  --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="Monterey"
-    bs_chrome_monterey: --profile bs_macos_monterey BS_BROWSER="Chrome" BS_VERSION="latest"
-    bs_edge_monterey:   --profile bs_macos_monterey BS_BROWSER="Edge" BS_VERSION="latest"
-    bs_safari_monterey: --profile bs_macos_monterey BS_BROWSER="Safari" BS_VERSION="latest"
-        
+    bs_macos_sonoma:  --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="Sonoma"
+    bs_chrome_sonoma: --profile bs_macos_sonoma BS_BROWSER="Chrome" BS_VERSION="latest"
+    bs_edge_sonoma:   --profile bs_macos_sonoma BS_BROWSER="Edge" BS_VERSION="latest"
+    bs_safari_sonoma: --profile bs_macos_sonoma BS_BROWSER="Safari" BS_VERSION="latest"
+
     # BrowserStack Windows desktop browser profiles
     bs_win11:        --profile bs_desktop BS_OS="Windows" BS_OS_VERSION="11"
     bs_chrome_win11: --profile bs_win11 BS_BROWSER="Chrome" BS_VERSION="latest"
@@ -2015,52 +2913,52 @@ in your `cucumber.yml` file where it can be exposed by anyone with access to you
     # BrowserStack iOS mobile browser profiles
     bs_ipad:        --profile bs_mobile BS_OS=ios BS_BROWSER=Safari DEVICE_TYPE=tablet BS_REAL_MOBILE="true"
     bs_ipad_pro_12: --profile bs_ipad BS_DEVICE="iPad Pro 12.9 2018" BS_OS_VERSION="15"
-    
+
     # BrowserStack Android mobile browser profiles
     bs_android:        --profile bs_mobile BS_OS=android BS_BROWSER=Chrome DEVICE_TYPE=tablet BS_REAL_MOBILE="true"
     bs_android_tablet: --profile bs_android BS_DEVICE="Samsung Galaxy Tab S7" BS_OS_VERSION="10.0"
 
-    
+
     #==============
     # profiles for remotely hosted web browsers on the SauceLabs service
-    # WARNING: Credentials should not be stored as text in your cucumber.yml file where it can be exposed by anyone with access
-    #          to your version control system
+    # WARNING: Credentials should not be stored as text in your cucumber.yml file where it can be exposed by anyone with
+    #          access to your version control system
     #==============
-    
+
     saucelabs:  DRIVER=saucelabs SL_USERNAME="<INSERT USER NAME HERE>" SL_AUTHKEY="<INSERT PASSWORD HERE>" DATA_CENTER="<INSERT DATA CENTER HERE"
     sl_desktop: --profile saucelabs <%= desktop %>
     sl_mobile:  --profile saucelabs <%= mobile %>
-    
+
     # SauceLabs macOS desktop browser profiles
-    sl_macos_monterey:  --profile sl_desktop SL_OS="macOS 12" RESOLUTION="1920x1440"
-    sl_chrome_monterey: --profile sl_macos_monterey SL_BROWSER="chrome" SL_VERSION="latest"
-    sl_edge_monterey:   --profile sl_macos_monterey SL_BROWSER="MicrosoftEdge" SL_VERSION="latest"
-    sl_firefox_monterey: --profile sl_macos_monterey SL_BROWSER="Firefox" SL_VERSION="latest"
-    
+    sl_macos_ventura:  --profile sl_desktop SL_OS="macOS 13" RESOLUTION="1920x1440"
+    sl_chrome_ventura: --profile sl_macos_ventura SL_BROWSER="chrome" SL_VERSION="latest"
+    sl_edge_ventura:   --profile sl_macos_ventura SL_BROWSER="MicrosoftEdge" SL_VERSION="latest"
+    sl_firefox_ventura: --profile sl_macos_ventura SL_BROWSER="Firefox" SL_VERSION="latest"
+
     # SauceLabs Windows desktop browser profiles
     sl_windows:    --profile sl_desktop RESOLUTION="1920x1200"
     sl_edge_win11: --profile sl_windows SL_OS="Windows 11" SL_BROWSER="MicrosoftEdge" SL_VERSION="latest"
     sl_ie_win10:   --profile sl_windows SL_OS="Windows 10" SL_BROWSER="internet explorer" SL_VERSION="11"
-    
+
     # SauceLabs iOS mobile browser profiles
     sl_ipad:        --profile sl_mobile DEVICE_TYPE=tablet SL_PLATFORM=iOS SL_BROWSER=Safari
     sl_ipad_pro_12: --profile sl_ipad SL_DEVICE="iPad Pro (12.9 inch) (5th generation) Simulator" SL_VERSION="15.0"
-    
-    
+
+
     #==============
     # profiles for remotely hosted web browsers on the TestingBot service
-    # WARNING: Credentials should not be stored as text in your cucumber.yml file where it can be exposed by anyone with access
-    #          to your version control system
+    # WARNING: Credentials should not be stored as text in your cucumber.yml file where it can be exposed by anyone with
+    #          access to your version control system
     #==============
-    
+
     testingbot: DRIVER=testingbot TB_USERNAME="<INSERT USER NAME HERE>" TB_AUTHKEY="<INSERT PASSWORD HERE>"
     tb_desktop: --profile testingbot <%= desktop %> RESOLUTION="1920x1200"
-    
+
     # TestingBot macOS desktop browser profiles
-    tb_macos_monterey:  --profile tb_desktop TB_OS="MONTEREY"
-    tb_chrome_monterey: --profile tb_macos_monterey TB_BROWSER="chrome" TB_VERSION="latest"
-    tb_edge_monterey:   --profile tb_macos_monterey TB_BROWSER="microsoftedge" TB_VERSION="latest"
-    
+    tb_macos_sonoma:  --profile tb_desktop TB_OS="SONOMA"
+    tb_chrome_sonoma: --profile tb_macos_sonoma TB_BROWSER="chrome" TB_VERSION="latest"
+    tb_edge_sonoma:   --profile tb_macos_sonoma TB_BROWSER="microsoftedge" TB_VERSION="latest"
+
     # TestingBot Windows desktop browser profiles
     tb_win11:      --profile tb_desktop TB_OS="WIN11"
     tb_edge_win11: --profile tb_win11 TB_BROWSER="microsoftedge" TB_VERSION="latest"
@@ -2070,18 +2968,18 @@ in your `cucumber.yml` file where it can be exposed by anyone with access to you
 
     #==============
     # profiles for remotely hosted web browsers on the LambdaTest service
-    # WARNING: Credentials should not be stored as text in your cucumber.yml file where it can be exposed by anyone with access
-    #          to your version control system
+    # WARNING: Credentials should not be stored as text in your cucumber.yml file where it can be exposed by anyone with
+    #          access to your version control system
     #==============
-    
+
     lambdatest: DRIVER=lambdatest LT_USERNAME=<INSERT USER NAME HERE> LT_AUTHKEY=<INSERT PASSWORD HERE>
     lt_desktop: --profile lambdatest <%= desktop %> RESOLUTION="2560x1440"
-    
+
     # LambdaTest macOS desktop browser profiles
     lt_macos_monterey:  --profile lt_desktop LT_OS="MacOS Monterey"
     lt_chrome_monterey: --profile lt_macos_monterey LT_BROWSER="Chrome" LT_VERSION="98.0"
     lt_edge_monterey:   --profile lt_macos_monterey LT_BROWSER="MicrosoftEdge" LT_VERSION="97.0"
-    
+
     # LambdaTest Windows desktop browser profiles
     lt_win11:      --profile lt_desktop LT_OS="Windows 11"
     lt_edge_win11: --profile lt_win11 LT_BROWSER="MicrosoftEdge" LT_VERSION="98.0"
@@ -2113,7 +3011,7 @@ The following command specifies that Cucumber will run tests against an iPad Pro
     
     cucumber -p ipad_pro_12_15_sim -p landscape
     
-    NOTE:  Appium must be running prior to executing this command
+    ⚠️ Appium must be running prior to executing this command
 
 You can ensure that Appium Server is running by including `-p run_appium` in your command line:
 
@@ -2121,9 +3019,9 @@ You can ensure that Appium Server is running by including `-p run_appium` in you
 
 
 The following command specifies that Cucumber will run tests against a remotely hosted Safari web browser running on a macOS
-Monterey virtual machine on the BrowserStack service:
+Sonoma virtual machine on the BrowserStack service:
 
-    cucumber -p bs_safari_monterey
+    cucumber -p bs_safari_sonoma
 
 
 ---
@@ -2142,11 +3040,11 @@ area sub-folders as needed. Likewise, `PageSection` class definitions should be 
         ├── 📁 features/
         │   ├── 📁 step_definitions/
         │   └── 📁 support/
-        │   │   ├── 📁 pages/
-        │   │   ├── 📁 sections/
-        │   │   ├── 📄 env.rb
-        │   │   ├── 📄 hooks.rb
-        │   │   └── 📄 world_pages.rb
+        │       ├── 📁 pages/
+        │       ├── 📁 sections/
+        │       ├── 📄 env.rb
+        │       ├── 📄 hooks.rb
+        │       └── 📄 world_pages.rb
         ├── 📄 Gemfile
         └── 📄 README.md
 

@@ -39,6 +39,37 @@
             background-color: #04AA6D;
             color: white;
         }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            top: -5px;
+            left: 110%;
+        }
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 100%;
+            margin-top: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent black transparent transparent;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
     </style>
 </head>
     <body>
@@ -81,22 +112,22 @@
                                                 <input type="text" id="readonly" name="readonly" value="I am a read only text field" readonly>
                                             </td>
                                             <td>
-                                                <label for="number-field">Number:</label>
-                                                <input id="number-field" type="number" name="number" min="10" max="1024" step="1" value="41">
+                                                <label for="number-int-field">Number (Integer):</label>
+                                                <input id="number-int-field" type="number" name="number-int" min="10" max="1024" step="1" value="41">
                                             </td>
                                             <td>
-                                                <label for="date-picker">Date: </label>
-                                                <input id="date-picker" type="date" name="date" value="2022-05-23">
+                                                <label for="number-float-field">Number (Float):</label>
+                                                <input id="number-float-field" type="number" name="number-float" min="0.5" max="10.5" step="0.25" value="3.5">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <label for="date-time-picker">Local date time:</label>
-                                                <input id="date-time-picker" type="datetime-local" name="datetime" value="2018-01-01T01:01">
+                                                <label for="date-picker">Date: </label>
+                                                <input id="date-picker" type="date" name="date" value="2022-05-23">
                                             </td>
                                             <td>
-                                                <label for="email-field">Email: </label>
-                                                <input id="email-field" type="email" name="email" value="bob@mailinator.com">
+                                                <label for="date-time-picker">Local date time:</label>
+                                                <input id="date-time-picker" type="datetime-local" name="datetime" value="2018-01-01T01:01">
                                             </td>
                                             <td>
                                                 <label for="month-field">Month: </label>
@@ -105,14 +136,16 @@
                                         </tr>
                                         <tr>
                                             <td>
+                                                <label for="email-field">Email: </label>
+                                                <input id="email-field" type="email" name="email" value="bob@mailinator.com">
+                                            </td>
+                                            <td>
                                                 <label for="color-picker">Color: </label>
                                                 <input id="color-picker" type="color" name="color">
                                             </td>
                                             <td>
                                                 <label for="slider">Range: </label>
                                                 <input id="slider" type="range" name="slider" min="0" max="50">
-                                            </td>
-                                            <td>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -130,7 +163,14 @@
                         <tr>
                             <td>
                                 <label for="filename">Filename:</label>
-                                <input type="file" id="filename" name="filename" size="35">
+                                <input type="file" id="filename" name="filename" size="35" accept="image/*" onchange="loadFile(event)">
+                                <img id="output" width="100">
+                                <script>
+                                    var loadFile = function(event) {
+                                        var image = document.getElementById('output');
+                                        image.src = URL.createObjectURL(event.target.files[0]);
+                                    };
+                                </script>
                             </td>
                         </tr>
 
@@ -248,13 +288,19 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <img id="image1" src="images/Wilder.jpg" alt="It's alive" style="width:225px;height:225px;">
+                                                <div class="tooltip">
+                                                    <img id="image1" src="images/Wilder.jpg" alt="It's alive" style="width:225px;height:225px;">
+                                                    <span class="tooltiptext">It's alive</span>
+                                                </div>
                                             </td>
                                             <td>
                                                 <img id="image2" src="images/You_Betcha.jpg" alt="You Betcha" style="width:225px;height:225px;">
                                             </td>
                                             <td>
                                                 <img id="image3" src="wrongname.gif" alt="A broken image" style="width:225px;height:225px;">
+                                            </td>
+                                            <td>
+                                                <img id="image4" src="images/TinyViolin.png" alt="Tiny Violin" style="width:225px;height:225px;border-radius:50%;">
                                             </td>
                                         </tr>
                                     </tbody>

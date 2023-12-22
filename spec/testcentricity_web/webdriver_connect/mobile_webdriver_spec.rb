@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
+  include_context 'test_site'
+
   before(:context) do
-    ENV['SELENIUM'] = ''
     ENV['DEVICE_TYPE'] = 'tablet'
     ENV['CHROMEDRIVER_EXECUTABLE'] = '/Users/Shared/config/webdrivers/chromedriver'
     # start Appium server
@@ -14,8 +15,9 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
     it 'connects to iOS Simulator - desired_capabilities hash' do
       caps = {
         driver: :appium,
+        device_type: :tablet,
         endpoint: 'http://localhost:4723/wd/hub',
-        desired_capabilities: {
+        capabilities: {
           platformName: 'ios',
           browserName: 'Safari',
           'appium:platformVersion': '15.4',
@@ -34,7 +36,8 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
     it 'connects to Android Simulator - desired_capabilities hash' do
       caps = {
         driver: :appium,
-        desired_capabilities: {
+        device_type: :tablet,
+        capabilities: {
           platformName: 'Android',
           browserName: 'Chrome',
           'appium:platformVersion': '12.0',
@@ -52,19 +55,20 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
       expect(Environ.device_orientation).to eq(:portrait)
     end
 
-    it 'connects to iOS Simulator with a user-defined driver name (String)' do
+    it 'connects to iOS Simulator with a user-defined driver name' do
       caps = {
         driver: :appium,
-        driver_name: 'my_custom_ios_driver',
-        endpoint: 'http://localhost:4723/wd/hub',
-        desired_capabilities: {
+        device_type: :tablet,
+        driver_name: :my_custom_ios_driver,
+        capabilities: {
           platformName: 'ios',
           browserName: 'Safari',
           'appium:platformVersion': '15.4',
           'appium:deviceName': 'iPad Pro (12.9-inch) (5th generation)',
           'appium:automationName': 'XCUITest',
           'appium:orientation': 'LANDSCAPE'
-        }
+        },
+        endpoint: 'http://localhost:4723/wd/hub'
       }
       WebDriverConnect.initialize_web_driver(caps)
       verify_mobile_browser(browser = :safari, device_os = :ios, driver_name = :my_custom_ios_driver)
@@ -73,11 +77,12 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
       expect(Environ.device_orientation).to eq(:landscape)
     end
 
-    it 'connects to Android Simulator with a user-defined driver name (String)' do
+    it 'connects to Android Simulator with a user-defined driver name' do
       caps = {
         driver: :appium,
+        device_type: :tablet,
         driver_name: :my_custom_android_driver,
-        desired_capabilities: {
+        capabilities: {
           platformName: 'Android',
           browserName: 'Chrome',
           'appium:platformVersion': '12.0',
@@ -130,8 +135,8 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
 
   def verify_mobile_browser(browser, device_os, driver_name = nil)
     # load Apple web site
-    Capybara.page.driver.browser.navigate.to('https://www.apple.com')
-    Capybara.page.find(:css, 'nav#ac-globalnav', wait: 10, visible: true)
+    Capybara.page.driver.browser.navigate.to(test_site_url)
+    Capybara.page.find(:css, test_site_locator, wait: 10, visible: true)
     # verify Environs are correctly set
     expect(Environ.browser).to eq(browser)
     expect(Environ.device_os).to eq(device_os)
@@ -152,8 +157,7 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
   end
 
   after(:each) do
-    Capybara.current_session.quit
-    Environ.session_state = :quit
+    WebDriverConnect.close_all_drivers
   end
 
   after(:context) do

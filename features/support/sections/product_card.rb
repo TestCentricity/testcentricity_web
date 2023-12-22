@@ -13,8 +13,8 @@ class ProductCard < TestCentricity::PageSection
            checked_star:        'span.fa.fa-star.checked'
   button   :add_to_cart_button, 'button[data-test-id="add_to_cart"]'
 
-  def get_value
-    name_label.get_caption
+  def get_value(visible = nil)
+    name_label.get_caption(visible)
   end
 
   def verify_card(card_data)

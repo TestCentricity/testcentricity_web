@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-RSpec.describe TestCentricity::Audio, required: true do
+RSpec.describe TestCentricity::Elements::Audio, required: true do
   subject(:css_audio) { described_class.new(:test_audio, self, 'audio#css_audio', :page) }
 
   it 'returns class' do
-    expect(css_audio.class).to eql TestCentricity::Audio
+    expect(css_audio.class).to eql TestCentricity::Elements::Audio
   end
 
   it 'registers with type audio' do

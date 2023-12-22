@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
+  include_context 'test_site'
+
   before(:context) do
-    ENV['SELENIUM'] = ''
     ENV['BROWSER_TILE'] = 'true'
     # start Appium server
     $server = TestCentricity::AppiumServer.new
@@ -13,83 +14,85 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
     it 'connects to multiple desktop and emulated mobile browsers' do
       # instantiate a locally hosted emulated iPad browser
       caps = {
-        desired_capabilities: { browserName: :ipad_pro_12_9 },
+        capabilities: { browserName: :ipad_pro_12_9 },
         driver_name: :emulated_ipad,
         driver: :webdriver
       }
       WebDriverConnect.initialize_web_driver(caps)
 
-      # instantiate a locally hosted desktop Firefox browser
-      caps = {
-        desired_capabilities: {
-          browserName: :firefox,
-          browser_size: [1100, 900]
-        },
-        driver: :webdriver
-      }
-      WebDriverConnect.initialize_driver(caps)
-
       # instantiate a locally hosted desktop Edge browser
       caps = {
-        desired_capabilities: {
-          browserName: :edge,
-          browser_size: [1000, 800]
-        },
-        driver: :webdriver
+        capabilities: { browserName: :edge },
+        driver: :webdriver,
+        browser_size: [1000, 800]
       }
-      WebDriverConnect.initialize_driver(caps)
+      WebDriverConnect.initialize_web_driver(caps)
+
+      # instantiate a locally hosted desktop Firefox browser
+      caps = {
+        capabilities: { browserName: :firefox },
+        driver: :webdriver,
+        browser_size: [1100, 900]
+      }
+      WebDriverConnect.initialize_web_driver(caps)
 
       # instantiate a locally hosted desktop Safari browser
       caps = {
-        desired_capabilities: {
-          browserName: :safari,
-          browser_size: [800, 700]
-        },
-        driver: :webdriver
+        capabilities: { browserName: :safari },
+        driver: :webdriver,
+        browser_size: [800, 700]
       }
-      WebDriverConnect.initialize_driver(caps)
+      WebDriverConnect.initialize_web_driver(caps)
 
       # instantiate a locally hosted emulated iPhone browser
       caps = {
-        desired_capabilities: { browserName: :iphone_11_pro_max },
+        capabilities: { browserName: :iphone_11_pro_max },
         driver_name: :emulated_iphone,
         driver: :webdriver
       }
-      WebDriverConnect.initialize_driver(caps)
+      WebDriverConnect.initialize_web_driver(caps)
+
+      # verify that 5 driver instances have been initialized
+      expect(WebDriverConnect.num_drivers).to eq(5)
 
       # activate and verify the local Firefox desktop browser instance
-      WebDriverConnect.active_driver(:local_firefox)
+      WebDriverConnect.activate_driver(:local_firefox)
       verify_local_browser(browser = :firefox, platform = :desktop, headless = false)
 
       # activate and verify the local emulated iPhone browser instance
-      WebDriverConnect.active_driver(:emulated_iphone)
+      WebDriverConnect.activate_driver(:emulated_iphone)
       verify_local_browser(browser = :iphone_11_pro_max, platform = :mobile, headless = false, driver_name = :emulated_iphone)
       expect(Environ.device_orientation).to eq(:portrait)
-      expect(Environ.browser_size).to eq([414, 869])
+      expect(Environ.browser_size).to eq([414, 896])
 
       # activate and verify the local Safari desktop browser instance
-      WebDriverConnect.active_driver(:local_safari)
+      WebDriverConnect.activate_driver(:local_safari)
       verify_local_browser(browser = :safari, platform = :desktop, headless = false)
 
       # activate and verify the local emulated iPad browser instance
-      WebDriverConnect.active_driver(:emulated_ipad)
+      WebDriverConnect.activate_driver(:emulated_ipad)
       verify_local_browser(browser = :ipad_pro_12_9, platform = :mobile, headless = false, driver_name = :emulated_ipad)
       expect(Environ.device_orientation).to eq(:landscape)
       expect(Environ.browser_size).to eq([1366, 1024])
 
       # activate and verify the local Edge desktop browser instance
-      WebDriverConnect.active_driver(:local_edge)
+      WebDriverConnect.activate_driver(:local_edge)
       verify_local_browser(browser = :edge, platform = :desktop, headless = false)
     end
 
     it 'connects to multiple desktop and mobile browsers' do
       # instantiate a locally hosted desktop Chrome browser
       caps = {
-        desired_capabilities: {
-          browserName: :chrome,
-          browser_size: [1100, 900]
-        },
+        capabilities: { browserName: :chrome },
         driver_name: :my_chrome,
+        driver: :webdriver,
+        browser_size: [1100, 900]
+      }
+      WebDriverConnect.initialize_web_driver(caps)
+
+      # instantiate a locally hosted desktop Firefox browser
+      caps = {
+        capabilities: { browserName: :firefox },
         driver: :webdriver
       }
       WebDriverConnect.initialize_web_driver(caps)
@@ -99,7 +102,7 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
         driver: :appium,
         device_type: :tablet,
         endpoint: 'http://localhost:4723/wd/hub',
-        desired_capabilities: {
+        capabilities: {
           platformName: 'ios',
           browserName: 'Safari',
           'appium:platformVersion': '15.4',
@@ -108,44 +111,25 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
           'appium:orientation': 'LANDSCAPE'
         }
       }
-      WebDriverConnect.initialize_driver(caps)
+      WebDriverConnect.initialize_web_driver(caps)
 
-      # instantiate a locally hosted desktop Edge browser
-      caps = {
-        desired_capabilities: {
-          browserName: :edge,
-          browser_size: [1000, 800]
-        },
-        driver_name: :my_edge,
-        driver: :webdriver
-      }
-      WebDriverConnect.initialize_driver(caps)
+      # verify that 4 driver instances have been initialized
+      expect(WebDriverConnect.num_drivers).to eq(3)
 
-      # instantiate a locally hosted desktop Firefox browser
-      caps = {
-        desired_capabilities: { browserName: :firefox },
-        driver: :webdriver
-      }
-      WebDriverConnect.initialize_driver(caps)
+      # activate and verify the local Chrome desktop browser instance
+      WebDriverConnect.activate_driver(:my_chrome)
+      verify_local_browser(browser = :chrome, platform = :desktop, headless = false, driver_name = :my_chrome)
 
-      # activate and verify the local Edge desktop browser instance
-      WebDriverConnect.active_driver(:my_edge)
-      verify_local_browser(browser = :edge, platform = :desktop, headless = false, driver_name = :my_edge)
+      # activate and verify the local Firefox desktop browser instance
+      WebDriverConnect.activate_driver(:local_firefox)
+      verify_local_browser(browser = :firefox, platform = :desktop, headless = false)
 
       # activate and verify the local mobile Safari browser instance
-      WebDriverConnect.active_driver(:appium_safari)
+      WebDriverConnect.activate_driver(:appium_safari)
       verify_mobile_browser(browser = :safari, device_os = :ios, device_type = :tablet)
       expect(Environ.device_name).to eq('iPad Pro (12.9-inch) (5th generation)')
       expect(Environ.device_os_version).to eq('15.4')
       expect(Environ.device_orientation).to eq(:landscape)
-
-      # activate and verify the local Chrome desktop browser instance
-      WebDriverConnect.active_driver(:my_chrome)
-      verify_local_browser(browser = :chrome, platform = :desktop, headless = false, driver_name = :my_chrome)
-
-      # activate and verify the local Firefox desktop browser instance
-      WebDriverConnect.active_driver(:local_firefox)
-      verify_local_browser(browser = :firefox, platform = :desktop, headless = false)
     end
 
     it 'connects to multiple mobile browsers hosted on device simulators' do
@@ -154,7 +138,7 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
         driver: :appium,
         driver_name: :my_iphone,
         device_type: :phone,
-        desired_capabilities: {
+        capabilities: {
           platformName: 'ios',
           browserName: 'Safari',
           'appium:platformVersion': '15.4',
@@ -169,7 +153,7 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
         driver: :appium,
         driver_name: :my_android_tablet,
         device_type: :tablet,
-        desired_capabilities: {
+        capabilities: {
           platformName: 'Android',
           browserName: 'Chrome',
           'appium:platformVersion': '12.0',
@@ -180,7 +164,7 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
           'appium:chromedriverExecutable': '/Users/Shared/config/webdrivers/chromedriver'
         }
       }
-      WebDriverConnect.initialize_driver(caps)
+      WebDriverConnect.initialize_web_driver(caps)
 
       # instantiate a locally hosted mobile Safari browser in an iOS iPad simulator
       caps = {
@@ -188,7 +172,7 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
         driver_name: :my_ipad,
         device_type: :tablet,
         endpoint: 'http://localhost:4723/wd/hub',
-        desired_capabilities: {
+        capabilities: {
           platformName: 'ios',
           browserName: 'Safari',
           'appium:platformVersion': '15.4',
@@ -197,14 +181,14 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
           'appium:orientation': 'PORTRAIT'
         }
       }
-      WebDriverConnect.initialize_driver(caps)
+      WebDriverConnect.initialize_web_driver(caps)
 
       # instantiate a locally hosted mobile Chrome browser in an Android phone simulator
       caps = {
         driver: :appium,
         driver_name: :my_android_phone,
         device_type: :phone,
-        desired_capabilities: {
+        capabilities: {
           platformName: 'Android',
           browserName: 'Chrome',
           'appium:platformVersion': '12.0',
@@ -214,30 +198,33 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
           'appium:chromedriverExecutable': '/Users/Shared/config/webdrivers/chromedriver'
         }
       }
-      WebDriverConnect.initialize_driver(caps)
+      WebDriverConnect.initialize_web_driver(caps)
+
+      # verify that 4 driver instances have been initialized
+      expect(WebDriverConnect.num_drivers).to eq(4)
 
       # activate and verify the local mobile Safari browser/iPad instance
-      WebDriverConnect.active_driver(:my_ipad)
+      WebDriverConnect.activate_driver(:my_ipad)
       verify_mobile_browser(browser = :safari, device_os = :ios, device_type = :tablet, driver_name = :my_ipad)
       expect(Environ.device_name).to eq('iPad Pro (12.9-inch) (5th generation)')
       expect(Environ.device_os_version).to eq('15.4')
       expect(Environ.device_orientation).to eq(:portrait)
 
       # activate and verify the local mobile Chrome browser/tablet instance
-      WebDriverConnect.active_driver(:my_android_tablet)
+      WebDriverConnect.activate_driver(:my_android_tablet)
       verify_mobile_browser(browser = :chrome, device_os = :android, device_type = :tablet, driver_name = :my_android_tablet)
       expect(Environ.device_name).to eq('Pixel_C_API_31')
       expect(Environ.device_os_version).to eq('12.0')
       expect(Environ.device_orientation).to eq(:portrait)
 
       # activate and verify the local mobile Safari browser instance
-      WebDriverConnect.active_driver(:my_iphone)
+      WebDriverConnect.activate_driver(:my_iphone)
       verify_mobile_browser(browser = :safari, device_os = :ios, device_type = :phone, driver_name = :my_iphone)
       expect(Environ.device_name).to eq('iPhone 13 Pro Max')
       expect(Environ.device_os_version).to eq('15.4')
 
       # activate and verify the local mobile Chrome browser/phone instance
-      WebDriverConnect.active_driver(:my_android_phone)
+      WebDriverConnect.activate_driver(:my_android_phone)
       verify_mobile_browser(browser = :chrome, device_os = :android, device_type = :phone, driver_name = :my_android_phone)
       expect(Environ.device_name).to eq('Pixel_5_API_31')
       expect(Environ.device_os_version).to eq('12.0')
@@ -246,8 +233,8 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
 
   def verify_local_browser(browser, platform, headless, driver_name = nil)
     # load Apple web site
-    Capybara.page.driver.browser.navigate.to('https://www.apple.com')
-    Capybara.page.find(:css, 'nav#ac-globalnav', wait: 10, visible: true)
+    Capybara.page.driver.browser.navigate.to(test_site_url)
+    Capybara.page.find(:css, test_site_locator, wait: 10, visible: true)
     # verify Environs are correctly set
     expect(Environ.browser).to eq(browser)
     expect(Environ.platform).to eq(platform)
@@ -263,8 +250,8 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
 
   def verify_mobile_browser(browser, device_os, device_type, driver_name = nil)
     # load Apple web site
-    Capybara.page.driver.browser.navigate.to('https://www.apple.com')
-    Capybara.page.find(:css, 'nav#ac-globalnav', wait: 10, visible: true)
+    Capybara.page.driver.browser.navigate.to(test_site_url)
+    Capybara.page.find(:css, test_site_locator, wait: 10, visible: true)
     # verify Environs are correctly set
     expect(Environ.browser).to eq(browser)
     expect(Environ.device_os).to eq(device_os)
@@ -286,6 +273,8 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
 
   after(:each) do
     WebDriverConnect.close_all_drivers
+    # verify that all driver instances have been closed
+    expect(WebDriverConnect.num_drivers).to eq(0)
   end
 
   after(:context) do

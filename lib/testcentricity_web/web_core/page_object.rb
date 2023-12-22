@@ -12,16 +12,16 @@ module TestCentricity
     #   element :settings_item, 'a#userPreferencesTrigger'
     #
     def self.element(element_name, locator)
-      define_page_element(element_name, TestCentricity::UIElement, locator)
+      define_page_element(element_name, TestCentricity::Elements::UIElement, locator)
     end
 
     # Declare and instantiate a collection of generic UI Elements for this page object.
     #
     # @param element_hash [Hash] names of UI objects (as a symbol) and CSS selectors or XPath expressions that uniquely identifies objects
     # @example
-    #   elements  profile_item:  'a#profile',
-    #             settings_item: 'a#userPreferencesTrigger',
-    #             log_out_item:  'a#logout'
+    #   elements profile_item:  'a#profile',
+    #            settings_item: 'a#userPreferencesTrigger',
+    #            log_out_item:  'a#logout'
     #
     def self.elements(element_hash)
       element_hash.each_pair { |element_name, locator| element(element_name, locator) }
@@ -36,7 +36,7 @@ module TestCentricity
     #   button :login_button,    "//input[@id='submit_button']"
     #
     def self.button(element_name, locator)
-      define_page_element(element_name, TestCentricity::Button, locator)
+      define_page_element(element_name, TestCentricity::Elements::Button, locator)
     end
 
     # Declare and instantiate a collection of buttons for this page object.
@@ -60,18 +60,17 @@ module TestCentricity
     #   textfield :password_field, 'input#consumer_password'
     #
     def self.textfield(element_name, locator)
-      define_page_element(element_name, TestCentricity::TextField, locator)
+      define_page_element(element_name, TestCentricity::Elements::TextField, locator)
     end
 
     # Declare and instantiate a collection of text fields for this page object.
     #
     # @param element_hash [Hash] names of text fields (as a symbol) and CSS selectors or XPath expressions that uniquely identifies text fields
     # @example
-    #       textfields  name_field:  'input#Name',
-    #                   title_field: 'input#Title',
-    #                   phone_field: 'input#PhoneNumber',
-    #                   fax_field:   'input#FaxNumber',
-    #                   email_field: 'input#Email'
+    #       textfields name_field:  'input#Name',
+    #                  title_field: 'input#Title',
+    #                  phone_field: 'input#PhoneNumber',
+    #                  email_field: 'input#Email'
     #
     def self.textfields(element_hash)
       element_hash.each_pair { |element_name, locator| textfield(element_name, locator) }
@@ -86,7 +85,7 @@ module TestCentricity
     #   range :points_slider, 'input#points'
     #
     def self.range(element_name, locator)
-      define_page_element(element_name, TestCentricity::Range, locator)
+      define_page_element(element_name, TestCentricity::Elements::Range, locator)
     end
 
     # Declare and instantiate a collection of range inputs for this page object.
@@ -109,17 +108,17 @@ module TestCentricity
     #   checkbox :accept_terms_checkbox, 'input#accept_terms_conditions'
     #
     def self.checkbox(element_name, locator)
-      define_page_element(element_name, TestCentricity::CheckBox, locator)
+      define_page_element(element_name, TestCentricity::Elements::CheckBox, locator)
     end
 
     # Declare and instantiate a collection of checkboxes for this page object.
     #
     # @param element_hash [Hash] names of checkboxes (as a symbol) and CSS selectors or XPath expressions that uniquely identifies checkboxes
     # @example
-    #       checkboxes  hazmat_certified_check: 'input#hazmatCertified',
-    #                   epa_certified_check:    'input#epaCertified',
-    #                   dhs_certified_check:    'input#homelandSecurityCertified',
-    #                   carb_compliant_check:   'input#carbCompliant'
+    #       checkboxes hazmat_certified_check: 'input#hazmatCertified',
+    #                  epa_certified_check:    'input#epaCertified',
+    #                  dhs_certified_check:    'input#homelandSecurityCertified',
+    #                  carb_compliant_check:   'input#carbCompliant'
     #
     def self.checkboxes(element_hash)
       element_hash.each_pair { |element_name, locator| checkbox(element_name, locator) }
@@ -134,17 +133,17 @@ module TestCentricity
     #   radio :decline_terms_radio, '#decline_terms_conditions'
     #
     def self.radio(element_name, locator)
-      define_page_element(element_name, TestCentricity::Radio, locator)
+      define_page_element(element_name, TestCentricity::Elements::Radio, locator)
     end
 
     # Declare and instantiate a collection of radio buttons for this page object.
     #
     # @param element_hash [Hash] names of radio buttons (as a symbol) and CSS selectors or XPath expressions that uniquely identifies radio buttons
     # @example
-    #       radios  visa_radio:       'input#payWithVisa',
-    #               mastercard_radio: 'input#payWithMastercard',
-    #               discover_radio:   'input#payWithDiscover',
-    #               amex_radio:       'input#payWithAmEx'
+    #       radios visa_radio:       'input#payWithVisa',
+    #              mastercard_radio: 'input#payWithMastercard',
+    #              discover_radio:   'input#payWithDiscover',
+    #              amex_radio:       'input#payWithAmEx'
     #
     def self.radios(element_hash)
       element_hash.each_pair { |element_name, locator| radio(element_name, locator) }
@@ -159,9 +158,16 @@ module TestCentricity
     #   label :rollup_price_label, "//div[contains(@id, 'Rollup Item Price')]"
     #
     def self.label(element_name, locator)
-      define_page_element(element_name, TestCentricity::Label, locator)
+      define_page_element(element_name, TestCentricity::Elements::Label, locator)
     end
 
+    # Declare and instantiate a collection of labels for this page object.
+    #
+    # @param element_hash [Hash] names of labels (as a symbol) and CSS selectors or XPath expressions that uniquely identifies labels
+    # @example
+    #       labels username_label: 'label#username',
+    #              password_label: 'label#password'
+    #
     def self.labels(element_hash)
       element_hash.each_pair { |element_name, locator| label(element_name, locator) }
     end
@@ -175,7 +181,7 @@ module TestCentricity
     #   link :shopping_basket_link, "//a[@href='shopping_basket']"
     #
     def self.link(element_name, locator)
-      define_page_element(element_name, TestCentricity::Link, locator)
+      define_page_element(element_name, TestCentricity::Elements::Link, locator)
     end
 
     def self.links(element_hash)
@@ -190,7 +196,7 @@ module TestCentricity
     #   table :payments_table, "//table[@class='payments_table']"
     #
     def self.table(element_name, locator)
-      define_page_element(element_name, TestCentricity::Table, locator)
+      define_page_element(element_name, TestCentricity::Elements::Table, locator)
     end
 
     def self.tables(element_hash)
@@ -206,7 +212,7 @@ module TestCentricity
     #   selectlist :gender_select,     "//select[@id='customer_gender']"
     #
     def self.selectlist(element_name, locator)
-      define_page_element(element_name, TestCentricity::SelectList, locator)
+      define_page_element(element_name, TestCentricity::Elements::SelectList, locator)
     end
 
     def self.selectlists(element_hash)
@@ -221,7 +227,7 @@ module TestCentricity
     #   list :x_axis_list, 'g.x-axis'
     #
     def self.list(element_name, locator)
-      define_page_element(element_name, TestCentricity::List, locator)
+      define_page_element(element_name, TestCentricity::Elements::List, locator)
     end
 
     def self.lists(element_hash)
@@ -237,7 +243,7 @@ module TestCentricity
     #   image :corporate_logo_image, "//img[@alt='MyCompany_logo']"
     #
     def self.image(element_name, locator)
-      define_page_element(element_name, TestCentricity::Image, locator)
+      define_page_element(element_name, TestCentricity::Elements::Image, locator)
     end
 
     def self.images(element_hash)
@@ -252,7 +258,7 @@ module TestCentricity
     #   video :video_player, 'video#my_video_player'
     #
     def self.video(element_name, locator)
-      define_page_element(element_name, TestCentricity::Video, locator)
+      define_page_element(element_name, TestCentricity::Elements::Video, locator)
     end
 
     def self.videos(element_hash)
@@ -267,7 +273,7 @@ module TestCentricity
     #   audio :audio_player, 'audio#my_audio_player'
     #
     def self.audio(element_name, locator)
-      define_page_element(element_name, TestCentricity::Audio, locator)
+      define_page_element(element_name, TestCentricity::Elements::Audio, locator)
     end
 
     def self.audios(element_hash)
@@ -282,7 +288,7 @@ module TestCentricity
     #   filefield :attach_file, 's_SweFileName'
     #
     def self.filefield(element_name, locator)
-      define_page_element(element_name, TestCentricity::FileField, locator)
+      define_page_element(element_name, TestCentricity::Elements::FileField, locator)
     end
 
     def self.filefields(element_hash)

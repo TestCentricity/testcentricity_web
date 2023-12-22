@@ -1,8 +1,6 @@
-require 'appium_capybara'
 require 'selenium-webdriver'
 require 'os'
 require 'browserstack/local'
-require 'webdrivers'
 require 'fileutils'
 
 
@@ -11,32 +9,15 @@ module TestCentricity
     include Capybara::DSL
 
     attr_accessor :bs_local
+    attr_accessor :initialized
     attr_accessor :downloads_path
     attr_accessor :endpoint
     attr_accessor :capabilities
     attr_accessor :drivers
 
     def self.initialize_web_driver(options = nil)
-      @drivers = {}
-      # set downloads folder path
-      @downloads_path = "#{Dir.pwd}/downloads"
-      if ENV['PARALLEL']
-        Environ.parallel = true
-        Environ.process_num = ENV['TEST_ENV_NUMBER']
-        Environ.process_num = '1' if Environ.process_num.blank?
-        if Dir.exist?(@downloads_path)
-          @downloads_path = "#{@downloads_path}/#{Environ.process_num}"
-          Dir.mkdir(@downloads_path) unless Dir.exist?(@downloads_path)
-        end
-      else
-        Environ.parallel = false
-      end
-      @downloads_path = @downloads_path.tr('/', "\\") if OS.windows?
-      # establish connection to driver
-      initialize_driver(options)
-    end
-
-    def self.initialize_driver(options = nil)
+      @initialized ||= false
+      initialize_downloads unless @initialized
       @endpoint = nil
       @capabilities = nil
       Environ.driver_name = nil
@@ -46,25 +27,25 @@ module TestCentricity
       elsif options.is_a?(Hash)
         Capybara.app_host = options[:app_host] if options.key?(:app_host)
         @endpoint = options[:endpoint] if options.key?(:endpoint)
-        @capabilities = options[:desired_capabilities] if options.key?(:desired_capabilities)
+        @capabilities = options[:capabilities] if options.key?(:capabilities)
         Environ.driver = options[:driver] if options.key?(:driver)
         Environ.driver_name = options[:driver_name] if options.key?(:driver_name)
         Environ.device_type = options[:device_type] if options.key?(:device_type)
+        Environ.browser_size = if options.key?(:browser_size)
+          options[:browser_size]
+        else
+          ENV['BROWSER_SIZE'] if ENV['BROWSER_SIZE']
+        end
       end
       # determine browser type and driver
       if @capabilities.nil?
         Environ.driver = ENV['DRIVER'].downcase.to_sym if ENV['DRIVER']
         Environ.browser = ENV['WEB_BROWSER'] if ENV['WEB_BROWSER']
-        Environ.browser_size = ENV['BROWSER_SIZE'] if ENV['BROWSER_SIZE']
         Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
       else
         Environ.browser = @capabilities[:browserName]
         Environ.device_orientation = @capabilities[:orientation] if @capabilities[:orientation]
         Environ.device_orientation = @capabilities[:'appium:orientation'] if @capabilities[:'appium:orientation']
-        if @capabilities[:browser_size]
-          Environ.browser_size = @capabilities[:browser_size]
-          @capabilities.delete(:browser_size)
-        end
       end
       Environ.browser = Environ.browser.downcase.to_sym if Environ.browser.is_a?(String)
       Environ.driver = :webdriver if Environ.driver.nil?
@@ -80,27 +61,27 @@ module TestCentricity
                   initialize_appium
                   'Appium'
                 when :webdriver
-                  if ENV['SELENIUM'] == 'remote'
-                    initialize_remote
-                    'Selenium Grid'
-                  else
-                    initialize_local_browser
-                    'local browser instance'
-                  end
+                  initialize_local_browser
+                  'local browser instance'
+                when :selenium_grid, :grid
+                  initialize_remote
+                  'Selenium Grid'
                 when :browserstack
                   initialize_browserstack
                   'Browserstack cloud service'
-                  # :nocov:
                 when :testingbot
                   initialize_testingbot
                   'TestingBot cloud service'
-                when :lambdatest
-                  initialize_lambdatest
-                  'LambdaTest cloud service'
+                  # :nocov:
                 when :saucelabs
                   initialize_saucelabs
                   'Sauce Labs cloud service'
+                when :lambdatest
+                  initialize_lambdatest
+                  'LambdaTest cloud service'
                   # :nocov:
+                else
+                  raise "#{Environ.driver} is not a supported driver"
                 end
 
       # set browser window size only if testing with a desktop web browser
@@ -109,7 +90,7 @@ module TestCentricity
       end
 
       # set Capybara's server port if PARALLEL_PORT is true
-      Capybara.server_port = 9887 + ENV['TEST_ENV_NUMBER'].to_i if ENV['PARALLEL'] && ENV['PARALLEL_PORT']
+      Capybara.server_port = 9887 + ENV['TEST_ENV_NUMBER'].to_i if Environ.parallel
 
       Environ.session_state = :running
       puts "Using #{Environ.browser} browser via #{context}"
@@ -117,14 +98,25 @@ module TestCentricity
       @drivers[Environ.driver_name] = Environ.driver_state
     end
 
-    def self.active_driver(driver_name)
-      Environ.restore_driver_state(@drivers[driver_name])
+    def self.activate_driver(driver_name)
+      driver_state = @drivers[driver_name]
+      raise "Could not find a driver named '#{driver_name}'" if driver_state.nil?
+
+      Environ.restore_driver_state(driver_state)
       Capybara.current_driver = driver_name
       Capybara.default_driver = driver_name
     end
 
+    # Return the number of driver instances
+    #
+    # @return [Integer]
+    def self.num_drivers
+      @drivers.length
+    end
+
+    # Close all browsers and terminate all driver instances
     def self.close_all_drivers
-      @drivers.each do |key, value|
+      @drivers.each do |key, _value|
         Environ.restore_driver_state(@drivers[key])
         Capybara.current_driver = key
         Capybara.default_driver = key
@@ -134,16 +126,15 @@ module TestCentricity
       end
       Capybara.reset_sessions!
       Environ.session_state = :quit
-    end
-
-    def self.set_domain(url)
-      Capybara.app_host = url
+      Capybara.current_driver = nil
+      @drivers = {}
+      @initialized = false
     end
 
     def self.initialize_browser_size
       # tile browser windows if BROWSER_TILE environment variable is true and running in multiple parallel threads
-      if ENV['BROWSER_TILE'] && (ENV['PARALLEL'] || @drivers.length > 1)
-        thread = if ENV['PARALLEL']
+      if ENV['BROWSER_TILE'] && (Environ.parallel || @drivers.length > 1)
+        thread = if Environ.parallel
                    ENV['TEST_ENV_NUMBER'].to_i
                  else
                    @drivers.length
@@ -178,6 +169,11 @@ module TestCentricity
     end
 
     # :nocov:
+
+    def self.set_domain(url)
+      Capybara.app_host = url
+    end
+
     def self.close_tunnel
       unless @bs_local.nil?
         @bs_local.stop
@@ -192,87 +188,98 @@ module TestCentricity
 
     private
 
+    def self.initialize_downloads
+      @drivers = {}
+      # set downloads folder path
+      @downloads_path = "#{Dir.pwd}/downloads"
+      if ENV['PARALLEL']
+        Environ.parallel = true
+        Environ.process_num = ENV['TEST_ENV_NUMBER']
+        Environ.process_num = '1' if Environ.process_num.blank?
+        if Dir.exist?(@downloads_path)
+          @downloads_path = "#{@downloads_path}/#{Environ.process_num}"
+          Dir.mkdir(@downloads_path) unless Dir.exist?(@downloads_path)
+        end
+      else
+        Environ.parallel = false
+      end
+      @downloads_path = @downloads_path.tr('/', "\\") if OS.windows?
+      @initialized = true
+    end
+
     def self.initialize_appium
       Environ.platform = :mobile
       Environ.device = :simulator
       # define capabilities
-      desired_capabilities = if @capabilities.nil?
-                               Environ.browser = ENV['APP_BROWSER']
-                               Environ.device_name = ENV['APP_DEVICE']
-                               Environ.device_os = ENV['APP_PLATFORM_NAME'].downcase.to_sym
-                               Environ.device_os_version = ENV['APP_VERSION']
-                               desired_capabilities = {
-                                 platformName: Environ.device_os,
-                                 browserName: Environ.browser,
-                                 'appium:platformVersion': Environ.device_os_version,
-                                 'appium:deviceName': Environ.device_name
-                               }
-                               desired_capabilities[:'appium:avd'] = ENV['APP_DEVICE'] if Environ.device_os == :android
-                               desired_capabilities[:'appium:automationName'] = ENV['AUTOMATION_ENGINE'] if ENV['AUTOMATION_ENGINE']
-                               if ENV['UDID']
-                                 # :nocov:
-                                 Environ.device = :device
-                                 desired_capabilities[:'appium:udid'] = ENV['UDID']
-                                 desired_capabilities[:'appium:xcodeOrgId'] = ENV['TEAM_ID'] if ENV['TEAM_ID']
-                                 desired_capabilities[:'appium:xcodeSigningId'] = ENV['TEAM_NAME'] if ENV['TEAM_NAME']
-                                 # :nocov:
-                               else
-                                 desired_capabilities[:'appium:orientation'] = Environ.device_orientation.upcase if Environ.device_orientation
-                                 if Environ.device_os == :ios
-                                   desired_capabilities[:'appium:language'] = Environ.language if Environ.language
-                                   desired_capabilities[:'appium:locale'] = Environ.locale.gsub('-', '_') if Environ.locale
-                                 end
-                               end
-                               desired_capabilities[:'appium:safariIgnoreFraudWarning'] = ENV['APP_IGNORE_FRAUD_WARNING'] if ENV['APP_IGNORE_FRAUD_WARNING']
-                               desired_capabilities[:'appium:safariInitialUrl'] = ENV['APP_INITIAL_URL'] if ENV['APP_INITIAL_URL']
-                               desired_capabilities[:'appium:safariAllowPopups'] = ENV['APP_ALLOW_POPUPS'] if ENV['APP_ALLOW_POPUPS']
-                               desired_capabilities[:'appium:shutdownOtherSimulators'] = ENV['SHUTDOWN_OTHER_SIMS'] if ENV['SHUTDOWN_OTHER_SIMS']
-                               desired_capabilities[:'appium:forceSimulatorSoftwareKeyboardPresence'] = ENV['SHOW_SIM_KEYBOARD'] if ENV['SHOW_SIM_KEYBOARD']
+      caps = if @capabilities.nil?
+               Environ.browser = ENV['APP_BROWSER']
+               Environ.device_name = ENV['APP_DEVICE']
+               Environ.device_os = ENV['APP_PLATFORM_NAME'].downcase.to_sym
+               Environ.device_os_version = ENV['APP_VERSION']
+               caps = {
+                 platformName: Environ.device_os,
+                 browserName: Environ.browser,
+                 'appium:platformVersion': Environ.device_os_version,
+                 'appium:deviceName': Environ.device_name
+               }
+               caps[:'appium:avd'] = ENV['APP_DEVICE'] if Environ.device_os == :android
+               caps[:'appium:automationName'] = ENV['AUTOMATION_ENGINE'] if ENV['AUTOMATION_ENGINE']
+               if ENV['UDID']
+                 # :nocov:
+                 Environ.device = :device
+                 caps[:'appium:udid'] = ENV['UDID']
+                 caps[:'appium:xcodeOrgId'] = ENV['TEAM_ID'] if ENV['TEAM_ID']
+                 caps[:'appium:xcodeSigningId'] = ENV['TEAM_NAME'] if ENV['TEAM_NAME']
+                 # :nocov:
+               else
+                 caps[:'appium:orientation'] = Environ.device_orientation.upcase if Environ.device_orientation
+                 if Environ.device_os == :ios
+                   caps[:'appium:language'] = Environ.language if Environ.language
+                   caps[:'appium:locale'] = Environ.locale.gsub('-', '_') if Environ.locale
+                 end
+               end
+               caps[:'appium:safariIgnoreFraudWarning'] = ENV['APP_IGNORE_FRAUD_WARNING'] if ENV['APP_IGNORE_FRAUD_WARNING']
+               caps[:'appium:safariInitialUrl'] = ENV['APP_INITIAL_URL'] if ENV['APP_INITIAL_URL']
+               caps[:'appium:safariAllowPopups'] = ENV['APP_ALLOW_POPUPS'] if ENV['APP_ALLOW_POPUPS']
+               caps[:'appium:shutdownOtherSimulators'] = ENV['SHUTDOWN_OTHER_SIMS'] if ENV['SHUTDOWN_OTHER_SIMS']
+               caps[:'appium:forceSimulatorSoftwareKeyboardPresence'] = ENV['SHOW_SIM_KEYBOARD'] if ENV['SHOW_SIM_KEYBOARD']
 
-                               desired_capabilities[:'appium:autoAcceptAlerts'] = ENV['AUTO_ACCEPT_ALERTS'] if ENV['AUTO_ACCEPT_ALERTS']
-                               desired_capabilities[:'appium:autoDismissAlerts'] = ENV['AUTO_DISMISS_ALERTS'] if ENV['AUTO_DISMISS_ALERTS']
-                               desired_capabilities[:'appium:isHeadless'] = ENV['HEADLESS'] if ENV['HEADLESS']
+               caps[:'appium:autoAcceptAlerts'] = ENV['AUTO_ACCEPT_ALERTS'] if ENV['AUTO_ACCEPT_ALERTS']
+               caps[:'appium:autoDismissAlerts'] = ENV['AUTO_DISMISS_ALERTS'] if ENV['AUTO_DISMISS_ALERTS']
+               caps[:'appium:isHeadless'] = ENV['HEADLESS'] if ENV['HEADLESS']
 
-                               desired_capabilities[:'appium:newCommandTimeout'] = ENV['NEW_COMMAND_TIMEOUT'] if ENV['NEW_COMMAND_TIMEOUT']
-                               desired_capabilities[:'appium:noReset'] = ENV['APP_NO_RESET'] if ENV['APP_NO_RESET']
-                               desired_capabilities[:'appium:fullReset'] = ENV['APP_FULL_RESET'] if ENV['APP_FULL_RESET']
-                               desired_capabilities[:'appium:webkitDebugProxyPort'] = ENV['WEBKIT_DEBUG_PROXY_PORT'] if ENV['WEBKIT_DEBUG_PROXY_PORT']
-                               desired_capabilities[:'appium:webDriverAgentUrl'] = ENV['WEBDRIVER_AGENT_URL'] if ENV['WEBDRIVER_AGENT_URL']
-                               desired_capabilities[:'appium:usePrebuiltWDA'] = ENV['USE_PREBUILT_WDA'] if ENV['USE_PREBUILT_WDA']
-                               desired_capabilities[:'appium:useNewWDA'] = ENV['USE_NEW_WDA'] if ENV['USE_NEW_WDA']
-                               desired_capabilities[:'appium:chromedriverExecutable'] = ENV['CHROMEDRIVER_EXECUTABLE'] if ENV['CHROMEDRIVER_EXECUTABLE']
-                               # set wdaLocalPort (iOS) or systemPort (Android) if PARALLEL_PORT is true
-                               if ENV['PARALLEL'] && ENV['PARALLEL_PORT']
-                                 # :nocov:
-                                 if Environ.device_os == :ios
-                                   desired_capabilities[:'appium:wdaLocalPort'] = 8100 + ENV['TEST_ENV_NUMBER'].to_i
-                                 else
-                                   desired_capabilities[:'appium:systemPort'] = 8200 + ENV['TEST_ENV_NUMBER'].to_i
-                                 end
-                                 # :nocov:
-                               else
-                                 desired_capabilities[:'appium:wdaLocalPort'] = ENV['WDA_LOCAL_PORT'] if ENV['WDA_LOCAL_PORT']
-                                 desired_capabilities[:'appium:systemPort']   = ENV['SYSTEM_PORT'] if ENV['SYSTEM_PORT']
-                               end
-                               desired_capabilities
-                             else
-                               Environ.device_os = @capabilities[:platformName]
-                               Environ.device_os_version = @capabilities[:'appium:platformVersion']
-                               Environ.device_name = @capabilities[:'appium:deviceName']
-                               @capabilities
-                             end
+               caps[:'appium:newCommandTimeout'] = ENV['NEW_COMMAND_TIMEOUT'] if ENV['NEW_COMMAND_TIMEOUT']
+               caps[:'appium:noReset'] = ENV['APP_NO_RESET'] if ENV['APP_NO_RESET']
+               caps[:'appium:fullReset'] = ENV['APP_FULL_RESET'] if ENV['APP_FULL_RESET']
+               caps[:'appium:webkitDebugProxyPort'] = ENV['WEBKIT_DEBUG_PROXY_PORT'] if ENV['WEBKIT_DEBUG_PROXY_PORT']
+               caps[:'appium:webDriverAgentUrl'] = ENV['WEBDRIVER_AGENT_URL'] if ENV['WEBDRIVER_AGENT_URL']
+               caps[:'appium:usePrebuiltWDA'] = ENV['USE_PREBUILT_WDA'] if ENV['USE_PREBUILT_WDA']
+               caps[:'appium:useNewWDA'] = ENV['USE_NEW_WDA'] if ENV['USE_NEW_WDA']
+               caps[:'appium:chromedriverExecutable'] = ENV['CHROMEDRIVER_EXECUTABLE'] if ENV['CHROMEDRIVER_EXECUTABLE']
+               # set wdaLocalPort (iOS) or systemPort (Android) if PARALLEL_PORT is true
+               if Environ.parallel
+                 # :nocov:
+                 if Environ.device_os == :ios
+                   caps[:'appium:wdaLocalPort'] = 8100 + ENV['TEST_ENV_NUMBER'].to_i
+                 else
+                   caps[:'appium:systemPort'] = 8200 + ENV['TEST_ENV_NUMBER'].to_i
+                 end
+                 # :nocov:
+               else
+                 caps[:'appium:wdaLocalPort'] = ENV['WDA_LOCAL_PORT'] if ENV['WDA_LOCAL_PORT']
+                 caps[:'appium:systemPort']   = ENV['SYSTEM_PORT'] if ENV['SYSTEM_PORT']
+               end
+               caps
+             else
+               Environ.device_os = @capabilities[:platformName]
+               Environ.device_os_version = @capabilities[:'appium:platformVersion']
+               Environ.device_name = @capabilities[:'appium:deviceName']
+               @capabilities
+             end
       # specify endpoint url
       @endpoint = 'http://localhost:4723/wd/hub' if @endpoint.nil?
 
-      Capybara.register_driver(driver_name) do |app|
-        Appium::Capybara::Driver.new(
-          app,
-          capabilities: desired_capabilities,
-          appium_lib: { server_url: @endpoint },
-          global_driver: false
-        )
-      end
-      Capybara.default_driver = Environ.driver_name
+      register_remote_driver(Environ.browser, caps)
     end
 
     def self.initialize_local_browser
@@ -289,7 +296,7 @@ module TestCentricity
                      # :nocov:
                    end
       case Environ.browser
-      when :firefox, :chrome, :ie, :safari, :edge, :chrome_headless, :firefox_headless, :edge_headless
+      when :firefox, :chrome, :safari, :edge, :chrome_headless, :firefox_headless, :edge_headless
         Environ.platform = :desktop
       else
         Environ.platform = :mobile
@@ -299,24 +306,24 @@ module TestCentricity
       Capybara.register_driver driver_name do |app|
         browser = Environ.browser
         case browser
-        when :safari, :ie
+        when :safari
           Capybara::Selenium::Driver.new(app, browser: browser)
         when :firefox, :firefox_headless
           options = firefox_options(browser)
-          Capybara::Selenium::Driver.new(app, browser: :firefox, capabilities: [options])
+          Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
         when :chrome, :chrome_headless
           options = chrome_edge_options(browser)
-          Capybara::Selenium::Driver.new(app, browser: :chrome, capabilities: [options])
+          Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
         when :edge, :edge_headless
           options = chrome_edge_options(browser)
-          Capybara::Selenium::Driver.new(app, browser: :edge, capabilities: [options])
+          Capybara::Selenium::Driver.new(app, browser: :edge, options: options)
         else
           user_agent = Browsers.mobile_device_agent(Environ.browser)
-          options = Selenium::WebDriver::Chrome::Options.new
+          options = Selenium::WebDriver::Chrome::Options.new(exclude_switches: ['enable-automation'])
           options.add_argument('--disable-dev-shm-usage')
           options.add_argument("--user-agent='#{user_agent}'")
           options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
-          Capybara::Selenium::Driver.new(app, browser: :chrome, capabilities: [options])
+          Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
         end
       end
       Capybara.default_driver = Environ.driver_name
@@ -325,14 +332,15 @@ module TestCentricity
     def self.initialize_remote
       Environ.grid = :selenium_grid
       browser = Environ.browser
-      @endpoint = ENV['REMOTE_ENDPOINT'] || 'http://127.0.0.1:4444/wd/hub' if @endpoint.nil?
-
+      @endpoint = if @endpoint.nil?
+                    ENV['REMOTE_ENDPOINT'] if ENV['REMOTE_ENDPOINT']
+                  else
+                    'http://localhost:4444/wd/hub'
+                  end
       case browser
         # :nocov:
       when :safari
         options = Selenium::WebDriver::Safari::Options.new
-      when :ie
-        options = Selenium::WebDriver::IE::Options.new
         # :nocov:
       when :firefox, :firefox_headless
         options = firefox_options(browser)
@@ -352,7 +360,7 @@ module TestCentricity
         Capybara::Selenium::Driver.new(app,
                                        browser: :remote,
                                        url: @endpoint,
-                                       capabilities: [options]).tap do |driver|
+                                       options: options).tap do |driver|
           # configure file_detector for remote uploads
           driver.browser.file_detector = lambda do |args|
             str = args.first.to_s
@@ -373,7 +381,6 @@ module TestCentricity
                         end
       browser = Environ.browser
       Environ.grid = :browserstack
-      Environ.os = "#{ENV['BS_OS']} #{ENV['BS_OS_VERSION']}"
       if ENV['BS_REAL_MOBILE'] || ENV['BS_DEVICE']
         Environ.platform    = :mobile
         Environ.device_name = ENV['BS_DEVICE']
@@ -385,7 +392,7 @@ module TestCentricity
                          end
       end
       # specify endpoint url
-      @endpoint = "http://#{ENV['BS_USERNAME']}:#{ENV['BS_AUTHKEY']}@hub-cloud.browserstack.com/wd/hub" if @endpoint.nil?
+      @endpoint = "https://#{ENV['BS_USERNAME']}:#{ENV['BS_AUTHKEY']}@hub-cloud.browserstack.com/wd/hub" if @endpoint.nil?
       # :nocov:
       # enable tunneling if specified
       if ENV['TUNNELING']
@@ -401,6 +408,7 @@ module TestCentricity
       # :nocov:
       # define BrowserStack options
       options = if @capabilities.nil?
+                  Environ.os = "#{ENV['BS_OS']} #{ENV['BS_OS_VERSION']}"
                   browser_options = {}
                   # define the required set of BrowserStack options
                   bs_options = {
@@ -447,7 +455,7 @@ module TestCentricity
                   else
                     # define desktop browser options
                     bs_options[:resolution] = ENV['RESOLUTION'] if ENV['RESOLUTION']
-                    bs_options[:seleniumVersion] = '4.4.0'
+                    bs_options[:seleniumVersion] = '4.15.0'
                     {
                       browserName: browser,
                       browserVersion: ENV['BS_VERSION'],
@@ -456,6 +464,7 @@ module TestCentricity
                   end
                 else
                   bs_options = @capabilities[:'bstack:options']
+                  Environ.os = "#{bs_options[:os]} #{bs_options[:osVersion]}"
                   if bs_options.key?(:deviceName)
                     Environ.platform = :mobile
                     Environ.device_name = bs_options[:deviceName]
@@ -469,13 +478,12 @@ module TestCentricity
                   end
                   @capabilities
                 end
-      register_remote_driver(:browserstack, browser, options)
+      register_remote_driver(browser, options)
       # configure file_detector for remote uploads if target is desktop web browser
       config_file_uploads if Environ.platform == :desktop
       Environ.tunneling = ENV['TUNNELING'] if ENV['TUNNELING']
     end
 
-    # :nocov:
     def self.initialize_testingbot
       # determine browser type
       Environ.browser = if @capabilities.nil?
@@ -485,7 +493,6 @@ module TestCentricity
                         end
       browser = Environ.browser
       Environ.grid = :testingbot
-      Environ.os = ENV['TB_OS']
       if ENV['TB_PLATFORM']
         Environ.device_os = ENV['TB_PLATFORM']
         Environ.device_name = ENV['TB_DEVICE']
@@ -497,10 +504,11 @@ module TestCentricity
       # specify endpoint url
       if @endpoint.nil?
         url = ENV['TUNNELING'] ? '@localhost:4445/wd/hub' : '@hub.testingbot.com/wd/hub'
-        @endpoint = "http://#{ENV['TB_USERNAME']}:#{ENV['TB_AUTHKEY']}#{url}"
+        @endpoint = "https://#{ENV['TB_USERNAME']}:#{ENV['TB_AUTHKEY']}#{url}"
       end
       # define TestingBot options
       options = if @capabilities.nil?
+                  Environ.os = ENV['TB_OS']
                   # define the required set of TestingBot options
                   tb_options = { build: test_context_message }
                   # define the optional TestingBot options
@@ -517,7 +525,7 @@ module TestCentricity
                   else
                     # define desktop browser options
                     tb_options['screen-resolution'] = ENV['RESOLUTION'] if ENV['RESOLUTION']
-                    tb_options['selenium-version'] = '4.4.0'
+                    tb_options['selenium-version'] = '4.14.1'
                   end
                   {
                     browserName: browser,
@@ -527,6 +535,7 @@ module TestCentricity
                   }
                 else
                   tb_options = @capabilities[:'tb:options']
+                  Environ.os = @capabilities[:platformName]
                   if tb_options.key?(:deviceName)
                     Environ.platform = :mobile
                     Environ.device_name = tb_options[:deviceName]
@@ -536,8 +545,82 @@ module TestCentricity
                   end
                   @capabilities
                 end
-      register_remote_driver(:testingbot, browser, options)
+      register_remote_driver(browser, options)
       # configure file_detector for remote uploads if target is desktop web browser
+      config_file_uploads if Environ.platform == :desktop
+    end
+
+    # :nocov:
+    def self.initialize_saucelabs
+      # determine browser type
+      Environ.browser = if @capabilities.nil?
+                          ENV['SL_BROWSER'] if ENV['SL_BROWSER']
+                        else
+                          @capabilities[:browserName]
+                        end
+      browser = Environ.browser
+      Environ.grid = :saucelabs
+
+      if ENV['SL_PLATFORM']
+        Environ.device_name = ENV['SL_DEVICE']
+        Environ.platform = :mobile
+        Environ.device = :simulator
+      elsif ENV['SL_OS']
+        Environ.platform = :desktop
+        Environ.os = ENV['SL_OS']
+      end
+      # specify endpoint url
+      if @endpoint.nil?
+        @endpoint = "https://#{ENV['SL_USERNAME']}:#{ENV['SL_AUTHKEY']}@ondemand.#{ENV['DATA_CENTER']}.saucelabs.com:443/wd/hub"
+      end
+      # define SauceLab options
+      options = if @capabilities.nil?
+                  # define the required set of SauceLab options
+                  sl_options = {
+                    username: ENV['SL_USERNAME'],
+                    access_key: ENV['SL_AUTHKEY'],
+                    build: test_context_message
+                  }
+                  # define the optional SauceLab options
+                  sl_options[:name] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
+                  sl_options[:recordVideo] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
+                  sl_options[:recordScreenshots] = ENV['SCREENSHOTS'] if ENV['SCREENSHOTS']
+                  # define mobile device options
+                  if ENV['SL_PLATFORM']
+                    sl_options[:deviceOrientation] = ENV['ORIENTATION'].upcase if ENV['ORIENTATION']
+                    sl_options[:appium_version] = '1.22.3'
+                    {
+                      browserName: browser,
+                      platform_name: ENV['SL_PLATFORM'],
+                      'appium:deviceName': ENV['SL_DEVICE'],
+                      'appium:platformVersion': ENV['SL_VERSION'],
+                      'appium:automationName': ENV['AUTOMATION_ENGINE'],
+                      'sauce:options': sl_options
+                    }
+                  else
+                    # define desktop browser options
+                    sl_options[:screenResolution] = ENV['RESOLUTION'] if ENV['RESOLUTION']
+                    {
+                      browserName: browser,
+                      browser_version: ENV['SL_VERSION'],
+                      platform_name: ENV['SL_OS'],
+                      'sauce:options': sl_options
+                    }
+                  end
+                else
+                  sl_options = @capabilities[:'sauce:options']
+                  Environ.os = @capabilities[:platform_name]
+                  if @capabilities.key?(:'appium:deviceName')
+                    Environ.platform = :mobile
+                    Environ.device_name = @capabilities[:'appium:deviceName']
+                    Environ.device_os = @capabilities[:'appium:platformVersion']
+                    Environ.device = :simulator
+                    Environ.device_orientation = sl_options[:deviceOrientation] if sl_options.key?(:deviceOrientation)
+                  end
+                  @capabilities
+                end
+      register_remote_driver(browser, options)
+      # configure file_detector for remote uploads
       config_file_uploads if Environ.platform == :desktop
     end
 
@@ -550,13 +633,13 @@ module TestCentricity
                         end
       browser = Environ.browser
       Environ.grid = :lambdatest
-      Environ.os = ENV['LT_OS']
       Environ.platform = :desktop
       Environ.tunneling = ENV['TUNNELING'] if ENV['TUNNELING']
       # specify endpoint url
       @endpoint = "https://#{ENV['LT_USERNAME']}:#{ENV['LT_AUTHKEY']}@hub.lambdatest.com/wd/hub" if @endpoint.nil?
       # define LambdaTest options
       options = if @capabilities.nil?
+                  Environ.os = ENV['LT_OS']
                   # define the required set of LambdaTest options
                   lt_options = {
                     user: ENV['LT_USERNAME'],
@@ -564,7 +647,7 @@ module TestCentricity
                     build: test_context_message,
                     platformName: ENV['LT_OS'],
                     resolution: ENV['RESOLUTION'],
-                    selenium_version: '4.0.0',
+                    selenium_version: '4.13.0',
                   }
                   # define the optional LambdaTest options
                   lt_options[:name] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
@@ -591,70 +674,10 @@ module TestCentricity
                     'LT:Options': lt_options
                   }
                 else
+                  Environ.os = @capabilities[:platform_name]
                   @capabilities
                 end
-      register_remote_driver(:lambdatest, browser, options)
-      # configure file_detector for remote uploads
-      config_file_uploads if Environ.platform == :desktop
-    end
-
-    def self.initialize_saucelabs
-      # determine browser type
-      Environ.browser = if @capabilities.nil?
-                          ENV['SL_BROWSER'] if ENV['SL_BROWSER']
-                        else
-                          @capabilities[:browserName]
-                        end
-      browser = Environ.browser
-      Environ.grid = :saucelabs
-
-      if ENV['SL_OS']
-        Environ.platform = :desktop
-        Environ.os = ENV['SL_OS']
-      elsif ENV['SL_PLATFORM']
-        Environ.device_name = ENV['SL_DEVICE']
-        Environ.platform = :mobile
-        Environ.device = :simulator
-      end
-      # specify endpoint url
-      @endpoint = "https://#{ENV['SL_USERNAME']}:#{ENV['SL_AUTHKEY']}@ondemand.#{ENV['DATA_CENTER']}.saucelabs.com/wd/hub" if @endpoint.nil?
-      # define SauceLab options
-      options = if @capabilities.nil?
-                  # define the required set of SauceLab options
-                  sl_options = {
-                    userName: ENV['SL_USERNAME'],
-                    accessKey: ENV['SL_AUTHKEY'],
-                    build: test_context_message
-                  }
-                  # define the optional SauceLab options
-                  sl_options[:name] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
-                  sl_options[:recordVideo] = ENV['RECORD_VIDEO'] if ENV['RECORD_VIDEO']
-                  sl_options[:recordScreenshots] = ENV['SCREENSHOTS'] if ENV['SCREENSHOTS']
-                  # define mobile device options
-                  if ENV['SL_PLATFORM']
-                    sl_options[:deviceOrientation] = ENV['ORIENTATION'].upcase if ENV['ORIENTATION']
-                    sl_options[:appiumVersion] = '1.22.3'
-                    {
-                      browserName: browser,
-                      platformName: ENV['SL_PLATFORM'],
-                      'appium:deviceName': ENV['SL_DEVICE'],
-                      'appium:platformVersion': ENV['SL_VERSION'],
-                      'sauce:options': sl_options
-                    }
-                  else
-                    # define desktop browser options
-                    sl_options[:screenResolution] = ENV['RESOLUTION'] if ENV['RESOLUTION']
-                    {
-                      browserName: browser,
-                      browserVersion: ENV['SL_VERSION'],
-                      platformName: ENV['SL_OS'],
-                      'sauce:options': sl_options
-                    }
-                  end
-                else
-                  @capabilities
-                end
-      register_remote_driver(:saucelabs, browser, options)
+      register_remote_driver(browser, options)
       # configure file_detector for remote uploads
       config_file_uploads if Environ.platform == :desktop
     end
@@ -663,9 +686,11 @@ module TestCentricity
     def self.chrome_edge_options(browser)
       options = case browser
                 when :chrome, :chrome_headless
-                  Selenium::WebDriver::Chrome::Options.new
+                  Selenium::WebDriver::Chrome::Options.new(exclude_switches: ['enable-automation'])
                 when :edge, :edge_headless
-                  Selenium::WebDriver::Edge::Options.new
+                  Selenium::WebDriver::Edge::Options.new(exclude_switches: ['enable-automation'])
+                else
+                  raise "#{browser} is not a valid selector"
                 end
       prefs = {
         prompt_for_download: false,
@@ -673,13 +698,15 @@ module TestCentricity
         default_directory:   @downloads_path
       }
       options.add_preference(:download, prefs)
+      options.add_argument('--force-device-scale-factor=1')
+      options.add_argument('--disable-geolocation')
       options.add_argument('--disable-dev-shm-usage')
+      options.add_argument('--no-sandbox')
       options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
       if browser == :chrome_headless || browser == :edge_headless
         Environ.headless = true
         options.add_argument('--headless')
         options.add_argument('--disable-gpu')
-        options.add_argument('--no-sandbox')
       end
       options
     end
@@ -714,7 +741,7 @@ module TestCentricity
                         else
                           Environ.test_environment.to_s.upcase
                         end
-      if ENV['PARALLEL']
+      if Environ.parallel
         thread_num = ENV['TEST_ENV_NUMBER']
         thread_num = 1 if thread_num.blank?
         context_message = "#{context_message} - Thread ##{thread_num}"
@@ -724,12 +751,11 @@ module TestCentricity
 
     def self.driver_name
       unless Environ.driver_name
-        driver = if Environ.driver == :webdriver
-                   if ENV['SELENIUM'] == 'remote'
-                     :remote
-                   else
-                     :local
-                   end
+        driver = case Environ.driver
+                 when :webdriver
+                   :local
+                 when :selenium_grid, :grid
+                   :remote
                  else
                    Environ.driver
                  end
@@ -738,10 +764,10 @@ module TestCentricity
       Environ.driver_name
     end
 
-    def self.register_remote_driver(driver, browser, options)
+    def self.register_remote_driver(browser, options)
       Capybara.register_driver driver_name do |app|
         browser = browser.gsub(/\s+/, '_').downcase.to_sym if browser.is_a?(String)
-        capabilities = Selenium::WebDriver::Remote::Capabilities.send(browser, options)
+        capabilities = Selenium::WebDriver::Remote::Capabilities.new(options)
         Capybara::Selenium::Driver.new(app,
                                        browser: :remote,
                                        url: @endpoint,

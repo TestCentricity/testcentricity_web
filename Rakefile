@@ -45,6 +45,12 @@ RSpec::Core::RakeTask.new(:testingbot_specs) do |t|
 end
 
 
+desc 'Run Sauce Labs specs'
+RSpec::Core::RakeTask.new(:saucelabs_specs) do |t|
+  t.rspec_opts = '--tag saucelabs'
+end
+
+
 desc 'Run Multiple Driver specs'
 RSpec::Core::RakeTask.new(:multi_driver_spec) do |t|
   t.rspec_opts = '--tag multi_driver_spec'
@@ -85,7 +91,7 @@ task :grid_cukes do
   compose.up(detached: true)
   # run grid features
   begin
-    %w[chrome_grid firefox_grid edge_grid ipad_pro_12_grid].each do |profile|
+    %w[chrome_grid firefox_grid edge_grid].each do |profile|
       system "parallel_cucumber features/ -o '-p #{profile} -p parallel' -n 4 --group-by scenarios"
     end
   ensure
@@ -112,7 +118,7 @@ end
 
 
 desc 'Run mobile web specs and Cucumber features'
-task mobile: [:ios_remote, :mobile_specs]
+task mobile: [:mobile_specs, :android_remote]
 
 
 desc 'Run required specs and Cucumber features'
@@ -123,24 +129,42 @@ desc 'Run grid specs and Cucumber features on Dockerized Selenium 4 Grid'
 task grid: [:docker_grid_specs, :grid_cukes]
 
 
+desc 'Run cloud service specs'
+task cloud_specs: [:browserstack_specs,
+                   :saucelabs_specs,
+                   :testingbot_specs]
+
+
 desc 'Run all specs'
-task all_specs: [:required_specs, :multi_driver_spec, :docker_grid_specs, :mobile_specs, :browserstack_specs, :testingbot_specs]
+task all_specs: [:required_specs,
+                 :multi_driver_spec,
+                 :docker_grid_specs,
+                 :mobile_specs,
+                 :browserstack_specs,
+                 :saucelabs_specs,
+                 :testingbot_specs]
 
 
 desc 'Run all specs and Cucumber features'
-task all: [:mobile, :required, :multi_driver_spec, :browserstack_specs, :safari_local, :docker_grid_specs]
+task all: [:required,
+           :safari_local,
+           :docker_grid_specs,
+           :browserstack_specs,
+           :multi_driver_spec,
+           :mobile]
 
 
 desc 'Update HTML docs'
 YARD::Rake::YardocTask.new(:docs) do |t|
+  ENV['COVERAGE'] = 'false'
   t.files = ['lib/**/*.rb']
 end
 
 
-desc 'Build and release new version'
+desc 'Build and release new version of gem'
 task :release do
   version = TestCentricityWeb::VERSION
-  puts "Releasing version #{version} of TestCentricity Web gem, y/n?"
+  puts "Release version #{version} of TestCentricity Web gem, y/n?"
   exit(1) unless $stdin.gets.chomp == 'y'
   sh 'gem build testcentricity_web.gemspec && ' \
      "gem push testcentricity_web-#{version}.gem"

@@ -18,7 +18,7 @@ require 'testcentricity_web/data_objects/data_objects_helper'
 require 'testcentricity_web/data_objects/environment'
 require 'testcentricity_web/data_objects/excel_helper'
 
-require 'testcentricity_web/web_elements/ui_elements_helper'
+require 'testcentricity_web/web_elements/ui_element'
 require 'testcentricity_web/web_elements/button'
 require 'testcentricity_web/web_elements/checkbox'
 require 'testcentricity_web/web_elements/file_field'
@@ -43,21 +43,7 @@ module TestCentricity
     @page_objects = {}
 
     def self.register_page_objects(pages)
-      result = ''
-      pages.each do |page_object, page_class|
-        obj = page_class.new
-        @page_objects[page_object] = obj unless @page_objects.has_key?(page_object)
-        page_names = obj.page_name
-        page_names = Array(page_names) if page_names.is_a? String
-        page_names.each do |name|
-          page_key = name.gsub(/\s+/, '').downcase.to_sym
-          if page_key != page_object
-            @page_objects[page_key] = obj unless @page_objects.has_key?(page_key)
-          end
-          result = "#{result}def #{page_object};@#{page_object} ||= TestCentricity::PageManager.find_page(:#{page_object});end;"
-        end
-      end
-      result
+      @page_objects = pages
     end
 
     # Have all PageObjects been registered?
@@ -71,7 +57,7 @@ module TestCentricity
     end
 
     def self.find_page(page_name)
-      (page_name.is_a? String) ? page_id = page_name.gsub(/\s+/, '').downcase.to_sym : page_id = page_name
+      page_id = (page_name.is_a? String) ? page_name.gsub(/\s+/, '').downcase.to_sym : page_name
       page = @page_objects[page_id]
       raise "No page object defined for page named '#{page_name}'" unless page
       page
@@ -103,12 +89,7 @@ module TestCentricity
     @data_objects = {}
 
     def self.register_data_objects(data)
-      result = ''
-      data.each do |data_type, data_class|
-        @data_objects[data_type] = data_class.new unless @data_objects.has_key?(data_type)
-        result = "#{result}def #{data_type};@#{data_type} ||= TestCentricity::DataManager.find_data_object(:#{data_type});end;"
-      end
-      result
+      @data_objects = data
     end
 
     def self.find_data_object(data_object)

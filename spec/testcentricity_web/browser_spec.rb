@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
 RSpec.describe TestCentricity::Browsers, required: true do
+  include_context 'test_site'
+
   before(:each) do
-    ENV['WEB_BROWSER'] = 'chrome'
-    WebDriverConnect.initialize_web_driver
+    caps = {
+      capabilities: { browserName: :chrome },
+      driver: :webdriver
+    }
+    WebDriverConnect.initialize_web_driver(caps)
     # load Apple web site
-    Capybara.page.driver.browser.navigate.to('https://www.apple.com')
-    Capybara.page.find(:css, 'nav#ac-globalnav', wait: 10, visible: true)
+    Capybara.page.driver.browser.navigate.to(test_site_url)
+    Capybara.page.find(:css, test_site_locator, wait: 10, visible: true)
   end
 
   context 'web browser with multiple tabs/windows' do
@@ -37,8 +42,8 @@ RSpec.describe TestCentricity::Browsers, required: true do
   end
 
   after(:each) do
-    Browsers.close_all_browser_instances
-    Capybara.current_session.quit
-    Environ.session_state = :quit
+    WebDriverConnect.close_all_drivers
+    # verify that all driver instances have been closed
+    expect(WebDriverConnect.num_drivers).to eq(0)
   end
 end

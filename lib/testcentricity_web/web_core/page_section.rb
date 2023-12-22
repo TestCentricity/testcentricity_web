@@ -113,7 +113,7 @@ module TestCentricity
     #   element :basket_header,    'div.basket_header'
     #
     def self.element(element_name, locator)
-      define_element(element_name, TestCentricity::UIElement, locator)
+      define_element(element_name, TestCentricity::Elements::UIElement, locator)
     end
 
     # Declare and instantiate a collection of generic UI Elements for this page section.
@@ -137,7 +137,7 @@ module TestCentricity
     #   button :login_button,    "//input[@id='submit_button']"
     #
     def self.button(element_name, locator)
-      define_element(element_name, TestCentricity::Button, locator)
+      define_element(element_name, TestCentricity::Elements::Button, locator)
     end
 
     # Declare and instantiate a collection of buttons for this page section.
@@ -161,7 +161,7 @@ module TestCentricity
     #   textfield :password_field, 'input#consumer_password'
     #
     def self.textfield(element_name, locator)
-      define_element(element_name, TestCentricity::TextField, locator)
+      define_element(element_name, TestCentricity::Elements::TextField, locator)
     end
 
     # Declare and instantiate a collection of text fields for this page section.
@@ -171,7 +171,6 @@ module TestCentricity
     #       textfields  name_field:  'input#Name',
     #                   title_field: 'input#Title',
     #                   phone_field: 'input#PhoneNumber',
-    #                   fax_field:   'input#FaxNumber',
     #                   email_field: 'input#Email'
     #
     def self.textfields(element_hash)
@@ -187,7 +186,7 @@ module TestCentricity
     #   range :points_slider, 'input#points'
     #
     def self.range(element_name, locator)
-      define_element(element_name, TestCentricity::Range, locator)
+      define_element(element_name, TestCentricity::Elements::Range, locator)
     end
 
     # Declare and instantiate a collection of range inputs for this page section.
@@ -210,7 +209,7 @@ module TestCentricity
     #   checkbox :accept_terms_checkbox, 'input#accept_terms_conditions'
     #
     def self.checkbox(element_name, locator)
-      define_element(element_name, TestCentricity::CheckBox, locator)
+      define_element(element_name, TestCentricity::Elements::CheckBox, locator)
     end
 
     # Declare and instantiate a collection of checkboxes for this page section.
@@ -235,7 +234,7 @@ module TestCentricity
     #   radio :decline_terms_radio, 'input#decline_terms_conditions'
     #
     def self.radio(element_name, locator)
-      define_element(element_name, TestCentricity::Radio, locator)
+      define_element(element_name, TestCentricity::Elements::Radio, locator)
     end
 
     # Declare and instantiate a collection of radio buttons for this page section.
@@ -260,7 +259,7 @@ module TestCentricity
     #   label :rollup_price_label, "//div[contains(@id, 'Rollup Item Price')]"
     #
     def self.label(element_name, locator)
-      define_element(element_name, TestCentricity::Label, locator)
+      define_element(element_name, TestCentricity::Elements::Label, locator)
     end
 
     def self.labels(element_hash)
@@ -276,7 +275,7 @@ module TestCentricity
     #   link :shopping_basket_link, "//a[@href='shopping_basket']"
     #
     def self.link(element_name, locator)
-      define_element(element_name, TestCentricity::Link, locator)
+      define_element(element_name, TestCentricity::Elements::Link, locator)
     end
 
     def self.links(element_hash)
@@ -291,7 +290,7 @@ module TestCentricity
     #   table :payments_table, "//table[@class='payments_table']"
     #
     def self.table(element_name, locator)
-      define_element(element_name, TestCentricity::Table, locator)
+      define_element(element_name, TestCentricity::Elements::Table, locator)
     end
 
     def self.tables(element_hash)
@@ -307,7 +306,7 @@ module TestCentricity
     #   selectlist :gender_select,     "//select[@id='customer_gender']"
     #
     def self.selectlist(element_name, locator)
-      define_element(element_name, TestCentricity::SelectList, locator)
+      define_element(element_name, TestCentricity::Elements::SelectList, locator)
     end
 
     def self.selectlists(element_hash)
@@ -322,7 +321,7 @@ module TestCentricity
     #   list :y_axis_list, 'g.y_axis'
     #
     def self.list(element_name, locator)
-      define_element(element_name, TestCentricity::List, locator)
+      define_element(element_name, TestCentricity::Elements::List, locator)
     end
 
     def self.lists(element_hash)
@@ -338,7 +337,7 @@ module TestCentricity
     #   image :corporate_logo_image, "//img[@alt='MyCompany_logo']"
     #
     def self.image(element_name, locator)
-      define_element(element_name, TestCentricity::Image, locator)
+      define_element(element_name, TestCentricity::Elements::Image, locator)
     end
 
     def self.images(element_hash)
@@ -353,7 +352,7 @@ module TestCentricity
     #   video :video_player, 'video#my_video_player'
     #
     def self.video(element_name, locator)
-      define_element(element_name, TestCentricity::Video, locator)
+      define_element(element_name, TestCentricity::Elements::Video, locator)
     end
 
     def self.videos(element_hash)
@@ -368,7 +367,7 @@ module TestCentricity
     #   audio :audio_player, 'audio#my_audio_player'
     #
     def self.audio(element_name, locator)
-      define_element(element_name, TestCentricity::Audio, locator)
+      define_element(element_name, TestCentricity::Elements::Audio, locator)
     end
 
     def self.audios(element_hash)
@@ -383,7 +382,7 @@ module TestCentricity
     #   filefield :attach_file, 's_SweFileName'
     #
     def self.filefield(element_name, locator)
-      define_element(element_name, TestCentricity::FileField, locator)
+      define_element(element_name, TestCentricity::Elements::FileField, locator)
     end
 
     def self.filefields(element_hash)
