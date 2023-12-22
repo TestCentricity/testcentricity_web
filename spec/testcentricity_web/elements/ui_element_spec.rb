@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe TestCentricity::UIElement, required: true do
+RSpec.describe TestCentricity::Elements::UIElement, required: true do
   subject(:css_element) { described_class.new(:css_test_element, self, 'button#css_button', :page) }
   subject(:xpath_element) { described_class.new(:xpath_test_element, self, "//button[@id='xpath_button']", :page) }
 

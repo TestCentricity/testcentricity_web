@@ -121,7 +121,7 @@ class MediaTestPage < BaseTestPage
     when :play
       player.play
       player.send_keys(:enter) if player.paused?
-      player.click_at(25, 25) if player.paused?
+      player.click if player.paused?
     when :pause
       player.pause
     when :mute
@@ -239,7 +239,7 @@ class MediaTestPage < BaseTestPage
     player.current_time = 0
     player.play
     player.send_keys(:enter) if player.paused?
-    player.click_at(25, 25) if player.paused?
+    player.click if player.paused?
     sleep(2)
   end
 end

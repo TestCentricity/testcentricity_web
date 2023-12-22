@@ -22,13 +22,18 @@ class IndexedSectionsPage < BaseTestPage
   def verify_page_ui
     super
 
+    product_card.wait_until_visible(5)
     ui = {
       product_list => {
         exists: true,
         visible: true,
         itemcount: 4
       },
-      product_card => { items: ['Tailored Jeans', 'Faded Short Sleeve T-shirts', 'Print Dress', 'Blouse'] }
+      product_card => {
+        items: ['Tailored Jeans', 'Faded Short Sleeve T-shirts', 'Print Dress', 'Blouse'],
+        all_items_count: 4,
+        all_items: ['Tailored Jeans', 'Faded Short Sleeve T-shirts', 'Print Dress', 'Blouse']
+      }
     }
     verify_ui_states(ui)
     # verify contents of first product card

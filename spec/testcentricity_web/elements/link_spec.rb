@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-RSpec.describe TestCentricity::Link, required: true do
+RSpec.describe TestCentricity::Elements::Link, required: true do
   subject(:css_link) { described_class.new(:test_label, self, 'a#css_label', :page) }
 
   it 'returns class' do
-    expect(css_link.class).to eql TestCentricity::Link
+    expect(css_link.class).to eql TestCentricity::Elements::Link
   end
 
   it 'registers with type link' do

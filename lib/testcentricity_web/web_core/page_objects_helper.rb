@@ -163,26 +163,27 @@ module TestCentricity
                      ui_object.get_group_count
                    when :group_headings
                      ui_object.get_group_headings
-                   when :all_items, :all_list_items
-                     ui_object.get_all_list_items
-                   when :all_items_count
-                     ui_object.get_all_items_count
                    when :column_headers
                      ui_object.get_header_columns
                    when :count, :count_visible
                      ui_object.count(visible = true)
-                   when :count_all
-                     ui_object.count(visible = :all)
+                   when :all_items, :all_list_items
+                     ui_object.get_all_list_items
+                   when :all_items_count
+                     ui_object.get_all_items_count
                    when :style
                      ui_object.style
                    when :href
                      ui_object.href
                    when :role
                      ui_object.role
-                   when :aria_label
-                     ui_object.aria_label
                    when :aria_disabled
                      ui_object.aria_disabled?
+                   # :nocov:
+                   when :count_all
+                     ui_object.count(visible = :all)
+                   when :aria_label
+                     ui_object.aria_label
                    when :tabindex
                      ui_object.tabindex
                    when :aria_labelledby
@@ -243,6 +244,7 @@ module TestCentricity
                      ui_object.aria_multiselectable?
                    when :content_editable
                      ui_object.content_editable?
+                   # :nocov:
                    when :validation_message
                      ui_object.validation_message
                    when :badInput
@@ -283,8 +285,12 @@ module TestCentricity
                            ui_object.get_attribute(value)
                          when :native_attribute
                            ui_object.get_native_attribute(value)
+                         else
+                           raise "#{key} is not a valid property key"
                          end
                        end
+                     else
+                       raise "#{property} is not a valid property"
                      end
                    end
           error_msg = if ui_object.respond_to?(:get_name)
@@ -295,8 +301,8 @@ module TestCentricity
           ExceptionQueue.enqueue_comparison(ui_object, state, actual, error_msg)
         end
       end
-    rescue ObjectNotFoundError => e
-      ExceptionQueue.enqueue_exception(e.message)
+    rescue ObjectNotFoundError => error
+      ExceptionQueue.enqueue_exception(error.message)
     ensure
       error_msg = "#{fail_message}\nPage URL = #{URI.parse(current_url)}"
       ExceptionQueue.post_exceptions(error_msg)
@@ -388,8 +394,11 @@ module TestCentricity
       page.driver.browser.action.send_keys(key).perform
       sleep(0.5)
       focused_obj = page.driver.browser.switch_to.active_element
+      expected_element.reset_mru_cache
       expected_obj, = expected_element.find_element(visible = :all)
-      raise "Expected element '#{expected_element.get_name}' to have focus but found '#{focused_obj[:id]} is focused instead'" unless focused_obj == expected_obj.native
+      unless focused_obj == expected_obj.native
+        raise "Expected element '#{expected_element.get_name}' to have focus but found '#{focused_obj[:id]} is focused instead'"
+      end
 
       puts "Element '#{expected_element.get_name}' is focused as expected"
       end

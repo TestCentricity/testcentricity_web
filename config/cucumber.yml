@@ -1,6 +1,6 @@
-<% desktop = "--require features BROWSER_TILE=true BROWSER_SIZE=1300,1000 --publish-quiet" %>
-<% mobile  = "--require features BROWSER_TILE=true --publish-quiet" %>
-<% reports = "--require features --format pretty --format html --out reports/test_results.html --format junit --out reports --format json --out reports/test_results.json" %>
+  <% desktop = "--require features BROWSER_TILE=true BROWSER_SIZE=1300,1050 --publish-quiet" %>
+  <% mobile  = "--require features BROWSER_TILE=true --publish-quiet" %>
+  <% reports = "--require features --format pretty --format html --out reports/test_results.html --format junit --out reports --format json --out reports/test_results.json" %>
 
 
 #==============
@@ -44,7 +44,7 @@ edge_headless:    --profile local WEB_BROWSER=edge_headless <%= desktop %>
 # profile for Selenium Grid and Dockerized Selenium Grid hosted desktop web browsers
 #==============
 remote:       TEST_ENVIRONMENT=REMOTE
-grid:         SELENIUM=remote --profile remote REMOTE_ENDPOINT="http://localhost:4444/wd/hub"
+grid:         DRIVER=grid --profile remote REMOTE_ENDPOINT="http://localhost:4444/wd/hub"
 chrome_grid:  --profile grid --profile chrome
 edge_grid:    --profile grid --profile edge
 firefox_grid: --profile grid --profile firefox
@@ -62,9 +62,10 @@ portrait:  ORIENTATION=portrait
 # profiles for locally hosted mobile web browsers (emulated locally in Chrome browser)
 #==============
 
-ipad_pro_11_local: --profile local WEB_BROWSER=ipad_pro_11 HOST_BROWSER=chrome --profile portrait <%= mobile %>
-ipad_pro_12_local: --profile local WEB_BROWSER=ipad_pro_12_9 HOST_BROWSER=chrome --profile portrait <%= mobile %>
-ipad_pro_12_grid: --profile grid WEB_BROWSER=ipad_pro_12_9 HOST_BROWSER=chrome --profile portrait <%= mobile %>
+ipad_pro_11_local: --profile local WEB_BROWSER=ipad_pro_11 --profile portrait <%= mobile %>
+ipad_pro_12_local: --profile local WEB_BROWSER=ipad_pro_12_9 --profile portrait <%= mobile %>
+iphone_14_pro_max: --profile local WEB_BROWSER=iphone_14_pro_max --profile landscape <%= mobile %>
+ipad_pro_12_grid: --profile grid WEB_BROWSER=ipad_pro_12_9 --profile portrait <%= mobile %>
 
 
 #==============
@@ -92,8 +93,8 @@ ios_remote: --profile ipad_pro_12_15_sim --profile run_appium ORIENTATION=portra
 # NOTE: Requires installation of Android Studio, Android version specific virtual device simulators, Appium, and the appium_capybara gem
 #==============
 
-appium_android:    DRIVER=appium APP_PLATFORM_NAME="Android" <%= mobile %>
-app_android_12:    --profile appium_android APP_BROWSER="Chrome" APP_VERSION="12.0"
+appium_android:    DRIVER=appium AUTOMATION_ENGINE=UiAutomator2 APP_PLATFORM_NAME="Android" <%= mobile %>
+app_android_12:    --profile appium_android APP_BROWSER="Chrome" APP_VERSION="12.0" CHROMEDRIVER_EXECUTABLE="/Users/Shared/config/webdrivers/chromedriver"
 pixel_c_api31_sim: --profile app_android_12 DEVICE_TYPE=tablet APP_DEVICE="Pixel_C_API_31"
 
 android_remote: --profile pixel_c_api31_sim --profile run_appium ORIENTATION=portrait TEST_ENVIRONMENT=REMOTE

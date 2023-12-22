@@ -113,7 +113,7 @@ module TestCentricity
     #   element :basket_header,    'div.basket_header'
     #
     def self.element(element_name, locator)
-      define_element(element_name, TestCentricity::UIElement, locator)
+      define_element(element_name, TestCentricity::Elements::UIElement, locator)
     end
 
     # Declare and instantiate a collection of generic UI Elements for this page section.
@@ -125,7 +125,7 @@ module TestCentricity
     #             log_out_item:  'a#logout'
     #
     def self.elements(element_hash)
-      element_hash.each(&method(:element))
+      element_hash.each_pair { |element_name, locator| element(element_name, locator) }
     end
 
     # Declare and instantiate a single button UI Element for this page section.
@@ -137,7 +137,7 @@ module TestCentricity
     #   button :login_button,    "//input[@id='submit_button']"
     #
     def self.button(element_name, locator)
-      define_element(element_name, TestCentricity::Button, locator)
+      define_element(element_name, TestCentricity::Elements::Button, locator)
     end
 
     # Declare and instantiate a collection of buttons for this page section.
@@ -149,7 +149,7 @@ module TestCentricity
     #             cancel_button:      'button#cancel'
     #
     def self.buttons(element_hash)
-      element_hash.each(&method(:button))
+      element_hash.each_pair { |element_name, locator| button(element_name, locator) }
     end
 
     # Declare and instantiate a single text field UI Element for this page section.
@@ -161,7 +161,7 @@ module TestCentricity
     #   textfield :password_field, 'input#consumer_password'
     #
     def self.textfield(element_name, locator)
-      define_element(element_name, TestCentricity::TextField, locator)
+      define_element(element_name, TestCentricity::Elements::TextField, locator)
     end
 
     # Declare and instantiate a collection of text fields for this page section.
@@ -171,11 +171,10 @@ module TestCentricity
     #       textfields  name_field:  'input#Name',
     #                   title_field: 'input#Title',
     #                   phone_field: 'input#PhoneNumber',
-    #                   fax_field:   'input#FaxNumber',
     #                   email_field: 'input#Email'
     #
     def self.textfields(element_hash)
-      element_hash.each(&method(:textfield))
+      element_hash.each_pair { |element_name, locator| textfield(element_name, locator) }
     end
 
     # Declare and instantiate a single range input UI Element for this page section.
@@ -187,7 +186,7 @@ module TestCentricity
     #   range :points_slider, 'input#points'
     #
     def self.range(element_name, locator)
-      define_element(element_name, TestCentricity::Range, locator)
+      define_element(element_name, TestCentricity::Elements::Range, locator)
     end
 
     # Declare and instantiate a collection of range inputs for this page section.
@@ -198,7 +197,7 @@ module TestCentricity
     #              risk_slider:   'input#risk_percentage'
     #
     def self.ranges(element_hash)
-      element_hash.each(&method(:range))
+      element_hash.each_pair { |element_name, locator| range(element_name, locator) }
     end
 
     # Declare and instantiate a single checkbox UI Element for this page section.
@@ -210,7 +209,7 @@ module TestCentricity
     #   checkbox :accept_terms_checkbox, 'input#accept_terms_conditions'
     #
     def self.checkbox(element_name, locator)
-      define_element(element_name, TestCentricity::CheckBox, locator)
+      define_element(element_name, TestCentricity::Elements::CheckBox, locator)
     end
 
     # Declare and instantiate a collection of checkboxes for this page section.
@@ -223,7 +222,7 @@ module TestCentricity
     #                   carb_compliant_check:   'input#carbCompliant'
     #
     def self.checkboxes(element_hash)
-      element_hash.each(&method(:checkbox))
+      element_hash.each_pair { |element_name, locator| checkbox(element_name, locator) }
     end
 
     # Declare and instantiate a single radio button UI Element for this page section.
@@ -235,7 +234,7 @@ module TestCentricity
     #   radio :decline_terms_radio, 'input#decline_terms_conditions'
     #
     def self.radio(element_name, locator)
-      define_element(element_name, TestCentricity::Radio, locator)
+      define_element(element_name, TestCentricity::Elements::Radio, locator)
     end
 
     # Declare and instantiate a collection of radio buttons for this page section.
@@ -248,7 +247,7 @@ module TestCentricity
     #               amex_radio:       'input#payWithAmEx'
     #
     def self.radios(element_hash)
-      element_hash.each(&method(:radio))
+      element_hash.each_pair { |element_name, locator| radio(element_name, locator) }
     end
 
     # Declare and instantiate a single label UI Element for this page section.
@@ -260,11 +259,11 @@ module TestCentricity
     #   label :rollup_price_label, "//div[contains(@id, 'Rollup Item Price')]"
     #
     def self.label(element_name, locator)
-      define_element(element_name, TestCentricity::Label, locator)
+      define_element(element_name, TestCentricity::Elements::Label, locator)
     end
 
     def self.labels(element_hash)
-      element_hash.each(&method(:label))
+      element_hash.each_pair { |element_name, locator| label(element_name, locator) }
     end
 
     # Declare and instantiate a single link UI Element for this page section.
@@ -276,11 +275,11 @@ module TestCentricity
     #   link :shopping_basket_link, "//a[@href='shopping_basket']"
     #
     def self.link(element_name, locator)
-      define_element(element_name, TestCentricity::Link, locator)
+      define_element(element_name, TestCentricity::Elements::Link, locator)
     end
 
     def self.links(element_hash)
-      element_hash.each(&method(:link))
+      element_hash.each_pair { |element_name, locator| link(element_name, locator) }
     end
 
     # Declare and instantiate a single table UI Element for this page section.
@@ -291,11 +290,11 @@ module TestCentricity
     #   table :payments_table, "//table[@class='payments_table']"
     #
     def self.table(element_name, locator)
-      define_element(element_name, TestCentricity::Table, locator)
+      define_element(element_name, TestCentricity::Elements::Table, locator)
     end
 
     def self.tables(element_hash)
-      element_hash.each(&method(:table))
+      element_hash.each_pair { |element_name, locator| table(element_name, locator) }
     end
 
     # Declare and instantiate a single select list UI Element for this page section.
@@ -307,11 +306,11 @@ module TestCentricity
     #   selectlist :gender_select,     "//select[@id='customer_gender']"
     #
     def self.selectlist(element_name, locator)
-      define_element(element_name, TestCentricity::SelectList, locator)
+      define_element(element_name, TestCentricity::Elements::SelectList, locator)
     end
 
     def self.selectlists(element_hash)
-      element_hash.each(&method(:selectlist))
+      element_hash.each_pair { |element_name, locator| selectlist(element_name, locator) }
     end
 
     # Declare and instantiate a single list UI Element for this page section.
@@ -322,11 +321,11 @@ module TestCentricity
     #   list :y_axis_list, 'g.y_axis'
     #
     def self.list(element_name, locator)
-      define_element(element_name, TestCentricity::List, locator)
+      define_element(element_name, TestCentricity::Elements::List, locator)
     end
 
     def self.lists(element_hash)
-      element_hash.each(&method(:list))
+      element_hash.each_pair { |element_name, locator| list(element_name, locator) }
     end
 
     # Declare and instantiate a single image UI Element for this page section.
@@ -338,11 +337,11 @@ module TestCentricity
     #   image :corporate_logo_image, "//img[@alt='MyCompany_logo']"
     #
     def self.image(element_name, locator)
-      define_element(element_name, TestCentricity::Image, locator)
+      define_element(element_name, TestCentricity::Elements::Image, locator)
     end
 
     def self.images(element_hash)
-      element_hash.each(&method(:image))
+      element_hash.each_pair { |element_name, locator| image(element_name, locator) }
     end
 
     # Declare and instantiate a single video UI Element for this page section.
@@ -353,11 +352,11 @@ module TestCentricity
     #   video :video_player, 'video#my_video_player'
     #
     def self.video(element_name, locator)
-      define_element(element_name, TestCentricity::Video, locator)
+      define_element(element_name, TestCentricity::Elements::Video, locator)
     end
 
     def self.videos(element_hash)
-      element_hash.each(&method(:video))
+      element_hash.each_pair { |element_name, locator| video(element_name, locator) }
     end
 
     # Declare and instantiate a single HTML5 audio UI Element for this page section.
@@ -368,11 +367,11 @@ module TestCentricity
     #   audio :audio_player, 'audio#my_audio_player'
     #
     def self.audio(element_name, locator)
-      define_element(element_name, TestCentricity::Audio, locator)
+      define_element(element_name, TestCentricity::Elements::Audio, locator)
     end
 
     def self.audios(element_hash)
-      element_hash.each(&method(:audio))
+      element_hash.each_pair { |element_name, locator| audio(element_name, locator) }
     end
 
     # Declare and instantiate a single File Field UI Element for this page section.
@@ -383,11 +382,11 @@ module TestCentricity
     #   filefield :attach_file, 's_SweFileName'
     #
     def self.filefield(element_name, locator)
-      define_element(element_name, TestCentricity::FileField, locator)
+      define_element(element_name, TestCentricity::Elements::FileField, locator)
     end
 
     def self.filefields(element_hash)
-      element_hash.each(&method(:filefield))
+      element_hash.each_pair { |element_name, locator| filefield(element_name, locator) }
     end
 
     # Instantiate a single PageSection object within this PageSection object.
@@ -407,9 +406,7 @@ module TestCentricity
     end
 
     def self.sections(section_hash)
-      section_hash.each do |section_name, class_name|
-        section(section_name, class_name)
-      end
+      section_hash.each_pair { |section_name, class_name| section(section_name, class_name) }
     end
 
     # Does Section object exists?

@@ -102,6 +102,8 @@ module TestCentricity
                          "#{expected.split.each{ |expected| expected.capitalize! }.join(' ')}"
                        end
             enqueue_assert_equal(expected, actual, error_msg)
+          else
+            raise "#{key} is not a valid comparison key"
           end
         end
       else
@@ -119,17 +121,14 @@ module TestCentricity
       timestamp = Time.now.strftime('%Y%m%d%H%M%S%L')
       filename = "Screenshot-#{timestamp}.png"
       path = File.join Dir.pwd, 'reports/screenshots/', filename
-      # highlight the active UI element prior to taking a screenshot
+      # scroll into view and highlight the active UI element prior to taking a screenshot
       unless @active_ui_element.nil? || @mru_ui_element == @active_ui_element
+        @active_ui_element.scroll_to(:bottom)
         @active_ui_element.highlight(0)
         @mru_ui_element = @active_ui_element
       end
       # take screenshot
-      if Environ.driver == :appium
-        AppiumConnect.take_screenshot(path)
-      else
-        Capybara.save_screenshot path
-      end
+      Capybara.save_screenshot path
       # unhighlight the active UI element
       @mru_ui_element.unhighlight unless @mru_ui_element.blank?
       # add screenshot to queue

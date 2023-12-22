@@ -84,8 +84,10 @@ module TestCentricity
     attr_accessor :device_os
     attr_accessor :device_os_version
     attr_accessor :device_orientation
+    attr_accessor :screen_size
     attr_accessor :platform
     attr_accessor :driver
+    attr_accessor :driver_name
     attr_accessor :grid
     attr_accessor :tunneling
     attr_accessor :locale
@@ -98,7 +100,6 @@ module TestCentricity
     attr_accessor :portal_status
     attr_accessor :portal_context
     attr_accessor :external_page
-
     attr_accessor :a11y_standard
 
     attr_accessor :protocol
@@ -116,6 +117,13 @@ module TestCentricity
     attr_accessor :dns
     attr_accessor :db_username
     attr_accessor :db_password
+    attr_accessor :ios_app_path
+    attr_accessor :ios_ipa_path
+    attr_accessor :android_apk_path
+    attr_accessor :default_max_wait_time
+    attr_accessor :deep_link_prefix
+    attr_accessor :ios_bundle_id
+    attr_accessor :android_app_id
 
     def initialize(data)
       @protocol      = data['PROTOCOL']
@@ -133,6 +141,12 @@ module TestCentricity
       @dns	         = data['DNS']
       @db_username   = data['DB_USERNAME']
       @db_password   = data['DB_PASSWORD']
+      @ios_app_path  = data['IOS_APP_PATH']
+      @ios_ipa_path  = data['IOS_IPA_PATH']
+      @android_apk_path = data['ANDROID_APK_PATH']
+      @deep_link_prefix = data['DEEP_LINK_PREFIX']
+      @ios_bundle_id    = data['IOS_BUNDLE_ID']
+      @android_app_id   = data['ANDROID_APP_ID']
 
       url = @hostname.blank? ? "#{@base_url}#{@append}" : "#{@hostname}/#{@base_url}#{@append}"
       @app_host = if @user_id.blank? || @password.blank?
@@ -142,6 +156,45 @@ module TestCentricity
                   end
 
       super
+    end
+
+    def self.driver_state
+      {
+        driver_name:        @driver_name,
+        driver:             @driver,
+        app_host:           @app_host,
+        browser:            @browser,
+        browser_size:       @browser_size,
+        headless:           @headless,
+        os:                 @os,
+        device:             @device,
+        device_name:        @device_name,
+        device_type:        @device_type,
+        device_os:          @device_os,
+        device_os_version:  @device_os_version,
+        device_orientation: @device_orientation,
+        platform:           @platform,
+        grid:               @grid,
+        tunneling:          @tunneling
+      }
+    end
+
+    def self.restore_driver_state(driver_state)
+      @driver = driver_state[:driver]
+      @app_host = driver_state[:app_host]
+      @browser = driver_state[:browser]
+      @browser_size = driver_state[:browser_size]
+      @headless = driver_state[:headless]
+      @os = driver_state[:os]
+      @device = driver_state[:device]
+      @device_name = driver_state[:device_name]
+      @device_type = driver_state[:device_type]
+      @device_os = driver_state[:device_os]
+      @device_os_version = driver_state[:device_os_version]
+      @device_orientation = driver_state[:device_orientation]
+      @platform = driver_state[:platform]
+      @grid = driver_state[:grid]
+      @tunneling = driver_state[:tunneling]
     end
 
     def self.app_host
@@ -186,6 +239,16 @@ module TestCentricity
       else
         @test_environment.downcase.to_sym
       end
+    end
+
+    def self.default_max_wait_time=(timeout)
+      @default_max_wait_time = timeout
+
+      Capybara.default_max_wait_time = timeout if driver == :webdriver
+    end
+
+    def self.default_max_wait_time
+      @default_max_wait_time
     end
 
     def self.browser=(browser)
@@ -249,7 +312,8 @@ module TestCentricity
     end
 
     def self.device_type=(type)
-      @device_type = type.downcase.to_sym
+      type = type.downcase.to_sym if type.is_a?(String)
+      @device_type = type
     end
 
     def self.device_type
@@ -265,7 +329,8 @@ module TestCentricity
     end
 
     def self.device_os=(os)
-      @device_os = os.downcase.to_sym
+      os = os.downcase.to_sym if os.is_a?(String)
+      @device_os = os
     end
 
     def self.device_os
@@ -289,11 +354,20 @@ module TestCentricity
     end
 
     def self.device_orientation=(orientation)
-      @device_orientation = orientation.downcase.to_sym
+      orientation = orientation.downcase.to_sym if orientation.is_a?(String)
+      @device_orientation = orientation
     end
 
     def self.device_orientation
       @device_orientation
+    end
+
+    def self.screen_size=(size)
+      @screen_size = size
+    end
+
+    def self.screen_size
+      @screen_size
     end
 
     def self.driver=(type)
@@ -302,6 +376,15 @@ module TestCentricity
 
     def self.driver
       @driver
+    end
+
+    def self.driver_name=(name)
+      name = name.downcase.to_sym if name.is_a?(String)
+      @driver_name = name
+    end
+
+    def self.driver_name
+      @driver_name
     end
 
     def self.grid=(type)
@@ -398,15 +481,15 @@ module TestCentricity
 
     def self.report_header
       report_header = "\n<b><u>TEST ENVIRONMENT</u>:</b> #{ENV['TEST_ENVIRONMENT']}\n"\
-      "  <b>Browser:</b>\t #{Environ.browser.capitalize}\n"
-      report_header = "#{report_header}  <b>Device:</b>\t #{Environ.device_name}\n" if Environ.device_name
-      report_header = "#{report_header}  <b>Device OS:</b>\t #{Environ.device_os} #{Environ.device_os_version}\n" if Environ.device_os
-      report_header = "#{report_header}  <b>Device type:</b>\t #{Environ.device_type}\n" if Environ.device_type
-      report_header = "#{report_header}  <b>Driver:</b>\t #{Environ.driver}\n" if Environ.driver
-      report_header = "#{report_header}  <b>Grid:</b>\t\t #{Environ.grid}\n" if Environ.grid
-      report_header = "#{report_header}  <b>OS:</b>\t\t #{Environ.os}\n" if Environ.os
-      report_header = "#{report_header}  <b>Locale:</b>\t #{Environ.locale}\n" if Environ.locale
-      report_header = "#{report_header}  <b>Language:</b>\t #{Environ.language}\n" if Environ.language
+      "  <b>Browser:</b>\t #{@browser.capitalize}\n"
+      report_header = "#{report_header}  <b>Device:</b>\t #{@device_name}\n" if @device_name
+      report_header = "#{report_header}  <b>Device OS:</b>\t #{@device_os} #{@device_os_version}\n" if @device_os
+      report_header = "#{report_header}  <b>Device type:</b>\t #{@device_type}\n" if @device_type
+      report_header = "#{report_header}  <b>Driver:</b>\t #{@driver}\n" if @driver
+      report_header = "#{report_header}  <b>Grid:</b>\t\t #{@grid}\n" if @grid
+      report_header = "#{report_header}  <b>OS:</b>\t\t #{@os}\n" if @os
+      report_header = "#{report_header}  <b>Locale:</b>\t #{@locale}\n" if @locale
+      report_header = "#{report_header}  <b>Language:</b>\t #{@language}\n" if @language
       report_header = "#{report_header}  <b>Country:</b>\t #{ENV['COUNTRY']}\n" if ENV['COUNTRY']
       report_header = "#{report_header}  <b>WCAG Accessibility Standard:</b>\t #{ENV['ACCESSIBILITY_STANDARD']}\n" if ENV['ACCESSIBILITY_STANDARD']
       "#{report_header}\n\n"

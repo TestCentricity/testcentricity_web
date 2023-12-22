@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'appium_capybara'
 require 'capybara/cucumber'
 require 'parallel_tests'
 require 'require_all'
@@ -9,9 +8,9 @@ require 'testcentricity_web'
 
 include TestCentricity
 
-coverage_report_name = "Features-#{ENV['WEB_BROWSER']}-#{ENV['SELENIUM']}" + (ENV['TEST_ENV_NUMBER'] || '')
+coverage_report_name = "Features-#{ENV['WEB_BROWSER']}-#{ENV['DRIVER']}" + (ENV['TEST_ENV_NUMBER'] || '')
 SimpleCov.command_name("#{coverage_report_name}-#{Time.now.strftime('%Y%m%d%H%M%S%L')}")
-SimpleCov.merge_timeout 3600
+SimpleCov.merge_timeout 7200
 
 require_relative 'world_data'
 require_relative 'world_pages'
@@ -45,13 +44,10 @@ WorldData.instantiate_data_objects
 include WorldPages
 WorldPages.instantiate_page_objects
 
-# establish connection to WebDriver and target web browser
-Webdrivers.cache_time = 86_400
-
-
+# establish connection to target web browser
 url = if Environ.test_environment == :local
         "file://#{File.dirname(__FILE__)}/../../test_site"
       else
         Environ.current.app_host
       end
-WebDriverConnect.initialize_web_driver(app_host: url)
+WebDriverConnect.initialize_web_driver({ app_host: url })

@@ -1,4 +1,5 @@
 require 'yaml'
+require 'selenium-webdriver'
 
 
 module TestCentricity
@@ -6,6 +7,33 @@ module TestCentricity
     include Capybara::DSL
 
     @devices = {}
+
+    # Scroll to bottom of page
+    #
+    # @example
+    #   editor_page.scroll_to_bottom
+    #
+    def self.scroll_to_bottom
+      Capybara.page.execute_script "window.scrollTo(0, document.body.scrollHeight)"
+    end
+
+    # Scroll to top of page
+    #
+    # @example
+    #   editor_page.scroll_to_top
+    #
+    def self.scroll_to_top
+      Capybara.page.execute_script "window.scrollTo(0, -document.body.scrollHeight)"
+    end
+
+    # Scroll to location
+    #
+    # @example
+    #   editor_page.scroll_to(200, 400)
+    #
+    def self.scroll_to(x_loc, y_loc)
+      Capybara.page.execute_script "window.scrollBy(#{x_loc},#{y_loc})"
+    end
 
     # Sets the size of the browser window.
     #
@@ -15,7 +43,7 @@ module TestCentricity
     #
     def self.set_browser_window_size(resolution)
       resolution = resolution.split(',') if resolution.is_a?(String)
-      window = Capybara.current_session.driver.browser.manage.window
+      window = Capybara.page.driver.browser.manage.window
       window.resize_to(resolution[0], resolution[1])
       Environ.browser_size = [resolution[0].to_i, resolution[1].to_i]
     end
@@ -26,7 +54,7 @@ module TestCentricity
     #   Browsers.maximize_browser
     #
     def self.maximize_browser
-      window = Capybara.current_session.driver.browser.manage.window
+      window = Capybara.page.driver.browser.manage.window
       window.maximize
     end
 
@@ -38,7 +66,7 @@ module TestCentricity
     #   Browsers.set_browser_window_position([100, 300])
     #
     def self.set_browser_window_position(x, y)
-      window = Capybara.current_session.driver.browser.manage.window
+      window = Capybara.page.driver.browser.manage.window
       window.move_to(x, y)
     end
 
@@ -131,6 +159,7 @@ module TestCentricity
 
     def self.mobile_device_name(browser)
       device = get_device(browser)
+      raise "Device '#{browser}' is not defined" unless device
       name = device[:name]
       raise "Device '#{device}' is not defined" unless name
       Environ.device_os = device[:os]
@@ -146,7 +175,7 @@ module TestCentricity
         default_orientation = device[:default_orientation].to_sym
         if orientation
           Environ.device_orientation = orientation
-          size = if orientation.downcase.to_sym == default_orientation
+          size = if orientation == default_orientation
                    [width, height]
                  else
                    [height, width]

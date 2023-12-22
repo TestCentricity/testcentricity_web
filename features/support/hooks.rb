@@ -58,6 +58,8 @@ After do |scenario|
   # close Capybara Appium driver if it was opened
   Capybara.page.driver.quit if Capybara.default_driver == :appium
 
+  # WebDriverConnect.close_all_drivers
+
   if ENV['QUIT_DRIVER']
     terminate_session
   elsif Environ.grid == :browserstack
@@ -172,31 +174,31 @@ end
 
 
 Around('@!ios') do |scenario, block|
-  if Environ.device_os == :android
-    block.call
-  else
+  if Environ.device_os == :ios
     log "Scenario '#{scenario.name}' can not be executed on iOS devices."
     skip_this_scenario
+  else
+    block.call
   end
 end
 
 
 Around('@!android') do |scenario, block|
-  if Environ.device_os == :ios
-    block.call
-  else
+  if Environ.device_os == :android
     log "Scenario '#{scenario.name}' can not be executed on Android devices."
     skip_this_scenario
+  else
+    block.call
   end
 end
 
 
 Around('@!mobile') do |scenario, block|
-  if Environ.platform == :mobile
+  if Environ.platform != :mobile
+    block.call
+  else
     log "Scenario '#{scenario.name}' is not executed on mobile devices or simulators."
     skip_this_scenario
-  else
-    block.call
   end
 end
 
@@ -224,7 +226,7 @@ end
 # supporting methods
 
 def qualify_browser(browser_type, browser_name, scenario, block)
-  if Environ.browser != browser_type && ENV['HOST_BROWSER'] != browser_name.downcase
+  if Environ.browser != browser_type
     block.call
   else
     log "Scenario '#{scenario.name}' cannot be executed with the #{browser_name} browser."
@@ -246,9 +248,7 @@ def qualify_device(device, scenario, block)
 end
 
 def terminate_session
-  Capybara.page.driver.quit
-  Capybara.reset_sessions!
-  Environ.session_state = :quit
+  WebDriverConnect.close_all_drivers
   $driver_scenario_count = 0
 end
 

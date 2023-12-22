@@ -11,5 +11,8 @@ RSpec.shared_context 'cloud_credentials' do
     # load TestingBot credentials into associated environment variables
     ENV['TB_USERNAME'] = @cloud_creds['testingbot']['TB_USERNAME']
     ENV['TB_AUTHKEY'] = @cloud_creds['testingbot']['TB_AUTHKEY']
+    # load LambdaTest credentials into associated environment variables
+    ENV['LT_USERNAME'] = @cloud_creds['lambdatest']['LT_USERNAME']
+    ENV['LT_AUTHKEY'] = @cloud_creds['lambdatest']['LT_AUTHKEY']
   end
 end

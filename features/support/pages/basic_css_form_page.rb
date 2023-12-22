@@ -1,7 +1,7 @@
 # Page Object class definition for Basic HTML Form page with CSS locators
 
 class BasicCSSFormPage < BasicFormPage
-  trait(:page_name)    { 'Basic CSS Form' }
+  trait(:page_name)    { ['Basic CSS Form', 'Home'] }
   trait(:page_locator) { 'form#HTMLFormElements' }
 
   # Basic HTML Test page UI elements
@@ -9,7 +9,8 @@ class BasicCSSFormPage < BasicFormPage
               password_field:    'input#password',
               max_length_field:  'input#maxlength',
               read_only_field:   'input#readonly',
-              number_field:      'input#number-field',
+              number_int_field:  'input#number-int-field',
+              number_flt_field:  'input#number-float-field',
               date_field:        'input#date-picker',
               date_time_field:   'input#date-time-picker',
               email_field:       'input#email-field',
@@ -33,25 +34,28 @@ class BasicCSSFormPage < BasicFormPage
               link_2:            'a#link2',
               link_3:            'a#link3'
   tables      static_table:      'table#table'
-  images      image_1:           'img#image1',
+  images      image_upload:      'img#output',
+              image_1:           'img#image1',
               image_2:           'img#image2',
-              image_3:           'img#image3'
+              image_3:           'img#image3',
+              image_4:           'img#image4'
   buttons     cancel_button:     'input#cancel',
               submit_button:     'input#submit'
-  labels      username_label:    "label[for='username']",
-              password_label:    "label[for='password']",
-              max_length_label:  "label[for='maxlength']",
-              read_only_label:   "label[for='readonly']",
-              number_label:      "label[for='number-field']",
-              color_label:       "label[for='color-picker']",
-              slider_label:      "label[for='slider']",
-              comments_label:    "label[for='comments']",
-              filename_label:    "label[for='filename']",
+  labels      username_label:    'label[for="username"]',
+              password_label:    'label[for="password"]',
+              max_length_label:  'label[for="maxlength"]',
+              read_only_label:   'label[for="readonly"]',
+              number_int_label:  'label[for="number-int-field"]',
+              number_flt_label:  'label[for="number-float-field"]',
+              color_label:       'label[for="color-picker"]',
+              slider_label:      'label[for="slider"]',
+              comments_label:    'label[for="comments"]',
+              filename_label:    'label[for="filename"]',
               checkboxes_label:  'label#checkboxes',
               radios_label:      'label#radios',
-              multiselect_label: "label[for='multipleselect']",
-              dropdown_label:    "label[for='dropdown']",
+              multiselect_label: 'label[for="multipleselect"]',
+              dropdown_label:    'label[for="dropdown"]',
               link_label:        'label#links',
-              table_label:       "label[for='table']",
+              table_label:       'label[for="table"]',
               images_label:      'label#images'
 end

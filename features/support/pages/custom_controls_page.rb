@@ -55,15 +55,16 @@ class CustomControlsPage < BaseTestPage
   # Custom Controls page UI elements
   selectlists country_select: 'div#country_chosen',
               team_select:    'div#team_chosen'
-  checkboxes  pork_check:     "label[for='check1']",
-              beef_check:     "label[for='check2']",
-              chicken_check:  "label[for='check3']",
-              shrimp_check:   "label[for='check4']"
-  radios      mild_radio:     "label[for='radio1']",
-              spicey_radio:   "label[for='radio2']",
-              hot_radio:      "label[for='radio3']",
-              flaming_radio:  "label[for='radio4']"
+  checkboxes  pork_check:     'label[for="check1"]',
+              beef_check:     'label[for="check2"]',
+              chicken_check:  'label[for="check3"]',
+              shrimp_check:   'label[for="check4"]'
+  radios      mild_radio:     'label[for="radio1"]',
+              spicey_radio:   'label[for="radio2"]',
+              hot_radio:      'label[for="radio3"]',
+              flaming_radio:  'label[for="radio4"]'
   tables      custom_table:   'div#resp-table'
+  section     :weather_embed, WeatherEmbed
 
   attr_accessor :selected_country
   attr_accessor :selected_team
@@ -74,8 +75,8 @@ class CustomControlsPage < BaseTestPage
     super
     # define the custom list element components for the Country and Team Chosen selectlists
     list_spec = {
-      selected_item: "li[class*='result-selected']",
-      list_item:     "li[class*='active-result']",
+      selected_item: 'li[class*="result-selected"]',
+      list_item:     'li[class*="active-result"]',
       text_field:    'input.chosen-search-input',
       options_list:  'ul.chosen-results',
       group_item:    'li.group-result',
@@ -84,24 +85,25 @@ class CustomControlsPage < BaseTestPage
     country_select.define_list_elements(list_spec)
     team_select.define_list_elements(list_spec)
     # define the custom element components for the checkboxes
-    check_spec = { input: "input[type='checkbox']" }
+    check_spec = { input: 'input[type="checkbox"]' }
     pork_check.define_custom_elements(check_spec)
     beef_check.define_custom_elements(check_spec)
     chicken_check.define_custom_elements(check_spec)
     shrimp_check.define_custom_elements(check_spec)
     # define the custom element components for the radios
-    radio_spec = { input: "input[type='radio']" }
+    radio_spec = { input: 'input[type="radio"]' }
     mild_radio.define_custom_elements(radio_spec)
     spicey_radio.define_custom_elements(radio_spec)
     hot_radio.define_custom_elements(radio_spec)
     flaming_radio.define_custom_elements(radio_spec)
     # define the custom element components for the table
     table_spec = {
-      table_body:    'div#resp-table-body',
+      table_header:  'div.resp-table-header',
+      header_row:    'div.resp-table-row',
+      header_column: 'div.table-header-cell',
+      table_body:    'div.resp-table-body',
       table_row:     'div.resp-table-row',
-      table_column:  'div.table-body-cell',
-      table_header:  'div#resp-table-header',
-      header_column: 'div.table-header-cell'
+      table_column:  'div.table-body-cell'
     }
     custom_table.define_table_elements(table_spec)
   end
@@ -185,6 +187,7 @@ class CustomControlsPage < BaseTestPage
         visible: true,
         columncount: 4,
         rowcount: 3,
+        column_headers: ['Header 1', 'Header 2', 'Header 3', 'Header 4'],
         { row: 1 } => [['Cell 1–1', 'Cell 1–2', 'Cell 1–3', 'Cell 1–4']],
         { row: 2 } => [['Cell 2–1', 'Cell 2–2', 'Cell 2–3', 'Cell 2–4']],
         { row: 3 } => [['Cell 3–1', 'Cell 3–2', 'Cell 3–3', 'Cell 3–4']],
@@ -195,6 +198,8 @@ class CustomControlsPage < BaseTestPage
     }
     verify_ui_states(ui)
     team_select.verify_options(teams)
+    weather_embed.wait_until_visible(5)
+    weather_embed.verify_embed unless Environ.device_os == :ios
   end
 
   def populate_form
@@ -218,6 +223,8 @@ class CustomControlsPage < BaseTestPage
   end
 
   def set_select_options
+    @selected_checks = [:pork]
+    @selected_radio = 1
     @selected_country = countries.sample
     @selected_team = teams.sample
     country_select.set(@selected_country)

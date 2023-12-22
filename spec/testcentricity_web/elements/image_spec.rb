@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-RSpec.describe TestCentricity::Image, required: true do
+RSpec.describe TestCentricity::Elements::Image, required: true do
   subject(:css_image) { described_class.new(:test_image, self, 'img#css_image', :page) }
 
   it 'returns class' do
-    expect(css_image.class).to eql TestCentricity::Image
+    expect(css_image.class).to eql TestCentricity::Elements::Image
   end
 
   it 'registers with type image' do
