@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.4.2] - 22-DEC-2023
+
+### Added
+* Added support for specifying and connecting to web browsers on unsupported cloud hosting services using `custom` user-
+defined driver and capabilities.
+
+
 ## [4.4.0] - 22-DEC-2023
 
 ### Added

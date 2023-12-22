@@ -43,7 +43,11 @@ module TestCentricity
         Environ.browser = ENV['WEB_BROWSER'] if ENV['WEB_BROWSER']
         Environ.device_orientation = ENV['ORIENTATION'] if ENV['ORIENTATION']
       else
-        Environ.browser = @capabilities[:browserName]
+        if @capabilities[:browserName]
+          Environ.browser = @capabilities[:browserName]
+        else
+          raise 'Missing :browserName in @capabilities'
+        end
         Environ.device_orientation = @capabilities[:orientation] if @capabilities[:orientation]
         Environ.device_orientation = @capabilities[:'appium:orientation'] if @capabilities[:'appium:orientation']
       end
@@ -51,10 +55,12 @@ module TestCentricity
       Environ.driver = :webdriver if Environ.driver.nil?
       Environ.device_type = ENV['DEVICE_TYPE'] if ENV['DEVICE_TYPE']
       # assume that we're testing within a local desktop web browser
-      Environ.platform    = :desktop
-      Environ.headless    = false
-      Environ.device      = :web
-      Environ.device_name = 'browser'
+      unless Environ.driver == :custom
+        Environ.platform    = :desktop
+        Environ.headless    = false
+        Environ.device      = :web
+        Environ.device_name = 'browser'
+      end
 
       context = case Environ.driver
                 when :appium
@@ -80,6 +86,11 @@ module TestCentricity
                   initialize_lambdatest
                   'LambdaTest cloud service'
                   # :nocov:
+                when :custom
+                  raise 'User-defined webdriver requires that you define options' if options.nil?
+
+                  initialize_custom_driver
+                  'custom user-defined webdriver'
                 else
                   raise "#{Environ.driver} is not a supported driver"
                 end
@@ -682,6 +693,15 @@ module TestCentricity
       config_file_uploads if Environ.platform == :desktop
     end
     # :nocov:
+
+    def self.initialize_custom_driver
+      raise 'User-defined webdriver requires that you provide capabilities' if @capabilities.nil?
+      raise 'User-defined webdriver requires that you provide an endpoint' if @endpoint.nil?
+
+      Environ.browser = @capabilities[:browserName]
+      Environ.grid = :custom
+      register_remote_driver(Environ.browser, @capabilities)
+    end
 
     def self.chrome_edge_options(browser)
       options = case browser

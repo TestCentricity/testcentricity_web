@@ -5,6 +5,22 @@ RSpec.describe TestCentricity::WebDriverConnect, required: true do
 
   context 'Connect to locally hosted desktop web browsers using W3C desired_capabilities hash' do
     context 'local web browser instances' do
+      it 'raises exception when no capabilities defined' do
+        caps = {
+          capabilities: { browserName: :firefox },
+          driver: :invalid_driver
+        }
+        expect { WebDriverConnect.initialize_web_driver(caps) }.to raise_error('invalid_driver is not a supported driver')
+      end
+
+      it 'raises exception when no :browserName is specified' do
+        caps = {
+          capabilities: { orientation: :portrait },
+          driver: :webdriver
+        }
+        expect { WebDriverConnect.initialize_web_driver(caps) }.to raise_error('Missing :browserName in @capabilities')
+      end
+
       it 'connects to a local Firefox browser' do
         caps = {
           capabilities: { browserName: :firefox },

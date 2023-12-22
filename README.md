@@ -2739,6 +2739,70 @@ test configuration options.
     WebDriverConnect.initialize_web_driver(options)
 
 
+#### Remote Browsers on Unsupported Cloud Hosting Services
+
+Limited support is provided for executing automated tests against remotely hosted desktop and mobile web browsers on currently
+unsupported cloud hosting services. You must call the `TestCentricity::WebDriverConnect.initialize_web_driver` method with
+an `options` hash - Environment Variables cannot be used to specify a user-defined custom WebDriver instance.
+
+The following options and capabilities must be specified:
+- `driver:` must be set to `:custom`
+- `endpoint:` must be set to the endpoint URL configuration specified by the hosting service
+- `browserName:` in the `capabilities:` hash must be set to name from capability specified by the hosting service
+
+All other required capabilities specified by the hosting service configuration documentation should be included in the
+`capabilities:` hash.
+
+    options = {
+      driver: :custom,
+      endpoint: endpoint_url,
+      capabilities: { browserName: browser_name_from_chart }
+    }
+    WebDriverConnect.initialize_web_driver(options)
+
+ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+`:custom_<browserName>` - e.g. `:custom_chrome` or `:custom_safari`.
+
+Prior to calling the `TestCentricity::WebDriverConnect.initialize_web_driver` method, you must set `Environ.platform` to
+either `:desktop` or `:mobile`, and `Environ.device` to either `:web` or `:device` dependent on whether the target browser
+is a desktop browser or a mobile browser running on a mobile device or simulator.
+
+Below is an example for specifying a connection to a Firefox desktop web browser on an unsupported hosting service:
+
+      Environ.platform = :desktop
+      Environ.device = :web
+      options = {
+        driver: :custom,
+        driver_name: :user_defined,
+        browser_size: [1400, 1100],
+        endpoint: endpoint_url,
+        capabilities: {
+          browserName: 'Firefox',
+          browser_version: browser_version_from_chart
+          #  other capabilities go here
+        }
+      }
+      WebDriverConnect.initialize_web_driver(options)
+
+Below is an example for specifying a connection to a mobile Safari web browser running on an iPad on an unsupported hosting
+service:
+
+      Environ.platform = :mobile
+      Environ.device = :device
+      Environ.device_name = device_name_from_chart
+      options = {
+        driver: :custom,
+        driver_name: :user_defined,
+        device_type: :tablet,
+        endpoint: endpoint_url,
+        capabilities: {
+          browserName: 'Safari',
+          #  other capabilities go here
+        }
+      }
+      WebDriverConnect.initialize_web_driver(options)
+
+
 ### Closing Browser and Driver Instances
 
 #### Closing Instances Using Cucumber
