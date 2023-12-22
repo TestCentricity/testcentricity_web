@@ -3,7 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/testcentricity_web.svg)](https://badge.fury.io/rb/testcentricity_web)
 [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause)
 ![Gem Downloads](https://img.shields.io/gem/dt/testcentricity_web)
-![Maintained](https://img.shields.io/maintenance/yes/2023)
+![Maintained](https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg)
 [![Docs](https://img.shields.io/badge/docs-rubydoc-blue.svg)](http://www.rubydoc.info/gems/testcentricity_web)
 
 
