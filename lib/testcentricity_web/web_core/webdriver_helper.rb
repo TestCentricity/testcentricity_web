@@ -653,15 +653,16 @@ module TestCentricity
                   Environ.os = ENV['LT_OS']
                   # define the required set of LambdaTest options
                   lt_options = {
-                    user: ENV['LT_USERNAME'],
+                    username: ENV['LT_USERNAME'],
                     accessKey: ENV['LT_AUTHKEY'],
-                    build: test_context_message,
                     platformName: ENV['LT_OS'],
                     resolution: ENV['RESOLUTION'],
+                    name: test_context_message,
                     selenium_version: '4.13.0',
                   }
                   # define the optional LambdaTest options
-                  lt_options[:name] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
+                  lt_options[:project] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
+                  lt_options[:build] = ENV['AUTOMATE_BUILD'] if ENV['AUTOMATE_BUILD']
                   lt_options[:headless] = ENV['HEADLESS'] if ENV['HEADLESS']
                   lt_options[:timezone] = ENV['TIME_ZONE'] if ENV['TIME_ZONE']
                   lt_options[:geoLocation] = ENV['GEO_LOCATION'] if ENV['GEO_LOCATION']
