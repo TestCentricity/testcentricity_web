@@ -2769,8 +2769,10 @@ is a desktop browser or a mobile browser running on a mobile device or simulator
 
 Below is an example for specifying a connection to a Firefox desktop web browser on an unsupported hosting service:
 
+      # specify desktop platform
       Environ.platform = :desktop
       Environ.device = :web
+      # instantiate a cloud hosted desktop web browser on an unsupported hosting service
       options = {
         driver: :custom,
         driver_name: :user_defined,
@@ -2787,9 +2789,11 @@ Below is an example for specifying a connection to a Firefox desktop web browser
 Below is an example for specifying a connection to a mobile Safari web browser running on an iPad on an unsupported hosting
 service:
 
+      # specify mobile platform, device type, and device name
       Environ.platform = :mobile
       Environ.device = :device
       Environ.device_name = device_name_from_chart
+      # instantiate a cloud hosted mobile browser on a device on an unsupported hosting service
       options = {
         driver: :custom,
         driver_name: :user_defined,
