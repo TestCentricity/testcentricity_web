@@ -52,6 +52,12 @@ RSpec::Core::RakeTask.new(:saucelabs_specs) do |t|
 end
 
 
+desc 'Run Custom User-defined WebDriver specs'
+RSpec::Core::RakeTask.new(:custom_webdriver_specs) do |t|
+  t.rspec_opts = '--tag custom'
+end
+
+
 desc 'Run Multiple Driver specs'
 RSpec::Core::RakeTask.new(:multi_driver_spec) do |t|
   t.rspec_opts = '--tag multi_driver_spec'
@@ -151,6 +157,7 @@ task all: [:required,
            :safari_local,
            :docker_grid_specs,
            :browserstack_specs,
+           :custom_webdriver_specs,
            :multi_driver_spec,
            :mobile]
 
@@ -164,6 +171,7 @@ end
 
 desc 'Build and release new version of gem'
 task :release do
+  ENV['COVERAGE'] = 'false'
   version = TestCentricityWeb::VERSION
   puts "Release version #{version} of TestCentricity Web gem, y/n?"
   exit(1) unless $stdin.gets.chomp == 'y'

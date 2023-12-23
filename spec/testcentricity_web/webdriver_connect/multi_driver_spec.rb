@@ -11,6 +11,18 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
   end
 
   context 'Connect to multiple locally hosted desktop and mobile web browsers' do
+    it 'raises exception when named driver cannot be found' do
+      # instantiate a locally hosted desktop Chrome browser
+      caps = {
+        capabilities: { browserName: :chrome },
+        driver_name: :my_chrome,
+        driver: :webdriver,
+        browser_size: [1100, 900]
+      }
+      WebDriverConnect.initialize_web_driver(caps)
+      expect {  WebDriverConnect.activate_driver(:emulated_iphone) }.to raise_error("Could not find a driver named 'emulated_iphone'")
+    end
+
     it 'connects to multiple desktop and emulated mobile browsers' do
       # instantiate a locally hosted emulated iPad browser
       caps = {

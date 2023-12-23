@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
     'changelog_uri' => 'https://github.com/TestCentricity/testcentricity_web/blob/main/CHANGELOG.md',
     'bug_tracker_uri' => 'https://github.com/TestCentricity/testcentricity_web/issues',
     'wiki_uri' => 'https://github.com/TestCentricity/testcentricity_web/wiki',
-    'documentation_uri' => 'https://www.rubydoc.info/gems/testcentricity_web/4.4.1'
+    'documentation_uri' => 'https://www.rubydoc.info/gems/testcentricity_web'
   }
 
   spec.files         = Dir.glob('lib/**/*') + %w[README.md CHANGELOG.md LICENSE.md .yardopts]
