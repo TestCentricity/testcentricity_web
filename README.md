@@ -2690,7 +2690,7 @@ When using the `options` hash, the following options and capabilities must be sp
         browserName: browser_name_from_chart,
         browserVersion: browser_version_from_chart,
         'LT:Options': {
-          userName: lt_account_user_name,
+          username: lt_account_user_name,
           accessKey: lt_account_access_key,
           platformName: platformName_from_chart
         }
@@ -2722,7 +2722,7 @@ test configuration options.
         browserVersion: '119.0',
         'LT:Options': {
           platformName: 'macOS Sonoma',
-          userName: ENV['LT_USERNAME'],
+          username: ENV['LT_USERNAME'],
           accessKey: ENV['LT_AUTHKEY'],
           project: 'ALP AP',
           build: "Test Build {ENV['BUILD_NUM']}",

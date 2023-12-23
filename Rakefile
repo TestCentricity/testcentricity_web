@@ -52,6 +52,12 @@ RSpec::Core::RakeTask.new(:saucelabs_specs) do |t|
 end
 
 
+desc 'Run LambdaTest specs'
+RSpec::Core::RakeTask.new(:lambdatest_specs) do |t|
+  t.rspec_opts = '--tag lambdatest'
+end
+
+
 desc 'Run Custom User-defined WebDriver specs'
 RSpec::Core::RakeTask.new(:custom_webdriver_specs) do |t|
   t.rspec_opts = '--tag custom'
@@ -139,7 +145,8 @@ task grid: [:docker_grid_specs, :grid_cukes]
 desc 'Run cloud service specs'
 task cloud_specs: [:browserstack_specs,
                    :saucelabs_specs,
-                   :testingbot_specs]
+                   :testingbot_specs,
+                   :lambdatest_specs]
 
 
 desc 'Run all specs'
