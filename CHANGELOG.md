@@ -2,7 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 
-## [4.4.2] - 22-DEC-2023
+## [4.4.3] - 24-DEC-2023
+
+### Changed
+* Changed Sauce Labs `DATA_CENTER` Environment Variable to `SL_DATA_CENTER`.
+
+
+## [4.4.2] - 23-DEC-2023
 
 ### Added
 * Added support for specifying and connecting to web browsers on unsupported cloud hosting services using `custom` user-
