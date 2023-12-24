@@ -8,7 +8,7 @@ RSpec.describe TestCentricity::WebDriverConnect, saucelabs: true do
     load_cloud_credentials
     # specify generic browser config environment variables
     ENV['DRIVER'] = 'saucelabs'
-    ENV['DATA_CENTER'] = 'us-west-1'
+    ENV['SL_DATA_CENTER'] = 'us-west-1'
     ENV['SL_VERSION'] = 'latest'
     ENV['SL_OS'] = 'macOS 13'
     ENV['AUTOMATE_PROJECT'] = 'TestCentricity Web - SauceLabs'
@@ -47,7 +47,7 @@ RSpec.describe TestCentricity::WebDriverConnect, saucelabs: true do
     let(:desktop_caps_hash) {
       {
         driver: :saucelabs,
-        endpoint: "https://#{ENV['SL_USERNAME']}:#{ENV['SL_AUTHKEY']}@ondemand.#{ENV['DATA_CENTER']}.saucelabs.com:443/wd/hub",
+        endpoint: "https://#{ENV['SL_USERNAME']}:#{ENV['SL_AUTHKEY']}@ondemand.#{ENV['SL_DATA_CENTER']}.saucelabs.com:443/wd/hub",
         browser_size: [1400, 1100],
         capabilities: {
           browserName: ENV['SL_BROWSER'],
