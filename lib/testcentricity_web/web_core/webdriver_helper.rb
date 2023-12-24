@@ -582,7 +582,7 @@ module TestCentricity
       end
       # specify endpoint url
       if @endpoint.nil?
-        @endpoint = "https://#{ENV['SL_USERNAME']}:#{ENV['SL_AUTHKEY']}@ondemand.#{ENV['DATA_CENTER']}.saucelabs.com:443/wd/hub"
+        @endpoint = "https://#{ENV['SL_USERNAME']}:#{ENV['SL_AUTHKEY']}@ondemand.#{ENV['SL_DATA_CENTER']}.saucelabs.com:443/wd/hub"
       end
       # define SauceLab options
       options = if @capabilities.nil?

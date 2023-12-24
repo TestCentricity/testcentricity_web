@@ -153,7 +153,7 @@ tb_edge_monterey:   --profile tb_macos_monterey TB_BROWSER="microsoftedge" TB_VE
 # profiles for remotely hosted web browsers on the SauceLabs service
 #==============
 
-saucelabs:  DRIVER=saucelabs DATA_CENTER="us-west-1" AUTOMATE_PROJECT="TestCentricity Web - SauceLabs"
+saucelabs:  DRIVER=saucelabs SL_DATA_CENTER="us-west-1" AUTOMATE_PROJECT="TestCentricity Web - SauceLabs"
 sl_desktop: --profile saucelabs <%= desktop %>
 sl_mobile:  --profile saucelabs <%= mobile %>
 

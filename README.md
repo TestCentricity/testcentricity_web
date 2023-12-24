@@ -2327,7 +2327,7 @@ the following **Environment Variables** must be set as described in the table be
 | `DRIVER`                 | Must be set to `saucelabs`                                                                                                 |
 | `SL_USERNAME`            | Must be set to your Sauce Labs account user name or email address                                                          |
 | `SL_AUTHKEY`             | Must be set to your Sauce Labs account access key                                                                          |
-| `DATA_CENTER`            | Must be set to your Sauce Labs account Data Center assignment (`us-west-1`, `eu-central-1`, `apac-southeast-1`)            |
+| `SL_DATA_CENTER`         | Must be set to your Sauce Labs account Data Center assignment (`us-west-1`, `eu-central-1`, `apac-southeast-1`)            |
 | `SL_OS`                  | Refer to `platformName` capability in the Config Script section of the Platform Configurator page                          |
 | `SL_BROWSER`             | Must be set to `chrome`, `firefox`, `safari`, `internetExplorer`, or `MicrosoftEdge`                                       |
 | `SL_VERSION`             | Refer to `browserVersion` capability in the Config Script section of the Platform Configurator page                        |
@@ -2363,11 +2363,11 @@ When using the `options` hash, the following options and capabilities must be sp
 
 ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
 
-`https://#{ENV['SL_USERNAME']}:#{ENV['SL_AUTHKEY']}@ondemand.#{ENV['DATA_CENTER']}.saucelabs.com:443/wd/hub`
+`https://#{ENV['SL_USERNAME']}:#{ENV['SL_AUTHKEY']}@ondemand.#{ENV['SL_DATA_CENTER']}.saucelabs.com:443/wd/hub`
 
 This default endpoint requires that the `SL_USERNAME` Environment Variable is set to your Sauce Labs account user name, the
-`SL_AUTHKEY` Environment Variable is set to your Sauce Labs access key, and the `DATA_CENTER` Environment Variable is set to
-your Sauce Labs account Data Center assignment (`us-west-1`, `eu-central-1`, `apac-southeast-1`).
+`SL_AUTHKEY` Environment Variable is set to your Sauce Labs access key, and the `SL_DATA_CENTER` Environment Variable is
+set to your Sauce Labs account Data Center assignment (`us-west-1`, `eu-central-1`, `apac-southeast-1`).
 
 Below is an example of an `options` hash for specifying a connection to the latest version of an Edge desktop web browser
 running on macOS Ventura hosted on Sauce Labs. The `options` hash includes options for specifying the driver name, setting
@@ -2418,7 +2418,7 @@ the following **Environment Variables** must be set as described in the table be
 | `DEVICE_TYPE`            | Must be set to `phone` or `tablet`                                                                              |
 | `SL_USERNAME`            | Must be set to your Sauce Labs account user name or email address                                               |
 | `SL_AUTHKEY`             | Must be set to your Sauce Labs account access key                                                               |
-| `DATA_CENTER`            | Must be set to your Sauce Labs account Data Center assignment (`us-west-1`, `eu-central-1`, `apac-southeast-1`) |
+| `SL_DATA_CENTER`         | Must be set to your Sauce Labs account Data Center assignment (`us-west-1`, `eu-central-1`, `apac-southeast-1`) |
 | `ORIENTATION`            | [Optional] Set to `PORTRAIT` or `LANDSCAPE`                                                                     |
 
 
@@ -2456,11 +2456,11 @@ When using the `options` hash, the following options and capabilities must be sp
 
 ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
 
-`https://#{ENV['SL_USERNAME']}:#{ENV['SL_AUTHKEY']}@ondemand.#{ENV['DATA_CENTER']}.saucelabs.com:443/wd/hub`
+`https://#{ENV['SL_USERNAME']}:#{ENV['SL_AUTHKEY']}@ondemand.#{ENV['SL_DATA_CENTER']}.saucelabs.com:443/wd/hub`
 
 This default endpoint requires that the `SL_USERNAME` Environment Variable is set to your Sauce Labs account user name, the
-`SL_AUTHKEY` Environment Variable is set to your Sauce Labs access key, and the `DATA_CENTER` Environment Variable is set to
-your Sauce Labs account Data Center assignment (`us-west-1`, `eu-central-1`, `apac-southeast-1`).
+`SL_AUTHKEY` Environment Variable is set to your Sauce Labs access key, and the `SL_DATA_CENTER` Environment Variable is
+set to your Sauce Labs account Data Center assignment (`us-west-1`, `eu-central-1`, `apac-southeast-1`).
 
 Below is an example of an `options` hash for specifying a connection to a mobile Safari web browser running on an iPad
 tablet hosted on Sauce Labs. The `options` hash includes options for specifying the driver name, and capabilities for setting
@@ -2993,7 +2993,7 @@ with access to your version control system.
     #          access to your version control system
     #==============
 
-    saucelabs:  DRIVER=saucelabs SL_USERNAME="<INSERT USER NAME HERE>" SL_AUTHKEY="<INSERT PASSWORD HERE>" DATA_CENTER="<INSERT DATA CENTER HERE"
+    saucelabs:  DRIVER=saucelabs SL_USERNAME="<INSERT USER NAME HERE>" SL_AUTHKEY="<INSERT PASSWORD HERE>" SL_DATA_CENTER="<INSERT DATA CENTER HERE"
     sl_desktop: --profile saucelabs <%= desktop %>
     sl_mobile:  --profile saucelabs <%= mobile %>
 
