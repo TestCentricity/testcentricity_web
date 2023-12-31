@@ -38,6 +38,19 @@ An example project that demonstrates the implementation of a page object model f
 can be found [here](https://github.com/TestCentricity/tc_web_sample).
 
 
+### Which gem should I use?
+
+* The TestCentricity **Web** gem only supports testing of web interfaces via desktop and mobile web browsers
+* The TestCentricity **Mobile** gem only supports testing of native iOS and/or Android mobile apps
+* The TestCentricity gem supports testing of native mobile apps and/or web interfaces via desktop and mobile web browsers.
+
+| Tested platforms                                   | TestCentricity Web | TestCentricity Mobile | TestCentricity |
+|----------------------------------------------------|--------------------|-----------------------|----------------|
+| Desktop/mobile web browsers only                   | Yes                | No                    | No             |
+| Native mobile iOS and/or Android apps only         | No                 | Yes                   | No             |
+| Native mobile apps and desktop/mobile web browsers | No                 | No                    | Yes            |
+
+
 ## Installation
 
 TestCentricity Web version 4.4 and above requires Ruby version 3.0.0 or later. To install the TestCentricity Web gem, add
@@ -1588,7 +1601,7 @@ When using the `options` hash, the following options and capabilities must be sp
     }
     WebDriverConnect.initialize_web_driver(options)
 ```
-ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+> ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
 `:local_<browserName>` - e.g. `:local_chrome` or `:local_edge_headless`.
 
 Below is an example of an `options` hash for specifying a connection to a locally hosted Firefox desktop web browser. The
@@ -1661,7 +1674,7 @@ You can run your tests against mobile device browsers that are emulated within a
 browser on macOS or Windows. The specified mobile browser's user agent, CSS screen dimensions, and default screen orientation
 will be automatically set within the local Chrome browser instance. You may also specify the emulated device's screen orientation.
 
-⚠️ For best results when testing against mobile web browsers, you should run your tests against iOS and Android simulators
+> ⚠️ For best results when testing against mobile web browsers, you should run your tests against iOS and Android simulators
 or physical devices, either hosted locally or via a remotely cloud hosted service.
 
 For locally hosted emulated mobile web browsers, the `WEB_BROWSER` Environment Variable must be set to one of the values
@@ -1748,7 +1761,7 @@ To change the emulated device's screen orientation from the default setting, set
     }
     WebDriverConnect.initialize_web_driver(options)
 
-ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+> ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
 `:local_<browserName>` - e.g. `:local_ipad_pro_12_9` or `:local_pixel_6`.
 
 Below is an example of an `options` hash for specifying a connection to a locally hosted emulated mobile Safari web browser
@@ -1845,10 +1858,10 @@ When using the `options` hash, the following options and capabilities must be sp
     }
     WebDriverConnect.initialize_web_driver(options)
 ```
-ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+>ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
 `:remote_<browserName>` - e.g. `:remote_chrome` or `:remote_edge_headless`.
-
-ℹ️ If an `endpoint:` is not specified in the `options`hash, then the default remote endpoint URL of `http://localhost:4444/wd/hub`
+> 
+> ℹ️ If an `endpoint:` is not specified in the `options`hash, then the default remote endpoint URL of `http://localhost:4444/wd/hub`
 will be used.
 
 Below is an example of an `options` hash for specifying a connection to a grid hosted Chrome desktop web browser. The
@@ -1939,10 +1952,10 @@ When using the `options` hash, the following options and capabilities must be sp
     }
     WebDriverConnect.initialize_web_driver(options)
 ```
-ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+> ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
 `appium_safari`.
-
-ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL of `http://localhost:4723/wd/hub`
+> 
+> ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL of `http://localhost:4723/wd/hub`
 will be used.
 
 Below is an example of an `options` hash for specifying a connection to a locally hosted mobile Safari web browser running
@@ -1969,7 +1982,8 @@ orientation to portrait mode.
 
 You can run your mobile web tests against the mobile Chrome or Android browser on emulated Android devices using Appium and
 Android Studio on macOS. You must install Android Studio, the desired Android version-specific virtual device emulators, and
-Appium. Refer to [this page](https://appium.io/docs/en/2.2/quickstart/uiauto2-driver/) for information on configuring Appium to work with the Android SDK.
+Appium. Refer to [this page](https://appium.io/docs/en/2.2/quickstart/uiauto2-driver/) for information on configuring Appium to work with the Android SDK. Refer to [this page](https://github.com/appium/appium-uiautomator2-driver)
+for information regarding specifying  Appium capabilities that are specific to the UiAutomator2 driver.
 
 The Appium server must be running prior to invoking Cucumber to run your features/scenarios. Refer to [**section 8.6.3 (Starting and Stopping Appium Server)**](#starting-and-stopping-appium-server) below.
 
@@ -2025,10 +2039,10 @@ When using the `options` hash, the following options and capabilities must be sp
     }
     WebDriverConnect.initialize_web_driver(options)
 ```
-ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+> ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
 `appium_chrome`.
-
-ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL of `http://localhost:4723/wd/hub`
+> 
+> ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL of `http://localhost:4723/wd/hub`
 will be used.
 
 Below is an example of an `options` hash for specifying a connection to a locally hosted mobile Chrome web browser running
@@ -2120,9 +2134,9 @@ method upon completion of your test suite to stop the Local instance. Place the 
 
 #### Remote Desktop Browsers on the BrowserStack Service
 
-For remotely hosted desktop web browsers on the BrowserStack service, refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities?tag=selenium-4)
+For remotely hosted desktop web browsers on the BrowserStack service, refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/docs/automate/capabilities)
 for information regarding the options and capabilities available for the various supported desktop operating systems and
-web browsers.
+web browsers. Select the **Legacy** Integration method tab and the **W3C Protocol** tab on the capabilities page.
 
 ##### BrowserStack Desktop Browser using Environment Variables
 
@@ -2172,12 +2186,12 @@ When using the `options` hash, the following options and capabilities must be sp
     }
     WebDriverConnect.initialize_web_driver(options)
 ```
-ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+> ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
 `:browserstack_<browserName>` - e.g. `:browserstack_chrome` or `:browserstack_safari`.
-
-ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
-
-`https://#{ENV['BS_USERNAME']}:#{ENV['BS_AUTHKEY']}@hub-cloud.browserstack.com/wd/hub`
+> 
+> ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
+> 
+> `https://#{ENV['BS_USERNAME']}:#{ENV['BS_AUTHKEY']}@hub-cloud.browserstack.com/wd/hub`
 
 This default endpoint requires that the `BS_USERNAME` Environment Variable is set to your BrowserStack account user name and
 the `BS_AUTHKEY` Environment Variable is set to your BrowserStack access key.
@@ -2216,9 +2230,9 @@ test configuration options.
 
 #### Remote Mobile Browsers on the BrowserStack Service
 
-For remotely hosted mobile web browsers on the BrowserStack service, refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/automate/capabilities?tag=selenium-4)
+For remotely hosted mobile web browsers on the BrowserStack service, refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/docs/automate/capabilities)
 for information regarding the options and capabilities available for the various supported mobile operating systems, devices,
-and web browsers.
+and web browsers. Select the **Legacy** Integration method tab and the **W3C Protocol** tab on the capabilities page.
 
 ##### BrowserStack Mobile Browser using Environment Variables
 
@@ -2269,12 +2283,12 @@ When using the `options` hash, the following options and capabilities must be sp
     }
     WebDriverConnect.initialize_web_driver(options)
 ```
-ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+> ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
 `:browserstack_<browserName>` - e.g. `:browserstack_chrome` or `:browserstack_safari`.
-
-ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
-
-`https://#{ENV['BS_USERNAME']}:#{ENV['BS_AUTHKEY']}@hub-cloud.browserstack.com/wd/hub`
+> 
+> ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
+>
+> `https://#{ENV['BS_USERNAME']}:#{ENV['BS_AUTHKEY']}@hub-cloud.browserstack.com/wd/hub`
 
 This default endpoint requires that the `BS_USERNAME` Environment Variable is set to your BrowserStack account user name and
 the `BS_AUTHKEY` Environment Variable is set to your BrowserStack access key.
@@ -2358,12 +2372,12 @@ When using the `options` hash, the following options and capabilities must be sp
     }
     WebDriverConnect.initialize_web_driver(options)
 ```
-ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+> ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
 `:saucelabs_<browserName>` - e.g. `:saucelabs_chrome` or `:saucelabs_safari`.
-
-ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
-
-`https://#{ENV['SL_USERNAME']}:#{ENV['SL_AUTHKEY']}@ondemand.#{ENV['SL_DATA_CENTER']}.saucelabs.com:443/wd/hub`
+>
+> ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
+>
+> `https://#{ENV['SL_USERNAME']}:#{ENV['SL_AUTHKEY']}@ondemand.#{ENV['SL_DATA_CENTER']}.saucelabs.com:443/wd/hub`
 
 This default endpoint requires that the `SL_USERNAME` Environment Variable is set to your Sauce Labs account user name, the
 `SL_AUTHKEY` Environment Variable is set to your Sauce Labs access key, and the `SL_DATA_CENTER` Environment Variable is
@@ -2451,12 +2465,12 @@ When using the `options` hash, the following options and capabilities must be sp
     }
     WebDriverConnect.initialize_web_driver(options)
 ```
-ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+> ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
 `:saucelabs_<browserName>` - e.g. `:saucelabs_chrome` or `:saucelabs_safari`.
-
-ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
-
-`https://#{ENV['SL_USERNAME']}:#{ENV['SL_AUTHKEY']}@ondemand.#{ENV['SL_DATA_CENTER']}.saucelabs.com:443/wd/hub`
+> 
+> ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
+> 
+> `https://#{ENV['SL_USERNAME']}:#{ENV['SL_AUTHKEY']}@ondemand.#{ENV['SL_DATA_CENTER']}.saucelabs.com:443/wd/hub`
 
 This default endpoint requires that the `SL_USERNAME` Environment Variable is set to your Sauce Labs account user name, the
 `SL_AUTHKEY` Environment Variable is set to your Sauce Labs access key, and the `SL_DATA_CENTER` Environment Variable is
@@ -2532,12 +2546,12 @@ When using the `options` hash, the following options and capabilities must be sp
     }
     WebDriverConnect.initialize_web_driver(options)
 ```
-ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+> ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
 `:testingbot_<browserName>` - e.g. `:testingbot_chrome` or `:testingbot_microsoftedge`.
-
-ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
-
-`https://#{ENV['TB_USERNAME']}:#{ENV['TB_AUTHKEY']}@hub.testingbot.com/wd/hub`
+> 
+> ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
+> 
+> `https://#{ENV['TB_USERNAME']}:#{ENV['TB_AUTHKEY']}@hub.testingbot.com/wd/hub`
 
 This default endpoint requires that the `TB_USERNAME` Environment Variable is set to your TestingBot account user name and
 the `TB_AUTHKEY` Environment Variable is set to your TestingBot access key.
@@ -2616,12 +2630,12 @@ When using the `options` hash, the following options and capabilities must be sp
     }
     WebDriverConnect.initialize_web_driver(options)
 ```
-ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+> ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
 `:testingbot_<browserName>` - e.g. `:testingbot_chrome` or `:testingbot_safari`.
-
-ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
-
-`https://#{ENV['TB_USERNAME']}:#{ENV['TB_AUTHKEY']}@hub.testingbot.com/wd/hub`
+> 
+> ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
+> 
+> `https://#{ENV['TB_USERNAME']}:#{ENV['TB_AUTHKEY']}@hub.testingbot.com/wd/hub`
 
 This default endpoint requires that the `TB_USERNAME` Environment Variable is set to your TestingBot account user name and
 the `TB_AUTHKEY` Environment Variable is set to your TestingBot access key.
@@ -2698,12 +2712,12 @@ When using the `options` hash, the following options and capabilities must be sp
     }
     WebDriverConnect.initialize_web_driver(options)
 ```
-ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+> ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
 `:lambdatest_<browserName>` - e.g. `:lambdatest_chrome` or `:lambdatest_safari`.
-
+> 
 ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL will be set to the following:
-
-`https://#{ENV['LT_USERNAME']}:#{ENV['LT_AUTHKEY']}@hub.lambdatest.com/wd/hub`
+> 
+> `https://#{ENV['LT_USERNAME']}:#{ENV['LT_AUTHKEY']}@hub.lambdatest.com/wd/hub`
 
 This default endpoint requires that the `LT_USERNAME` Environment Variable is set to your LambdaTest account user name and
 the `LT_AUTHKEY` Environment Variable is set to your LambdaTest access key.
@@ -2760,7 +2774,7 @@ All other required capabilities specified by the hosting service configuration d
     }
     WebDriverConnect.initialize_web_driver(options)
 
-ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
+> ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
 `:custom_<browserName>` - e.g. `:custom_chrome` or `:custom_safari`.
 
 Prior to calling the `TestCentricity::WebDriverConnect.initialize_web_driver` method, you must set `Environ.platform` to
@@ -2842,7 +2856,7 @@ these in in your`cucumber.yml` file). Before you can use the BrowserStack, Sauce
 you will need to replace the *INSERT USER NAME HERE* and *INSERT PASSWORD HERE* placeholder text with your user account
 and authorization code for the cloud service(s) that you intend to connect with.
 
-⚠️ Cloud service credentials should not be stored as text in your `cucumber.yml` file where it can be exposed by anyone
+> ⚠️ Cloud service credentials should not be stored as text in your `cucumber.yml` file where it can be exposed by anyone
 with access to your version control system.
 
 
@@ -3126,7 +3140,7 @@ area sub-folders as needed. Likewise, `PageSection` class definitions should be 
 ---
 ## Copyright and License
 
-TestCentricity™ Framework is Copyright (c) 2014-2023, Tony Mrozinski.
+TestCentricity™ Framework is Copyright (c) 2014-2024, Tony Mrozinski.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following
