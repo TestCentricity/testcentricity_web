@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.4.4] - 08-JAN-2024
+
+### Fixed
+* `List.get_list_item` no longer returns `nil`.
+
+
 ## [4.4.3] - 24-DEC-2023
 
 ### Changed

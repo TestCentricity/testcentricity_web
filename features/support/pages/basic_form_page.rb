@@ -336,7 +336,9 @@ class BasicFormPage < BaseTestPage
         visible: true,
         enabled: true,
         itemcount: 3,
-        items: ['Open Media Page in same window/tab', 'Open Media Page in a new window/tab', 'Disabled Link']
+        items: ['Open Media Page in same window/tab', 'Open Media Page in a new window/tab', 'Disabled Link'],
+        { item: 1 } => ['Open Media Page in same window/tab'],
+        { item: 3 } => ['Disabled Link']
       },
       link_1 => {
         visible: true,
