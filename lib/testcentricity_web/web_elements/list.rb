@@ -90,7 +90,7 @@ module TestCentricity
         item.delete!("\n")
         item.delete!("\r")
         item.delete!("\t")
-        item.strip!
+        item
       end
 
       # Return the number of items in a list object.
