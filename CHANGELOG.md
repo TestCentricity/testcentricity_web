@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.4.5] - 10-JAN-2024
+
+### Fixed
+* `UIElement.find_object` no longer raises `Selenium::WebDriver::Error::StaleElementReferenceError` when testing with
+multiple WebDriver instances.
+* `DataPresenter.initialize` no longer fails if `data` parameter is `nil`.
+
+
 ## [4.4.4] - 08-JAN-2024
 
 ### Fixed

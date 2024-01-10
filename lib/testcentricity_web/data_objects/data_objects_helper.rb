@@ -41,7 +41,7 @@ module TestCentricity
     attr_accessor :context
 
     def initialize(data)
-      self.attributes = data
+      self.attributes = data unless data.nil?
     end
 
     def self.current

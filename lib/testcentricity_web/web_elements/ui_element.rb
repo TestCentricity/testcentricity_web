@@ -46,7 +46,7 @@ module TestCentricity
       attr_reader   :parent, :locator, :context, :type, :name
       attr_accessor :alt_locator, :locator_type, :original_style
       attr_accessor :base_object
-      attr_accessor :mru_object, :mru_locator, :mru_parent
+      attr_accessor :mru_object, :mru_locator, :mru_parent, :mru_driver
 
       XPATH_SELECTORS = ['//', '[@', '[contains(']
       CSS_SELECTORS   = %w[# :nth-child( :first-child :last-child :nth-of-type( :first-of-type :last-of-type ^= $= *= :contains(]
@@ -67,6 +67,7 @@ module TestCentricity
         @mru_object = nil
         @mru_locator = nil
         @mru_parent = nil
+        @mru_driver = nil
       end
 
       def set_locator_type(locator = nil)
@@ -1072,6 +1073,7 @@ module TestCentricity
       private
 
       def find_object(visible = true)
+        reset_mru_cache if @mru_driver != Environ.driver_name
         obj_locator = @alt_locator.nil? ? @locator : @alt_locator
         parent_section = @context == :section && !@parent.get_locator.nil?
         tries ||= parent_section ? 2 : 1
@@ -1102,6 +1104,7 @@ module TestCentricity
         @mru_object = obj
         @mru_locator = obj_locator
         @mru_parent = parent_locator
+        @mru_driver = Environ.driver_name
         [obj, @locator_type]
       rescue StandardError
         retry if (tries -= 1).positive?
