@@ -122,7 +122,7 @@ module TestCentricity
     #
     # @return [Integer]
     def self.num_drivers
-      @drivers.length
+      @drivers.nil? ? 0 : @drivers.length
     end
 
     # Close all browsers and terminate all driver instances
