@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.4.6] - 12-JAN-2024
+
+### Fixed
+* `WebDriverConnect.num_drivers` no longer raises exception if called before any WebDrivers have been instantiated.
+
+
 ## [4.4.5] - 10-JAN-2024
 
 ### Fixed

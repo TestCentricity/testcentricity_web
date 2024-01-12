@@ -5,6 +5,10 @@ RSpec.describe TestCentricity::WebDriverConnect, required: true do
 
   context 'Connect to locally hosted desktop web browsers using W3C desired_capabilities hash' do
     context 'local web browser instances' do
+      it 'num_drivers returns 0 when no WebDrivers have been instantiated' do
+        expect(WebDriverConnect.num_drivers).to eq(0)
+      end
+
       it 'raises exception when no capabilities defined' do
         caps = {
           capabilities: { browserName: :firefox },
@@ -28,6 +32,7 @@ RSpec.describe TestCentricity::WebDriverConnect, required: true do
         }
         WebDriverConnect.initialize_web_driver(caps)
         verify_local_browser(browser = :firefox, platform = :desktop, headless = false)
+        expect(WebDriverConnect.num_drivers).to eq(1)
       end
 
       it 'connects to a local Safari browser' do
