@@ -9,6 +9,10 @@ RSpec.describe TestCentricity::WebDriverConnect, required: true do
         expect(WebDriverConnect.num_drivers).to eq(0)
       end
 
+      it 'driver_exists? returns false when no named driver exists' do
+        expect(WebDriverConnect.driver_exists?('non_existent_driver')).to eq(false)
+      end
+
       it 'raises exception when no capabilities defined' do
         caps = {
           capabilities: { browserName: :firefox },
@@ -227,6 +231,8 @@ RSpec.describe TestCentricity::WebDriverConnect, required: true do
     expect(Environ.is_web?).to eq(true)
     expect(Environ.grid).to eq(nil)
     driver_name = "local_#{Environ.browser}".downcase.to_sym if driver_name.nil?
+    expect(Environ.driver_name).to eq(driver_name)
     expect(Capybara.current_driver).to eq(driver_name)
+    expect(WebDriverConnect.driver_exists?(driver_name)).to eq(true)
   end
 end

@@ -257,6 +257,7 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
     expect(Environ.is_web?).to eq(true)
     expect(Environ.grid).to eq(nil)
     driver_name = "local_#{Environ.browser}".downcase.to_sym if driver_name.nil?
+    expect(Environ.driver_name).to eq(driver_name)
     expect(Capybara.current_driver).to eq(driver_name)
   end
 
@@ -280,6 +281,7 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
       expect(Environ.is_android?).to eq(true)
     end
     driver_name = "appium_#{Environ.browser}".downcase.to_sym if driver_name.nil?
+    expect(Environ.driver_name).to eq(driver_name)
     expect(Capybara.current_driver).to eq(driver_name)
   end
 
