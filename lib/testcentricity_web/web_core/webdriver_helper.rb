@@ -109,13 +109,23 @@ module TestCentricity
       @drivers[Environ.driver_name] = Environ.driver_state
     end
 
-    def self.activate_driver(driver_name)
-      driver_state = @drivers[driver_name]
-      raise "Could not find a driver named '#{driver_name}'" if driver_state.nil?
+    def self.driver_exists?(driver_name)
+      if @drivers.nil?
+        false
+      else
+        driver_state = @drivers[driver_name]
+        !driver_state.nil?
+      end
+    end
+
+    def self.activate_driver(name)
+      driver_state = @drivers[name]
+      raise "Could not find a driver named '#{name}'" if driver_state.nil?
 
       Environ.restore_driver_state(driver_state)
-      Capybara.current_driver = driver_name
-      Capybara.default_driver = driver_name
+      Capybara.current_driver = name
+      Capybara.default_driver = name
+      Environ.driver_name = name
     end
 
     # Return the number of driver instances
@@ -127,6 +137,7 @@ module TestCentricity
 
     # Close all browsers and terminate all driver instances
     def self.close_all_drivers
+      return if @drivers.nil?
       @drivers.each do |key, _value|
         Environ.restore_driver_state(@drivers[key])
         Capybara.current_driver = key

@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.4.7] - 13-JAN-2024
+
+### Fixed
+* `WebDriverConnect.activate_driver` now correctly sets `Environ.driver_name` to name of activated WebDriver instance.
+* `WebDriverConnect.close_all_drivers` no longer raises exception if called before any WebDrivers have been instantiated.
+
+### Added
+* Added `WebDriverConnect.driver_exists?` method.
+
 ## [4.4.6] - 12-JAN-2024
 
 ### Fixed
