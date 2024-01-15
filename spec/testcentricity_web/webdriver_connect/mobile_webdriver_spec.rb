@@ -18,8 +18,8 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
         device_type: :tablet,
         endpoint: 'http://localhost:4723/wd/hub',
         capabilities: {
-          platformName: 'ios',
-          browserName: 'Safari',
+          platformName: :ios,
+          browserName: :safari,
           'appium:platformVersion': '15.4',
           'appium:deviceName': 'iPad Pro (12.9-inch) (5th generation)',
           'appium:automationName': 'XCUITest',
@@ -38,8 +38,8 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
         driver: :appium,
         device_type: :tablet,
         capabilities: {
-          platformName: 'Android',
-          browserName: 'Chrome',
+          platformName: :android,
+          browserName: :chrome,
           'appium:platformVersion': '12.0',
           'appium:deviceName': 'Pixel_C_API_31',
           'appium:avd': 'Pixel_C_API_31',
@@ -61,8 +61,8 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
         device_type: :tablet,
         driver_name: :my_custom_ios_driver,
         capabilities: {
-          platformName: 'ios',
-          browserName: 'Safari',
+          platformName: :ios,
+          browserName: :safari,
           'appium:platformVersion': '15.4',
           'appium:deviceName': 'iPad Pro (12.9-inch) (5th generation)',
           'appium:automationName': 'XCUITest',
@@ -83,8 +83,8 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
         device_type: :tablet,
         driver_name: :my_custom_android_driver,
         capabilities: {
-          platformName: 'Android',
-          browserName: 'Chrome',
+          platformName: :android,
+          browserName: :chrome,
           'appium:platformVersion': '12.0',
           'appium:deviceName': 'Pixel_C_API_31',
           'appium:avd': 'Pixel_C_API_31',

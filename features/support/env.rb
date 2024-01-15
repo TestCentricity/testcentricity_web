@@ -45,9 +45,20 @@ include WorldPages
 WorldPages.instantiate_page_objects
 
 # establish connection to target web browser
-url = if Environ.test_environment == :local
+site_url = if Environ.test_environment == :local
         "file://#{File.dirname(__FILE__)}/../../test_site"
       else
         Environ.current.app_host
       end
-WebDriverConnect.initialize_web_driver({ app_host: url })
+caps = if ENV['W3C_CAPS']
+         capabilities.find_capabilities(ENV['W3C_CAPS'])
+         {
+           device_type: :tablet,
+           driver: :appium,
+           app_host: site_url,
+           capabilities: Capabilities.current.caps
+         }
+       else
+         { app_host: site_url }
+       end
+WebDriverConnect.initialize_web_driver(caps)

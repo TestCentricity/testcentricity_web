@@ -18,3 +18,22 @@ Form_data:
     check2: true
     check3: true
     radio_select: 3
+
+Capabilities:
+  iPad:
+    -
+      :platformName: :ios
+      :browserName: :safari
+      :'appium:platformVersion': '15.4'
+      :'appium:deviceName': 'iPad Pro (12.9-inch) (5th generation)'
+      :'appium:automationName': 'XCUITest'
+      :'appium:orientation': 'PORTRAIT'
+  android_tablet:
+    -
+      :platformName: :android
+      :browserName: :chrome
+      :'appium:platformVersion': '12.0'
+      :'appium:deviceName': 'Pixel_C_API_31'
+      :'appium:avd': 'Pixel_C_API_31'
+      :'appium:automationName': 'UiAutomator2'
+      :'appium:chromedriverExecutable': '/Users/Shared/config/webdrivers/chromedriver'

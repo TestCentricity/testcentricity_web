@@ -115,12 +115,13 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
         device_type: :tablet,
         endpoint: 'http://localhost:4723/wd/hub',
         capabilities: {
-          platformName: 'ios',
-          browserName: 'Safari',
+          platformName: :ios,
+          browserName: :safari,
           'appium:platformVersion': '15.4',
           'appium:deviceName': 'iPad Pro (12.9-inch) (5th generation)',
           'appium:automationName': 'XCUITest',
-          'appium:orientation': 'LANDSCAPE'
+          'appium:orientation': 'LANDSCAPE',
+          'appium:newCommandTimeout': 30
         }
       }
       WebDriverConnect.initialize_web_driver(caps)
@@ -151,11 +152,12 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
         driver_name: :my_iphone,
         device_type: :phone,
         capabilities: {
-          platformName: 'ios',
-          browserName: 'Safari',
+          platformName: :ios,
+          browserName: :safari,
           'appium:platformVersion': '15.4',
           'appium:deviceName': 'iPhone 13 Pro Max',
-          'appium:automationName': 'XCUITest'
+          'appium:automationName': 'XCUITest',
+          'appium:newCommandTimeout': 30
         }
       }
       WebDriverConnect.initialize_web_driver(caps)
@@ -166,8 +168,8 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
         driver_name: :my_android_tablet,
         device_type: :tablet,
         capabilities: {
-          platformName: 'Android',
-          browserName: 'Chrome',
+          platformName: :android,
+          browserName: :chrome,
           'appium:platformVersion': '12.0',
           'appium:deviceName': 'Pixel_C_API_31',
           'appium:avd': 'Pixel_C_API_31',
@@ -185,12 +187,13 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
         device_type: :tablet,
         endpoint: 'http://localhost:4723/wd/hub',
         capabilities: {
-          platformName: 'ios',
-          browserName: 'Safari',
+          platformName: :ios,
+          browserName: :safari,
           'appium:platformVersion': '15.4',
           'appium:deviceName': 'iPad Pro (12.9-inch) (5th generation)',
           'appium:automationName': 'XCUITest',
-          'appium:orientation': 'PORTRAIT'
+          'appium:orientation': 'PORTRAIT',
+          'appium:newCommandTimeout': 30
         }
       }
       WebDriverConnect.initialize_web_driver(caps)
@@ -201,8 +204,8 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
         driver_name: :my_android_phone,
         device_type: :phone,
         capabilities: {
-          platformName: 'Android',
-          browserName: 'Chrome',
+          platformName: :android,
+          browserName: :chrome,
           'appium:platformVersion': '12.0',
           'appium:deviceName': 'Pixel_5_API_31',
           'appium:avd': 'Pixel_5_API_31',

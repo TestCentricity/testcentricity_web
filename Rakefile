@@ -78,13 +78,13 @@ end
 
 desc 'Run Cucumber features on iOS simulator'
 Cucumber::Rake::Task.new(:ios_remote) do |t|
-  t.profile = 'ios_remote'
+  t.profile = 'ios_caps_remote'
 end
 
 
 desc 'Run Cucumber features on Android simulator'
 Cucumber::Rake::Task.new(:android_remote) do |t|
-  t.profile = 'android_remote'
+  t.profile = 'android_caps_remote'
 end
 
 

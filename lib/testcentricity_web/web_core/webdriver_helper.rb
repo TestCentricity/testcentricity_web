@@ -65,7 +65,7 @@ module TestCentricity
       context = case Environ.driver
                 when :appium
                   initialize_appium
-                  'Appium'
+                  "#{Environ.device_os} #{Environ.device_type} #{Environ.device} on Appium"
                 when :webdriver
                   initialize_local_browser
                   'local browser instance'
