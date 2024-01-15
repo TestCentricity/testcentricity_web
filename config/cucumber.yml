@@ -27,7 +27,7 @@ parallel: PARALLEL=true REPORTING=true --require features --format pretty --form
 local:   TEST_ENVIRONMENT=LOCAL
 chrome:  WEB_BROWSER=chrome DATA_SOURCE=yaml <%= desktop %>
 edge:    WEB_BROWSER=edge DATA_SOURCE=json <%= desktop %>
-safari:  WEB_BROWSER=safari DATA_SOURCE=Excel <%= desktop %>
+safari:  WEB_BROWSER=safari DATA_SOURCE=json <%= desktop %>
 firefox: WEB_BROWSER=firefox <%= desktop %>
 
 chrome_local:  --profile local --profile chrome
@@ -86,6 +86,7 @@ ipad_pro_12_15_sim: --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro
 ipad_air_15_sim:    --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="iPad Air (5th generation)" <%= desktop %>
 
 ios_remote: --profile ipad_pro_12_15_sim --profile run_appium ORIENTATION=portrait TEST_ENVIRONMENT=REMOTE
+ios_caps_remote: W3C_CAPS=iPad --profile run_appium TEST_ENVIRONMENT=REMOTE <%= mobile %>
 
 
 #==============
@@ -98,6 +99,7 @@ app_android_12:    --profile appium_android APP_BROWSER="Chrome" APP_VERSION="12
 pixel_c_api31_sim: --profile app_android_12 DEVICE_TYPE=tablet APP_DEVICE="Pixel_C_API_31"
 
 android_remote: --profile pixel_c_api31_sim --profile run_appium ORIENTATION=portrait TEST_ENVIRONMENT=REMOTE
+android_caps_remote: W3C_CAPS=android_tablet --profile run_appium TEST_ENVIRONMENT=REMOTE <%= mobile %>
 
 
 #==============
