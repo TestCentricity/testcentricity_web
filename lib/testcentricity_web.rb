@@ -16,7 +16,6 @@ require 'testcentricity_web/web_core/webdriver_helper'
 
 require 'testcentricity_web/data_objects/data_objects_helper'
 require 'testcentricity_web/data_objects/environment'
-require 'testcentricity_web/data_objects/excel_helper'
 
 require 'testcentricity_web/web_elements/ui_element'
 require 'testcentricity_web/web_elements/button'
