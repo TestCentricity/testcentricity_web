@@ -13,6 +13,6 @@ class Capabilities < TestCentricity::DataPresenter
   attribute :caps
 
   def initialize(data)
-    @caps = data[0]
+    @caps = data
   end
 end
