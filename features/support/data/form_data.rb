@@ -1,14 +1,6 @@
-class FormDataSource < TestCentricity::ExcelDataSource
+class FormDataSource < TestCentricity::DataSource
   def read_form_data
-    form_data = case ENV['DATA_SOURCE'].downcase.to_sym
-                  when :excel
-                    read_excel_row_data('Form_data', 'primary')
-                  when :yaml, :json
-                    environs.read('Form_data', 'primary')
-                  else
-                    raise "#{ENV['DATA_SOURCE']} is not a valid data source"
-                end
-    FormData.current = FormData.new(form_data)
+    FormData.current = FormData.new(environs.read('Form_data', 'primary'))
   end
 
   def map_form_data(form_data)

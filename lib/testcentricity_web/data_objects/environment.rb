@@ -1,15 +1,13 @@
 module TestCentricity
-  class EnvironData < TestCentricity::ExcelDataSource
+  class EnvironData < TestCentricity::DataSource
     attr_accessor	:current
     attr_accessor	:generic_data
     attr_accessor	:environ_specific_data
 
-    def self.find_environ(environ_name, source_type = :excel)
+    def self.find_environ(environ_name, source_type = :yaml)
       raise 'No environment specified' if environ_name.nil?
 
       data = case source_type
-             when :excel
-               ExcelData.read_row_data(XL_PRIMARY_DATA_FILE, 'Environments', environ_name)
              when :yaml
                # read generic test data from data.yml file
                @generic_data ||= YAML.load_file(YML_PRIMARY_DATA_FILE)
@@ -36,6 +34,8 @@ module TestCentricity
                                         end
 
                read('Environments', environ_name)
+             else
+               raise "#{source_type} is not a supported data source type"
              end
       @current = Environ.new(data)
       Environ.current = @current
@@ -379,7 +379,7 @@ module TestCentricity
     end
 
     def self.driver_name=(name)
-      name = name.downcase.to_sym if name.is_a?(String)
+      name = name.gsub(/\s+/, '_').downcase.to_sym if name.is_a?(String)
       @driver_name = name
     end
 
@@ -480,8 +480,8 @@ module TestCentricity
     end
 
     def self.report_header
-      report_header = "\n<b><u>TEST ENVIRONMENT</u>:</b> #{ENV['TEST_ENVIRONMENT']}\n"\
-      "  <b>Browser:</b>\t #{@browser.capitalize}\n"
+      report_header = "\n<b><u>TEST ENVIRONMENT</u>:</b> #{ENV['TEST_ENVIRONMENT']}\n"
+      report_header = "#{report_header}  <b>Browser:</b>\t #{@browser.capitalize}\n" if @browser
       report_header = "#{report_header}  <b>Device:</b>\t #{@device_name}\n" if @device_name
       report_header = "#{report_header}  <b>Device OS:</b>\t #{@device_os} #{@device_os_version}\n" if @device_os
       report_header = "#{report_header}  <b>Device type:</b>\t #{@device_type}\n" if @device_type

@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.5.0] - 16-JAN-2024
+
+### Removed
+* Support for test data assets stored in Excel `.xls` has been removed because `.xls` files cannot be properly tracked
+and diffed by source control tools like git.
+* `ExcelData` and `ExcelDataSource` classes removed.
+* Removed dependence on `spreadsheet` gem.
+
+
 ## [4.4.7] - 13-JAN-2024
 
 ### Fixed
