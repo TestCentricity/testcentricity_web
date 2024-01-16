@@ -52,12 +52,7 @@ site_url = if Environ.test_environment == :local
       end
 caps = if ENV['W3C_CAPS']
          capabilities.find_capabilities(ENV['W3C_CAPS'])
-         {
-           device_type: :tablet,
-           driver: :appium,
-           app_host: site_url,
-           capabilities: Capabilities.current.caps
-         }
+         { app_host: site_url }.merge(Capabilities.current.caps)
        else
          { app_host: site_url }
        end

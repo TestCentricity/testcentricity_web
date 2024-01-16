@@ -21,7 +21,9 @@ Form_data:
 
 Capabilities:
   iPad:
-    -
+    :device_type: :tablet
+    :driver: :appium
+    :capabilities:
       :platformName: :ios
       :browserName: :safari
       :'appium:platformVersion': '15.4'
@@ -29,7 +31,9 @@ Capabilities:
       :'appium:automationName': 'XCUITest'
       :'appium:orientation': 'PORTRAIT'
   android_tablet:
-    -
+    :device_type: :tablet
+    :driver: :appium
+    :capabilities:
       :platformName: :android
       :browserName: :chrome
       :'appium:platformVersion': '12.0'
