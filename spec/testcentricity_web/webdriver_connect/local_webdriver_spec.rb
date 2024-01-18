@@ -37,6 +37,7 @@ RSpec.describe TestCentricity::WebDriverConnect, required: true do
         WebDriverConnect.initialize_web_driver(caps)
         verify_local_browser(browser = :firefox, platform = :desktop, headless = false)
         expect(WebDriverConnect.num_drivers).to eq(1)
+        expect(WebDriverConnect.driver_exists?('local firefox')).to eq(true)
       end
 
       it 'connects to a local Safari browser' do

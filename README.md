@@ -1493,6 +1493,7 @@ method. Valid `driver:` type values are listed in the table below:
 | `:saucelabs`    | remote browser hosted on Sauce Labs                                                        |
 | `:testingbot`   | remote browser hosted on TestingBot                                                        |
 | `:lambdatest`   | remote browser hosted on LambdaTest                                                        |
+| `:custom`       | remote browser hosted on unsupported cloud based browser hosting services                  |
 
 #### Specifying a Driver Name
 
