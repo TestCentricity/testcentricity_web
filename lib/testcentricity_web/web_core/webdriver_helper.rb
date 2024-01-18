@@ -113,12 +113,16 @@ module TestCentricity
       if @drivers.nil?
         false
       else
+        driver_name = driver_name.gsub(/\s+/, '_').downcase.to_sym if driver_name.is_a?(String)
         driver_state = @drivers[driver_name]
         !driver_state.nil?
       end
     end
 
     def self.activate_driver(name)
+      name = name.gsub(/\s+/, '_').downcase.to_sym if name.is_a?(String)
+      return if Environ.driver_name == name
+
       driver_state = @drivers[name]
       raise "Could not find a driver named '#{name}'" if driver_state.nil?
 

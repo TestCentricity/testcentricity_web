@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.5.1] - 18-JAN-2024
+
+### Fixed
+* `WebDriverConnect.driver_exists?` and `activate_driver` methods now convert string passed as a driver name to a symbol
+with lower case letters and spaces replaced with underscores, which is how `WebDriverConnect.initialize_web_driver` saves
+the driver name.
+
+
 ## [4.5.0] - 16-JAN-2024
 
 ### Removed
