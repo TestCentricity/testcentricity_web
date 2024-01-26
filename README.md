@@ -1906,7 +1906,7 @@ the following **Environment Variables** must be set as described in the table be
 | `APP_VERSION`              | Must be set to which ever iOS version you wish to run within the XCode Simulator                                                                                      |
 | `APP_DEVICE`               | Set to iOS device name supported by the iOS Simulator (`iPhone 13 Pro Max`, `iPad Pro (12.9-inch) (5th generation)`, etc.) or name of physically connected iOS device |
 | `DEVICE_TYPE`              | Must be set to `phone` or `tablet`                                                                                                                                    |
-| `APP_UDID`                 | UDID of physically connected iOS device (not used for simulators)                                                                                                     |
+| `UDID`                     | UDID of physically connected iOS device (not used for simulators)                                                                                                     |
 | `TEAM_ID`                  | unique 10-character Apple developer team identifier string (not used for simulators)                                                                                  |
 | `TEAM_NAME`                | String representing a signing certificate (not used for simulators)                                                                                                   |
 | `APP_ALLOW_POPUPS`         | [Optional] Allow javascript to open new windows in Safari. Set to `true` or `false`                                                                                   |
@@ -2956,8 +2956,8 @@ with access to your version control system.
     # NOTE: Requires installation of XCode and Appium
     #==============
 
-    my_ios_15_iphone: --profile app_ios_15 DEVICE_TYPE=phone APP_DEVICE="My Test iPhoneX" APP_UDID="INSERT YOUR DEVICE UDID"
-    my_ios_15_ipad:   --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="My Test iPad Pro" APP_UDID="INSERT YOUR DEVICE UDID"
+    my_ios_15_iphone: --profile app_ios_15 DEVICE_TYPE=phone APP_DEVICE="My Test iPhoneX" UDID="INSERT YOUR DEVICE UDID"
+    my_ios_15_ipad:   --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="My Test iPad Pro" UDID="INSERT YOUR DEVICE UDID"
 
 
     #==============
