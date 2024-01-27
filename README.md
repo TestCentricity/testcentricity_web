@@ -8,7 +8,7 @@
 
 
 The TestCentricity™ Web core framework for desktop and mobile web browser-based app testing implements a Page Object Model
-DSL for use with Cucumber (version 7.x or greater) or RSpec, and Selenium-Webdriver (version 4.14). It also facilitates the
+DSL for use with Cucumber (version 7.x or greater) or RSpec, and Selenium-Webdriver (version 4.17). It also facilitates the
 configuration of the appropriate Selenium-Webdriver capabilities required to establish connections with one or more local
 or cloud hosted desktop or mobile web browsers.
 

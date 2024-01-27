@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.summary       = 'A Page Object Model Framework for desktop and mobile web testing'
   spec.description   = '
     The TestCentricity™ Web core framework for desktop and mobile web browser-based app testing implements a Page Object
-    Model DSL for use with Cucumber or RSpec, and Selenium-Webdriver v4.14. The gem also facilitates the configuration of
+    Model DSL for use with Cucumber or RSpec, and Selenium-Webdriver v4.17. The gem also facilitates the configuration of
     the appropriate Selenium-Webdriver capabilities required to establish connections to locally hosted desktop browsers,
     locally hosted emulated mobile browsers (iOS, Android, etc.) running within a local instance of Chrome, mobile Safari
     browsers on iOS device simulators or physical iOS devices, mobile Chrome browsers on Android Studio virtual device
@@ -44,7 +44,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'simplecov', ['~> 0.18']
   spec.add_development_dependency 'yard', ['>= 0.9.0']
 
-  spec.add_runtime_dependency 'appium_lib', '~> 13.0.1'
+  spec.add_runtime_dependency 'appium_lib', '~> 14.0.0'
   spec.add_runtime_dependency 'browserstack-local'
   spec.add_runtime_dependency 'capybara', '3.39.2'
   spec.add_runtime_dependency 'childprocess'
@@ -52,7 +52,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'faker'
   spec.add_runtime_dependency 'i18n'
   spec.add_runtime_dependency 'os', '~> 1.0'
-  spec.add_runtime_dependency 'selenium-webdriver', '4.14.0'
+  spec.add_runtime_dependency 'selenium-webdriver', '4.17.0'
   spec.add_runtime_dependency 'test-unit'
   spec.add_runtime_dependency 'virtus'
 end
