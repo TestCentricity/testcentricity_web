@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.5.2] - 26-JAN-2024
+
+### Changed
+
+* Updated `appium_lib` gem to version 14.0.0.
+* Updated `selenium-webdriver` gem to version 4.17.0.
+
+
 ## [4.5.1] - 18-JAN-2024
 
 ### Fixed
