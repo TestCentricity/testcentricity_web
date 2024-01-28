@@ -161,11 +161,11 @@ task all_specs: [:required_specs,
 
 desc 'Run all specs and Cucumber features'
 task all: [:required,
-           :safari_local,
            :docker_grid_specs,
            :browserstack_specs,
            :custom_webdriver_specs,
            :multi_driver_spec,
+           :safari_local,
            :mobile]
 
 

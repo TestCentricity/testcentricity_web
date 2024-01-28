@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.5.3] - 27-JAN-2024
+
+### Changed
+
+* Updated `capybara` gem to version 3.40.0.
+
+
 ## [4.5.2] - 26-JAN-2024
 
 ### Changed

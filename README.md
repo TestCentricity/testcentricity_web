@@ -35,7 +35,7 @@ A complete history of bug fixes and new features can be found in the {file:CHANG
 The RubyDocs for this gem can be found [here](https://www.rubydoc.info/gems/testcentricity_web).
 
 An example project that demonstrates the implementation of a page object model framework using Cucumber and TestCentricity™ Web
-can be found [here](https://github.com/TestCentricity/tc_web_sample).
+can be found [here](https://github.com/TestCentricity/tc_multi_webdriver_sample).
 
 
 ### Which gem should I use?
