@@ -71,18 +71,18 @@ Or install it yourself using:
 ### Using Cucumber
 
 If you are using Cucumber, you need to require the following in your `env.rb` file:
-
+```ruby
     require 'capybara/cucumber'
     require 'testcentricity_web'
-
+```
 
 ### Using RSpec
 
 If you are using RSpec instead, you need to require the following in your `spec_helper.rb` file:
-
+```ruby
     require 'capybara/rspec'
     require 'testcentricity_web'
-
+```
 
 ---
 ## PageObjects
@@ -540,9 +540,8 @@ Supported `UIElement` elementTypes and their declarations have the following for
 ```
 
 Refer to the Class List documentation for the `PageObject` and `PageSection` classes for details on the class methods used
-for declaring and instantiating `UIElements`. Examples of UI element declarations can be found in the ***Adding UI Elements
-to your PageObject*** and
-***Adding UI Elements to your PageSection*** sections above.
+for declaring and instantiating `UIElements`. Examples of UI element declarations can be found in the [**section 4.3 (Adding UI Elements to your PageObject)**](#adding-ui-elements-to-a-pageobject)
+and [**section 5.3 (Adding UI Elements to your PageSection)**](#adding-ui-elements-to-a-pagesection) sections above.
 
 
 ### UIElement Inherited Methods
@@ -854,9 +853,9 @@ The `verify_ui_states` method supports the following ARIA accessibility property
 #### Comparison States
 
 The `verify_ui_states` method supports comparison states using property/comparison state pairs:
-
+```ruby
     object => { property: { comparison_state: value } }
-
+```
 Comparison States:
 
     :lt or :less_than                  Integer or String
@@ -2774,10 +2773,10 @@ All other required capabilities specified by the hosting service configuration d
       capabilities: { browserName: browser_name_from_chart }
     }
     WebDriverConnect.initialize_web_driver(options)
-
+```
 > ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
 `:custom_<browserName>` - e.g. `:custom_chrome` or `:custom_safari`.
-```
+
 Prior to calling the `TestCentricity::WebDriverConnect.initialize_web_driver` method, you must set `Environ.platform` to
 either `:desktop` or `:mobile`, and `Environ.device` to either `:web` or `:device` dependent on whether the target browser
 is a desktop browser or a mobile browser running on a mobile device or simulator.
