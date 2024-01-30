@@ -71,18 +71,18 @@ Or install it yourself using:
 ### Using Cucumber
 
 If you are using Cucumber, you need to require the following in your `env.rb` file:
-
+```ruby
     require 'capybara/cucumber'
     require 'testcentricity_web'
-
+```
 
 ### Using RSpec
 
 If you are using RSpec instead, you need to require the following in your `spec_helper.rb` file:
-
+```ruby
     require 'capybara/rspec'
     require 'testcentricity_web'
-
+```
 
 ---
 ## PageObjects
@@ -104,7 +104,7 @@ files, scenarios, or step definitions.
 
 Your `PageObject` class definitions should be contained within individual `.rb` files in the `features/support/pages` folder
 of your test automation project. You define new `PageObjects` as shown below:
-
+```ruby
     class LoginPage < TestCentricity::PageObject
     end
 
@@ -119,7 +119,7 @@ of your test automation project. You define new `PageObjects` as shown below:
 
     class UserAccountPage < TestCentricity::PageObject
     end
-
+```
 
 ### Adding Traits to a PageObject
 
@@ -145,7 +145,7 @@ relative URL slug that will be appended to the base URL specified in `app_host`.
 as not all web pages can be directly loaded via a URL.
 
 You define your page's **Traits** as shown below:
-
+```ruby
     class LoginPage < TestCentricity::PageObject
       trait(:page_name)    { 'Login' }
       trait(:page_url)     { '/sign_in' }
@@ -173,13 +173,13 @@ You define your page's **Traits** as shown below:
       trait(:page_url)     { "/user_account/#{User.current.id}" }
       trait(:page_locator) { 'body.useraccount' }
     end
-
+```
 
 ### Adding UI Elements to a PageObject
 
 Web pages are made up of UI elements like text fields, check boxes, combo boxes, radio buttons, tables, lists, buttons, etc.
 **UI Elements** are added to your `PageObject` class definition as shown below:
-
+```ruby
     class LoginPage < TestCentricity::PageObject
       trait(:page_name)    { 'Login' }
       trait(:page_url)     { '/sign_in' }
@@ -215,14 +215,14 @@ Web pages are made up of UI elements like text fields, check boxes, combo boxes,
       checkbox    :email_opt_in_check, 'input#marketingEmailsOptIn'
       button      :sign_up_button,     'button#registrationSignUp'
     end
-
+```
 
 ### Adding Methods to a PageObject
 
 It is good practice for your Cucumber step definitions to call high level methods in your your `PageObject` instead of
 directly accessing and interacting with a page object's UI elements. You can add high level methods to your `PageObject`
 class definition for interacting with the UI to hide implementation details, as shown below:
-
+```ruby
     class LoginPage < TestCentricity::PageObject
       trait(:page_name)    { 'Login' }
       trait(:page_url)     { '/sign_in' }
@@ -326,14 +326,14 @@ class definition for interacting with the UI to hide implementation details, as 
         sign_up_button.click
       end
     end
-
+```
 
 
 Once your `PageObjects` have been instantiated, you can call your methods as shown below:
-
+```ruby
     login_page.remember_me(true)
     login_page.login(user_id = 'snicklefritz', password = 'Pa55w0rd')
-
+```
 
 ---
 ## PageSections
@@ -362,10 +362,10 @@ A `PageSection` may contain other `PageSection` objects.
 
 Your `PageSection` class definitions should be contained within individual `.rb` files in the `features/support/sections`
 folder of your test automation project. You define new `PageSection` as shown below:
-
+```ruby
     class BagViewPopup < TestCentricity::PageSection
     end
-
+```
 
 ### Adding Traits to a PageSection
 
@@ -373,18 +373,18 @@ A `PageSection` typically has a root node object that encapsulates a collection 
 specifies the CSS or Xpath expression that uniquely identifies that root node object.
 
 You define your section's **Traits** as shown below:
-
+```ruby
     class BagViewPopup < TestCentricity::PageSection
       trait(:section_locator) { 'aside.ac-gn-bagview' }
       trait(:section_name)    { 'Shopping Bag Popup' }
     end
-
+```
 
 ### Adding UI Elements to a PageSection
 
 `PageSections` are typically made up of UI elements like text fields, check boxes, combo boxes, radio buttons, tables, lists,
 buttons, etc. **UI Elements** are added to your `PageSection` class definition as shown below:
-
+```ruby
     class BagViewPopup < TestCentricity::PageSection
       trait(:section_locator) { 'aside.ac-gn-bagview' }
       trait(:section_name)    { 'Shopping Bag Popup' }
@@ -395,12 +395,12 @@ buttons, etc. **UI Elements** are added to your `PageSection` class definition a
              bag_nav_list:     'ul.ac-gn-bagview-nav-list '
       button :checkout_button, 'a[class*="ac-gn-bagview-button-checkout"]'
     end
-
+```
 
 ### Adding Methods to a PageSection
 
 You can add high level methods to your `PageSection` class definition, as shown below:
-
+```ruby
     class BagViewPopup < TestCentricity::PageSection
       trait(:section_locator) { 'aside.ac-gn-bagview' }
       trait(:section_name)    { 'Shopping Bag Popup' }
@@ -434,12 +434,12 @@ You can add high level methods to your `PageSection` class definition, as shown 
         end
       end
     end
-
+```
 
 ### Adding PageSections to your PageObject
 
 You add a `PageSection` to its associated `PageObject` as shown below:
-
+```ruby
     class HomePage < TestCentricity::PageObject
       trait(:page_name)    { 'Home' }
       trait(:page_url)     { '/dashboard' }
@@ -448,11 +448,11 @@ You add a `PageSection` to its associated `PageObject` as shown below:
       # Home page Section Objects
       section :search_form, SearchForm
     end
-
+```
 Once your `PageObject` has been instantiated, you can call its `PageSection` methods as shown below:
-
+```ruby
     home_page.search_form.search_for('ocarina')
-
+```
 
 ---
 ## UIElements
@@ -480,7 +480,7 @@ containing the names and locators of each individual element.
 Supported `UIElement` elementTypes and their declarations have the following format:
 
 *Single element declarations:*
-
+```ruby
     class SamplePage < TestCentricity::PageObject
 
       button     :button_name, locator
@@ -499,9 +499,9 @@ Supported `UIElement` elementTypes and their declarations have the following for
       filefield  :filefield_name, locator
 
     end
- 
+```
 *Multiple element declarations:*
-
+```ruby
     class SamplePage < TestCentricity::PageObject
 
       buttons     button_1_name: locator,
@@ -537,12 +537,11 @@ Supported `UIElement` elementTypes and their declarations have the following for
                   filefield_X_name: locator
 
     end
-
+```
 
 Refer to the Class List documentation for the `PageObject` and `PageSection` classes for details on the class methods used
-for declaring and instantiating `UIElements`. Examples of UI element declarations can be found in the ***Adding UI Elements
-to your PageObject*** and
-***Adding UI Elements to your PageSection*** sections above.
+for declaring and instantiating `UIElements`. Examples of UI element declarations can be found in the [**section 4.3 (Adding UI Elements to your PageObject)**](#adding-ui-elements-to-a-pageobject)
+and [**section 5.3 (Adding UI Elements to your PageSection)**](#adding-ui-elements-to-a-pagesection) sections above.
 
 
 ### UIElement Inherited Methods
@@ -654,7 +653,7 @@ for data entry (the `UIElement` must be visible and enabled) before entering the
 in situations where entering data, or setting the state of a `UIElement` might cause other `UIElements` to become visible
 or active. Specifying a wait_time value ensures that the subsequent `UIElements` will be ready to be interacted with as
 states are changed. If the wait time is `nil`, then the wait time will be 5 seconds.
-
+```ruby
     def enter_data(user_data)
       fields = {
         first_name_field    => user_data.first_name,
@@ -667,7 +666,7 @@ states are changed. If the wait time is `nil`, then the wait time will be 5 seco
       }
       populate_data_fields(fields, wait_time = 2)
     end
-
+```
 
 ### Verifying UIElements on a PageObject or PageSection
 
@@ -679,14 +678,14 @@ to be verified, the code required to verify the presence of `UIElements` and the
 The `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods support the verification of multiple properties
 of multiple UI elements on a `PageObject` or `PageSection`. The `verify_ui_states` method accepts a hash containing key/hash
 pairs of UI elements and their properties or attributes to be verified.
-
+```ruby
      ui = {
        object1 => { property: state },
        object2 => { property: state, property: state },
        object3 => { property: state }
      }
      verify_ui_states(ui)
-
+```
 The `verify_ui_states` method queues up any exceptions that occur while verifying each object's properties until all `UIElements`
 and their properties have been checked, and then posts any exceptions encountered upon completion. Posted exceptions include
 a screenshot with a red dashed highlight around the UI element that did not match the expected results.
@@ -854,9 +853,9 @@ The `verify_ui_states` method supports the following ARIA accessibility property
 #### Comparison States
 
 The `verify_ui_states` method supports comparison states using property/comparison state pairs:
-
+```ruby
     object => { property: { comparison_state: value } }
-
+```
 Comparison States:
 
     :lt or :less_than                  Integer or String
@@ -871,7 +870,7 @@ Comparison States:
 
 The example below depicts a `verify_changes_saved` method that uses the `verify_ui_states` method to verify that all expected
 values appear in the associated text fields after entering data and performing a save operation.
-
+```ruby
     def verify_changes_saved
       # verify saved user data is correctly displayed
       ui = {
@@ -920,14 +919,14 @@ values appear in the associated text fields after entering data and performing a
       # verify avatar src url does not contain /null/ institution id
       verify_ui_states(avatar_image => { src: { does_not_contain: "/null/" } })
     end
-
+```
 
 #### I18n Translation Validation
 
 The `verify_ui_states` method also supports I18n string translations using property/I18n key name pairs:
-
+```ruby
     object => { property: { translate_key: 'name of key in I18n compatible .yml file' } }
-
+```
 **I18n Translation Keys:**
 
     :translate            String
@@ -940,7 +939,7 @@ The example below depicts the usage of the `verify_ui_states` method to verify t
 panel are correctly translated.
 
 ![Localized UI](https://raw.githubusercontent.com/TestCentricity/testcentricity_web/main/.github/images/LocalizedUI.png "Localized UI")
-
+```ruby
     class BagViewPopup < TestCentricity::PageSection
       trait(:section_locator) { 'aside.ac-gn-bagview' }
       trait(:section_name)    { 'Shopping Bag Popup' }
@@ -975,12 +974,12 @@ panel are correctly translated.
         verify_ui_states(ui)
       end
     end
-
+```
 I18n `.yml` files contain key/value pairs representing the name of a translated string (key) and the string value. For the
 popup Shopping Bag panel example above, the translated strings for English, Spanish, and French are represented in below:
 
 **English** - `en.yml`
-
+```yaml
     en:
       BagViewPopup:
         bag_is_empty: 'Your Bag is empty.'
@@ -990,9 +989,9 @@ popup Shopping Bag panel example above, the translated strings for English, Span
         account: 'Account'
         sign_in: 'Sign in'
         sign_out: 'Sign out'
-
+```
 **Spanish** - `es.yml`
-
+```yaml
     es:
       BagViewPopup:
         bag_is_empty: 'Tu bolsa está vacía.'
@@ -1002,9 +1001,9 @@ popup Shopping Bag panel example above, the translated strings for English, Span
         account: 'Cuenta'
         sign_in: 'Iniciar sesión'
         sign_out: 'Cerrar sesión'
-
+```
 **French** - `fr.yml`
-
+```yaml
     fr:
       BagViewPopup:
         bag_is_empty: 'Votre sac est vide.'
@@ -1014,7 +1013,7 @@ popup Shopping Bag panel example above, the translated strings for English, Span
         account: 'Compte'
         sign_in: 'Ouvrir une session'
         sign_out: 'Fermer la session'
-
+```
 
 Each supported language/locale combination has a corresponding `.yml` file. I18n `.yml` file naming convention uses
 [ISO-639 language codes](https://docs.oracle.com/cd/E13214_01/wli/docs92/xref/xqisocodes.html#wp1252447) and
@@ -1084,7 +1083,7 @@ the `radio` or `checkbox` elements are instantiated.
 
 The code snippet below demonstrates the use of the `Radio.define_custom_elements` and `CheckBox.define_custom_elements`
 methods to define the multiple UI elements that comprise each radio button and checkbox.
-
+```ruby
     class FlightBookingPage < TestCentricity::PageObject
       trait(:page_name)    { 'Flight Booking Home' }
       trait(:page_locator) { 'div[class*="bookerContainer"]' }
@@ -1119,7 +1118,7 @@ methods to define the multiple UI elements that comprise each radio button and c
         near_to_check.define_custom_elements(check_spec)
       end
     end
-
+```
 #### List UIElements
 
 The basic HTML `list` element is typically composed of the parent `ul` or `ol` object, and one or more `li` elements
@@ -1138,7 +1137,7 @@ that uniquely identifies the element. Valid element designators are `:list_item`
 
 The `RestaurantPage` page object's `initialize` method in the code snippet below demonstrates the use of the `List.define_list_elements`
 method to define the common components that make up the **Menu Groups** horizontal scrolling list.
-
+```ruby
     class RestaurantPage < TestCentricity::PageObject
       trait(:page_name)    { 'Restaurant Detail' }
       trait(:page_locator) { 'div.restaurant-menus-container' }
@@ -1153,7 +1152,7 @@ method to define the common components that make up the **Menu Groups** horizont
         menu_groups_list.define_list_elements(list_spec)
       end
     end
-
+```
 
 #### SelectList UIElements
 
@@ -1181,7 +1180,7 @@ components of a `selectlist` control. The method accepts a hash of element desig
 
 The `CustomControlsPage` page object's `initialize` method in the code snippet below demonstrates the use of the
 `SelectList.define_list_elements` method to define the common components that make up the **Teams** drop-down style selector.
-
+```ruby
     class CustomControlsPage < TestCentricity::PageObject
       trait(:page_name)    { 'Custom Controls' }
       trait(:page_locator) { 'div.custom-controls-page-body' }
@@ -1205,7 +1204,7 @@ The `CustomControlsPage` page object's `initialize` method in the code snippet b
         team_select.define_list_elements(list_spec)
       end
     end
-
+```
 
 #### Table UIElements
 
@@ -1226,7 +1225,7 @@ that uniquely identifies the element. Valid element designators are `:table_head
 
 The `CustomControlsPage` page object's `initialize` method in the code snippet below demonstrates the use of the
 `Table.define_table_elements` method to define the components that make up the responsive `table`.
-
+```ruby
     class CustomControlsPage < TestCentricity::PageObject
       trait(:page_name)    { 'Custom Controls' }
       trait(:page_locator) { 'div.custom-controls-page-body' }
@@ -1248,7 +1247,7 @@ The `CustomControlsPage` page object's `initialize` method in the code snippet b
         custom_table.define_table_elements(table_spec)
       end
     end
-
+```
 
 ---
 ## Instantiating Your PageObjects
@@ -1258,7 +1257,7 @@ web application, as well as create instance variables which can be used when cal
 step definitions. There are several ways to instantiate your `PageObjects`.
 
 One common implementation is shown below:
-
+```ruby
     module WorldPages
       def login_page
         @login_page ||= LoginPage.new
@@ -1278,7 +1277,7 @@ One common implementation is shown below:
     end
 
     World(WorldPages)
-
+```
 The `WorldPages` module above can be defined in your `env.rb` file, or you can define it in a separate `world_pages.rb`
 file in the `features/support` folder.
 
@@ -1290,7 +1289,7 @@ becomes cumbersome to manage if your web application has dozens of `PageObjects`
 The `PageManager` class provides methods for supporting the instantiation and management of `PageObjects`. In the code
 example below, the `page_objects` method contains a hash table of your `PageObject` instances and their associated
 `PageObject` classes to be instantiated by `PageManager`:
-
+```ruby
     module WorldPages
       def page_objects
         {
@@ -1315,16 +1314,16 @@ example below, the `page_objects` method contains a hash table of your `PageObje
     end
 
     World(WorldPages)
-
+```
     
 The `WorldPages` module above should be defined in the `world_pages.rb` file in the `features/support` folder.
 
 Include the code below in your `env.rb` file to ensure that your `PageObjects` are instantiated before your Cucumber
 scenarios are executed:
-
+```ruby
     include WorldPages
     WorldPages.instantiate_page_objects
-
+```
 **NOTE:** If you intend to use the `PageManager`, you must define a `page_name` trait for each of the `PageObjects` to
 be registered.
 
@@ -1333,7 +1332,7 @@ be registered.
 
 Many Cucumber based automated tests suites include scenarios that verify that web pages are correctly loaded, displayed,
 or can be navigated to by clicking associated links. One such Cucumber navigation scenario is displayed below:
-
+```gherkin
     Scenario Outline:  Verify Home page navigation links
       Given I am on the Home page
       When I click the <page name> navigation link
@@ -1347,10 +1346,10 @@ or can be navigated to by clicking associated links. One such Cucumber navigatio
         |Privacy Policy     |
         |FAQs               |
         |Contact Us         |
-
+```
 In the above example, the step definitions associated with the 3 steps might be implemented using a `page_dispatcher`
 method using a `case` statement to parse the `page` parameter as in the example below:
-
+```ruby
     Given(/^I am on the (.*) page$/) do |page_name|
       target_page = page_dispatcher(page_name)
       target_page.load_page
@@ -1386,7 +1385,7 @@ method using a `case` statement to parse the `page` parameter as in the example 
         raise "No page object defined for page named '#{page_name}'" unless page
         page
       end
-
+````
 
 While this approach may be effective for small web applications with only a few pages (and hence few `PageObjects`), it
 quickly becomes cumbersome to manage if your web application has dozens of `PageObjects` that need to be managed.
@@ -1397,7 +1396,7 @@ currently active Page Object.
 
 To use these `PageManager` methods, include the step definitions and code below in a `page_steps.rb` or `generic_steps.rb`
 file in the `features/step_definitions` folder:
-
+```ruby
     include TestCentricity
 
     Given(/^I am on the (.*) page$/) do |page_name|
@@ -1420,7 +1419,7 @@ file in the `features/step_definitions` folder:
       target_page.verify_page_exists
       target_page.verify_page_ui
     end
-
+```
 
 ---
 ## Connecting to Web Browsers
@@ -1460,13 +1459,13 @@ capability parameters required to establish a connection with a single target we
 For those test scenarios requiring the instantiation of multiple WebDriver objects, or where cumbersome **Environment
 Variables** are less than ideal, call the `TestCentricity::WebDriverConnect.initialize_web_driver` method with an `options`
 hash that specifies the WebDriver desired capabilities and the driver type, as depicted in the example below:
-
+```ruby
     options = {
       capabilities: { browserName: :firefox },
       driver: :webdriver
     }
     WebDriverConnect.initialize_web_driver(options)
-
+```
 Additional options that can be specified in an `options` hash include the following:
 
 | Option          | Purpose                                                                                    |
@@ -1523,23 +1522,23 @@ browser, which is determined by the mobile device's screen size.
 
 To set the size of a desktop browser window in the `options` hash, you specify a `:browser_size` with the desired width and
 height in pixels as shown below:
-
+```ruby
     options = {
       browser_size: [1100, 900],
       capabilities: { browserName: :edge },
       driver: :webdriver
     }
     WebDriverConnect.initialize_web_driver(options)
-
+```
 To maximize a desktop browser window, you specify a `:browser_size` of 'max' as shown below:
-
+```ruby
     options = {
       browser_size: 'max',
       capabilities: { browserName: :chrome },
       driver: :webdriver
     }
     WebDriverConnect.initialize_web_driver(options)
-
+```
 If a `:browser_size` is not specified, then the default size of a desktop browser window will be set to the size specified
 in the `BROWSER_SIZE` Environment Variable (if it has been specified) or to a default width and height of 1650 by 1000 pixels.
 
@@ -1595,7 +1594,7 @@ When using the `options` hash, the following options and capabilities must be sp
 - `driver:` must be set to `:webdriver`
 - `browserName:` in the `capabilities:` hash must be set to one of the values from the table above
 
-```
+```ruby
     options = {
       capabilities: { browserName: value_from_table_above },
       driver: :webdriver
@@ -1607,7 +1606,7 @@ When using the `options` hash, the following options and capabilities must be sp
 
 Below is an example of an `options` hash for specifying a connection to a locally hosted Firefox desktop web browser. The
 `options` hash includes options for specifying the driver name and setting the browser window size.
-
+```ruby
     options = {
       driver: :webdriver,
       driver_name: :customer_context,
@@ -1615,7 +1614,7 @@ Below is an example of an `options` hash for specifying a connection to a locall
       capabilities: { browserName: :firefox }
     }
     WebDriverConnect.initialize_web_driver(options)
-
+```
 
 #### Testing File Downloads With Desktop Browsers
 
@@ -1653,7 +1652,7 @@ types that your tests will be downloading. This is accomplished by setting the `
 comma-delimited string containing the list of MIME types to be accepted. The `MIME_TYPES` Environment Variable should be
 set before initializing the Firefox web driver. This list of file types is required as it will prevent Firefox from displaying
 the File Download modal dialog, which will halt your automated tests. An example of a list of MIME types is depicted below:
-
+```ruby
     # set list of all supported MIME types for testing file downloads with Firefox
     mime_types = [
       'application/pdf',
@@ -1664,7 +1663,7 @@ the File Download modal dialog, which will halt your automated tests. An example
       'text/plain'
     ]
     ENV['MIME_TYPES'] = mime_types.join(',')
-
+```
 
 A detailed list of file MIME types can be found [here](https://www.freeformatter.com/mime-types-list.html).
 
@@ -1743,7 +1742,7 @@ When using the `options` hash, the following options and capabilities must be sp
 - `driver:` must be set to `:webdriver`
 - `browserName:` in the `capabilities:` hash must be set to one of the values from the table above
 
-```
+```ruby
     options = {
       capabilities: { browserName: value_from_table_above },
       driver: :webdriver
@@ -1752,7 +1751,7 @@ When using the `options` hash, the following options and capabilities must be sp
 ```
 To change the emulated device's screen orientation from the default setting, set the optional `orientation:` to either
 `:portrait` or `:landscape` in the `capabilities:` hash as shown in the example below:
-
+```ruby
     options = {
       capabilities: {
         browserName: :ipad_pro_12_9,
@@ -1761,14 +1760,14 @@ To change the emulated device's screen orientation from the default setting, set
       driver: :webdriver
     }
     WebDriverConnect.initialize_web_driver(options)
-
+```
 > ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
 `:local_<browserName>` - e.g. `:local_ipad_pro_12_9` or `:local_pixel_6`.
 
 Below is an example of an `options` hash for specifying a connection to a locally hosted emulated mobile Safari web browser
 running on an iPhone. The`options` hash includes options for specifying the driver name and setting the browser orientation
 to landscape mode.
-
+```ruby
     options = {
       driver: :webdriver,
       driver_name: :user1,
@@ -1778,7 +1777,7 @@ to landscape mode.
       }
     }
     WebDriverConnect.initialize_web_driver(options)
-
+```
 
 #### User Defined Emulated Mobile Browser Profiles
 
@@ -1800,7 +1799,7 @@ at `config/data/devices/devices.yml` as depicted below:
         └── 📄 README.md
 
 The format for a new mobile browser profile is:
-```
+```yaml
     :my_device_profile:
       :name: "My New Device Name"
       :os: (ios, android, kindle, or blackberry)
@@ -1851,7 +1850,7 @@ When using the `options` hash, the following options and capabilities must be sp
 - `driver:` must be set to `:grid`
 - `browserName:` in the `capabilities:` hash must be set to one of the values from the table above
 
-```
+```ruby
     options = {
       capabilities: { browserName: value_from_table_above },
       driver: :grid,
@@ -1867,7 +1866,7 @@ will be used.
 
 Below is an example of an `options` hash for specifying a connection to a grid hosted Chrome desktop web browser. The
 `options` hash includes options for specifying the driver name and setting the browser window size.
-
+```ruby
     options = {
       driver: :grid,
       driver_name: :admin_user,
@@ -1875,7 +1874,7 @@ Below is an example of an `options` hash for specifying a connection to a grid h
       capabilities: { browserName: :chrome }
     }
     WebDriverConnect.initialize_web_driver(options)
-
+```
 
 ### Locally Hosted Mobile Browsers on Simulators or Physical Devices
 
@@ -1938,7 +1937,7 @@ When using the `options` hash, the following options and capabilities must be sp
 - `'appium:platformVersion':` must be set to the version of iOS on the simulator or physical device
 - `'appium:deviceName':` must be set to the name of the iOS simulator or physical device
 
-```
+```ruby
     options = {
       driver: :appium,
       device_type: phone_or_tablet,
@@ -1962,7 +1961,7 @@ will be used.
 Below is an example of an `options` hash for specifying a connection to a locally hosted mobile Safari web browser running
 on an iPad simulator. The `options` hash includes options for specifying the driver name and setting the simulated device
 orientation to portrait mode.
-
+```ruby
       options = {
         driver: :appium,
         device_type: :tablet,
@@ -1977,7 +1976,7 @@ orientation to portrait mode.
         }
       }
       WebDriverConnect.initialize_web_driver(options)
-
+```
 
 #### Mobile Chrome or Android Browsers on Android Studio Virtual Device Emulators
 
@@ -2024,7 +2023,7 @@ When using the `options` hash, the following options and capabilities must be sp
 - `'appium:platformVersion':` must be set to the version of Android on the simulator or physical device
 - `'appium:deviceName':` must be set to the Android Virtual Device ID
 
-```
+```ruby
     options = {
       driver: :appium,
       device_type: phone_or_tablet,
@@ -2049,7 +2048,7 @@ will be used.
 Below is an example of an `options` hash for specifying a connection to a locally hosted mobile Chrome web browser running
 on an Android phone simulator. The `options` hash includes options for specifying the driver name, setting the simulated
 device orientation to landscape mode, and specifying the path to the ChromeDriver executable.
-
+```ruby
       options = {
         driver: :appium,
         device_type: :phone,
@@ -2066,7 +2065,7 @@ device orientation to landscape mode, and specifying the path to the ChromeDrive
         }
       }
       WebDriverConnect.initialize_web_driver(options)
-
+```
 
 #### Starting and Stopping Appium Server
 
@@ -2075,7 +2074,7 @@ device orientation to landscape mode, and specifying the path to the ChromeDrive
 The Appium server must be running prior to invoking Cucumber to run your features/scenarios on locally hosted mobile simulators
 or physical devices. To programmatically control the starting and stopping of Appium server with the execution of your automated
 tests, place the code shown below in your `hooks.rb` file.
-
+```ruby
     BeforeAll do
       # start Appium Server if APPIUM_SERVER = 'run' and target browser is a mobile simulator or device
       if ENV['APPIUM_SERVER'] == 'run' && Environ.driver == :appium
@@ -2090,7 +2089,7 @@ tests, place the code shown below in your `hooks.rb` file.
       # terminate Appium Server if APPIUM_SERVER = 'run' and target browser is a mobile simulator or device
       $server.stop if ENV['APPIUM_SERVER'] == 'run' && Environ.driver == :appium && $server.running?
     end
-
+```
 The `APPIUM_SERVER` environment variable must be set to `run` in order to programmatically start and stop the Appium server.
 This can be set by adding the following to your `cucumber.yml` file and including `-p run_appium` in your command line when
 starting your Cucumber test suite(s):
@@ -2105,7 +2104,7 @@ Refer to [**section 8.9 (Using Browser Specific Profiles in `cucumber.yml`)**](#
 The Appium server must be running prior to executing test specs on locally hosted mobile simulators or physical device. To
 control the starting and stopping of the Appium server with the execution of your specs, place the code shown below in the
 body of an example group:
-
+```ruby
     before(:context) do
       # start Appium server before all of the examples in this group
       $server = TestCentricity::AppiumServer.new
@@ -2116,7 +2115,7 @@ body of an example group:
       # terminate Appium Server after all of the examples in this group
       $server.stop if Environ.driver == :appium && $server.running?
     end
-
+```
 
 ### Remote Cloud Hosted Desktop and Mobile Web Browsers
 
@@ -2127,12 +2126,12 @@ or on a staging server inside your LAN, you must set the `TUNNELING` Environment
 If the BrowserStack Local instance is running (`TUNNELING` Environment Variable is `true`), call the`TestCentricity::WebDriverConnect.close_tunnel`
 method upon completion of your test suite to stop the Local instance. Place the code shown below in your `env.rb` or
 `hooks.rb` file:
-
+```ruby
     # code to stop BrowserStack Local instance after end of test (if tunneling is enabled)
     at_exit do
       TestCentricity::WebDriverConnect.close_tunnel if Environ.tunneling
     end
-
+```
 #### Remote Desktop Browsers on the BrowserStack Service
 
 For remotely hosted desktop web browsers on the BrowserStack service, refer to the [Browserstack-specific capabilities chart page](https://www.browserstack.com/docs/automate/capabilities)
@@ -2171,7 +2170,7 @@ When using the `options` hash, the following options and capabilities must be sp
 - `browserName:` in the `capabilities:` hash must be set to name from capability in chart
 - `browserVersion:` in the `capabilities:` hash must be set to browser version from capability in chart
 
-```
+```ruby
     options = {
       driver: :browserstack,
       capabilities: {
@@ -2201,7 +2200,7 @@ Below is an example of an `options` hash for specifying a connection to the late
 running on macOS Sonoma hosted on BrowserStack. The `options` hash includes options for specifying the driver name, setting
 the browser window size, and capabilities for setting screen resolution, geoLocation, time zone, Selenium version, and various
 test configuration options.
-
+```ruby
     options = {
       driver: :browserstack,
       driver_name: :admin_user,
@@ -2227,7 +2226,7 @@ test configuration options.
       }
     }
     WebDriverConnect.initialize_web_driver(options)
-
+```
 
 #### Remote Mobile Browsers on the BrowserStack Service
 
@@ -2268,7 +2267,7 @@ When using the `options` hash, the following options and capabilities must be sp
 - `device_type:` must be set to `:tablet` or `:phone`
 - `browserName:` in the `capabilities:` hash must be set to name from capability in chart
 
-```
+```ruby
     options = {
       driver: :browserstack,
       device_type: phone_or_tablet,
@@ -2297,7 +2296,7 @@ the `BS_AUTHKEY` Environment Variable is set to your BrowserStack access key.
 Below is an example of an `options` hash for specifying a connection to a mobile Samsung web browser running on an Android
 tablet hosted on BrowserStack. The `options` hash includes options for specifying the driver name, and capabilities for setting
 geoLocation, time zone, Appium version, and various test configuration options.
-
+```ruby
     options = {
       driver: :browserstack,
       driver_name: :admin_tablet,
@@ -2324,7 +2323,7 @@ geoLocation, time zone, Appium version, and various test configuration options.
       }
     }
     WebDriverConnect.initialize_web_driver(options)
-
+```
 
 #### Remote Desktop Browsers on the Sauce Labs Service
 
@@ -2358,7 +2357,7 @@ When using the `options` hash, the following options and capabilities must be sp
 - `browserName:` in the `capabilities:` hash must be set to name from capability in chart
 - `browser_version:` in the `capabilities:` hash must be set to browser version from capability in chart
 
-```
+```ruby
     options = {
       driver: :saucelabs,
       capabilities: {
@@ -2387,7 +2386,7 @@ set to your Sauce Labs account Data Center assignment (`us-west-1`, `eu-central-
 Below is an example of an `options` hash for specifying a connection to the latest version of an Edge desktop web browser
 running on macOS Ventura hosted on Sauce Labs. The `options` hash includes options for specifying the driver name, setting
 the browser window size, and capabilities for setting screen resolution, time zone, and various test configuration options.
-
+```ruby
     options = {
       driver: :saucelabs,
       driver_name: :admin_user,
@@ -2409,7 +2408,7 @@ the browser window size, and capabilities for setting screen resolution, time zo
       }
     }
     WebDriverConnect.initialize_web_driver(options)
-
+```
 
 #### Remote Mobile Browsers on the Sauce Labs Service
 
@@ -2448,7 +2447,7 @@ When using the `options` hash, the following options and capabilities must be sp
 - `'appium:platformVersion':` must be set to `platformVersion` from capability in chart
 - `'appium:deviceName':` must be set to `deviceName` from capability in chart
 
-```
+```ruby
     options = {
       driver: :saucelabs,
       device_type: phone_or_tablet,
@@ -2480,7 +2479,7 @@ set to your Sauce Labs account Data Center assignment (`us-west-1`, `eu-central-
 Below is an example of an `options` hash for specifying a connection to a mobile Safari web browser running on an iPad
 tablet hosted on Sauce Labs. The `options` hash includes options for specifying the driver name, and capabilities for setting
 device orientation, Appium version, and various test configuration options.
-
+```ruby
     options = {
       driver: :saucelabs,
       device_type: :tablet,
@@ -2502,7 +2501,7 @@ device orientation, Appium version, and various test configuration options.
       }
     }
     WebDriverConnect.initialize_web_driver(options)
-
+```
 
 #### Remote Desktop Browsers on the TestingBot Service
 
@@ -2536,7 +2535,7 @@ When using the `options` hash, the following options and capabilities must be sp
 - `browser_version:` in the `capabilities:` hash must be set to browser version from capability in chart
 - `platform_name:` in the `capabilities:` hash must be set to platform name from capability in chart
 
-```
+```ruby
     options = {
       driver: :testingbot,
       capabilities: {
@@ -2560,7 +2559,7 @@ the `TB_AUTHKEY` Environment Variable is set to your TestingBot access key.
 Below is an example of an `options` hash for specifying a connection to the latest version of an Edge desktop web browser
 running on macOS Sonoma hosted on TestingBot. The `options` hash includes options for specifying the driver name, setting
 the browser window size, and capabilities for setting screen resolution, time zone, and various test configuration options.
-
+```ruby
     options = {
       driver: :testingbot,
       driver_name: :admin_user,
@@ -2580,7 +2579,7 @@ the browser window size, and capabilities for setting screen resolution, time zo
       }
     }
     WebDriverConnect.initialize_web_driver(options)
-
+```
 
 #### Remote Mobile Browsers on the TestingBot Service
 
@@ -2616,7 +2615,7 @@ When using the `options` hash, the following options and capabilities must be sp
 - `browserName:` in the `capabilities:` hash must be set to `browserName` from capability in chart
 - `platform_name:` in the `capabilities:` hash must be set to `platform_name` from capability in chart
 
-```
+```ruby
     options = {
       driver: :testingbot,
       device_type: phone_or_tablet,
@@ -2644,7 +2643,7 @@ the `TB_AUTHKEY` Environment Variable is set to your TestingBot access key.
 Below is an example of an `options` hash for specifying a connection to a mobile Safari web browser running on an iPad
 tablet hosted on TestingBot. The `options` hash includes options for specifying the driver name, and capabilities for setting
 device orientation, Appium version, and various test configuration options.
-
+```ruby
     options = {
       driver: :testingbot,
       device_type: :tablet,
@@ -2662,7 +2661,7 @@ device orientation, Appium version, and various test configuration options.
       }
     }
     WebDriverConnect.initialize_web_driver(options)
-
+```
 
 #### Remote Desktop Browsers on the LambdaTest Service
 
@@ -2698,7 +2697,7 @@ When using the `options` hash, the following options and capabilities must be sp
 - `browserName:` in the `capabilities:` hash must be set to name from capability in chart
 - `browserVersion:` in the `capabilities:` hash must be set to browser version from capability in chart
 
-```
+```ruby
     options = {
       driver: :lambdatest,
       capabilities: {
@@ -2727,7 +2726,7 @@ Below is an example of an `options` hash for specifying a connection to the late
 running on macOS Sonoma hosted on LambdaTest. The `options` hash includes options for specifying the driver name, setting
 the browser window size, and capabilities for setting screen resolution, geoLocation, time zone, Selenium version, and various
 test configuration options.
-
+```ruby
     options = {
       driver: :lambdatest,
       driver_name: :admin_user,
@@ -2752,7 +2751,7 @@ test configuration options.
       }
     }
     WebDriverConnect.initialize_web_driver(options)
-
+```
 
 #### Remote Browsers on Unsupported Cloud Hosting Services
 
@@ -2767,14 +2766,14 @@ The following options and capabilities must be specified:
 
 All other required capabilities specified by the hosting service configuration documentation should be included in the
 `capabilities:` hash.
-
+```ruby
     options = {
       driver: :custom,
       endpoint: endpoint_url,
       capabilities: { browserName: browser_name_from_chart }
     }
     WebDriverConnect.initialize_web_driver(options)
-
+```
 > ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
 `:custom_<browserName>` - e.g. `:custom_chrome` or `:custom_safari`.
 
@@ -2783,7 +2782,7 @@ either `:desktop` or `:mobile`, and `Environ.device` to either `:web` or `:devic
 is a desktop browser or a mobile browser running on a mobile device or simulator.
 
 Below is an example for specifying a connection to a Firefox desktop web browser on an unsupported hosting service:
-
+```ruby
       # specify desktop platform
       Environ.platform = :desktop
       Environ.device = :web
@@ -2800,10 +2799,10 @@ Below is an example for specifying a connection to a Firefox desktop web browser
         }
       }
       WebDriverConnect.initialize_web_driver(options)
-
+```
 Below is an example for specifying a connection to a mobile Safari web browser running on an iPad on an unsupported hosting
 service:
-
+```ruby
       # specify mobile platform, device type, and device name
       Environ.platform = :mobile
       Environ.device = :device
@@ -2820,7 +2819,7 @@ service:
         }
       }
       WebDriverConnect.initialize_web_driver(options)
-
+```
 
 ### Closing Browser and Driver Instances
 
@@ -2828,23 +2827,23 @@ service:
 
 To close all browser and driver instances upon completion of your automated Cucumber features, place the code shown below
 in your `hooks.rb` file:
-
+```ruby
     AfterAll do
       # terminate all driver instances
       WebDriverConnect.close_all_drivers
     end
-
+```
 
 #### Closing Instances Using RSpec
 
 To close all browser and driver instances upon completion of an automated spec, place the code shown below in the body
 of an example group:
-
+```ruby
     after(:each) do
       # terminate all driver instances
       WebDriverConnect.close_all_drivers
     end
-
+```
 
 ### Using Browser Specific Profiles in `cucumber.yml`
 
