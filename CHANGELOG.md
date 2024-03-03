@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.5.4] - 04-MAR-2024
+
+### Changed
+
+* Updated `selenium-webdriver` gem to version 4.18.1.
+* Updated `rack` gem to version 3.0.9.1.
+* Updated `nokogiri` gem to version 1.16.2.
+
+
 ## [4.5.3] - 27-JAN-2024
 
 ### Changed

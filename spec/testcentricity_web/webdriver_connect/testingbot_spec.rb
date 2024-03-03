@@ -33,7 +33,7 @@ RSpec.describe TestCentricity::WebDriverConnect, testingbot: true do
             build: 'RSpec - DesiredCaps Hash',
             timeZone: ENV['TIME_ZONE'],
             'screen-resolution': ENV['RESOLUTION'],
-            'selenium-version': '4.14.1'
+            'selenium-version': '4.18.1'
           }
         }
       }
