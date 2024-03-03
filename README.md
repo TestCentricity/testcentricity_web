@@ -8,7 +8,7 @@
 
 
 The TestCentricity™ Web core framework for desktop and mobile web browser-based app testing implements a Page Object Model
-DSL for use with Cucumber (version 7.x or greater) or RSpec, and Selenium-Webdriver (version 4.17). It also facilitates the
+DSL for use with Cucumber (version 7.x or greater) or RSpec, and Selenium-Webdriver (version 4.18). It also facilitates the
 configuration of the appropriate Selenium-Webdriver capabilities required to establish connections with one or more local
 or cloud hosted desktop or mobile web browsers.
 
@@ -2212,7 +2212,7 @@ test configuration options.
           userName: ENV['BS_USERNAME'],
           accessKey: ENV['BS_AUTHKEY'],
           projectName: 'ALP AP',
-          buildName: "Test Build {ENV['BUILD_NUM']}",
+          buildName: "Test Build #{ENV['BUILD_NUM']}",
           sessionName: 'AU Regression Suite',
           os: 'OS X',
           osVersion: 'Sonoma',
@@ -2307,7 +2307,7 @@ geoLocation, time zone, Appium version, and various test configuration options.
           userName: ENV['BS_USERNAME'],
           accessKey: ENV['BS_AUTHKEY'],
           projectName: 'ALP AP',
-          buildName: "Test Build {ENV['BUILD_NUM']}",
+          buildName: "Test Build #{ENV['BUILD_NUM']}",
           sessionName: 'AU Regression Suite',
           os: 'android',
           osVersion: '13.0',
@@ -2399,7 +2399,7 @@ the browser window size, and capabilities for setting screen resolution, time zo
           username: ENV['SL_USERNAME'],
           access_key: ENV['SL_AUTHKEY'],
           name: 'ALP AP',
-          build: "Test Build {ENV['BUILD_NUM']}",
+          build: "Test Build #{ENV['BUILD_NUM']}",
           screenResolution: '2048x1536',
           timeZone: 'Perth',
           maxDuration: 2400,
@@ -2494,7 +2494,7 @@ device orientation, Appium version, and various test configuration options.
           username: ENV['SL_USERNAME'],
           access_key: ENV['SL_AUTHKEY'],
           name: 'ALP AP',
-          build: "Test Build {ENV['BUILD_NUM']}",
+          build: "Test Build #{ENV['BUILD_NUM']}",
           deviceOrientation: 'PORTRAIT',
           appiumVersion: '1.22.3'
         }
@@ -2570,7 +2570,7 @@ the browser window size, and capabilities for setting screen resolution, time zo
         platform_name: 'SONOMA',
         'tb:options': {
           name: 'ALP AP',
-          build: "Test Build {ENV['BUILD_NUM']}",
+          build: "Test Build #{ENV['BUILD_NUM']}",
           timeZone: 'Australia/Adelaide',
           'testingbot.geoCountryCode': 'AU',
           'screen-resolution': '2048x1536',
@@ -2655,7 +2655,7 @@ device orientation, Appium version, and various test configuration options.
         'tb:options': {
           deviceName: 'iPad Pro (12.9-inch) (5th generation)',
           name: 'ALP AP',
-          build: "Test Build {ENV['BUILD_NUM']}",
+          build: "Test Build #{ENV['BUILD_NUM']}",
           orientation: 'LANDSCAPE'
         }
       }
@@ -2739,7 +2739,7 @@ test configuration options.
           username: ENV['LT_USERNAME'],
           accessKey: ENV['LT_AUTHKEY'],
           project: 'ALP AP',
-          build: "Test Build {ENV['BUILD_NUM']}",
+          build: "Test Build #{ENV['BUILD_NUM']}",
           resolution: '2560x1440',
           selenium_version: '4.13.0',
           networkLogs: 'true',

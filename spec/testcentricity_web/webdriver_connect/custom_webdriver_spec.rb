@@ -92,7 +92,7 @@ RSpec.describe TestCentricity::WebDriverConnect, custom: true do
     it 'connects to a Safari mobile browser on BrowserStack' do
       Environ.platform = :mobile
       Environ.device = :device
-      Environ.device_name = 'iPad Pro 12.9 2018'
+      Environ.device_name = 'iPad Pro 12.9 2022'
       options = {
         driver: :custom,
         driver_name: :custom_bs_mobile,
@@ -107,7 +107,7 @@ RSpec.describe TestCentricity::WebDriverConnect, custom: true do
             buildName: "Version #{TestCentricityWeb::VERSION}",
             sessionName: 'RSpec - Custom WebDriver',
             os: 'ios',
-            osVersion: '15',
+            osVersion: '16',
             deviceName: Environ.device_name,
             appiumVersion: '1.22.0',
             realMobile: 'true'
@@ -115,7 +115,7 @@ RSpec.describe TestCentricity::WebDriverConnect, custom: true do
         }
       }
       WebDriverConnect.initialize_web_driver(options)
-      verify_custom_browser(browser = :safari, platform = :mobile, device = 'iPad Pro 12.9 2018')
+      verify_custom_browser(browser = :safari, platform = :mobile, device = 'iPad Pro 12.9 2022')
     end
   end
 

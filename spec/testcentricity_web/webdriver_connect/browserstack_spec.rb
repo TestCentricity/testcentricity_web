@@ -284,7 +284,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
   context 'Connect to BrowserStack hosted mobile web browsers using desired_capabilities hash' do
     it 'connects to a mobile Safari browser on an iPad on BrowserStack' do
       ENV['BS_OS'] = 'ios'
-      ENV['BS_OS_VERSION'] = '15'
+      ENV['BS_OS_VERSION'] = '16'
       caps = {
         driver: :browserstack,
         device_type: :tablet,
@@ -298,7 +298,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
             sessionName: 'RSpec - DesiredCaps Hash',
             os: ENV['BS_OS'],
             osVersion: ENV['BS_OS_VERSION'],
-            deviceName: 'iPad Pro 12.9 2018',
+            deviceName: 'iPad Pro 12.9 2022',
             deviceOrientation: 'landscape',
             appiumVersion: '1.22.0',
             realMobile: 'true'
@@ -306,7 +306,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
         }
       }
       WebDriverConnect.initialize_web_driver(caps)
-      verify_cloud_browser(browser = :safari, platform = :mobile, device = 'iPad Pro 12.9 2018')
+      verify_cloud_browser(browser = :safari, platform = :mobile, device = 'iPad Pro 12.9 2022')
     end
 
     it 'connects to a mobile Chrome browser on an Android tablet on BrowserStack' do
@@ -341,10 +341,10 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
     it 'connects to a mobile Safari browser on an iPad on BrowserStack' do
       ENV['BS_BROWSER'] = 'Safari'
       ENV['BS_OS'] = 'ios'
-      ENV['BS_OS_VERSION'] = '15'
+      ENV['BS_OS_VERSION'] = '16'
       ENV['BS_REAL_MOBILE'] = 'true'
       ENV['DEVICE_TYPE'] = 'tablet'
-      ENV['BS_DEVICE'] = 'iPad Pro 12.9 2018'
+      ENV['BS_DEVICE'] = 'iPad Pro 12.9 2022'
       ENV['ORIENTATION'] = 'landscape'
       WebDriverConnect.initialize_web_driver
       verify_cloud_browser(browser = :safari, platform = :mobile, device = ENV['BS_DEVICE'])
