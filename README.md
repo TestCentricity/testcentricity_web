@@ -8,9 +8,9 @@
 
 
 The TestCentricity™ Web core framework for desktop and mobile web browser-based app testing implements a Page Object Model
-DSL for use with Cucumber (version 7.x or greater) or RSpec, and Selenium-Webdriver (version 4.18). It also facilitates the
-configuration of the appropriate Selenium-Webdriver capabilities required to establish connections with one or more local
-or cloud hosted desktop or mobile web browsers.
+DSL for use with Cucumber (version 7.x or greater) or RSpec, and Selenium-Webdriver. It also facilitates the configuration
+of the appropriate Selenium-Webdriver capabilities required to establish connections with one or more local or cloud hosted
+desktop or mobile web browsers.
 
 The TestCentricity™ Web gem supports connecting to, and running automated tests against the following target web browsers:
 * locally hosted desktop browsers (Chrome, Edge, Firefox, or Safari)
