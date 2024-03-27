@@ -481,7 +481,7 @@ module TestCentricity
                   else
                     # define desktop browser options
                     bs_options[:resolution] = ENV['RESOLUTION'] if ENV['RESOLUTION']
-                    bs_options[:seleniumVersion] = '4.16.1'
+                    bs_options[:seleniumVersion] = '4.18.1'
                     {
                       browserName: browser,
                       browserVersion: ENV['BS_VERSION'],
