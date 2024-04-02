@@ -293,7 +293,7 @@ module TestCentricity
                  # :nocov:
                else
                  caps[:'appium:wdaLocalPort'] = ENV['WDA_LOCAL_PORT'] if ENV['WDA_LOCAL_PORT']
-                 caps[:'appium:systemPort']   = ENV['SYSTEM_PORT'] if ENV['SYSTEM_PORT']
+                 caps[:'appium:systemPort'] = ENV['SYSTEM_PORT'] if ENV['SYSTEM_PORT']
                end
                caps
              else
@@ -303,8 +303,13 @@ module TestCentricity
                @capabilities
              end
       # specify endpoint url
-      @endpoint = 'http://localhost:4723/wd/hub' if @endpoint.nil?
-
+      if @endpoint.nil?
+        @endpoint = if ENV['APPIUM_SERVER_VERSION'] && ENV['APPIUM_SERVER_VERSION'].to_i == 1
+                      'http://127.0.0.1:4723/wd/hub'
+                    else
+                      'http://127.0.0.1:4723'
+                    end
+      end
       register_remote_driver(Environ.browser, caps)
     end
 

@@ -16,7 +16,7 @@ The TestCentricity™ Web gem supports connecting to, and running automated test
 * locally hosted desktop browsers (Chrome, Edge, Firefox, or Safari)
 * locally hosted "headless" Chrome, Firefox, or Edge browsers
 * remote desktop and emulated mobile web browsers hosted on Selenium Grid 4 and Dockerized Selenium Grid 4 environments
-* mobile Safari browsers on iOS device simulators or physical iOS devices (using Appium and XCode on macOS)
+* mobile Safari browsers on iOS device simulators or physical iOS devices (using Appium 2.x and XCode on macOS)
 * mobile Chrome or Android browsers on Android Studio virtual device emulators (using Appium and Android Studio)
 * cloud hosted desktop (Firefox, Chrome, Safari, IE, or Edge) or mobile (iOS Mobile Safari or Android Chrome) web browsers using the following service:
   * [Browserstack](https://www.browserstack.com/list-of-browsers-and-platforms?product=automate)
@@ -40,8 +40,8 @@ can be found [here](https://github.com/TestCentricity/tc_multi_webdriver_sample)
 
 ### Which gem should I use?
 
-* The TestCentricity **Web** gem only supports testing of web interfaces via desktop and mobile web browsers
-* The TestCentricity **Mobile** gem only supports testing of native iOS and/or Android mobile apps
+* The [TestCentricity **Web** gem](https://rubygems.org/gems/testcentricity_web) only supports testing of web interfaces via desktop and mobile web browsers
+* The [TestCentricity **Mobile** gem](https://rubygems.org/gems/testcentricity_mobile) only supports testing of native iOS and/or Android mobile apps
 * The TestCentricity gem supports testing of native mobile apps and/or web interfaces via desktop and mobile web browsers.
 
 | Tested platforms                                   | TestCentricity Web | TestCentricity Mobile | TestCentricity |
@@ -1880,6 +1880,10 @@ Below is an example of an `options` hash for specifying a connection to a grid h
 
 Refer to [this page](https://appium.io/docs/en/2.2/guides/caps/) for information regarding specifying Appium capabilities.
 
+⚠️ If you are running locally hosted mobile web tests on iOS or Android simulators or devices using version 1.x of the Appium
+server, the `APPIUM_SERVER_VERSION` environment variable must be set to `1` in order to ensure that the correct Appium server
+endpoint is used.
+
 #### Mobile Safari Browser on iOS Simulators or iOS Physical Devices
 
 You can run your mobile web tests against the mobile Safari browser on iOS device simulators or physically connected iOS
@@ -1955,7 +1959,7 @@ When using the `options` hash, the following options and capabilities must be sp
 > ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
 `appium_safari`.
 > 
-> ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL of `http://localhost:4723/wd/hub`
+> ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL of `http://localhost:4723`
 will be used.
 
 Below is an example of an `options` hash for specifying a connection to a locally hosted mobile Safari web browser running
@@ -2042,7 +2046,7 @@ When using the `options` hash, the following options and capabilities must be sp
 > ℹ️ If an optional user defined `driver_name:` is not specified in the `options` hash, the default driver name will be set to
 `appium_chrome`.
 > 
-> ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL of `http://localhost:4723/wd/hub`
+> ℹ️ If an `endpoint:` is not specified in the `options` hash, then the default remote endpoint URL of `http://localhost:4723`
 will be used.
 
 Below is an example of an `options` hash for specifying a connection to a locally hosted mobile Chrome web browser running
@@ -2096,6 +2100,13 @@ starting your Cucumber test suite(s):
 
     run_appium: APPIUM_SERVER=run
 
+If you are running locally hosted mobile web tests on iOS or Android simulators or devices using version 1.x of the Appium
+server, the `APPIUM_SERVER_VERSION` environment variable must be set to `1` in order to ensure that the correct Appium server
+endpoint is used. This can be set by adding the following to your `cucumber.yml` file and including `-p appium_1x` in your
+command line when starting your Cucumber test suite(s):
+
+    appium_1x: APPIUM_SERVER_VERSION=1
+
 Refer to [**section 8.9 (Using Browser Specific Profiles in `cucumber.yml`)**](#using-browser-specific-profiles-in-cucumber-yml) below.
 
 
@@ -2116,6 +2127,10 @@ body of an example group:
       $server.stop if Environ.driver == :appium && $server.running?
     end
 ```
+If you are running locally hosted mobile web tests on iOS or Android simulators or devices using version 1.x of the Appium
+server, the `APPIUM_SERVER_VERSION` environment variable must be set to `1` in order to ensure that the correct Appium server
+endpoint is used.
+
 
 ### Remote Cloud Hosted Desktop and Mobile Web Browsers
 
@@ -2936,6 +2951,7 @@ with access to your version control system.
     #==============
 
     run_appium: APPIUM_SERVER=run
+    appium_1x: APPIUM_SERVER_VERSION=1
 
 
     #==============
@@ -3098,6 +3114,11 @@ The following command specifies that Cucumber will run tests against an iPad Pro
 You can ensure that Appium Server is running by including `-p run_appium` in your command line:
 
     cucumber -p ipad_pro_12_15_sim -p landscape -p run_appium
+
+If you are running locally hosted mobile web tests using version 1.x of Appium server, you must include `-p appium_1x` in
+your command line:
+
+    cucumber -p ipad_pro_12_15_sim -p landscape -p run_appium -p appium_1x
 
 
 The following command specifies that Cucumber will run tests against a remotely hosted Safari web browser running on a macOS

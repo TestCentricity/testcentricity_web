@@ -113,7 +113,7 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
       caps = {
         driver: :appium,
         device_type: :tablet,
-        endpoint: 'http://localhost:4723/wd/hub',
+        endpoint: 'http://localhost:4723',
         capabilities: {
           platformName: :ios,
           browserName: :safari,
