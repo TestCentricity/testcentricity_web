@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.5.6] - 02-APR-2024
+
+### Fixed
+
+* `WebDriverConnect.initialize_web_driver`, `AppiumServer.start`, and `AppiumServer.running?` methods now support Appium
+version 2.x. Backward compatibility with Appium version 1.x is provided if `APPIUM_SERVER_VERSION` Environment Variable
+is set to `1`.
+
+
 ## [4.5.5] - 27-MAR-2024
 
 ### Changed

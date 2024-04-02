@@ -16,7 +16,7 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
       caps = {
         driver: :appium,
         device_type: :tablet,
-        endpoint: 'http://localhost:4723/wd/hub',
+        endpoint: 'http://localhost:4723',
         capabilities: {
           platformName: :ios,
           browserName: :safari,
@@ -68,7 +68,7 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
           'appium:automationName': 'XCUITest',
           'appium:orientation': 'LANDSCAPE'
         },
-        endpoint: 'http://localhost:4723/wd/hub'
+        endpoint: 'http://localhost:4723'
       }
       WebDriverConnect.initialize_web_driver(caps)
       verify_mobile_browser(browser = :safari, device_os = :ios, driver_name = :my_custom_ios_driver)
