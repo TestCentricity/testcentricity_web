@@ -1952,7 +1952,7 @@ When using the `options` hash, the following options and capabilities must be sp
         'appium:platformVersion': ios_version,
         'appium:deviceName': device_or_simulator_name
       },
-      endpoint: 'http://localhost:4723/wd/hub'
+      endpoint: 'http://localhost:4723'
     }
     WebDriverConnect.initialize_web_driver(options)
 ```
@@ -2039,7 +2039,7 @@ When using the `options` hash, the following options and capabilities must be sp
         'appium:deviceName': simulator_name,
         'appium:avd': simulator_name
       },
-      endpoint: 'http://localhost:4723/wd/hub'
+      endpoint: 'http://localhost:4723'
     }
     WebDriverConnect.initialize_web_driver(options)
 ```
