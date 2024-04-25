@@ -478,7 +478,7 @@ module TestCentricity
                   # define mobile device options
                   if ENV['BS_DEVICE']
                     bs_options[:deviceName] = ENV['BS_DEVICE']
-                    bs_options[:appiumVersion] = '2.0.1'
+                    bs_options[:appiumVersion] = '2.4.1'
                     {
                       browserName: browser,
                       'bstack:options': bs_options
@@ -486,7 +486,7 @@ module TestCentricity
                   else
                     # define desktop browser options
                     bs_options[:resolution] = ENV['RESOLUTION'] if ENV['RESOLUTION']
-                    bs_options[:seleniumVersion] = '4.18.1'
+                    bs_options[:seleniumVersion] = '4.19.1'
                     {
                       browserName: browser,
                       browserVersion: ENV['BS_VERSION'],

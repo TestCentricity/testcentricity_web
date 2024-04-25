@@ -80,12 +80,12 @@ run_appium: APPIUM_SERVER=run
 #==============
 
 appium_ios: DRIVER=appium AUTOMATION_ENGINE=XCUITest APP_PLATFORM_NAME="ios" APP_BROWSER="Safari" NEW_COMMAND_TIMEOUT=30 SHOW_SIM_KEYBOARD=false <%= mobile %>
-app_ios_15: --profile appium_ios APP_VERSION="15.4"
+app_ios_17: --profile appium_ios APP_VERSION="17.2"
 
-ipad_pro_12_15_sim: --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (12.9-inch) (5th generation)"
-ipad_air_15_sim:    --profile app_ios_15 DEVICE_TYPE=tablet APP_DEVICE="iPad Air (5th generation)" <%= desktop %>
+ipad_pro_12_17_sim: --profile app_ios_17 DEVICE_TYPE=tablet APP_DEVICE="iPad Pro (12.9-inch) (6th generation)"
+ipad_air_17_sim:    --profile app_ios_17 DEVICE_TYPE=tablet APP_DEVICE="iPad Air (5th generation)" <%= desktop %>
 
-ios_remote: --profile ipad_pro_12_15_sim --profile run_appium ORIENTATION=portrait TEST_ENVIRONMENT=REMOTE
+ios_remote: --profile ipad_pro_12_17_sim --profile run_appium ORIENTATION=portrait TEST_ENVIRONMENT=REMOTE
 ios_caps_remote: W3C_CAPS=iPad --profile run_appium TEST_ENVIRONMENT=REMOTE <%= mobile %>
 
 

@@ -40,15 +40,21 @@ can be found [here](https://github.com/TestCentricity/tc_multi_webdriver_sample)
 
 ### Which gem should I use?
 
+
+
+### Which gem should I use?
+
 * The [TestCentricity **Web** gem](https://rubygems.org/gems/testcentricity_web) only supports testing of web interfaces via desktop and mobile web browsers
-* The [TestCentricity **Mobile** gem](https://rubygems.org/gems/testcentricity_mobile) only supports testing of native iOS and/or Android mobile apps
+* The [TestCentricity **Mobile** gem](https://rubygems.org/gems/testcentricity_mobile) only supports testing of native iOS and Android mobile apps
+* The [TestCentricity **Apps** gem](https://rubygems.org/gems/testcentricity_apps) only supports testing of MacOS desktop apps and native iOS and Android mobile apps
 * The TestCentricity gem supports testing of native mobile apps and/or web interfaces via desktop and mobile web browsers.
 
-| Tested platforms                                   | TestCentricity Web | TestCentricity Mobile | TestCentricity |
-|----------------------------------------------------|--------------------|-----------------------|----------------|
-| Desktop/mobile web browsers only                   | Yes                | No                    | No             |
-| Native mobile iOS and/or Android apps only         | No                 | Yes                   | No             |
-| Native mobile apps and desktop/mobile web browsers | No                 | No                    | Yes            |
+| Tested platforms                                   | TestCentricity Web | TestCentricity Mobile | TestCentricity Apps | TestCentricity |
+|----------------------------------------------------|--------------------|-----------------------|---------------------|----------------|
+| Desktop/mobile web browsers only                   | Yes                | No                    | No                  | No             |
+| Native mobile iOS and/or Android apps only         | No                 | Yes                   | Yes                 | No             |
+| MacOS desktop apps                                 | No                 | No                    | Yes                 | No             |
+| Native mobile apps and desktop/mobile web browsers | No                 | No                    | No                  | Yes            |
 
 
 ## Installation
