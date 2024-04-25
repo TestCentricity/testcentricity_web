@@ -39,7 +39,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
             os: ENV['BS_OS'],
             osVersion: ENV['BS_OS_VERSION'],
             resolution: ENV['RESOLUTION'],
-            seleniumVersion: '4.15.0'
+            seleniumVersion: '4.19.1'
           }
         }
       }
@@ -147,7 +147,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
             osVersion: '16',
             deviceName: 'iPad Pro 12.9 2022',
             deviceOrientation: 'landscape',
-            appiumVersion: '1.22.0',
+            appiumVersion: '2.4.1',
             realMobile: 'true'
           }
         }
@@ -170,7 +170,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
             osVersion: '12.0',
             deviceName: 'Samsung Galaxy Tab S8',
             deviceOrientation: 'landscape',
-            appiumVersion: '1.22.0',
+            appiumVersion: '2.4.1',
             realMobile: 'true'
           }
         }
@@ -208,7 +208,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
             os: ENV['BS_OS'],
             osVersion: ENV['BS_OS_VERSION'],
             resolution: ENV['RESOLUTION'],
-            seleniumVersion: '4.14.1'
+            seleniumVersion: '4.19.1'
           }
         }
       }
@@ -300,7 +300,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
             osVersion: ENV['BS_OS_VERSION'],
             deviceName: 'iPad Pro 12.9 2022',
             deviceOrientation: 'landscape',
-            appiumVersion: '1.22.0',
+            appiumVersion: '2.4.1',
             realMobile: 'true'
           }
         }
@@ -327,7 +327,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
             osVersion: ENV['BS_OS_VERSION'],
             deviceName: 'Samsung Galaxy Tab S7',
             deviceOrientation: 'landscape',
-            appiumVersion: '1.22.0',
+            appiumVersion: '2.4.1',
             realMobile: 'true'
           }
         }

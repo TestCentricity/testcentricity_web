@@ -20,16 +20,16 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
         capabilities: {
           platformName: :ios,
           browserName: :safari,
-          'appium:platformVersion': '15.4',
-          'appium:deviceName': 'iPad Pro (12.9-inch) (5th generation)',
+          'appium:platformVersion': '17.2',
+          'appium:deviceName': 'iPad Pro (12.9-inch) (6th generation)',
           'appium:automationName': 'XCUITest',
           'appium:orientation': 'LANDSCAPE'
         }
       }
       WebDriverConnect.initialize_web_driver(caps)
       verify_mobile_browser(browser = :safari, device_os = :ios)
-      expect(Environ.device_name).to eq('iPad Pro (12.9-inch) (5th generation)')
-      expect(Environ.device_os_version).to eq('15.4')
+      expect(Environ.device_name).to eq('iPad Pro (12.9-inch) (6th generation)')
+      expect(Environ.device_os_version).to eq('17.2')
       expect(Environ.device_orientation).to eq(:landscape)
     end
 
@@ -63,8 +63,8 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
         capabilities: {
           platformName: :ios,
           browserName: :safari,
-          'appium:platformVersion': '15.4',
-          'appium:deviceName': 'iPad Pro (12.9-inch) (5th generation)',
+          'appium:platformVersion': '17.2',
+          'appium:deviceName': 'iPad Pro (12.9-inch) (6th generation)',
           'appium:automationName': 'XCUITest',
           'appium:orientation': 'LANDSCAPE'
         },
@@ -72,8 +72,8 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
       }
       WebDriverConnect.initialize_web_driver(caps)
       verify_mobile_browser(browser = :safari, device_os = :ios, driver_name = :my_custom_ios_driver)
-      expect(Environ.device_name).to eq('iPad Pro (12.9-inch) (5th generation)')
-      expect(Environ.device_os_version).to eq('15.4')
+      expect(Environ.device_name).to eq('iPad Pro (12.9-inch) (6th generation)')
+      expect(Environ.device_os_version).to eq('17.2')
       expect(Environ.device_orientation).to eq(:landscape)
     end
 
@@ -107,8 +107,8 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
       ENV['AUTOMATION_ENGINE'] = 'XCUITest'
       ENV['APP_PLATFORM_NAME'] = 'ios'
       ENV['APP_BROWSER'] = 'Safari'
-      ENV['APP_VERSION'] = '15.4'
-      ENV['APP_DEVICE'] = 'iPad Pro (12.9-inch) (5th generation)'
+      ENV['APP_VERSION'] = '17.2'
+      ENV['APP_DEVICE'] = 'iPad Pro (12.9-inch) (6th generation)'
       ENV['ORIENTATION'] = 'portrait'
       WebDriverConnect.initialize_web_driver
       verify_mobile_browser(browser = :safari, device_os = :ios)

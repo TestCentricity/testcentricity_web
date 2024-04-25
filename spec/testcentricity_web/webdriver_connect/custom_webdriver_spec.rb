@@ -81,7 +81,7 @@ RSpec.describe TestCentricity::WebDriverConnect, custom: true do
             os: 'OS X',
             osVersion: 'Sonoma',
             resolution: '3840x2160',
-            seleniumVersion: '4.15.0'
+            seleniumVersion: '4.19.1'
           }
         }
       }
@@ -109,7 +109,7 @@ RSpec.describe TestCentricity::WebDriverConnect, custom: true do
             os: 'ios',
             osVersion: '16',
             deviceName: Environ.device_name,
-            appiumVersion: '1.22.0',
+            appiumVersion: '2.4.1',
             realMobile: 'true'
           }
         }

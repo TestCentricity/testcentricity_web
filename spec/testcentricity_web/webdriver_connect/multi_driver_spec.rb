@@ -117,8 +117,8 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
         capabilities: {
           platformName: :ios,
           browserName: :safari,
-          'appium:platformVersion': '15.4',
-          'appium:deviceName': 'iPad Pro (12.9-inch) (5th generation)',
+          'appium:platformVersion': '17.2',
+          'appium:deviceName': 'iPad Pro (12.9-inch) (6th generation)',
           'appium:automationName': 'XCUITest',
           'appium:orientation': 'LANDSCAPE',
           'appium:newCommandTimeout': 30
@@ -140,8 +140,8 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
       # activate and verify the local mobile Safari browser instance
       WebDriverConnect.activate_driver(:appium_safari)
       verify_mobile_browser(browser = :safari, device_os = :ios, device_type = :tablet)
-      expect(Environ.device_name).to eq('iPad Pro (12.9-inch) (5th generation)')
-      expect(Environ.device_os_version).to eq('15.4')
+      expect(Environ.device_name).to eq('iPad Pro (12.9-inch) (6th generation)')
+      expect(Environ.device_os_version).to eq('17.2')
       expect(Environ.device_orientation).to eq(:landscape)
     end
 
@@ -154,7 +154,7 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
         capabilities: {
           platformName: :ios,
           browserName: :safari,
-          'appium:platformVersion': '15.4',
+          'appium:platformVersion': '17.2',
           'appium:deviceName': 'iPhone 13 Pro Max',
           'appium:automationName': 'XCUITest',
           'appium:newCommandTimeout': 30
@@ -189,8 +189,8 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
         capabilities: {
           platformName: :ios,
           browserName: :safari,
-          'appium:platformVersion': '15.4',
-          'appium:deviceName': 'iPad Pro (12.9-inch) (5th generation)',
+          'appium:platformVersion': '17.2',
+          'appium:deviceName': 'iPad Pro (12.9-inch) (6th generation)',
           'appium:automationName': 'XCUITest',
           'appium:orientation': 'PORTRAIT',
           'appium:newCommandTimeout': 30
@@ -221,8 +221,8 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
       # activate and verify the local mobile Safari browser/iPad instance
       WebDriverConnect.activate_driver(:my_ipad)
       verify_mobile_browser(browser = :safari, device_os = :ios, device_type = :tablet, driver_name = :my_ipad)
-      expect(Environ.device_name).to eq('iPad Pro (12.9-inch) (5th generation)')
-      expect(Environ.device_os_version).to eq('15.4')
+      expect(Environ.device_name).to eq('iPad Pro (12.9-inch) (6th generation)')
+      expect(Environ.device_os_version).to eq('17.2')
       expect(Environ.device_orientation).to eq(:portrait)
 
       # activate and verify the local mobile Chrome browser/tablet instance
@@ -236,7 +236,7 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
       WebDriverConnect.activate_driver(:my_iphone)
       verify_mobile_browser(browser = :safari, device_os = :ios, device_type = :phone, driver_name = :my_iphone)
       expect(Environ.device_name).to eq('iPhone 13 Pro Max')
-      expect(Environ.device_os_version).to eq('15.4')
+      expect(Environ.device_os_version).to eq('17.2')
 
       # activate and verify the local mobile Chrome browser/phone instance
       WebDriverConnect.activate_driver(:my_android_phone)
