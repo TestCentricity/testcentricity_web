@@ -2,6 +2,17 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.5.8] - 21-MAY-2024
+
+### Changed
+
+* Setting `DOWNLOADS` Environment Variable to `true` will create a `/downloads` folder which will be used as the destination
+for files that are downloaded by your automated tests. You know longer need to manually create the `/downloads` folder.
+* Updated `appium_lib` gem to version 15.1.0.
+* Updated `appium_lib_core` gem to version 9.1.1.
+* Updated `selenium-webdriver` gem to version 4.21.1.
+
+
 ## [4.5.7] - 25-APR-2024
 
 ### Changed

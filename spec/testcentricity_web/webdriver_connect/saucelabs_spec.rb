@@ -21,25 +21,25 @@ RSpec.describe TestCentricity::WebDriverConnect, saucelabs: true do
     it 'connects to a Safari browser on SauceLabs' do
       ENV['SL_BROWSER'] = 'Safari'
       WebDriverConnect.initialize_web_driver
-      verify_cloud_browser(browser = :safari, platform = :desktop)
+      verify_cloud_browser(browser_type = :safari, platform = :desktop)
     end
 
     it 'connects to a Chrome browser on SauceLabs' do
       ENV['SL_BROWSER'] = 'Chrome'
       WebDriverConnect.initialize_web_driver
-      verify_cloud_browser(browser = :chrome, platform = :desktop)
+      verify_cloud_browser(browser_type = :chrome, platform = :desktop)
     end
 
     it 'connects to a Firefox browser on SauceLabs' do
       ENV['SL_BROWSER'] = 'Firefox'
       WebDriverConnect.initialize_web_driver
-      verify_cloud_browser(browser = :firefox, platform = :desktop)
+      verify_cloud_browser(browser_type = :firefox, platform = :desktop)
     end
 
     it 'connects to an Edge browser on SauceLabs' do
       ENV['SL_BROWSER'] = 'MicrosoftEdge'
       WebDriverConnect.initialize_web_driver
-      verify_cloud_browser(browser = :microsoftedge, platform = :desktop)
+      verify_cloud_browser(browser_type = :microsoftedge, platform = :desktop)
     end
   end
 
@@ -67,25 +67,25 @@ RSpec.describe TestCentricity::WebDriverConnect, saucelabs: true do
     it 'connects to a Safari browser on SauceLabs' do
       ENV['SL_BROWSER'] = 'Safari'
       WebDriverConnect.initialize_web_driver(desktop_caps_hash)
-      verify_cloud_browser(browser = :safari, platform = :desktop)
+      verify_cloud_browser(browser_type = :safari, platform = :desktop)
     end
 
     it 'connects to a Chrome browser on SauceLabs' do
       ENV['SL_BROWSER'] = 'Chrome'
       WebDriverConnect.initialize_web_driver(desktop_caps_hash)
-      verify_cloud_browser(browser = :chrome, platform = :desktop)
+      verify_cloud_browser(browser_type = :chrome, platform = :desktop)
     end
 
     it 'connects to a Firefox browser on SauceLabs' do
       ENV['SL_BROWSER'] = 'Firefox'
       WebDriverConnect.initialize_web_driver(desktop_caps_hash)
-      verify_cloud_browser(browser = :firefox, platform = :desktop)
+      verify_cloud_browser(browser_type = :firefox, platform = :desktop)
     end
 
     it 'connects to an Edge browser on SauceLabs' do
       ENV['SL_BROWSER'] = 'MicrosoftEdge'
       WebDriverConnect.initialize_web_driver(desktop_caps_hash)
-      verify_cloud_browser(browser = :microsoftedge, platform = :desktop)
+      verify_cloud_browser(browser_type = :microsoftedge, platform = :desktop)
     end
   end
 
@@ -99,7 +99,7 @@ RSpec.describe TestCentricity::WebDriverConnect, saucelabs: true do
       ENV['AUTOMATION_ENGINE'] = 'XCUITest'
       ENV['ORIENTATION'] = 'landscape'
       WebDriverConnect.initialize_web_driver
-      verify_cloud_browser(browser = :safari, platform = :mobile, device = ENV['SL_DEVICE'])
+      verify_cloud_browser(browser_type = :safari, platform = :mobile, device = ENV['SL_DEVICE'])
     end
 
     it 'connects to a mobile Chrome browser on an Android tablet on SauceLabs' do
@@ -111,7 +111,7 @@ RSpec.describe TestCentricity::WebDriverConnect, saucelabs: true do
       ENV['AUTOMATION_ENGINE'] = 'UiAutomator2'
       ENV['ORIENTATION'] = 'landscape'
       WebDriverConnect.initialize_web_driver
-      verify_cloud_browser(browser = :chrome, platform = :mobile, device = ENV['SL_DEVICE'])
+      verify_cloud_browser(browser_type = :chrome, platform = :mobile, device = ENV['SL_DEVICE'])
     end
   end
 
@@ -137,7 +137,7 @@ RSpec.describe TestCentricity::WebDriverConnect, saucelabs: true do
         }
       }
       WebDriverConnect.initialize_web_driver(caps)
-      verify_cloud_browser(browser = :safari,
+      verify_cloud_browser(browser_type = :safari,
                            platform = :mobile,
                            device = 'iPad Pro (12.9 inch) (5th generation) Simulator')
     end
@@ -163,7 +163,7 @@ RSpec.describe TestCentricity::WebDriverConnect, saucelabs: true do
         }
       }
       WebDriverConnect.initialize_web_driver(caps)
-      verify_cloud_browser(browser = :chrome,
+      verify_cloud_browser(browser_type = :chrome,
                            platform = :mobile,
                            device = 'Samsung Galaxy Tab S7 Plus GoogleAPI Emulator')
     end
@@ -175,12 +175,12 @@ RSpec.describe TestCentricity::WebDriverConnect, saucelabs: true do
     expect(WebDriverConnect.num_drivers).to eq(0)
   end
 
-  def verify_cloud_browser(browser, platform, device = nil)
+  def verify_cloud_browser(browser_type, platform, device = nil)
     # load Apple web site
     Capybara.page.driver.browser.navigate.to(test_site_url)
     Capybara.page.find(:css, test_site_locator, wait: 10, visible: true)
     # verify Environs are correctly set
-    expect(Environ.browser).to eq(browser)
+    expect(Environ.browser).to eq(browser_type)
     expect(Environ.platform).to eq(platform)
     expect(Environ.session_state).to eq(:running)
     expect(Environ.driver).to eq(:saucelabs)

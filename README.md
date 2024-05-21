@@ -1625,9 +1625,9 @@ Below is an example of an `options` hash for specifying a connection to a locall
 #### Testing File Downloads With Desktop Browsers
 
 File download functionality can be tested with locally hosted instances of Chrome, Edge, or Firefox desktop browsers. Your
-automation project must include a `/downloads` folder which is used as the destination for files that are downloaded by
-your automated tests. The `/downloads` folder must be at the same level as the `/config` and `/features` folders, as depicted
-below:
+automation project must set the `DOWNLOADS` Environment Variable to `true`, which will result in a `/downloads` folder being
+created, which will be used as the destination for files that are downloaded by your automated tests. The `/downloads` folder
+will be at the same level as the `/config` and `/features` folders, as depicted below:
 
         📁 my_automation_project/
         ├── 📁 config/
