@@ -5,6 +5,7 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
 
   before(:context) do
     ENV['DRIVER'] = 'grid'
+    ENV['DOWNLOADS'] = 'true'
     endpoint = 'http://localhost:4444/wd/hub'
     ENV['REMOTE_ENDPOINT'] = endpoint
     # wait for Dockerized Selenium grid to be running
@@ -254,6 +255,8 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
     WebDriverConnect.close_all_drivers
     # verify that all driver instances have been closed
     expect(WebDriverConnect.num_drivers).to eq(0)
+    # remove Downloads folder if one was created
+    Dir.delete(WebDriverConnect.downloads_path) if Dir.exist?(WebDriverConnect.downloads_path)
   end
 
   def verify_grid_browser(browser, platform, headless, driver_name = nil)
@@ -270,5 +273,6 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
     expect(Environ.grid).to eq(:selenium_grid)
     driver_name = "remote_#{Environ.browser}".downcase.to_sym if driver_name.nil?
     expect(Capybara.current_driver).to eq(driver_name)
+    expect(Dir.exist?(WebDriverConnect.downloads_path)).to eq(true)
   end
 end

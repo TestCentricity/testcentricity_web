@@ -25,10 +25,10 @@ parallel: PARALLEL=true REPORTING=true --require features --format pretty --form
 #==============
 
 local:   TEST_ENVIRONMENT=LOCAL
-chrome:  WEB_BROWSER=chrome DATA_SOURCE=yaml <%= desktop %>
+chrome:  WEB_BROWSER=chrome DATA_SOURCE=yaml DOWNLOADS=true <%= desktop %>
 edge:    WEB_BROWSER=edge DATA_SOURCE=json <%= desktop %>
 safari:  WEB_BROWSER=safari DATA_SOURCE=json <%= desktop %>
-firefox: WEB_BROWSER=firefox <%= desktop %>
+firefox: WEB_BROWSER=firefox DOWNLOADS=true <%= desktop %>
 
 chrome_local:  --profile local --profile chrome
 edge_local:    --profile local --profile edge

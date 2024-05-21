@@ -157,6 +157,10 @@ module TestCentricity
       @initialized = false
     end
 
+    def self.downloads_path
+      @downloads_path
+    end
+
     def self.initialize_browser_size
       # tile browser windows if BROWSER_TILE environment variable is true and running in multiple parallel threads
       if ENV['BROWSER_TILE'] && (Environ.parallel || @drivers.length > 1)
@@ -216,8 +220,12 @@ module TestCentricity
 
     def self.initialize_downloads
       @drivers = {}
-      # set downloads folder path
       @downloads_path = "#{Dir.pwd}/downloads"
+      # create downloads folder if it doesn't already exist
+      if ENV['DOWNLOADS'] && ENV['DOWNLOADS'].to_bool
+        Dir.mkdir(@downloads_path) unless Dir.exist?(@downloads_path)
+      end
+
       if ENV['PARALLEL']
         Environ.parallel = true
         Environ.process_num = ENV['TEST_ENV_NUMBER']
@@ -746,7 +754,7 @@ module TestCentricity
       options.add_argument("--lang=#{ENV['LOCALE']}") if ENV['LOCALE']
       if browser == :chrome_headless || browser == :edge_headless
         Environ.headless = true
-        options.add_argument('--headless')
+        options.add_argument('--headless=new')
         options.add_argument('--disable-gpu')
       end
       options

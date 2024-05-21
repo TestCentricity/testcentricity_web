@@ -27,7 +27,7 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
         }
       }
       WebDriverConnect.initialize_web_driver(caps)
-      verify_mobile_browser(browser = :safari, device_os = :ios)
+      verify_mobile_browser(browser_type = :safari, os = :ios)
       expect(Environ.device_name).to eq('iPad Pro (12.9-inch) (6th generation)')
       expect(Environ.device_os_version).to eq('17.2')
       expect(Environ.device_orientation).to eq(:landscape)
@@ -49,7 +49,7 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
         }
       }
       WebDriverConnect.initialize_web_driver(caps)
-      verify_mobile_browser(browser = :chrome, device_os = :android)
+      verify_mobile_browser(browser_type = :chrome, os = :android)
       expect(Environ.device_name).to eq('Pixel_C_API_31')
       expect(Environ.device_os_version).to eq('12.0')
       expect(Environ.device_orientation).to eq(:portrait)
@@ -71,7 +71,7 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
         endpoint: 'http://localhost:4723'
       }
       WebDriverConnect.initialize_web_driver(caps)
-      verify_mobile_browser(browser = :safari, device_os = :ios, driver_name = :my_custom_ios_driver)
+      verify_mobile_browser(browser_type = :safari, os = :ios, driver_name = :my_custom_ios_driver)
       expect(Environ.device_name).to eq('iPad Pro (12.9-inch) (6th generation)')
       expect(Environ.device_os_version).to eq('17.2')
       expect(Environ.device_orientation).to eq(:landscape)
@@ -94,7 +94,7 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
         }
       }
       WebDriverConnect.initialize_web_driver(caps)
-      verify_mobile_browser(browser = :chrome, device_os = :android, driver_name = :my_custom_android_driver)
+      verify_mobile_browser(browser_type = :chrome, os = :android, driver_name = :my_custom_android_driver)
       expect(Environ.device_name).to eq('Pixel_C_API_31')
       expect(Environ.device_os_version).to eq('12.0')
       expect(Environ.device_orientation).to eq(:portrait)
@@ -111,7 +111,7 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
       ENV['APP_DEVICE'] = 'iPad Pro (12.9-inch) (6th generation)'
       ENV['ORIENTATION'] = 'portrait'
       WebDriverConnect.initialize_web_driver
-      verify_mobile_browser(browser = :safari, device_os = :ios)
+      verify_mobile_browser(browser_type = :safari, os = :ios)
       expect(Environ.device_name).to eq(ENV['APP_DEVICE'])
       expect(Environ.device_os_version).to eq(ENV['APP_VERSION'])
       expect(Environ.device_orientation).to eq(:portrait)
@@ -126,20 +126,20 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
       ENV['APP_DEVICE'] = 'Pixel_C_API_31'
       ENV['ORIENTATION'] = 'landscape'
       WebDriverConnect.initialize_web_driver
-      verify_mobile_browser(browser = :chrome, device_os = :android)
+      verify_mobile_browser(browser_type = :chrome, os = :android)
       expect(Environ.device_name).to eq(ENV['APP_DEVICE'])
       expect(Environ.device_os_version).to eq(ENV['APP_VERSION'])
       expect(Environ.device_orientation).to eq(:landscape)
     end
   end
 
-  def verify_mobile_browser(browser, device_os, driver_name = nil)
+  def verify_mobile_browser(browser_type, os, driver_name = nil)
     # load Apple web site
     Capybara.page.driver.browser.navigate.to(test_site_url)
     Capybara.page.find(:css, test_site_locator, wait: 10, visible: true)
     # verify Environs are correctly set
-    expect(Environ.browser).to eq(browser)
-    expect(Environ.device_os).to eq(device_os)
+    expect(Environ.browser).to eq(browser_type)
+    expect(Environ.device_os).to eq(os)
     expect(Environ.platform).to eq(:mobile)
     expect(Environ.headless).to eq(false)
     expect(Environ.session_state).to eq(:running)
@@ -147,7 +147,7 @@ RSpec.describe TestCentricity::WebDriverConnect, mobile: true do
     expect(Environ.device).to eq(:simulator)
     expect(Environ.device_type).to eq(:tablet)
     expect(Environ.is_web?).to eq(false)
-    if device_os == :ios
+    if os == :ios
       expect(Environ.is_ios?).to eq(true)
     else
       expect(Environ.is_android?).to eq(true)

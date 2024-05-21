@@ -22,6 +22,8 @@ end
 AfterAll do
   # close driver
   terminate_session
+  # remove Downloads folder if one was created
+  Dir.delete(WebDriverConnect.downloads_path) if Dir.exist?(WebDriverConnect.downloads_path)
   # terminate Appium Server if command line option was specified and target browser is mobile simulator or device
   if ENV['APPIUM_SERVER'] == 'run' && Environ.driver == :appium && $server.running?
     $server.stop
