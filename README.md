@@ -1,4 +1,4 @@
-# TestCentricity™ Web
+# TestCentricity™ For Web
 
 [![Gem Version](https://badge.fury.io/rb/testcentricity_web.svg)](https://badge.fury.io/rb/testcentricity_web)
 [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause)
@@ -7,12 +7,12 @@
 [![Docs](https://img.shields.io/badge/docs-rubydoc-blue.svg)](http://www.rubydoc.info/gems/testcentricity_web)
 
 
-The TestCentricity™ Web core framework for desktop and mobile web browser-based app testing implements a Page Object Model
+The TestCentricity™ For Web core framework for desktop and mobile web browser-based app testing implements a Page Object Model
 DSL for use with Cucumber (version 7.x or greater) or RSpec, and Selenium-Webdriver. It also facilitates the configuration
 of the appropriate Selenium-Webdriver capabilities required to establish connections with one or more local or cloud hosted
 desktop or mobile web browsers.
 
-The TestCentricity™ Web gem supports connecting to, and running automated tests against the following target web browsers:
+The TestCentricity™ For Web gem supports connecting to, and running automated tests against the following target web browsers:
 * locally hosted desktop browsers (Chrome, Edge, Firefox, or Safari)
 * locally hosted "headless" Chrome, Firefox, or Edge browsers
 * remote desktop and emulated mobile web browsers hosted on Selenium Grid 4 and Dockerized Selenium Grid 4 environments
@@ -34,8 +34,8 @@ A complete history of bug fixes and new features can be found in the {file:CHANG
 
 The RubyDocs for this gem can be found [here](https://www.rubydoc.info/gems/testcentricity_web).
 
-An example project that demonstrates the implementation of a page object model framework using Cucumber and TestCentricity™ Web
-can be found [here](https://github.com/TestCentricity/tc_multi_webdriver_sample).
+An example project that demonstrates the implementation of a page object model framework using TestCentricity™ For Web and
+Cucumber can be found [here](https://github.com/TestCentricity/tc_multi_webdriver_sample).
 
 
 ### Which gem should I use?
@@ -44,23 +44,21 @@ can be found [here](https://github.com/TestCentricity/tc_multi_webdriver_sample)
 
 ### Which gem should I use?
 
-* The [TestCentricity **Web** gem](https://rubygems.org/gems/testcentricity_web) only supports testing of web interfaces via desktop and mobile web browsers
-* The [TestCentricity **Mobile** gem](https://rubygems.org/gems/testcentricity_mobile) only supports testing of native iOS and Android mobile apps
-* The [TestCentricity **Apps** gem](https://rubygems.org/gems/testcentricity_apps) only supports testing of MacOS desktop apps and native iOS and Android mobile apps
-* The TestCentricity gem supports testing of native mobile apps and/or web interfaces via desktop and mobile web browsers.
+* The [TestCentricity For **Web** gem](https://rubygems.org/gems/testcentricity_web) supports testing of web interfaces via desktop and mobile web browsers
+* The [TestCentricity For **Mobile** gem](https://rubygems.org/gems/testcentricity_mobile) supports testing of native iOS and Android mobile apps
+* The [TestCentricity For **Apps** gem](https://rubygems.org/gems/testcentricity_apps) supports testing of MacOS desktop apps and native iOS and Android mobile apps
 
-| Tested platforms                                   | TestCentricity Web | TestCentricity Mobile | TestCentricity Apps | TestCentricity |
-|----------------------------------------------------|--------------------|-----------------------|---------------------|----------------|
-| Desktop/mobile web browsers only                   | Yes                | No                    | No                  | No             |
-| Native mobile iOS and/or Android apps only         | No                 | Yes                   | Yes                 | No             |
-| MacOS desktop apps                                 | No                 | No                    | Yes                 | No             |
-| Native mobile apps and desktop/mobile web browsers | No                 | No                    | No                  | Yes            |
+| Tested platforms                            | TestCentricity For Web | TestCentricity For Mobile | TestCentricity For Apps |
+|---------------------------------------------|:-:|:-:|:-:|
+| Desktop/mobile web browsers only            | Yes                    | No                        | No                      |
+| Native mobile iOS and/or Android apps only  | No                     | Yes                       | Yes                     |
+| MacOS desktop apps                          | No                     | No                        | Yes                     |
 
 
 ## Installation
 
-TestCentricity Web version 4.4 and above requires Ruby version 3.0.0 or later. To install the TestCentricity Web gem, add
-this line to your automation project's `Gemfile`:
+TestCentricity For Web version 4.4 and above requires Ruby version 3.0.0 or later. To install the TestCentricity For Web gem,
+add this line to your automation project's `Gemfile`:
 
     gem 'testcentricity_web'
 
@@ -466,7 +464,7 @@ Once your `PageObject` has been instantiated, you can call its `PageSection` met
 `PageObjects` and `PageSections` are typically made up of UI elements like text fields, check boxes, select lists (combo
 boxes), radio buttons, tables, ordered and unordered lists, buttons, images, HTML5 video or audio player objects, etc.
 UI elements are declared and instantiated within the class definition of the `PageObject` or `PageSection` in which they
-are contained. With TestCentricity Web, all UI elements are based on the `UIElement` class.
+are contained. With TestCentricity For Web, all UI elements are based on the `UIElement` class.
 
 
 ### Declaring and Instantiating UIElements
@@ -3161,7 +3159,7 @@ area sub-folders as needed. Likewise, `PageSection` class definitions should be 
 ---
 ## Web Test Automation Framework Implementation
 
-![TestCentricity Web Framework Overview](https://raw.githubusercontent.com/TestCentricity/testcentricity_web/main/.github/images/tc_overview.jpg "TestCentricity Web Framework Overview")
+![TestCentricity For Web Framework Overview](https://raw.githubusercontent.com/TestCentricity/testcentricity_web/main/.github/images/tc_overview.jpg "TestCentricity For Web Framework Overview")
 
 
 ---
