@@ -40,10 +40,6 @@ Cucumber can be found [here](https://github.com/TestCentricity/tc_multi_webdrive
 
 ### Which gem should I use?
 
-
-
-### Which gem should I use?
-
 * The [TestCentricity For **Web** gem](https://rubygems.org/gems/testcentricity_web) supports testing of web interfaces via desktop and mobile web browsers
 * The [TestCentricity For **Mobile** gem](https://rubygems.org/gems/testcentricity_mobile) supports testing of native iOS and Android mobile apps
 * The [TestCentricity For **Apps** gem](https://rubygems.org/gems/testcentricity_apps) supports testing of MacOS desktop apps and native iOS and Android mobile apps
