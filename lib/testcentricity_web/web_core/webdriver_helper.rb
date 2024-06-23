@@ -494,7 +494,7 @@ module TestCentricity
                   else
                     # define desktop browser options
                     bs_options[:resolution] = ENV['RESOLUTION'] if ENV['RESOLUTION']
-                    bs_options[:seleniumVersion] = '4.19.1'
+                    bs_options[:seleniumVersion] = '4.21.0'
                     {
                       browserName: browser,
                       browserVersion: ENV['BS_VERSION'],
@@ -564,7 +564,7 @@ module TestCentricity
                   else
                     # define desktop browser options
                     tb_options['screen-resolution'] = ENV['RESOLUTION'] if ENV['RESOLUTION']
-                    tb_options['selenium-version'] = '4.18.1'
+                    tb_options['selenium-version'] = '4.20.0'
                   end
                   {
                     browserName: browser,
@@ -627,7 +627,7 @@ module TestCentricity
                   # define mobile device options
                   if ENV['SL_PLATFORM']
                     sl_options[:deviceOrientation] = ENV['ORIENTATION'].upcase if ENV['ORIENTATION']
-                    sl_options[:appium_version] = '1.22.3'
+                    sl_options[:appium_version] = '2.1.3'
                     {
                       browserName: browser,
                       platform_name: ENV['SL_PLATFORM'],
@@ -686,7 +686,7 @@ module TestCentricity
                     platformName: ENV['LT_OS'],
                     resolution: ENV['RESOLUTION'],
                     name: test_context_message,
-                    selenium_version: '4.13.0',
+                    selenium_version: '4.21.0',
                   }
                   # define the optional LambdaTest options
                   lt_options[:project] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
