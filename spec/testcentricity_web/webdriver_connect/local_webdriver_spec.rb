@@ -5,6 +5,7 @@ RSpec.describe TestCentricity::WebDriverConnect, required: true do
 
   before(:each) do
     ENV['DOWNLOADS'] = 'false'
+    Dir.delete(WebDriverConnect.downloads_path) if Dir.exist?(WebDriverConnect.downloads_path)
   end
 
   context 'Connect to locally hosted desktop web browsers using W3C desired_capabilities hash' do

@@ -35,6 +35,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'cucumber', '9.2.0'
+  spec.add_development_dependency 'cuke_modeler', '~> 3.0'
   spec.add_development_dependency 'docker-compose'
   spec.add_development_dependency 'httparty'
   spec.add_development_dependency 'parallel_tests'

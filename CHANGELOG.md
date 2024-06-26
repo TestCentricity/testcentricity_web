@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.5.9.1] - 26-JUNE-2024
+
+### Fixed
+
+* Added `cuke_modeler` gem as a development dependency so that Cucumber test results logging would not fail when running
+tests in parallel with Ruby version 3.10 or greater.
+
+
 ## [4.5.9] - 23-JUNE-2024
 
 ### Changed
