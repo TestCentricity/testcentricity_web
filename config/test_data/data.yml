@@ -40,4 +40,5 @@ Capabilities:
       :'appium:deviceName': 'Pixel_C_API_31'
       :'appium:avd': 'Pixel_C_API_31'
       :'appium:automationName': 'UiAutomator2'
+      :'appium:orientation': 'PORTRAIT'
       :'appium:chromedriverExecutable': '/Users/Shared/config/webdrivers/chromedriver'
