@@ -45,7 +45,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'simplecov', ['~> 0.18']
   spec.add_development_dependency 'yard', ['>= 0.9.0']
 
-  spec.add_runtime_dependency 'appium_lib', '~> 15.2.1'
+  spec.add_runtime_dependency 'appium_lib', '~> 15.2.2'
   spec.add_runtime_dependency 'browserstack-local'
   spec.add_runtime_dependency 'capybara', '3.40.0'
   spec.add_runtime_dependency 'childprocess'

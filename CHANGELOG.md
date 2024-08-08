@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.5.11] - 08-AUG-2024
+
+### Changed
+
+* Updated `appium_lib` gem to version 15.2.2.
+
+
 ## [4.5.10] - 05-AUG-2024
 
 ### Changed
