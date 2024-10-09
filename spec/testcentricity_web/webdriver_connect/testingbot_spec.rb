@@ -33,7 +33,7 @@ RSpec.describe TestCentricity::WebDriverConnect, testingbot: true do
             build: 'RSpec - DesiredCaps Hash',
             timeZone: ENV['TIME_ZONE'],
             'screen-resolution': ENV['RESOLUTION'],
-            'selenium-version': '4.23.0'
+            'selenium-version': '4.25.0'
           }
         }
       }
@@ -93,7 +93,7 @@ RSpec.describe TestCentricity::WebDriverConnect, testingbot: true do
             build: 'RSpec - DesiredCaps Hash',
             deviceName: 'iPad Pro (12.9-inch) (5th generation)',
             orientation: 'LANDSCAPE',
-            'selenium-version': '4.23.0'
+            'selenium-version': '4.25.0'
           }
         }
       }
@@ -132,7 +132,7 @@ RSpec.describe TestCentricity::WebDriverConnect, testingbot: true do
       ENV['TB_VERSION'] = '15.4'
       ENV['DEVICE_TYPE'] = 'tablet'
       ENV['TB_DEVICE'] = 'iPad Pro (12.9-inch) (5th generation)'
-      ENV['ORIENTATION'] = 'landscape'
+      ENV['ORIENTATION'] = 'LANDSCAPE'
       WebDriverConnect.initialize_web_driver
       verify_cloud_browser(browser = :safari, platform = :mobile, device = ENV['TB_DEVICE'])
     end

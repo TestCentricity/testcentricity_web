@@ -34,7 +34,8 @@ RSpec.describe TestCentricity::WebDriverConnect, lambdatest: true do
             name: 'RSpec - DesiredCaps Hash',
             platformName: ENV['LT_OS'],
             resolution: ENV['RESOLUTION'],
-            video: true
+            video: true,
+            w3c: true
           }
         }
       }
