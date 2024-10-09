@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.5.14] - 09-OCT-2024
+
+### Fixed
+
+* Disable Chrome search engine choice screen.
+
+
 ## [4.5.13] - 24-SEP-2024
 
 ### Changed

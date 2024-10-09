@@ -494,7 +494,7 @@ module TestCentricity
                   else
                     # define desktop browser options
                     bs_options[:resolution] = ENV['RESOLUTION'] if ENV['RESOLUTION']
-                    bs_options[:seleniumVersion] = '4.23.0'
+                    bs_options[:seleniumVersion] = '4.24.0'
                     {
                       browserName: browser,
                       browserVersion: ENV['BS_VERSION'],
@@ -564,7 +564,7 @@ module TestCentricity
                   else
                     # define desktop browser options
                     tb_options['screen-resolution'] = ENV['RESOLUTION'] if ENV['RESOLUTION']
-                    tb_options['selenium-version'] = '4.23.0'
+                    tb_options['selenium-version'] = '4.25.0'
                   end
                   {
                     browserName: browser,
@@ -686,7 +686,8 @@ module TestCentricity
                     platformName: ENV['LT_OS'],
                     resolution: ENV['RESOLUTION'],
                     name: test_context_message,
-                    selenium_version: '4.21.0',
+                    selenium_version: '4.25.0',
+                    w3c: true
                   }
                   # define the optional LambdaTest options
                   lt_options[:project] = ENV['AUTOMATE_PROJECT'] if ENV['AUTOMATE_PROJECT']
@@ -748,6 +749,7 @@ module TestCentricity
       }
       options.add_preference(:download, prefs)
       options.add_argument('--force-device-scale-factor=1')
+      options.add_argument('--disable-search-engine-choice-screen')
       options.add_argument('--disable-geolocation')
       options.add_argument('--disable-dev-shm-usage')
       options.add_argument('--no-sandbox')

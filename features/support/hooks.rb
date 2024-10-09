@@ -64,9 +64,6 @@ After do |scenario|
   Browsers.suppress_js_leave_page_modal
   # close Capybara Appium driver if it was opened
   Capybara.page.driver.quit if Capybara.default_driver == :appium
-
-  # WebDriverConnect.close_all_drivers
-
   if ENV['QUIT_DRIVER']
     terminate_session
   elsif Environ.grid == :browserstack
