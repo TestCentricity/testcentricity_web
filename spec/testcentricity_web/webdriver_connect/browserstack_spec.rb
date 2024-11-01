@@ -39,7 +39,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
             os: ENV['BS_OS'],
             osVersion: ENV['BS_OS_VERSION'],
             resolution: ENV['RESOLUTION'],
-            seleniumVersion: '4.23.0'
+            seleniumVersion: '4.25.0'
           }
         }
       }
@@ -61,7 +61,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
             os: ENV['BS_OS'],
             osVersion: ENV['BS_OS_VERSION'],
             resolution: ENV['RESOLUTION'],
-            seleniumVersion: '4.21.0'
+            seleniumVersion: '4.25.0'
           }
         }
       }
@@ -83,7 +83,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
             os: ENV['BS_OS'],
             osVersion: ENV['BS_OS_VERSION'],
             resolution: ENV['RESOLUTION'],
-            seleniumVersion: '4.21.0'
+            seleniumVersion: '4.25.0'
           }
         }
       }
@@ -104,7 +104,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
             os: ENV['BS_OS'],
             osVersion: ENV['BS_OS_VERSION'],
             resolution: ENV['RESOLUTION'],
-            seleniumVersion: '4.21.0'
+            seleniumVersion: '4.25.0'
           }
         }
       }
@@ -208,7 +208,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
             os: ENV['BS_OS'],
             osVersion: ENV['BS_OS_VERSION'],
             resolution: ENV['RESOLUTION'],
-            seleniumVersion: '4.23.0'
+            seleniumVersion: '4.25.0'
           }
         }
       }
