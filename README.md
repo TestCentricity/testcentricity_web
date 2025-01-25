@@ -53,7 +53,7 @@ Cucumber can be found [here](https://github.com/TestCentricity/tc_multi_webdrive
 
 ## Installation
 
-TestCentricity For Web version 4.4 and above requires Ruby version 3.0.0 or later. To install the TestCentricity For Web gem,
+TestCentricity For Web version 4.6 and above requires Ruby version 3.1.0 or later. To install the TestCentricity For Web gem,
 add this line to your automation project's `Gemfile`:
 
     gem 'testcentricity_web'
@@ -916,7 +916,7 @@ values appear in the associated text fields after entering data and performing a
       }
       verify_ui_states(ui)
 
-      # verify avatar src url does not contain /null/ institution id
+      # verify avatar src url does not contain /null/ in its file path
       verify_ui_states(avatar_image => { src: { does_not_contain: "/null/" } })
     end
 ```
@@ -3161,7 +3161,7 @@ area sub-folders as needed. Likewise, `PageSection` class definitions should be 
 ---
 ## Copyright and License
 
-TestCentricity™ Framework is Copyright (c) 2014-2024, Tony Mrozinski.
+TestCentricity™ Framework is Copyright (c) 2014-2025, Tony Mrozinski.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following

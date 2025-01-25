@@ -1,7 +1,7 @@
 RSpec.shared_context 'cloud_credentials' do
   def load_cloud_credentials
-    @cloud_creds ||= YAML.load_file('/Users/Shared/config/env.yml')
-    @cloud_creds = @cloud_creds['cloud_creds']
+    data ||= YAML.load_file('/Users/Shared/config/env.yml')
+    @cloud_creds = data['cloud_creds']
     # load BrowserStack credentials into associated environment variables
     ENV['BS_USERNAME'] = @cloud_creds['browserstack']['BS_USERNAME']
     ENV['BS_AUTHKEY'] = @cloud_creds['browserstack']['BS_AUTHKEY']
@@ -15,5 +15,7 @@ RSpec.shared_context 'cloud_credentials' do
     # load LambdaTest credentials into associated environment variables
     ENV['LT_USERNAME'] = @cloud_creds['lambdatest']['LT_USERNAME']
     ENV['LT_AUTHKEY'] = @cloud_creds['lambdatest']['LT_AUTHKEY']
+    # load the locally hosted test web site base URL
+    ENV['BASE_URL'] = data['test_site']['base_url']
   end
 end

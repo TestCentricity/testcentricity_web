@@ -15,6 +15,5 @@ def load_cloud_credentials
   ENV['LT_USERNAME'] = cloud_creds['lambdatest']['LT_USERNAME']
   ENV['LT_AUTHKEY'] = cloud_creds['lambdatest']['LT_AUTHKEY']
   # load the locally hosted test web site base URL
-  test_site = env_data['test_site']
-  ENV['BASE_URL'] = test_site['base_url']
+  ENV['BASE_URL'] = env_data['test_site']['base_url']
 end

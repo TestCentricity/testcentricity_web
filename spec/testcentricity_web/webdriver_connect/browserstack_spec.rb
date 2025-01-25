@@ -18,7 +18,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
 
   before(:each) do
     ENV['BS_OS'] = 'OS X'
-    ENV['BS_OS_VERSION'] = 'Monterey'
+    ENV['BS_OS_VERSION'] = 'Sequoia'
   end
 
   context 'Connect to multiple BrowserStack hosted desktop and mobile web browsers' do
@@ -39,7 +39,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
             os: ENV['BS_OS'],
             osVersion: ENV['BS_OS_VERSION'],
             resolution: ENV['RESOLUTION'],
-            seleniumVersion: '4.25.0'
+            seleniumVersion: '4.27.0'
           }
         }
       }
@@ -61,7 +61,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
             os: ENV['BS_OS'],
             osVersion: ENV['BS_OS_VERSION'],
             resolution: ENV['RESOLUTION'],
-            seleniumVersion: '4.25.0'
+            seleniumVersion: '4.27.0'
           }
         }
       }
@@ -83,7 +83,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
             os: ENV['BS_OS'],
             osVersion: ENV['BS_OS_VERSION'],
             resolution: ENV['RESOLUTION'],
-            seleniumVersion: '4.25.0'
+            seleniumVersion: '4.27.0'
           }
         }
       }
@@ -104,7 +104,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
             os: ENV['BS_OS'],
             osVersion: ENV['BS_OS_VERSION'],
             resolution: ENV['RESOLUTION'],
-            seleniumVersion: '4.25.0'
+            seleniumVersion: '4.27.0'
           }
         }
       }
@@ -147,7 +147,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
             osVersion: '16',
             deviceName: 'iPad Pro 12.9 2022',
             deviceOrientation: 'landscape',
-            appiumVersion: '2.4.1',
+            appiumVersion: '2.6.0',
             realMobile: 'true'
           }
         }
@@ -170,7 +170,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
             osVersion: '12.0',
             deviceName: 'Samsung Galaxy Tab S8',
             deviceOrientation: 'landscape',
-            appiumVersion: '2.4.1',
+            appiumVersion: '2.6.0',
             realMobile: 'true'
           }
         }
@@ -208,7 +208,7 @@ RSpec.describe TestCentricity::WebDriverConnect, browserstack: true do
             os: ENV['BS_OS'],
             osVersion: ENV['BS_OS_VERSION'],
             resolution: ENV['RESOLUTION'],
-            seleniumVersion: '4.25.0'
+            seleniumVersion: '4.27.0'
           }
         }
       }
