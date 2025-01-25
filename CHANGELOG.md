@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.6.0] - 25-JAN-2025
+
+### Changed
+
+* Updated `selenium-webdriver` gem to version 4.28.0.
+* Updated `appium_lib` gem to version 15.3.0.
+* Updated `appium_lib_core` gem to version 9.5.0.
+* Ruby version 3.1.0 or greater is now required.
+
+
 ## [4.5.15] - 01-NOV-2024
 
 ### Changed
@@ -52,7 +62,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 * Added `cuke_modeler` gem as a development dependency so that Cucumber test results logging would not fail when running
-tests in parallel with Ruby version 3.10 or greater.
+tests in parallel with Ruby version 3.1.0 or greater.
 
 
 ## [4.5.9] - 23-JUNE-2024
