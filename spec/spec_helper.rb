@@ -12,7 +12,7 @@ require_rel 'support'
 include TestCentricity
 
 SimpleCov.command_name("RSpec-#{Time.now.strftime('%Y%m%d%H%M%S')}")
-SimpleCov.merge_timeout 7200
+SimpleCov.merge_timeout 9600
 
 $LOAD_PATH << './lib'
 

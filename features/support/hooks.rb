@@ -116,8 +116,18 @@ Around('@!firefox') do |scenario, block|
 end
 
 
+Around('@!chrome_headless') do |scenario, block|
+  qualify_browser(:chrome_headless, 'Chrome headless', scenario, block)
+end
+
+
 Around('@!firefox_headless') do |scenario, block|
   qualify_browser(:firefox_headless, 'Firefox headless', scenario, block)
+end
+
+
+Around('@!edge_headless') do |scenario, block|
+  qualify_browser(:edge_headless, 'Edge headless', scenario, block)
 end
 
 

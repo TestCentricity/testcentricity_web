@@ -33,7 +33,7 @@ RSpec.describe TestCentricity::WebDriverConnect, testingbot: true do
             build: 'RSpec - DesiredCaps Hash',
             timeZone: ENV['TIME_ZONE'],
             'screen-resolution': ENV['RESOLUTION'],
-            'selenium-version': '4.28.0'
+            'selenium-version': '4.28.1'
           }
         }
       }
@@ -93,7 +93,7 @@ RSpec.describe TestCentricity::WebDriverConnect, testingbot: true do
             build: 'RSpec - DesiredCaps Hash',
             deviceName: 'iPad Pro (12.9-inch) (5th generation)',
             orientation: 'LANDSCAPE',
-            'selenium-version': '4.28.0'
+            'selenium-version': '4.28.1'
           }
         }
       }
@@ -115,7 +115,7 @@ RSpec.describe TestCentricity::WebDriverConnect, testingbot: true do
             build: 'RSpec - DesiredCaps Hash',
             deviceName: 'Galaxy Tab S7',
             orientation: 'LANDSCAPE',
-            'selenium-version': '4.28.0'
+            'selenium-version': '4.28.1'
           }
         }
       }

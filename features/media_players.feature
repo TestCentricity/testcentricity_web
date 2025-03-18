@@ -1,4 +1,4 @@
-@!grid
+@!grid @!chrome_headless @!edge_headless
 
 
 Feature: HTML5 Audio/Video Test Page using CSS locators

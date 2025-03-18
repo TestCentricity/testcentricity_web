@@ -6,6 +6,6 @@ if ENV['COVERAGE']
   SimpleCov.start do
     add_filter '/features/'
     add_filter '/spec/'
-    merge_timeout 7200
+    merge_timeout 9600
   end
 end

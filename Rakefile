@@ -90,8 +90,12 @@ end
 
 desc 'Run required Cucumber features on local web browsers'
 task :required_cukes do
-  %w[chrome_local chrome_headless firefox_local firefox_headless edge_local edge_headless ipad_pro_12_local].each do |profile|
-    system "parallel_cucumber features/ -o '-p #{profile} -p parallel' -n 6 --group-by scenarios"
+  %w[chrome_local chrome_headless firefox_local firefox_headless edge_local edge_headless safari_local ipad_pro_12_local].each do |profile|
+    if %w[firefox_local firefox_headless safari_local].include?(profile)
+      system "cucumber -p #{profile} -p report"
+    else
+      system "parallel_cucumber features/ -o '-p #{profile} -p parallel' -n 6 --group-by scenarios"
+    end
   end
 end
 
@@ -164,8 +168,8 @@ task all: [:required,
            :docker_grid_specs,
            :browserstack_specs,
            :custom_webdriver_specs,
+           :testingbot_specs,
            :multi_driver_spec,
-           :safari_local,
            :mobile]
 
 

@@ -12,7 +12,7 @@ Form_data:
     username: "Xavier Snicklefritz"
     password: "Pa55W0rd"
     image_filename: "Wilder.jpg"
-    multi_select: "Selection Item 1"
+    multi_select: "Selection Item 2"
     drop_down_item: "Drop Down Item 2"
     check1: true
     check2: true
