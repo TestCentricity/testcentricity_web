@@ -1022,9 +1022,10 @@ Each supported language/locale combination has a corresponding `.yml` file. I18n
 | Language (Country)    | File name |
 |-----------------------|-----------|
 | English               | en.yml    |
+| English (Australia)   | en-AU.yml |
 | English (Canada)      | en-CA.yml |
-| French (Canada)       | fr-CA.yml |
 | French                | fr.yml    |
+| French (Canada)       | fr-CA.yml |
 | Spanish               | es.yml    |
 | German                | de.yml    |
 | Portuguese (Brazil)   | pt-BR.yml |

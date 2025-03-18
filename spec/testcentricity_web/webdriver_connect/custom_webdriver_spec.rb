@@ -53,7 +53,7 @@ RSpec.describe TestCentricity::WebDriverConnect, custom: true do
             name: 'TestCentricity Web - Custom WebDriver',
             build: "Version #{TestCentricityWeb::VERSION}",
             'screen-resolution': '2048x1536',
-            'selenium-version': '4.28.0'
+            'selenium-version': '4.28.1'
           }
         }
       }
@@ -81,7 +81,7 @@ RSpec.describe TestCentricity::WebDriverConnect, custom: true do
             os: 'OS X',
             osVersion: 'Sonoma',
             resolution: '3840x2160',
-            seleniumVersion: '4.27.0'
+            seleniumVersion: '4.28.0'
           }
         }
       }

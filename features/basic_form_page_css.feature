@@ -63,6 +63,10 @@ Feature: Basic HTML Form Test Page using CSS locators
 
     Examples:
       |target_page      |
-      |Media Test       |
       |Indexed Sections |
       |Custom Controls  |
+
+@!chrome_headless @!edge_headless
+    Examples:
+      |target_page |
+      |Media Test  |

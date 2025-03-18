@@ -17,7 +17,10 @@ class BasicFormPage < BaseTestPage
       number_int_field,
       number_flt_field,
       date_field,
+      date_field,
       date_time_field,
+      date_time_field,
+      month_field,
       month_field,
       email_field,
       color_picker,
@@ -55,12 +58,15 @@ class BasicFormPage < BaseTestPage
       date_field,
       date_field,
       date_field,
+      date_field,
       date_time_field,
       date_time_field,
       date_time_field,
       date_time_field,
       date_time_field,
       date_time_field,
+      date_time_field,
+      month_field,
       month_field,
       month_field,
       email_field,
@@ -86,6 +92,10 @@ class BasicFormPage < BaseTestPage
   }
   trait(:firefox_order)    {
     [
+      header_nav.form_link,
+      header_nav.media_link,
+      header_nav.indexed_sections_link,
+      header_nav.custom_controls_link,
       username_field,
       password_field,
       max_length_field,
@@ -119,6 +129,8 @@ class BasicFormPage < BaseTestPage
       ],
       multi_select,
       drop_down_select,
+      link_1,
+      link_2,
       cancel_button,
       submit_button
     ]
