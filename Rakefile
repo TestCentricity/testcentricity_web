@@ -2,6 +2,7 @@ require 'rubygems'
 require 'cucumber'
 require 'cucumber/rake/task'
 require 'docker/compose'
+require 'os'
 require 'parallel_tests'
 require 'rake'
 require 'rspec/core/rake_task'
@@ -103,12 +104,21 @@ end
 desc 'Run grid Cucumber features on Dockerized Selenium 4 Grid'
 task :grid_cukes do
   # start up Selenium 4 Grid
-  compose = Docker::Compose.new
+  compose = if OS.host_cpu == 'arm64'
+              Docker::Compose::Session.new(file: 'docker-compose-arm.yml')
+            else
+              Docker::Compose.new
+            end
   compose.version
   compose.up(detached: true)
   # run grid features
   begin
-    %w[chrome_grid firefox_grid edge_grid].each do |profile|
+    profiles = if OS.host_cpu == 'arm64'
+                 %w[firefox_grid]
+               else
+                 %w[chrome_grid firefox_grid edge_grid]
+               end
+    profiles.each do |profile|
       system "parallel_cucumber features/ -o '-p #{profile} -p parallel' -n 4 --group-by scenarios"
     end
   ensure
@@ -121,7 +131,11 @@ end
 desc 'Run grid specs on Dockerized Selenium 4 Grid'
 task :docker_grid_specs do
   # start up Selenium 4 Grid
-  compose = Docker::Compose.new
+  compose = if OS.host_cpu == 'arm64'
+              Docker::Compose::Session.new(file: 'docker-compose-arm.yml')
+            else
+              Docker::Compose.new
+            end
   compose.version
   compose.up(detached: true)
   # run grid specs
