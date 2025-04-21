@@ -3156,7 +3156,7 @@ area sub-folders as needed. Likewise, `PageSection` class definitions should be 
 ---
 ## Web Test Automation Framework Implementation
 
-![TestCentricity For Web Framework Overview](https://raw.githubusercontent.com/TestCentricity/testcentricity_web/main/.github/images/tc_overview.jpg "TestCentricity For Web Framework Overview")
+![TestCentricity For Web Framework Overview](https://raw.githubusercontent.com/TestCentricity/testcentricity_web/main/.github/images/TC_Web.jpg "TestCentricity For Web Framework Overview")
 
 
 ---
