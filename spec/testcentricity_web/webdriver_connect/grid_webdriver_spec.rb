@@ -36,6 +36,7 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
       end
 
       it 'connects to a grid hosted Chrome browser' do
+        arm64_skip_check
         caps = {
           capabilities: { browserName: :chrome },
           driver: :grid,
@@ -47,6 +48,7 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
       end
 
       it 'connects to a grid hosted Edge browser' do
+        arm64_skip_check
         caps = {
           capabilities: { browserName: :edge },
           driver: :grid,
@@ -59,6 +61,7 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
       end
 
       it 'connects to a grid hosted emulated mobile web browser' do
+        arm64_skip_check
         caps = {
           capabilities: { browserName: :ipad_pro_12_9 },
           driver: :grid
@@ -70,6 +73,7 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
       end
 
       it 'connects to a user defined grid hosted emulated mobile web browser with default orientation' do
+        arm64_skip_check
         caps = {
           capabilities: { browserName: :ipad_mini_os16 },
           driver: :grid
@@ -81,6 +85,7 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
       end
 
       it 'connects to a grid hosted Chrome browser with a user-defined driver name' do
+        arm64_skip_check
         caps = {
           browser_size: [1100, 900],
           capabilities: { browserName: :chrome },
@@ -105,6 +110,7 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
 
     context 'grid headless browser instances' do
       it 'connects to a grid hosted headless Chrome browser' do
+        arm64_skip_check
         caps = {
           capabilities: { browserName: :chrome_headless },
           driver: :grid
@@ -114,6 +120,7 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
       end
 
       it 'connects to a grid hosted headless Edge browser' do
+        arm64_skip_check
         caps = {
           capabilities: { browserName: :edge_headless },
           driver: :grid
@@ -134,6 +141,7 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
 
     context 'Connect to multiple grid hosted web browsers' do
       it 'connects to multiple desktop and emulated mobile browsers' do
+        arm64_skip_check
         # instantiate a grid hosted emulated iPad browser
         caps = {
           capabilities: { browserName: :ipad_pro_12_9 },
@@ -201,6 +209,7 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
       end
 
       it 'connects to a grid hosted Chrome browser' do
+        arm64_skip_check
         ENV['WEB_BROWSER'] = 'chrome'
         ENV['BROWSER_SIZE'] = 'max'
         WebDriverConnect.initialize_web_driver
@@ -209,6 +218,7 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
       end
 
       it 'connects to a grid hosted Edge browser' do
+        arm64_skip_check
         ENV['WEB_BROWSER'] = 'edge'
         ENV['BROWSER_SIZE'] = '1300, 1000'
         WebDriverConnect.initialize_web_driver
@@ -218,6 +228,7 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
       end
 
       it 'connects to a grid hosted emulated mobile web browser' do
+        arm64_skip_check
         ENV['WEB_BROWSER'] = 'ipad_pro_12_9'
         ENV['ORIENTATION'] = 'portrait'
         WebDriverConnect.initialize_web_driver
@@ -229,6 +240,7 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
 
     context 'grid headless browser instances' do
       it 'connects to a grid hosted headless Chrome browser' do
+        arm64_skip_check
         ENV['WEB_BROWSER'] = 'chrome_headless'
         WebDriverConnect.initialize_web_driver
         Browsers.maximize_browser
@@ -236,6 +248,7 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
       end
 
       it 'connects to a grid hosted headless Edge browser' do
+        arm64_skip_check
         ENV['WEB_BROWSER'] = 'edge_headless'
         WebDriverConnect.initialize_web_driver
         Browsers.refresh_browser
@@ -257,6 +270,10 @@ RSpec.describe TestCentricity::WebDriverConnect, grid: true do
     expect(WebDriverConnect.num_drivers).to eq(0)
     # remove Downloads folder if one was created
     Dir.delete(WebDriverConnect.downloads_path) if Dir.exist?(WebDriverConnect.downloads_path)
+  end
+
+  def arm64_skip_check
+    skip 'Cannot be executed when running on arm64 architecture' if OS.host_cpu == 'arm64'
   end
 
   def verify_grid_browser(browser, platform, headless, driver_name = nil)

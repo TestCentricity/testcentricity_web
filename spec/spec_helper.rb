@@ -2,6 +2,7 @@
 
 require 'capybara/rspec'
 require 'httparty'
+require 'os'
 require 'require_all'
 require 'simplecov'
 require 'testcentricity_web'
