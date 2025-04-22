@@ -53,7 +53,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'faker'
   spec.add_runtime_dependency 'i18n'
   spec.add_runtime_dependency 'os', '~> 1.0'
-  spec.add_runtime_dependency 'selenium-webdriver', '4.30.1'
+  spec.add_runtime_dependency 'selenium-webdriver', '4.31.0'
   spec.add_runtime_dependency 'test-unit'
   spec.add_runtime_dependency 'virtus'
 end
