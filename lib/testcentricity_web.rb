@@ -1,5 +1,6 @@
 require 'test/unit'
 require 'appium_lib'
+require 'selenium-webdriver'
 
 require 'testcentricity_web/version'
 require 'testcentricity_web/world_extensions'

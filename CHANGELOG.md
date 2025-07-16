@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.6.5] - 17-JUL-2025
+
+### Changed
+
+* No longer bundling `selenium-webdriver` as a runtime dependency.
+
+
 ## [4.6.4] - 22-MAY-2025
 
 ### Changed
