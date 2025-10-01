@@ -34,7 +34,7 @@ Gem::Specification.new do |spec|
   spec.requirements << 'Capybara, Selenium-WebDriver'
 
   spec.add_development_dependency 'bundler'
-  spec.add_development_dependency 'cucumber', '10.0.0'
+  spec.add_development_dependency 'cucumber', '10.1.0'
   spec.add_development_dependency 'cuke_modeler', '~> 3.0'
   spec.add_development_dependency 'docker-compose'
   spec.add_development_dependency 'httparty'
@@ -42,7 +42,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'require_all', '=1.5.0'
   spec.add_development_dependency 'rspec', '>= 3.13.0'
-  spec.add_development_dependency 'selenium-webdriver', '~>4.34.0'
+  spec.add_development_dependency 'selenium-webdriver', '~>4.35.0'
   spec.add_development_dependency 'simplecov', ['~> 0.18']
   spec.add_development_dependency 'yard', ['>= 0.9.0']
 
