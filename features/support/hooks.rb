@@ -8,8 +8,8 @@ end
 BeforeAll do
   # create Cucumber reports folder if it doesn't already exist
   if ENV['REPORTING']
-    reports_path = "#{Dir.pwd}/reports"
-    Dir.mkdir(reports_path) unless Dir.exist?(reports_path)
+    $reports_path = "#{Dir.pwd}/reports"
+    Dir.mkdir($reports_path) unless Dir.exist?($reports_path)
   end
   # start Appium Server if command line option was specified and target browser is mobile simulator or device
   if ENV['APPIUM_SERVER'] == 'run' && Environ.driver == :appium
@@ -33,7 +33,9 @@ end
 
 Before do |scenario|
   # if executing tests in parallel concurrent threads, print thread number with scenario name
-  message = Environ.parallel ? "Thread ##{Environ.process_num} | Scenario:  #{scenario.name}" : "Scenario:  #{scenario.name}"
+  browser_type = Environ.grid ? "grid hosted #{Environ.browser}" : Environ.browser
+  scenario_name = "Scenario:  #{scenario.name} - #{browser_type}"
+  message = Environ.parallel ? "Thread ##{Environ.process_num} | #{scenario_name}" : scenario_name
   log message
   $initialized ||= false
   unless $initialized
@@ -269,7 +271,7 @@ end
 def screen_shot_and_save_page(scenario)
   timestamp = Time.now.strftime('%Y%m%d%H%M%S%L')
   filename = scenario.nil? ? "Screenshot-#{timestamp}.png" : "Screenshot-#{scenario.__id__}-#{timestamp}.png"
-  path = File.join Dir.pwd, 'reports/screenshots/', filename
+  path = File.join Dir.pwd, "#{$reports_path}/screenshots/", filename
   save_screenshot path
   log "Screenshot saved at #{path}"
   screen_shot = { path: path, filename: filename }
