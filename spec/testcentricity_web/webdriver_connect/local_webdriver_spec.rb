@@ -4,7 +4,7 @@ RSpec.describe TestCentricity::WebDriverConnect, required: true do
   include_context 'test_site'
 
   before(:each) do
-    ENV['DOWNLOADS'] = 'false'
+    ENV['DOWNLOADS'] = 'true'
     Dir.delete(WebDriverConnect.downloads_path) if Dir.exist?(WebDriverConnect.downloads_path)
   end
 

@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.6.6] - 10-OCT-2025
+
+### Changed
+
+* Update Nokogiri gem to address CVE-2025-6021, CVE-2025-6170, CVE-2025-49794, CVE-2025-49795, and CVE-2025-49796.
+* Update REXML gem to address DoS vulnerability when parsing XML containing multiple XML declarations.
+
+
 ## [4.6.5] - 18-JUL-2025
 
 ### Changed
