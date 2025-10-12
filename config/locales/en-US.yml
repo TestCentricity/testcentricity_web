@@ -54,3 +54,25 @@ en-US:
     - October
     - November
     - December
+
+# -------------------------------------------------------------
+# Caption strings for UI tests
+# -------------------------------------------------------------
+  nav_header:
+    basic_form: 'Basic HTML Form'
+    media: 'Media'
+    indexed_sections: 'Indexed Sections'
+    custom_controls: 'Custom Controls'
+  base_form_page:
+    check_label: 'checkbox items:'
+    checkbox1: 'Checkbox 1'
+    checkbox2: 'Checkbox 2'
+    checkbox3: 'Checkbox 3'
+    checkbox4: 'Checkbox 4'
+    radio_label: 'radio items:'
+    radio1: 'Radio 1'
+    radio2: 'Radio 2'
+    radio3: 'Radio 3'
+    radio4: 'Radio 4'
+    cancel_button: 'cancel'
+    submit_button: 'submit'

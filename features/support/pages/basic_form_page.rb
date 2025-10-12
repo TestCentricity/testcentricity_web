@@ -257,7 +257,7 @@ class BasicFormPage < BaseTestPage
       comments_field => { visible: true, enabled: true, value: '' },
       filename_label => { visible: true, caption: 'Filename:' },
       upload_file => { visible: true, enabled: true, value: '' },
-      checkboxes_label => { visible: true, caption: 'Checkbox Items:' },
+      checkboxes_label => { visible: true, caption: { translate_titlecase: 'base_form_page.check_label' } },
       check_1 => {
         exists: true,
         visible: true,
@@ -265,7 +265,8 @@ class BasicFormPage < BaseTestPage
         enabled: true,
         disabled: false,
         checked: false,
-        indeterminate: false
+        indeterminate: false,
+        caption: { translate_downcase: 'base_form_page.checkbox1' }
       },
       check_2 => {
         exists: true,
@@ -274,7 +275,8 @@ class BasicFormPage < BaseTestPage
         enabled: true,
         disabled: false,
         checked: false,
-        indeterminate: false
+        indeterminate: false,
+        caption: { translate_downcase: 'base_form_page.checkbox2' }
       },
       check_3 => {
         exists: true,
@@ -283,7 +285,8 @@ class BasicFormPage < BaseTestPage
         enabled: true,
         disabled: false,
         checked: false,
-        indeterminate: false
+        indeterminate: false,
+        caption: { translate_downcase: 'base_form_page.checkbox3' }
       },
       check_4 => {
         exists: true,
@@ -292,16 +295,18 @@ class BasicFormPage < BaseTestPage
         enabled: false,
         disabled: true,
         checked: false,
-        indeterminate: false
+        indeterminate: false,
+        caption: { translate_downcase: 'base_form_page.checkbox4' }
       },
-      radios_label => { visible: true, caption: 'Radio Items:' },
+      radios_label => { visible: true, caption: { translate_titlecase: 'base_form_page.radio_label' } },
       radio_1 => {
         exists: true,
         visible: true,
         hidden: false,
         enabled: true,
         disabled: false,
-        selected: false
+        selected: false,
+        caption: { translate_upcase: 'base_form_page.radio1' }
       },
       radio_2 => {
         exists: true,
@@ -309,7 +314,8 @@ class BasicFormPage < BaseTestPage
         hidden: false,
         enabled: true,
         disabled: false,
-        selected: false
+        selected: false,
+        caption: { translate_upcase: 'base_form_page.radio2' }
       },
       radio_3 => {
         exists: true,
@@ -317,7 +323,8 @@ class BasicFormPage < BaseTestPage
         hidden: false,
         enabled: true,
         disabled: false,
-        selected: false
+        selected: false,
+        caption: { translate_upcase: 'base_form_page.radio3' }
       },
       radio_4 => {
         exists: true,
@@ -325,7 +332,8 @@ class BasicFormPage < BaseTestPage
         hidden: false,
         enabled: false,
         disabled: true,
-        selected: false
+        selected: false,
+        caption: { translate_upcase: 'base_form_page.radio4' }
       },
       multiselect_label => { visible: true, caption: 'Multiple Select Values:' },
       multi_select => {
@@ -411,12 +419,32 @@ class BasicFormPage < BaseTestPage
         broken: false,
         src: { ends_with: 'images/TinyViolin.png' },
         alt: 'Tiny Violin',
-        style: { contains: 'border-radius: 50%;'}
+        style: { contains: 'border-radius: 50%;' }
       },
-      cancel_button => { visible: true, enabled: true, caption: 'Cancel' },
-      submit_button => { visible: true, enabled: true, caption: 'Submit' }
+      cancel_button => { visible: true, enabled: true, caption: { translate_capitalize: 'base_form_page.cancel_button' } },
+      submit_button => { visible: true, enabled: true, caption: { translate_capitalize: 'base_form_page.submit_button' } }
     }
     verify_ui_states(ui)
+
+    # tests to enhance coverage of TestCentricity:ExceptionQueue.enqueue_comparison method
+    ui = {
+      slider => {
+        value: { less_than_or_equal: 25 },
+        max: { greater_than_or_equal: 50 },
+      },
+      static_table => {
+        columncount: { less_than: 8 },
+        rowcount:  { greater_than: 2 }
+      },
+      image_2 => { alt: { is_like: 'you betcha' } },
+      image_3 => { alt: { does_not_contain: 'Waffles' } },
+      image_4 => { alt: { not_equal: 'Cowabunga' } }
+    }
+    verify_ui_states(ui)
+    # verify that a screenshot can be taken
+    ExceptionQueue.enqueue_screenshot
+    reports_path = "#{Dir.pwd}/reports"
+    ExceptionQueue.enqueue_exception("#{reports_path} folder was not created") unless Dir.exist?(reports_path)
   end
 
   def form_data
