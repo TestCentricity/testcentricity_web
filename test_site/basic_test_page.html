@@ -289,18 +289,24 @@
                                         <tr>
                                             <td>
                                                 <div class="tooltip">
-                                                    <img id="image1" src="images/Wilder.jpg" alt="It's alive" style="width:225px;height:225px;">
-                                                    <span class="tooltiptext">It's alive</span>
+                                                    <img ondblclick="myDoubleClick()" id="image1" src="images/Wilder.jpg" alt="It's alive" style="width:225px;height:225px;">
+                                                    <span class="tooltiptext" id="tip1">It's alive</span>
                                                 </div>
                                             </td>
                                             <td>
-                                                <img id="image2" src="images/You_Betcha.jpg" alt="You Betcha" style="width:225px;height:225px;">
+                                                <div class="tooltip">
+                                                    <img oncontextmenu="myRightClick()" id="image2" src="images/You_Betcha.jpg" alt="You Betcha" style="width:225px;height:225px;">
+                                                    <span class="tooltiptext" id="tip2">You Betcha</span>
+                                                </div>
                                             </td>
                                             <td>
                                                 <img id="image3" src="wrongname.gif" alt="A broken image" style="width:225px;height:225px;">
                                             </td>
                                             <td>
-                                                <img id="image4" src="images/TinyViolin.png" alt="Tiny Violin" style="width:225px;height:225px;border-radius:50%;">
+                                                <div class="tooltip">
+                                                    <img onclick="myClick()" id="image4" src="images/TinyViolin.png" alt="Tiny Violin" style="width:225px;height:225px;border-radius:50%;">
+                                                    <span class="tooltiptext" id="tip3">Cry Me A River</span>
+                                                </div>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -318,5 +324,19 @@
                 </form>
             </div>
         </div>
+
+        <script>
+            function myDoubleClick() {
+                alert("You double-clicked inside the element!");
+            }
+
+            function myRightClick() {
+                alert("You right-clicked inside the element!");
+            }
+
+            function myClick() {
+                alert("You clicked inside the element!");
+            }
+        </script>
     </body>
 </html>

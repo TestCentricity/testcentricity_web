@@ -198,7 +198,7 @@ class CustomControlsPage < BaseTestPage
     }
     verify_ui_states(ui)
     team_select.verify_options(teams)
-    weather_embed.wait_until_visible(5)
+    weather_embed.wait_until_exists(5)
     weather_embed.verify_embed unless Environ.device_os == :ios
   end
 

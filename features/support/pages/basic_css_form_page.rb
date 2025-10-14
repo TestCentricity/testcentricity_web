@@ -58,4 +58,7 @@ class BasicCSSFormPage < BasicFormPage
               link_label:        'label#links',
               table_label:       'label[for="table"]',
               images_label:      'label#images'
+  elements    tooltip_1:         'span#tip1',
+              tooltip_2:         'span#tip2',
+              tooltip_3:         'span#tip3'
 end

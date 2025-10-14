@@ -160,6 +160,8 @@ class BasicFormPage < BaseTestPage
     ]
   }
 
+  attr_accessor :action_element
+
   def verify_page_ui
     super
 
@@ -640,6 +642,66 @@ class BasicFormPage < BaseTestPage
            raise "#{reason} is not a valid selector"
          end
     # verify correct error message is displayed
+    verify_ui_states(ui)
+  end
+
+  def element_action(action, element)
+    @action_element = case element.gsub(/\s+/, '_').downcase.to_sym
+                    when :image_1
+                      image_1
+                    when :image_2
+                      image_2
+                    when :image_3
+                      image_3
+                    when :image_4
+                      image_4
+                    else
+                      raise "#{element} is not a valid selector"
+                      end
+    @action_element.wait_until_exists(2)
+    @action_element.scroll_to(:bottom)
+
+    case action.gsub(/\s+/, '_').downcase.to_sym
+    when :hover_over
+      @action_element.hover
+    when :hover_outside
+      @action_element.hover_at(-1, -1)
+    when :double_click
+      @action_element.double_click
+    when :right_click
+      @action_element.right_click
+    when :click_at
+      @action_element.click_at(30, 50)
+    else
+      raise "#{element} is not a valid selector"
+    end
+  end
+
+  def verify_tooltip(state)
+    tooltip = case @action_element
+              when image_1
+                tip_text =  "It's alive"
+                tooltip_1
+              when image_2
+                tip_text = 'You Betcha'
+                tooltip_2
+              when image_4
+                tip_text = 'Cry Me A River'
+                tooltip_3
+              else
+                raise "#{element} is not a valid selector"
+              end
+
+    ui = if state
+           {
+             tooltip => {
+               visible: true,
+               caption: tip_text
+             }
+           }
+         else
+           { tooltip => { visible: false } }
+         end
     verify_ui_states(ui)
   end
 end

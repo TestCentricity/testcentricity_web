@@ -53,6 +53,35 @@ Feature: Basic HTML Form Test Page using CSS locators
       |value  |
 
 
+@!mobile
+  Scenario Outline:  Verify tooltip when hovering over UI elements
+    When I hover over element <element>
+    Then I expect a tooltip to be displayed
+    When I hover outside element <element>
+    Then I expect a tooltip to be hidden
+
+  Examples:
+    |element |
+    |image 1 |
+    |image 2 |
+    |image 4 |
+
+
+  Scenario Outline:  Verify clickable actions on UI elements
+    When I <action> element <element>
+    Then I expect a modal alert to be displayed
+
+  Examples:
+    |action       |element |
+    |double click |image 1 |
+    |click at     |image 4 |
+
+@!safari @!mobile
+  Examples:
+    |action       |element |
+    |right click  |image 2 |
+
+
   Scenario Outline:  Verify functionality of navigation tabs and browser back/forward
     When I click the <target_page> navigation tab
     Then I expect the <target_page> page to be correctly displayed
