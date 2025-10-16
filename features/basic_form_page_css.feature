@@ -78,8 +78,8 @@ Feature: Basic HTML Form Test Page using CSS locators
 
 @!safari @!mobile
   Examples:
-    |action       |element |
-    |right click  |image 2 |
+    |action      |element |
+    |right click |image 2 |
 
 
   Scenario Outline:  Verify functionality of navigation tabs and browser back/forward

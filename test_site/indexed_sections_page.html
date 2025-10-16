@@ -131,12 +131,12 @@
                 <a id="custom_controls_link" href="custom_controls_page.html">Custom Controls</a>
             </div>
 
-            <h3 style="text-align:center">Product Card</h3>
+            <h3 style="text-align:center">Product Cards</h3>
 
             <div id="product_list" class="row">
                 <div class="column">
                     <div data-test-id="product_card" class="card">
-                        <img data-test-id="product_image" src="images/jeans3.jpg" alt="Denim Jeans" style="width:100%">
+                        <img ondblclick="myDoubleClick()" data-test-id="product_image" src="images/jeans3.jpg" alt="Denim Jeans" style="width:100%">
                         <div class="container">
                             <h1 data-test-id="product_name">Tailored Jeans</h1>
                             <p data-test-id="price" class="price">$59.99</p>
@@ -155,7 +155,7 @@
 
                 <div class="column">
                     <div data-test-id="product_card" class="card">
-                        <img data-test-id="product_image" src="images/T-shirt.jpg" alt="Faded Short Sleeve T-shirts" style="width:100%">
+                        <img oncontextmenu="myRightClick()" data-test-id="product_image" src="images/T-shirt.jpg" alt="Faded Short Sleeve T-shirts" style="width:100%">
                         <div class="container">
                             <h1 data-test-id="product_name">Faded Short Sleeve T-shirts</h1>
                             <p data-test-id="price" class="price">$19.99</p>
@@ -174,7 +174,7 @@
 
                 <div class="column">
                     <div data-test-id="product_card" class="card">
-                        <img data-test-id="product_image" src="images/Printed_Dress.jpg" alt="Print Dress" style="width:100%">
+                        <img onclick="myClick()" data-test-id="product_image" src="images/Printed_Dress.jpg" alt="Print Dress" style="width:100%">
                         <div class="container">
                             <h1 data-test-id="product_name">Print Dress</h1>
                             <p data-test-id="price" class="price">$69.99</p>
@@ -211,5 +211,19 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            function myDoubleClick() {
+                alert("You double-clicked inside the element!");
+            }
+
+            function myRightClick() {
+                alert("You right-clicked inside the element!");
+            }
+
+            function myClick() {
+                alert("You clicked inside the element!");
+            }
+        </script>
     </body>
 </html>

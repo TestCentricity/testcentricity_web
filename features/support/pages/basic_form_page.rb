@@ -673,7 +673,7 @@ class BasicFormPage < BaseTestPage
     when :click_at
       @action_element.click_at(30, 50)
     else
-      raise "#{element} is not a valid selector"
+      raise "#{action} is not a valid selector"
     end
   end
 

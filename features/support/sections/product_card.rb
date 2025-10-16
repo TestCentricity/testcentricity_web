@@ -37,4 +37,17 @@ class ProductCard < TestCentricity::PageSection
       verify_ui_states(checked_star => { count: card_data[:rating] })
     end
   end
+
+  def card_action(action)
+    case action.gsub(/\s+/, '_').downcase.to_sym
+    when :double_click
+      product_image.double_click
+    when :right_click
+      product_image.right_click
+    when :click_at
+      product_image.click_at(30, 50)
+    else
+      raise "#{action} is not a valid selector"
+    end
+  end
 end

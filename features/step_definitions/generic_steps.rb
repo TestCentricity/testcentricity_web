@@ -152,3 +152,8 @@ Then(/^I expect a modal alert to be displayed$/) do
   rescue
   end
 end
+
+
+When(/^I (.*) product card (.*)$/) do |action, num|
+  indexed_sections_page.card_action(action, num.to_i)
+end
