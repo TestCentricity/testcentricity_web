@@ -41,11 +41,11 @@ class ProductCard < TestCentricity::PageSection
   def card_action(action)
     case action.gsub(/\s+/, '_').downcase.to_sym
     when :double_click
-      product_image.double_click
+      self.double_click
     when :right_click
-      product_image.right_click
+      self.right_click
     when :click_at
-      product_image.click_at(30, 50)
+      self.click_at(30, 50)
     else
       raise "#{action} is not a valid selector"
     end
