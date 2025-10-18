@@ -59,4 +59,7 @@ class BasicXpathFormPage < BasicFormPage
               link_label:        "//label[@id='links']",
               table_label:       "//label[@for='table']",
               images_label:      "//label[@id='images']"
+  elements    tooltip_1:         "//span[@id='tip1']",
+              tooltip_2:         "//span[@id='tip2']",
+              tooltip_3:         "//span[@id='tip3']"
 end

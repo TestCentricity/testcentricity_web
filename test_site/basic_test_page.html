@@ -177,20 +177,20 @@
                         <tr>
                             <td>
                                 <label id="checkboxes">Checkbox Items:</label>
-                                <input type="checkbox" id="check1" name="checkboxes[]" value="cb1" />Checkbox 1
-                                <input type="checkbox" id="check2" name="checkboxes[]" value="cb2" />Checkbox 2
-                                <input type="checkbox" id="check3" name="checkboxes[]" value="cb3" />Checkbox 3
-                                <input type="checkbox" id="check4" name="checkboxes[]" value="cb4" disabled/>Checkbox 4
+                                <input type="checkbox" id="check1" name="checkboxes[]" value="checkbox 1" />Checkbox 1
+                                <input type="checkbox" id="check2" name="checkboxes[]" value="checkbox 2" />Checkbox 2
+                                <input type="checkbox" id="check3" name="checkboxes[]" value="checkbox 3" />Checkbox 3
+                                <input type="checkbox" id="check4" name="checkboxes[]" value="checkbox 4" disabled/>Checkbox 4
                             </td>
                         </tr>
 
                         <tr>
                             <td>
                                 <label id="radios">Radio Items:</label>
-                                <input type="radio" id="radio1" name="radioval" value="rd1" />radio 1
-                                <input type="radio" id="radio2" name="radioval" value="rd2" />radio 2
-                                <input type="radio" id="radio3" name="radioval" value="rd3" />radio 3
-                                <input type="radio" id="radio4" name="radioval" value="rd4" disabled/>radio 4
+                                <input type="radio" id="radio1" name="radioval" value="RADIO 1" />Radio 1
+                                <input type="radio" id="radio2" name="radioval" value="RADIO 2" />Radio 2
+                                <input type="radio" id="radio3" name="radioval" value="RADIO 3" />Radio 3
+                                <input type="radio" id="radio4" name="radioval" value="RADIO 4" disabled/>Radio 4
                             </td>
                         </tr>
 
@@ -289,18 +289,24 @@
                                         <tr>
                                             <td>
                                                 <div class="tooltip">
-                                                    <img id="image1" src="images/Wilder.jpg" alt="It's alive" style="width:225px;height:225px;">
-                                                    <span class="tooltiptext">It's alive</span>
+                                                    <img ondblclick="myDoubleClick()" id="image1" src="images/Wilder.jpg" alt="It's alive" style="width:225px;height:225px;">
+                                                    <span class="tooltiptext" id="tip1">It's alive</span>
                                                 </div>
                                             </td>
                                             <td>
-                                                <img id="image2" src="images/You_Betcha.jpg" alt="You Betcha" style="width:225px;height:225px;">
+                                                <div class="tooltip">
+                                                    <img oncontextmenu="myRightClick()" id="image2" src="images/You_Betcha.jpg" alt="You Betcha" style="width:225px;height:225px;">
+                                                    <span class="tooltiptext" id="tip2">You Betcha</span>
+                                                </div>
                                             </td>
                                             <td>
                                                 <img id="image3" src="wrongname.gif" alt="A broken image" style="width:225px;height:225px;">
                                             </td>
                                             <td>
-                                                <img id="image4" src="images/TinyViolin.png" alt="Tiny Violin" style="width:225px;height:225px;border-radius:50%;">
+                                                <div class="tooltip">
+                                                    <img onclick="myClick()" id="image4" src="images/TinyViolin.png" alt="Tiny Violin" style="width:225px;height:225px;border-radius:50%;">
+                                                    <span class="tooltiptext" id="tip3">Cry Me A River</span>
+                                                </div>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -318,5 +324,19 @@
                 </form>
             </div>
         </div>
+
+        <script>
+            function myDoubleClick() {
+                alert("You double-clicked inside the element!");
+            }
+
+            function myRightClick() {
+                alert("You right-clicked inside the element!");
+            }
+
+            function myClick() {
+                alert("You clicked inside the element!");
+            }
+        </script>
     </body>
 </html>

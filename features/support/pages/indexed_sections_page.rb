@@ -59,4 +59,9 @@ class IndexedSectionsPage < BaseTestPage
     }
     product_card.verify_card(card_data)
   end
+
+  def card_action(action, num)
+    product_card.set_list_index(product_list, num)
+    product_card.card_action(action)
+  end
 end

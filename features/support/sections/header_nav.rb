@@ -38,10 +38,10 @@ class NavHeader < TestCentricity::PageSection
         disabled: false,
         class: 'topnav'
       },
-      form_link => { visible: true, caption: 'Basic HTML Form' },
-      media_link => { visible: true, caption: 'Media' },
-      indexed_sections_link => { visible: true, caption: 'Indexed Sections' },
-      custom_controls_link => { visible: true, caption: 'Custom Controls' },
+      form_link => { visible: true, caption: { translate: 'nav_header.basic_form' } },
+      media_link => { visible: true, caption: { translate: 'nav_header.media' } },
+      indexed_sections_link => { visible: true, caption: { translate: 'nav_header.indexed_sections' } },
+      custom_controls_link => { visible: true, caption: { translate: 'nav_header.custom_controls' } },
     }
     verify_ui_states(ui)
   end

@@ -132,3 +132,28 @@ end
 Then(/^I expect an error to be displayed due to (.*)$/) do |reason|
   PageManager.current_page.verify_entry_error(reason)
 end
+
+
+When(/^I (.*) element (.*)$/) do |action, element|
+  PageManager.current_page.element_action(action, element)
+end
+
+
+Then(/^I expect (?:a|the) tooltip to be (.*)$/) do |state|
+  visible = %i[displayed visible].include?(state.downcase.to_sym)
+  PageManager.current_page.verify_tooltip(visible)
+end
+
+
+Then(/^I expect a modal alert to be displayed$/) do
+  # accept JavaScript system modal
+  begin
+    page.driver.browser.switch_to.alert.accept
+  rescue
+  end
+end
+
+
+When(/^I (.*) product card (.*)$/) do |action, num|
+  indexed_sections_page.card_action(action, num.to_i)
+end
