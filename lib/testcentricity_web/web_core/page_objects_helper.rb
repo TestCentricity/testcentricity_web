@@ -69,6 +69,8 @@ module TestCentricity
                      ui_object.obscured?
                    when :focused
                      ui_object.focused?
+                   when :draggable
+                     ui_object.draggable?
                    when :width
                      ui_object.width
                    when :height

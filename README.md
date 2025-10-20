@@ -570,6 +570,7 @@ With TestCentricity, all UI elements are based on the `UIElement` class, and inh
     element.displayed?
     element.obscured?
     element.focused?
+    element.draggable?
     element.required?
     element.content_editable?
     element.crossorigin
@@ -701,6 +702,7 @@ The `verify_ui_states` method supports the following property/state pairs:
     :hidden            Boolean
     :displayed         Boolean
     :obscured          Boolean
+    :draggable         Boolean
     :width             Integer
     :height            Integer
     :x                 Integer

@@ -157,3 +157,23 @@ end
 When(/^I (.*) product card (.*)$/) do |action, num|
   indexed_sections_page.card_action(action, num.to_i)
 end
+
+
+When(/^I drag the (.*) draggable object to the (.*) drop zone$/) do |drag_object, drop_zone|
+  custom_controls_page.drag_to_drop_zone(drag_object, drop_zone)
+end
+
+
+Then(/^I expect the (.*) drop zone to (.*) the (.*) draggable object$/) do |drop_zone, result, drag_object|
+  custom_controls_page.verify_dropped(drag_object, drop_zone, result)
+end
+
+
+When(/^I drag the (.*) drag object to the (.*)$/) do |drag_object, direction|
+  custom_controls_page.drag_by(drag_object, direction)
+end
+
+
+Then(/^I expect the drop zones to be empty$/) do
+  custom_controls_page.verify_no_drops
+end

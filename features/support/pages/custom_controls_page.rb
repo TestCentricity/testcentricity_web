@@ -64,12 +64,18 @@ class CustomControlsPage < BaseTestPage
               hot_radio:      'label[for="radio3"]',
               flaming_radio:  'label[for="radio4"]'
   tables      custom_table:   'div#resp-table'
+  elements    drop_1:         'div#droppable1',
+              drop_2:         'div#droppable2',
+              drag_1:         'div#draggable1',
+              drag_2:         'div#draggable2'
   section     :weather_embed, WeatherEmbed
 
   attr_accessor :selected_country
   attr_accessor :selected_team
   attr_accessor :selected_checks
   attr_accessor :selected_radio
+  attr_accessor :drag_x
+  attr_accessor :drag_y
 
   def initialize
     super
@@ -183,6 +189,24 @@ class CustomControlsPage < BaseTestPage
         selected: false,
         caption: 'Flaming'
       },
+      drop_1 => {
+        visible: true,
+        draggable: false,
+        caption: 'Drop here'
+      },
+      drop_2 => {
+        visible: true,
+        draggable: false,
+        caption: 'No Drop here'
+      },
+      drag_1 => {
+        visible: true,
+        caption: 'Drag me'
+      },
+      drag_2 => {
+        visible: true,
+        caption: 'Drag me'
+      },
       custom_table => {
         visible: true,
         columncount: 4,
@@ -264,6 +288,103 @@ class CustomControlsPage < BaseTestPage
     ui = {
       country_select => { selected: 'Costa Rica' },
       team_select    => { selected: 'Seattle Seahawks' }
+    }
+    verify_ui_states(ui)
+  end
+
+  def drag_to_drop_zone(drag_object, drop_zone)
+    drag_obj = case drag_object.downcase.to_sym
+               when :first
+                 drag_1
+               when :second, :last
+                 drag_2
+               else
+                 raise "#{drag_object} is not a valid selector"
+               end
+    drop_obj = case drop_zone.downcase.to_sym
+               when :first
+                 drop_1
+               when :second, :last
+                 drop_2
+               else
+                 raise "#{drop_zone} is not a valid selector"
+               end
+    # force drag and drop objects to be found to prevent stale object reference exceptions
+    drag_obj.reset_mru_cache
+    drop_obj.reset_mru_cache
+    # scroll drop zone into view
+    drop_obj.scroll_to(:bottom)
+    # save drag object's start location before drag
+    @drag_x = drag_obj.x
+    @drag_y = drag_obj.y
+    drag_obj.drag_and_drop(drop_obj)
+    sleep(1)
+  end
+
+  def verify_dropped(drag_object, drop_zone, result)
+    drag_obj = case drag_object.downcase.to_sym
+               when :first
+                 drag_1
+               when :second, :last
+                 drag_2
+               else
+                 raise "#{drag_object} is not a valid selector"
+               end
+    drop_obj = case drop_zone.downcase.to_sym
+               when :first
+                 drop_1
+               when :second, :last
+                 drop_2
+               else
+                 raise "#{drop_zone} is not a valid selector"
+               end
+    response = case result.downcase.to_sym
+               when :accept, :contain
+                 'Dropped!'
+               when :reject
+                 'Get Off Me!'
+               else
+                 raise "#{result} is not a valid selector"
+               end
+    drop = {
+      drag_obj => {
+        x: { not_equal: @drag_x },
+        y: { not_equal: @drag_y }
+      },
+      drop_obj => { caption: response }
+    }
+    verify_ui_states(drop)
+  end
+
+  def drag_by(drag_object, direction)
+    drag_obj = case drag_object.downcase.to_sym
+               when :first
+                 drag_1
+               when :second, :last
+                 drag_2
+               else
+                 raise "#{drag_object} is not a valid selector"
+               end
+    h_offset = case direction.downcase.to_sym
+               when :right
+                 75
+               when :left
+                 -75
+               else
+                 raise "#{direction} is not a valid selector"
+               end
+    drag_obj.reset_mru_cache
+    # save drag object's start location before drag
+    @drag_x = drag_obj.x
+    @drag_y = drag_obj.y
+    drag_obj.drag_by(h_offset, -30)
+    sleep(1)
+  end
+
+  def verify_no_drops
+    ui = {
+      drop_1 => { caption: 'Drop here' },
+      drop_2 => { caption: 'No Drop here' }
     }
     verify_ui_states(ui)
   end

@@ -103,6 +103,11 @@ RSpec.describe TestCentricity::Elements::UIElement, required: true do
     expect(css_element.displayed?).to eq(true)
   end
 
+  it 'should know if element is draggable' do
+    allow(css_element).to receive(:draggable?).and_return(true)
+    expect(css_element.draggable?).to eq(true)
+  end
+
   it 'should know if element is required' do
     allow(css_element).to receive(:required?).and_return(true)
     expect(css_element.required?).to eq(true)

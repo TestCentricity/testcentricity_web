@@ -180,6 +180,7 @@ class BasicFormPage < BaseTestPage
         enabled: true,
         disabled: false,
         required: true,
+        draggable: false,
         value: '',
         placeholder: 'User name',
         title: 'User Name',
@@ -204,6 +205,7 @@ class BasicFormPage < BaseTestPage
         focused: false,
         enabled: true,
         required: true,
+        draggable: false,
         value: '',
         placeholder: 'Password',
         title: 'Password'
@@ -268,6 +270,7 @@ class BasicFormPage < BaseTestPage
         disabled: false,
         checked: false,
         indeterminate: false,
+        draggable: false,
         caption: { translate_downcase: 'base_form_page.checkbox1' }
       },
       check_2 => {
@@ -308,6 +311,7 @@ class BasicFormPage < BaseTestPage
         enabled: true,
         disabled: false,
         selected: false,
+        draggable: false,
         caption: { translate_upcase: 'base_form_page.radio1' }
       },
       radio_2 => {
@@ -341,6 +345,7 @@ class BasicFormPage < BaseTestPage
       multi_select => {
         visible: true,
         enabled: true,
+        draggable: false,
         optioncount: 4,
         options: ['Selection Item 1', 'Selection Item 2', 'Selection Item 3', 'Selection Item 4'],
         selected: ''
@@ -357,6 +362,7 @@ class BasicFormPage < BaseTestPage
       links_list => {
         visible: true,
         enabled: true,
+        draggable: false,
         itemcount: 3,
         items: ['Open Media Page in same window/tab', 'Open Media Page in a new window/tab', 'Disabled Link'],
         { item: 1 } => ['Open Media Page in same window/tab'],
@@ -381,6 +387,7 @@ class BasicFormPage < BaseTestPage
       table_label => { visible: true, caption: 'Table:' },
       static_table => {
         visible: true,
+        draggable: false,
         columncount: 3,
         rowcount: 4,
         column_headers: %w[Company Contact Country],
@@ -423,8 +430,16 @@ class BasicFormPage < BaseTestPage
         alt: 'Tiny Violin',
         style: { contains: 'border-radius: 50%;' }
       },
-      cancel_button => { visible: true, enabled: true, caption: { translate_capitalize: 'base_form_page.cancel_button' } },
-      submit_button => { visible: true, enabled: true, caption: { translate_capitalize: 'base_form_page.submit_button' } }
+      cancel_button => {
+        visible: true,
+        enabled: true,
+        caption: { translate_capitalize: 'base_form_page.cancel_button' }
+      },
+      submit_button => {
+        visible: true,
+        enabled: true,
+        caption: { translate_capitalize: 'base_form_page.submit_button' }
+      }
     }
     verify_ui_states(ui)
 

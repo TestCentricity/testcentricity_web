@@ -559,6 +559,21 @@ module TestCentricity
         obj.displayed?
       end
 
+      # Return state of UI object's draggable property
+      #
+      # @return [Boolean]
+      # @example
+      #   puzzle_piece_21.draggable?
+      #
+      def draggable?
+        state = get_attribute(:draggable)
+        if state.is_a?(String)
+          state.to_bool
+        elsif state.boolean?
+          state
+        end
+      end
+
       def get_value(visible = true)
         obj, type = find_element(visible)
         object_not_found_exception(obj, type)
