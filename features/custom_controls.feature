@@ -27,3 +27,25 @@ Feature: Custom Controls
       |method |
       |index  |
       |text   |
+
+
+  Scenario Outline: Verify drag and drop actions on UI elements
+    When I drag the <drag> draggable object to the <drop> drop zone
+    Then I expect the <drop> drop zone to <result> the <drag> draggable object
+
+    Examples:
+      |drag   |drop   |result |
+      |first  |first  |accept |
+      |second |first  |reject |
+      |first  |second |accept |
+      |second |second |accept |
+
+
+  Scenario Outline: Verify drag by offset actions on UI elements
+    When I drag the <drag> drag object to the <direction>
+    Then I expect the drop zones to be empty
+
+    Examples:
+      |drag   |direction |
+      |first  |left      |
+      |second |right     |

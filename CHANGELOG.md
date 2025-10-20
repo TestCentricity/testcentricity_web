@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.6.7] - 21-OCT-2025
+
+### Added
+
+* Added `UIElement.draggable?` method.
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of the
+ `draggable` property.
+
+
 ## [4.6.6] - 10-OCT-2025
 
 ### Changed
