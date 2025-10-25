@@ -787,7 +787,14 @@ module TestCentricity
       #   user_grid.aria_rowcount
       #
       def aria_rowcount
-        get_attribute('aria-rowcount')
+        rows = get_attribute('aria-rowcount')
+        unless rows.blank?
+          if rows.is_int?
+            rows.to_i
+          else
+            rows
+          end
+        end
       end
 
       # Return state of UI object's aria-colcount property
@@ -797,7 +804,14 @@ module TestCentricity
       #   user_grid.aria_colcount
       #
       def aria_colcount
-        get_attribute('aria-colcount')
+        cols = get_attribute('aria-colcount')
+        unless cols.blank?
+          if cols.is_int?
+            cols.to_i
+          else
+            cols
+          end
+        end
       end
 
       # Return state of UI object's aria-valuemax property
@@ -807,7 +821,16 @@ module TestCentricity
       #   volume_slider.aria_valuemax
       #
       def aria_valuemax
-        get_attribute('aria-valuemax')
+        max = get_attribute('aria-valuemax')
+        unless max.blank?
+          if max.is_int?
+            max.to_i
+          elsif max.is_float?
+            max.to_f
+          else
+            max
+          end
+        end
       end
 
       # Return state of UI object's aria-valuemin property
@@ -817,7 +840,16 @@ module TestCentricity
       #   volume_slider.aria_valuemin
       #
       def aria_valuemin
-        get_attribute('aria-valuemin')
+        min = get_attribute('aria-valuemin')
+        unless min.blank?
+          if min.is_int?
+            min.to_i
+          elsif min.is_float?
+            min.to_f
+          else
+            min
+          end
+        end
       end
 
       # Return state of UI object's aria-valuenow property
@@ -827,12 +859,21 @@ module TestCentricity
       #   volume_slider.aria_valuenow
       #
       def aria_valuenow
-        get_attribute('aria-valuenow')
+        result = get_attribute('aria-valuenow')
+        unless result.blank?
+          if result.is_int?
+            result.to_i
+          elsif result.is_float?
+            result.to_f
+          else
+            result
+          end
+        end
       end
 
       # Return state of UI object's aria-valuetext property
       #
-      # @return [Integer]
+      # @return [String]
       # @example
       #   volume_slider.aria_valuetext
       #
@@ -842,7 +883,7 @@ module TestCentricity
 
       # Return state of UI object's aria-orientation property
       #
-      # @return [Integer]
+      # @return [String]
       # @example
       #   volume_slider.aria_orientation
       #
@@ -852,7 +893,7 @@ module TestCentricity
 
       # Return state of UI object's aria-keyshortcuts property
       #
-      # @return [Integer]
+      # @return [String]
       # @example
       #   play_button.aria_keyshortcuts
       #
@@ -862,7 +903,7 @@ module TestCentricity
 
       # Return state of UI object's aria-roledescription property
       #
-      # @return [Integer]
+      # @return [String]
       # @example
       #   editor_button.aria_roledescription
       #
@@ -872,7 +913,7 @@ module TestCentricity
 
       # Return state of UI object's aria-autocomplete property
       #
-      # @return [Integer]
+      # @return [Boolean]
       # @example
       #   email_field.aria_autocomplete
       #
@@ -882,7 +923,7 @@ module TestCentricity
 
       # Return state of UI object's aria-controls property
       #
-      # @return [Integer]
+      # @return [String]
       # @example
       #   video_menu.aria_controls
       #

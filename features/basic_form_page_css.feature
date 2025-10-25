@@ -7,7 +7,7 @@ Feature: Basic HTML Form Test Page using CSS locators
   Background:
     Given I am on the Basic CSS Form page
 
-
+@dev
   Scenario: Validate verify_ui_states method and associated object state verification methods
     Then I expect the Basic CSS Form page to be correctly displayed
 
@@ -81,7 +81,7 @@ Feature: Basic HTML Form Test Page using CSS locators
     |action      |element |
     |right click |image 2 |
 
-
+@dev
   Scenario Outline:  Verify functionality of navigation tabs and browser back/forward
     When I click the <target_page> navigation tab
     Then I expect the <target_page> page to be correctly displayed

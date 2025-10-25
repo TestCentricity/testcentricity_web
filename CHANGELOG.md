@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.6.8] - 25-OCT-2025
+
+### Changed
+
+* `UIElement.aria_valuemax`, `UIElement.aria_valuemin`, and `UIElement.aria_valuenow` now return `Integer` or `Float`
+  instead of `String` result.
+* `UIElement.aria_rowcount` and `UIElement.aria_colcount` now return `Integer` instead of `String` result.
+
+
 ## [4.6.7] - 21-OCT-2025
 
 ### Added

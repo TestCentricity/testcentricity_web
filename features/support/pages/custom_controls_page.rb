@@ -211,6 +211,8 @@ class CustomControlsPage < BaseTestPage
         visible: true,
         columncount: 4,
         rowcount: 3,
+        aria_colcount: 4,
+        aria_rowcount: 4,
         column_headers: ['Header 1', 'Header 2', 'Header 3', 'Header 4'],
         { row: 1 } => [['Cell 1–1', 'Cell 1–2', 'Cell 1–3', 'Cell 1–4']],
         { row: 2 } => [['Cell 2–1', 'Cell 2–2', 'Cell 2–3', 'Cell 2–4']],

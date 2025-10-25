@@ -180,9 +180,12 @@ class BasicFormPage < BaseTestPage
         enabled: true,
         disabled: false,
         required: true,
+        aria_required: true,
         draggable: false,
         value: '',
         placeholder: 'User name',
+        aria_label: 'User name',
+        aria_labelledby: 'username',
         title: 'User Name',
         badInput: false,
         customError: false,
@@ -205,9 +208,12 @@ class BasicFormPage < BaseTestPage
         focused: false,
         enabled: true,
         required: true,
+        aria_required: true,
         draggable: false,
         value: '',
         placeholder: 'Password',
+        aria_label: 'Password',
+        aria_labelledby: 'password',
         title: 'Password'
       },
       max_length_label => { visible: true, caption: 'Max Length:' },
@@ -217,6 +223,8 @@ class BasicFormPage < BaseTestPage
         enabled: true,
         focused: false,
         placeholder: 'up to 64 characters',
+        aria_label: 'up to 64 characters',
+        aria_labelledby: 'maxlength',
         value: '',
         maxlength: 64
       },
@@ -225,6 +233,7 @@ class BasicFormPage < BaseTestPage
         visible: true,
         enabled: true,
         readonly: true,
+        aria_readonly: true,
         value: 'I am a read only text field'
       },
       number_int_label => { visible: true, caption: 'Number (Integer):' },
@@ -256,9 +265,18 @@ class BasicFormPage < BaseTestPage
         value: 25,
         min: 0,
         max: 50,
+        role: 'slider',
+        aria_orientation: 'horizontal',
+        aria_valuenow: 25,
+        aria_valuemin: 0,
+        aria_valuemax: 50
       },
       comments_label => { visible: true, caption: 'TextArea:' },
-      comments_field => { visible: true, enabled: true, value: '' },
+      comments_field => {
+        visible: true,
+        enabled: true,
+        aria_multiline: true,
+        value: '' },
       filename_label => { visible: true, caption: 'Filename:' },
       upload_file => { visible: true, enabled: true, value: '' },
       checkboxes_label => { visible: true, caption: { translate_titlecase: 'base_form_page.check_label' } },
@@ -269,6 +287,7 @@ class BasicFormPage < BaseTestPage
         enabled: true,
         disabled: false,
         checked: false,
+        aria_checked: false,
         indeterminate: false,
         draggable: false,
         caption: { translate_downcase: 'base_form_page.checkbox1' }
@@ -280,6 +299,7 @@ class BasicFormPage < BaseTestPage
         enabled: true,
         disabled: false,
         checked: false,
+        aria_checked: false,
         indeterminate: false,
         caption: { translate_downcase: 'base_form_page.checkbox2' }
       },
@@ -290,6 +310,7 @@ class BasicFormPage < BaseTestPage
         enabled: true,
         disabled: false,
         checked: false,
+        aria_checked: false,
         indeterminate: false,
         caption: { translate_downcase: 'base_form_page.checkbox3' }
       },
@@ -300,6 +321,7 @@ class BasicFormPage < BaseTestPage
         enabled: false,
         disabled: true,
         checked: false,
+        aria_checked: false,
         indeterminate: false,
         caption: { translate_downcase: 'base_form_page.checkbox4' }
       },
@@ -311,6 +333,7 @@ class BasicFormPage < BaseTestPage
         enabled: true,
         disabled: false,
         selected: false,
+        aria_checked: false,
         draggable: false,
         caption: { translate_upcase: 'base_form_page.radio1' }
       },
@@ -321,6 +344,7 @@ class BasicFormPage < BaseTestPage
         enabled: true,
         disabled: false,
         selected: false,
+        aria_checked: false,
         caption: { translate_upcase: 'base_form_page.radio2' }
       },
       radio_3 => {
@@ -330,6 +354,7 @@ class BasicFormPage < BaseTestPage
         enabled: true,
         disabled: false,
         selected: false,
+        aria_checked: false,
         caption: { translate_upcase: 'base_form_page.radio3' }
       },
       radio_4 => {
@@ -339,6 +364,7 @@ class BasicFormPage < BaseTestPage
         enabled: false,
         disabled: true,
         selected: false,
+        aria_checked: false,
         caption: { translate_upcase: 'base_form_page.radio4' }
       },
       multiselect_label => { visible: true, caption: 'Multiple Select Values:' },
@@ -347,6 +373,7 @@ class BasicFormPage < BaseTestPage
         enabled: true,
         draggable: false,
         optioncount: 4,
+        aria_multiselectable: true,
         options: ['Selection Item 1', 'Selection Item 2', 'Selection Item 3', 'Selection Item 4'],
         selected: ''
       },
@@ -370,11 +397,15 @@ class BasicFormPage < BaseTestPage
       },
       link_1 => {
         visible: true,
+        aria_disabled: false,
+        role: 'link',
         href: { ends_with: 'media_page.html' },
         caption: 'Open Media Page in same window/tab'
       },
       link_2 => {
         visible: true,
+        aria_disabled: false,
+        role: 'link',
         href: { ends_with: 'media_page.html' },
         caption: 'Open Media Page in a new window/tab'
       },
