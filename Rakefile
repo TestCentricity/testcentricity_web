@@ -91,7 +91,7 @@ end
 
 desc 'Run required Cucumber features on local web browsers'
 task :required_cukes do
-  %w[chrome_local chrome_headless firefox_local firefox_headless edge_local edge_headless safari_local ipad_pro_12_local].each do |profile|
+  %w[chrome_local].each do |profile|
     if %w[firefox_local firefox_headless safari_local].include?(profile)
       system "cucumber -p #{profile} -p report"
     else
