@@ -211,16 +211,29 @@ class CustomControlsPage < BaseTestPage
         visible: true,
         columncount: 4,
         rowcount: 3,
+        aria_colcount: 4,
+        aria_rowcount: 4,
         column_headers: ['Header 1', 'Header 2', 'Header 3', 'Header 4'],
         { row: 1 } => [['Cell 1–1', 'Cell 1–2', 'Cell 1–3', 'Cell 1–4']],
         { row: 2 } => [['Cell 2–1', 'Cell 2–2', 'Cell 2–3', 'Cell 2–4']],
         { row: 3 } => [['Cell 3–1', 'Cell 3–2', 'Cell 3–3', 'Cell 3–4']],
         { cell: [1, 3] } => ['Cell 1–3'],
         { cell: [2, 4] } => ['Cell 2–4'],
-        { column: 3 } => [['Cell 1–3', 'Cell 2–3', 'Cell 3–3']]
+        { column: 3 } => [['Cell 1–3', 'Cell 2–3', 'Cell 3–3']],
+        { cell_attribute: [1, 1, 'role'] } =>  ['tablecell'],
+        { aria_rowindex: 1 } => [2],
+        { aria_rowindex: 2 } => [3],
+        { aria_rowindex: 3 } => [4]
       }
     }
     verify_ui_states(ui)
+    # find a table row attribute
+    row_index = custom_table.find_row_attribute('aria-rowindex', 4)
+    ExceptionQueue.enqueue_assert_equal(3, row_index, 'aria-rowindex')
+    # verify table row data
+    row_data = custom_table.get_row_data(1)
+    ExceptionQueue.enqueue_assert_equal('Cell 1–1 Cell 1–2 Cell 1–3 Cell 1–4', row_data, 'Table Row 1')
+
     team_select.verify_options(teams)
     weather_embed.wait_until_exists(5)
     weather_embed.verify_embed unless Environ.device_os == :ios

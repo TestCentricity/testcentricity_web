@@ -781,12 +781,15 @@ The `verify_ui_states` method supports the following property/state pairs:
 
 **Tables**
 
-    :rowcount      Integer
-    :columncount   Integer
-    :columnheaders Array of String
-    :cell          Hash
-    :row           Hash
-    :column        Hash
+    :rowcount       Integer
+    :columncount    Integer
+    :columnheaders  Array of String
+    :cell           Hash
+    :row            Hash
+    :column         Hash
+    :cell_attribute Integer, Float, or String
+    :row_attribute  Integer, Float, or String
+    :aria_rowindex  Integer
 
 **Audio/Video Media Objects**
 

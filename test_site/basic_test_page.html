@@ -95,21 +95,21 @@
                                         <tr>
                                             <td>
                                                 <label for="username">Username:</label>
-                                                <input type="text" id="username" name="username" title="User Name" placeholder="User name" required>
+                                                <input type="text" id="username" name="username" title="User Name" placeholder="User name" aria-label="User name" required aria-required="true" aria-labelledby="username" contenteditable="true">
                                             </td>
                                             <td>
                                                 <label for="password">Password:</label>
-                                                <input type="password" id="password" name="password" title="Password" placeholder="Password" required>
+                                                <input type="password" id="password" name="password" title="Password" placeholder="Password" aria-label="Password" required aria-required="true" aria-labelledby="password" contenteditable="true">
                                             </td>
                                             <td>
                                                 <label for="maxlength">Max Length:</label>
-                                                <input type="text" id="maxlength" name="maxlength" placeholder="up to 64 characters" maxlength="64">
+                                                <input type="text" id="maxlength" name="maxlength" placeholder="up to 64 characters" aria-label="up to 64 characters" maxlength="64" aria-labelledby="maxlength" contenteditable="true">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <label for="readonly">Read Only:</label>
-                                                <input type="text" id="readonly" name="readonly" value="I am a read only text field" readonly>
+                                                <input type="text" id="readonly" name="readonly" value="I am a read only text field" readonly aria-readonly="true" contenteditable="false">
                                             </td>
                                             <td>
                                                 <label for="number-int-field">Number (Integer):</label>
@@ -145,7 +145,7 @@
                                             </td>
                                             <td>
                                                 <label for="slider">Range: </label>
-                                                <input id="slider" type="range" name="slider" min="0" max="50">
+                                                <input id="slider" type="range" name="slider" min="0" max="50" aria-valuenow="25" aria-valuemin="0" aria-valuemax="50" role="slider" aria-orientation="horizontal">
                                             </td>
                                         </tr>
                                     </tbody>
@@ -156,7 +156,7 @@
                         <tr>
                             <td>
                                 <label for="comments">TextArea:</label>
-                                <textarea id="comments" name="comments" cols="80" rows="3"></textarea>
+                                <textarea id="comments" name="comments" cols="80" rows="3" aria-multiline="true"></textarea>
                             </td>
                         </tr>
 
@@ -177,27 +177,27 @@
                         <tr>
                             <td>
                                 <label id="checkboxes">Checkbox Items:</label>
-                                <input type="checkbox" id="check1" name="checkboxes[]" value="checkbox 1" />Checkbox 1
-                                <input type="checkbox" id="check2" name="checkboxes[]" value="checkbox 2" />Checkbox 2
-                                <input type="checkbox" id="check3" name="checkboxes[]" value="checkbox 3" />Checkbox 3
-                                <input type="checkbox" id="check4" name="checkboxes[]" value="checkbox 4" disabled/>Checkbox 4
+                                <input type="checkbox" id="check1" name="checkboxes[]" value="checkbox 1" aria-checked="false"/>Checkbox 1
+                                <input type="checkbox" id="check2" name="checkboxes[]" value="checkbox 2" aria-checked="false"/>Checkbox 2
+                                <input type="checkbox" id="check3" name="checkboxes[]" value="checkbox 3" aria-checked="false"/>Checkbox 3
+                                <input type="checkbox" id="check4" name="checkboxes[]" value="checkbox 4" disabled aria-checked="false"/>Checkbox 4
                             </td>
                         </tr>
 
                         <tr>
                             <td>
                                 <label id="radios">Radio Items:</label>
-                                <input type="radio" id="radio1" name="radioval" value="RADIO 1" />Radio 1
-                                <input type="radio" id="radio2" name="radioval" value="RADIO 2" />Radio 2
-                                <input type="radio" id="radio3" name="radioval" value="RADIO 3" />Radio 3
-                                <input type="radio" id="radio4" name="radioval" value="RADIO 4" disabled/>Radio 4
+                                <input type="radio" id="radio1" name="radioval" value="RADIO 1" aria-checked="false"/>Radio 1
+                                <input type="radio" id="radio2" name="radioval" value="RADIO 2" aria-checked="false"/>Radio 2
+                                <input type="radio" id="radio3" name="radioval" value="RADIO 3" aria-checked="false"/>Radio 3
+                                <input type="radio" id="radio4" name="radioval" value="RADIO 4" aria-checked="false"disabled/>Radio 4
                             </td>
                         </tr>
 
                         <tr>
                             <td>
                                 <label for="multipleselect">Multiple Select Values:</label>
-                                <select multiple="multiple" id="multipleselect" name="multipleselect" size="4">
+                                <select multiple="multiple" id="multipleselect" name="multipleselect" size="4" role="listbox" aria-multiselectable="true">
                                     <option value="ms1">Selection Item 1</option>
                                     <option value="ms2">Selection Item 2</option>
                                     <option value="ms3">Selection Item 3</option>
@@ -225,10 +225,10 @@
                                 <label id="links">Links:</label>
                                 <ul id="links_list">
                                     <li>
-                                        <a id="link1" href="media_page.html">Open Media Page in same window/tab</a>
+                                        <a id="link1" href="media_page.html" role="link" aria-disabled="false">Open Media Page in same window/tab</a>
                                     </li>
                                     <li>
-                                        <a id="link2" href="media_page.html" target="_blank">Open Media Page in a new window/tab</a>
+                                        <a id="link2" href="media_page.html" target="_blank" role="link" aria-disabled="false">Open Media Page in a new window/tab</a>
                                     </li>
                                     <li>
                                         <a id="link3" role="link" aria-disabled="true">Disabled Link</a>

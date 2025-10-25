@@ -151,8 +151,6 @@ module TestCentricity
                      ui_object.active_track_source
                    when :all_tracks_data
                      ui_object.all_tracks_data
-                   when :crossorigin
-                     ui_object.crossorigin
                    when :preload
                      ui_object.preload
                    when :poster
@@ -177,19 +175,43 @@ module TestCentricity
                      ui_object.style
                    when :href
                      ui_object.href
+                   when :content_editable
+                     ui_object.content_editable?
                    when :role
                      ui_object.role
                    when :aria_disabled
                      ui_object.aria_disabled?
-                   # :nocov:
-                   when :count_all
-                     ui_object.count(visible = :all)
                    when :aria_label
                      ui_object.aria_label
-                   when :tabindex
-                     ui_object.tabindex
                    when :aria_labelledby
                      ui_object.aria_labelledby
+                   when :aria_required
+                     ui_object.aria_required?
+                   when :aria_checked
+                     ui_object.aria_checked?
+                   when :aria_readonly
+                     ui_object.aria_readonly?
+                   when :aria_rowcount
+                     ui_object.aria_rowcount
+                   when :aria_colcount
+                     ui_object.aria_colcount
+                   when :aria_valuemax
+                     ui_object.aria_valuemax
+                   when :aria_valuemin
+                     ui_object.aria_valuemin
+                   when :aria_valuenow
+                     ui_object.aria_valuenow
+                   when :aria_orientation
+                     ui_object.aria_orientation
+                   when :aria_multiline
+                     ui_object.aria_multiline?
+                   when :aria_multiselectable
+                     ui_object.aria_multiselectable?
+                     # :nocov:
+                   when :count_all
+                     ui_object.count(visible = :all)
+                   when :tabindex
+                     ui_object.tabindex
                    when :aria_describedby
                      ui_object.aria_describedby
                    when :aria_live
@@ -202,34 +224,16 @@ module TestCentricity
                      ui_object.aria_hidden?
                    when :aria_expanded
                      ui_object.aria_expanded?
-                   when :aria_required
-                     ui_object.aria_required?
-                   when :aria_invalid
+                    when :aria_invalid
                      ui_object.aria_invalid?
-                   when :aria_checked
-                     ui_object.aria_checked?
-                   when :aria_readonly
-                     ui_object.aria_readonly?
                    when :aria_pressed
                      ui_object.aria_pressed?
                    when :aria_haspopup
                      ui_object.aria_haspopup?
                    when :aria_sort
                      ui_object.aria_sort
-                   when :aria_rowcount
-                     ui_object.aria_rowcount
-                   when :aria_colcount
-                     ui_object.aria_colcount
-                   when :aria_valuemax
-                     ui_object.aria_valuemax
-                   when :aria_valuemin
-                     ui_object.aria_valuemin
-                   when :aria_valuenow
-                     ui_object.aria_valuenow
                    when :aria_valuetext
                      ui_object.aria_valuetext
-                   when :aria_orientation
-                     ui_object.aria_orientation
                    when :aria_keyshortcuts
                      ui_object.aria_keyshortcuts
                    when :aria_roledescription
@@ -240,12 +244,8 @@ module TestCentricity
                      ui_object.aria_controls
                    when :aria_modal
                      ui_object.aria_modal?
-                   when :aria_multiline
-                     ui_object.aria_multiline?
-                   when :aria_multiselectable
-                     ui_object.aria_multiselectable?
-                   when :content_editable
-                     ui_object.content_editable?
+                   when :crossorigin
+                     ui_object.crossorigin
                    # :nocov:
                    when :validation_message
                      ui_object.validation_message
@@ -287,6 +287,12 @@ module TestCentricity
                            ui_object.get_attribute(value)
                          when :native_attribute
                            ui_object.get_native_attribute(value)
+                         when :cell_attribute
+                           ui_object.get_cell_attribute(value[0].to_i, value[1].to_i, value[2])
+                         when :row_attribute
+                           ui_object.get_row_attribute(value[0].to_i, value[1])
+                         when :aria_rowindex
+                           ui_object.get_row_attribute(value.to_i, 'aria-rowindex')
                          else
                            raise "#{key} is not a valid property key"
                          end
