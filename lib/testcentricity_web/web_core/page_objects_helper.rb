@@ -287,6 +287,12 @@ module TestCentricity
                            ui_object.get_attribute(value)
                          when :native_attribute
                            ui_object.get_native_attribute(value)
+                         when :cell_attribute
+                           ui_object.get_cell_attribute(value[0].to_i, value[1].to_i, value[2])
+                         when :row_attribute
+                           ui_object.get_row_attribute(value[0].to_i, value[1])
+                         when :aria_rowindex
+                           ui_object.get_row_attribute(value.to_i, 'aria-rowindex')
                          else
                            raise "#{key} is not a valid property key"
                          end

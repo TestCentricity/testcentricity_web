@@ -2,13 +2,23 @@
 All notable changes to this project will be documented in this file.
 
 
-## [4.6.8] - 25-OCT-2025
+## [4.6.8] - 27-OCT-2025
 
 ### Changed
 
 * `UIElement.aria_valuemax`, `UIElement.aria_valuemin`, and `UIElement.aria_valuenow` now return `Integer` or `Float`
   instead of `String` result.
 * `UIElement.aria_rowcount` and `UIElement.aria_colcount` now return `Integer` instead of `String` result.
+
+### Added
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of the following
+  `Table` properties:
+    * `:cell_attribute`
+    * `:row_attribute`
+    * `:aria_rowindex`
+
+### Fixed
+* `Table.get_row_data` and `Table.get_row_attribute` methods now return data for row 1 instead of `nil`.
 
 
 ## [4.6.7] - 21-OCT-2025

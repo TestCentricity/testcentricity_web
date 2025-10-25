@@ -317,13 +317,9 @@ module TestCentricity
         raise "Row #{row} exceeds number of rows (#{row_count}) in table #{object_ref_message}" if row > row_count
         case @locator_type
         when :xpath
-          row > 1 ?
-            set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}[#{row}]") :
-            set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}")
+          set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}[#{row}]")
         when :css
-          row > 1 ?
-            set_alt_locator("#{@locator} > #{@table_body} > #{@table_row}:nth-of-type(#{row})") :
-            set_alt_locator("#{@locator} > #{@table_body} > #{@table_row}")
+          set_alt_locator("#{@locator} > #{@table_body} > #{@table_row}:nth-of-type(#{row})")
         end
         value = get_value if exists?
         clear_alt_locator
@@ -431,7 +427,15 @@ module TestCentricity
         set_table_cell_locator(row, column)
         result = get_native_attribute(attrib)
         clear_alt_locator
-        result
+        unless result.blank?
+          if result.is_int?
+            result.to_i
+          elsif result.is_float?
+            result.to_f
+          else
+            result
+          end
+        end
       end
 
       def get_row_attribute(row, attrib)
@@ -439,17 +443,21 @@ module TestCentricity
         raise "Row #{row} exceeds number of rows (#{row_count}) in table #{object_ref_message}" if row > row_count
         case @locator_type
         when :xpath
-          row > 1 ?
-            set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}[#{row}]") :
-            set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}")
+          set_alt_locator("#{@locator}/#{@table_body}/#{@table_row}[#{row}]")
         when :css
-          row > 1 ?
-            set_alt_locator("#{@locator} > #{@table_body} > #{@table_row}:nth-of-type(#{row})") :
-            set_alt_locator("#{@locator} > #{@table_body} > #{@table_row}")
+          set_alt_locator("#{@locator} > #{@table_body} > #{@table_row}:nth-of-type(#{row})")
         end
         result = get_native_attribute(attrib)
         clear_alt_locator
-        result
+        unless result.blank?
+          if result.is_int?
+            result.to_i
+          elsif result.is_float?
+            result.to_f
+          else
+            result
+          end
+        end
       end
 
       def find_row_attribute(attrib, search_value)

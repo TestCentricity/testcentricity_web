@@ -489,6 +489,9 @@ class BasicFormPage < BaseTestPage
       image_4 => { alt: { not_equal: 'Cowabunga' } }
     }
     verify_ui_states(ui)
+    # verify table row data
+    row_data = static_table.get_row_data(1)
+    ExceptionQueue.enqueue_assert_equal('Alfreds Futterkiste Maria Anders Germany', row_data, 'Table Row 1')
     # verify that a screenshot can be taken
     ExceptionQueue.enqueue_screenshot
     reports_path = "#{Dir.pwd}/reports"
