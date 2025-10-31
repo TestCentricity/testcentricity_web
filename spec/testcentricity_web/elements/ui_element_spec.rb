@@ -118,12 +118,12 @@ RSpec.describe TestCentricity::Elements::UIElement, required: true do
     css_element.send_keys('foo bar')
   end
 
-  it 'should right highlight the element' do
+  it 'should highlight the element' do
     allow(css_element).to receive(:highlight)
     css_element.highlight(2)
   end
 
-  it 'should right unhighlight the element' do
+  it 'should unhighlight the element' do
     allow(css_element).to receive(:unhighlight)
     css_element.unhighlight
   end

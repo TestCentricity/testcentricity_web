@@ -165,6 +165,8 @@ module TestCentricity
                      ui_object.get_group_headings
                    when :column_headers
                      ui_object.get_header_columns
+                   when :column_footers
+                     ui_object.get_footer_columns
                    when :count, :count_visible
                      ui_object.count(visible = true)
                    when :all_items, :all_list_items
@@ -281,6 +283,10 @@ module TestCentricity
                            ui_object.get_table_row(value.to_i)
                          when :column
                            ui_object.get_table_column(value.to_i)
+                         when :column_header
+                           ui_object.get_header_column(value.to_i)
+                         when :column_footer
+                           ui_object.get_footer_column(value.to_i)
                          when :item
                            ui_object.get_list_item(value.to_i)
                          when :attribute

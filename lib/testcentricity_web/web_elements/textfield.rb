@@ -92,27 +92,6 @@ module TestCentricity
         end
       end
 
-      # Return max attribute of a number type text field.
-      #
-      # @return [Integer]
-      # @example
-      #   max_points_value = points_field.get_max
-      #
-      def get_max
-        obj, = find_element
-        object_not_found_exception(obj, nil)
-        max = obj.native.attribute('max')
-        unless max.blank?
-          if max.is_int?
-            max.to_i
-          elsif max.is_float?
-            max.to_f
-          else
-            max
-          end
-        end
-      end
-
       # Return step attribute of a number type text field.
       #
       # @return [Integer]
