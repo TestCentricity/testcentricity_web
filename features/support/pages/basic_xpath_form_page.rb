@@ -39,7 +39,8 @@ class BasicXpathFormPage < BasicFormPage
               image_2:           "//img[@id='image2']",
               image_3:           "//img[@id='image3']",
               image_4:           "//img[@id='image4']"
-  buttons     cancel_button:     "//input[@id='cancel']",
+  buttons     progress_button:   "//button[@id='run-progress']",
+              cancel_button:     "//input[@id='cancel']",
               submit_button:     "//input[@id='submit']"
   labels      header_label:      '//h2',
               username_label:    "//label[@for='username']",
@@ -59,7 +60,8 @@ class BasicXpathFormPage < BasicFormPage
               link_label:        "//label[@id='links']",
               table_label:       "//label[@for='table']",
               images_label:      "//label[@id='images']"
-  elements    tooltip_1:         "//span[@id='tip1']",
+  elements    progress_bar:      "//progress[@id='progress-bar']",
+              tooltip_1:         "//span[@id='tip1']",
               tooltip_2:         "//span[@id='tip2']",
               tooltip_3:         "//span[@id='tip3']"
 end

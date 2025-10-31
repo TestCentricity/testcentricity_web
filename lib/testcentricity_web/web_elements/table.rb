@@ -8,6 +8,9 @@ module TestCentricity
       attr_accessor :table_header
       attr_accessor :header_row
       attr_accessor :header_column
+      attr_accessor :table_footer
+      attr_accessor :footer_row
+      attr_accessor :footer_column
       attr_accessor :row_header
       attr_accessor :tree_expand
       attr_accessor :tree_collapse
@@ -24,6 +27,9 @@ module TestCentricity
           table_header:  'thead',
           header_row:    'tr',
           header_column: 'th',
+          table_footer:  'tfoot',
+          footer_row:    'tr',
+          footer_column: 'th',
           row_header:    nil
         }
 
@@ -55,6 +61,12 @@ module TestCentricity
             @header_row = value
           when :header_column
             @header_column = value
+          when :table_footer
+            @table_footer = value
+          when :footer_row
+            @footer_row = value
+          when :footer_column
+            @footer_column = value
           when :row_header
             @row_header = value
           when :tree_expand
@@ -569,6 +581,36 @@ module TestCentricity
             set_alt_locator("#{@locator}//#{@table_header}/#{@header_row}/#{@header_column}[#{column}]")
           when :css
             set_alt_locator("#{@locator} #{@table_header} > #{@header_row} > #{@header_column}:nth-of-type(#{column})")
+          end
+          columns.push(get_value(:all)) if exists?(:all)
+        end
+        clear_alt_locator
+        columns
+      end
+
+      def get_footer_column(column)
+        column_count = get_column_count
+        raise "Column #{column} exceeds number of columns (#{column_count}) in table footer #{object_ref_message}" if column > column_count
+        case @locator_type
+        when :xpath
+          set_alt_locator("#{@locator}//#{@table_footer}/#{@footer_row}/#{@footer_column}[#{column}]")
+        when :css
+          set_alt_locator("#{@locator} #{@table_footer} > #{@footer_row} > #{@footer_column}:nth-of-type(#{column})")
+        end
+        value = get_value(:all) if exists?(:all)
+        clear_alt_locator
+        value
+      end
+
+      def get_footer_columns
+        columns = []
+        column_count = get_column_count
+        (1..column_count).each do |column|
+          case @locator_type
+          when :xpath
+            set_alt_locator("#{@locator}//#{@table_footer}/#{@footer_row}/#{@footer_column}[#{column}]")
+          when :css
+            set_alt_locator("#{@locator} #{@table_footer} > #{@footer_row} > #{@footer_column}:nth-of-type(#{column})")
           end
           columns.push(get_value(:all)) if exists?(:all)
         end

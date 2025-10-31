@@ -74,5 +74,6 @@ en-US:
     radio2: 'Radio 2'
     radio3: 'Radio 3'
     radio4: 'Radio 4'
+    progress_button: 'Run Progress'
     cancel_button: 'cancel'
     submit_button: 'submit'

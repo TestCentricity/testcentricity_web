@@ -26,6 +26,7 @@ class BasicFormPage < BaseTestPage
       color_picker,
       slider,
       comments_field,
+      progress_button,
       upload_file,
       check_1,
       check_2,
@@ -73,6 +74,7 @@ class BasicFormPage < BaseTestPage
       color_picker,
       slider,
       comments_field,
+      progress_button,
       upload_file,
       check_1,
       check_2,
@@ -118,6 +120,7 @@ class BasicFormPage < BaseTestPage
       color_picker,
       slider,
       comments_field,
+      progress_button,
       upload_file,
       check_1,
       check_2,
@@ -167,6 +170,7 @@ class BasicFormPage < BaseTestPage
 
     verify_page_contains(page_title)
     image_1.wait_until_loaded(5)
+    progress_bar.wait_until_value_is( { greater_than: 50 } )
     username_field.scroll_to(:center) if username_field.obscured?
     ui = {
       username_label => { visible: true, caption: 'Username:' },
@@ -281,6 +285,20 @@ class BasicFormPage < BaseTestPage
         enabled: true,
         aria_multiline: true,
         value: '' },
+      progress_bar => {
+        visible: true,
+        enabled: true,
+        max: 100,
+        role: 'progress_bar',
+        aria_orientation: 'horizontal',
+        aria_valuemin: 0,
+        aria_valuemax: 100
+      },
+      progress_button => {
+        visible: true,
+        enabled: true,
+        caption: { translate: 'base_form_page.progress_button' }
+      },
       filename_label => { visible: true, caption: 'Filename:' },
       upload_file => { visible: true, enabled: true, value: '' },
       checkboxes_label => { visible: true, caption: { translate_titlecase: 'base_form_page.check_label' } },
@@ -432,7 +450,10 @@ class BasicFormPage < BaseTestPage
         { row: 4 } => [['Island Trading', 'Helen Bennett', 'UK']],
         { cell: [1, 3] } => ['Germany'],
         { cell: [2, 3] } => ['Mexico'],
-        { column: 3 } => [['Germany', 'Mexico', 'Austria', 'UK']]
+        { column: 3 } => [['Germany', 'Mexico', 'Austria', 'UK']],
+        column_footers: %w[Company Contact Country],
+        { column_header: 2 } => ['Contact'],
+        { column_footer: 3 } => ['Country']
       },
       images_label => { visible: true, caption: 'Images:' },
       image_1 => {
@@ -597,7 +618,8 @@ class BasicFormPage < BaseTestPage
                     image_upload => {
                       visible: true,
                       loaded: true,
-                      broken: false
+                      broken: false,
+                      width: 100
                     }
                   }
                 end

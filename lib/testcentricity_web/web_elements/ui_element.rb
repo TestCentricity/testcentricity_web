@@ -577,13 +577,15 @@ module TestCentricity
       def get_value(visible = true)
         obj, type = find_element(visible)
         object_not_found_exception(obj, type)
-        text = case obj.tag_name.downcase
-               when 'input', 'select', 'textarea'
-                 obj.value
-               else
-                 obj.text
-               end
-        text.gsub(/[[:space:]]+/, ' ').strip unless text.nil?
+        value = case obj.tag_name.downcase
+                when 'input', 'select', 'textarea'
+                  obj.value
+                when 'progress'
+                  obj.value.to_i
+                else
+                  obj.text
+                end
+        value.is_a?(String) ? value.gsub(/[[:space:]]+/, ' ').strip : value
       end
 
       alias get_caption get_value
@@ -698,6 +700,27 @@ module TestCentricity
           'style',
           @original_style
         )
+      end
+
+      # Return max attribute of a number type text field or a progress bar.
+      #
+      # @return [Integer]
+      # @example
+      #   max_points_value = points_field.get_max
+      #
+      def get_max
+        obj, = find_element
+        object_not_found_exception(obj, nil)
+        max = obj.native.attribute('max')
+        unless max.blank?
+          if max.is_int?
+            max.to_i
+          elsif max.is_float?
+            max.to_f
+          else
+            max
+          end
+        end
       end
 
       # Return UI object's style property

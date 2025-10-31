@@ -24,7 +24,7 @@ The TestCentricity™ For Web gem supports connecting to, and running automated 
   * [TestingBot](https://testingbot.com/features)
   * [LambdaTest](https://www.lambdatest.com/selenium-automation)
 * web portals utilizing JavaScript front end application frameworks like Ember, React, Angular, and GWT
-* web pages containing HTML5 Video and Audio objects
+* web pages containing HTML5 Video and Audio objects, including text caption tracks
 * locally hosted emulated iOS Mobile Safari, Android, Windows Phone, or Blackberry mobile browsers (running within a local instance of Chrome)
 
 
@@ -40,15 +40,15 @@ Cucumber can be found [here](https://github.com/TestCentricity/tc_multi_webdrive
 
 ### Which gem should I use?
 
-* The [TestCentricity For **Web** gem](https://rubygems.org/gems/testcentricity_web) supports testing of web interfaces via desktop and mobile web browsers
+* The [TestCentricity For **Web** gem](https://rubygems.org/gems/testcentricity_web) supports testing of web apps via desktop and mobile web browsers
 * The [TestCentricity For **Mobile** gem](https://rubygems.org/gems/testcentricity_mobile) supports testing of native iOS and Android mobile apps
 * The [TestCentricity For **Apps** gem](https://rubygems.org/gems/testcentricity_apps) supports testing of MacOS desktop apps and native iOS and Android mobile apps
 
-| Tested platforms                            | TestCentricity For Web | TestCentricity For Mobile | TestCentricity For Apps |
-|---------------------------------------------|:-:|:-:|:-:|
-| Desktop/mobile web browsers only            | Yes                    | No                        | No                      |
-| Native mobile iOS and/or Android apps only  | No                     | Yes                       | Yes                     |
-| MacOS desktop apps                          | No                     | No                        | Yes                     |
+| Tested platforms                           | TestCentricity For Web | TestCentricity For Mobile | TestCentricity For Apps |
+|--------------------------------------------|:----------------------:|:-------------------------:|:-----------------------:|
+| Desktop/mobile web apps only               |          Yes           |            No             |           No            |
+| Native mobile iOS and/or Android apps only |           No           |            Yes            |           Yes           |
+| MacOS desktop apps                         |           No           |            No             |           Yes           |
 
 
 ## Installation
@@ -784,9 +784,12 @@ The `verify_ui_states` method supports the following property/state pairs:
     :rowcount       Integer
     :columncount    Integer
     :columnheaders  Array of String
+    :columnfooters  Array of String
     :cell           Hash
     :row            Hash
     :column         Hash
+    :column_header  Hash
+    :column_footer  Hash
     :cell_attribute Integer, Float, or String
     :row_attribute  Integer, Float, or String
     :aria_rowindex  Integer

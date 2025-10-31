@@ -39,7 +39,8 @@ class BasicCSSFormPage < BasicFormPage
               image_2:           'img#image2',
               image_3:           'img#image3',
               image_4:           'img#image4'
-  buttons     cancel_button:     'input#cancel',
+  buttons     progress_button:   'button#run-progress',
+              cancel_button:     'input#cancel',
               submit_button:     'input#submit'
   labels      username_label:    'label[for="username"]',
               password_label:    'label[for="password"]',
@@ -58,7 +59,8 @@ class BasicCSSFormPage < BasicFormPage
               link_label:        'label#links',
               table_label:       'label[for="table"]',
               images_label:      'label#images'
-  elements    tooltip_1:         'span#tip1',
+  elements    progress_bar:      'progress#progress-bar',
+              tooltip_1:         'span#tip1',
               tooltip_2:         'span#tip2',
               tooltip_3:         'span#tip3'
 end

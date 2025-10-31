@@ -2,6 +2,22 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.6.9] - 31-OCT-2025
+
+### Added
+
+* Added `Table.get_footer_columns` and `Table.get_footer_column`methods.
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of the following
+  `Table` properties:
+    * `:column_footers`
+    * `:column_footer`
+    * `:column_header`
+
+### Changed
+
+* `UIElement.get_max` now works with HTML `<progress>` elements.
+
+
 ## [4.6.8] - 27-OCT-2025
 
 ### Changed
