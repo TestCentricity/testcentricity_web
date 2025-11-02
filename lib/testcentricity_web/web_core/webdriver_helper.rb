@@ -198,12 +198,6 @@ module TestCentricity
       Environ.session_state = :running
     end
 
-    # :nocov:
-
-    def self.set_domain(url)
-      Capybara.app_host = url
-    end
-
     def self.close_tunnel
       unless @bs_local.nil?
         @bs_local.stop
@@ -213,6 +207,11 @@ module TestCentricity
           puts 'BrowserStack Local instance has been stopped'
         end
       end
+    end
+
+    # :nocov:
+    def self.set_domain(url)
+      Capybara.app_host = url
     end
     # :nocov:
 
@@ -432,7 +431,6 @@ module TestCentricity
       end
       # specify endpoint url
       @endpoint = "https://#{ENV['BS_USERNAME']}:#{ENV['BS_AUTHKEY']}@hub-cloud.browserstack.com/wd/hub" if @endpoint.nil?
-      # :nocov:
       # enable tunneling if specified
       if ENV['TUNNELING']
         @bs_local = BrowserStack::Local.new
@@ -444,7 +442,6 @@ module TestCentricity
           puts 'BrowserStack Local instance failed to start'
         end
       end
-      # :nocov:
       # define BrowserStack options
       options = if @capabilities.nil?
                   Environ.os = "#{ENV['BS_OS']} #{ENV['BS_OS_VERSION']}"

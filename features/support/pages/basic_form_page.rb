@@ -518,7 +518,9 @@ class BasicFormPage < BaseTestPage
     row_data = static_table.get_row_data(1)
     ExceptionQueue.enqueue_assert_equal('Alfreds Futterkiste Maria Anders Germany', row_data, 'Table Row 1')
     # verify that a screenshot can be taken
+    comments_field.highlight
     ExceptionQueue.enqueue_screenshot
+    comments_field.unhighlight
     reports_path = "#{Dir.pwd}/reports"
     ExceptionQueue.enqueue_exception("#{reports_path} folder was not created") unless Dir.exist?(reports_path)
   end

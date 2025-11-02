@@ -8,8 +8,10 @@ Feature: Basic HTML Form Test Page using CSS locators
     Given I am on the Basic CSS Form page
 
 
+@bat
   Scenario: Validate verify_ui_states method and associated object state verification methods
     Then I expect the Basic CSS Form page to be correctly displayed
+    And the page should be axe clean according to the preferred WCAG standard
 
 
 @!mobile @!firefox_grid
@@ -82,9 +84,11 @@ Feature: Basic HTML Form Test Page using CSS locators
     |right click |image 2 |
 
 
+@bat
   Scenario Outline:  Verify functionality of navigation tabs and browser back/forward
     When I click the <target_page> navigation tab
     Then I expect the <target_page> page to be correctly displayed
+    And the page should be axe clean according to the preferred WCAG standard
     When I navigate back
     Then I should be on the Basic CSS Form page
     When I navigate forward
@@ -95,7 +99,7 @@ Feature: Basic HTML Form Test Page using CSS locators
       |Indexed Sections |
       |Custom Controls  |
 
-@!chrome_headless @!edge_headless
+@!chrome_headless @!edge_headless @!grid
     Examples:
       |target_page |
       |Media Test  |

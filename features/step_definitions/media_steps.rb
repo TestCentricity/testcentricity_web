@@ -5,7 +5,7 @@ When(/^I (.*) the (.*) media$/) do |action, media_type|
 end
 
 
-Then(/^the (.*) should be (.*)$/) do |media_type, state|
+Then(/^the (.*) media should be (.*)$/) do |media_type, state|
   media_test_page.verify_media_state(media_type, state)
 end
 

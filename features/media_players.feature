@@ -13,30 +13,30 @@ Feature: HTML5 Audio/Video Test Page using CSS locators
 @!ios
   Scenario:  Verify video player play and pause controls
     When I play the video media
-    Then the video should be playing
+    Then the video media should be playing
     When I pause the video media
-    Then the video should be paused
+    Then the video media should be paused
 
 @!ios
   Scenario:  Verify audio player play and pause controls
     When I play the audio media
-    Then the audio should be playing
+    Then the audio media should be playing
     When I pause the audio media
-    Then the audio should be paused
+    Then the audio media should be paused
 
 
   Scenario:  Verify video player mute control
     When I mute the video media
-    Then the video should be muted
+    Then the video media should be muted
     When I unmute the video media
-    Then the video should be unmuted
+    Then the video media should be unmuted
 
 
   Scenario:  Verify audio player mute control
     When I mute the audio media
-    Then the audio should be muted
+    Then the audio media should be muted
     When I unmute the audio media
-    Then the audio should be unmuted
+    Then the audio media should be unmuted
 
 @!ios
   Scenario:  Verify video player volume control

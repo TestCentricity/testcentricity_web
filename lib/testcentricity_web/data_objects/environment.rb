@@ -65,7 +65,6 @@ module TestCentricity
     @session_id = Time.now.strftime('%d%H%M%S%L')
     @session_time_stamp = Time.now.strftime('%Y%m%d%H%M%S')
     @test_environment = ENV['TEST_ENVIRONMENT']
-    @a11y_standard = ENV['ACCESSIBILITY_STANDARD'] || 'best-practice'
     @locale = ENV['LOCALE'] || 'en'
     @language = ENV['LANGUAGE'] || 'English'
     @screen_shots = []
@@ -147,6 +146,7 @@ module TestCentricity
       @deep_link_prefix = data['DEEP_LINK_PREFIX']
       @ios_bundle_id    = data['IOS_BUNDLE_ID']
       @android_app_id   = data['ANDROID_APP_ID']
+      @a11y_standard = ENV['ACCESSIBILITY_STANDARD'] || 'best-practice'
 
       url = @hostname.blank? ? "#{@base_url}#{@append}" : "#{@hostname}/#{@base_url}#{@append}"
       @app_host = if @user_id.blank? || @password.blank?

@@ -1,6 +1,8 @@
   <% desktop = "--require features BROWSER_TILE=true BROWSER_SIZE=1300,1050 --publish-quiet" %>
   <% mobile  = "--require features BROWSER_TILE=true --publish-quiet" %>
   <% reports = "--require features --format pretty --format html --out reports/test_results.html --format junit --out reports --format json --out reports/test_results.json" %>
+  <% regression = "--tags '@regression and (not @wip and not @failing)' --require features" %>
+  <% acceptance = "--tags '@bat and (not @wip and not @failing)' --require features" %>
 
 
 #==============
@@ -10,6 +12,7 @@
 failing: --tags '@failing and not @wip'
 wip:     --tags '@wip and not @failing'
 dev:     --tags '@dev and (not @wip and not @failing)'
+bat:     <%= acceptance %>
 
 
 #==============
@@ -18,6 +21,16 @@ dev:     --tags '@dev and (not @wip and not @failing)'
 
 report:   <%= reports %> REPORTING=true
 parallel: PARALLEL=true REPORTING=true --require features --format pretty --format html --out reports/test_results<%= ENV['TEST_ENV_NUMBER'] %>.html --format junit --out reports --format json --out reports/test_results<%= ENV['TEST_ENV_NUMBER'] %>.json
+
+
+#==============
+# profiles for Accessibility standards
+#==============
+
+wcag2a:        ACCESSIBILITY_STANDARD=wcag2a
+wcag2aa:       ACCESSIBILITY_STANDARD=wcag2aa
+section508:    ACCESSIBILITY_STANDARD=section508
+best_practice: ACCESSIBILITY_STANDARD=best-practice
 
 
 #==============
@@ -43,6 +56,7 @@ edge_headless:    --profile local WEB_BROWSER=edge_headless <%= desktop %>
 #==============
 # profile for Selenium Grid and Dockerized Selenium Grid hosted desktop web browsers
 #==============
+
 remote:       TEST_ENVIRONMENT=REMOTE
 grid:         DRIVER=grid --profile remote REMOTE_ENDPOINT="http://localhost:4444/wd/hub"
 chrome_grid:  --profile grid --profile chrome
@@ -71,6 +85,7 @@ ipad_pro_12_grid: --profile grid WEB_BROWSER=ipad_pro_12_9 --profile portrait <%
 #==============
 # profile to start Appium Server prior to running mobile browser tests on iOS or Android simulators or physical devices
 #==============
+
 run_appium: APPIUM_SERVER=run
 
 
@@ -111,14 +126,16 @@ bs_desktop:   --profile browserstack <%= desktop %> RESOLUTION="1920x1080"
 bs_mobile:    --profile browserstack <%= mobile %>
 
 # BrowserStack macOS desktop browser profiles
-bs_macos_monterey:  --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="Monterey"
-bs_chrome_monterey: --profile bs_macos_monterey BS_BROWSER="Chrome" BS_VERSION="latest"
-bs_edge_monterey:   --profile bs_macos_monterey BS_BROWSER="Edge" BS_VERSION="latest"
-bs_safari_monterey: --profile bs_macos_monterey BS_BROWSER="Safari" BS_VERSION="latest"
+bs_macos_sequoia:  --profile bs_desktop BS_OS="OS X" BS_OS_VERSION="Sequoia"
+bs_chrome_sequoia: --profile bs_macos_sequoia BS_BROWSER="Chrome" BS_VERSION="latest"
+bs_edge_sequoia:   --profile bs_macos_sequoia BS_BROWSER="Edge" BS_VERSION="latest"
+bs_safari_sequoia: --profile bs_macos_sequoia BS_BROWSER="Safari" BS_VERSION="latest"
+bs_chrome_bat:     --profile bs_chrome_sequoia --profile bat
+
 
 # BrowserStack iOS mobile browser profiles
 bs_ipad:        --profile bs_mobile BS_OS=ios BS_BROWSER=Safari DEVICE_TYPE=tablet BS_REAL_MOBILE="true"
-bs_ipad_pro_12: --profile bs_ipad BS_DEVICE="iPad Pro 12.9 2018" BS_OS_VERSION="15"
+bs_ipad_pro_12: --profile bs_ipad BS_DEVICE="iPad Pro 13 2024" BS_OS_VERSION="17"
 
 # BrowserStack Android mobile browser profiles
 bs_android:        --profile bs_mobile BS_OS=android BS_BROWSER=Chrome DEVICE_TYPE=tablet BS_REAL_MOBILE="true"

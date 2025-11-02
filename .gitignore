@@ -31,7 +31,9 @@ capybara-*.html
 debug.log
 
 BrowserStackLocal
+browserstack.err
 cbttunnel.jar
+testingbot-tunnel.jar
 
 /.yardoc/
 /local.log

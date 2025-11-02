@@ -33,6 +33,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.requirements << 'Capybara, Selenium-WebDriver'
 
+  spec.add_development_dependency 'axe-core-cucumber'
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'cucumber', '10.1.1'
   spec.add_development_dependency 'cuke_modeler', '~> 3.0'

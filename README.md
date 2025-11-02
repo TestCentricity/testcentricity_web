@@ -1463,7 +1463,7 @@ If the optional `options` hash is not provided when calling the `TestCentricity:
 then **Environment Variables** must be used to specify the target local or remote web browser, and the various webdriver
 capability parameters required to establish a connection with a single target web browser.
 
-### Specifying Options and Capabilities in the `options` Hash
+### Specifying Options and Capabilities using the `options` Hash
 
 For those test scenarios requiring the instantiation of multiple WebDriver objects, or where cumbersome **Environment
 Variables** are less than ideal, call the `TestCentricity::WebDriverConnect.initialize_web_driver` method with an `options`
@@ -1523,7 +1523,7 @@ expects a driver name, specified as a `Symbol`.
 
 ### Setting Desktop Browser Window Size
 
-#### Using `:browser_size` in the `options` Hash
+#### Using `:browser_size` using the `options` Hash
 
 The size (width and height) of a desktop browser window can be specified in the `options` hash for browsers that are hosted
 locally, in a Selenium Grid, or by a cloud hosted browser service provider. You cannot set the size of a mobile device web
@@ -1597,7 +1597,7 @@ the following Environment Variables must be set as described in the table below:
 Refer to [**section 8.9 (Using Browser Specific Profiles in `cucumber.yml`)**](#using-browser-specific-profiles-in-cucumber-yml) below.
 
 
-#### Local Desktop Browser in the `options` Hash
+#### Local Desktop Browser using the `options` Hash
 
 When using the `options` hash, the following options and capabilities must be specified:
 - `driver:` must be set to `:webdriver`
@@ -1745,7 +1745,7 @@ then the following Environment Variables must be set as described in the table b
 Refer to [**section 8.9 (Using Browser Specific Profiles in `cucumber.yml`)**](#using-browser-specific-profiles-in-cucumber-yml) below.
 
 
-#### Local Emulated Mobile Browser in the `options` Hash
+#### Local Emulated Mobile Browser using the `options` Hash
 
 When using the `options` hash, the following options and capabilities must be specified:
 - `driver:` must be set to `:webdriver`
@@ -1853,7 +1853,7 @@ then the following Environment Variables must be set as described in the table b
 Refer to [**section 8.9 (Using Browser Specific Profiles in `cucumber.yml`)**](#using-browser-specific-profiles-in-cucumber-yml) below.
 
 
-#### Grid Browser in the `options` Hash
+#### Grid Browser using the `options` Hash
 
 When using the `options` hash, the following options and capabilities must be specified:
 - `driver:` must be set to `:grid`
@@ -1939,7 +1939,7 @@ from the Appium Server GUI app. A security violation error will occur without re
 Refer to [**section 8.9 (Using Browser Specific Profiles in `cucumber.yml`)**](#using-browser-specific-profiles-in-cucumber-yml) below.
 
 
-##### Local Mobile Safari Browser in the `options` Hash
+##### Local Mobile Safari Browser using the `options` Hash
 
 When using the `options` hash, the following options and capabilities must be specified:
 - `driver:` must be set to `:appium`
@@ -2025,7 +2025,7 @@ the following **Environment Variables** must be set as described in the table be
 Refer to [**section 8.9 (Using Browser Specific Profiles in `cucumber.yml`)**](#using-browser-specific-profiles-in-cucumber-yml) below.
 
 
-##### Local Mobile Android Browser in the `options` Hash
+##### Local Mobile Android Browser using the `options` Hash
 
 When using the `options` hash, the following options and capabilities must be specified:
 - `driver:` must be set to `:appium`
@@ -2187,7 +2187,7 @@ the following **Environment Variables** must be set as described in the table be
 | `NETWORK_LOGS`           | [Optional] Capture network logs (`true` or `false`)                                                                                                                        |
 
 
-##### BrowserStack Desktop Browser in the `options` Hash
+##### BrowserStack Desktop Browser using the `options` Hash
 
 When using the `options` hash, the following options and capabilities must be specified:
 - `driver:` must be set to `:browserstack`
@@ -2284,7 +2284,7 @@ the following **Environment Variables** must be set as described in the table be
 | `APPIUM_LOGS`            | [Optional] Generate Appium logs (`true` or `false`)                                                                                                                        |
 
 
-##### BrowserStack Mobile Browser in the `options` Hash
+##### BrowserStack Mobile Browser using the `options` Hash
 
 When using the `options` hash, the following options and capabilities must be specified:
 - `driver:` must be set to `:browserstack`
@@ -2374,7 +2374,7 @@ the following **Environment Variables** must be set as described in the table be
 | `RECORD_VIDEO`           | [Optional] Enable screen video recording during test execution (`true` or `false`)                                         |
 
 
-##### Sauce Labs Desktop Browser in the `options` Hash
+##### Sauce Labs Desktop Browser using the `options` Hash
 
 When using the `options` hash, the following options and capabilities must be specified:
 - `driver:` must be set to `:saucelabs`
@@ -2460,7 +2460,7 @@ the following **Environment Variables** must be set as described in the table be
 | `ORIENTATION`            | [Optional] Set to `PORTRAIT` or `LANDSCAPE`                                                                     |
 
 
-##### Sauce Labs Mobile Browser in the `options` Hash
+##### Sauce Labs Mobile Browser using the `options` Hash
 
 When using the `options` hash, the following options and capabilities must be specified:
 - `driver:` must be set to `:saucelabs`
@@ -2551,7 +2551,7 @@ the following **Environment Variables** must be set as described in the table be
 | `BROWSER_SIZE`           | [Optional] Specify width, height of browser window                                                                 |
 
 
-##### TestingBot Desktop Browser in the `options` Hash
+##### TestingBot Desktop Browser using the `options` Hash
 
 When using the `options` hash, the following options and capabilities must be specified:
 - `driver:` must be set to `:testingbot`
@@ -2631,7 +2631,7 @@ the following **Environment Variables** must be set as described in the table be
 | `ORIENTATION`            | [Optional] Set to `portrait` or `landscape`                                                     |
 
 
-##### TestingBot Mobile Browser in the `options` Hash
+##### TestingBot Mobile Browser using the `options` Hash
 
 When using the `options` hash, the following options and capabilities must be specified:
 - `driver:` must be set to `:testingbot`
@@ -2714,7 +2714,7 @@ the following **Environment Variables** must be set as described in the table be
 | `CONSOLE_LOGS`           | [Optional] Used to capture browser console logs.                                         |
 
 
-##### LambdaTest Desktop Browser in the `options` Hash
+##### LambdaTest Desktop Browser using the `options` Hash
 
 When using the `options` hash, the following options and capabilities must be specified:
 - `driver:` must be set to `:lambdatest`

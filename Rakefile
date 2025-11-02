@@ -91,8 +91,8 @@ end
 
 desc 'Run required Cucumber features on local web browsers'
 task :required_cukes do
-  %w[chrome_local].each do |profile|
-    if %w[firefox_local firefox_headless safari_local].include?(profile)
+  %w[chrome_local firefox_local edge_local safari_local bs_chrome_bat].each do |profile|
+    if %w[firefox_local firefox_headless safari_local bs_chrome_bat].include?(profile)
       system "cucumber -p #{profile} -p report"
     else
       system "parallel_cucumber features/ -o '-p #{profile} -p parallel' -n 6 --group-by scenarios"

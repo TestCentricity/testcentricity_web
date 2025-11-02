@@ -28,6 +28,7 @@ AfterAll do
   if ENV['APPIUM_SERVER'] == 'run' && Environ.driver == :appium && $server.running?
     $server.stop
   end
+  TestCentricity::WebDriverConnect.close_tunnel if Environ.tunneling
 end
 
 

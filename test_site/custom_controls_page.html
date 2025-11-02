@@ -223,9 +223,11 @@
 </head>
 <body>
 <div class="custom-controls-page-body">
-    <h2 id="header">Custom Controls Page</h2>
+    <header role="banner">
+        <h1 id="header">Custom Controls Page</h1>
+    </header>
 
-    <div id="nav_bar" class="topnav">
+    <div id="nav_bar" class="topnav" role="navigation">
         <a id="form_link" href="basic_test_page.html">Basic HTML Form</a>
         <a id="media_link" href="media_page.html">Media</a>
         <a id="indexed_sections_link" href="indexed_sections_page.html">Indexed Sections</a>
@@ -233,13 +235,13 @@
     </div>
 
 
-    <table>
+    <table role="main">
         <tbody>
         <tr>
             <td>
-                <h3>Chosen SelectList</h3>
+                <h2>Chosen SelectList</h2>
                 <div>
-                    <select id="country" data-placeholder="Choose a Country..." class="chosen-select" tabindex="1">
+                    <select id="country" data-placeholder="Choose a Country..." class="chosen-select">
                         <option value=""></option>
                         <option value="United States">United States</option>
                         <option value="United Kingdom">United Kingdom</option>
@@ -496,9 +498,9 @@
                 </div>
             </td>
             <td>
-                <h3>Chosen SelectList with Groups</h3>
+                <h2>Chosen SelectList with Groups</h2>
                 <div>
-                    <select id="team" data-placeholder="Your Favorite Football Team" class="chosen-select" tabindex="2">
+                    <select id="team" data-placeholder="Your Favorite Football Team" class="chosen-select">
                         <option value=""></option>
                         <optgroup label="NFC EAST">
                             <option>Dallas Cowboys</option>
@@ -554,27 +556,27 @@
         </tr>
         <tr>
             <td>
-                <h3>Custom Checkboxes</h3>
-                <label for="check1" class="container" tabindex="3">Pork
+                <h2>Custom Checkboxes</h2>
+                <label for="check1" class="container">Pork
                     <input id="check1" type="checkbox" checked="checked">
                     <span class="checkmark"></span>
                 </label>
-                <label for="check2" class="container" tabindex="4">Beef
+                <label for="check2" class="container">Beef
                     <input id="check2" type="checkbox">
                     <span class="checkmark"></span>
                 </label>
-                <label for="check3" class="container" tabindex="5">Chicken
+                <label for="check3" class="container">Chicken
                     <input id="check3" type="checkbox">
                     <span class="checkmark"></span>
                 </label>
-                <label for="check4" class="container" tabindex="6">Shrimp
+                <label for="check4" class="container">Shrimp
                     <input id="check4" type="checkbox">
                     <span class="checkmark"></span>
                 </label>
             </td>
             <td>
-                <h3>Custom Radio Buttons</h3>
-                <label for="radio1" class="container" tabindex="7">Mild
+                <h2>Custom Radio Buttons</h2>
+                <label for="radio1" class="container">Mild
                     <input id="radio1" type="radio" checked="checked" name="radio">
                     <span class="radio"></span>
                 </label>
@@ -664,7 +666,7 @@
         </tr>
         <tr>
             <td>
-                <h3>Draggable Elements</h3>
+                <h2>Draggable Elements</h2>
                 <div class="draganddrops">
                     <div class="drags">
                         <div class="drag left">
@@ -692,7 +694,7 @@
         </tr>
         <tr>
             <td>
-                <h3>iFrame with Embedded Widget</h3>
+                <h2>iFrame with Embedded Widget</h2>
                 <iframe id='weather_embed' src='https://www.weatherlink.com/embeddablePage/show/ad56bc27f3bc4368b211ae4356703bd8/signature' width='760' height='250'></iframe>
             </td>
         </tr>
