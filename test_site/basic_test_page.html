@@ -364,6 +364,10 @@
                 alert("You double-clicked inside the element!");
             }
 
+            // Prevent default context menu:
+            const div = document.getElementById("image2");
+            div.addEventListener("contextmenu", (e) => {e.preventDefault()});
+
             function myRightClick() {
                 alert("You right-clicked inside the element!");
             }

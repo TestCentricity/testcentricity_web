@@ -158,7 +158,7 @@
                     </div>
 
                     <div class="column">
-                        <div data-test-id="product_card" class="card" oncontextmenu="myRightClick()">
+                        <div data-test-id="product_card" id="right_clickable" class="card" oncontextmenu="myRightClick()">
                             <img data-test-id="product_image" src="images/T-shirt.jpg" alt="Faded Short Sleeve T-shirts" style="width:100%">
                             <div class="container">
                                 <h1 data-test-id="product_name">Faded Short Sleeve T-shirts</h1>
@@ -221,6 +221,10 @@
             function myDoubleClick() {
                 alert("You double-clicked inside the element!");
             }
+
+            // Prevent default context menu:
+            const div = document.getElementById("right_clickable");
+            div.addEventListener("contextmenu", (e) => {e.preventDefault()});
 
             function myRightClick() {
                 alert("You right-clicked inside the element!");

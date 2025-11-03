@@ -7,7 +7,7 @@ Feature: Basic Indexed Sections
   Background:
     Given I am on the Indexed Sections page
 
-@!safari @!mobile
+@!safari
   Scenario Outline:  Verify clickable actions on indexed sections
     When I <action> product card <num>
     Then I expect a modal alert to be displayed

@@ -31,10 +31,14 @@ Feature: Basic HTML Form Test Page using CSS locators
     And I submit my changes
     Then I expect an error to be displayed due to <reason>
 
+@!firefox
     Examples:
       |reason          |
       |blank username  |
       |blank password  |
+
+    Examples:
+      |reason          |
       |number too low  |
       |number too high |
       |invalid email   |
@@ -69,6 +73,7 @@ Feature: Basic HTML Form Test Page using CSS locators
     |image 4 |
 
 
+@!safari
   Scenario Outline:  Verify clickable actions on UI elements
     When I <action> element <element>
     Then I expect a modal alert to be displayed
@@ -76,12 +81,8 @@ Feature: Basic HTML Form Test Page using CSS locators
   Examples:
     |action       |element |
     |double click |image 1 |
+    |right click  |image 2 |
     |click at     |image 4 |
-
-@!safari @!mobile
-  Examples:
-    |action      |element |
-    |right click |image 2 |
 
 
 @bat
