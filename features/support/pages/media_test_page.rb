@@ -16,12 +16,10 @@ class MediaTestPage < BaseTestPage
     super
 
     preload = case
-              when Environ.browser == :safari
-                'auto'
               when Environ.device_os == :ios && Environ.driver != :webdriver
                 'auto'
-              when %i[firefox firefox_headless].include?(Environ.browser)
-                ''
+              when %i[firefox firefox_headless safari].include?(Environ.browser)
+                'auto'
               else
                 'metadata'
               end
@@ -222,11 +220,13 @@ class MediaTestPage < BaseTestPage
   private
 
   def dispatch_player(media_type)
-    player = case media_type.downcase.to_sym
+    player = case media_type.gsub(/\s+/, '_').downcase.to_sym
              when :video
                video_player_1
              when :audio
                audio_player
+             when :video_with_captions
+               video_player_2
              else
                raise "#{media_type} is not a valid selector"
              end
