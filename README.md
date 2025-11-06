@@ -796,30 +796,36 @@ The `verify_ui_states` method supports the following property/state pairs:
 
 **Audio/Video Media Objects**
 
-    :autoplay              Boolean
-    :ended                 Boolean
-    :controls              Boolean
-    :loop                  Boolean
-    :muted                 Boolean
-    :default_muted         Boolean
-    :paused                Boolean
-    :seeking               Boolean
-    :src                   String
-    :current_time          Float
-    :default_playback_rate Float
-    :duration              Float
-    :playback_rate         Float
-    :ready_state           Integer
-    :volume                Float
-    :preload               String
-    :poster                String
-    :track_count           Integer
-    :active_track          Integer
-    :active_track_data     Hash
-    :all_tracks_data       Array of Hash
-    :track_data            Hash
-    :active_track_source   String
-    :track_source          String
+    :autoplay               Boolean
+    :ended                  Boolean
+    :controls               Boolean
+    :loop                   Boolean
+    :muted                  Boolean
+    :default_muted          Boolean
+    :paused                 Boolean
+    :seeking                Boolean
+    :src                    String
+    :current_time           Float
+    :default_playback_rate  Float
+    :duration               Float
+    :playback_rate          Float
+    :ready_state            Integer
+    :volume                 Float
+    :preload                String
+    :poster                 String
+    :track_count            Integer
+    :active_track           Integer
+    :active_track_data      Hash
+    :all_tracks_data        Array of Hash
+    :track_data             Hash
+    :active_track_source    String
+    :track_source           String
+    :active_track_cue_count Integer
+    :active_cue_text        String
+    :all_tracks_data        Array of Hash
+    :active_cue_data        Array of Hash
+    :all_cues_text          Array of Hash
+    :all_cues_data          Array of Hash
 
 #### ARIA Accessibility Property/State Pairs
 

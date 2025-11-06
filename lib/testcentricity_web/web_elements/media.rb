@@ -126,7 +126,7 @@ module TestCentricity
       def current_time
         obj, = find_element(visible = :all)
         object_not_found_exception(obj, @type)
-        obj.native.attribute('currentTime').to_f.round(2)
+        obj.native.attribute('currentTime').to_f.round(1)
       end
 
       # Return media defaultPlaybackRate property
@@ -150,7 +150,7 @@ module TestCentricity
       def duration
         obj, = find_element(visible = :all)
         object_not_found_exception(obj, @type)
-        obj.native.attribute('duration').to_f.round(2)
+        obj.native.attribute('duration').to_f.round(1)
       end
 
       # Return media playbackRate property
@@ -195,7 +195,7 @@ module TestCentricity
         wait = Selenium::WebDriver::Wait.new(timeout: timeout)
         wait.until do
           reset_mru_cache
-          ready_state == value
+          compare(value, ready_state)
         end
       rescue StandardError
         if post_exception
@@ -323,6 +323,124 @@ module TestCentricity
         object_not_found_exception(obj, @type)
         track_obj = obj.find(:css, "track:nth-of-type(#{track})", visible: :all, wait: 1)
         track_obj[:src]
+      end
+
+      # Return number of text cues of active text track of associated media
+      #
+      # @return [Integer] number of text cues
+      # @example
+      #   num_cues = media_player.active_track_cue_count
+      #
+      def active_track_cue_count
+        active = active_track
+        return nil if active.zero?
+
+        track_cue_count(active)
+      end
+
+      # Return number of text cues of specified text track of associated media
+      #
+      # @param track [Integer] index of requested track
+      # @return [Integer] number of text cues
+      # @example
+      #   num_cues = media_player.track_cue_count(2)
+      #
+      def track_cue_count(track)
+        obj, = find_element(visible = :all)
+        object_not_found_exception(obj, @type)
+        page.execute_script("return arguments[0].textTracks[#{track - 1}].cues.length", obj)
+       end
+
+      # Return cue text of active text track of associated media
+      #
+      # @return [String] cue text of active track
+      # @example
+      #   caption = media_player.active_cue_text
+      #
+      def active_cue_text
+        active = active_track
+        return nil if active.zero?
+
+        cue_text(active)
+      end
+
+      # Return text cue of specified text track of associated media
+      #
+      # @param track [Integer] index of requested track
+      # @return [String] cue text of requested track
+      # @example
+      #   caption = media_player.cue_text(2)
+      #
+      def cue_text(track)
+        obj, = find_element(visible = :all)
+        object_not_found_exception(obj, @type)
+        page.execute_script("return arguments[0].textTracks[#{track - 1}].activeCues[0].text", obj)
+      end
+
+      # Return properties of active text cue of associated media
+      #
+      # @return [Array of Hash] properties of active text cue (:text, :start, :end)
+      # @example
+      #   cue_data = media_player.active_cue_data
+      #
+      def active_cue_data
+        active = active_track
+        return nil if active.zero?
+
+        obj, = find_element(visible = :all)
+        object_not_found_exception(obj, @type)
+        {
+          text: page.execute_script('return arguments[0].textTracks[0].activeCues[0].text', obj),
+          start: page.execute_script('return arguments[0].textTracks[0].activeCues[0].startTime', obj),
+          end: page.execute_script('return arguments[0].textTracks[0].activeCues[0].endTime', obj)
+        }
+      end
+
+      # Return all text cues of active track of associated media
+      #
+      # @return [Array of Hash] all text cues
+      # @example
+      #   all_captions = media_player.all_cues_text
+      #
+      def all_cues_text
+        active = active_track
+        return nil if active.zero?
+
+        obj, = find_element(visible = :all)
+        object_not_found_exception(obj, @type)
+        num_cues = page.execute_script('return arguments[0].textTracks[0].cues.length', obj)
+        all_text = []
+        (1..num_cues).each do |cue|
+          all_text.push( { cue - 1 => page.execute_script("return arguments[0].textTracks[0].cues[#{cue - 1}].text", obj) })
+        end
+        all_text
+      end
+
+      # Return properties of all cues of active track of associated media
+      #
+      # @return [Array of Hash] properties of all active track cues (:text, :start, :end)
+      # @example
+      #   cue_data = media_player.all_cues_data
+      #
+      def all_cues_data
+        active = active_track
+        return nil if active.zero?
+
+        obj, = find_element(visible = :all)
+        object_not_found_exception(obj, @type)
+        num_cues = page.execute_script('return arguments[0].textTracks[0].cues.length', obj)
+        all_data = []
+        (1..num_cues).each do |cue|
+          all_data.push(
+            { cue - 1 => {
+              text: page.execute_script("return arguments[0].textTracks[0].cues[#{cue - 1}].text", obj),
+              start: page.execute_script("return arguments[0].textTracks[0].cues[#{cue - 1}].startTime", obj),
+              end: page.execute_script("return arguments[0].textTracks[0].cues[#{cue - 1}].endTime", obj)
+            }
+            }
+          )
+        end
+        all_data
       end
 
       # Set the media currentTime property
