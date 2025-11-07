@@ -1,5 +1,6 @@
 include TestCentricity
 
+require 'axe-cucumber-steps'
 
 Given(/^I am (?:on|viewing) the (.*) page$/) do |page_name|
   # find and load the specified target page
@@ -14,6 +15,26 @@ Then(/^I expect the (.*) page to be correctly displayed$/) do |page_name|
   target_page.verify_page_exists
   # verify that target page is correctly displayed
   target_page.verify_page_ui
+end
+
+
+Then(/^the page should be axe clean according to the preferred WCAG standard$/) do
+  PageManager.current_page.verify_page_exists
+  if Environ.device_os == :ios
+    puts 'Cannot execute Axe Core tests on iOS devices and simulators'
+  else
+    step %(the page should be axe clean according to: #{Environ.current.a11y_standard})
+  end
+end
+
+
+Then(/^the page should be axe clean skipping the (.*) rule$/) do|rule_name|
+  PageManager.current_page.verify_page_exists
+  if Environ.device_os == :ios
+    puts 'Cannot execute Axe Core tests on iOS devices and simulators'
+  else
+    step %(the page should be axe clean skipping: #{rule_name})
+  end
 end
 
 

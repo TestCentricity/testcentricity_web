@@ -2,6 +2,33 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.6.10] - 07-NOV-2025
+
+### Added
+
+* Added the following `Media` methods to support verification of media text tracks (subtitles, captions,
+  chapters, descriptions, or metadata):
+    * `active_track_cue_count`
+    * `track_cue_count`
+    * `active_cue_text`
+    * `cue_text`
+    * `active_cue_data`
+    * `all_cues_text`
+    * `all_cues_data`
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of the following
+  `Media` properties:
+    * `:active_track_cue_count`
+    * `active_cue_text`
+    * `all_tracks_data`
+    * `active_cue_data`
+    * `all_cues_text`
+    * `all_cues_data`
+
+### Changed
+
+* `Media.current_time` and `Media.duration` now return `Float` rounded to nearest tenth.
+
+
 ## [4.6.9] - 31-OCT-2025
 
 ### Added

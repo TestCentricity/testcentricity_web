@@ -97,9 +97,11 @@
 </head>
     <body>
         <div class="page-body">
-            <h2 id="header">Basic HTML Form</h2>
+            <header role="banner">
+                <h1 id="header">Basic HTML Form</h1>
+            </header>
 
-            <div id="nav_bar" class="topnav">
+            <div id="nav_bar" class="topnav" role="navigation">
                 <a id="form_link" class="active" href="#">Basic HTML Form</a>
                 <a id="media_link" href="media_page.html">Media</a>
                 <a id="indexed_sections_link" href="indexed_sections_page.html">Indexed Sections</a>
@@ -107,7 +109,7 @@
             </div>
 
 
-            <div class="centered">
+            <div class="centered" role="main">
                 <form name="HTMLFormElements" id="HTMLFormElements">
                     <table border="1" cellpadding="5">
                         <tr>
@@ -361,6 +363,10 @@
         function myDoubleClick() {
                 alert("You double-clicked inside the element!");
             }
+
+            // Prevent default context menu:
+            const div = document.getElementById("image2");
+            div.addEventListener("contextmenu", (e) => {e.preventDefault()});
 
             function myRightClick() {
                 alert("You right-clicked inside the element!");

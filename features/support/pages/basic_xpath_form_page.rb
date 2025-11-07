@@ -42,8 +42,7 @@ class BasicXpathFormPage < BasicFormPage
   buttons     progress_button:   "//button[@id='run-progress']",
               cancel_button:     "//input[@id='cancel']",
               submit_button:     "//input[@id='submit']"
-  labels      header_label:      '//h2',
-              username_label:    "//label[@for='username']",
+  labels      username_label:    "//label[@for='username']",
               password_label:    "//label[@for='password']",
               max_length_label:  "//label[@for='maxlength']",
               read_only_label:   "//label[@for='readonly']",

@@ -149,8 +149,18 @@ module TestCentricity
                      ui_object.active_track_data
                    when :active_track_source
                      ui_object.active_track_source
+                   when :active_track_cue_count
+                     ui_object.active_track_cue_count
+                   when :active_cue_text
+                     ui_object.active_cue_text
                    when :all_tracks_data
                      ui_object.all_tracks_data
+                   when :active_cue_data
+                     ui_object.active_cue_data
+                   when :all_cues_text
+                     ui_object.all_cues_text
+                   when :all_cues_data
+                     ui_object.all_cues_data
                    when :preload
                      ui_object.preload
                    when :poster

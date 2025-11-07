@@ -13,30 +13,30 @@ Feature: HTML5 Audio/Video Test Page using CSS locators
 @!ios
   Scenario:  Verify video player play and pause controls
     When I play the video media
-    Then the video should be playing
+    Then the video media should be playing
     When I pause the video media
-    Then the video should be paused
+    Then the video media should be paused
 
 @!ios
   Scenario:  Verify audio player play and pause controls
     When I play the audio media
-    Then the audio should be playing
+    Then the audio media should be playing
     When I pause the audio media
-    Then the audio should be paused
+    Then the audio media should be paused
 
 
   Scenario:  Verify video player mute control
     When I mute the video media
-    Then the video should be muted
+    Then the video media should be muted
     When I unmute the video media
-    Then the video should be unmuted
+    Then the video media should be unmuted
 
 
   Scenario:  Verify audio player mute control
     When I mute the audio media
-    Then the audio should be muted
+    Then the audio media should be muted
     When I unmute the audio media
-    Then the audio should be unmuted
+    Then the audio media should be unmuted
 
 @!ios
   Scenario:  Verify video player volume control
@@ -65,3 +65,13 @@ Feature: HTML5 Audio/Video Test Page using CSS locators
     Then the audio should play at 0.5x speed
     When I play the audio with a playback speed of 1x
     Then the audio should play at 1x speed
+
+@!chrome @!edge @!firefox
+  Scenario: Verify closed captions track data
+    Then I expect the video with captions to have closed caption data
+    And the page should be axe clean according to the preferred WCAG standard
+
+@!chrome @!edge @!firefox
+  Scenario:  Verify correct closed caption is displayed at specific video time line
+    When I set the current time of the video with captions to 20 seconds
+    Then the video with captions displays the correct closed caption

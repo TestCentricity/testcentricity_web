@@ -122,90 +122,95 @@
 
     <body>
         <div class="indexed-sections-page-body">
-            <h2 id="header">Indexed Sections Page</h2>
+            <header role="banner">
+                <h1 id="header">Indexed Sections Page</h1>
+            </header>
 
-            <div id="nav_bar" class="topnav">
+
+            <div id="nav_bar" class="topnav" role="navigation">
                 <a id="form_link" href="basic_test_page.html">Basic HTML Form</a>
                 <a id="media_link" href="media_page.html">Media</a>
                 <a id="indexed_sections_link" class="active" href="#">Indexed Sections</a>
                 <a id="custom_controls_link" href="custom_controls_page.html">Custom Controls</a>
             </div>
 
-            <h3 style="text-align:center">Product Cards</h3>
+            <div class="centered" role="main">
+                <h2 style="text-align:center">Product Cards</h2>
 
-            <div id="product_list" class="row">
-                <div class="column">
-                    <div data-test-id="product_card" class="card" ondblclick="myDoubleClick()">
-                        <img data-test-id="product_image" src="images/jeans3.jpg" alt="Denim Jeans" style="width:100%">
-                        <div class="container">
-                            <h1 data-test-id="product_name">Tailored Jeans</h1>
-                            <p data-test-id="price" class="price">$59.99</p>
-                            <p data-test-id="description">Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum.</p>
-                            <div data-test-id="rating">
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
+                <div id="product_list" class="row">
+                    <div class="column">
+                        <div data-test-id="product_card" class="card" ondblclick="myDoubleClick()">
+                            <img data-test-id="product_image" src="images/jeans3.jpg" alt="Denim Jeans" style="width:100%">
+                            <div class="container">
+                                <h1 data-test-id="product_name">Tailored Jeans</h1>
+                                <p data-test-id="price" class="price">$59.99</p>
+                                <p data-test-id="description">Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum.</p>
+                                <div data-test-id="rating">
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                </div>
+                                <p><button data-test-id="add_to_cart">Add to Cart</button></p>
                             </div>
-                            <p><button data-test-id="add_to_cart">Add to Cart</button></p>
                         </div>
                     </div>
-                </div>
 
-                <div class="column">
-                    <div data-test-id="product_card" class="card" oncontextmenu="myRightClick()">
-                        <img data-test-id="product_image" src="images/T-shirt.jpg" alt="Faded Short Sleeve T-shirts" style="width:100%">
-                        <div class="container">
-                            <h1 data-test-id="product_name">Faded Short Sleeve T-shirts</h1>
-                            <p data-test-id="price" class="price">$19.99</p>
-                            <p data-test-id="description">Faded short sleeve t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you're ready for summer!</p>
-                            <div data-test-id="rating">
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
+                    <div class="column">
+                        <div data-test-id="product_card" id="right_clickable" class="card" oncontextmenu="myRightClick()">
+                            <img data-test-id="product_image" src="images/T-shirt.jpg" alt="Faded Short Sleeve T-shirts" style="width:100%">
+                            <div class="container">
+                                <h1 data-test-id="product_name">Faded Short Sleeve T-shirts</h1>
+                                <p data-test-id="price" class="price">$19.99</p>
+                                <p data-test-id="description">Faded short sleeve t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you're ready for summer!</p>
+                                <div data-test-id="rating">
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                </div>
+                                <p><button data-test-id="add_to_cart">Add to Cart</button></p>
                             </div>
-                            <p><button data-test-id="add_to_cart">Add to Cart</button></p>
                         </div>
                     </div>
-                </div>
 
-                <div class="column">
-                    <div data-test-id="product_card" class="card" onclick="myClick()">
-                        <img data-test-id="product_image" src="images/Printed_Dress.jpg" alt="Print Dress" style="width:100%">
-                        <div class="container">
-                            <h1 data-test-id="product_name">Print Dress</h1>
-                            <p data-test-id="price" class="price">$69.99</p>
-                            <p data-test-id="description">Printed evening dress with straight sleeves with black thin waist belt and ruffled linings.</p>
-                            <div data-test-id="rating">
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
+                    <div class="column">
+                        <div data-test-id="product_card" class="card" onclick="myClick()">
+                            <img data-test-id="product_image" src="images/Printed_Dress.jpg" alt="Print Dress" style="width:100%">
+                            <div class="container">
+                                <h1 data-test-id="product_name">Print Dress</h1>
+                                <p data-test-id="price" class="price">$69.99</p>
+                                <p data-test-id="description">Printed evening dress with straight sleeves with black thin waist belt and ruffled linings.</p>
+                                <div data-test-id="rating">
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                </div>
+                                <p><button data-test-id="add_to_cart">Add to Cart</button></p>
                             </div>
-                            <p><button data-test-id="add_to_cart">Add to Cart</button></p>
                         </div>
                     </div>
-                </div>
 
-                <div class="column">
-                    <div data-test-id="product_card" class="card">
-                        <img data-test-id="product_image" src="images/Blouse_Black.jpg" alt="Black Blouse" style="width:100%">
-                        <div class="container">
-                            <h1 data-test-id="product_name">Blouse</h1>
-                            <p data-test-id="price" class="price">$27.99</p>
-                            <p data-test-id="description">Short sleeved blouse with feminine draped sleeve detail.</p>
-                            <div data-test-id="rating">
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
+                    <div class="column">
+                        <div data-test-id="product_card" class="card">
+                            <img data-test-id="product_image" src="images/Blouse_Black.jpg" alt="Black Blouse" style="width:100%">
+                            <div class="container">
+                                <h1 data-test-id="product_name">Blouse</h1>
+                                <p data-test-id="price" class="price">$27.99</p>
+                                <p data-test-id="description">Short sleeved blouse with feminine draped sleeve detail.</p>
+                                <div data-test-id="rating">
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                </div>
+                                <p><button data-test-id="add_to_cart">Add to Cart</button></p>
                             </div>
-                            <p><button data-test-id="add_to_cart">Add to Cart</button></p>
                         </div>
                     </div>
                 </div>
@@ -216,6 +221,10 @@
             function myDoubleClick() {
                 alert("You double-clicked inside the element!");
             }
+
+            // Prevent default context menu:
+            const div = document.getElementById("right_clickable");
+            div.addEventListener("contextmenu", (e) => {e.preventDefault()});
 
             function myRightClick() {
                 alert("You right-clicked inside the element!");
