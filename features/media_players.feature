@@ -66,12 +66,12 @@ Feature: HTML5 Audio/Video Test Page using CSS locators
     When I play the audio with a playback speed of 1x
     Then the audio should play at 1x speed
 
-@!chrome @!edge @!firefox @dev
+@!chrome @!edge @!firefox
   Scenario: Verify closed captions track data
     Then I expect the video with captions to have closed caption data
     And the page should be axe clean according to the preferred WCAG standard
 
-@!chrome @!edge @!firefox @dev
+@!chrome @!edge @!firefox
   Scenario:  Verify correct closed caption is displayed at specific video time line
     When I set the current time of the video with captions to 20 seconds
     Then the video with captions displays the correct closed caption
