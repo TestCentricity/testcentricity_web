@@ -2,6 +2,10 @@ Form_data:
   primary:
     username: "Ignatius von Snicklefritz"
     password: "T0p_Sekrit"
+    maxlength: "eval!Marketing.buzzwords"
+    number_int: "eval!Number.between(from: 10, to: 1024)"
+    number_flt: "eval!Number.between(from: 1.25, to: 9.75)"
+    comments: "eval!Hipster.sentence"
     image_filename: "Wilder.jpg"
     multi_select: "Selection Item 2"
     drop_down_item: "Drop Down Item 5"
@@ -9,3 +13,5 @@ Form_data:
     check2: true
     check3: false
     radio_select: 2
+    formatted_date: "eval!FormatDate.2 days from now format! %m/%d/%Y"
+    days_past: "eval!Date.3 days ago"

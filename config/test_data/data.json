@@ -13,13 +13,19 @@
     "primary": {
       "username": "Thaddeus Eumbwebwe",
       "password": "Pa55w0rd",
+      "maxlength": "eval!Marketing.buzzwords",
+      "number_int": "eval!Number.between(from: 10, to: 1024)",
+      "number_flt": "eval!Number.between(from: 1.25, to: 9.75)",
+      "comments": "eval!Hipster.sentence",
       "image_filename": "Granny.jpg",
       "multi_select": "Selection Item 2",
       "drop_down_item": "Drop Down Item 3",
       "check1": false,
       "check2": true,
       "check3": true,
-      "radio_select": 1
+      "radio_select": 1,
+      "formatted_date": "eval!FormatDate.2 days from now format! %m/%d/%Y",
+      "days_past": "eval!Date.3 days ago"
     }
   }
 }

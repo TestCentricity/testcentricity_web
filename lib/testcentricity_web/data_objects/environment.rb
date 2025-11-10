@@ -22,13 +22,11 @@ module TestCentricity
                read('Environments', environ_name)
              when :json
                # read generic test data from data.json file
-               raw_data = File.read(JSON_PRIMARY_DATA_FILE)
-               @generic_data = JSON.parse(raw_data)
+               @generic_data = JSON.parse(File.read(JSON_PRIMARY_DATA_FILE))
                # read environment specific test data
                data_file = "#{PRIMARY_DATA_PATH}#{environ_name}_data.json"
                @environ_specific_data = if File.exist?(data_file)
-                                          raw_data = File.read(data_file)
-                                          JSON.parse(raw_data)
+                                          JSON.parse(File.read(data_file))
                                         else
                                           {}
                                         end
@@ -42,14 +40,14 @@ module TestCentricity
     end
 
     def self.read(key_name, node_name)
-      if @environ_specific_data.key?(key_name) && @environ_specific_data[key_name].key?(node_name)
-        node_data = @environ_specific_data[key_name][node_name]
-      else
-        raise "No key named #{key_name} in generic and environment-specific data" unless @generic_data.key?(key_name)
-        raise "No node named #{node_name} in #{key_name} section of generic and environment-specific data" unless @generic_data[key_name].key?(node_name)
+      node_data = if @environ_specific_data.key?(key_name) && @environ_specific_data[key_name].key?(node_name)
+                    @environ_specific_data[key_name][node_name]
+                  else
+                    raise "No key named #{key_name} in generic and environment-specific data" unless @generic_data.key?(key_name)
+                    raise "No node named #{node_name} in #{key_name} section of generic and environment-specific data" unless @generic_data[key_name].key?(node_name)
 
-        node_data = @generic_data[key_name][node_name]
-      end
+                    @generic_data[key_name][node_name]
+                  end
 
       if node_data.is_a?(Hash)
         node_data.each do |key, value|
