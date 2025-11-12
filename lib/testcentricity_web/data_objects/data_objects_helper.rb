@@ -9,6 +9,7 @@ require 'faker'
 module TestCentricity
 
   PRIMARY_DATA_PATH ||= 'config/test_data/'
+  SECONDARY_DATA_PATH ||= 'config/data/'
   PRIMARY_DATA_FILE ||= "#{PRIMARY_DATA_PATH}data."
   YML_PRIMARY_DATA_FILE  ||= "#{PRIMARY_DATA_FILE}yml"
   JSON_PRIMARY_DATA_FILE ||= "#{PRIMARY_DATA_FILE}json"
@@ -16,11 +17,10 @@ module TestCentricity
 
   class DataObject
     attr_accessor :current
-    attr_accessor :context
-    attr_accessor :hash_table
+    attr_accessor :attributes
 
     def initialize(data)
-      @hash_table = data
+      @attributes = data
     end
 
     def self.current
@@ -37,11 +37,6 @@ module TestCentricity
     include Virtus.model
 
     attr_accessor :current
-    attr_accessor :context
-
-    def initialize(data)
-      self.attributes = data unless data.nil?
-    end
 
     def self.current
       @current
@@ -53,24 +48,35 @@ module TestCentricity
   end
 
 
-# :nocov:
   class DataSource
     attr_accessor :file_path
-    attr_accessor :node
 
-    def read_yaml_node_data(file_name, node_name)
+    def read(file_name, key_name = nil, node_name = nil)
+      # construct the full file path to the file to be read
       @file_path = "#{PRIMARY_DATA_PATH}#{file_name}"
-      @node = node_name
-      data = YAML.load_file(@file_path)
-      data[node_name]
-    end
-
-    def read_json_node_data(file_name, node_name)
-      @file_path = "#{PRIMARY_DATA_PATH}#{file_name}"
-      @node = node_name
-      raw_data = File.read(@file_path)
-      data = JSON.parse(raw_data)
-      data[node_name]
+      unless File.exist?(@file_path)
+        @file_path = "#{SECONDARY_DATA_PATH}#{file_name}"
+        raise "File #{file_name} not found in Primary or Secondary folders in config folder" unless File.exist?(@file_path)
+      end
+      # determine file type and read in data from file
+      data = case File.extname(file_name)
+             when '.yml'
+               YAML.load_file(@file_path)
+             when'.json'
+               JSON.parse(File.read(@file_path))
+             else
+               raise "#{file_name} is not a supported file type"
+             end
+      # read data from specified key and/or node
+      if key_name
+        if node_name
+          data[key_name][node_name]
+        else
+          data[key_name]
+        end
+      else
+        data
+      end
     end
 
     private
@@ -94,6 +100,5 @@ module TestCentricity
                end
       result.to_s
     end
-    # :nocov:
   end
 end

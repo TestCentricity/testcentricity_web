@@ -10,9 +10,11 @@ end
 
 
 class Capabilities < TestCentricity::DataPresenter
-  attribute :caps
+  attribute :caps, Hash
 
   def initialize(data)
+    # must call super to initialize DataPresenter class
+    super
     @caps = data
   end
 end
