@@ -2,7 +2,7 @@
 class POSDataSource < TestCentricity::DataSource
   # read POS Integration data from POS_Integrations section of test_data file and populate the POS data presenter object
   def find_pos_integration(pos_integration_name)
-    POSData.current = POSData.new(read('test_data.yml', 'POS_Integrations', pos_integration_name))
+    POSData.current = POSData.new(read_file('test_data.yml', 'POS_Integrations', pos_integration_name))
   end
 end
 

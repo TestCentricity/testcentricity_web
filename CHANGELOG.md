@@ -2,10 +2,19 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.6.11] - 21-NOV-2025
+
+### Changed
+* Removed unused `DataSource.read_yaml_node_data` and `DataSource.read_json_node_data` methods and replaced with `read_file`
+method capable of reading from `.yml`, `.json`, `.csv`, or `.xml` data files.
+
+### Removed
+* Unused `DataObject` class has been removed.
+
+
 ## [4.6.10] - 07-NOV-2025
 
 ### Added
-
 * Added the following `Media` methods to support verification of media text tracks (subtitles, captions,
   chapters, descriptions, or metadata):
     * `active_track_cue_count`
@@ -25,14 +34,12 @@ All notable changes to this project will be documented in this file.
     * `all_cues_data`
 
 ### Changed
-
 * `Media.current_time` and `Media.duration` now return `Float` rounded to nearest tenth.
 
 
 ## [4.6.9] - 31-OCT-2025
 
 ### Added
-
 * Added `Table.get_footer_columns` and `Table.get_footer_column`methods.
 * Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of the following
   `Table` properties:
@@ -41,14 +48,12 @@ All notable changes to this project will be documented in this file.
     * `:column_header`
 
 ### Changed
-
 * `UIElement.get_max` now works with HTML `<progress>` elements.
 
 
 ## [4.6.8] - 27-OCT-2025
 
 ### Changed
-
 * `UIElement.aria_valuemax`, `UIElement.aria_valuemin`, and `UIElement.aria_valuenow` now return `Integer` or `Float`
   instead of `String` result.
 * `UIElement.aria_rowcount` and `UIElement.aria_colcount` now return `Integer` instead of `String` result.
@@ -67,7 +72,6 @@ All notable changes to this project will be documented in this file.
 ## [4.6.7] - 21-OCT-2025
 
 ### Added
-
 * Added `UIElement.draggable?` method.
 * Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of the
  `draggable` property.
@@ -76,7 +80,6 @@ All notable changes to this project will be documented in this file.
 ## [4.6.6] - 10-OCT-2025
 
 ### Changed
-
 * Update Nokogiri gem to address CVE-2025-6021, CVE-2025-6170, CVE-2025-49794, CVE-2025-49795, and CVE-2025-49796.
 * Update REXML gem to address DoS vulnerability when parsing XML containing multiple XML declarations.
 
@@ -84,28 +87,24 @@ All notable changes to this project will be documented in this file.
 ## [4.6.5] - 18-JUL-2025
 
 ### Changed
-
 * No longer bundling `selenium-webdriver` as a runtime dependency.
 
 
 ## [4.6.4] - 22-MAY-2025
 
 ### Changed
-
 * Updated `selenium-webdriver` gem to version 4.32.0.
 
 
 ## [4.6.3] - 23-APR-2025
 
 ### Changed
-
 * Updated `selenium-webdriver` gem to version 4.31.0.
 
 
 ## [4.6.2] - 28-MAR-2025
 
 ### Changed
-
 * Updated `appium_lib` gem to version 16.1.0.
 * Updated `appium_lib_core` gem to version 11.0.1.
 * Updated `selenium-webdriver` gem to version 4.30.1.
@@ -114,7 +113,6 @@ All notable changes to this project will be documented in this file.
 ## [4.6.1] - 18-MAR-2025
 
 ### Changed
-
 * Updated `appium_lib` gem to version 16.0.1.
 * Updated `appium_lib_core` gem to version 10.0.0.
 * Updated `selenium-webdriver` gem to version 4.29.1.
@@ -123,7 +121,6 @@ All notable changes to this project will be documented in this file.
 ## [4.6.0] - 25-JAN-2025
 
 ### Changed
-
 * Updated `selenium-webdriver` gem to version 4.28.0.
 * Updated `appium_lib` gem to version 15.3.0.
 * Updated `appium_lib_core` gem to version 9.5.0.
@@ -133,7 +130,6 @@ All notable changes to this project will be documented in this file.
 ## [4.5.15] - 01-NOV-2024
 
 ### Changed
-
 * Updated `selenium-webdriver` gem to version 4.26.0.
 * Updated `rexml` gem to latest version to address ReDoS vulnerability.
 
@@ -141,35 +137,30 @@ All notable changes to this project will be documented in this file.
 ## [4.5.14] - 09-OCT-2024
 
 ### Fixed
-
 * Disable Chrome search engine choice screen.
 
 
 ## [4.5.13] - 24-SEP-2024
 
 ### Changed
-
 * Updated `selenium-webdriver` gem to version 4.25.0.
 
 
 ## [4.5.12] - 30-AUG-2024
 
 ### Changed
-
 * Updated `selenium-webdriver` gem to version 4.24.0.
 
 
 ## [4.5.11] - 08-AUG-2024
 
 ### Changed
-
 * Updated `appium_lib` gem to version 15.2.2.
 
 
 ## [4.5.10] - 05-AUG-2024
 
 ### Changed
-
 * Updated `selenium-webdriver` gem to version 4.23.0.
 * Updated `appium_lib` gem to version 15.2.1.
 * Updated `appium_lib_core` gem to version 9.2.1.
@@ -178,7 +169,6 @@ All notable changes to this project will be documented in this file.
 ## [4.5.9.1] - 26-JUNE-2024
 
 ### Fixed
-
 * Added `cuke_modeler` gem as a development dependency so that Cucumber test results logging would not fail when running
 tests in parallel with Ruby version 3.1.0 or greater.
 
@@ -186,16 +176,14 @@ tests in parallel with Ruby version 3.1.0 or greater.
 ## [4.5.9] - 23-JUNE-2024
 
 ### Changed
-
 * Updated `selenium-webdriver` gem to version 4.22.0.
 
 
 ## [4.5.8] - 21-MAY-2024
 
 ### Changed
-
 * Setting `DOWNLOADS` Environment Variable to `true` will create a `/downloads` folder which will be used as the destination
-for files that are downloaded by your automated tests. You know longer need to manually create the `/downloads` folder.
+for files that are downloaded by your automated tests. You no longer need to manually create the `/downloads` folder.
 * Updated `appium_lib` gem to version 15.1.0.
 * Updated `appium_lib_core` gem to version 9.1.1.
 * Updated `selenium-webdriver` gem to version 4.21.1.
@@ -204,7 +192,6 @@ for files that are downloaded by your automated tests. You know longer need to m
 ## [4.5.7] - 25-APR-2024
 
 ### Changed
-
 * Updated `selenium-webdriver` gem to version 4.20.0.
 * Updated `appium_lib` gem to version 15.0.0.
 * Updated `appium_lib_core` gem to version 8.0.1.
@@ -213,7 +200,6 @@ for files that are downloaded by your automated tests. You know longer need to m
 ## [4.5.6] - 02-APR-2024
 
 ### Fixed
-
 * `WebDriverConnect.initialize_web_driver`, `AppiumServer.start`, and `AppiumServer.running?` methods now support Appium
 version 2.x. Backward compatibility with Appium version 1.x is provided if `APPIUM_SERVER_VERSION` Environment Variable
 is set to `1`.
@@ -222,14 +208,12 @@ is set to `1`.
 ## [4.5.5] - 27-MAR-2024
 
 ### Changed
-
 * Updated `selenium-webdriver` gem to version 4.19.0.
 
 
 ## [4.5.4] - 04-MAR-2024
 
 ### Changed
-
 * Updated `selenium-webdriver` gem to version 4.18.1.
 * Updated `rack` gem to version 3.0.9.1.
 * Updated `nokogiri` gem to version 1.16.2.
@@ -238,14 +222,12 @@ is set to `1`.
 ## [4.5.3] - 27-JAN-2024
 
 ### Changed
-
 * Updated `capybara` gem to version 3.40.0.
 
 
 ## [4.5.2] - 26-JAN-2024
 
 ### Changed
-
 * Updated `appium_lib` gem to version 14.0.0.
 * Updated `selenium-webdriver` gem to version 4.17.0.
 
@@ -1007,17 +989,20 @@ Grid environments.
 
 
 ## [3.0.12] - 2018-08-09
+
 ### Added
 * `PageSection.hover` method.
 * `List.hover_item` method.
 
 
 ## [3.0.11] - 2018-08-05
+
 ### Added
 * `UIElement.count` method.
 
 
 ## [3.0.10] - 2018-07-20
+
 ### Added
 * `Image.broken?` method.
 * `UIElement.highlight` and `UIElement.unhighlight` methods.

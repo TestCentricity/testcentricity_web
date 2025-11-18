@@ -22,9 +22,13 @@ Geolocation_data:
     address: '2565 Kewanee Way, Minneapolis, MN 55422'
     latitude: '45.0057168'
     longitude: '-93.3315115'
+    int_val: "eval!Number.between(from: 1, to: 200)"
+    float_val: "eval!Number.between(from: 1.25, to: 9.75)"
   outside_of_the_service_area:
     valid: true
     in_service: false
     address: '82083 Bay Rd, Seaside, OR 97138'
     latitude: '45.8830449'
     longitude: '-123.5660093'
+    int_val: "eval!Number.between(from: 1, to: 200)"
+    float_val: "eval!Number.between(from: 1.25, to: 9.75)"

@@ -39,7 +39,7 @@ module TestCentricity
       Environ.current = @current
     end
 
-    def self.read(key_name, node_name)
+    def self.read(key_name, node_name, options = nil)
       node_data = if @environ_specific_data.key?(key_name) && @environ_specific_data[key_name].key?(node_name)
                     @environ_specific_data[key_name][node_name]
                   else
@@ -48,18 +48,12 @@ module TestCentricity
 
                     @generic_data[key_name][node_name]
                   end
-
-      if node_data.is_a?(Hash)
-        node_data.each do |key, value|
-          node_data[key] = calculate_dynamic_value(value) if value.to_s.start_with?('eval!')
-        end
-      end
-      node_data
+      process_data(node_data, options)
     end
   end
 
 
-  class Environ < TestCentricity::DataObject
+  class Environ
     @session_id = Time.now.strftime('%d%H%M%S%L')
     @session_time_stamp = Time.now.strftime('%Y%m%d%H%M%S')
     @test_environment = ENV['TEST_ENVIRONMENT']
@@ -67,6 +61,7 @@ module TestCentricity
     @language = ENV['LANGUAGE'] || 'English'
     @screen_shots = []
 
+    attr_accessor :current
     attr_accessor :test_environment
     attr_accessor :app_host
     attr_accessor :browser
@@ -152,8 +147,14 @@ module TestCentricity
                   else
                     "#{@protocol}://#{@user_id}:#{@password}@#{url}"
                   end
+    end
 
-      super
+    def self.current
+      @current
+    end
+
+    def self.current=(current)
+      @current = current
     end
 
     def self.driver_state

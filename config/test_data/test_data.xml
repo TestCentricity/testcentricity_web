@@ -1,0 +1,20 @@
+<POS_Integrations>
+  <panera>
+    <sync_enabled>false</sync_enabled>
+    <integration_id>11071</integration_id>
+    <location_id>204596</location_id>
+    <max_sync_wait_time>30</max_sync_wait_time>
+  </panera>
+  <seven_eleven>
+    <sync_enabled>false</sync_enabled>
+    <integration_id>11061</integration_id>
+    <location_id>35702</location_id>
+    <max_sync_wait_time>45</max_sync_wait_time>
+  </seven_eleven>
+  <ordermark>
+    <sync_enabled>true</sync_enabled>
+    <integration_id>10</integration_id>
+    <location_id>2f2e7884-86dc-489b-8de3-2f7adf0e99dc</location_id>
+    <max_sync_wait_time>30</max_sync_wait_time>
+  </ordermark>
+</POS_Integrations>

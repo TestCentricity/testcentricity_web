@@ -1,6 +1,14 @@
 class FormDataSource < TestCentricity::DataSource
   def read_form_data
-    FormData.current = FormData.new(environs.read('Form_data', 'primary'))
+    options = {
+      keys_as_symbols: true,
+      value_converters:
+        {
+          number_int: ToInteger,
+          number_flt: ToFloat
+        }
+    }
+    FormData.current = FormData.new(environs.read('Form_data', 'primary', options))
   end
 
   def map_form_data(form_data)
