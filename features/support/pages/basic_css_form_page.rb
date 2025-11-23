@@ -5,20 +5,20 @@ class BasicCSSFormPage < BasicFormPage
   trait(:page_locator) { 'form#HTMLFormElements' }
 
   # Basic HTML Test page UI elements
-  textfields  username_field:    'input#username',
-              password_field:    'input#password',
-              max_length_field:  'input#maxlength',
-              read_only_field:   'input#readonly',
-              number_int_field:  'input#number-int-field',
-              number_flt_field:  'input#number-float-field',
+  textfields  username:          'input#username',
+              password:          'input#password',
+              max_length:        'input#maxlength',
+              read_only:         'input#readonly',
+              number_int:        'input#number-int-field',
+              number_flt:        'input#number-float-field',
               date_field:        'input#date-picker',
               date_time_field:   'input#date-time-picker',
               email_field:       'input#email-field',
               month_field:       'input#month-field',
-              color_picker:      'input#color-picker',
-              comments_field:    'textarea#comments'
+              color:             'input#color-picker',
+              comments:          'textarea#comments'
   ranges      slider:            'input#slider'
-  filefields  upload_file:       'input#filename'
+  filefields  image_file:        'input#filename'
   checkboxes  check_1:           'input#check1',
               check_2:           'input#check2',
               check_3:           'input#check3',
@@ -28,7 +28,7 @@ class BasicCSSFormPage < BasicFormPage
               radio_3:           'input#radio3',
               radio_4:           'input#radio4'
   selectlists multi_select:      'select#multipleselect',
-              drop_down_select:  'select#dropdown'
+              drop_select:       'select#dropdown'
   lists       links_list:        'ul#links_list'
   links       link_1:            'a#link1',
               link_2:            'a#link2',

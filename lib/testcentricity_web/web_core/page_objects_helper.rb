@@ -365,6 +365,16 @@ module TestCentricity
       timeout = wait_time.nil? ? 5 : wait_time
       data.each do |data_field, data_param|
         unless data_param != false && data_param.blank?
+          # if data_field is a Symbol, find the corresponding object reference
+          if data_field.is_a?(Symbol)
+            begin
+              obj = method(data_field)
+            rescue
+              puts "No corresponding data field found for #{data_field}"
+              next
+            end
+            data_field = obj.call
+          end
           # make sure the intended UI target element is visible before trying to set its value
           data_field.wait_until_visible(timeout)
           if data_param == '!DELETE'

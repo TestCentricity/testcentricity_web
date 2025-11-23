@@ -2,14 +2,21 @@
 All notable changes to this project will be documented in this file.
 
 
-## [4.6.11] - 21-NOV-2025
+## [4.6.12] - 25-NOV-2025
+
+### Added
+* Added `DataSource.read_file` method capable of reading from `.yml`, `.json`, `.csv`, or `.xml` data files, and accepting
+`options` hash for specifying hask key and value conversions to data being read prior to passing to `DataPresenter` objects.
 
 ### Changed
-* Removed unused `DataSource.read_yaml_node_data` and `DataSource.read_json_node_data` methods and replaced with `read_file`
-method capable of reading from `.yml`, `.json`, `.csv`, or `.xml` data files.
+* Refactored `EnvironData.read` method to allow passing `options` hash for specifying hask key and value conversions to
+data being read prior to passing to `DataPresenter` objects.
+* Refactored `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods to support passing a `Symbol`
+for a UI element's name to support using `DataPresenter` object attributes to source data.
 
 ### Removed
 * Unused `DataObject` class has been removed.
+* Removed unused `DataSource.read_yaml_node_data` and `DataSource.read_json_node_data` methods.
 
 
 ## [4.6.10] - 07-NOV-2025

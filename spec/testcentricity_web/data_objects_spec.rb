@@ -239,7 +239,7 @@ describe TestCentricity::DataSource, wip: true do
                             'max_sync_wait_time' => 30
                           }
                         )
-  end
+    end
   end
 
   context 'Read from .csv DataSource object' do
@@ -402,7 +402,7 @@ describe TestCentricity::DataSource, wip: true do
                             }
                           ]
                         )
-  end
+    end
 
     it 'reads all data from .csv data source file with String and Boolean conversion options' do
       options = {
