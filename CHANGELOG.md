@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 
-## [4.6.12] - 25-NOV-2025
+## [4.6.12] - 28-NOV-2025
 
 ### Added
 * Added `DataSource.read_file` method capable of reading from `.yml`, `.json`, `.csv`, or `.xml` data files, and accepting
@@ -17,6 +17,13 @@ for a UI element's name to support using `DataPresenter` object attributes to so
 ### Removed
 * Unused `DataObject` class has been removed.
 * Removed unused `DataSource.read_yaml_node_data` and `DataSource.read_json_node_data` methods.
+
+
+## [4.6.11] - 24-NOV-2025
+
+### Removed
+
+* Appium version 1.x is no longer supported.
 
 
 ## [4.6.10] - 07-NOV-2025
