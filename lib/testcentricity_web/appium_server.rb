@@ -38,11 +38,7 @@ module TestCentricity
     # Check to see if Appium Server is running
     #
     def running?
-      endpoint = if ENV['APPIUM_SERVER_VERSION'] && ENV['APPIUM_SERVER_VERSION'].to_i == 1
-                   'http://0.0.0.0:4723/wd/hub/sessions'
-                 else
-                   'http://0.0.0.0:4723/sessions'
-                 end
+      endpoint = 'http://0.0.0.0:4723/sessions'
       response = false
       begin
         response = Net::HTTP.get_response(URI(endpoint))
