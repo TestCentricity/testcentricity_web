@@ -1895,10 +1895,6 @@ Below is an example of an `options` hash for specifying a connection to a grid h
 
 Refer to [this page](https://appium.io/docs/en/2.2/guides/caps/) for information regarding specifying Appium capabilities.
 
-⚠️ If you are running locally hosted mobile web tests on iOS or Android simulators or devices using version 1.x of the Appium
-server, the `APPIUM_SERVER_VERSION` environment variable must be set to `1` in order to ensure that the correct Appium server
-endpoint is used.
-
 #### Mobile Safari Browser on iOS Simulators or iOS Physical Devices
 
 You can run your mobile web tests against the mobile Safari browser on iOS device simulators or physically connected iOS
@@ -2115,15 +2111,6 @@ starting your Cucumber test suite(s):
 
     run_appium: APPIUM_SERVER=run
 
-If you are running locally hosted mobile web tests on iOS or Android simulators or devices using version 1.x of the Appium
-server, the `APPIUM_SERVER_VERSION` environment variable must be set to `1` in order to ensure that the correct Appium server
-endpoint is used. This can be set by adding the following to your `cucumber.yml` file and including `-p appium_1x` in your
-command line when starting your Cucumber test suite(s):
-
-    appium_1x: APPIUM_SERVER_VERSION=1
-
-Refer to [**section 8.9 (Using Browser Specific Profiles in `cucumber.yml`)**](#using-browser-specific-profiles-in-cucumber-yml) below.
-
 
 ##### Using Appium Server with RSpec
 
@@ -2142,9 +2129,6 @@ body of an example group:
       $server.stop if Environ.driver == :appium && $server.running?
     end
 ```
-If you are running locally hosted mobile web tests on iOS or Android simulators or devices using version 1.x of the Appium
-server, the `APPIUM_SERVER_VERSION` environment variable must be set to `1` in order to ensure that the correct Appium server
-endpoint is used.
 
 
 ### Remote Cloud Hosted Desktop and Mobile Web Browsers
@@ -2966,7 +2950,6 @@ with access to your version control system.
     #==============
 
     run_appium: APPIUM_SERVER=run
-    appium_1x: APPIUM_SERVER_VERSION=1
 
 
     #==============
