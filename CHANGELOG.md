@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.6.11] - 24-NOV-2025
+
+### Removed
+
+* Appium version 1.x is no longer supported.
+
+
 ## [4.6.10] - 07-NOV-2025
 
 ### Added

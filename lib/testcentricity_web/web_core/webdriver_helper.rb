@@ -310,13 +310,7 @@ module TestCentricity
                @capabilities
              end
       # specify endpoint url
-      if @endpoint.nil?
-        @endpoint = if ENV['APPIUM_SERVER_VERSION'] && ENV['APPIUM_SERVER_VERSION'].to_i == 1
-                      'http://127.0.0.1:4723/wd/hub'
-                    else
-                      'http://127.0.0.1:4723'
-                    end
-      end
+      @endpoint = 'http://127.0.0.1:4723' if @endpoint.nil?
       register_remote_driver(Environ.browser, caps)
     end
 
