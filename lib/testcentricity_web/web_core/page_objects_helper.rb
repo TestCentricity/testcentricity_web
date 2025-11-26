@@ -370,7 +370,7 @@ module TestCentricity
             begin
               obj = method(data_field)
             rescue
-              puts "No corresponding data field found for #{data_field}"
+              puts "No corresponding data field found for #{data_field}" if ENV['DEBUG']
               next
             end
             data_field = obj.call

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe TestCentricity::DataSource, wip: true do
+describe TestCentricity::DataSource, required: true do
   before(:context) do
     @pos_date_source = POSDataSource.new
     @geo_date_source = GeoLocationDataSource.new

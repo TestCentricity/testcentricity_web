@@ -528,10 +528,7 @@ class BasicFormPage < BaseTestPage
 
   def populate_form
     @form_data = form_data_source.read_form_data
-
-    puts "@form_data = #{@form_data}"
-
-    # toggle checks and radios and verify
+   # toggle checks and radios and verify
     check_2.check
     check_2.verify_check_state(true)
     check_2.uncheck

@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 `options` hash for specifying hask key and value conversions to data being read prior to passing to `DataPresenter` objects.
 
 ### Changed
-* Refactored `EnvironData.read` method to allow passing `options` hash for specifying hask key and value conversions to
+* Refactored `EnvironData.read` method to allow passing `options` hash for specifying hash key and value conversions to
 data being read prior to passing to `DataPresenter` objects.
 * Refactored `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods to support passing a `Symbol`
 for a UI element's name to support using `DataPresenter` object attributes to source data.
