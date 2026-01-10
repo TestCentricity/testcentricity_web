@@ -2,17 +2,19 @@
 All notable changes to this project will be documented in this file.
 
 
-## [4.6.12] - 28-NOV-2025
+## [4.7.0] - 12-JAN-2026
 
 ### Added
 * Added `DataSource.read_file` method capable of reading from `.yml`, `.json`, `.csv`, or `.xml` data files, and accepting
-`options` hash for specifying hask key and value conversions to data being read prior to passing to `DataPresenter` objects.
+`options` hash for specifying hash key and value conversions to data being read prior to passing to `DataPresenter` objects.
 
 ### Changed
 * Refactored `EnvironData.read` method to allow passing `options` hash for specifying hash key and value conversions to
 data being read prior to passing to `DataPresenter` objects.
 * Refactored `PageObject.populate_data_fields` and `PageSection.populate_data_fields` methods to support passing a `Symbol`
 for a UI element's name to support using `DataPresenter` object attributes to source data.
+* Updated `appium_lib` gem to version 16.1.1.
+* Updated `appium_lib_core` gem to version 11.2.0.
 
 ### Removed
 * Unused `DataObject` class has been removed.
