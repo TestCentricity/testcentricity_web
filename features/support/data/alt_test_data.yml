@@ -1,0 +1,34 @@
+POS_Integrations:
+  panera:
+    sync_enabled: false
+    integration_id: '11071'
+    location_id: '204596'
+    max_sync_wait_time: 30
+  seven_eleven:
+    sync_enabled: false
+    integration_id: '11061'
+    location_id: '35702'
+    max_sync_wait_time: 45
+  ordermark:
+    sync_enabled: true
+    integration_id: '10'
+    location_id: '2f2e7884-86dc-489b-8de3-2f7adf0e99dc'
+    max_sync_wait_time: 30
+
+Geolocation_data:
+  within_the_service_area:
+    valid: true
+    in_service: true
+    address: '2565 Kewanee Way, Minneapolis, MN 55422'
+    latitude: '45.0057168'
+    longitude: '-93.3315115'
+    int_val: "eval!Number.between(from: 1, to: 200)"
+    float_val: "eval!Number.between(from: 1.25, to: 9.75)"
+  outside_of_the_service_area:
+    valid: true
+    in_service: false
+    address: '82083 Bay Rd, Seaside, OR 97138'
+    latitude: '45.8830449'
+    longitude: '-123.5660093'
+    int_val: "eval!Number.between(from: 1, to: 200)"
+    float_val: "eval!Number.between(from: 1.25, to: 9.75)"

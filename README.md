@@ -92,12 +92,12 @@ that can be used in tests. A **Page Object** represents a single page in your AU
 encapsulate the implementation details of a web page and expose an API that supports interaction with, and validation of
 the UI elements on the page.
 
-**Page Objects** makes it easier to maintain automated tests because changes to page UI elements are updated in only one
-location - in the **Page Object** class definition. By adopting a **Page Object Model**, Cucumber Feature files and step
-definitions are no longer required to hold specific information about a page's UI objects, thus minimizing maintenance
-requirements. If any element on, or property of a page changes (URL path, text field attributes, button captions, etc.),
-maintenance is performed in the `PageObject` class definition only, typically with no need to update the affected feature
-files, scenarios, or step definitions.
+**Page Objects** make it easier to maintain automated tests because changes to a page's UI elements are updated in only
+one location - in th corresponding **Page Object** class definition. By adopting a **Page Object Model**, Cucumber Feature
+files and step definitions are no longer required to hold specific information about a page's UI objects, thus minimizing
+test maintenance requirements. If any element on, or property of a page changes (URL path, text field attributes, button
+captions, etc.), maintenance is performed in the corresponding `PageObject` class definition only, typically with no need
+to update the affected feature files, scenarios, or step definitions.
 
 
 ### Defining a PageObject
@@ -3159,7 +3159,7 @@ area sub-folders as needed. Likewise, `PageSection` class definitions should be 
 ---
 ## Copyright and License
 
-TestCentricity™ Framework is Copyright (c) 2014-2025, Tony Mrozinski.
+TestCentricity™ Framework is Copyright (c) 2014-2026, Tony Mrozinski.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following

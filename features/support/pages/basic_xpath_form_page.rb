@@ -5,20 +5,20 @@ class BasicXpathFormPage < BasicFormPage
   trait(:page_locator) { "//form[@id='HTMLFormElements']" }
 
   # Basic HTML Test page UI elements
-  textfields  username_field:    "//input[@id='username']",
-              password_field:    "//input[@id='password']",
-              max_length_field:  "//input[@id='maxlength']",
-              read_only_field:   "//input[@id='readonly']",
-              number_int_field:  "//input[@id='number-int-field']",
-              number_flt_field:  "//input[@id='number-float-field']",
+  textfields  username:          "//input[@id='username']",
+              password:          "//input[@id='password']",
+              max_length:        "//input[@id='maxlength']",
+              read_only:         "//input[@id='readonly']",
+              number_int:        "//input[@id='number-int-field']",
+              number_flt:        "//input[@id='number-float-field']",
               date_field:        "//input[@id='date-picker']",
               date_time_field:   "//input[@id='date-time-picker']",
               email_field:       "//input[@id='email-field']",
               month_field:       "//input[@id='month-field']",
-              comments_field:    "//textarea[@id='comments']",
-              color_picker:      "//input[@id='color-picker']"
+              comments:          "//textarea[@id='comments']",
+              color:             "//input[@id='color-picker']"
   ranges      slider:            "//input[@id='slider']"
-  filefields  upload_file:       "//input[@id='filename']"
+  filefields  image_file:       "//input[@id='filename']"
   checkboxes  check_1:           "//input[@id='check1']",
               check_2:           "//input[@id='check2']",
               check_3:           "//input[@id='check3']",
@@ -28,7 +28,7 @@ class BasicXpathFormPage < BasicFormPage
               radio_3:           "//input[@id='radio3']",
               radio_4:           "//input[@id='radio4']"
   selectlists multi_select:      "//select[@id='multipleselect']",
-              drop_down_select:  "//select[@id='dropdown']"
+              drop_select:       "//select[@id='dropdown']"
   lists       links_list:        "//ul[@id='links_list']"
   links       link_1:            "//a[@id='link1']",
               link_2:            "//a[@id='link2']",

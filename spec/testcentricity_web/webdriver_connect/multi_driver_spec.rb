@@ -20,7 +20,7 @@ RSpec.describe TestCentricity::WebDriverConnect, multi_driver_spec: true do
         browser_size: [1100, 900]
       }
       WebDriverConnect.initialize_web_driver(caps)
-      expect {  WebDriverConnect.activate_driver(:emulated_iphone) }.to raise_error("Could not find a driver named 'emulated_iphone'")
+      expect { WebDriverConnect.activate_driver(:emulated_iphone) }.to raise_error("Could not find a driver named 'emulated_iphone'")
     end
 
     it 'connects to multiple mobile browsers hosted on device simulators' do

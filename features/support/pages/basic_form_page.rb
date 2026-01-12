@@ -10,12 +10,12 @@ class BasicFormPage < BaseTestPage
       header_nav.media_link,
       header_nav.indexed_sections_link,
       header_nav.custom_controls_link,
-      username_field,
-      password_field,
-      max_length_field,
-      read_only_field,
-      number_int_field,
-      number_flt_field,
+      username,
+      password,
+      max_length,
+      read_only,
+      number_int,
+      number_flt,
       date_field,
       date_field,
       date_time_field,
@@ -23,11 +23,11 @@ class BasicFormPage < BaseTestPage
       month_field,
       month_field,
       email_field,
-      color_picker,
+      color,
       slider,
-      comments_field,
+      comments,
       progress_button,
-      upload_file,
+      image_file,
       check_1,
       check_2,
       check_3,
@@ -37,7 +37,7 @@ class BasicFormPage < BaseTestPage
         radio_3
       ],
       multi_select,
-      drop_down_select,
+      drop_select,
       link_1,
       link_2,
       cancel_button,
@@ -50,12 +50,12 @@ class BasicFormPage < BaseTestPage
       header_nav.media_link,
       header_nav.indexed_sections_link,
       header_nav.custom_controls_link,
-      username_field,
-      password_field,
-      max_length_field,
-      read_only_field,
-      number_int_field,
-      number_flt_field,
+      username,
+      password,
+      max_length,
+      read_only,
+      number_int,
+      number_flt,
       date_field,
       date_field,
       date_field,
@@ -71,11 +71,11 @@ class BasicFormPage < BaseTestPage
       month_field,
       month_field,
       email_field,
-      color_picker,
+      color,
       slider,
-      comments_field,
+      comments,
       progress_button,
-      upload_file,
+      image_file,
       check_1,
       check_2,
       check_3,
@@ -85,7 +85,7 @@ class BasicFormPage < BaseTestPage
         radio_3
       ],
       multi_select,
-      drop_down_select,
+      drop_select,
       link_1,
       link_2,
       cancel_button,
@@ -98,12 +98,12 @@ class BasicFormPage < BaseTestPage
       header_nav.media_link,
       header_nav.indexed_sections_link,
       header_nav.custom_controls_link,
-      username_field,
-      password_field,
-      max_length_field,
-      read_only_field,
-      number_int_field,
-      number_flt_field,
+      username,
+      password,
+      max_length,
+      read_only,
+      number_int,
+      number_flt,
       date_field,
       date_field,
       date_field,
@@ -117,11 +117,11 @@ class BasicFormPage < BaseTestPage
       date_time_field,
       month_field,
       email_field,
-      color_picker,
+      color,
       slider,
-      comments_field,
+      comments,
       progress_button,
-      upload_file,
+      image_file,
       check_1,
       check_2,
       check_3,
@@ -131,7 +131,7 @@ class BasicFormPage < BaseTestPage
         radio_3
       ],
       multi_select,
-      drop_down_select,
+      drop_select,
       link_1,
       link_2,
       cancel_button,
@@ -140,12 +140,12 @@ class BasicFormPage < BaseTestPage
   }
   trait(:safari_tab_order) {
     [
-      username_field,
-      password_field,
-      max_length_field,
-      read_only_field,
-      number_int_field,
-      number_flt_field,
+      username,
+      password,
+      max_length,
+      read_only,
+      number_int,
+      number_flt,
       date_field,
       date_field,
       date_field,
@@ -157,12 +157,13 @@ class BasicFormPage < BaseTestPage
       date_time_field,
       month_field,
       email_field,
-      comments_field,
+      comments,
       multi_select,
-      drop_down_select
+      drop_select
     ]
   }
 
+  attr_accessor :form_data
   attr_accessor :action_element
 
   def verify_page_ui
@@ -171,10 +172,10 @@ class BasicFormPage < BaseTestPage
     verify_page_contains(page_title)
     image_1.wait_until_loaded(5)
     progress_bar.wait_until_value_is( { greater_than: 50 } )
-    username_field.scroll_to(:center) if username_field.obscured?
+    username.scroll_to(:center) if username.obscured?
     ui = {
       username_label => { visible: true, caption: 'Username:' },
-      username_field => {
+      username => {
         name: 'username',
         exists: true,
         displayed: true,
@@ -205,7 +206,7 @@ class BasicFormPage < BaseTestPage
         valueMissing: true
       },
       password_label => { visible: true, caption: 'Password:' },
-      password_field => {
+      password => {
         name: 'password',
         visible: true,
         displayed: true,
@@ -223,7 +224,7 @@ class BasicFormPage < BaseTestPage
         title: 'Password'
       },
       max_length_label => { visible: true, caption: 'Max Length:' },
-      max_length_field => {
+      max_length => {
         visible: true,
         obscured: false,
         enabled: true,
@@ -236,7 +237,7 @@ class BasicFormPage < BaseTestPage
         maxlength: 64
       },
       read_only_label => { visible: true, caption: 'Read Only:' },
-      read_only_field => {
+      read_only => {
         visible: true,
         enabled: true,
         readonly: true,
@@ -245,7 +246,7 @@ class BasicFormPage < BaseTestPage
         value: 'I am a read only text field'
       },
       number_int_label => { visible: true, caption: 'Number (Integer):' },
-      number_int_field => {
+      number_int => {
         visible: true,
         enabled: true,
         value: '41',
@@ -255,7 +256,7 @@ class BasicFormPage < BaseTestPage
         validation_message: ''
       },
       number_flt_label => { visible: true, caption: 'Number (Float):' },
-      number_flt_field => {
+      number_flt => {
         visible: true,
         enabled: true,
         value: '3.5',
@@ -265,7 +266,7 @@ class BasicFormPage < BaseTestPage
         validation_message: ''
       },
       color_label => { visible: true, caption: 'Color:' },
-      color_picker => { visible: true, enabled: true, value: '#000000' },
+      color => { visible: true, enabled: true, value: '#000000' },
       slider_label => { visible: true, caption: 'Range:' },
       slider => {
         visible: true,
@@ -280,7 +281,7 @@ class BasicFormPage < BaseTestPage
         aria_valuemax: 50
       },
       comments_label => { visible: true, caption: 'TextArea:' },
-      comments_field => {
+      comments => {
         visible: true,
         enabled: true,
         aria_multiline: true,
@@ -300,7 +301,7 @@ class BasicFormPage < BaseTestPage
         caption: { translate: 'base_form_page.progress_button' }
       },
       filename_label => { visible: true, caption: 'Filename:' },
-      upload_file => { visible: true, enabled: true, value: '' },
+      image_file => { visible: true, enabled: true, value: '' },
       checkboxes_label => { visible: true, caption: { translate_titlecase: 'base_form_page.check_label' } },
       check_1 => {
         exists: true,
@@ -400,7 +401,7 @@ class BasicFormPage < BaseTestPage
         selected: ''
       },
       dropdown_label => { visible: true, caption: 'Dropdown:' },
-      drop_down_select => {
+      drop_select => {
         visible: true,
         enabled: true,
         optioncount: 6,
@@ -518,47 +519,16 @@ class BasicFormPage < BaseTestPage
     row_data = static_table.get_row_data(1)
     ExceptionQueue.enqueue_assert_equal('Alfreds Futterkiste Maria Anders Germany', row_data, 'Table Row 1')
     # verify that a screenshot can be taken
-    comments_field.highlight
+    comments.highlight
     ExceptionQueue.enqueue_screenshot
-    comments_field.unhighlight
+    comments.unhighlight
     reports_path = "#{Dir.pwd}/reports"
     ExceptionQueue.enqueue_exception("#{reports_path} folder was not created") unless Dir.exist?(reports_path)
   end
 
-  def form_data
-    data = form_data_source.read_form_data
-
-    if Environ.platform == :mobile
-      file_path = nil
-      file_name = ''
-      color_value = '#000000'
-    else
-      file_path = "#{Dir.pwd}/test_site/images/#{data.image_filename}"
-      file_name = data.image_filename
-      color_value = Faker::Color.hex_color
-    end
-    {
-      username:     data.username,
-      password:     data.password,
-      maxlength:    Faker::Marketing.buzzwords,
-      number_int:   Faker::Number.between(from: 10, to: 1024),
-      number_flt:   Faker::Number.between(from: 1.25, to: 9.75),
-      color:        color_value,
-      slider:       50,
-      comments:     Faker::Hipster.paragraph,
-      filepath:     file_path,
-      filename:     file_name,
-      check1:       data.check1,
-      check2:       data.check2,
-      check3:       data.check3,
-      radio_select: data.radio_select,
-      multi_select: data.multi_select,
-      drop_select:  data.drop_down_item
-    }
-  end
-
   def populate_form
-    # toggle checks and radios and verify
+    @form_data = form_data_source.read_form_data
+   # toggle checks and radios and verify
     check_2.check
     check_2.verify_check_state(true)
     check_2.uncheck
@@ -566,55 +536,35 @@ class BasicFormPage < BaseTestPage
     radio_2.select
     radio_2.unselect
     # clear text fields
-    username_field.clear
-    comments_field.clear
-    number_int_field.clear
+    username.clear
+    comments.clear
+    number_int.clear
     # populate fields and controls with externally sourced data
-    @data = form_data
-    fields = {
-      username_field   => @data[:username],
-      password_field   => @data[:password],
-      max_length_field => @data[:maxlength],
-      number_int_field => @data[:number_int],
-      number_flt_field => @data[:number_flt],
-      color_picker     => @data[:color],
-      slider           => @data[:slider],
-      comments_field   => @data[:comments],
-      upload_file      => @data[:filepath],
-      check_1          => @data[:check1],
-      check_2          => @data[:check2],
-      check_3          => @data[:check3],
-      radio_1          => @data[:radio_select] == 1,
-      radio_2          => @data[:radio_select] == 2,
-      radio_3          => @data[:radio_select] == 3,
-      multi_select     => @data[:multi_select],
-      drop_down_select => @data[:drop_select]
-    }
-    populate_data_fields(fields)
+    populate_data_fields(@form_data)
   end
 
   def verify_form_data
     ui = {
-      username_field   => { value: @data[:username] },
-      password_field   => { value: @data[:password] },
-      max_length_field => { value: @data[:maxlength] },
-      number_int_field => { value: @data[:number_int].to_s },
-      number_flt_field => { value: @data[:number_flt].to_s },
-      color_picker     => { value: @data[:color] },
-      slider           => { value: @data[:slider] },
-      comments_field   => { value: @data[:comments] },
-      upload_file      => { value: { ends_with: @data[:filename] } },
-      check_1          => { checked: @data[:check1] },
-      check_2          => { checked: @data[:check2] },
-      check_3          => { checked: @data[:check3] },
-      radio_1          => { selected: @data[:radio_select] == 1 },
-      radio_2          => { selected: @data[:radio_select] == 2 },
-      radio_3          => { selected: @data[:radio_select] == 3 },
-      multi_select     => { selected: @data[:multi_select] },
-      drop_down_select => { selected: @data[:drop_select] }
+      username     => { value: @form_data[:username] },
+      password     => { value: @form_data[:password] },
+      max_length   => { value: @form_data[:max_length] },
+      number_int   => { value: @form_data[:number_int].to_s },
+      number_flt   => { value: @form_data[:number_flt].to_s },
+      color        => { value: @form_data[:color] },
+      slider       => { value: @form_data[:slider] },
+      comments     => { value: @form_data[:comments] },
+      image_file   => { value: { ends_with: @form_data[:file_name] } },
+      check_1      => { checked: @form_data[:check_1] },
+      check_2      => { checked: @form_data[:check_2] },
+      check_3      => { checked: @form_data[:check_3] },
+      radio_1      => { selected: @form_data[:radio_select] == 1 },
+      radio_2      => { selected: @form_data[:radio_select] == 2 },
+      radio_3      => { selected: @form_data[:radio_select] == 3 },
+      multi_select => { selected: @form_data[:multi_select] },
+      drop_select  => { selected: @form_data[:drop_select] }
     }
     upload_ui = if Environ.platform == :mobile
-                  { image_upload => { exists: false} }
+                  { image_upload => { exists: false } }
                 else
                   {
                     image_upload => {
@@ -657,13 +607,13 @@ class BasicFormPage < BaseTestPage
     case method.downcase.to_sym
     when :index
       multi_select.choose_option(index: 2)
-      drop_down_select.choose_option(index: 3)
+      drop_select.choose_option(index: 3)
     when :value
       multi_select.choose_option(value: 'ms2')
-      drop_down_select.choose_option(value: 'dd3')
+      drop_select.choose_option(value: 'dd3')
     when :text
       multi_select.choose_option(text: 'Selection Item 2')
-      drop_down_select.choose_option(text: 'Drop Down Item 3')
+      drop_select.choose_option(text: 'Drop Down Item 3')
     else
       raise "#{method} is not a valid selector"
     end
@@ -672,30 +622,30 @@ class BasicFormPage < BaseTestPage
   def verify_chosen_options
     ui = {
       multi_select     => { selected: 'Selection Item 2' },
-      drop_down_select => { selected: 'Drop Down Item 3' }
+      drop_select => { selected: 'Drop Down Item 3' }
     }
     verify_ui_states(ui)
   end
 
   def invalid_data_entry(reason)
     # populate fields and controls with externally sourced data
-    @data = form_data
+    @form_data = form_data_source.read_form_data
     fields = {
-      username_field   => @data[:username],
-      password_field   => @data[:password],
-      number_int_field => @data[:number_int]
+      username   => @form_data[:username],
+      password   => @form_data[:password],
+      number_int => @form_data[:number_int]
     }
     populate_data_fields(fields)
 
     case reason.gsub(/\s+/, '_').downcase.to_sym
     when :blank_username
-      username_field.clear
+      username.clear
     when :blank_password
-      password_field.clear
+      password.clear
     when :number_too_low
-      number_int_field.set(3)
+      number_int.set(3)
     when :number_too_high
-      number_int_field.set(4132)
+      number_int.set(4132)
     when :invalid_email
       email_field.set('bob')
     else
@@ -706,13 +656,13 @@ class BasicFormPage < BaseTestPage
   def verify_entry_error(reason)
     ui = case reason.gsub(/\s+/, '_').downcase.to_sym
          when :blank_username
-           { username_field => { valid: false, valueMissing: true } }
+           { username => { valid: false, valueMissing: true } }
          when :blank_password
-           { password_field => { valid: false, valueMissing: true } }
+           { password => { valid: false, valueMissing: true } }
          when :number_too_low
-           { number_int_field => { valid: false, rangeUnderflow: true } }
+           { number_int => { valid: false, rangeUnderflow: true } }
          when :number_too_high
-           { number_int_field => { valid: false, rangeOverflow: true } }
+           { number_int => { valid: false, rangeOverflow: true } }
          when :invalid_email
            { email_field => { valid: false, typeMismatch: true } }
          else

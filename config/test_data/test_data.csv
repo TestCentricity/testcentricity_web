@@ -1,0 +1,4 @@
+id,sync_enabled,integration_id,location_id,max_sync_wait_time
+panera,false,11071,204596,30
+seven_eleven,false,11061,35702,45
+ordermark,true,10,2f2e7884-86dc-489b-8de3-2f7adf0e99dc,30
