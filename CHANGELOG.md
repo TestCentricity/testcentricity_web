@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.7.1] - 13-JAN-2026
+
+### Fixed
+* Added `activesupport` gem as a runtime dependency to prevent test failures if gem is not already installed.
+
+
 ## [4.7.0] - 12-JAN-2026
 
 ### Added

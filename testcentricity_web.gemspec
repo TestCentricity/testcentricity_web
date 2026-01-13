@@ -33,7 +33,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.requirements << 'Capybara, Selenium-WebDriver'
 
-  spec.add_development_dependency 'activesupport', '>= 4.0'
   spec.add_development_dependency 'axe-core-cucumber'
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'cucumber', '10.2.0'
@@ -48,6 +47,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'simplecov', ['~> 0.18']
   spec.add_development_dependency 'yard', ['>= 0.9.0']
 
+  spec.add_runtime_dependency 'activesupport', '>= 4.0'
   spec.add_runtime_dependency 'appium_lib', '~> 16.1.1'
   spec.add_runtime_dependency 'browserstack-local'
   spec.add_runtime_dependency 'capybara', '3.40.0'
