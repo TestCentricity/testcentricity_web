@@ -714,6 +714,8 @@ The `verify_ui_states` method supports the following property/state pairs:
     :tabindex          Integer
     :required          Boolean
     :crossorigin       String
+    :horizontal_overflow or :h_overflow Boolean
+    :vertical_overflow or :v_overflow   Boolean
 
 **Pages:**
 

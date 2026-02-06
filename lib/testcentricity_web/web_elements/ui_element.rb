@@ -574,6 +574,30 @@ module TestCentricity
         end
       end
 
+      # Is UI object's text content truncated horizontally?
+      #
+      # @return [Boolean]
+      # @example
+      #   help_message.hasHorizontalOverflow?
+      #
+      def hasHorizontalOverflow?
+        scroll_width = get_attribute(:scrollWidth)
+        client_width = get_attribute(:clientWidth)
+        scroll_width > client_width
+      end
+
+      # Is UI object's text content truncated vertically?
+      #
+      # @return [Boolean]
+      # @example
+      #   help_message.hasVerticalOverflow?
+      #
+      def hasVerticalOverflow?
+        scroll_height = get_attribute(:scrollHeight)
+        client_height = get_attribute(:clientHeight)
+        scroll_height > client_height
+      end
+
       def get_value(visible = true)
         obj, type = find_element(visible)
         object_not_found_exception(obj, type)

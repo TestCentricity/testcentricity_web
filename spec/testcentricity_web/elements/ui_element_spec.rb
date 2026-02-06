@@ -108,6 +108,16 @@ RSpec.describe TestCentricity::Elements::UIElement, required: true do
     expect(css_element.draggable?).to eq(true)
   end
 
+  it 'should know if element has vertical overflow' do
+    allow(css_element).to receive(:hasVerticalOverflow?).and_return(true)
+    expect(css_element.hasVerticalOverflow?).to eq(true)
+  end
+
+  it 'should know if element has horizontal overflow' do
+    allow(css_element).to receive(:hasHorizontalOverflow?).and_return(true)
+    expect(css_element.hasHorizontalOverflow?).to eq(true)
+  end
+
   it 'should know if element is required' do
     allow(css_element).to receive(:required?).and_return(true)
     expect(css_element.required?).to eq(true)

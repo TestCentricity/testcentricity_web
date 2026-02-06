@@ -15,10 +15,11 @@ class BasicXpathFormPage < BasicFormPage
               date_time_field:   "//input[@id='date-time-picker']",
               email_field:       "//input[@id='email-field']",
               month_field:       "//input[@id='month-field']",
+              overflow_field:    "//input[@id='overflow-text']",
               comments:          "//textarea[@id='comments']",
               color:             "//input[@id='color-picker']"
   ranges      slider:            "//input[@id='slider']"
-  filefields  image_file:       "//input[@id='filename']"
+  filefields  image_file:        "//input[@id='filename']"
   checkboxes  check_1:           "//input[@id='check1']",
               check_2:           "//input[@id='check2']",
               check_3:           "//input[@id='check3']",
@@ -39,7 +40,8 @@ class BasicXpathFormPage < BasicFormPage
               image_2:           "//img[@id='image2']",
               image_3:           "//img[@id='image3']",
               image_4:           "//img[@id='image4']"
-  buttons     progress_button:   "//button[@id='run-progress']",
+  buttons     overflow_button:   "//button[@id='overflow-button']",
+              progress_button:   "//button[@id='run-progress']",
               cancel_button:     "//input[@id='cancel']",
               submit_button:     "//input[@id='submit']"
   labels      username_label:    "//label[@for='username']",
