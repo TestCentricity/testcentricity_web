@@ -99,6 +99,10 @@ module TestCentricity
                      ui_object.get_column_count
                    when :placeholder
                      ui_object.get_placeholder
+                   when :horizontal_overflow, :h_overflow
+                     ui_object.hasHorizontalOverflow?
+                   when :vertical_overflow, :v_overflow
+                     ui_object.hasVerticalOverflow?
                    when :min
                      ui_object.get_min
                    when :max

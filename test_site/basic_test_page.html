@@ -173,6 +173,15 @@
                                                 <input id="slider" type="range" name="slider" min="0" max="50" aria-valuenow="25" aria-valuemin="0" aria-valuemax="50" role="slider" aria-orientation="horizontal">
                                             </td>
                                         </tr>
+                                        <td>
+                                            <label for="overflow-text">Overflow Text:</label>
+                                            <input type="text" id="overflow-text" value="This is a long text that will overflow horizontally" readonly aria-readonly="true" contenteditable="false">
+                                        </td>
+                                        <td>
+                                            <label for="overflow-button">Overflow Caption:</label>
+                                            <button type="button" id="overflow-button" style="width: 200px; height: 30px; overflow: hidden;">This is a long button caption overflow vertically</button>
+                                        </td>
+
                                     </tbody>
                                 </table>
                             </td>
@@ -181,7 +190,7 @@
                         <tr>
                             <td>
                                 <label for="comments">TextArea:</label>
-                                <textarea id="comments" name="comments" cols="80" rows="3" aria-multiline="true"></textarea>
+                                <textarea id="comments" name="comments" cols="60" rows="3" aria-multiline="true"></textarea>
                             </td>
                         </tr>
 

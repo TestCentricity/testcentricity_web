@@ -720,6 +720,11 @@ The `verify_ui_states` method supports the following property/state pairs:
     :secure Boolean
     :title  String
 
+**Buttons and Text Field Caption Overflow:**
+
+    :horizontal_overflow or :h_overflow Boolean
+    :vertical_overflow   or :v_overflow Boolean
+
 **Text Fields:**
 
     :readonly    Boolean
@@ -1065,6 +1070,43 @@ Baseline translation strings are stored in `.yml` files in the `config/locales/`
         ├── 📄 Gemfile
         └── 📄 README.md
 
+#### Testing for Text Overflow
+
+The `verify_ui_states` method can be used to determine if text contained in fields or button captions is truncated due to
+text overflowing the horizontal or vertical bounds of the associated field or button. The problem of text overflow is especially
+concerning in web UIs that may be localized to support multiple languages and locales.
+
+An example of horizontal text overflow in a field and vertical overflow in a button caption is depicted below.
+
+![Localized UI](https://raw.githubusercontent.com/TestCentricity/testcentricity_web/main/.github/images/Text_Overflow.png "Localized UI")
+
+The example below depictsusing the `verify_ui_states` method to verify that text overflow is not occurring in the button
+captions for a localized popup Shopping Bag panel.
+```ruby
+    class BagViewPopup < TestCentricity::PageSection
+      trait(:section_locator) { 'aside.ac-gn-bagview' }
+      trait(:section_name)    { 'Shopping Bag Popup' }
+
+      # Shopping Bag Popup UI elements
+      label  :bag_message,     'p[class*="ac-gn-bagview-message"]'
+      lists  bag_items_list:   'ul[class*="ac-gn-bagview-bag"]',
+             bag_nav_list:     'ul.ac-gn-bagview-nav-list '
+      button :checkout_button, 'a[class*="ac-gn-bagview-button-checkout"]'
+
+      def verify_checkout_ui
+        ui = {
+          checkout_button => { 
+            visible: true,
+            enabled: true,
+            caption: { translate: 'BagViewPopup.checkout' },
+            h_overflow: false,
+            v_overflow: false
+          }
+        }
+        verify_ui_states(ui)
+      end
+    end
+````
 
 ### Working With Custom UIElements
 

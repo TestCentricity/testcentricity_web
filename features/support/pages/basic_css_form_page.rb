@@ -16,6 +16,7 @@ class BasicCSSFormPage < BasicFormPage
               email_field:       'input#email-field',
               month_field:       'input#month-field',
               color:             'input#color-picker',
+              overflow_field:    'input#overflow-text',
               comments:          'textarea#comments'
   ranges      slider:            'input#slider'
   filefields  image_file:        'input#filename'
@@ -39,7 +40,8 @@ class BasicCSSFormPage < BasicFormPage
               image_2:           'img#image2',
               image_3:           'img#image3',
               image_4:           'img#image4'
-  buttons     progress_button:   'button#run-progress',
+  buttons     overflow_button:   'button#overflow-button',
+              progress_button:   'button#run-progress',
               cancel_button:     'input#cancel',
               submit_button:     'input#submit'
   labels      username_label:    'label[for="username"]',

@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.7.2] - 09-FEB-2026
+
+### Added
+* Added `UIElement.hasHorizontalOverflow?` and `UIElement.hasVerticalOverflow?` methods.
+* Updated `PageObject.verify_ui_states` and `PageSection.verify_ui_states` methods to support verification of the following
+`UIElement` properties:
+  * `horizontal_overflow`
+  * `vertical_overflow`
+
+
 ## [4.7.1] - 13-JAN-2026
 
 ### Fixed
