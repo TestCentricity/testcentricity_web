@@ -43,7 +43,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'require_all', '=1.5.0'
   spec.add_development_dependency 'rspec', '>= 3.13.0'
-  spec.add_development_dependency 'selenium-webdriver', '~>4.39.0'
+  spec.add_development_dependency 'selenium-webdriver', '~>4.41.0'
   spec.add_development_dependency 'simplecov', ['~> 0.18']
   spec.add_development_dependency 'yard', ['>= 0.9.0']
 
@@ -55,6 +55,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'chronic', '0.10.2'
   spec.add_runtime_dependency 'faker'
   spec.add_runtime_dependency 'i18n'
+  spec.add_runtime_dependency 'json'
   spec.add_runtime_dependency 'os', '~> 1.0'
   spec.add_runtime_dependency 'smarter_csv'
   spec.add_runtime_dependency 'test-unit'

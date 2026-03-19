@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.7.3] - 21-MAR-2026
+
+### Changed
+
+* Update `json`, `nokogiri` and `rack` gems to address security vulnerabilities.
+
+
 ## [4.7.2] - 09-FEB-2026
 
 ### Added
