@@ -75,14 +75,38 @@
                     </tr>
                     <tr>
                         <td>
-                            <h2 id="audio">Audio:</h2>
-                            <audio id="audio_player" controls>
+                            <h2 id="audio1">Audio:</h2>
+                            <audio id="audio_player1" controls>
                                 <source src="media/bbc_scotland_report.mp3" type="audio/mp3">
                             </audio>
+                        </td>
+                        <td>
+                            <h2 id="audio2">Audio with Captions:</h2>
+                            <audio id="audio_player2" controls>
+                                <source src="media/bbc-pm.mp3" type="audio/mp3">
+                                <track src="subtitles/bbc-pm.vtt" kind="subtitles" srclang="en" label="English" default>
+                            </audio>
+                            <div style="display:none;text-align:center;font-family:monospace;font-weight:bold;text-wrap:balance" id="vtt-text"></div>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
+
+        <script>
+            // Safari needs to be specifically told to show this track, for some reason.
+            document.getElementById('audio_player2').textTracks[0].mode="showing";
+
+            document.getElementById('audio_player2').addEventListener('play', function() {
+                //We hid the captions in the div above, since Safari shows them on page load
+                //Now the listener has hit play, show them.
+                document.getElementById('vtt-text').style.display="block";
+            });
+
+            document.getElementById('audio_player2').textTracks[0].addEventListener('cuechange', function() {
+                //Update the caption
+                document.getElementById('vtt-text').innerText = this.activeCues[0].text;
+            });
+        </script>
     </body>
 </html>
