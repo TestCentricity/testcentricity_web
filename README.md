@@ -574,7 +574,7 @@ With TestCentricity, all UI elements are based on the `UIElement` class, and inh
     element.required?
     element.content_editable?
     element.crossorigin
-    element.get_value
+    element.value  OR  element.caption
     element.count
     element.style
     element.title
