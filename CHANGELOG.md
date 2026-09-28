@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file.
 
 
+## [4.7.5] - 28-SEP-2026
+
+### Changed
+
+* Updated `appium_lib` gem to version 16.3.2.
+* Updated `appium_lib_core` gem to version 13.1.3.
+* Update gem dependencies to address CVE-2026-85396.
+
+
 ## [4.7.4] - 01-MAY-2026
 
 ### Changed

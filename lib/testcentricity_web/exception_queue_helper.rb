@@ -45,6 +45,8 @@ module TestCentricity
       if state.is_a?(Hash) && state.length == 1
         state.each do |key, value|
           case key
+          when :integer
+            enqueue_assert_equal(value, actual.to_int, error_msg)
           when :lt, :less_than
             enqueue_exception("#{error_msg} be less than #{value} but found '#{actual}'") unless actual < value
           when :lt_eq, :less_than_or_equal

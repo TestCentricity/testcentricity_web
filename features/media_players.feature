@@ -1,6 +1,3 @@
-@!grid @!chrome_headless @!edge_headless
-
-
 Feature: HTML5 Audio/Video Test Page using CSS locators
   In order to ensure comprehensive support for HTML5 Audio and Video media elements
   As a developer of the TestCentricity web gem
@@ -66,7 +63,7 @@ Feature: HTML5 Audio/Video Test Page using CSS locators
     When I play the audio with a playback speed of 1x
     Then the audio should play at 1x speed
 
-@!chrome @!edge @!firefox
+@!chrome @!edge @!firefox @!chrome_headless @!edge_headless @!firefox_headless
   Scenario Outline:  Verify closed captions track data
     Then I expect the <media> to have closed caption data
     And the page should be axe clean according to the preferred WCAG standard
@@ -76,7 +73,7 @@ Feature: HTML5 Audio/Video Test Page using CSS locators
       |video with captions |
       |audio with captions |
 
-@!chrome @!edge @!firefox
+@!chrome @!edge @!firefox @!chrome_headless @!edge_headless @!firefox_headless
   Scenario Outline:  Verify correct closed caption is displayed at specific video time line
     When I set the current time of the <media> to 20 seconds
     Then the <media> displays the correct closed caption
@@ -84,4 +81,8 @@ Feature: HTML5 Audio/Video Test Page using CSS locators
     Examples:
       |media               |
       |video with captions |
+
+  @!ios
+    Examples:
+      |media               |
       |audio with captions |
