@@ -48,3 +48,43 @@ Capabilities:
       :'appium:automationName': 'UiAutomator2'
       :'appium:orientation': 'PORTRAIT'
       :'appium:chromedriverExecutable': '/Users/Shared/config/webdrivers/chromedriver'
+  bs_chrome:
+    :driver: :browserstack
+    :capabilities:
+      :browserName: :chrome
+      :browserVersion: 'latest'
+      :'bstack:options':
+        userName: "eval!ENV['BS_USERNAME']"
+        accessKey: "eval!ENV['BS_AUTHKEY']"
+        os: 'OS X'
+        osVersion: 'Sequoia'
+        resolution: '1920x1080'
+        seleniumVersion: '4.40.0'
+        local: true
+  bs_edge:
+    :driver: :browserstack
+    :capabilities:
+      :browserName: :edge
+      :browserVersion: 'latest'
+      :'bstack:options':
+        userName: "eval!ENV['BS_USERNAME']"
+        accessKey: "eval!ENV['BS_AUTHKEY']"
+        os: 'OS X'
+        osVersion: 'Sequoia'
+        resolution: '1920x1080'
+        seleniumVersion: '4.40.0'
+        local: true
+  bs_safari:
+    :driver: :browserstack
+    :capabilities:
+      :browserName: :safari
+      :browserVersion: 'latest'
+      :'bstack:options':
+        userName: "eval!ENV['BS_USERNAME']"
+        accessKey: "eval!ENV['BS_AUTHKEY']"
+        os: 'OS X'
+        osVersion: 'Sequoia'
+        resolution: '1920x1080'
+        seleniumVersion: '4.40.0'
+        local: true
+

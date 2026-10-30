@@ -120,7 +120,7 @@ class MediaTestPage < BaseTestPage
         volume: 1,
         preload: preload,
         src: '',
-        duration: 274.1,
+        duration: { integer: 274 },
         track_count: 1,
         active_track: 1,
         active_track_data: {

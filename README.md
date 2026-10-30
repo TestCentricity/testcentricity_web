@@ -7,6 +7,18 @@
 [![Docs](https://img.shields.io/badge/docs-rubydoc-blue.svg)](http://www.rubydoc.info/gems/testcentricity_web)
 
 
+The **TestCentricity**™ suite of Ruby gems is an open-source test automation framework family designed to support automated 
+testing implementations using a Behavior-Driven Development (BDD) model. It provides a comprehensive Domain-Specific Language
+(DSL) that implements the **Page Object Model (POM)** and Data Object Model patterns. This simplifies and streamlines the process
+of writing automated tests for desktop and mobile web, native mobile applications, and MacOS desktop applications.
+
+Core features include:
+* **Encapsulation:** Defines page classes, page sections, and data objects to completely separate test scripts from underlying UI element locators and test data assets.
+* **Built-in Verification:** Includes integrated element validation and asynchronous wait mechanisms to handle dynamic UI content and asynchronous loading effortlessly.
+* **BDD Compatibility:** Perfectly pairs with testing frameworks like Cucumber and RSpec to create highly readable, business-driven feature files.
+
+---
+
 The TestCentricity™ For Web core framework for desktop and mobile web browser-based app testing implements a Page Object Model
 DSL for use with Cucumber (version 7.x or greater) or RSpec, and Selenium-Webdriver. It also facilitates the configuration
 of the appropriate Selenium-Webdriver capabilities required to establish connections with one or more local or cloud hosted

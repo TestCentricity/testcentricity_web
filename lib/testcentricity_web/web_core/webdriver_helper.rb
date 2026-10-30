@@ -2,6 +2,7 @@ require 'selenium-webdriver'
 require 'os'
 require 'browserstack/local'
 require 'fileutils'
+require 'json'
 
 
 module TestCentricity
@@ -425,17 +426,8 @@ module TestCentricity
       end
       # specify endpoint url
       @endpoint = "https://#{ENV['BS_USERNAME']}:#{ENV['BS_AUTHKEY']}@hub-cloud.browserstack.com/wd/hub" if @endpoint.nil?
-      # enable tunneling if specified
-      if ENV['TUNNELING']
-        @bs_local = BrowserStack::Local.new
-        bs_local_args = {'key' => "#{ENV['BS_AUTHKEY']}"}
-        @bs_local.start(bs_local_args)
-        if @bs_local.isRunning
-          puts 'BrowserStack Local instance has been started'
-        else
-          puts 'BrowserStack Local instance failed to start'
-        end
-      end
+      # determine if tunneling is specified
+      Environ.tunneling = ENV['TUNNELING'] if ENV['TUNNELING']
       # define BrowserStack options
       options = if @capabilities.nil?
                   Environ.os = "#{ENV['BS_OS']} #{ENV['BS_OS_VERSION']}"
@@ -494,7 +486,9 @@ module TestCentricity
                   end
                 else
                   bs_options = @capabilities[:'bstack:options']
+                  bs_options = JSON.parse(bs_options.to_json, symbolize_names: true)
                   Environ.os = "#{bs_options[:os]} #{bs_options[:osVersion]}"
+                  Environ.tunneling = bs_options[:local]
                   if bs_options.key?(:deviceName)
                     Environ.platform = :mobile
                     Environ.device_name = bs_options[:deviceName]
@@ -508,10 +502,21 @@ module TestCentricity
                   end
                   @capabilities
                 end
+      # enable tunneling if specified
+      if Environ.tunneling
+        @bs_local = BrowserStack::Local.new
+        bs_local_args = { 'key' => "#{ENV['BS_AUTHKEY']}" }
+        @bs_local.start(bs_local_args)
+        if @bs_local.isRunning
+          puts 'BrowserStack Local instance has been started'
+        else
+          puts 'BrowserStack Local instance failed to start'
+        end
+      end
+
       register_remote_driver(browser, options)
       # configure file_detector for remote uploads if target is desktop web browser
       config_file_uploads if Environ.platform == :desktop
-      Environ.tunneling = ENV['TUNNELING'] if ENV['TUNNELING']
     end
 
     def self.initialize_testingbot
@@ -565,6 +570,7 @@ module TestCentricity
                   }
                 else
                   tb_options = @capabilities[:'tb:options']
+                  tb_options = JSON.parse(tb_options.to_json, symbolize_names: true)
                   Environ.os = @capabilities[:platformName]
                   if tb_options.key?(:deviceName)
                     Environ.platform = :mobile
@@ -639,6 +645,7 @@ module TestCentricity
                   end
                 else
                   sl_options = @capabilities[:'sauce:options']
+                  sl_options = JSON.parse(sl_options.to_json, symbolize_names: true)
                   Environ.os = @capabilities[:platform_name]
                   if @capabilities.key?(:'appium:deviceName')
                     Environ.platform = :mobile

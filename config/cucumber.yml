@@ -43,14 +43,14 @@ edge:    WEB_BROWSER=edge DATA_SOURCE=json <%= desktop %>
 safari:  WEB_BROWSER=safari DATA_SOURCE=json <%= desktop %>
 firefox: WEB_BROWSER=firefox DOWNLOADS=true <%= desktop %>
 
-chrome_local:  --profile local --profile chrome
-edge_local:    --profile local --profile edge
+chrome_local:  --profile remote --profile chrome
+edge_local:    --profile remote --profile edge
 safari_local:  --profile local --profile safari
-firefox_local: --profile local --profile firefox
+firefox_local: --profile remote --profile firefox
 
-firefox_headless: --profile local WEB_BROWSER=firefox_headless <%= desktop %>
-chrome_headless:  --profile local WEB_BROWSER=chrome_headless <%= desktop %>
-edge_headless:    --profile local WEB_BROWSER=edge_headless <%= desktop %>
+firefox_headless: --profile remote WEB_BROWSER=firefox_headless <%= desktop %>
+chrome_headless:  --profile remote WEB_BROWSER=chrome_headless <%= desktop %>
+edge_headless:    --profile remote WEB_BROWSER=edge_headless <%= desktop %>
 
 
 #==============
@@ -58,7 +58,7 @@ edge_headless:    --profile local WEB_BROWSER=edge_headless <%= desktop %>
 #==============
 
 remote:       TEST_ENVIRONMENT=REMOTE
-grid:         DRIVER=grid --profile remote REMOTE_ENDPOINT="http://localhost:4444/wd/hub"
+grid:         DRIVER=grid --profile remote REMOTE_ENDPOINT="http://localhost:4444"
 chrome_grid:  --profile grid --profile chrome
 edge_grid:    --profile grid --profile edge
 firefox_grid: --profile grid --profile firefox
@@ -131,7 +131,13 @@ bs_chrome_sequoia: --profile bs_macos_sequoia BS_BROWSER="Chrome" BS_VERSION="la
 bs_edge_sequoia:   --profile bs_macos_sequoia BS_BROWSER="Edge" BS_VERSION="latest"
 bs_safari_sequoia: --profile bs_macos_sequoia BS_BROWSER="Safari" BS_VERSION="latest"
 bs_chrome_bat:     --profile bs_chrome_sequoia --profile bat
+bs_edge_bat:       --profile bs_edge_sequoia --profile bat
+bs_safari_bat:     --profile bs_safari_sequoia --profile bat
 
+bs_caps_bat:        TEST_ENVIRONMENT=REMOTE --profile bat <%= desktop %>
+bs_caps_chrome_bat: W3C_CAPS=bs_chrome --profile bs_caps_bat
+bs_caps_edge_bat:   W3C_CAPS=bs_edge --profile bs_caps_bat
+bs_caps_safari_bat: W3C_CAPS=bs_safari --profile bs_caps_bat
 
 # BrowserStack iOS mobile browser profiles
 bs_ipad:        --profile bs_mobile BS_OS=ios BS_BROWSER=Safari DEVICE_TYPE=tablet BS_REAL_MOBILE="true"

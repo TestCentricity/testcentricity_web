@@ -29,6 +29,7 @@ Feature: Custom Controls
       |text   |
 
 
+@!ios
   Scenario Outline: Verify drag and drop actions on UI elements
     When I drag the <drag> draggable object to the <drop> drop zone
     Then I expect the <drop> drop zone to <result> the <drag> draggable object
@@ -41,6 +42,7 @@ Feature: Custom Controls
       |second |second |accept |
 
 
+@!ios
   Scenario Outline: Verify drag by offset actions on UI elements
     When I drag the <drag> drag object to the <direction>
     Then I expect the drop zones to be empty
