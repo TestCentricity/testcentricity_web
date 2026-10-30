@@ -58,7 +58,7 @@ edge_headless:    --profile remote WEB_BROWSER=edge_headless <%= desktop %>
 #==============
 
 remote:       TEST_ENVIRONMENT=REMOTE
-grid:         DRIVER=grid --profile remote REMOTE_ENDPOINT="http://localhost:4444/wd/hub"
+grid:         DRIVER=grid --profile remote REMOTE_ENDPOINT="http://localhost:4444"
 chrome_grid:  --profile grid --profile chrome
 edge_grid:    --profile grid --profile edge
 firefox_grid: --profile grid --profile firefox
