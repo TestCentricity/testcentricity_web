@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.platform = Gem::Platform::RUBY
   spec.required_ruby_version = '>= 3.1.0'
   spec.authors = ['A.J. Mrozinski']
-  spec.email = ['support@testcentricity.com']
+  spec.email = ['testcentricity@gmail.com']
   spec.summary = 'A Page Object Model Framework for desktop and mobile web testing'
   spec.description = '
     The TestCentricity™ For Web core framework for desktop and mobile web browser-based app testing implements a Page Object
@@ -26,7 +26,8 @@ Gem::Specification.new do |spec|
     'changelog_uri' => 'https://github.com/TestCentricity/testcentricity_web/blob/main/CHANGELOG.md',
     'bug_tracker_uri' => 'https://github.com/TestCentricity/testcentricity_web/issues',
     'wiki_uri' => 'https://github.com/TestCentricity/testcentricity_web/wiki',
-    'documentation_uri' => 'https://www.rubydoc.info/gems/testcentricity_web'
+    'documentation_uri' => 'https://www.ruby-toolbox.com/projects/testcentricity_web',
+    'source_code_uri' => 'https://github.com/TestCentricity/testcentricity_web'
   }
 
   spec.files = Dir.glob('lib/**/*') + %w[README.md CHANGELOG.md LICENSE.md .yardopts]

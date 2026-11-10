@@ -16,6 +16,7 @@ Core features include:
 * **Encapsulation:** Defines page classes, page sections, and data objects to completely separate test scripts from underlying UI element locators and test data assets.
 * **Built-in Verification:** Includes integrated element validation and asynchronous wait mechanisms to handle dynamic UI content and asynchronous loading effortlessly.
 * **BDD Compatibility:** Perfectly pairs with testing frameworks like Cucumber and RSpec to create highly readable, business-driven feature files.
+* **Multi-Environment Ready:** Integrates with cloud execution platforms like BrowserStack, TestingBot, Sauce Labs, and LambdaTest.
 
 ---
 
